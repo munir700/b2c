@@ -1,7 +1,7 @@
 package co.yap.modules.location.kyc_additional_info.employment_info.amendment
 
-import android.content.Intent
 import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
@@ -33,10 +33,8 @@ import co.yap.yapcore.databinding.FragmentEmploymentQuestionnaireAmendmentBindin
 import co.yap.yapcore.databinding.FragmentEmploymentQuestionnaireBinding
 import co.yap.yapcore.enums.EmploymentQuestionIdentifier
 import co.yap.yapcore.enums.EmploymentStatus
-import co.yap.yapcore.helpers.beneficiaryInfoDialog
-import co.yap.yapcore.helpers.extentions.launchBottomSheetSegment
-import co.yap.yapcore.helpers.extentions.launchMultiSelectionBottomSheet
 import co.yap.yapcore.helpers.ExtraKeys
+import co.yap.yapcore.helpers.beneficiaryInfoDialog
 import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.helpers.infoDialog
 import co.yap.yapcore.interfaces.OnItemClickListener
@@ -108,6 +106,7 @@ class EmploymentQuestionnaireAmendmentFragment :
                 (it.getParcelableArrayList<DocumentResponse>("documentsList") as? ArrayList<DocumentResponse>
                     ?: arrayListOf()).toMutableList()
             viewModel.employmentStatusValue.value?.let { emp ->
+                viewModel.documentsList.value = emp.documents ?: mutableListOf()
                 viewModel.fillTitlesOfDocuments(
                     EmploymentStatus.valueOf(
                         emp.employmentStatus ?: ""
@@ -372,6 +371,8 @@ class EmploymentQuestionnaireAmendmentFragment :
                 if (proceed) {
                     viewModel.employmentStatus.value = viewModel.tempEmploymentStatus.value
                     viewModel.previousEmploymentStatus.value = viewModel.tempEmploymentStatus.value
+                } else {
+                    requireActivity().finish()
                 }
             },
             icon = R.drawable.ic_exclamation_primary_white,

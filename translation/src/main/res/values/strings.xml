@@ -19,8 +19,7 @@
     <string name="common_button_submit">Submit</string>
     <string name="common_text_thanks">Thanks</string>
     <string name="common_text_hey">Hey</string>
-    <string name="common_text_go_back">Go back</string>
-    <string name="common_text_complete">Complete</string>
+    <string name="common_text_ok">OK</string>
     <string name="common_button_activate">Activate</string>
     <string name="common_text_currency_type">AED</string>
     <string name="common_text_edit_now">Edit now</string>

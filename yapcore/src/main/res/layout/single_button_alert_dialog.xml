@@ -69,24 +69,6 @@
             app:layout_constraintTop_toBottomOf="@id/view">
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tvButtonNegative"
-                style="@style/ASmall"
-                android:layout_width="0dp"
-                android:layout_height="@dimen/_40sdp"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:padding="@dimen/_10sdp"
-                android:textColor="@color/dialogue_alert_button_text"
-                android:textSize="@dimen/_14sdp"
-                tools:text="Cancel" />
-
-            <View
-                android:id="@+id/btnDivider"
-                android:layout_width="1dp"
-                android:layout_height="match_parent"
-                android:background="@color/dialogue_divider" />
-
-            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvButtonPositive"
                 style="@style/ASmall"
                 android:layout_width="0dp"
