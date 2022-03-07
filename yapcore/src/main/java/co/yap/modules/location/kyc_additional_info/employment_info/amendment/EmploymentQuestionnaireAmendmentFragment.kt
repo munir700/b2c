@@ -1,5 +1,6 @@
 package co.yap.modules.location.kyc_additional_info.employment_info.amendment
 
+import android.app.Activity
 import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
@@ -325,6 +326,7 @@ class EmploymentQuestionnaireAmendmentFragment :
             callback = { proceed ->
                 if (proceed) {
                     viewModel.employmentStatus.value = viewModel.tempEmploymentStatus.value
+                    viewModel.previousEmploymentStatus.value = viewModel.tempEmploymentStatus.value
                 }
             },
             icon = R.drawable.ic_exclamation_primary_white,
@@ -335,7 +337,9 @@ class EmploymentQuestionnaireAmendmentFragment :
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == RequestCodes.REQUEST_VIEW_DOCUMENT) {
-            handleFileResult(data)
+            if (resultCode == Activity.RESULT_OK) {
+                handleFileResult(data)
+            }
         }
     }
 

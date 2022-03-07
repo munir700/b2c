@@ -91,7 +91,7 @@
     <color name="master_card_gradient_bottom_color">#4bdcd8</color>
     <color name="master_card_gradient_top_color">#1caaa1</color>
     <color name="purple">#7c4dff</color>
-    <color name="light_grey">#D8D7D7</color>
+    <color name="light_grey">#F2F2F2</color>
     <color name="transparent_grey">#77000000</color>
     <color name="purpleLightCard">#f1edff</color>
     <color name="kyc_success_text_color">#1a1423</color>

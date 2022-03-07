@@ -60,6 +60,7 @@ class EmploymentQuestionnaireAmendmentViewModel(application: Application) :
     override val industrySegmentsList: ArrayList<IndustrySegment> = arrayListOf()
     override var employmentStatus = MutableLiveData<EmploymentStatus>()
     var tempEmploymentStatus = MutableLiveData<EmploymentStatus>()
+    var previousEmploymentStatus = MutableLiveData<EmploymentStatus>()
     override var serverEmploymentStatus: EmploymentStatus? = null
     override val selectedBusinessCountries: ObservableField<ArrayList<String>> =
         ObservableField(arrayListOf())
@@ -234,12 +235,7 @@ class EmploymentQuestionnaireAmendmentViewModel(application: Application) :
                     it.status == selectedType
                 } ?: EmploymentStatus.EMPLOYED
             }
-            if (tempEmploymentStatus.value?.equals(EmploymentStatus.SELF_EMPLOYED) == true) {
-                state.needToShowAdditionalDocumentDialogue.value =
-                    tempEmploymentStatus.value?.equals(EmploymentStatus.SELF_EMPLOYED)
-            } else {
-                employmentStatus.value = tempEmploymentStatus.value
-            }
+            showAdditionalDialogue()
             validateForm()
             updateDocumentsInView(employmentStatus.value ?: EmploymentStatus.NONE)
         }
@@ -251,6 +247,35 @@ class EmploymentQuestionnaireAmendmentViewModel(application: Application) :
             when (view.id) {
                 R.id.etAmount, R.id.etQuestionEditText -> validateForm()
             }
+        }
+    }
+
+    fun showAdditionalDialogue() {
+        if (tempEmploymentStatus.value?.equals(EmploymentStatus.SELF_EMPLOYED) == true) {
+            if (previousEmploymentStatus.value?.equals(EmploymentStatus.EMPLOYED) == true || previousEmploymentStatus.value?.equals(
+                    EmploymentStatus.OTHER
+                ) == true
+            ) {
+                state.needToShowAdditionalDocumentDialogue.value =
+                    tempEmploymentStatus.value?.equals(EmploymentStatus.SELF_EMPLOYED)
+            } else {
+                employmentStatus.value = tempEmploymentStatus.value
+                previousEmploymentStatus.value = tempEmploymentStatus.value
+            }
+        } else if (tempEmploymentStatus.value?.equals(EmploymentStatus.SALARIED_AND_SELF_EMPLOYED) == true) {
+            if (previousEmploymentStatus.value?.equals(EmploymentStatus.EMPLOYED) == true || previousEmploymentStatus.value?.equals(
+                    EmploymentStatus.OTHER
+                ) == true
+            ) {
+                state.needToShowAdditionalDocumentDialogue.value =
+                    tempEmploymentStatus.value?.equals(EmploymentStatus.SALARIED_AND_SELF_EMPLOYED)
+            } else {
+                employmentStatus.value = tempEmploymentStatus.value
+                previousEmploymentStatus.value = tempEmploymentStatus.value
+            }
+        } else {
+            employmentStatus.value = tempEmploymentStatus.value
+            previousEmploymentStatus.value = tempEmploymentStatus.value
         }
     }
 
