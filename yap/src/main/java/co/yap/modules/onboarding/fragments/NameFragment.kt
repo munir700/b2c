@@ -2,7 +2,7 @@ package co.yap.modules.onboarding.fragments
 
 import android.os.Bundle
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import co.yap.BR
 import co.yap.R
 import co.yap.modules.onboarding.interfaces.IName
@@ -20,7 +20,7 @@ class NameFragment : OnboardingChildFragment<IName.ViewModel>(), IName.View {
     override fun getLayoutId(): Int = R.layout.fragment_name
 
     override val viewModel: IName.ViewModel
-        get() = ViewModelProviders.of(this).get(NameViewModel::class.java)
+        get() = ViewModelProvider(this).get(NameViewModel::class.java)
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)

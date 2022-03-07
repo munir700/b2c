@@ -68,8 +68,8 @@ class AAPApplication : YAPApplication(), NavigatorProvider {
 
     override fun onCreate() {
         super.onCreate()
-        LoadConfig().initConfigs(applicationContext, pkBuildConfigurations)
-        LoadConfig().initConfigs(applicationContext, ghanaBuildConfiguration)
+//        LoadConfig().initConfigs(applicationContext, pkBuildConfigurations)
+//        LoadConfig().initConfigs(applicationContext, ghanaBuildConfiguration)
         initFireBase()
         val originalSign =
             signatureKeysFromJNI(

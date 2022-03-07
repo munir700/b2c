@@ -5,7 +5,9 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import co.yap.modules.onboarding.models.UserVerifierProvider
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.SingleLiveEvent
@@ -22,6 +24,10 @@ interface IMobile {
         var clickEvent: SingleClickEvent
         fun handlePressOnView(id: Int)
         fun createOtp(success: (success : Boolean) -> Unit)
+        fun verifyUser(countryCode: String, mobileNumber: String)
+
+        val userVerified: MutableLiveData<String>
+         val userVerifier: UserVerifierProvider
     }
 
     interface State : IBase.State {
