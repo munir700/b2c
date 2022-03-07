@@ -26,6 +26,7 @@ import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.SessionManager
+import com.ezaka.customer.app.utils.isKeyboardVisible
 import com.yap.ghana.ui.auth.main.GhAuthenticationActivity
 import com.yap.yappakistan.ui.auth.main.AuthenticationActivity
 import kotlinx.android.synthetic.main.fragment_log_in.*
@@ -50,7 +51,7 @@ class LoginFragment : MainChildFragment<ILogin.ViewModel>(), ILogin.View {
     private fun configureWindow() {
         requireActivity().window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
         requireActivity().window.clearFlags(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
-        getDataBindingView<FragmentLogInBinding>().tlPhoneNumber.requestDefaultFocus()
+        getDataBindingView<FragmentLogInBinding>().tlPhoneNumber.requestFocusForField()
     }
 
     private fun initiatePreference() {
@@ -64,7 +65,7 @@ class LoginFragment : MainChildFragment<ILogin.ViewModel>(), ILogin.View {
                 LoginFragmentDirections.actionLoginFragmentToVerifyPasscodeFragment("")
             NavHostFragment.findNavController(this).navigate(action)
         } else {
-            getDataBindingView<FragmentLogInBinding>().tlPhoneNumber.requestDefaultFocus()
+            getDataBindingView<FragmentLogInBinding>().tlPhoneNumber.requestFocusForField()
             // etEmailField.requestKeyboard()
         }
 
@@ -98,19 +99,19 @@ class LoginFragment : MainChildFragment<ILogin.ViewModel>(), ILogin.View {
         })
 
         viewModel.userVerified.observe(viewLifecycleOwner, Observer {
-            if (it == "+92") {
-                launchActivity<AuthenticationActivity> {
-                    putExtra("countryCode", "+92")
-                    putExtra("mobileNo", viewModel.state.mobile.get()?.replace(" ", ""))
-                    putExtra("isAccountBlocked", false)
+                if (it == "+92") {
+                    launchActivity<AuthenticationActivity> {
+                        putExtra("countryCode", "+92")
+                        putExtra("mobileNo", viewModel.state.mobile.get()?.replace(" ", ""))
+                        putExtra("isAccountBlocked", false)
+                    }
+                } else if (it == "+233") {
+                    launchActivity<GhAuthenticationActivity> {
+                        putExtra("countryCode", "+233")
+                        putExtra("mobileNo", viewModel.state.mobile.get()?.replace(" ", ""))
+                        putExtra("isAccountBlocked", false)
+                    }
                 }
-            } else if (it == "+233") {
-                launchActivity<GhAuthenticationActivity> {
-                    putExtra("countryCode", "+233")
-                    putExtra("mobileNo", viewModel.state.mobile.get()?.replace(" ", ""))
-                    putExtra("isAccountBlocked", false)
-                }
-            }
         })
     }
 
