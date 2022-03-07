@@ -61,14 +61,18 @@ import co.yap.yapcore.interfaces.IBindable
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.SessionManager
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.bumptech.glide.request.RequestListener
 import com.daimajia.androidanimations.library.Techniques
 import com.daimajia.androidanimations.library.YoYo
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.google.android.material.textfield.TextInputLayout
 import java.text.SimpleDateFormat
+import com.bumptech.glide.request.target.Target
 
 object UIBinder {
     @BindingAdapter(requireAll = false, value = ["adaptor", "selectedListener"])
@@ -175,7 +179,7 @@ object UIBinder {
         when (card.status) {
             CardStatus.ACTIVE.name -> {
                 if (card.cardType == CardType.DEBIT.type && PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus) {
-                        linearLayout.visibility = if(card.pinCreated) VISIBLE else GONE
+                    linearLayout.visibility = if (card.pinCreated) VISIBLE else GONE
                 } else {
                     linearLayout.visibility = VISIBLE
                 }
@@ -380,7 +384,7 @@ object UIBinder {
     @BindingAdapter("src")
     @JvmStatic
     fun setImageResId(view: ImageView, resId: Int) {
-        if (resId >0)
+        if (resId > 0)
             view.setImageResource(resId)
     }
 
@@ -998,7 +1002,8 @@ object UIBinder {
             drawables[3]
         )
     }
-// TODO refactor this binding adapter
+
+    // TODO refactor this binding adapter
     @BindingAdapter(requireAll = false, value = ["flagOnStartDrawable"])
     @JvmStatic
     fun setFlagOnDrawableStart(
@@ -1035,13 +1040,53 @@ object UIBinder {
         )
     }
 
-    @BindingAdapter("previewImageSrc")
+    @BindingAdapter("previewImageSrc", "isNeedToShowLoader")
     @JvmStatic
-    fun setImageResUrl(view: AppCompatImageView, imageSrc: String?) {
-        imageSrc?.let {
-            val mUrl = getUrl(imageSrc)
-            Glide.with(view).load(mUrl)
-                .placeholder(R.color.white).into(view)
+    fun setImageResUrl(
+        view: AppCompatImageView,
+        imageSrc: String?,
+        isNeedToShowLoader: Boolean = false
+    ) {
+        if (isNeedToShowLoader) {
+            var progress = Utils.createProgressDialog(view.context)
+            imageSrc?.let {
+                progress.show()
+                val mUrl = getUrl(imageSrc)
+                Glide.with(view.context)
+                    .load(mUrl)
+                    .listener(object : RequestListener<Drawable?> {
+                        override fun onResourceReady(
+                            resource: Drawable?,
+                            model: Any?,
+                            target: Target<Drawable?>?,
+                            dataSource: DataSource?,
+                            isFirstResource: Boolean
+                        ): Boolean {
+                            progress.dismiss()
+                            progress.hide()
+                            return false
+                        }
+
+                        override fun onLoadFailed(
+                            e: GlideException?,
+                            model: Any?,
+                            target: Target<Drawable?>?,
+                            isFirstResource: Boolean
+                        ): Boolean {
+                            progress.dismiss()
+                            progress.hide()
+                            return false
+                        }
+                    })
+                    .into(view)
+
+            }
+        } else {
+            imageSrc?.let {
+                val mUrl = getUrl(imageSrc)
+                Glide.with(view).load(mUrl)
+                    .placeholder(R.color.white).into(view)
+            }
         }
 
     }
@@ -1150,29 +1195,35 @@ object UIBinder {
     @JvmStatic
     fun setCardStatus(constraintLayout: ConstraintLayout, card: Card) {
         if (CardStatus.valueOf(card.status).name.isNotEmpty()) {
-           constraintLayout.visibility = when (CardStatus.valueOf(card.status)) {
+            constraintLayout.visibility = when (CardStatus.valueOf(card.status)) {
                 CardStatus.ACTIVE -> {
-                        if (card.cardType == CardType.DEBIT.type && PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus
-                            && !card.pinCreated)
-                            GONE else VISIBLE
+                    if (card.cardType == CardType.DEBIT.type && PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus
+                        && !card.pinCreated
+                    )
+                        GONE else VISIBLE
                 }
                 CardStatus.BLOCKED, CardStatus.INACTIVE, CardStatus.HOTLISTED -> {
-                     GONE
+                    GONE
                 }
-               else -> GONE
-           }
+                else -> GONE
+            }
         }
     }
 
     @BindingAdapter("paddingImage")
     @JvmStatic
     fun setPaddingImage(imageView: AppCompatImageView, padding: Float) {
-            imageView.setPadding(padding.toInt(), padding.toInt(), padding.toInt(), padding.toInt())
+        imageView.setPadding(padding.toInt(), padding.toInt(), padding.toInt(), padding.toInt())
     }
 
     @BindingAdapter(requireAll = true, value = ["year", "date", "superscript"])
     @JvmStatic
-    fun setDateWithSuperScript(textView: TextView,year:String,strText:String, superscriptText:String){
+    fun setDateWithSuperScript(
+        textView: TextView,
+        year: String,
+        strText: String,
+        superscriptText: String
+    ) {
         val spannableStringBuilder = SpannableStringBuilder(superscriptText)
         val spannableStringBuilderPreText = SpannableStringBuilder(strText)
         val superscriptSpan = SuperscriptSpan()

@@ -617,6 +617,16 @@
     <string name="screen_profile_settings_logout_display_text_alert_cancel">CANCEL</string>
     <string name="screen_profile_settings_logout_display_text_alert_logout">LOG OUT</string>
 
+    <!-- Upload document dialogue -->
+
+    <string name="screen_upload_document_display_text_alert_title">Just so you know!</string>
+    <string name="screen_upload_document_display_text_alert_message">Once you upload a new document, it will replace the previous one.</string>
+    <string name="screen_upload_document_display_text_alert_got_it">Got it</string>
+
+    <!-- Upload document bottom sheet -->
+    <string name="choose_from_library_display_text_title">Choose from Library</string>
+
+
     <!--   Help & Support-->
     <string name="screen_help_support_display_text_title">Help &amp; Support</string>
     <string name="screen_help_support_display_text_faqs">FAQs</string>
@@ -1694,6 +1704,11 @@
     <string name="kyc_incorrect_field">Looks like this is incorrect</string>
     <string name="eid_info_review_screen_select_nationality">Please select your Nationality</string>
     <!-- KYC Amendments End -->
+
+<!--    upload document bottom sheet-->
+    <string name="screen_view_document_sheet_heading">Choose from Library</string>
+    <string name="screen_view_document_sheet_take_photo_heading">Take a Photo</string>
+    <string name="screen_view_document_sheet_browse_gallery_heading">Browse Files</string>
 
 
 </resources>
