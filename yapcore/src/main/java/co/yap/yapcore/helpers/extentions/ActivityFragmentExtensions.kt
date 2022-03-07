@@ -522,6 +522,20 @@ fun FragmentActivity.launchSheet(
     }
 }
 
+fun FragmentActivity.launchTakePhotoSheet(
+    itemClickListener: TakePhotoBottomSheet.OnTakePhotoBottomSheetItemClickListener? = null,
+    heading: String? = null
+) {
+    this.supportFragmentManager.let {
+        val coreBottomSheet =
+            TakePhotoBottomSheet(
+                itemClickListener,
+                headingLabel = heading
+            )
+        coreBottomSheet.show(it, "")
+    }
+}
+
 fun FragmentActivity.launchInitialBottomSheet(
     itemClickListener: OnItemClickListener? = null,
     configuration: BottomSheetConfiguration,

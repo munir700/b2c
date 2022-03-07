@@ -39,12 +39,24 @@ data class Document(
     val fileURL: String? = null,
     @SerializedName("contentType")
     val contentType: String? = null,
-    val title : String? = "",
-    val description: String = ""
+    @SerializedName("title")
+    var title: String? = null,
+    @SerializedName("description")
+    var description: String = "",
+    @SerializedName("extension")
+    var extension: String = "",
+    @SerializedName("isMandatory")
+    val isMandatory: Boolean = false
 ) : Parcelable
 
 enum class DocumentTypes {
     PROOF_OF_INCOME,
     COMPANY_DOCUMENTATION,
     VISA
+}
+
+enum class EmploymentFieldType {
+    EMPLOYMENT_TYPE,
+    EMPLOYER_NAME,
+    SALARY
 }
