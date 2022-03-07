@@ -290,7 +290,7 @@ class GenericOtpViewModel(application: Application) :
                         " ",
                         ""
                     )?.replace("+", "00") ?: "",
-                    createOtpGenericRequest = CreateOtpGenericRequest(OTPActions.CHANGE_MOBILE_NO.name)
+                    createOtpGenericRequest = CreateOtpGenericRequest(action = OTPActions.CHANGE_MOBILE_NO.name,otpMessage = state.otpDataModel?.otpMessage)
                 )) {
                 is RetroApiResponse.Success -> {
                     handleResendEvent(resend, context)

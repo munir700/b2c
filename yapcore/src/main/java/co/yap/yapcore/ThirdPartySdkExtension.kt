@@ -23,7 +23,7 @@ fun Application.initializeAdjustSdk(configManager: BuildConfigManager?) {
         val config = AdjustConfig(
                 this,
                 configurations.adjustToken,
-                if (configurations.isReleaseBuild()) AdjustConfig.ENVIRONMENT_PRODUCTION else AdjustConfig.ENVIRONMENT_PRODUCTION
+                if (configurations.isReleaseBuild()) AdjustConfig.ENVIRONMENT_PRODUCTION else AdjustConfig.ENVIRONMENT_SANDBOX
         )
 
         when (configurations.flavor) {

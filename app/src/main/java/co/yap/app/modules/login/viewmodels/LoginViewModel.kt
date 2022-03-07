@@ -41,6 +41,9 @@ class LoginViewModel(application: Application) :
             Utils.verifyUsername(state.twoWayTextWatcher.trim().filter { !it.isWhitespace() })
         validateUsername {}
     }*/
+//    override fun handlePressOnSignUp() {
+//   signUpButtonPressEvent.value = true
+//    }
 
     override fun onEditorActionListener(): TextView.OnEditorActionListener {
         return TextView.OnEditorActionListener { _, actionId, _ ->

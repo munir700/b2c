@@ -5,8 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import co.yap.networking.transactions.responsedtos.purposepayment.PurposeOfPayment
+import co.yap.sendmoney.databinding.BottomSheetPopBinding
 import co.yap.widgets.expandablelist.PopParentAdapter
 import co.yap.yapcore.interfaces.OnItemClickListener
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -21,14 +21,12 @@ class PopListBottomSheet(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.bottom_sheet_pop, container, false)
-
-        val recyclerView: RecyclerView = view.findViewById(R.id.recycler_view)
+        val binding = BottomSheetPopBinding.inflate(layoutInflater, container, false)
         val titleList = purposeCategories?.keys?.let { ArrayList(it) } ?: arrayListOf()
-        recyclerView.layoutManager = LinearLayoutManager(context)
-        recyclerView.adapter =
-            PopParentAdapter(titleList, purposeCategories, recyclerView, mListener)
-        return view
+        binding.recyclerView.layoutManager = LinearLayoutManager(context)
+        binding.recyclerView.adapter =
+            PopParentAdapter(titleList, purposeCategories, binding.recyclerView, mListener)
+        return binding.root
     }
 
 }

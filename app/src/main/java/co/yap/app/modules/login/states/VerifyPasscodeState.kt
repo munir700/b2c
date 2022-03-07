@@ -6,11 +6,11 @@ import android.text.TextWatcher
 import androidx.databinding.Bindable
 import androidx.databinding.ObservableField
 import co.yap.app.BR
-import co.yap.app.modules.login.fragments.VerifyPassCodeEnum
 import co.yap.app.modules.login.interfaces.IVerifyPasscode
 import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.BaseState
+import co.yap.yapcore.enums.VerifyPassCodeEnum
 
 class VerifyPasscodeState(application: Application) : BaseState(), IVerifyPasscode.State {
 
@@ -34,12 +34,15 @@ class VerifyPasscodeState(application: Application) : BaseState(), IVerifyPassco
             field = value
             notifyPropertyChanged(BR.dialerError)
         }
+
     @get:Bindable
-    override var btnVerifyPassCodeText: String? = Translator.getString(application , Strings.screen_verify_passcode_button_sign_in )
+    override var btnVerifyPassCodeText: String? =
+        Translator.getString(application, Strings.screen_verify_passcode_button_sign_in)
         set(value) {
             field = value
             notifyPropertyChanged(BR.btnVerifyPassCodeText)
         }
+
     @get:Bindable
     override var passcode: String = ""
         set(value) {
@@ -74,6 +77,7 @@ class VerifyPasscodeState(application: Application) : BaseState(), IVerifyPassco
             field = value
             notifyPropertyChanged(BR.similar)
         }
+
     @get:Bindable
     override var verifyPassCodeEnum: String = VerifyPassCodeEnum.ACCESS_ACCOUNT.name
         set(value) {

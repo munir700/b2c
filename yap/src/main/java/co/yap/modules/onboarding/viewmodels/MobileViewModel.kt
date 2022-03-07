@@ -6,6 +6,7 @@ import android.widget.EditText
 import android.widget.TextView
 import co.yap.modules.onboarding.interfaces.IMobile
 import co.yap.modules.onboarding.states.MobileState
+import co.yap.modules.otp.getOtpMessageFromComposer
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.messages.MessagesRepository
 import co.yap.networking.messages.requestdtos.CreateOtpOnboardingRequest
@@ -84,7 +85,13 @@ class MobileViewModel(application: Application) :
                 CreateOtpOnboardingRequest(
                     countryCode,
                     mobileNumber,
-                    parentViewModel?.onboardingData?.accountType.toString()
+                    parentViewModel?.onboardingData?.accountType.toString(),
+                    otpMessage = context.getOtpMessageFromComposer(
+                        SignupEvents.SIGN_UP_NUMBER.name,
+                        "%s1",
+                        "%s2",
+                        "%s3"
+                    )
                 )
             )) {
                 is RetroApiResponse.Success -> {

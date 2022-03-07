@@ -12,5 +12,6 @@ data class DemographicDataRequest(
     @SerializedName("token") val token: String? = null,
     @SerializedName("clientId") val clientId: String? = null,
     @SerializedName("clientSecret") val clientSecret: String? = null,
-    @SerializedName("otp") val otp: String? = null
+    @SerializedName("otp") val otp: String? = null,
+    @SerializedName("message") val otpMessage: String? = null
 )

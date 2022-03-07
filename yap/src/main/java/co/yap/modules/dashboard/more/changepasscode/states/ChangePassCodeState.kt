@@ -20,8 +20,6 @@ class ChangePassCodeState : BaseState(), IChangePassCode.State {
             field = value
             notifyPropertyChanged(BR.toolBarTitle)
         }
-
     override var rightIcon: ObservableBoolean = ObservableBoolean()
     override var leftIcon: ObservableBoolean = ObservableBoolean()
-
 }

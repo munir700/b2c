@@ -14,12 +14,14 @@
         <import type="co.yap.translation.Translator" />
 
         <import type="co.yap.yapcore.managers.SessionManager" />
+        <import type="co.yap.yapcore.helpers.Utils" />
     </data>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:animateLayoutChanges="false"
+        app:sensitiveViews="@{Utils.getViewsList(etEmailField)}"
         android:background="@color/white"
         android:orientation="vertical">
 

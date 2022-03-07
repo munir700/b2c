@@ -11,6 +11,7 @@ import co.yap.yapcore.defaults.DefaultNavigator
 import co.yap.yapcore.defaults.INavigator
 import co.yap.yapcore.interfaces.BackPressImpl
 import co.yap.yapcore.interfaces.IBaseNavigator
+import com.uxcam.UXCam
 
 class BillPaymentsHomeActivity : BaseBindingActivity<IBillPayments.ViewModel>(), INavigator,
     IFragmentHolder {
@@ -35,6 +36,7 @@ class BillPaymentsHomeActivity : BaseBindingActivity<IBillPayments.ViewModel>(),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        UXCam.occludeSensitiveScreen(true)
         viewModel.onToolbarClickEvent.observe(this, onToolBarClick)
     }
 

@@ -35,6 +35,8 @@ allprojects {
         mavenCentral()
         maven { url "https://repo.leanplum.com/" }
         maven { url 'https://jitpack.io' }
+        maven { url "http://pay.cards/maven" }
+        maven {url 'https://sdk.uxcam.com/android/'}
         maven {
             credentials {
                 username = "faheem870"

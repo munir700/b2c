@@ -8,13 +8,14 @@
         <variable
             name="viewModel"
             type="co.yap.widgets.bottomsheet.CoreBottomSheetItemViewModel" />
-
+        <import type="co.yap.yapcore.helpers.Utils" />
         <import type="android.view.View" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:sensitiveViews="@{Utils.getViewsList(tvValue)}"
         android:paddingTop="@dimen/margin_small">
 
 

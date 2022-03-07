@@ -2,6 +2,7 @@
 <layout>
 
     <data>
+        <import type="co.yap.yapcore.helpers.Utils" />
 
         <variable
             name="viewModel"
@@ -13,6 +14,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        app:sensitiveViews="@{Utils.getViewsList(tvCardNumberSuccess,ivCard,tvCardNameSuccess,tvNewSpareCardBalance,tvTopUp)}"
         android:animateLayoutChanges="true"
         android:background="@color/white"
         android:orientation="vertical">

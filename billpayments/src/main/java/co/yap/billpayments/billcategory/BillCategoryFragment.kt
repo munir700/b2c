@@ -13,6 +13,7 @@ import co.yap.billpayments.paybill.main.PayBillMainActivity
 import co.yap.networking.customers.responsedtos.billpayment.BillProviderModel
 import co.yap.networking.customers.responsedtos.billpayment.ViewBillModel
 import co.yap.yapcore.constants.RequestCodes
+import co.yap.yapcore.enums.FeatureSet
 import co.yap.yapcore.helpers.ExtraKeys
 import co.yap.yapcore.helpers.extentions.ExtraType
 import co.yap.yapcore.helpers.extentions.getValue
@@ -46,7 +47,7 @@ class BillCategoryFragment : BillDashboardBaseFragment<IBillCategory.ViewModel>(
 
     private fun onCategorySelection(billCategory: BillProviderModel?) {
         if (!billCategory?.categoryType.equals("CREDIT_CARD")) {
-            launchActivity<AddBillActivity>(requestCode = RequestCodes.REQUEST_ADD_BILL) {
+            launchActivity<AddBillActivity>(requestCode = RequestCodes.REQUEST_ADD_BILL , type = FeatureSet.ADD_BILL_PAYMENT) {
                 putExtra(
                     ExtraKeys.BILL_PROVIDER.name,
                     billCategory
