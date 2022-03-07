@@ -25,6 +25,7 @@ import co.yap.yapcore.helpers.extentions.*
 import kotlinx.android.synthetic.main.activity_view_document.view.*
 import pl.aprilapps.easyphotopicker.MediaFile
 import co.yap.yapcore.interfaces.BackPressImpl
+import kotlinx.android.synthetic.main.alert_dialogue.*
 
 class ViewDocumentActivity : BaseBindingImageActivity<IViewDocumentActivity.ViewModel>(),
     IViewDocumentActivity.View {
@@ -33,17 +34,20 @@ class ViewDocumentActivity : BaseBindingImageActivity<IViewDocumentActivity.View
         private const val LINK = "LINK"
         private const val FILETYPE = "FILETYPE"
         private const val FILEFROM = "FILEFROM"
+        private const val ISEDITABLE = "ISEDITABLE"
 
         fun newIntent(
             context: Context,
             link: String,
             fileType: String,
-            fileFrom: String
+            fileFrom: String,
+            isEditAble: Boolean
         ): Intent {
             val intent = Intent(context, ViewDocumentActivity::class.java)
             intent.putExtra(LINK, link)
             intent.putExtra(FILEFROM, fileFrom)
             intent.putExtra(FILETYPE, fileType)
+            intent.putExtra(ISEDITABLE, isEditAble)
             return intent
         }
     }
@@ -66,7 +70,9 @@ class ViewDocumentActivity : BaseBindingImageActivity<IViewDocumentActivity.View
         val link = intent?.getValue(LINK, ExtraType.STRING.name) as? String
         val fileFrom = intent?.getValue(FILEFROM, ExtraType.STRING.name) as? String
         val fileType = intent?.getValue(FILETYPE, ExtraType.STRING.name) as? String
+        val isEditAble = intent?.getValue(ISEDITABLE, ExtraType.BOOLEAN.name) as? Boolean
         viewModel.state.isNeedToShowOnlyUpdateOption?.value = !link.isNullOrEmpty()
+        viewModel.state.isEditable?.value = isEditAble
         loadFileInView(fileType, fileFrom, link)
 
     }

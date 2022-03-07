@@ -28,5 +28,6 @@ interface IViewDocumentActivity {
         val isNeedToShowOnlyUpdateOption: MutableLiveData<Boolean>
         val filePath: MutableLiveData<String>?
         val isFileUpdated: MutableLiveData<Boolean>
+        val isEditable: MutableLiveData<Boolean>
     }
 }
