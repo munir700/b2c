@@ -9,7 +9,7 @@ import android.widget.ImageView
 import androidx.core.animation.addListener
 import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import co.yap.BR
 import co.yap.R
 import co.yap.modules.onboarding.activities.OnboardingActivity
@@ -31,7 +31,7 @@ class EmailFragment : OnboardingChildFragment<IEmail.ViewModel>() {
     override fun getLayoutId(): Int = R.layout.fragment_email
 
     override val viewModel: IEmail.ViewModel
-        get() = ViewModelProviders.of(this).get(EmailViewModel::class.java)
+        get() = ViewModelProvider(this).get(EmailViewModel::class.java)
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)

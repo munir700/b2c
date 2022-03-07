@@ -7,7 +7,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.app.R
@@ -60,7 +60,7 @@ class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), B
     override fun getLayoutId(): Int = R.layout.fragment_verify_passcode
 
     override val viewModel: VerifyPasscodeViewModel
-        get() = ViewModelProviders.of(this).get(VerifyPasscodeViewModel::class.java)
+        get() = ViewModelProvider(this).get(VerifyPasscodeViewModel::class.java)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

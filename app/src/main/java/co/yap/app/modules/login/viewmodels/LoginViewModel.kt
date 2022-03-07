@@ -5,10 +5,11 @@ import android.view.inputmethod.EditorInfo
 import android.widget.TextView
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import co.yap.app.UserVerifierProvider
 import co.yap.app.main.MainChildViewModel
 import co.yap.app.modules.login.interfaces.ILogin
 import co.yap.app.modules.login.states.LoginState
+import co.yap.modules.onboarding.models.LoadConfig
+import co.yap.modules.onboarding.models.UserVerifierProvider
 import co.yap.networking.authentication.AuthRepository
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.interfaces.IRepositoryHolder
@@ -117,6 +118,7 @@ class LoginViewModel(application: Application) :
 
     fun verifyUser(countryCode: String, mobileNumber: String) {
         state.loading = true
+        LoadConfig(context).initYapRegion(countryCode)
         userVerifier.provide(countryCode).verifyUser(mobileNumber) { result ->
             state.loading = false
             if (result.isSuccess && result.getOrNull() == true) {

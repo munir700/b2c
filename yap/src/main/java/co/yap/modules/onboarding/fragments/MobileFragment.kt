@@ -4,7 +4,7 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import co.yap.BR
 import co.yap.R
 import co.yap.databinding.FragmentMobileBinding
@@ -13,6 +13,9 @@ import co.yap.modules.onboarding.viewmodels.MobileViewModel
 import co.yap.networking.coreitems.CoreBottomSheetData
 import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.interfaces.OnItemClickListener
+import com.yap.core.extensions.finishAffinity
+import com.yap.ghana.ui.onboarding.main.YapGhanaMainActivity
+import com.yap.yappakistan.ui.onboarding.main.YapPkMainActivity
 
 
 class MobileFragment : OnboardingChildFragment<IMobile.ViewModel>() {
@@ -22,7 +25,7 @@ class MobileFragment : OnboardingChildFragment<IMobile.ViewModel>() {
     override fun getLayoutId(): Int = R.layout.fragment_mobile
 
     override val viewModel: IMobile.ViewModel
-        get() = ViewModelProviders.of(this).get(MobileViewModel::class.java)
+        get() = ViewModelProvider(this).get(MobileViewModel::class.java)
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -37,6 +40,24 @@ class MobileFragment : OnboardingChildFragment<IMobile.ViewModel>() {
         getDataBindingView<FragmentMobileBinding>().tlPhoneNumber.requestDefaultFocus()
         viewModel.clickEvent.observe(viewLifecycleOwner, clickListenerHandler)
         setTouchListener()
+
+        viewModel.userVerified.observe(viewLifecycleOwner, Observer {
+            val mobile = viewModel.state.mobile.replace(" ", "")
+            if (it == "+92") {
+                launchActivity<YapPkMainActivity>() {
+                    putExtra("countryCode", viewModel.state.countryCode)
+                    putExtra("mobileNo", mobile)
+                    putExtra("isAccountBlocked", false)
+                }
+            } else if (it == "+233") {
+                launchActivity<YapGhanaMainActivity> {
+                    putExtra("countryCode", viewModel.state.countryCode)
+                    putExtra("mobileNo", mobile)
+                    putExtra("isAccountBlocked", false)
+                }
+            }
+            finishAffinity()
+        })
 
     }
 

@@ -45,7 +45,7 @@ allprojects {
             authentication {
                 basic(BasicAuthentication)
             }
-            url "https://api.bitbucket.org/2.0/repositories/mb28/android-yap-pak/src/releases"}
+            url "https://api.bitbucket.org/2.0/repositories/yap-technology/android-yap-pak/src/releases"}
     }
 }
 

@@ -4,7 +4,10 @@ import android.app.Application
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.TextView
+import androidx.lifecycle.MutableLiveData
 import co.yap.modules.onboarding.interfaces.IMobile
+import co.yap.modules.onboarding.models.LoadConfig
+import co.yap.modules.onboarding.models.UserVerifierProvider
 import co.yap.modules.onboarding.states.MobileState
 import co.yap.modules.otp.getOtpMessageFromComposer
 import co.yap.networking.interfaces.IRepositoryHolder
@@ -53,7 +56,7 @@ class MobileViewModel(application: Application) :
     override fun handlePressOnNext() {
         // Record the updatedDate
         // Send OTP request
-        createOtp{}
+        createOtp {}
     }
 
     override fun onEditorActionListener(): TextView.OnEditorActionListener {
@@ -67,7 +70,7 @@ class MobileViewModel(application: Application) :
         }
     }
 
-    override fun createOtp(success: (success : Boolean) -> Unit) {
+    override fun createOtp(success: (success: Boolean) -> Unit) {
         parentViewModel?.onboardingData?.startTime = Date()
         var mobileNumber: String =
             state.mobile.trim().replace(state.countryCode.get()?.trim() ?: "", "")
@@ -121,5 +124,21 @@ class MobileViewModel(application: Application) :
                 )
             )
         )
+    }
+
+
+    override val userVerified: MutableLiveData<String> = MutableLiveData()
+    override val userVerifier: UserVerifierProvider = UserVerifierProvider()
+
+   override fun verifyUser(countryCode: String, mobileNumber: String) {
+        state.loading = true
+        userVerifier.provideOtpVerifier(countryCode)
+            .createOtp(countryCode, mobileNumber) { result ->
+                state.loading = false
+                if (result.isSuccess && result.getOrNull() == true) {
+                    userVerified.value = countryCode
+                }
+
+            }
     }
 }
