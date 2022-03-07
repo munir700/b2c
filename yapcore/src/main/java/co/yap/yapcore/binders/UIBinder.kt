@@ -1040,7 +1040,7 @@ object UIBinder {
         )
     }
 
-    @BindingAdapter("previewImageSrc", "isNeedToShowLoader")
+    @BindingAdapter(requireAll = false, value = ["previewImageSrc", "isNeedToShowLoader"])
     @JvmStatic
     fun setImageResUrl(
         view: AppCompatImageView,

@@ -1,5 +1,6 @@
 package co.yap.modules.document
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -166,16 +167,15 @@ class ViewDocumentActivity : BaseBindingImageActivity<IViewDocumentActivity.View
         val builder = android.app.AlertDialog.Builder(this)
         var alertDialog: android.app.AlertDialog? = null
         val inflater = this.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        title?.let { builder.setTitle(title) }
         val dialogLayout: View =
             inflater.inflate(R.layout.alert_upload_document_custom_dialogue, null)
         val tvDialogTitle = dialogLayout.findViewById<TextView>(co.yap.yapcore.R.id.tvDialogTitle)
         tvDialogTitle.text = getString(R.string.screen_upload_document_display_text_alert_title)
-        val label = dialogLayout.findViewById<TextView>(co.yap.yapcore.R.id.tvTitle)
+        val label = dialogLayout.findViewById<TextView>(R.id.tvTitle)
         label.text = getString(R.string.screen_upload_document_display_text_alert_message)
-        val ok = dialogLayout.findViewById<TextView>(co.yap.yapcore.R.id.tvButtonTitle)
+        val ok = dialogLayout.findViewById<TextView>(R.id.tvButtonTitle)
         ok.text = getString(R.string.screen_upload_document_display_text_alert_got_it)
-        val cancel = dialogLayout.findViewById<TextView>(co.yap.yapcore.R.id.tvButtonCancel)
+        val cancel = dialogLayout.findViewById<TextView>(R.id.tvButtonCancel)
         cancel.text = getString(R.string.common_button_cancel)
 
         ok.setOnClickListener {
@@ -198,7 +198,7 @@ class ViewDocumentActivity : BaseBindingImageActivity<IViewDocumentActivity.View
             val intent = Intent()
             intent.putExtra(ExtraKeys.FILE_PATH.name, viewModel.state.filePath?.value)
             intent.putExtra(ExtraKeys.FILE_TYPE.name, viewModel.state.fileType?.value)
-            setResult(RequestCodes.REQUEST_VIEW_DOCUMENT, intent)
+            setResult(Activity.RESULT_OK, intent)
         }
         val fragment = supportFragmentManager.findFragmentById(R.id.main_nav_host_fragment)
         if (!BackPressImpl(fragment).onBackPressed()) {

@@ -1,5 +1,6 @@
 package co.yap.modules.location.kyc_additional_info.employment_info.amendment
 
+import android.app.Activity
 import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
@@ -24,6 +25,7 @@ import co.yap.yapcore.databinding.FragmentEmploymentQuestionnaireAmendmentBindin
 import co.yap.yapcore.databinding.FragmentEmploymentQuestionnaireBinding
 import co.yap.yapcore.enums.EmploymentQuestionIdentifier
 import co.yap.yapcore.enums.EmploymentStatus
+import co.yap.yapcore.helpers.beneficiaryInfoDialog
 import co.yap.yapcore.helpers.extentions.launchBottomSheetSegment
 import co.yap.yapcore.helpers.extentions.launchMultiSelectionBottomSheet
 import co.yap.yapcore.helpers.infoDialog
@@ -190,6 +192,13 @@ class EmploymentQuestionnaireAmendmentFragment :
         }
     }
 
+    private val needToShowAdditionalDocumentDialogue =
+        Observer<Boolean> {
+            if (it) {
+                openAdditionallyDocumentConfirmationDialogue()
+            }
+        }
+
     val listener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
             viewModel.rvQuestionItemListener.onItemClick(view, data, pos)
@@ -274,6 +283,10 @@ class EmploymentQuestionnaireAmendmentFragment :
         viewModel.employmentStatus.observe(this, employmentTypeLoadedObserver)
         viewModel.businessCountriesLiveData.observe(this, businessCountriesLiveDataObserver)
         viewModel.documentsList.observe(this, documentsLiveDataObserver)
+        viewModel.state.needToShowAdditionalDocumentDialogue.observe(
+            this,
+            needToShowAdditionalDocumentDialogue
+        )
     }
 
     override fun removeObservers() {
@@ -281,6 +294,9 @@ class EmploymentQuestionnaireAmendmentFragment :
         viewModel.employmentStatus.removeObserver(employmentTypeLoadedObserver)
         viewModel.businessCountriesLiveData.removeObserver(businessCountriesLiveDataObserver)
         viewModel.documentsList.removeObserver(documentsLiveDataObserver)
+        viewModel.state.needToShowAdditionalDocumentDialogue.removeObserver(
+            needToShowAdditionalDocumentDialogue
+        )
     }
 
     override fun onDestroy() {
@@ -301,10 +317,29 @@ class EmploymentQuestionnaireAmendmentFragment :
         )
     }
 
+    fun openAdditionallyDocumentConfirmationDialogue() {
+        context?.beneficiaryInfoDialog(
+            title = "Additional documents\n" +
+                    "required.",
+            message = "Since you’re self-employed we will need to ask you to provide additional documentation.",
+            buttonText = "Cancel",
+            callback = { proceed ->
+                if (proceed) {
+                    viewModel.employmentStatus.value = viewModel.tempEmploymentStatus.value
+                    viewModel.previousEmploymentStatus.value = viewModel.tempEmploymentStatus.value
+                }
+            },
+            icon = R.drawable.ic_exclamation_primary_white,
+            coreButtonTitle = "Continue"
+        )
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == RequestCodes.REQUEST_VIEW_DOCUMENT) {
-            handleFileResult(data)
+            if (resultCode == Activity.RESULT_OK) {
+                handleFileResult(data)
+            }
         }
     }
 
