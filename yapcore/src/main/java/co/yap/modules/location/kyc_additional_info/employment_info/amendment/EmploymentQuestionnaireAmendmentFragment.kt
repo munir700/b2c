@@ -17,6 +17,8 @@ import co.yap.modules.document.ViewDocumentActivity
 import co.yap.modules.document.enums.FileFrom
 import co.yap.modules.location.kyc_additional_info.employment_info.questionnaire.adapter.QuestionItemViewHolders
 import co.yap.modules.location.kyc_additional_info.employment_info.questionnaire.models.QuestionUiFields
+import co.yap.modules.otp.GenericOtpFragment
+import co.yap.modules.otp.OtpDataModel
 import co.yap.networking.customers.responsedtos.employment_amendment.Document
 import co.yap.networking.customers.responsedtos.employment_amendment.DocumentResponse
 import co.yap.networking.customers.responsedtos.employment_amendment.EmploymentInfoAmendmentResponse
@@ -33,22 +35,14 @@ import co.yap.yapcore.databinding.FragmentEmploymentQuestionnaireAmendmentBindin
 import co.yap.yapcore.databinding.FragmentEmploymentQuestionnaireBinding
 import co.yap.yapcore.enums.EmploymentQuestionIdentifier
 import co.yap.yapcore.enums.EmploymentStatus
+import co.yap.yapcore.enums.OTPActions
 import co.yap.yapcore.helpers.ExtraKeys
 import co.yap.yapcore.helpers.beneficiaryInfoDialog
 import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.helpers.infoDialog
 import co.yap.yapcore.interfaces.OnItemClickListener
-import com.liveperson.infra.utils.UIUtils
-import co.yap.modules.document.enums.FileFrom
-import android.content.Intent
-import androidx.core.os.bundleOf
-import co.yap.modules.otp.GenericOtpFragment
-import co.yap.modules.otp.OtpDataModel
-import co.yap.yapcore.constants.RequestCodes
-import co.yap.yapcore.enums.OTPActions
-import co.yap.yapcore.helpers.ExtraKeys
-import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.managers.SessionManager
+import com.liveperson.infra.utils.UIUtils
 
 
 class EmploymentQuestionnaireAmendmentFragment :
