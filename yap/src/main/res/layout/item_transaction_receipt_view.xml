@@ -17,6 +17,7 @@
 
         <co.yap.modules.imagepreviewer.TouchImageView
             android:id="@+id/ivCard"
+            isNeedToShowLoader="@{false}"
             previewImageSrc="@{viewModel.receipt.receiptImageUrl}"
             android:layout_width="0dp"
             android:layout_height="0dp"

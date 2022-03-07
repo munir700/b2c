@@ -43,6 +43,8 @@ data class Document(
     var title: String? = null,
     @SerializedName("description")
     var description: String = "",
+    @SerializedName("extension")
+    var extension: String = "",
     @SerializedName("isMandatory")
     val isMandatory: Boolean = false
 ) : Parcelable

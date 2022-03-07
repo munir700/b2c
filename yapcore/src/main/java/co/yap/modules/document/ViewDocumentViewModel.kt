@@ -1,7 +1,6 @@
 package co.yap.modules.document
 
 import android.app.Application
-import co.yap.R
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.transactions.TransactionsRepository
 import co.yap.translation.Strings

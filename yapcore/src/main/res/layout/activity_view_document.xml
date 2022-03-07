@@ -20,7 +20,7 @@
         android:id="@+id/clContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/bg_view_document">
+        android:background="@color/white">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/clIVContainer"
@@ -37,7 +37,7 @@
                 android:layout_height="@dimen/_30sdp"
                 android:layout_marginStart="@dimen/_18sdp"
                 android:onClick="@{(v) -> viewModel.handlePressView(v.id)}"
-                android:src="@drawable/ic_circle_cross"
+                android:src="@drawable/ic_circle_cross_view_doc"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -58,7 +58,8 @@
 
         <co.yap.modules.imagepreviewer.TouchImageView
             android:id="@+id/iviImage"
-            previewImageSrc="@{ viewModel.state.imageUrlForImageView}"
+            isNeedToShowLoader="@{true}"
+            previewImageSrc="@{viewModel.state.imageUrlForImageView}"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginStart="@dimen/_5sdp"

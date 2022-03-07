@@ -1,7 +1,5 @@
 package co.yap.modules.document
 
-import androidx.databinding.ObservableBoolean
-import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import co.yap.widgets.bottomsheet.BottomSheetItem
 import co.yap.yapcore.IBase
@@ -22,10 +20,10 @@ interface IViewDocumentActivity {
 
     interface State : IBase.State {
         var fileType: MutableLiveData<String>?
-        val ImageUrlForImageView: MutableLiveData<String>?
+        val imageUrlForImageView: MutableLiveData<String>?
         val isPDF: MutableLiveData<Boolean>
         val isNeedToShowOnlyUpdateOption: MutableLiveData<Boolean>
         val filePath: MutableLiveData<String>?
-
+        val isFileUpdated: MutableLiveData<Boolean>
     }
 }

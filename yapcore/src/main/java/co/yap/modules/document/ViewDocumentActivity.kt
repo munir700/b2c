@@ -8,20 +8,22 @@ import android.view.View
 import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import co.yap.R
-import co.yap.databinding.ActivityViewDocumentBinding
 import co.yap.modules.document.enums.FileFrom
 import co.yap.modules.document.enums.FileType
 import co.yap.modules.document.enums.TakePhotoType
 import co.yap.widgets.bottomsheet.TakePhotoBottomSheet
 import co.yap.yapcore.BR
 import co.yap.yapcore.BaseBindingImageActivity
+import co.yap.yapcore.R
+import co.yap.yapcore.constants.RequestCodes
+import co.yap.yapcore.databinding.ActivityViewDocumentBinding
 import co.yap.yapcore.enums.PhotoSelectionType
+import co.yap.yapcore.helpers.ExtraKeys
 import co.yap.yapcore.helpers.FileUtils
 import co.yap.yapcore.helpers.extentions.*
-import co.yap.yapcore.interfaces.BackPressImpl
 import kotlinx.android.synthetic.main.activity_view_document.view.*
 import pl.aprilapps.easyphotopicker.MediaFile
+import co.yap.yapcore.interfaces.BackPressImpl
 
 class ViewDocumentActivity : BaseBindingImageActivity<IViewDocumentActivity.ViewModel>(),
     IViewDocumentActivity.View {
@@ -30,20 +32,17 @@ class ViewDocumentActivity : BaseBindingImageActivity<IViewDocumentActivity.View
         private const val LINK = "LINK"
         private const val FILETYPE = "FILETYPE"
         private const val FILEFROM = "FILEFROM"
-        private const val ISNEEDTOSHOWONLYUPDATEOPTION = "ISNEEDTOSHOWONLYUPDATEOPTION"
 
         fun newIntent(
             context: Context,
             link: String,
             fileType: String,
-            fileFrom: String,
-            isNeedToShowOnlyUpdateOption: Boolean
+            fileFrom: String
         ): Intent {
             val intent = Intent(context, ViewDocumentActivity::class.java)
             intent.putExtra(LINK, link)
             intent.putExtra(FILEFROM, fileFrom)
             intent.putExtra(FILETYPE, fileType)
-            intent.putExtra(ISNEEDTOSHOWONLYUPDATEOPTION, isNeedToShowOnlyUpdateOption)
             return intent
         }
     }
@@ -65,19 +64,18 @@ class ViewDocumentActivity : BaseBindingImageActivity<IViewDocumentActivity.View
     private fun setupData() {
         val link = intent?.getValue(LINK, ExtraType.STRING.name) as? String
         val fileFrom = intent?.getValue(FILEFROM, ExtraType.STRING.name) as? String
-        val filetype = intent?.getValue(FILETYPE, ExtraType.STRING.name) as? String
-        val isNeedToUpdateFile = intent?.getBooleanExtra(ISNEEDTOSHOWONLYUPDATEOPTION, false)
+        val fileType = intent?.getValue(FILETYPE, ExtraType.STRING.name) as? String
+        viewModel.state.isNeedToShowOnlyUpdateOption?.value = !link.isNullOrEmpty()
+        loadFileInView(fileType, fileFrom, link)
 
-        viewModel.state.fileType?.value = filetype
-        viewModel.state.isNeedToShowOnlyUpdateOption?.value = isNeedToUpdateFile ?: false
-
-        loadFileInView(filetype, fileFrom, link)
     }
 
     fun loadFileInView(fileType: String?, fileFrom: String?, link: String?) {
+        viewModel.state.fileType?.value = fileType
+        viewModel.state.filePath?.value = link
         when (fileFrom) {
             FileFrom.Link().link -> {
-                if (fileType == FileType.PDF().pdf) {
+                if (fileType?.contains(FileType.PDF().pdf) == true) {
                     viewModel.state.isPDF.value = true
 
                     link?.let {
@@ -88,20 +86,17 @@ class ViewDocumentActivity : BaseBindingImageActivity<IViewDocumentActivity.View
                         }
                     } ?: close()
                 } else {
-                    viewModel.state.isPDF.value = false
-                    viewModel.state.ImageUrlForImageView?.value = link
+                    setImageResUrl(link)
                 }
             }
             FileFrom.Local().local -> {
-
-                if (fileType == FileType.PDF().pdf) {
+                if (fileType?.contains(FileType.PDF().pdf) == true) {
                     viewModel.state.isPDF.value = true
                     link?.let {
                         viewDataBinding?.root?.pdfView?.fromFile(link)?.show()
                     }
                 } else {
-                    viewModel.state.isPDF.value = false
-                    viewModel.state.ImageUrlForImageView?.value = link
+                    setImageResUrl(link)
                 }
             }
         }
@@ -121,11 +116,11 @@ class ViewDocumentActivity : BaseBindingImageActivity<IViewDocumentActivity.View
             }
             R.id.ivdelete -> {
                 viewModel.state.filePath?.value = null
-                viewModel.state.ImageUrlForImageView?.value = null
+                viewModel.state.imageUrlForImageView?.value = null
                 viewModel.state.fileType?.value = null
                 viewModel.state.isPDF.value = false
+                viewModel.state.isFileUpdated.value = false
                 viewDataBinding?.root?.iviImage?.setImageResource(0)
-
             }
         }
     }
@@ -149,16 +144,15 @@ class ViewDocumentActivity : BaseBindingImageActivity<IViewDocumentActivity.View
                         completionHandler = { _, dataUri ->
                             dataUri?.let { uriIntent ->
                                 if (FileUtils.getFile(context, uriIntent.data).sizeInMb() <= 25) {
-                                    viewModel.state.filePath?.value =
-                                        FileUtils.getFile(context, uriIntent.data).absolutePath
                                     loadFileInView(
                                         FileUtils.getFile(context, uriIntent.data).extension,
                                         FileFrom.Local().local,
                                         FileUtils.getFile(context, uriIntent.data).absolutePath
                                     )
                                     viewModel.state.isNeedToShowOnlyUpdateOption?.value = false
+                                    viewModel.state.isFileUpdated.value = true
                                 } else {
-                                    showToast("You can select 25 mb size file only")
+                                    showToast("Your file size is too big. Please upload a file less than 25MB to proceed")
                                 }
                             }
                         })
@@ -174,7 +168,7 @@ class ViewDocumentActivity : BaseBindingImageActivity<IViewDocumentActivity.View
         val inflater = this.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         title?.let { builder.setTitle(title) }
         val dialogLayout: View =
-            inflater.inflate(co.yap.yapcore.R.layout.alert_upload_document_custom_dialogue, null)
+            inflater.inflate(R.layout.alert_upload_document_custom_dialogue, null)
         val tvDialogTitle = dialogLayout.findViewById<TextView>(co.yap.yapcore.R.id.tvDialogTitle)
         tvDialogTitle.text = getString(R.string.screen_upload_document_display_text_alert_title)
         val label = dialogLayout.findViewById<TextView>(co.yap.yapcore.R.id.tvTitle)
@@ -200,6 +194,13 @@ class ViewDocumentActivity : BaseBindingImageActivity<IViewDocumentActivity.View
     }
 
     override fun onBackPressed() {
+
+        val intent = Intent()
+        intent.putExtra(ExtraKeys.FILE_PATH.name, viewModel.state.filePath?.value)
+        intent.putExtra(ExtraKeys.FILE_TYPE.name, viewModel.state.fileType?.value)
+        intent.putExtra(ExtraKeys.FILE_UPDATED.name, viewModel.state.isFileUpdated.value)
+        setResult(RequestCodes.REQUEST_VIEW_DOCUMENT, intent)
+
         val fragment = supportFragmentManager.findFragmentById(R.id.main_nav_host_fragment)
         if (!BackPressImpl(fragment).onBackPressed()) {
             super.onBackPressed()
@@ -218,16 +219,20 @@ class ViewDocumentActivity : BaseBindingImageActivity<IViewDocumentActivity.View
 
     override fun onImageReturn(mediaFile: MediaFile) {
         if (mediaFile.file.sizeInMb() <= 25) {
-            viewModel.state.filePath?.value = mediaFile.file.absolutePath
             loadFileInView(
                 mediaFile.file.extension,
                 FileFrom.Local().local,
                 mediaFile.file.absolutePath
             )
             viewModel.state.isNeedToShowOnlyUpdateOption?.value = false
+            viewModel.state.isFileUpdated.value = true
         } else {
-            showToast("You can select 25 mb size file only")
+            showToast("Your file size is too big. Please upload a file less than 25MB to proceed")
         }
     }
-}
 
+    private fun setImageResUrl(imageSrc: String?) {
+        viewModel.state.isPDF.value = false
+        viewModel.state.imageUrlForImageView?.value = imageSrc
+    }
+}
