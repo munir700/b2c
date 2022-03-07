@@ -58,7 +58,7 @@ class ViewDocumentActivity : BaseBindingImageActivity<IViewDocumentActivity.View
         super.onCreate(savedInstanceState)
         setupData()
         getDataBindingView<ActivityViewDocumentBinding>().lifecycleOwner = this
-        viewModel.clickEvent.observe(this, listener)
+        addObservers()
     }
 
     private fun setupData() {
@@ -194,13 +194,12 @@ class ViewDocumentActivity : BaseBindingImageActivity<IViewDocumentActivity.View
     }
 
     override fun onBackPressed() {
-
-        val intent = Intent()
-        intent.putExtra(ExtraKeys.FILE_PATH.name, viewModel.state.filePath?.value)
-        intent.putExtra(ExtraKeys.FILE_TYPE.name, viewModel.state.fileType?.value)
-        intent.putExtra(ExtraKeys.FILE_UPDATED.name, viewModel.state.isFileUpdated.value)
-        setResult(RequestCodes.REQUEST_VIEW_DOCUMENT, intent)
-
+        if (viewModel.state.isFileUpdated.value == true) {
+            val intent = Intent()
+            intent.putExtra(ExtraKeys.FILE_PATH.name, viewModel.state.filePath?.value)
+            intent.putExtra(ExtraKeys.FILE_TYPE.name, viewModel.state.fileType?.value)
+            setResult(RequestCodes.REQUEST_VIEW_DOCUMENT, intent)
+        }
         val fragment = supportFragmentManager.findFragmentById(R.id.main_nav_host_fragment)
         if (!BackPressImpl(fragment).onBackPressed()) {
             super.onBackPressed()
@@ -215,6 +214,7 @@ class ViewDocumentActivity : BaseBindingImageActivity<IViewDocumentActivity.View
     override fun onDestroy() {
         context.deleteTempFolder()
         super.onDestroy()
+        removeObservers()
     }
 
     override fun onImageReturn(mediaFile: MediaFile) {
@@ -234,5 +234,13 @@ class ViewDocumentActivity : BaseBindingImageActivity<IViewDocumentActivity.View
     private fun setImageResUrl(imageSrc: String?) {
         viewModel.state.isPDF.value = false
         viewModel.state.imageUrlForImageView?.value = imageSrc
+    }
+
+    override fun removeObservers() {
+        viewModel.clickEvent.removeObserver(listener)
+    }
+
+    override fun addObservers() {
+        viewModel.clickEvent.observe(this, listener)
     }
 }

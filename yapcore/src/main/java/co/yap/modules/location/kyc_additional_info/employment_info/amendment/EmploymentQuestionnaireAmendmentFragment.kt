@@ -309,15 +309,10 @@ class EmploymentQuestionnaireAmendmentFragment :
     }
 
     private fun handleFileResult(data: Intent?) {
-        val isFileUpdated =
-            data?.getValue(ExtraKeys.FILE_UPDATED.name, ExtraType.BOOLEAN.name) as? Boolean
-
-        if (isFileUpdated == true) {
-            val file =
-                data?.getValue(ExtraKeys.FILE_PATH.name, ExtraType.STRING.name) as? String
-            val fileType =
-                data?.getValue(ExtraKeys.FILE_TYPE.name, ExtraType.STRING.name) as? String
-            showToast("$file $fileType $isFileUpdated")
-        }
+        val file =
+            data?.getValue(ExtraKeys.FILE_PATH.name, ExtraType.STRING.name) as? String
+        val fileType =
+            data?.getValue(ExtraKeys.FILE_TYPE.name, ExtraType.STRING.name) as? String
+        showToast("$file $fileType ")
     }
 }

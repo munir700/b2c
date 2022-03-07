@@ -8,7 +8,10 @@ import java.io.File
 
 interface IViewDocumentActivity {
 
-    interface View : IBase.View<ViewModel>
+    interface View : IBase.View<ViewModel> {
+        fun removeObservers()
+        fun addObservers()
+    }
 
     interface ViewModel : IBase.ViewModel<State> {
         val clickEvent: SingleClickEvent
