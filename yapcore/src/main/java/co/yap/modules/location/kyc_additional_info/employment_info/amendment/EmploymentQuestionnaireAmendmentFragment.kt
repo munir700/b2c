@@ -1,9 +1,9 @@
 package co.yap.modules.location.kyc_additional_info.employment_info.amendment
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
-import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.Observable
@@ -13,6 +13,7 @@ import androidx.lifecycle.ViewModelProvider
 import co.yap.countryutils.country.Country
 import co.yap.countryutils.country.unSelectAllCountries
 import co.yap.modules.document.ViewDocumentActivity
+import co.yap.modules.document.enums.FileFrom
 import co.yap.modules.location.kyc_additional_info.employment_info.questionnaire.adapter.QuestionItemViewHolders
 import co.yap.modules.location.kyc_additional_info.employment_info.questionnaire.models.QuestionUiFields
 import co.yap.networking.customers.responsedtos.employment_amendment.Document
@@ -26,22 +27,16 @@ import co.yap.yapcore.BR
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.R
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.databinding.FragmentEmploymentQuestionnaireAmendmentBinding
 import co.yap.yapcore.databinding.FragmentEmploymentQuestionnaireBinding
 import co.yap.yapcore.enums.EmploymentQuestionIdentifier
 import co.yap.yapcore.enums.EmploymentStatus
-import co.yap.yapcore.helpers.extentions.launchBottomSheetSegment
-import co.yap.yapcore.helpers.extentions.launchMultiSelectionBottomSheet
-import co.yap.yapcore.helpers.extentions.startFragment
+import co.yap.yapcore.helpers.ExtraKeys
+import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.helpers.infoDialog
 import co.yap.yapcore.interfaces.OnItemClickListener
 import com.liveperson.infra.utils.UIUtils
-import co.yap.modules.document.enums.FileFrom
-import android.content.Intent
-import co.yap.yapcore.constants.RequestCodes
-import co.yap.yapcore.helpers.ExtraKeys
-import co.yap.yapcore.helpers.extentions.ExtraType
-import co.yap.yapcore.helpers.extentions.getValue
 
 
 class EmploymentQuestionnaireAmendmentFragment :
@@ -105,8 +100,9 @@ class EmploymentQuestionnaireAmendmentFragment :
                 viewModel.employmentStatus.value = viewModel.serverEmploymentStatus
                 viewModel.updateEditMode(true)
             }
-            viewModel.requiredDocumentsResponse.value = (it.getParcelableArrayList<DocumentResponse> ("documentsList") as? ArrayList<DocumentResponse> ?: arrayListOf()).toMutableList()
-            //viewModel.documentsList.value = viewModel.requiredDocumentsResponse.value
+            viewModel.requiredDocumentsResponse.value =
+                (it.getParcelableArrayList<DocumentResponse>("documentsList") as? ArrayList<DocumentResponse>
+                    ?: arrayListOf()).toMutableList()
             viewModel.employmentStatusValue.value?.let { emp ->
                 viewModel.fillTitlesOfDocuments(
                     EmploymentStatus.valueOf(
@@ -350,7 +346,7 @@ class EmploymentQuestionnaireAmendmentFragment :
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == RequestCodes.REQUEST_VIEW_DOCUMENT) {
+        if (requestCode == RequestCodes.REQUEST_VIEW_DOCUMENT && resultCode == RequestCodes.REQUEST_VIEW_DOCUMENT) {
             handleFileResult(data)
         }
     }

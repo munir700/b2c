@@ -199,7 +199,7 @@ class EmploymentQuestionnaireAmendmentViewModel(application: Application) :
         }
         questionsList[position] = objQuestion
         selectedBusinessCountries.get()?.clear()
-        selectedBusinessCountries.get()?.addAll(countries)
+                    selectedBusinessCountries.get()?.addAll(countries)
         (rvCountries?.adapter as BusinessCountriesAdapter).setList(
             selectedBusinessCountries.get() ?: arrayListOf()
         )
