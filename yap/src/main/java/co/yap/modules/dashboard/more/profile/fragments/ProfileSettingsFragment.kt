@@ -139,12 +139,9 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
             when (it) {
 
                 R.id.tvPersonalDetailView -> {
-//                    val action =
-//                        ProfileSettingsFragmentDirections.actionProfileSettingsFragmentToPersonalDetailsFragment()
-//                    findNavController().navigate(action)
-
-                    //TODO this is just  for testing we will remove this after proper implementation For KYC INFO
-                    startOtpFragment()
+                    val action =
+                        ProfileSettingsFragmentDirections.actionProfileSettingsFragmentToPersonalDetailsFragment()
+                    findNavController().navigate(action)
                 }
 
                 R.id.tvChangePasscode -> {
@@ -296,24 +293,6 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
 
             } else {
                 viewModel.getNotificationScreenValues(false)
-            }
-        }
-    }
-    //TODO this is just  for testing we will remove this after proper implementation For KYC INFO
-    private fun startOtpFragment() {
-        startFragmentForResult<GenericOtpFragment>(
-            GenericOtpFragment::class.java.name,
-            bundleOf(
-                OtpDataModel::class.java.name to OtpDataModel(
-                    OTPActions.EMPLOYMENT_AMENDMENT.name,//action,
-                    otpMessage = "Message Required",
-                    mobileNumber = "+971890990818"
-                )
-            ),
-            showToolBar = true
-        ) { resultCode, _ ->
-            if (resultCode == Activity.RESULT_OK) {
-                showToast("OTP is accepted")
             }
         }
     }

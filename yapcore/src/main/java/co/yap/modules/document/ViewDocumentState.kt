@@ -11,4 +11,5 @@ open class ViewDocumentState : BaseState(), IViewDocumentActivity.State {
     override val isNeedToShowOnlyUpdateOption: MutableLiveData<Boolean> = MutableLiveData(false)
     override var filePath: MutableLiveData<String>? = MutableLiveData()
     override val isFileUpdated: MutableLiveData<Boolean> = MutableLiveData(false)
+    override val isEditable: MutableLiveData<Boolean> = MutableLiveData(false)
 }
