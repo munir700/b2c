@@ -3,9 +3,15 @@ package co.yap.widgets.edittext
 import android.content.Context
 import android.graphics.Rect
 import android.graphics.drawable.Drawable
+import android.text.Editable
+import android.text.InputFilter
+import android.text.Spanned
+import android.text.TextWatcher
 import android.util.AttributeSet
+import android.view.KeyEvent
 import android.view.MotionEvent
 import android.view.View
+import android.view.inputmethod.EditorInfo
 import androidx.annotation.DrawableRes
 import androidx.annotation.Keep
 import androidx.databinding.BindingAdapter
@@ -13,8 +19,9 @@ import com.google.android.material.textfield.TextInputEditText
 import kotlin.math.abs
 
 @Keep
-open class   EditTextRichDrawable : TextInputEditText, DrawableEnriched {
+open class EditTextRichDrawable : TextInputEditText, DrawableEnriched {
 
+    private var backupString = ""
     private var mRichDrawableHelper: RichDrawableHelper? = null
     private var onDrawableClickListener: OnDrawableClickListener? = null
     private var defaultClickListener: OnDrawableClickListener? = null
@@ -24,10 +31,38 @@ open class   EditTextRichDrawable : TextInputEditText, DrawableEnriched {
     private var drawableLeft: Drawable? = null
     private var drawableTop: Drawable? = null
     private var drawableBottom: Drawable? = null
+    private val textWatcher: TextWatcher = object : TextWatcher {
+        override fun afterTextChanged(s: Editable) {
+
+        }
+
+        override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
+        }
+
+        override fun onTextChanged(
+            charSequence: CharSequence,
+            start: Int,
+            before: Int,
+            count: Int
+        ) {
+            this@EditTextRichDrawable.removeTextChangedListener(this)
+            var orignalString = charSequence.toString()
+            if (orignalString.isNotEmpty() && Character.isWhitespace(charSequence[0])) {
+                if (text?.length ?: 0 > 1) {
+                    setText(backupString)
+                } else
+                    setText("")
+            } else {
+                backupString = orignalString
+            }
+
+            this@EditTextRichDrawable.addTextChangedListener(this)
+        }
+    }
 
     private val defaultClickListenerAdapter: OnDrawableClickListener =
         object : OnDrawableClickListener {
-            override fun onClick(view : View, target: DrawablePosition) {
+            override fun onClick(view: View, target: DrawablePosition) {
                 when (target) {
                     DrawablePosition.BOTTOM -> {
 
@@ -65,6 +100,10 @@ open class   EditTextRichDrawable : TextInputEditText, DrawableEnriched {
         mRichDrawableHelper = RichDrawableHelper(context, attrs!!, defStyleAttr, defStyleRes)
         mRichDrawableHelper?.apply(this)
         defaultClickListener = defaultClickListenerAdapter
+        if (mRichDrawableHelper?.disableSpaces == true)
+            addTextChangedListener((textWatcher))
+        if (mRichDrawableHelper?.disableEmoji == true) filters =
+            arrayOf<InputFilter>(EmojiExcludeFilter())
     }
 
     /**
@@ -120,33 +159,6 @@ open class   EditTextRichDrawable : TextInputEditText, DrawableEnriched {
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
         var bounds: Rect?
-//        val editText = this
-//        this.addTextChangedListener(object : TextWatcher {
-//            override fun afterTextChanged(p0: Editable?) {
-//
-//            }
-//
-//            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-//            }
-//
-//            override fun onTextChanged(char: CharSequence, p1: Int, p2: Int, p3: Int) {
-//                if (char.isEmpty()) {
-//                    if (!isDrawableShownWhenTextIsEmpty) editText.setCompoundDrawablesWithIntrinsicBounds(
-//                        0,
-//                        0,
-//                        0,
-//                        0
-//                    )
-//                } else editText.setCompoundDrawables(
-//                    drawableLeft,
-//                    drawableTop,
-//                    drawableRight,
-//                    drawableBottom
-//                )
-//            }
-//
-//
-//        })
         if (event.action == MotionEvent.ACTION_DOWN) {
             positionX = event.x.toInt()
             positionY = event.y.toInt()
@@ -262,5 +274,58 @@ open class   EditTextRichDrawable : TextInputEditText, DrawableEnriched {
             listener?.let { view.setDrawableClickListener(listener) }
         }
 
+    }
+
+    private class EmojiExcludeFilter : InputFilter {
+        override fun filter(
+            source: CharSequence,
+            start: Int,
+            end: Int,
+            dest: Spanned,
+            dstart: Int,
+            dend: Int
+        ): CharSequence? {
+            for (i in start until end) {
+                val type = Character.getType(source[i])
+                if (type == Character.SURROGATE.toInt() || type == Character.OTHER_SYMBOL.toInt()) {
+                    return ""
+                }
+            }
+            return null
+        }
+    }
+
+    override fun onFocusChanged(focused: Boolean, direction: Int, previouslyFocusedRect: Rect?) {
+        super.onFocusChanged(focused, direction, previouslyFocusedRect)
+        if (mRichDrawableHelper?.disableSpaces == true) {
+            removeEndingSpaces()
+        }
+    }
+
+    override fun onKeyPreIme(keyCode: Int, event: KeyEvent): Boolean {
+        if (mRichDrawableHelper?.disableSpaces == true) {
+            if (event.keyCode == KeyEvent.KEYCODE_BACK) {
+                removeEndingSpaces()
+            }
+        }
+        return super.onKeyPreIme(keyCode, event)
+    }
+
+    override fun onEditorAction(actionCode: Int) {
+        if (mRichDrawableHelper?.disableSpaces == true) {
+            if (actionCode == EditorInfo.IME_ACTION_NEXT
+                || actionCode == EditorInfo.IME_ACTION_DONE
+            ) {
+                removeEndingSpaces()
+            }
+        }
+        super.onEditorAction(actionCode)
+    }
+
+    private fun removeEndingSpaces() {
+        removeTextChangedListener(textWatcher)
+        setText(text.toString().trim())
+        setSelection(text?.length ?: 0)
+        addTextChangedListener(textWatcher)
     }
 }

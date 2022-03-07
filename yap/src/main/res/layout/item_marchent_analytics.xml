@@ -19,6 +19,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="@{(v) -> viewModel.onViewClicked(v)}"
+        app:sensitiveViews="@{Utils.getViewsList(tvAmount,tvName,lyAnalyticsImage)}"
         android:paddingStart="@dimen/_12sdp"
         android:paddingEnd="@dimen/_12sdp">
 

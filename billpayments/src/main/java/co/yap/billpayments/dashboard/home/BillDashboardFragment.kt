@@ -147,7 +147,7 @@ class BillDashboardFragment : BillDashboardBaseFragment<IBillDashboard.ViewModel
 
     private fun onCategorySelection(billCategory: BillProviderModel?) {
         if (!billCategory?.categoryType.equals("CREDIT_CARD")) {
-            launchActivity<AddBillActivity>(requestCode = RequestCodes.REQUEST_ADD_BILL) {
+            launchActivity<AddBillActivity>(requestCode = RequestCodes.REQUEST_ADD_BILL ,type = FeatureSet.ADD_BILL_PAYMENT ) {
                 putExtra(
                     ExtraKeys.BILL_PROVIDER.name,
                     billCategory

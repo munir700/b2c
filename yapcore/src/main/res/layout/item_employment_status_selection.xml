@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
+        <import type="co.yap.yapcore.helpers.Utils" />
 
         <variable
             name="viewModel"
@@ -19,6 +22,7 @@
         android:background="@drawable/bg_status_selector"
         android:checked="false"
         android:gravity="center"
+        app:sensitiveViews="@{Utils.getViewsList(tvEmploymentStatus)}"
         android:onClick="@{(v)->viewModel.handlePressOnView(v)}"
         android:text="@{viewModel.employmentStatusSelectionModel.infoStatus}"
         android:textAlignment="center"

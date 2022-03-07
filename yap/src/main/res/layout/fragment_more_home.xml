@@ -12,19 +12,17 @@
             type="co.yap.modules.dashboard.more.home.viewmodels.MoreHomeViewModel" />
 
         <import type="android.view.View" />
-
         <import type="android.R.dimen" />
-
         <import type="co.yap.yapcore.R" />
-
-        <import type="co.yap.yapcore.managers.SessionManager" />
-
+        <import type="co.yap.yapcore.managers.SessionManager"/>
+        <import type="co.yap.yapcore.helpers.Utils" />
     </data>
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        app:sensitiveViews="@{Utils.getViewsList(tvBic,tvIban,tvName,imgProfile)}"
         android:background="@color/colorWhite">
 
         <androidx.appcompat.widget.AppCompatImageView

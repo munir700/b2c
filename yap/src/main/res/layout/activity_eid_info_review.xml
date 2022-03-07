@@ -14,11 +14,13 @@
             type="co.yap.modules.kyc.viewmodels.EidInfoReviewViewModel" />
 
         <import type="co.yap.yapcore.managers.SessionManager" />
+        <import type="co.yap.yapcore.helpers.Utils" />
     </data>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        app:sensitiveViews="@{Utils.getViewsList(tvExpiryDate,tvGender,tvDOB,tvNationality,tvLastName,tvMiddleName,tvFirstName,tvCitizenNumber,tvDetailsVerify)}"
         android:orientation="vertical">
 
         <FrameLayout

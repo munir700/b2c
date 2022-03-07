@@ -21,8 +21,11 @@ import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.databinding.FragmentEmploymentQuestionnaireBinding
 import co.yap.yapcore.enums.EmploymentQuestionIdentifier
 import co.yap.yapcore.enums.EmploymentStatus
+import co.yap.yapcore.helpers.ButtonType
+import co.yap.yapcore.helpers.ExtraKeys
 import co.yap.yapcore.helpers.extentions.launchBottomSheetSegment
 import co.yap.yapcore.helpers.extentions.launchMultiSelectionBottomSheet
+import co.yap.yapcore.helpers.extentions.showInfoDialog
 import co.yap.yapcore.helpers.infoDialog
 import co.yap.yapcore.interfaces.OnItemClickListener
 import com.liveperson.infra.utils.UIUtils.hideKeyboard
@@ -37,13 +40,14 @@ class EmploymentQuestionnaireFragment : LocationChildFragment<IEmploymentQuestio
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         addObservers()
+        viewModel.employmentStatus = arguments?.get(ExtraKeys.EMPLOYMENT_STATUS.name) as EmploymentStatus
+        viewModel.isDataRequiredFromApi(forStatus = viewModel.employmentStatus)
+
         if (arguments?.containsKey("EMPLOYMENT_STATUS") == true) viewModel.employmentStatus =
             arguments?.get("EMPLOYMENT_STATUS") as EmploymentStatus
         if (!viewModel.hasAmendmentMap()) {
             viewModel.employmentStatus = arguments?.get("EMPLOYMENT_STATUS") as EmploymentStatus
-            viewModel.isDataRequiredFromApi(
-                forStatus = viewModel.employmentStatus
-            )
+            viewModel.isDataRequiredFromApi(forStatus = viewModel.employmentStatus)
         }
     }
 
@@ -122,7 +126,7 @@ class EmploymentQuestionnaireFragment : LocationChildFragment<IEmploymentQuestio
             when (view.id) {
                 R.id.ivSupport -> {
                     viewModel.onInfoClick(data as QuestionUiFields) { title, message ->
-                        showInfoDialog(title, message)
+                        requireContext().showInfoDialog(title, message, arrayListOf(ButtonType.CLOSE)) {}
                     }
                 }
 
@@ -135,7 +139,7 @@ class EmploymentQuestionnaireFragment : LocationChildFragment<IEmploymentQuestio
                                 viewModel.validateForm()
                             }
                         }, configuration = BottomSheetConfiguration(
-                            heading = "Add all the countries your company does business with:",
+                            getString(Strings.screen_employee_information_display_bottom_sheet_text_heading),
                             showSearch = true,
                             showHeaderSeparator = true
                         ),
@@ -150,6 +154,7 @@ class EmploymentQuestionnaireFragment : LocationChildFragment<IEmploymentQuestio
                     when ((data as QuestionUiFields).key) {
                         EmploymentQuestionIdentifier.EMPLOYMENT_TYPE -> openEmploymentTypeBottomSheet()
                         EmploymentQuestionIdentifier.INDUSTRY_SEGMENT -> openSegmentsBottomSheet()
+                        EmploymentQuestionIdentifier.SELF_EMPLOYMENT -> openSelfEmploymentTypeBottomSheet()
                         else -> {
                         }
                     }
@@ -186,6 +191,15 @@ class EmploymentQuestionnaireFragment : LocationChildFragment<IEmploymentQuestio
         )
     }
 
+    private fun openSelfEmploymentTypeBottomSheet() {
+        launchBottomSheetSegment(
+            viewModel.employmentTypeItemClickListener,
+            configuration = BottomSheetConfiguration(heading = getString(Strings.screen_employment_questionnaire_display_text__bottom_sheet_title_self_employment)),
+            viewType = Constants.VIEW_WITHOUT_FLAG,
+            listData = viewModel.parseEmploymentTypes(viewModel.selfEmploymentTypes())
+        )
+    }
+
     override fun addObservers() {
         viewModel.clickEvent.observe(this, clickObserver)
         viewModel.employmentStatusValue.observe(this, employmentStatusLoadedObserver)
@@ -206,13 +220,20 @@ class EmploymentQuestionnaireFragment : LocationChildFragment<IEmploymentQuestio
     override fun getBinding(): FragmentEmploymentQuestionnaireBinding =
         viewDataBinding as FragmentEmploymentQuestionnaireBinding
 
-    override fun showInfoDialog(title: String, message: String) {
+
+  /*  override fun showInfoDialog(
+        title: String,
+        message: String,
+        buttonTypes: ArrayList<ButtonType>,
+        cb: (view: View) -> Unit
+    ) {
         requireContext().infoDialog(
             title = title,
             message = message,
-            buttonText = getString(Strings.screen_employment_information_dialog_button_text_close)
+            buttonType = buttonTypes,
+            callback = cb
         )
-    }
+    }*/
 
     override fun onResume() {
         super.onResume()

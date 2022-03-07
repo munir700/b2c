@@ -65,7 +65,8 @@ class SecurityHelper(
                         sslPin3 = "",
                         sslHost = "",
                         spayServiceId = "",
-                        flagSmithAPIKey = ""
+                        flagSmithAPIKey = "",
+                        uxCamKey = ""
                     )
                     signaturesList.add(signatures)
                 }

@@ -71,6 +71,17 @@ class KYCComplianceComposer :
                 ),
                 QuestionUiFields(
                     question = Question(
+                        questionTitle = "Type of self-employment:",
+                        placeholder = "Select Type",
+                        questionType = QuestionType.DROP_DOWN_FIELD,
+                        answer =ObservableField(status?.typeOfSelfEmployment?:""),
+                        previousValue = ObservableField(status?.typeOfSelfEmployment?:""),
+                        tag = "typeOfSelfEmployment"
+                    ),
+                    key = EmploymentQuestionIdentifier.SELF_EMPLOYMENT
+                ),
+                QuestionUiFields(
+                    question = Question(
                         questionTitle = "Add an industry segment:",
                         placeholder = "Select industry segment",
                         questionType = QuestionType.DROP_DOWN_FIELD,
@@ -118,8 +129,8 @@ class KYCComplianceComposer :
                         questionTitle = "Which of the following statements describes you best?",
                         placeholder = "Select from list",
                         questionType = QuestionType.DROP_DOWN_FIELD,
-                        answer = ObservableField(),
-                        previousValue = ObservableField(),
+                        answer = ObservableField(status?.employmentTypeValue?:""),
+                        previousValue = ObservableField(status?.employmentTypeValue?:""),
                         tag = "EmploymentStatus"
                     ), key = EmploymentQuestionIdentifier.EMPLOYMENT_TYPE
                 ),
@@ -135,10 +146,20 @@ class KYCComplianceComposer :
                 ),
                 QuestionUiFields(
                     question = Question(
+                        questionTitle = "Please answer these questions with the most accurate information that represents your expected transaction activity.",
+                        placeholder = "",
+                        questionType = QuestionType.DISPLAY_TEXT,
+                        answer = ObservableField("no answer needed"),
+                        previousValue = ObservableField("no answer needed"),
+                        tag = "textField"
+                    )
+                ),
+                QuestionUiFields(
+                    question = Question(
                         questionTitle = "What is your total monthly income?",
                         placeholder = "Enter the amount",
                         questionType = QuestionType.EDIT_TEXT_FIELD_WITH_AMOUNT,
-                        answer = ObservableField(status?.monthlySalary ?: ""),
+                        answer = ObservableField(status?.monthlySalary ?: "5000"),
                         previousValue = ObservableField(status?.monthlySalary),
                         tag = "MonthlySalary"
                     ),
@@ -148,13 +169,17 @@ class KYCComplianceComposer :
                         questionTitle = "How much cash do you plan to deposit or receive monthly in a cash deposit machine (ATM)? If you don’t deal with cash, then enter AED 0.00",
                         placeholder = "Enter the amount",
                         questionType = QuestionType.EDIT_TEXT_FIELD_WITH_AMOUNT,
-                        answer = ObservableField(status?.expectedMonthlyCredit ?: ""),
+                        answer = ObservableField(status?.expectedMonthlyCredit ?: "4000"),
                         previousValue = ObservableField(status?.expectedMonthlyCredit),
                         tag = "CashDeposit"
                     ), key = EmploymentQuestionIdentifier.DEPOSIT_AMOUNT
                 )
             )
-            NONE -> TODO()
+            NONE -> {
+                //TODO()
+                arrayListOf()
+            }
+
         }
     }
 }

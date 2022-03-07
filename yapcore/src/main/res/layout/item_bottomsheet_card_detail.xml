@@ -5,6 +5,8 @@
 
     <data>
 
+        <import type="co.yap.yapcore.helpers.Utils" />
+
         <variable
             name="viewModel"
             type="co.yap.widgets.bottomsheet.CoreBottomSheetItemViewModel" />
@@ -15,7 +17,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="@dimen/margin_extra_large">
+        android:paddingBottom="@dimen/margin_extra_large"
+        app:sensitiveViews="@{Utils.getViewsList(tvCardNumberValue,tvCardValidityValue,tvCvvValue)}">
 
         <View
             android:id="@+id/divider"
