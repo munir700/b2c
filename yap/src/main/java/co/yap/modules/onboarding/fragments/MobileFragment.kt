@@ -45,18 +45,15 @@ class MobileFragment : OnboardingChildFragment<IMobile.ViewModel>() {
             val mobile = viewModel.state.mobile.replace(" ", "")
             if (it == "+92") {
                 launchActivity<YapPkMainActivity>() {
-                    putExtra("countryCode", viewModel.state.countryCode)
+                    putExtra("countryCode", viewModel.state.countryCode.get())
                     putExtra("mobileNo", mobile)
-                    putExtra("isAccountBlocked", false)
                 }
             } else if (it == "+233") {
                 launchActivity<YapGhanaMainActivity> {
-                    putExtra("countryCode", viewModel.state.countryCode)
+                    putExtra("countryCode", viewModel.state.countryCode.get())
                     putExtra("mobileNo", mobile)
-                    putExtra("isAccountBlocked", false)
                 }
             }
-            finishAffinity()
         })
 
     }
@@ -64,9 +61,11 @@ class MobileFragment : OnboardingChildFragment<IMobile.ViewModel>() {
     private val clickListenerHandler = Observer<Int> { id ->
         when (id) {
             R.id.next_button -> {
-                if (getDataBindingView<FragmentMobileBinding>().tlPhoneNumber.prefixText != "+971") showToast(
-                    "Coming Soon!"
-                )
+                if (getDataBindingView<FragmentMobileBinding>().tlPhoneNumber.prefixText != "+971")
+                    viewModel.verifyUser(
+                        getDataBindingView<FragmentMobileBinding>().tlPhoneNumber.prefixText.toString(),
+                        viewModel.state.mobile.replace(" ","")
+                    )
                 else {
                     viewModel.createOtp { success ->
                         if (success) {
@@ -104,9 +103,8 @@ class MobileFragment : OnboardingChildFragment<IMobile.ViewModel>() {
     private fun setTouchListener() {
         getDataBindingView<FragmentMobileBinding>().etMobileNumber.setTouchListener {
             getDataBindingView<FragmentMobileBinding>().tlPhoneNumber.hideKeyboard()
-            activity?.let { context ->
-                context.launchBottomSheetForMutlipleCountries(selectCountryItemClickListener)
-            }
+            requireActivity().launchBottomSheetForMutlipleCountries(selectCountryItemClickListener)
+
         }
     }
 }

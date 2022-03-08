@@ -132,8 +132,9 @@ class MobileViewModel(application: Application) :
 
    override fun verifyUser(countryCode: String, mobileNumber: String) {
         state.loading = true
+       LoadConfig(context).initYapRegion(countryCode)
         userVerifier.provideOtpVerifier(countryCode)
-            .createOtp(countryCode, mobileNumber) { result ->
+            .createOtp(countryCode.replace("+","00"), mobileNumber) { result ->
                 state.loading = false
                 if (result.isSuccess && result.getOrNull() == true) {
                     userVerified.value = countryCode

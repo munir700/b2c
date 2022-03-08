@@ -81,55 +81,55 @@
                     app:prefixTextNew="@{viewModel.state.countryCode}" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <LinearLayout
-                android:id="@+id/ccpContainer"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:minHeight="52dp"
-                android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
-                android:orientation="horizontal"
-                android:paddingLeft="@dimen/margin_medium"
-                android:paddingRight="@dimen/margin_medium"
-                android:visibility="gone"
-                android:weightSum="1"
-                app:isCCpActivated="@{viewModel.state.activeFieldValue}"
-                app:setBackGroundRes="@{viewModel.state.background}">
+<!--            <LinearLayout-->
+<!--                android:id="@+id/ccpContainer"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:gravity="center_vertical"-->
+<!--                android:minHeight="52dp"-->
+<!--                android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"-->
+<!--                android:orientation="horizontal"-->
+<!--                android:paddingLeft="@dimen/margin_medium"-->
+<!--                android:paddingRight="@dimen/margin_medium"-->
+<!--                android:visibility="gone"-->
+<!--                android:weightSum="1"-->
+<!--                app:isCCpActivated="@{viewModel.state.activeFieldValue}"-->
+<!--                app:setBackGroundRes="@{viewModel.state.background}">-->
 
-                <co.yap.widgets.mobile.CountryCodePicker
-                    android:id="@+id/ccpSelector"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight=".01"
-                    android:clickable="false"
-                    android:visibility="visible"
-                    app:ccp_clickable="false"
-                    app:ccp_countryPreference="us,ae"
-                    app:ccp_hintExampleNumber="true"
-                    app:ccp_onFlagClick="false" />
+<!--                <co.yap.widgets.mobile.CountryCodePicker-->
+<!--                    android:id="@+id/ccpSelector"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_weight=".01"-->
+<!--                    android:clickable="false"-->
+<!--                    android:visibility="visible"-->
+<!--                    app:ccp_clickable="false"-->
+<!--                    app:ccp_countryPreference="us,ae"-->
+<!--                    app:ccp_hintExampleNumber="true"-->
+<!--                    app:ccp_onFlagClick="false" />-->
 
-                <EditText
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight=".99"
-                    android:background="@null"
-                    android:digits="1234567890 "
-                    android:drawableEnd="@{viewModel.state.drawbleRight}"
-                    android:drawableRight="@{viewModel.state.drawbleRight}"
-                    android:enabled="false"
-                    android:hint="@string/empty_string"
-                    android:imeOptions="actionDone"
-                    android:inputType="phone"
-                    android:maxLength="@{viewModel.state.mobileNoLength}"
-                    android:paddingEnd="@dimen/margin_normal"
-                    android:singleLine="true"
-                    android:text="@={viewModel.state.mobile}"
-                    android:textColor="?attr/colorPrimaryDarkAttr"
-                    android:textSize="@dimen/_15sdp"
-                    android:visibility="visible" />
-                <!--                app:drawbleRight="@{viewModel.state.drawbleRight}"-->
-                <!--                app:isValid="@{viewModel.state.valid}"-->
-            </LinearLayout>
+<!--                <EditText-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_weight=".99"-->
+<!--                    android:background="@null"-->
+<!--                    android:digits="1234567890 "-->
+<!--                    android:drawableEnd="@{viewModel.state.drawbleRight}"-->
+<!--                    android:drawableRight="@{viewModel.state.drawbleRight}"-->
+<!--                    android:enabled="false"-->
+<!--                    android:hint="@string/empty_string"-->
+<!--                    android:imeOptions="actionDone"-->
+<!--                    android:inputType="phone"-->
+<!--                    android:maxLength="@{viewModel.state.mobileNoLength}"-->
+<!--                    android:paddingEnd="@dimen/margin_normal"-->
+<!--                    android:singleLine="true"-->
+<!--                    android:text="@={viewModel.state.mobile}"-->
+<!--                    android:textColor="?attr/colorPrimaryDarkAttr"-->
+<!--                    android:textSize="@dimen/_15sdp"-->
+<!--                    android:visibility="visible" />-->
+<!--                &lt;!&ndash;                app:drawbleRight="@{viewModel.state.drawbleRight}"&ndash;&gt;-->
+<!--                &lt;!&ndash;                app:isValid="@{viewModel.state.valid}"&ndash;&gt;-->
+<!--            </LinearLayout>-->
 
             <TextView
                 android:id="@+id/tvMobileError"
