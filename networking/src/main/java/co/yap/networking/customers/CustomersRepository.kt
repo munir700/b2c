@@ -16,7 +16,6 @@ import co.yap.networking.customers.responsedtos.currency.CurrenciesResponse
 import co.yap.networking.customers.responsedtos.documents.ConfigureEIDResponse
 import co.yap.networking.customers.responsedtos.documents.EIDDocumentsResponse
 import co.yap.networking.customers.responsedtos.documents.GetMoreDocumentsResponse
-import co.yap.networking.customers.responsedtos.employment_amendment.Document
 import co.yap.networking.customers.responsedtos.employment_amendment.DocumentResponse
 import co.yap.networking.customers.responsedtos.employment_amendment.EmploymentInfoAmendmentResponse
 import co.yap.networking.customers.responsedtos.employmentinfo.IndustrySegmentsResponse
@@ -625,95 +624,6 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     override suspend fun getEmploymentInfo() =
         executeSafely { api.getEmploymentInfo() }
 
-    override suspend fun getAllDocumentsForEmploymentAmendment(): RetroApiResponse<BaseListResponse<DocumentResponse>> {
-        //return executeSafely { api.getAllDocumentsForEmploymentAmendment() }
-        val res = mutableListOf(
-            DocumentResponse(
-                onChange = "SALARY",
-                empType = null,
-                documents = listOf(
-                    Document(
-                        documentType = "PROOF_OF_INCOME",
-                        title = "Proof of income",
-                        description = "Upload salary certificate, Pay slip, Increment Letter or Labor Contract",
-                        isMandatory = false
-                    )
-                )
-            ),
-            DocumentResponse(
-                onChange = "EMPLOYER_NAME",
-                empType = null,
-                documents = listOf(
-                    Document(
-                        documentType = "PROOF_OF_INCOME",
-                        title = "Proof of income",
-                        description = "Upload salary certificate, Pay slip, Increment Letter or Labor Contract",
-                        isMandatory = false
-                    )
-                )
-            ),
-            DocumentResponse(
-                onChange = "EMPLOYMENT_TYPE",
-                empType = "EMPLOYED",
-                documents = listOf(
-                    Document(
-                        documentType = "PROOF_OF_INCOME",
-                        title = "Proof of income",
-                        description = "Upload salary certificate, Pay slip, Increment Letter or Labor Contract",
-                        isMandatory = false
-                    )
-                )
-            ),
-            DocumentResponse(
-                onChange = "EMPLOYMENT_TYPE",
-                empType = "SELF_EMPLOYED",
-                documents = listOf(
-                    Document(
-                        documentType = "COMPANY_DOCUMENTATION",
-                        title = "Company documentation",
-                        description = "Upload the permit or trade license",
-                        isMandatory = false
-                    ), Document(
-                        documentType = "PROOF_OF_INCOME",
-                        title = "Proof of income",
-                        description = "Upload bank statement of 3 months",
-                        isMandatory = false
-                    )
-                )
-            ),
-            DocumentResponse(
-                onChange = "EMPLOYMENT_TYPE",
-                empType = "SALARIED_AND_SELF_EMPLOYED",
-                documents = listOf(
-                    Document(
-                        documentType = "COMPANY_DOCUMENTATION",
-                        title = "Company documentation",
-                        description = "Upload the permit or trade license",
-                        isMandatory = false
-                    ), Document(
-                        documentType = "PROOF_OF_INCOME",
-                        title = "Proof of income",
-                        description = "Upload salary certificate, Pay slip, Increment Letter or 3 months bank statement",
-                        isMandatory = false
-                    )
-                )
-            ),
-            DocumentResponse(
-                onChange = "EMPLOYMENT_TYPE",
-                empType = "OTHER",
-                documents = listOf(
-                    Document(
-                        documentType = "VISA",
-                        title = "Upload your visa copy",
-                        description = "The visa page inside your passport",
-                        isMandatory = true
-                    )
-                )
-            )
-        )
-        val response = BaseListResponse<DocumentResponse>()
-        response.data = res
-        return RetroApiResponse.Success(200, response)
-    }
-
+    override suspend fun getAllDocumentsForEmploymentAmendment(): RetroApiResponse<BaseListResponse<DocumentResponse>> =
+        executeSafely { api.getAllDocumentsForEmploymentAmendment() }
 }

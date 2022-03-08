@@ -110,6 +110,13 @@ class EmploymentQuestionnaireAmendmentFragment :
                     ?: arrayListOf()).toMutableList()
             viewModel.employmentStatusValue.value?.let { emp ->
                 viewModel.documentsList.value = emp.documents ?: mutableListOf()
+                if (viewModel.documentsList.value.isNullOrEmpty()) {
+                    viewModel.updateDocumentsInView(
+                        EmploymentStatus.valueOf(
+                            emp.employmentStatus ?: ""
+                        )
+                    )
+                }
                 viewModel.fillTitlesOfDocuments(
                     EmploymentStatus.valueOf(
                         emp.employmentStatus ?: ""
@@ -221,6 +228,7 @@ class EmploymentQuestionnaireAmendmentFragment :
     private val documentsLiveDataObserver =
         Observer<List<Document>> {
             viewModel.documentAdapter.setList(it)
+            viewModel.validateForm()
         }
 
     private val documentListener = object : OnItemClickListener {
@@ -283,8 +291,8 @@ class EmploymentQuestionnaireAmendmentFragment :
                     when ((data as QuestionUiFields).key) {
                         EmploymentQuestionIdentifier.EMPLOYMENT_TYPE -> openEmploymentTypeBottomSheet()
                         EmploymentQuestionIdentifier.INDUSTRY_SEGMENT -> openSegmentsBottomSheet()
-                        else -> {
-                        }
+                        EmploymentQuestionIdentifier.SELF_EMPLOYMENT -> openSelfEmploymentTypeBottomSheet()
+                        else -> {}
                     }
                 }
             }
@@ -325,6 +333,15 @@ class EmploymentQuestionnaireAmendmentFragment :
             configuration = BottomSheetConfiguration(heading = getString(Strings.screen_employment_questionnaire_display_text__bottom_sheet_title_segments)),
             viewType = Constants.VIEW_FIXED_HEIGHT,
             listData = viewModel.parseSegments(viewModel.industrySegmentsList)
+        )
+    }
+
+    private fun openSelfEmploymentTypeBottomSheet() {
+        launchBottomSheetSegment(
+            viewModel.employmentTypeItemClickListener,
+            configuration = BottomSheetConfiguration(heading = getString(Strings.screen_employment_questionnaire_display_text__bottom_sheet_title_self_employment)),
+            viewType = Constants.VIEW_WITHOUT_FLAG,
+            listData = viewModel.parseEmploymentTypes(viewModel.selfEmploymentTypes())
         )
     }
 
@@ -389,7 +406,7 @@ class EmploymentQuestionnaireAmendmentFragment :
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == RequestCodes.REQUEST_VIEW_DOCUMENT && resultCode == Activity.RESULT_OK) {
-                handleFileResult(data)
+            handleFileResult(data)
         }
     }
 

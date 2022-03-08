@@ -49,6 +49,7 @@ interface IEmploymentQuestionnaireAmendment {
         ): ArrayList<QuestionUiFields>
 
         fun employmentTypes(): MutableList<EmploymentType>
+        fun selfEmploymentTypes(): MutableList<EmploymentType>
         fun getSelectedStateCountries(countries: ArrayList<Country>): List<Country>
         fun setBusinessCountries(
             lyCountries: android.view.View,
