@@ -42,6 +42,7 @@ interface IEmploymentQuestionnaireAmendment {
         val documentsList: MutableLiveData<List<Document>>
         var salaryAmount: String?
         var monthlyCreditAmount: String?
+        var posOfUpdatedDocument: Int?
         fun handleOnPressView(id: Int)
         fun updateEditMode(isEditable: Boolean)
         fun questionnaires(
@@ -74,10 +75,7 @@ interface IEmploymentQuestionnaireAmendment {
 
         fun setAnswersForQuestions()
 
-        fun saveEmploymentInfo(
-            employmentInfoRequest: EmploymentInfoRequest,
-            success: () -> Unit
-        )
+        fun saveEmploymentInfo(employmentInfoRequest: EmploymentInfoRequest, success: () -> Unit)
 
         fun getSalaryAndMonthlyCredit()
 
