@@ -20,6 +20,7 @@ import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.requestdtos.EmploymentInfoRequest
 import co.yap.networking.customers.responsedtos.employment_amendment.Document
 import co.yap.networking.customers.responsedtos.employment_amendment.DocumentResponse
+import co.yap.networking.customers.responsedtos.employment_amendment.EmploymentFieldType
 import co.yap.networking.customers.responsedtos.employment_amendment.EmploymentInfoAmendmentResponse
 import co.yap.networking.customers.responsedtos.employmentinfo.IndustrySegment
 import co.yap.networking.customers.responsedtos.employmentinfo.IndustrySegmentsResponse
@@ -98,7 +99,8 @@ class EmploymentQuestionnaireAmendmentViewModel(application: Application) :
         state.rightButtonText =
             getString(Strings.screen_employment_information_display_right_toolbar_text)
         validator?.setValidationListener(this)
-        accountActivated.value = SessionManager.user?.partnerBankStatus == PartnerBankStatus.ACTIVATED.status && SessionManager.card.value?.status == PaymentCardStatus.ACTIVE.name
+        accountActivated.value =
+            SessionManager.user?.partnerBankStatus == PartnerBankStatus.ACTIVATED.status && SessionManager.card.value?.status == PaymentCardStatus.ACTIVE.name
     }
 
     override fun questionnaires(
@@ -322,7 +324,8 @@ class EmploymentQuestionnaireAmendmentViewModel(application: Application) :
             questionsList.firstOrNull { it.key == EmploymentQuestionIdentifier.SALARY_AMOUNT }
         val salaryAmount = salaryQuestion?.getAnswer()
 
-        val documentsValid = documentsList.value?.find { it.isMandatory && it.fileURL == null } == null
+        val documentsValid =
+            documentsList.value?.find { it.isMandatory && it.fileURL == null } == null
 
         validator?.isValidate?.value =
             isValid && documentsValid && salaryAmount.parseToDouble() >= depositAmount.parseToDouble() && isInEditMode.value == true
@@ -434,6 +437,19 @@ class EmploymentQuestionnaireAmendmentViewModel(application: Application) :
     override fun updateDocumentsInView(status: EmploymentStatus) {
         requiredDocumentsResponse.value?.find { it.empType == status.name }?.let {
             documentsList.value = it.documents
+        }
+    }
+
+    override fun onSalaryOrEmployerUpdate(status: EmploymentStatus, fieldType: EmploymentFieldType) {
+        val docs = requiredDocumentsResponse.value?.find { it.onChange == fieldType.name }
+        docs?.let {
+            documentsList.value?.forEach { doc ->
+                it.documents.find { it.documentType == doc.documentType }?.let {
+                    doc.title = it.title
+                    doc.description = it.description
+                    doc.fileURL = null
+                }
+            }
         }
     }
 

@@ -21,6 +21,7 @@ import co.yap.modules.otp.GenericOtpFragment
 import co.yap.modules.otp.OtpDataModel
 import co.yap.networking.customers.responsedtos.employment_amendment.Document
 import co.yap.networking.customers.responsedtos.employment_amendment.DocumentResponse
+import co.yap.networking.customers.responsedtos.employment_amendment.EmploymentFieldType
 import co.yap.networking.customers.responsedtos.employment_amendment.EmploymentInfoAmendmentResponse
 import co.yap.networking.customers.responsedtos.employmentinfo.IndustrySegment
 import co.yap.translation.Strings
@@ -164,12 +165,28 @@ class EmploymentQuestionnaireAmendmentFragment :
                 )
             binding.lifecycleOwner = this
             binding.executePendingBindings()
+            // Adding Observer for Employer
+            if (position == 0) {
+                questionUiField.question.answer.addOnPropertyChangedCallback(object :
+                    Observable.OnPropertyChangedCallback() {
+                    override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
+                        viewModel.onSalaryOrEmployerUpdate(
+                            viewModel.employmentStatus.value ?: EmploymentStatus.NONE,
+                            EmploymentFieldType.EMPLOYER_NAME
+                        )
+                    }
+                })
+            }
             // Adding Observer for Salary
             if (position == viewModel.questionsList.size - 2) {
                 questionUiField.question.answer.addOnPropertyChangedCallback(object :
                     Observable.OnPropertyChangedCallback() {
                     override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
                         viewModel.getSalaryAndMonthlyCredit()
+                        viewModel.onSalaryOrEmployerUpdate(
+                            viewModel.employmentStatus.value ?: EmploymentStatus.NONE,
+                            EmploymentFieldType.SALARY
+                        )
                     }
                 })
             }

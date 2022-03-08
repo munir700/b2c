@@ -9,6 +9,7 @@ import co.yap.networking.coreitems.CoreBottomSheetData
 import co.yap.networking.customers.requestdtos.EmploymentInfoRequest
 import co.yap.networking.customers.responsedtos.employment_amendment.Document
 import co.yap.networking.customers.responsedtos.employment_amendment.DocumentResponse
+import co.yap.networking.customers.responsedtos.employment_amendment.EmploymentFieldType
 import co.yap.networking.customers.responsedtos.employment_amendment.EmploymentInfoAmendmentResponse
 import co.yap.networking.customers.responsedtos.employmentinfo.IndustrySegment
 import co.yap.yapcore.IBase
@@ -69,6 +70,7 @@ interface IEmploymentQuestionnaireAmendment {
         fun fillTitlesOfDocuments(empType: EmploymentStatus)
 
         fun updateDocumentsInView(status: EmploymentStatus)
+        fun onSalaryOrEmployerUpdate(status: EmploymentStatus, fieldType: EmploymentFieldType)
 
         fun setAnswersForQuestions()
 
