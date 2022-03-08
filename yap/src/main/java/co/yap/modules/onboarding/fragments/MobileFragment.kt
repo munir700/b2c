@@ -37,7 +37,7 @@ class MobileFragment : OnboardingChildFragment<IMobile.ViewModel>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        getDataBindingView<FragmentMobileBinding>().tlPhoneNumber.requestDefaultFocus()
+        getDataBindingView<FragmentMobileBinding>().tlPhoneNumber.requestFocusForField()
         viewModel.clickEvent.observe(viewLifecycleOwner, clickListenerHandler)
         setTouchListener()
 
