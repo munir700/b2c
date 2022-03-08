@@ -245,8 +245,6 @@ class EmploymentQuestionnaireAmendmentViewModel(application: Application) :
                 } ?: EmploymentStatus.EMPLOYED
             }
             showAdditionalDialogue()
-            validateForm()
-            updateDocumentsInView(employmentStatus.value ?: EmploymentStatus.NONE)
         }
     }
 
@@ -285,6 +283,8 @@ class EmploymentQuestionnaireAmendmentViewModel(application: Application) :
         } else {
             employmentStatus.value = tempEmploymentStatus.value
             previousEmploymentStatus.value = tempEmploymentStatus.value
+            updateDocumentsInView(employmentStatus.value ?: EmploymentStatus.NONE)
+            validateForm()
         }
     }
 
@@ -436,7 +436,11 @@ class EmploymentQuestionnaireAmendmentViewModel(application: Application) :
 
     override fun updateDocumentsInView(status: EmploymentStatus) {
         requiredDocumentsResponse.value?.find { it.empType == status.name }?.let {
-            documentsList.value = it.documents
+            val docs = arrayListOf<Document>()
+            it.documents.forEach { d ->
+                docs.add(d.copy(documentType = d.documentType, fileURL = d.fileURL, contentType = d.contentType, title = d.title, description = d.description, extension = d.extension, isMandatory = d.isMandatory))
+            }
+            documentsList.value = docs
         }
     }
 
@@ -445,12 +449,11 @@ class EmploymentQuestionnaireAmendmentViewModel(application: Application) :
         docs?.let {
             documentsList.value?.forEach { doc ->
                 it.documents.find { it.documentType == doc.documentType }?.let {
-                    doc.title = it.title
-                    doc.description = it.description
                     doc.fileURL = null
                 }
             }
         }
+        documentAdapter.setList(documentsList.value ?: listOf())
     }
 
     override fun setAnswersForQuestions() {

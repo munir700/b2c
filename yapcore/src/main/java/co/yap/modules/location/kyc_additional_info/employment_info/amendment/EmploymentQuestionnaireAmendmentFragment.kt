@@ -413,6 +413,8 @@ class EmploymentQuestionnaireAmendmentFragment :
                 if (proceed) {
                     viewModel.employmentStatus.value = viewModel.tempEmploymentStatus.value
                     viewModel.previousEmploymentStatus.value = viewModel.tempEmploymentStatus.value
+                    viewModel.updateDocumentsInView(viewModel.employmentStatus.value ?: EmploymentStatus.NONE)
+                    viewModel.validateForm()
                 } else {
                     requireActivity().finish()
                 }
@@ -518,11 +520,11 @@ class EmploymentQuestionnaireAmendmentFragment :
         viewModel.posOfUpdatedDocument?.let {
             viewModel.documentsList.value?.get(it)?.fileURL = file ?: ""
             viewModel.documentsList.value?.get(it)?.extension = extension ?: ""
-            viewModel.validateForm()
             viewModel.documentAdapter.setItemAt(
                 it,
                 viewModel.documentsList.value?.get(it) ?: Document()
             )
+            viewModel.validateForm()
         }
     }
 
