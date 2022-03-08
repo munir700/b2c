@@ -16,6 +16,7 @@ import co.yap.networking.customers.responsedtos.currency.CurrenciesResponse
 import co.yap.networking.customers.responsedtos.documents.ConfigureEIDResponse
 import co.yap.networking.customers.responsedtos.documents.EIDDocumentsResponse
 import co.yap.networking.customers.responsedtos.documents.GetMoreDocumentsResponse
+import co.yap.networking.customers.responsedtos.employment_amendment.Document
 import co.yap.networking.customers.responsedtos.employment_amendment.DocumentResponse
 import co.yap.networking.customers.responsedtos.employment_amendment.EmploymentInfoAmendmentResponse
 import co.yap.networking.customers.responsedtos.employmentinfo.IndustrySegmentsResponse
@@ -29,9 +30,11 @@ import co.yap.networking.models.BaseResponse
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.requestdtos.EditBillerRequest
 import co.yap.networking.transactions.responsedtos.transaction.FxRateResponse
+import com.google.gson.annotations.SerializedName
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import retrofit2.http.Part
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
@@ -142,6 +145,8 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     const val URL_COMPLETE_VERIFICATION = "customers/api/v2/profile"
     const val URL_GET_INDUSTRY_SEGMENTS = "customers/api/industry-sub-segments"
     const val URL_SAVE_EMPLOYMENT_INFO = "customers/api/employment-information"
+    const val URL_SAVE_EMPLOYMENT_INFO_WITH_DOCUMENTS =
+        "customers/api/profile/employment-information"
     const val URL_STOP_RANKING_MSG = "customers/api/stop-display"
     const val URL_DASHBOARD_WIDGETS = "customers/api/getWidgets"
     const val URL_DASHBOARD_WIDGETS_UPDATE = "customers/api/updateWidgets"
@@ -195,6 +200,54 @@ object CustomersRepository : BaseRepository(), CustomersApi {
 
     override suspend fun getDocuments(): RetroApiResponse<GetDocumentsResponse> =
         executeSafely(call = { api.getDocuments() })
+
+    override suspend fun saveEmploymentInfoWithDocument(
+        employmentInfoRequest: EmploymentInfoRequest,
+        documentsList: List<Document>
+    ): RetroApiResponse<ApiResponse> =
+        employmentInfoRequest.run {
+            val files = ArrayList<MultipartBody.Part>()
+            var documentTypeList = ArrayList<String>()
+            documentsList?.forEach {
+                val file = File(it.fileURL)
+                val reqFile: RequestBody = RequestBody.create(MediaType.parse("*/*"), file)
+                val body = MultipartBody.Part.createFormData("files", file.name, reqFile)
+                files.add(body)
+                documentTypeList.add(it.documentType ?: "")
+            }
+            executeSafely(call = {
+                api.submitEmploymentInfoWithDocument(
+                    files = files,
+                    documentType = documentTypeList,
+                    businessCountries = businessCountries,
+                    companyName = RequestBody.create(
+                        MediaType.parse("multipart/form-dataList"),
+                        companyName ?: ""
+                    ),
+                    employerName = RequestBody.create(
+                        MediaType.parse("multipart/form-dataList"),
+                        employerName ?: ""
+                    ),
+                    employmentStatus = RequestBody.create(
+                        MediaType.parse("multipart/form-dataList"),
+                        employmentStatus ?: ""
+                    ),
+                    employmentType = RequestBody.create(
+                        MediaType.parse("multipart/form-dataList"),
+                        employmentType ?: ""
+                    ),
+                    expectedMonthlyCredit = RequestBody.create(
+                        MediaType.parse("multipart/form-dataList"),
+                        expectedMonthlyCredit ?: ""
+                    ),
+                    industrySubSegmentCodes = industrySegmentCodes,
+                    monthlySalary = RequestBody.create(
+                        MediaType.parse("multipart/form-dataList"),
+                        monthlySalary ?: ""
+                    )
+                )
+            })
+        }
 
     override suspend fun uploadDocuments(document: UploadDocumentsRequest): RetroApiResponse<ApiResponse> =
         document.run {
@@ -491,7 +544,6 @@ object CustomersRepository : BaseRepository(), CustomersApi {
                 )
             })
         }
-
 
     override suspend fun uploadAdditionalQuestion(uploadAdditionalInfo: UploadAdditionalInfo): RetroApiResponse<ApiResponse> =
         executeSafely(call = {

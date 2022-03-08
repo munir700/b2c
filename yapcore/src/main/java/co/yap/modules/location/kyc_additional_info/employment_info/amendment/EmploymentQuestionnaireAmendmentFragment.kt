@@ -15,19 +15,25 @@ import co.yap.countryutils.country.Country
 import co.yap.countryutils.country.unSelectAllCountries
 import co.yap.modules.document.ViewDocumentActivity
 import co.yap.modules.document.enums.FileFrom
+import co.yap.modules.document.enums.FileType
+import co.yap.modules.document.enums.TakePhotoType
 import co.yap.modules.location.kyc_additional_info.employment_info.questionnaire.adapter.QuestionItemViewHolders
 import co.yap.modules.location.kyc_additional_info.employment_info.questionnaire.models.QuestionUiFields
 import co.yap.modules.otp.GenericOtpFragment
 import co.yap.modules.otp.OtpDataModel
+import co.yap.networking.coreitems.CoreBottomSheetData
 import co.yap.networking.customers.responsedtos.employment_amendment.Document
 import co.yap.networking.customers.responsedtos.employment_amendment.DocumentResponse
 import co.yap.networking.customers.responsedtos.employment_amendment.EmploymentInfoAmendmentResponse
 import co.yap.networking.customers.responsedtos.employmentinfo.IndustrySegment
 import co.yap.translation.Strings
 import co.yap.widgets.bottomsheet.BottomSheetConfiguration
+import co.yap.widgets.bottomsheet.IAnimationComplete
+import co.yap.widgets.bottomsheet.TakePhotoBottomSheet
 import co.yap.widgets.skeletonlayout.views
 import co.yap.yapcore.BR
 import co.yap.yapcore.BaseBindingFragment
+import co.yap.yapcore.BaseBindingImageFragment
 import co.yap.yapcore.R
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.RequestCodes
@@ -36,18 +42,21 @@ import co.yap.yapcore.databinding.FragmentEmploymentQuestionnaireBinding
 import co.yap.yapcore.enums.EmploymentQuestionIdentifier
 import co.yap.yapcore.enums.EmploymentStatus
 import co.yap.yapcore.enums.OTPActions
+import co.yap.yapcore.enums.PhotoSelectionType
 import co.yap.yapcore.helpers.ExtraKeys
+import co.yap.yapcore.helpers.FileUtils
 import co.yap.yapcore.helpers.beneficiaryInfoDialog
 import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.helpers.infoDialog
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.SessionManager
 import com.liveperson.infra.utils.UIUtils
+import pl.aprilapps.easyphotopicker.MediaFile
 
 
 class EmploymentQuestionnaireAmendmentFragment :
-    BaseBindingFragment<IEmploymentQuestionnaireAmendment.ViewModel>(),
-    IEmploymentQuestionnaireAmendment.View {
+    BaseBindingImageFragment<IEmploymentQuestionnaireAmendment.ViewModel>(),
+    IEmploymentQuestionnaireAmendment.View, IAnimationComplete {
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_employment_questionnaire_amendment
     override val viewModel: EmploymentQuestionnaireAmendmentViewModel
@@ -194,18 +203,6 @@ class EmploymentQuestionnaireAmendmentFragment :
     private val clickObserver = Observer<Int> {
         when (it) {
             R.id.btnSubmit -> {
-                /*viewModel.saveEmploymentInfo(
-                    viewModel.getEmploymentInfoRequest(
-                        viewModel.employmentStatus.value ?: EmploymentStatus.EMPLOYED
-                    )
-                ) {
-                    if (viewModel.isFromAmendment()) {
-                        navigateToAmendmentSuccess()
-                    } else {
-                        navigate(R.id.action_employmentQuestionnaireFragment_to_cardOnTheWayFragment)
-                    }
-                }*/
-                //TODO this is just  for testing we will remove this after proper implementation For KYC INFO
                 startOtpFragment()
             }
             R.id.tvEmploymentStatusDropDown -> {
@@ -234,18 +231,22 @@ class EmploymentQuestionnaireAmendmentFragment :
     private val documentListener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
             if (data is Document) {
-                context?.let {
-                    startActivityForResult(
-                        ViewDocumentActivity.newIntent(
-                            it,
-                            data.fileURL ?: "",
-                            data.extension,
-                            FileFrom.Link().link,
-                            false
-                        ), RequestCodes.REQUEST_VIEW_DOCUMENT
-                    )
+                viewModel.posOfUpdatedDocument = pos
+                if (data.fileURL.isNullOrEmpty()) {
+                    showDialogueOptions()
+                } else {
+                    context?.let {
+                        startActivityForResult(
+                            ViewDocumentActivity.newIntent(
+                                it,
+                                data.fileURL ?: "",
+                                data.extension,
+                                FileFrom.Link().link,
+                                viewModel.isInEditMode.value ?: false
+                            ), RequestCodes.REQUEST_VIEW_DOCUMENT
+                        )
+                    }
                 }
-
             }
         }
     }
@@ -292,7 +293,8 @@ class EmploymentQuestionnaireAmendmentFragment :
                         EmploymentQuestionIdentifier.EMPLOYMENT_TYPE -> openEmploymentTypeBottomSheet()
                         EmploymentQuestionIdentifier.INDUSTRY_SEGMENT -> openSegmentsBottomSheet()
                         EmploymentQuestionIdentifier.SELF_EMPLOYMENT -> openSelfEmploymentTypeBottomSheet()
-                        else -> {}
+                        else -> {
+                        }
                     }
                 }
             }
@@ -415,7 +417,7 @@ class EmploymentQuestionnaireAmendmentFragment :
             data?.getValue(ExtraKeys.FILE_PATH.name, ExtraType.STRING.name) as? String
         val fileType =
             data?.getValue(ExtraKeys.FILE_TYPE.name, ExtraType.STRING.name) as? String
-        showToast("$file $fileType ")
+        updateDocumentLists(file, fileType)
     }
 
     private fun startOtpFragment() {
@@ -433,8 +435,102 @@ class EmploymentQuestionnaireAmendmentFragment :
             showToolBar = true
         ) { resultCode, _ ->
             if (resultCode == Activity.RESULT_OK) {
-                showToast("Can Call API")
+                viewModel.saveEmploymentInfo(
+                    viewModel.getEmploymentInfoRequest(
+                        viewModel.employmentStatus.value ?: EmploymentStatus.EMPLOYED
+                    )
+                )
+                {
+                    showToast("Done With API")
+                    // openCardSuccessBottomSheet()
+
+//  navigate(R.id.action_employmentQuestionnaireFragment_to_cardOnTheWayFragment)
+
+                }
             }
+        }
+    }
+
+    private fun showDialogueOptions() {
+        activity?.launchTakePhotoSheet(
+            itemClickListener = onBottomSheetClickListener,
+            heading = getString(R.string.choose_from_library_display_text_title)
+        )
+    }
+
+    private val onBottomSheetClickListener = object :
+        TakePhotoBottomSheet.OnTakePhotoBottomSheetItemClickListener {
+        override fun onItemClick(viewId: Int) {
+            when (viewId) {
+                TakePhotoType.TakePhoto().tvTakePhoto -> {
+                    openImagePicker(PhotoSelectionType.CAMERA)
+                }
+                TakePhotoType.Browse().tvbrowseFiles -> {
+                    activity?.openFilePicker("File picker",
+                        completionHandler = { _, dataUri ->
+                            dataUri?.let { uriIntent ->
+                                if (FileUtils.getFile(context, uriIntent.data).sizeInMb() <= 25) {
+                                    updateDocumentLists(
+                                        FileUtils.getFile(
+                                            context,
+                                            uriIntent.data
+                                        ).absolutePath, FileUtils.getFile(
+                                            context,
+                                            uriIntent.data
+                                        ).extension
+                                    )
+                                } else {
+                                    showToast("Your file size is too big. Please upload a file less than 25MB to proceed")
+                                }
+                            }
+                        })
+                }
+            }
+        }
+    }
+
+    override fun onImageReturn(mediaFile: MediaFile) {
+        if (mediaFile.file.sizeInMb() <= 25) {
+            updateDocumentLists(mediaFile.file.absolutePath, mediaFile.file.extension)
+        } else {
+            showToast("Your file size is too big. Please upload a file less than 25MB to proceed")
+        }
+    }
+
+    fun updateDocumentLists(file: String?, extension: String?) {
+        viewModel.posOfUpdatedDocument?.let {
+            viewModel.documentsList.value?.get(it)?.fileURL = file ?: ""
+            viewModel.documentsList.value?.get(it)?.extension = extension ?: ""
+            viewModel.validateForm()
+            viewModel.documentAdapter.setItemAt(
+                it,
+                viewModel.documentsList.value?.get(it) ?: Document()
+            )
+        }
+    }
+
+    private fun openCardSuccessBottomSheet() {
+//        launchBottomSheetSegment(
+//            cardBottomSheetItemClickListener,
+//            configuration = BottomSheetConfiguration(
+//                heading = ""),
+//            viewType = Constants.VIEW_ITEM_CARD_SUCCESSS,
+//            listData = viewModel.list, isIAnimationComplete = this
+//        )
+    }
+
+    private val cardBottomSheetItemClickListener = object : OnItemClickListener {
+        override fun onItemClick(view: View, data: Any, pos: Int) {
+            if (data is CoreBottomSheetData) {
+                when (view.id) {
+                }
+            }
+        }
+    }
+
+    override fun onAnimationComplete(isComplete: Boolean) {
+        if (isComplete) {
+//            activity?.finish()
         }
     }
 }

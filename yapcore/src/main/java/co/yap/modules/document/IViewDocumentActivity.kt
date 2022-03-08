@@ -25,7 +25,9 @@ interface IViewDocumentActivity {
         var fileType: MutableLiveData<String>?
         val imageUrlForImageView: MutableLiveData<String>?
         val isPDF: MutableLiveData<Boolean>
-        val isNeedToShowOnlyUpdateOption: MutableLiveData<Boolean>
+        val isDeleteAble: MutableLiveData<Boolean>
+        val isUpdateAble: MutableLiveData<Boolean>
+        val isNeedToShowUpdateDialogue: MutableLiveData<Boolean>
         val filePath: MutableLiveData<String>?
         val isFileUpdated: MutableLiveData<Boolean>
         val isEditable: MutableLiveData<Boolean>

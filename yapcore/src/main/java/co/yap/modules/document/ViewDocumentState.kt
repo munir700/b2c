@@ -8,8 +8,10 @@ open class ViewDocumentState : BaseState(), IViewDocumentActivity.State {
     override var fileType: MutableLiveData<String>? = MutableLiveData()
     override var imageUrlForImageView: MutableLiveData<String>? = MutableLiveData()
     override val isPDF: MutableLiveData<Boolean> = MutableLiveData(false)
-    override val isNeedToShowOnlyUpdateOption: MutableLiveData<Boolean> = MutableLiveData(false)
+    override val isDeleteAble: MutableLiveData<Boolean> = MutableLiveData(false)
+    override val isUpdateAble: MutableLiveData<Boolean> = MutableLiveData(false)
     override var filePath: MutableLiveData<String>? = MutableLiveData()
     override val isFileUpdated: MutableLiveData<Boolean> = MutableLiveData(false)
     override val isEditable: MutableLiveData<Boolean> = MutableLiveData(false)
+    override val isNeedToShowUpdateDialogue: MutableLiveData<Boolean> = MutableLiveData(false)
 }

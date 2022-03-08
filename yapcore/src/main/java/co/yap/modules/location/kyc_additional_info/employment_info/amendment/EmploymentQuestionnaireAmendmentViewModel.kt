@@ -79,7 +79,7 @@ class EmploymentQuestionnaireAmendmentViewModel(application: Application) :
     override val documentAdapter = DocumentsAdapter(mutableListOf())
     override var salaryAmount: String? = null
     override var monthlyCreditAmount: String? = null
-
+    override var posOfUpdatedDocument: Int? = null
     override fun handleOnPressView(id: Int) {
         clickEvent.setValue(id)
     }
@@ -98,7 +98,8 @@ class EmploymentQuestionnaireAmendmentViewModel(application: Application) :
         state.rightButtonText =
             getString(Strings.screen_employment_information_display_right_toolbar_text)
         validator?.setValidationListener(this)
-        accountActivated.value = SessionManager.user?.partnerBankStatus == PartnerBankStatus.ACTIVATED.status && SessionManager.card.value?.status == PaymentCardStatus.ACTIVE.name
+        accountActivated.value =
+            SessionManager.user?.partnerBankStatus == PartnerBankStatus.ACTIVATED.status && SessionManager.card.value?.status == PaymentCardStatus.ACTIVE.name
     }
 
     override fun questionnaires(
@@ -470,7 +471,8 @@ class EmploymentQuestionnaireAmendmentViewModel(application: Application) :
                 }?.employmentType ?: "")
                 questionsList[selectedQuestionItemPosition] = objQuestion
             }
-            else -> {}
+            else -> {
+            }
         }
     }
 
@@ -485,7 +487,10 @@ class EmploymentQuestionnaireAmendmentViewModel(application: Application) :
     ) {
         launch(Dispatcher.Background) {
             state.viewState.postValue(true)
-            val response = repository.saveEmploymentInfo(employmentInfoRequest)
+            val response = repository.saveEmploymentInfoWithDocument(
+                employmentInfoRequest = employmentInfoRequest,
+                documentsList = documentsList.value ?: listOf()
+            )
             launch(Dispatcher.Main) {
                 when (response) {
                     is RetroApiResponse.Success -> {
@@ -568,5 +573,4 @@ class EmploymentQuestionnaireAmendmentViewModel(application: Application) :
             add(CoreBottomSheetData(subTitle = EmploymentStatus.SALARIED_AND_SELF_EMPLOYED.status))
             add(CoreBottomSheetData(subTitle = EmploymentStatus.OTHER.status))
         }
-
 }
