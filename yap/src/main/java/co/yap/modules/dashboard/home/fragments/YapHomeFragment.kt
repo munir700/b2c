@@ -1138,12 +1138,12 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
     private val homeTourItemListener = object : OnTourItemClickListener {
         override fun onTourCompleted(pos: Int) {
             TourGuideManager.lockTourGuideScreen(TourGuideType.DASHBOARD_SCREEN, completed = true)
-            showGraphTourGuide(viewModel.transactionsLiveData.value?.size ?: 0)
+            //showGraphTourGuide(viewModel.transactionsLiveData.value?.size ?: 0)
         }
 
         override fun onTourSkipped(pos: Int) {
             TourGuideManager.lockTourGuideScreen(TourGuideType.DASHBOARD_SCREEN, skipped = true)
-            showGraphTourGuide(viewModel.transactionsLiveData.value?.size ?: 0)
+            //showGraphTourGuide(viewModel.transactionsLiveData.value?.size ?: 0)
         }
     }
 
@@ -1220,8 +1220,8 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             tourStep = requireActivity().launchTourGuide(TourGuideType.DASHBOARD_SCREEN) {
                 addAll(setViewsArray())
             }
-            if (tourStep == null)
-                showGraphTourGuide(viewModel.transactionsLiveData.value?.size ?: 0)
+            /*if (tourStep == null)
+                showGraphTourGuide(viewModel.transactionsLiveData.value?.size ?: 0)*/
         }
     }
 
