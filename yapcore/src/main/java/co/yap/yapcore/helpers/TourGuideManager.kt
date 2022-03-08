@@ -22,7 +22,7 @@ object TourGuideManager {
         this.listOfTourViews.filter { it.completed == true || it.skipped == true }.forEach {
             when (it.viewName) {
                 TourGuideType.DASHBOARD_SCREEN.name -> blockedTourGuideList.add(TourGuideType.DASHBOARD_SCREEN)
-                TourGuideType.DASHBOARD_GRAPH_SCREEN.name -> blockedTourGuideList.add(TourGuideType.DASHBOARD_GRAPH_SCREEN)
+               // TourGuideType.DASHBOARD_GRAPH_SCREEN.name -> blockedTourGuideList.add(TourGuideType.DASHBOARD_GRAPH_SCREEN)
                 TourGuideType.CARD_HOME_SCREEN.name -> blockedTourGuideList.add(TourGuideType.CARD_HOME_SCREEN)
                 TourGuideType.PRIMARY_CARD_DETAIL_SCREEN.name -> blockedTourGuideList.add(
                     TourGuideType.PRIMARY_CARD_DETAIL_SCREEN
