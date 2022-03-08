@@ -131,14 +131,15 @@ class QuestionItemViewHolders {
     fun questionTypeDisplayTextItemViewHolder(
         binding: LayoutQuestionTypeDisplayTextBinding, questionUiFields: QuestionUiFields,
         position: Int,
-        onItemClickListener: OnItemClickListener?
+        onItemClickListener: OnItemClickListener?,
+        amendmentMap: HashMap<String?, List<String>?>?
     ): View {
         binding.viewModel =
             QuestionnaireItemViewModel(
                 questionUiFields,
                 position,
                 onItemClickListener,
-                viewModel.parentViewModel?.amendmentMap,
+                amendmentMap,
                 questionUiFields.question.tag
             )
         return binding.root
@@ -212,7 +213,8 @@ class QuestionItemViewHolders {
                     binding,
                     questionUiField,
                     position,
-                    onItemClickListener
+                    onItemClickListener,
+                    amendmentMap
                 )
             }
             else -> null

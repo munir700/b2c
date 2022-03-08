@@ -56,8 +56,7 @@ class EmploymentQuestionnaireAmendmentFragment :
     override fun showInfoDialog(title: String, message: String) {
         requireContext().infoDialog(
             title = title,
-            message = message,
-            buttonText = getString(Strings.screen_employment_information_dialog_button_text_close)
+            message = message
         )
     }
 

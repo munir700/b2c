@@ -372,7 +372,8 @@ class EmploymentQuestionnaireAmendmentViewModel(application: Application) :
                     is RetroApiResponse.Success -> {
                         if (employmentResponse.data.data == null) {
                             // Manually adding EMPLOYED & sending empty response
-                            employmentStatusValue.value = EmploymentInfoAmendmentResponse()
+                            employmentStatusValue.value =
+                                EmploymentInfoAmendmentResponse(employmentStatus = EmploymentStatus.EMPLOYED.name)
                             employmentStatus.value = EmploymentStatus.EMPLOYED
                         } else {
                             employmentResponse.data.data?.let { res ->
@@ -445,7 +446,7 @@ class EmploymentQuestionnaireAmendmentViewModel(application: Application) :
                             it.isoCountryCode2Digit.equals(selectedCountries[i])
                         }?.getName() ?: "")
                     }
-                    selectedQuestionItemPosition = 2
+                    selectedQuestionItemPosition = 3
                     businessCountriesLiveData.value = businessCountriesList
                 }
             }
