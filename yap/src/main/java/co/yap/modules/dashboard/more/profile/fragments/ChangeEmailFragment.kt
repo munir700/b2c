@@ -13,6 +13,7 @@ import co.yap.modules.dashboard.more.profile.intefaces.IChangeEmail
 import co.yap.modules.dashboard.more.profile.viewmodels.ChangeEmailViewModel
 import co.yap.modules.otp.GenericOtpFragment
 import co.yap.modules.otp.OtpDataModel
+import co.yap.modules.otp.getOtpMessageFromComposer
 import co.yap.yapcore.enums.OTPActions
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.extentions.startFragmentForResult
@@ -58,7 +59,14 @@ open class ChangeEmailFragment : MoreBaseFragment<IChangeEmail.ViewModel>(), ICh
                 OtpDataModel::class.java.name to OtpDataModel(
                     OTPActions.CHANGE_EMAIL.name,
                     SessionManager.user?.currentCustomer?.getFormattedPhoneNumber(requireContext())
-                        ?: ""
+                        ?: "",
+                    otpMessage = requireContext().getOtpMessageFromComposer(
+                        OTPActions.CHANGE_EMAIL.name,
+                        SessionManager.user?.currentCustomer?.firstName,
+                        "%s1",
+                        "%s2",
+                        SessionManager.helpPhoneNumber
+                    )
                 )
             ),
             showToolBar = true

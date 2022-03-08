@@ -7,10 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import co.yap.modules.location.kyc_additional_info.employment_info.questionnaire.enums.QuestionType
 import co.yap.modules.location.kyc_additional_info.employment_info.questionnaire.models.QuestionUiFields
 import co.yap.yapcore.R
-import co.yap.yapcore.databinding.LayoutQuestionTypeCountriesBinding
-import co.yap.yapcore.databinding.LayoutQuestionTypeDropDownBinding
-import co.yap.yapcore.databinding.LayoutQuestionTypeEditTextBinding
-import co.yap.yapcore.databinding.LayoutQuestionTypeEditTextWithAmountBinding
+import co.yap.yapcore.databinding.*
 import co.yap.yapcore.helpers.extentions.afterTextChanged
 import co.yap.yapcore.helpers.extentions.hideKeyboard
 import co.yap.yapcore.interfaces.OnItemClickListener
@@ -22,6 +19,7 @@ class QuestionItemViewHolders {
             QuestionType.EDIT_TEXT_FIELD_WITH_AMOUNT -> R.layout.layout_question_type_edit_text_with_amount
             QuestionType.COUNTRIES_FIELD -> R.layout.layout_question_type_countries
             QuestionType.DROP_DOWN_FIELD -> R.layout.layout_question_type_drop_down
+            QuestionType.DISPLAY_TEXT -> R.layout.layout_question_type_display_text
         }
     }
 
@@ -130,6 +128,22 @@ class QuestionItemViewHolders {
         return binding.root
     }
 
+    fun questionTypeDisplayTextItemViewHolder(
+        binding: LayoutQuestionTypeDisplayTextBinding, questionUiFields: QuestionUiFields,
+        position: Int,
+        onItemClickListener: OnItemClickListener?
+    ): View {
+        binding.viewModel =
+            QuestionnaireItemViewModel(
+                questionUiFields,
+                position,
+                onItemClickListener,
+                viewModel.parentViewModel?.amendmentMap,
+                questionUiFields.question.tag
+            )
+        return binding.root
+    }
+
     fun setFocusListener(input: AppCompatEditText, questionUiFields: QuestionUiFields) {
         input.setOnFocusChangeListener { v, hasFocus ->
             questionUiFields.isFocusInput.set(hasFocus)
@@ -191,6 +205,14 @@ class QuestionItemViewHolders {
                     countries,
                     amendmentMap,
                     isEditable
+                )
+            }
+            is LayoutQuestionTypeDisplayTextBinding -> {
+                questionTypeDisplayTextItemViewHolder(
+                    binding,
+                    questionUiField,
+                    position,
+                    onItemClickListener
                 )
             }
             else -> null

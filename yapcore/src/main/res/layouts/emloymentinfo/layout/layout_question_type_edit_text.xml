@@ -13,12 +13,15 @@
 
         <import type="co.yap.translation.Strings" />
 
+        <import type="co.yap.yapcore.helpers.Utils" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/clQuestionTypeEditText"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        app:sensitiveViews="@{Utils.getViewsList(etQuestionEditText)}">
 
         <co.yap.widgets.CollapsedColoredHintTextInputLayout
             android:id="@+id/tvTinNumber"
@@ -54,7 +57,9 @@
                 android:theme="@style/Theme.EditText.Primary"
                 app:compoundDrawableHeight="@dimen/margin_medium_large"
                 app:compoundDrawableWidth="@dimen/margin_medium_large"
+                app:disableSpaces="true"
                 app:enableError="@{true}"
+                app:rtdrawableDisableEmoji="true"
                 app:highlightAmendmentField="@{true}"
                 app:missingFieldMap="@{viewModel.amendmentMap}"
                 app:previousValue="@{viewModel.questionUiFields.question.previousValue}"

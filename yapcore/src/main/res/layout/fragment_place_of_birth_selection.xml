@@ -14,12 +14,14 @@
         <import type="android.view.View" />
 
         <import type="co.yap.yapcore.managers.SessionManager" />
+        <import type="co.yap.yapcore.helpers.Utils" />
 
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        app:sensitiveViews="@{Utils.getViewsList(etCityOfBirth)}"
         android:background="@color/white">
 
         <ScrollView
@@ -209,7 +211,6 @@
                     android:background="@drawable/bg_spinner"
                     android:drawSelectorOnTop="false"
                     android:dropDownHeight="@dimen/_50sdp"
-                    android:enabled="@{viewModel.parentViewModel.amendmentMap == null ? true : false}"
                     android:gravity="bottom"
                     android:overScrollMode="never"
                     android:overlapAnchor="false"

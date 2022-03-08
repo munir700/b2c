@@ -12,12 +12,13 @@
         <variable
             name="cardName"
             type="String" />
-
+        <import type="co.yap.yapcore.helpers.Utils" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:sensitiveViews="@{Utils.getViewsList(tvCardName)}"
         android:background="@color/colorWhite">
 
         <ImageView

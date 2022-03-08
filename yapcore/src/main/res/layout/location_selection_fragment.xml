@@ -14,6 +14,7 @@
         <import type="co.yap.yapcore.R" />
 
         <import type="co.yap.translation.Strings" />
+        <import type="co.yap.yapcore.helpers.Utils" />
 
     </data>
 
@@ -23,6 +24,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center_vertical"
+        app:sensitiveViews="@{Utils.getViewsList(etLandMarkField,etAddressField,rlCollapsedMapSection,tvAddressSelectionHeading)}"
         android:background="@color/white"
         android:orientation="vertical">
 

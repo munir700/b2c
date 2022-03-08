@@ -7,8 +7,13 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import co.yap.modules.location.fragments.LocationChildFragment
+import co.yap.translation.Strings
 import co.yap.yapcore.BR
 import co.yap.yapcore.R
+import co.yap.yapcore.enums.EmploymentStatus
+import co.yap.yapcore.helpers.ButtonType
+import co.yap.yapcore.helpers.ExtraKeys
+import co.yap.yapcore.helpers.extentions.showInfoDialog
 
 class EmploymentStatusSelectionFragment :
     LocationChildFragment<IEmploymentStatusSelection.ViewModel>(),
@@ -61,12 +66,17 @@ class EmploymentStatusSelectionFragment :
             R.id.btnNext -> {
                 val status =
                     (viewModel.employmentStatusAdapter.getDataForPosition(viewModel.lastItemCheckedPosition)).employmentStatus
-                navigate(
-                    R.id.action_employmentStatusSelectionFragment_to_employmentQuestionnaireFragment,
-                    args = bundleOf("EMPLOYMENT_STATUS" to status)
-                )
+                if (status == EmploymentStatus.SELF_EMPLOYED) showAdditionalInfoDialog(status) else navigateToQuestionAir(status)
             }
         }
+    }
+
+    private fun navigateToQuestionAir(status: EmploymentStatus) {
+        navigate(
+            R.id.action_employmentStatusSelectionFragment_to_employmentQuestionnaireFragment
+            ,
+            args = bundleOf(ExtraKeys.EMPLOYMENT_STATUS.name to status)
+        )
     }
 
     override fun onBackPressed(): Boolean = false
@@ -74,5 +84,19 @@ class EmploymentStatusSelectionFragment :
     override fun onDestroy() {
         super.onDestroy()
         removeObservers()
+    }
+
+    private fun showAdditionalInfoDialog(status: EmploymentStatus) {
+        requireContext().showInfoDialog(
+            getString(Strings.screen_employee_information_additional_information_dialog_title),
+            getString(Strings.screen_employee_information_additional_information_dialog_text),
+            arrayListOf(ButtonType.CONTINUE, ButtonType.BACK)
+        ) {
+            when (it.id) {
+                R.id.btnNext -> {
+                    navigateToQuestionAir(status)
+                }
+            }
+        }
     }
 }

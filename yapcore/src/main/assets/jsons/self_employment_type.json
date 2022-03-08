@@ -1,0 +1,18 @@
+[
+  {
+    "employmentType": "I’m a Freelancer",
+    "employmentTypeCode": "I’m a Freelancer"
+  },
+  {
+    "employmentType": "I’m a Partner",
+    "employmentTypeCode": "I’m a Partner"
+  },
+  {
+    "employmentType": "I’m a Single Owner",
+    "employmentTypeCode": "I’m a Single Owner"
+  },
+  {
+    "employmentType": "I’m an Investor",
+    "employmentTypeCode": "I’m an Investor"
+  }
+]
