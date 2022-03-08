@@ -119,6 +119,15 @@ class EmploymentQuestionnaireAmendmentViewModel(application: Application) :
         )
     }
 
+    override fun selfEmploymentTypes(): MutableList<EmploymentType> {
+        val gson = GsonBuilder().create()
+        return gson.fromJson<MutableList<EmploymentType>>(
+            context.getJsonDataFromAsset(
+                "jsons/self_employment_type.json"
+            ), object : TypeToken<List<EmploymentType>>() {}.type
+        )
+    }
+
     override fun parseEmploymentTypes(employmentTypes: MutableList<EmploymentType>): MutableList<CoreBottomSheetData> {
         employmentTypes.forEach {
             it.subTitle = it.employmentType.trim()
@@ -313,8 +322,10 @@ class EmploymentQuestionnaireAmendmentViewModel(application: Application) :
             questionsList.firstOrNull { it.key == EmploymentQuestionIdentifier.SALARY_AMOUNT }
         val salaryAmount = salaryQuestion?.getAnswer()
 
+        val documentsValid = documentsList.value?.find { it.isMandatory && it.fileURL == null } == null
+
         validator?.isValidate?.value =
-            isValid && salaryAmount.parseToDouble() >= depositAmount.parseToDouble() && isInEditMode.value == true
+            isValid && documentsValid && salaryAmount.parseToDouble() >= depositAmount.parseToDouble() && isInEditMode.value == true
     }
 
     private fun fetchParallelAPIResponses(
@@ -435,7 +446,7 @@ class EmploymentQuestionnaireAmendmentViewModel(application: Application) :
                     val industrySegment = industrySegmentsList.first {
                         it.segmentCode == employmentStatusValue.value?.industrySubSegmentCode?.get(0) ?: ""
                     }
-                    val objQuestionSegment = getDataForPosition(1)
+                    val objQuestionSegment = getDataForPosition(2)
                     objQuestionSegment.question.answer.set(industrySegment.segment)
                 }
                 // Check Selected Countries
