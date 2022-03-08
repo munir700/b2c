@@ -85,7 +85,7 @@ object TourGuideManager {
             when (val response = customerRepository.getTourGuides()) {
                 is RetroApiResponse.Success -> {
                     configure(response.data.data as ArrayList<TourGuide>)
-                    success.invoke()
+                   // success.invoke()
                 }
 
                 is RetroApiResponse.Error -> {
