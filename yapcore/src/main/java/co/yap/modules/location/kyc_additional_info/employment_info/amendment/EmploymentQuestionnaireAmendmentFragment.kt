@@ -15,7 +15,6 @@ import co.yap.countryutils.country.Country
 import co.yap.countryutils.country.unSelectAllCountries
 import co.yap.modules.document.ViewDocumentActivity
 import co.yap.modules.document.enums.FileFrom
-import co.yap.modules.document.enums.FileType
 import co.yap.modules.document.enums.TakePhotoType
 import co.yap.modules.location.kyc_additional_info.employment_info.questionnaire.adapter.QuestionItemViewHolders
 import co.yap.modules.location.kyc_additional_info.employment_info.questionnaire.models.QuestionUiFields
@@ -33,7 +32,6 @@ import co.yap.widgets.bottomsheet.IAnimationComplete
 import co.yap.widgets.bottomsheet.TakePhotoBottomSheet
 import co.yap.widgets.skeletonlayout.views
 import co.yap.yapcore.BR
-import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.BaseBindingImageFragment
 import co.yap.yapcore.R
 import co.yap.yapcore.constants.Constants
@@ -72,7 +70,9 @@ class EmploymentQuestionnaireAmendmentFragment :
 
     override fun onToolBarClick(id: Int) {
         when (id) {
-            R.id.ivLeftIcon -> activity?.finish()
+            R.id.ivLeftIcon -> {
+                activity?.finish()
+            }
             R.id.tvRightText -> {
                 startFragment(
                     fragmentName = EmploymentQuestionnaireAmendmentFragment::class.java.name,
@@ -460,11 +460,7 @@ class EmploymentQuestionnaireAmendmentFragment :
                     )
                 )
                 {
-                    showToast("Done With API")
-                    // openCardSuccessBottomSheet()
-
-//  navigate(R.id.action_employmentQuestionnaireFragment_to_cardOnTheWayFragment)
-
+                    openCardSuccessBottomSheet()
                 }
             }
         }
@@ -529,13 +525,17 @@ class EmploymentQuestionnaireAmendmentFragment :
     }
 
     private fun openCardSuccessBottomSheet() {
-//        launchBottomSheetSegment(
-//            cardBottomSheetItemClickListener,
-//            configuration = BottomSheetConfiguration(
-//                heading = ""),
-//            viewType = Constants.VIEW_ITEM_CARD_SUCCESSS,
-//            listData = viewModel.list, isIAnimationComplete = this
-//        )
+        var list: MutableList<CoreBottomSheetData> = mutableListOf()
+        list.add(CoreBottomSheetData(subTitle = Strings.screen_employment_document_updation_completion_display_text_complete))
+        launchBottomSheetSegment(
+            cardBottomSheetItemClickListener,
+            configuration = BottomSheetConfiguration(
+                heading = ""
+            ),
+            viewType = Constants.VIEW_ITEM_CARD_SUCCESSS,
+            listData = list,
+            isIAnimationComplete = this
+        )
     }
 
     private val cardBottomSheetItemClickListener = object : OnItemClickListener {
@@ -549,7 +549,7 @@ class EmploymentQuestionnaireAmendmentFragment :
 
     override fun onAnimationComplete(isComplete: Boolean) {
         if (isComplete) {
-//            activity?.finish()
+            activity?.finish()
         }
     }
 }

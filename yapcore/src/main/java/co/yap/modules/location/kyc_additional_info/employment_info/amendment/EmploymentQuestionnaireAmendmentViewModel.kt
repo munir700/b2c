@@ -99,8 +99,10 @@ class EmploymentQuestionnaireAmendmentViewModel(application: Application) :
         state.rightButtonText =
             getString(Strings.screen_employment_information_display_right_toolbar_text)
         validator?.setValidationListener(this)
-        accountActivated.value =
-            SessionManager.user?.partnerBankStatus == PartnerBankStatus.ACTIVATED.status && SessionManager.card.value?.status == PaymentCardStatus.ACTIVE.name
+        //TODO need to uncomment below line and remove last one
+//        accountActivated.value =
+//            SessionManager.user?.partnerBankStatus == PartnerBankStatus.ACTIVATED.status && SessionManager.card.value?.status == PaymentCardStatus.ACTIVE.name
+        accountActivated.value = true
     }
 
     override fun questionnaires(
@@ -239,6 +241,10 @@ class EmploymentQuestionnaireAmendmentViewModel(application: Application) :
 
     val employmentStatusItemClickListener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
+            if (previousEmploymentStatus.value == null) {
+                previousEmploymentStatus.value = employmentStatus.value
+            }
+
             (data as? CoreBottomSheetData)?.subTitle.also { selectedType ->
                 tempEmploymentStatus.value = EmploymentStatus.values().find {
                     it.status == selectedType
