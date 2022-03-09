@@ -2,6 +2,7 @@ package co.yap.modules.document
 
 import androidx.lifecycle.MutableLiveData
 import co.yap.yapcore.BaseState
+import java.io.File
 
 open class ViewDocumentState : BaseState(), IViewDocumentActivity.State {
 
@@ -14,4 +15,5 @@ open class ViewDocumentState : BaseState(), IViewDocumentActivity.State {
     override val isFileUpdated: MutableLiveData<Boolean> = MutableLiveData(false)
     override val isEditable: MutableLiveData<Boolean> = MutableLiveData(false)
     override val isNeedToShowUpdateDialogue: MutableLiveData<Boolean> = MutableLiveData(false)
+    override val isNeedToRefreshView: MutableLiveData<Boolean> = MutableLiveData(false)
 }

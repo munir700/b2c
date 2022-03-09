@@ -1,6 +1,7 @@
 package co.yap.modules.location.kyc_additional_info.employment_info.amendment
 
 import android.app.Application
+import android.net.Uri
 import android.view.View
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
@@ -37,6 +38,7 @@ import co.yap.yapcore.enums.EmploymentQuestionIdentifier
 import co.yap.yapcore.enums.EmploymentStatus
 import co.yap.yapcore.enums.PartnerBankStatus
 import co.yap.yapcore.enums.PaymentCardStatus
+import co.yap.yapcore.helpers.FileUtils
 import co.yap.yapcore.helpers.StringUtils
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.getJsonDataFromAsset
@@ -48,7 +50,9 @@ import co.yap.yapcore.managers.SessionManager
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.delay
-
+import okhttp3.MediaType
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 class EmploymentQuestionnaireAmendmentViewModel(application: Application) :
     LocationChildViewModel<IEmploymentQuestionnaireAmendment.State>(application),
     IEmploymentQuestionnaireAmendment.ViewModel, IRepositoryHolder<CustomersRepository>, IValidator,
@@ -515,11 +519,27 @@ class EmploymentQuestionnaireAmendmentViewModel(application: Application) :
         employmentInfoRequest: EmploymentInfoRequest,
         success: () -> Unit
     ) {
+        val files = ArrayList<MultipartBody.Part>()
+        var documentTypeList = ArrayList<String>()
+        documentsList.value?.forEach {
+            if (it.fileURL?.contains("http") != true) {
+                val file = FileUtils.getFile(context, it.fileUri)
+                val reqFile: RequestBody = if (file.extension.contains("pdf")) {
+                    RequestBody.create(MediaType.parse("application/pdf"), file)
+                } else {
+                    RequestBody.create(MediaType.parse("image/" + file.extension), file)
+                }
+                val body = MultipartBody.Part.createFormData("files", file.name, reqFile)
+                files.add(body)
+                documentTypeList.add(it.documentType ?: "")
+            }
+        }
         launch(Dispatcher.Background) {
             state.viewState.postValue(true)
             val response = repository.saveEmploymentInfoWithDocument(
                 employmentInfoRequest = employmentInfoRequest,
-                documentsList = documentsList.value ?: listOf()
+                files = files,
+                documentTypeList = documentTypeList
             )
             launch(Dispatcher.Main) {
                 when (response) {

@@ -1,5 +1,6 @@
 package co.yap.networking.customers.responsedtos.employment_amendment
 
+import android.net.Uri
 import android.os.Parcelable
 import co.yap.networking.models.ApiResponse
 import com.google.gson.annotations.SerializedName
@@ -49,6 +50,8 @@ data class Document(
     var description: String = "",
     @SerializedName("extension")
     var extension: String = "",
+    @SerializedName("fileUri")
+    var fileUri: Uri? = null,
     @SerializedName("isMandatory")
     val isMandatory: Boolean = false
 ) : Parcelable

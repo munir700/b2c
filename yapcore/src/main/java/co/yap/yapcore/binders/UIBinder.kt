@@ -1073,6 +1073,11 @@ object UIBinder {
                             target: Target<Drawable?>?,
                             isFirstResource: Boolean
                         ): Boolean {
+                            Toast.makeText(
+                                view.context,
+                                "Having trouble viewing the document? Please try again.",
+                                Toast.LENGTH_LONG
+                            ).show()
                             progress.dismiss()
                             progress.hide()
                             return false

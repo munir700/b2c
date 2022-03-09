@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.TextView
+import androidx.core.net.toUri
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import co.yap.modules.document.enums.FileFrom
@@ -26,6 +27,7 @@ import kotlinx.android.synthetic.main.activity_view_document.view.*
 import pl.aprilapps.easyphotopicker.MediaFile
 import co.yap.yapcore.interfaces.BackPressImpl
 import kotlinx.android.synthetic.main.alert_dialogue.*
+import java.io.FileOutputStream
 
 class ViewDocumentActivity : BaseBindingImageActivity<IViewDocumentActivity.ViewModel>(),
     IViewDocumentActivity.View {
@@ -98,6 +100,7 @@ class ViewDocumentActivity : BaseBindingImageActivity<IViewDocumentActivity.View
                     link?.let {
                         viewModel.downloadFile(it) { file ->
                             file?.let {
+                                viewModel.state.isNeedToRefreshView.value = false
                                 viewDataBinding?.root?.pdfView?.fromFile(file)?.show()
                             }
                         }
@@ -140,6 +143,19 @@ class ViewDocumentActivity : BaseBindingImageActivity<IViewDocumentActivity.View
                 viewModel.state.isDeleteAble.value = false
                 viewModel.state.isUpdateAble.value = true
                 viewDataBinding?.root?.iviImage?.setImageResource(0)
+                viewModel.state.isNeedToRefreshView.value = false
+            }
+            R.id.btnRefresh -> {
+                if (viewModel.state.fileType?.value?.contains(FileType.PDF().pdf) == true) {
+                    viewModel.state.isNeedToRefreshView.value = false
+                    viewModel.state.filePath?.value?.let { it ->
+                        viewModel.downloadFile(it) { file ->
+                            file?.let {
+                                viewDataBinding?.root?.pdfView?.fromFile(file)?.show()
+                            }
+                        }
+                    } ?: close()
+                }
             }
         }
     }
@@ -162,11 +178,16 @@ class ViewDocumentActivity : BaseBindingImageActivity<IViewDocumentActivity.View
                     this@ViewDocumentActivity.openFilePicker("File picker",
                         completionHandler = { _, dataUri ->
                             dataUri?.let { uriIntent ->
-                                if (FileUtils.getFile(context, uriIntent.data).sizeInMb() <= 25) {
+                                var fileSelected = FileUtils.getFile(context, uriIntent.data)
+                                if (fileSelected.sizeInMb() <= 25) {
+                                    var fileAfterBrowse =
+                                        context.createTempFileForBrowse(fileSelected.extension)
+                                    fileSelected.copyTo(fileAfterBrowse)
+                                    viewModel.fileUri = fileAfterBrowse.toUri()
                                     loadFileInView(
-                                        FileUtils.getFile(context, uriIntent.data).extension,
+                                        fileAfterBrowse.extension,
                                         FileFrom.Local().local,
-                                        FileUtils.getFile(context, uriIntent.data).absolutePath
+                                        fileAfterBrowse.absolutePath
                                     )
                                     viewModel.state.isNeedToShowUpdateDialogue?.value = false
                                     viewModel.state.isDeleteAble?.value = true
@@ -216,6 +237,7 @@ class ViewDocumentActivity : BaseBindingImageActivity<IViewDocumentActivity.View
     override fun onBackPressed() {
         if (viewModel.state.isFileUpdated.value == true) {
             val intent = Intent()
+            intent.putExtra(ExtraKeys.FILE_URI.name, viewModel.fileUri)
             intent.putExtra(ExtraKeys.FILE_PATH.name, viewModel.state.filePath?.value)
             intent.putExtra(ExtraKeys.FILE_TYPE.name, viewModel.state.fileType?.value)
             setResult(Activity.RESULT_OK, intent)
@@ -227,8 +249,7 @@ class ViewDocumentActivity : BaseBindingImageActivity<IViewDocumentActivity.View
     }
 
     private fun close() {
-        showToast("Invalid file")
-        finish()
+        viewModel.state.isNeedToRefreshView.value = true
     }
 
     override fun onDestroy() {
@@ -239,6 +260,7 @@ class ViewDocumentActivity : BaseBindingImageActivity<IViewDocumentActivity.View
 
     override fun onImageReturn(mediaFile: MediaFile) {
         if (mediaFile.file.sizeInMb() <= 25) {
+            viewModel.fileUri = FileUtils.getUri(mediaFile.file)
             loadFileInView(
                 mediaFile.file.extension,
                 FileFrom.Local().local,

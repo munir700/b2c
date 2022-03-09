@@ -1,5 +1,7 @@
 package co.yap.networking.customers
 
+import android.os.Environment
+import androidx.annotation.NonNull
 import co.yap.networking.BaseRepository
 import co.yap.networking.CookiesManager
 import co.yap.networking.RetroNetwork
@@ -30,11 +32,9 @@ import co.yap.networking.models.BaseResponse
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.requestdtos.EditBillerRequest
 import co.yap.networking.transactions.responsedtos.transaction.FxRateResponse
-import com.google.gson.annotations.SerializedName
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
-import retrofit2.http.Part
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
@@ -203,23 +203,20 @@ object CustomersRepository : BaseRepository(), CustomersApi {
 
     override suspend fun saveEmploymentInfoWithDocument(
         employmentInfoRequest: EmploymentInfoRequest,
-        documentsList: List<Document>
+        files: ArrayList<MultipartBody.Part>, documentTypeList: ArrayList<String>
     ): RetroApiResponse<ApiResponse> =
         employmentInfoRequest.run {
-            val files = ArrayList<MultipartBody.Part>()
-            var documentTypeList = ArrayList<String>()
-            documentsList?.forEach {
-                val file = File(it.fileURL)
-                val reqFile: RequestBody = RequestBody.create(MediaType.parse("*/*"), file)
-                val body = MultipartBody.Part.createFormData("files", file.name, reqFile)
-                files.add(body)
-                documentTypeList.add(it.documentType ?: "")
-            }
             executeSafely(call = {
                 api.submitEmploymentInfoWithDocument(
                     files = files,
-                    documentType = documentTypeList,
-                    businessCountries = businessCountries,
+                    documentTypes = createPartFromArray(
+                        documentTypeList,
+                        "documentTypes"
+                    ),
+                    businessCountries = createPartFromArray(
+                        businessCountries ?: listOf(),
+                        "businessCountries"
+                    ),
                     companyName = RequestBody.create(
                         MediaType.parse("multipart/form-dataList"),
                         companyName ?: ""
@@ -240,7 +237,10 @@ object CustomersRepository : BaseRepository(), CustomersApi {
                         MediaType.parse("multipart/form-dataList"),
                         expectedMonthlyCredit ?: ""
                     ),
-                    industrySubSegmentCodes = industrySegmentCodes,
+                    industrySubSegmentCodes = createPartFromArray(
+                        industrySegmentCodes ?: listOf(),
+                        "industrySubSegmentCodes"
+                    ),
                     monthlySalary = RequestBody.create(
                         MediaType.parse("multipart/form-dataList"),
                         monthlySalary ?: ""
@@ -248,6 +248,18 @@ object CustomersRepository : BaseRepository(), CustomersApi {
                 )
             })
         }
+
+    @NonNull
+    private fun createPartFromArray(
+        values: List<String>,
+        param_name: String?
+    ): List<MultipartBody.Part>? {
+        val descriptionList: MutableList<MultipartBody.Part> = ArrayList()
+        values.forEach { index ->
+            descriptionList.add(MultipartBody.Part.createFormData(param_name, index))
+        }
+        return descriptionList
+    }
 
     override suspend fun uploadDocuments(document: UploadDocumentsRequest): RetroApiResponse<ApiResponse> =
         document.run {

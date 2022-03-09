@@ -29,6 +29,7 @@ import co.yap.networking.transactions.requestdtos.EditBillerRequest
 import co.yap.networking.transactions.responsedtos.transaction.FxRateResponse
 import okhttp3.MultipartBody
 import retrofit2.http.Body
+import java.util.ArrayList
 
 interface CustomersApi {
     suspend fun signUp(signUpRequest: SignUpRequest): RetroApiResponse<SignUpResponse>
@@ -127,7 +128,7 @@ interface CustomersApi {
     suspend fun getTourGuides(): RetroApiResponse<TourGuideResponse>
     suspend fun getAdditionalInfoRequired(): RetroApiResponse<AdditionalInfoResponse>
     suspend fun uploadAdditionalDocuments(uploadAdditionalInfo: UploadAdditionalInfo): RetroApiResponse<ApiResponse>
-    suspend fun saveEmploymentInfoWithDocument(employmentInfoRequest: EmploymentInfoRequest, documentsList: List<Document>): RetroApiResponse<ApiResponse>
+    suspend fun saveEmploymentInfoWithDocument(employmentInfoRequest: EmploymentInfoRequest, files: ArrayList<MultipartBody.Part>, documentTypeList:ArrayList<String>): RetroApiResponse<ApiResponse>
     suspend fun uploadAdditionalQuestion(uploadAdditionalInfo: UploadAdditionalInfo): RetroApiResponse<ApiResponse>
     suspend fun sendInviteFriend(sendInviteFriendRequest: SendInviteFriendRequest): RetroApiResponse<ApiResponse>
     suspend fun submitAdditionalInfo(uploadAdditionalInfo: UploadAdditionalInfo): RetroApiResponse<ApiResponse>

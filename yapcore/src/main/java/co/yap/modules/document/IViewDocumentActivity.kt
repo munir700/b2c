@@ -1,5 +1,6 @@
 package co.yap.modules.document
 
+import android.net.Uri
 import androidx.lifecycle.MutableLiveData
 import co.yap.widgets.bottomsheet.BottomSheetItem
 import co.yap.yapcore.IBase
@@ -16,6 +17,7 @@ interface IViewDocumentActivity {
     interface ViewModel : IBase.ViewModel<State> {
         val clickEvent: SingleClickEvent
         var file: File?
+        var fileUri: Uri?
         fun handlePressView(id: Int)
         fun downloadFile(filePath: String, success: (file: File?) -> Unit)
         fun getDialogueOptions(): ArrayList<BottomSheetItem>
@@ -31,5 +33,6 @@ interface IViewDocumentActivity {
         val filePath: MutableLiveData<String>?
         val isFileUpdated: MutableLiveData<Boolean>
         val isEditable: MutableLiveData<Boolean>
+        val isNeedToRefreshView: MutableLiveData<Boolean>
     }
 }

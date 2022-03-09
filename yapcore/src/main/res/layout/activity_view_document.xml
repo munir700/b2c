@@ -42,36 +42,82 @@
                 app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <com.pdfview.PDFView
-            android:id="@+id/pdfView"
+        <RelativeLayout
+            android:id="@+id/rlView"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginStart="@dimen/_5sdp"
             android:layout_marginTop="@dimen/_25sdp"
             android:layout_marginEnd="@dimen/_5sdp"
             android:layout_marginBottom="@dimen/margin_extra_small"
-            android:visibility="@{viewModel.state.isPDF ? View.VISIBLE : View.GONE}"
+            android:visibility="@{viewModel.state.isNeedToRefreshView ? View.GONE : View.VISIBLE}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHeight_percent=".63"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/clIVContainer" />
+            app:layout_constraintTop_toBottomOf="@+id/clIVContainer">
 
-        <co.yap.modules.imagepreviewer.TouchImageView
-            android:id="@+id/iviImage"
-            isNeedToShowLoader="@{true}"
-            previewImageSrc="@{viewModel.state.imageUrlForImageView}"
+            <com.pdfview.PDFView
+                android:id="@+id/pdfView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="@{viewModel.state.isPDF ? View.VISIBLE : View.GONE}" />
+
+            <co.yap.modules.imagepreviewer.TouchImageView
+                android:id="@+id/iviImage"
+                isNeedToShowLoader="@{true}"
+                previewImageSrc="@{viewModel.state.imageUrlForImageView}"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="fitXY"
+                android:visibility="@{viewModel.state.isPDF ? View.GONE : View.VISIBLE}" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rlRefreshView"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginStart="@dimen/_5sdp"
             android:layout_marginTop="@dimen/_25sdp"
             android:layout_marginEnd="@dimen/_5sdp"
             android:layout_marginBottom="@dimen/margin_extra_small"
-            android:scaleType="fitXY"
-            android:visibility="@{viewModel.state.isPDF ? View.GONE : View.VISIBLE}"
+            android:visibility="@{viewModel.state.isNeedToRefreshView ? View.VISIBLE : View.GONE}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHeight_percent=".63"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/clIVContainer" />
+            app:layout_constraintTop_toBottomOf="@+id/clIVContainer">
+
+            <TextView
+                android:id="@+id/tvSubTitle"
+                style="@style/ASmallGrey"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_marginStart="@dimen/margin_medium"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:layout_marginEnd="@dimen/margin_medium"
+                android:gravity="center"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintVertical_bias="0.0"
+                app:text="@{Strings.screen_view_document_refresh_text_description}" />
+
+            <co.yap.widgets.CoreButton
+                android:id="@+id/btnRefresh"
+                style="@style/RectangleBtnStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvSubTitle"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/margin_extra_large"
+                android:onClick="@{(v) -> viewModel.handlePressView(v.id)}"
+                app:btn_enable="true"
+                app:btn_size="small"
+                app:layout_constraintVertical_bias="0.75"
+                app:text="@{Strings.screen_view_document_refresh_button_text}" />
+
+        </RelativeLayout>
+
 
         <RelativeLayout
             android:id="@+id/bottomActions"

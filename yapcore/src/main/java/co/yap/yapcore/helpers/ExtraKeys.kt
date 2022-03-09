@@ -27,5 +27,6 @@ enum class ExtraKeys {
     UPDATED_CATEGORY_ICON,
     UPDATED_CATEGORY_NAME,
     FILE_PATH,
-    FILE_TYPE
+    FILE_TYPE,
+    FILE_URI
 }

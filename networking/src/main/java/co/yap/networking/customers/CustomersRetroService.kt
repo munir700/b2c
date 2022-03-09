@@ -84,14 +84,14 @@ interface CustomersRetroService {
     @POST(CustomersRepository.URL_SAVE_EMPLOYMENT_INFO_WITH_DOCUMENTS)
     suspend fun submitEmploymentInfoWithDocument(
         @Part files: List<MultipartBody.Part>,
-        @Part("documentType") documentType: List<String>?,
-        @Part("businessCountries[]") businessCountries: List<String>?,
+        @Part documentTypes: List<MultipartBody.Part>?,
+        @Part businessCountries: List<MultipartBody.Part>?,
         @Part("companyName") companyName: RequestBody?,
         @Part("employerName") employerName: RequestBody?,
         @Part("employmentStatus") employmentStatus: RequestBody?,
         @Part("employmentType") employmentType: RequestBody?,
         @Part("expectedMonthlyCredit") expectedMonthlyCredit: RequestBody?,
-        @Part("industrySubSegmentCode[]") industrySubSegmentCodes: List<String>?,
+        @Part industrySubSegmentCodes: List<MultipartBody.Part>?,
         @Part("monthlySalary") monthlySalary: RequestBody?
     ): Response<ApiResponse>
 

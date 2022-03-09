@@ -36,6 +36,24 @@ fun Context.createTempFile(extension: String): File {
     return File(dir, "${time}.$extension")
 }
 
+fun Context.createTempFileForBrowse(extension: String): File {
+    val dir = File(this.filesDir, "yapFiles")
+    if (!dir.exists()) {
+        dir.mkdirs()
+        dir.mkdir()
+    }
+    val time = System.currentTimeMillis().toString()
+    return File(dir, "${time}.$extension")
+}
+
+fun File.copyTo(file: File) {
+    inputStream().use { input ->
+        file.outputStream().use { output ->
+            input.copyTo(output)
+        }
+    }
+}
+
 @Throws(IOException::class)
 fun Context.dummyEID(type: String): File? {
     val file = this.createTempFile(".jpg")
