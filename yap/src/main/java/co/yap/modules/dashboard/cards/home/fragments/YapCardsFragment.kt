@@ -56,7 +56,6 @@ import co.yap.yapcore.managers.FeatureProvisioning
 import co.yap.yapcore.managers.SessionManager
 import com.liveperson.infra.configuration.Configuration.getDimension
 import kotlinx.android.synthetic.main.card_list_layout_include.view.*
-import kotlinx.android.synthetic.main.card_swipe_layout_include.*
 import kotlinx.android.synthetic.main.card_swipe_layout_include.view.*
 import kotlinx.android.synthetic.main.fragment_yap_cards.*
 
@@ -200,8 +199,7 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                             CardStatus.ACTIVE.name -> {
                                 if (card.cardType == CardType.DEBIT.type) {
                                     if (card.pinCreated) openDetailScreen(pos) else openStatusScreen(
-                                        view,
-                                        pos
+                                        viewModel.adapter.getDataForPosition(pos)
                                     )
                                 } else
                                     openDetailScreen(pos)
@@ -211,7 +209,7 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                             )
                             CardStatus.INACTIVE.name -> {
                                 card.deliveryStatus?.let {
-                                    openStatusScreen(view, pos)
+                                    openStatusScreen(viewModel.adapter.getDataForPosition(pos))
                                 } ?: openDetailScreen(pos)
                             }
                         }
@@ -254,7 +252,7 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                                     if (card.deliveryStatus == CardDeliveryStatus.SHIPPED.name)
                                         openSetPinScreen(card)
                                     else
-                                        openStatusScreen(view, pos)
+                                        openStatusScreen(viewModel.adapter.getDataForPosition(pos))
                                 }
                             }
                         }
@@ -295,8 +293,7 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                                 if (card.cardType == CardType.DEBIT.type) {
                                     if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus && !card.pinCreated) {
                                         openStatusScreen(
-                                            view,
-                                            pos
+                                            viewModel.adapter.getDataForPosition(pos)
                                         )
                                     } else
                                         openCardDetailBottomSheet(card)
@@ -315,8 +312,7 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                             }
                             CardStatus.INACTIVE -> {
                                 openStatusScreen(
-                                    view,
-                                    pos
+                                    viewModel.adapter.getDataForPosition(pos)
                                 )
                             }
                             CardStatus.EXPIRED -> {
@@ -506,13 +502,13 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
         )
     }
 
-    private fun openStatusScreen(view: View, pos: Int) {
+    private fun openStatusScreen(card: Card) {
         context?.let { context ->
             startActivityForResult(
                 FragmentPresenterActivity.getIntent(
                     context = context,
                     type = Constants.MODE_STATUS_SCREEN,
-                    payLoad = viewModel.adapter.getDataForPosition(pos)
+                    payLoad = card
                 ), Constants.EVENT_CREATE_CARD_PIN
             )
         }
@@ -697,7 +693,9 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                     when (card.status) {
                         CardStatus.ACTIVE.name -> {
                             if (card.cardType == CardType.DEBIT.type) {
-                                if (card.pinCreated) gotoPaymentCardDetailScreen(card)
+                                if (card.pinCreated) gotoPaymentCardDetailScreen(card) else openStatusScreen(
+                                    card
+                                )
                             } else
                                 gotoPaymentCardDetailScreen(card)
                         }
@@ -706,7 +704,7 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                         )
                         CardStatus.INACTIVE.name -> {
                             card.deliveryStatus?.let {
-                                //  openStatusScreen(card)
+                                openStatusScreen(card)
                             } ?: gotoPaymentCardDetailScreen(card)
                         }
                     }
