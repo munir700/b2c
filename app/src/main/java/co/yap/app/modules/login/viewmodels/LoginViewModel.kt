@@ -17,6 +17,10 @@ import co.yap.networking.models.ApiError
 import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.constants.Constants.KEY_COUNTRY_CODE
+import co.yap.yapcore.constants.Constants.KEY_IS_REMEMBER
+import co.yap.yapcore.constants.Constants.KEY_MOBILE_NO
+import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.getCountryCodeForRegion
 import co.yap.yapcore.helpers.isValidPhoneNumber
 import co.yap.yapcore.helpers.validation.IValidator
@@ -125,5 +129,13 @@ class LoginViewModel(application: Application) :
                 _userVerified.value = countryCode
             }
         }
+    }
+
+    override fun saveUserDetails(mobile: String?, countryCode: String?, isRemember: Boolean?) {
+        SharedPreferenceManager.getInstance(context).save(KEY_IS_REMEMBER, isRemember?:true)
+        SharedPreferenceManager.getInstance(context)
+            .save(KEY_MOBILE_NO, if (isRemember==true) mobile ?: "" else "")
+        SharedPreferenceManager.getInstance(context)
+            .save(KEY_COUNTRY_CODE, if (isRemember==true) countryCode ?: "" else "")
     }
 }

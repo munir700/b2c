@@ -1,9 +1,9 @@
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation ('com.digitify:yappakistan:0.0.9'){
+    implementation ('com.digitify:yappakistan:0.1.0'){
         exclude group: 'com.squareup.okhttp3', module: 'okhttp'
     }
-    implementation ('com.digitify:yapghana:0.0.9'){
+    implementation ('com.digitify:yapghana:0.1.0'){
         exclude group: 'com.squareup.okhttp3', module: 'okhttp'
     }
 

@@ -1,8 +1,13 @@
 package co.yap.modules.onboarding.models
 
 import android.content.Context
+import co.yap.BuildConfig
+import co.yap.app.YAPApplication
+import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.helpers.SharedPreferenceManager
 import com.yap.core.enums.ProductFlavour
 import com.yap.ghana.configs.GhanaBuildConfigurations
+import com.yap.ghana.utils.enums.GhanaAppEvent
 import com.yap.yappakistan.configs.PKBuildConfigurations
 import com.yap.yappakistan.utils.enums.PkAppEvent
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -25,11 +30,11 @@ class LoadConfig @Inject constructor(@ApplicationContext val appContext: Context
         pkConfigs.configure(
             flavour = "qa",
             buildType = "debug",
-            versionName = "1.0.0",
-            versionCode = "1",
+            versionName = YAPApplication.configManager?.versionName ?: "1.0.0",
+            versionCode = YAPApplication.configManager?.versionCode ?: "1",
             applicationId = "co.yap.qa"
         ) { event ->
-            runAppEvent(event, context)
+            handlePkAppEvent(event, context)
         }
         return pkConfigs
     }
@@ -38,19 +43,38 @@ class LoadConfig @Inject constructor(@ApplicationContext val appContext: Context
         val ghConfigs = GhanaBuildConfigurations(context)
         ghConfigs.configure(
             flavour = "qa",
-            buildType = "debug",
-            versionName = "1.0.0",
-            versionCode = "1",
+            buildType = BuildConfig.BUILD_TYPE,
+            versionName = YAPApplication.configManager?.versionName ?: "1.0.0",
+            versionCode = YAPApplication.configManager?.versionCode ?: "1",
             applicationId = "co.yap.qa"
-        )
+        ) {
+            handleGhanaAppEvent(it, context)
+        }
         return ghConfigs
     }
 
-
-    private fun runAppEvent(event: PkAppEvent, context: Context) {
+    private fun handleGhanaAppEvent(event: GhanaAppEvent, context: Context) {
         when (event) {
+            GhanaAppEvent.IS_LOGGED_IN -> {
+                SharedPreferenceManager.getInstance(context)
+                    .save(Constants.KEY_IS_USER_LOGGED_IN, true)
+            }
+            GhanaAppEvent.LOGOUT -> {
+                SharedPreferenceManager.getInstance(context)
+                    .save(Constants.KEY_IS_USER_LOGGED_IN, false)
+            }
+        }
+
+    }
+
+    private fun handlePkAppEvent(event: PkAppEvent, context: Context) {
+        when (event) {
+            PkAppEvent.IS_LOGGED_IN -> {
+
+            }
             PkAppEvent.LOGOUT -> {
-                startDemoActivity(context)
+                SharedPreferenceManager.getInstance(context)
+                    .save(Constants.KEY_IS_USER_LOGGED_IN, false)
             }
         }
     }

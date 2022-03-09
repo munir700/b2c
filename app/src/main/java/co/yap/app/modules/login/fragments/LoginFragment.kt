@@ -16,6 +16,7 @@ import co.yap.app.databinding.FragmentLogInBinding
 import co.yap.app.main.MainChildFragment
 import co.yap.app.modules.login.interfaces.ILogin
 import co.yap.app.modules.login.viewmodels.LoginViewModel
+import co.yap.modules.onboarding.models.CountryCode
 import co.yap.networking.coreitems.CoreBottomSheetData
 import co.yap.widgets.keyboardvisibilityevent.KeyboardVisibilityEvent
 import co.yap.widgets.keyboardvisibilityevent.KeyboardVisibilityEventListener
@@ -26,7 +27,6 @@ import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.SessionManager
-import com.ezaka.customer.app.utils.isKeyboardVisible
 import com.yap.ghana.ui.auth.main.GhAuthenticationActivity
 import com.yap.yappakistan.ui.auth.main.AuthenticationActivity
 import kotlinx.android.synthetic.main.fragment_log_in.*
@@ -70,7 +70,10 @@ class LoginFragment : MainChildFragment<ILogin.ViewModel>(), ILogin.View {
         }
 
         SessionManager.isRemembered.value =
-            sharedPreferenceManager.getValueBoolien(KEY_IS_REMEMBER, true)
+            sharedPreferenceManager.getValueBoolien(
+                KEY_IS_REMEMBER,
+                getDataBindingView<FragmentLogInBinding>().swRemember.isChecked
+            )
         //TODO() Need to be modified according to the Country Number
         /* SessionManager.isRemembered.value?.let {
              etEmailField.editText.setText(if (it) sharedPreferenceManager.getDecryptedUserName() else "")
@@ -99,23 +102,38 @@ class LoginFragment : MainChildFragment<ILogin.ViewModel>(), ILogin.View {
         })
 
         viewModel.userVerified.observe(viewLifecycleOwner, Observer {
-                if (it == "+92") {
-                    launchActivity<AuthenticationActivity> {
-                        putExtra("countryCode", "+92")
-                        putExtra("mobileNo", viewModel.state.mobile.get()?.replace(" ", ""))
-                        putExtra("isAccountBlocked", false)
-                    }
-                } else if (it == "+233") {
+            val mobileNo =
+                viewModel.state.mobile.get()?.replace(" ", "")
+            viewModel.saveUserDetails(
+                mobileNo,
+                it,
+                getDataBindingView<FragmentLogInBinding>().swRemember.isChecked
+            )
+            when (it) {
+                CountryCode.GHANA.countryCode -> {
                     launchActivity<GhAuthenticationActivity> {
-                        putExtra("countryCode", "+233")
-                        putExtra("mobileNo", viewModel.state.mobile.get()?.replace(" ", ""))
+                        putExtra("countryCode", it)
+                        putExtra("mobileNo", mobileNo)
                         putExtra("isAccountBlocked", false)
                     }
                 }
+                CountryCode.PAK.countryCode -> {
+                    launchActivity<AuthenticationActivity> {
+                        putExtra("countryCode", it)
+                        putExtra("mobileNo", mobileNo)
+                        putExtra("isAccountBlocked", false)
+                    }
+                }
+            }
         })
     }
 
     private fun navigateToPassCode() {
+        viewModel.saveUserDetails(
+            viewModel.state.mobile.get()?.replace(" ", ""),
+            viewModel.state.countryCode.get(),
+            getDataBindingView<FragmentLogInBinding>().swRemember.isChecked
+        )
         val action =
             LoginFragmentDirections.actionLoginFragmentToVerifyPasscodeFragment(
                 viewModel.state.mobileNumber.value ?: "",
@@ -134,20 +152,22 @@ class LoginFragment : MainChildFragment<ILogin.ViewModel>(), ILogin.View {
                 val mobileNo =
                     viewModel.state.mobile.get()?.filter { it.isWhitespace().not() }?.trim()
                         ?: ""
-                if (countryCode != "+971") {
-                    viewModel.verifyUser(countryCode, mobileNo)
-                } else {
-                    viewModel.state.mobileNumber.value = Utils.verifyUsername(
-                        mobileNo
-                    )
-                    viewModel.validateUsername { error ->
-                        if (error.isNullOrEmpty()
-                                .not()
-                        ) getDataBindingView<FragmentLogInBinding>().tlPhoneNumber.error =
-                            error else navigateToPassCode()
+                when (countryCode) {
+                    CountryCode.UAE.countryCode -> {
+                        viewModel.state.mobileNumber.value = Utils.verifyUsername(
+                            mobileNo
+                        )
+                        viewModel.validateUsername { error ->
+                            if (error.isEmpty()
+                                    .not()
+                            ) getDataBindingView<FragmentLogInBinding>().tlPhoneNumber.error =
+                                error else navigateToPassCode()
+                        }
+                    }
+                    else -> {
+                        viewModel.verifyUser(countryCode, mobileNo)
                     }
                 }
-
             }
             R.id.tvSignUp -> findNavController().navigate(R.id.action_loginFragment_to_accountSelectionFragment)
 
