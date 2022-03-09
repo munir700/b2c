@@ -72,7 +72,7 @@ interface IEmploymentQuestionnaireAmendment {
 
         fun updateDocumentsInView(status: EmploymentStatus)
         fun onSalaryOrEmployerUpdate(status: EmploymentStatus, fieldType: EmploymentFieldType)
-
+        fun unselectDocuments()
         fun setAnswersForQuestions()
 
         fun saveEmploymentInfo(employmentInfoRequest: EmploymentInfoRequest, success: () -> Unit)
