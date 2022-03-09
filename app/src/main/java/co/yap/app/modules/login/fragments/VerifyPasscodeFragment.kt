@@ -49,6 +49,8 @@ import co.yap.yapcore.leanplum.trackEvent
 import co.yap.yapcore.managers.SessionManager
 import kotlinx.android.synthetic.main.fragment_verify_passcode.*
 import co.yap.modules.kyc.amendments.missinginfo.MissingInfoFragment
+import co.yap.yapcore.constants.Constants.KEY_MOBILE_NO
+import co.yap.yapcore.constants.Constants.MONEY_TRANSFERED
 import com.yap.core.extensions.hideKeyboard
 
 class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), BiometricCallback,
@@ -93,7 +95,7 @@ class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), B
     private fun receiveData() {
         arguments?.let { it ->
             viewModel.state.username = VerifyPasscodeFragmentArgs.fromBundle(it).username
-            if (VerifyPasscodeFragmentArgs.fromBundle(it).isAccountBlocked) {
+             if (VerifyPasscodeFragmentArgs.fromBundle(it).isAccountBlocked) {
                 viewModel.showAccountBlockedError(getString(Strings.screen_verify_passcode_text_account_locked))
             }
 
@@ -103,6 +105,10 @@ class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), B
             viewModel.state.verifyPassCodeEnum =
                 it.getString(REQUEST_CODE, VerifyPassCodeEnum.ACCESS_ACCOUNT.name)
         }
+        shardPrefs?.getValueString(KEY_MOBILE_NO)?.let {
+            var mobileNo= it
+        }
+
     }
 
     private fun updateUUID() {

@@ -104,10 +104,11 @@ class LoginFragment : MainChildFragment<ILogin.ViewModel>(), ILogin.View {
         viewModel.userVerified.observe(viewLifecycleOwner, Observer {
             val mobileNo =
                 viewModel.state.mobile.get()?.replace(" ", "")
-            viewModel.saveUserDetails(
+            SessionManager.saveUserDetails(
                 mobileNo,
                 it,
-                getDataBindingView<FragmentLogInBinding>().swRemember.isChecked
+                getDataBindingView<FragmentLogInBinding>().swRemember.isChecked,
+                requireContext()
             )
             when (it) {
                 CountryCode.GHANA.countryCode -> {
@@ -130,7 +131,7 @@ class LoginFragment : MainChildFragment<ILogin.ViewModel>(), ILogin.View {
 
     private fun navigateToPassCode() {
         viewModel.saveUserDetails(
-            viewModel.state.mobile.get()?.replace(" ", ""),
+            viewModel.state.mobileNumber.value ,
             viewModel.state.countryCode.get(),
             getDataBindingView<FragmentLogInBinding>().swRemember.isChecked
         )
