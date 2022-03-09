@@ -11,9 +11,6 @@ class DocumentsAdapter(
     private val list: MutableList<Document>
 ) :
     BaseBindingRecyclerAdapter<Document, RecyclerView.ViewHolder>(list) {
-    init {
-        setHasStableIds(true)
-    }
 
     override fun getLayoutIdForViewType(viewType: Int): Int = R.layout.item_employment_info_document
 

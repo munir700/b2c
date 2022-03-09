@@ -71,7 +71,17 @@ class ViewDocumentActivity : BaseBindingImageActivity<IViewDocumentActivity.View
         val fileFrom = intent?.getValue(FILEFROM, ExtraType.STRING.name) as? String
         val fileType = intent?.getValue(FILETYPE, ExtraType.STRING.name) as? String
         val isEditAble = intent?.getValue(ISEDITABLE, ExtraType.BOOLEAN.name) as? Boolean
-        viewModel.state.isNeedToShowOnlyUpdateOption?.value = !link.isNullOrEmpty()
+        when (fileFrom) {
+            FileFrom.Link().link -> {
+                viewModel.state.isNeedToShowUpdateDialogue?.value = !link.isNullOrEmpty()
+                viewModel.state.isDeleteAble?.value = false
+                viewModel.state.isUpdateAble?.value = true
+            }
+            FileFrom.Local().local -> {
+                viewModel.state.isDeleteAble?.value = true
+                viewModel.state.isUpdateAble?.value = false
+            }
+        }
         viewModel.state.isEditable?.value = isEditAble
         loadFileInView(fileType, fileFrom, link)
 
@@ -115,7 +125,7 @@ class ViewDocumentActivity : BaseBindingImageActivity<IViewDocumentActivity.View
                 onBackPressed()
             }
             R.id.ivshare -> {
-                if (viewModel.state.isNeedToShowOnlyUpdateOption.value == true) {
+                if (viewModel.state.isNeedToShowUpdateDialogue.value == true) {
                     uploadAlert()
                 } else {
                     showDialogueOptions()
@@ -127,6 +137,8 @@ class ViewDocumentActivity : BaseBindingImageActivity<IViewDocumentActivity.View
                 viewModel.state.fileType?.value = null
                 viewModel.state.isPDF.value = false
                 viewModel.state.isFileUpdated.value = false
+                viewModel.state.isDeleteAble.value = false
+                viewModel.state.isUpdateAble.value = true
                 viewDataBinding?.root?.iviImage?.setImageResource(0)
             }
         }
@@ -156,7 +168,9 @@ class ViewDocumentActivity : BaseBindingImageActivity<IViewDocumentActivity.View
                                         FileFrom.Local().local,
                                         FileUtils.getFile(context, uriIntent.data).absolutePath
                                     )
-                                    viewModel.state.isNeedToShowOnlyUpdateOption?.value = false
+                                    viewModel.state.isNeedToShowUpdateDialogue?.value = false
+                                    viewModel.state.isDeleteAble?.value = true
+                                    viewModel.state.isUpdateAble?.value = false
                                     viewModel.state.isFileUpdated.value = true
                                 } else {
                                     showToast("Your file size is too big. Please upload a file less than 25MB to proceed")
@@ -230,7 +244,9 @@ class ViewDocumentActivity : BaseBindingImageActivity<IViewDocumentActivity.View
                 FileFrom.Local().local,
                 mediaFile.file.absolutePath
             )
-            viewModel.state.isNeedToShowOnlyUpdateOption?.value = false
+            viewModel.state.isNeedToShowUpdateDialogue?.value = false
+            viewModel.state.isDeleteAble?.value = true
+            viewModel.state.isUpdateAble?.value = false
             viewModel.state.isFileUpdated.value = true
         } else {
             showToast("Your file size is too big. Please upload a file less than 25MB to proceed")

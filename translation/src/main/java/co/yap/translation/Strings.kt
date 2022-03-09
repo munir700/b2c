@@ -646,6 +646,8 @@ object Strings {
     // add spare cards Benefit detail Screen
     const val screen_add_spare_card_completion_display_text_complete_transaction_virtual: String =
         "screen_add_spare_card_completion_display_text_complete_transaction_virtual"
+    const val screen_employment_document_updation_completion_display_text_complete: String =
+        "screen_employment_document_updation_completion_display_text_complete"
     const val screen_add_spare_card_completion_display_text_delivery_info: String =
         "screen_add_spare_card_completion_display_text_delivery_info"
     const val screen_add_spare_card_completion_display_text_complete_transaction: String =

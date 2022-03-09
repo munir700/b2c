@@ -40,7 +40,7 @@ data class Document(
     @SerializedName("documentType")
     val documentType: String? = null,
     @SerializedName("fileURL")
-    val fileURL: String? = null,
+    var fileURL: String? = null,
     @SerializedName("contentType")
     val contentType: String? = null,
     @SerializedName("title")

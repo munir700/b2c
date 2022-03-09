@@ -78,7 +78,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
-            android:gravity="center"
             android:minHeight="@dimen/_80sdp"
             android:paddingBottom="@dimen/_16sdp"
             android:visibility="@{viewModel.state.isEditable() ? View.VISIBLE : View.GONE}"
@@ -90,28 +89,18 @@
                 android:id="@+id/ivshare"
                 android:layout_width="@dimen/_27sdp"
                 android:layout_height="@dimen/_27sdp"
-                android:layout_centerHorizontal="true"
-                android:layout_toLeftOf="@+id/viewCenter"
-                android:onClick="@{(v) -> viewModel.handlePressView(v.id)}"
-                app:srcCompat="@drawable/ic_share_code" />
-
-            <View
-                android:id="@+id/viewCenter"
-                android:layout_width="@dimen/_1sdp"
-                android:layout_height="@dimen/_27sdp"
                 android:layout_centerInParent="true"
-                android:layout_marginLeft="@dimen/_25sdp"
-                android:layout_marginRight="@dimen/_25sdp"
-                android:background="@color/transparent"
-                android:visibility="@{viewModel.state.isNeedToShowOnlyUpdateOption() ? View.GONE : View.VISIBLE}" />
+                android:onClick="@{(v) -> viewModel.handlePressView(v.id)}"
+                android:visibility="@{viewModel.state.isUpdateAble() ? View.VISIBLE : View.GONE}"
+                app:srcCompat="@drawable/ic_share_code" />
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/ivdelete"
                 android:layout_width="@dimen/_27sdp"
                 android:layout_height="@dimen/_27sdp"
-                android:layout_toRightOf="@+id/viewCenter"
+                android:layout_centerInParent="true"
                 android:onClick="@{(v) -> viewModel.handlePressView(v.id)}"
-                android:visibility="@{viewModel.state.isNeedToShowOnlyUpdateOption() ? View.GONE : View.VISIBLE}"
+                android:visibility="@{viewModel.state.isDeleteAble() ? View.VISIBLE : View.GONE}"
                 app:srcCompat="@drawable/ic_delete_bin" />
 
         </RelativeLayout>

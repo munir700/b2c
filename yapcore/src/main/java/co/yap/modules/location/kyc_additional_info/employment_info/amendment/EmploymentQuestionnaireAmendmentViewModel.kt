@@ -20,6 +20,7 @@ import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.requestdtos.EmploymentInfoRequest
 import co.yap.networking.customers.responsedtos.employment_amendment.Document
 import co.yap.networking.customers.responsedtos.employment_amendment.DocumentResponse
+import co.yap.networking.customers.responsedtos.employment_amendment.EmploymentFieldType
 import co.yap.networking.customers.responsedtos.employment_amendment.EmploymentInfoAmendmentResponse
 import co.yap.networking.customers.responsedtos.employmentinfo.IndustrySegment
 import co.yap.networking.customers.responsedtos.employmentinfo.IndustrySegmentsResponse
@@ -79,7 +80,7 @@ class EmploymentQuestionnaireAmendmentViewModel(application: Application) :
     override val documentAdapter = DocumentsAdapter(mutableListOf())
     override var salaryAmount: String? = null
     override var monthlyCreditAmount: String? = null
-
+    override var posOfUpdatedDocument: Int? = null
     override fun handleOnPressView(id: Int) {
         clickEvent.setValue(id)
     }
@@ -237,14 +238,16 @@ class EmploymentQuestionnaireAmendmentViewModel(application: Application) :
 
     val employmentStatusItemClickListener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
+            if (previousEmploymentStatus.value == null) {
+                previousEmploymentStatus.value = employmentStatus.value
+            }
+
             (data as? CoreBottomSheetData)?.subTitle.also { selectedType ->
                 tempEmploymentStatus.value = EmploymentStatus.values().find {
                     it.status == selectedType
                 } ?: EmploymentStatus.EMPLOYED
             }
             showAdditionalDialogue()
-            validateForm()
-            updateDocumentsInView(employmentStatus.value ?: EmploymentStatus.NONE)
         }
     }
 
@@ -283,6 +286,8 @@ class EmploymentQuestionnaireAmendmentViewModel(application: Application) :
         } else {
             employmentStatus.value = tempEmploymentStatus.value
             previousEmploymentStatus.value = tempEmploymentStatus.value
+            updateDocumentsInView(employmentStatus.value ?: EmploymentStatus.NONE)
+            validateForm()
         }
     }
 
@@ -322,7 +327,8 @@ class EmploymentQuestionnaireAmendmentViewModel(application: Application) :
             questionsList.firstOrNull { it.key == EmploymentQuestionIdentifier.SALARY_AMOUNT }
         val salaryAmount = salaryQuestion?.getAnswer()
 
-        val documentsValid = documentsList.value?.find { it.isMandatory && it.fileURL == null } == null
+        val documentsValid =
+            documentsList.value?.find { it.isMandatory && it.fileURL == null } == null
 
         validator?.isValidate?.value =
             isValid && documentsValid && salaryAmount.parseToDouble() >= depositAmount.parseToDouble() && isInEditMode.value == true
@@ -433,8 +439,37 @@ class EmploymentQuestionnaireAmendmentViewModel(application: Application) :
 
     override fun updateDocumentsInView(status: EmploymentStatus) {
         requiredDocumentsResponse.value?.find { it.empType == status.name }?.let {
-            documentsList.value = it.documents
+            val docs = arrayListOf<Document>()
+            it.documents.forEach { d ->
+                docs.add(
+                    d.copy(
+                        documentType = d.documentType,
+                        fileURL = d.fileURL,
+                        contentType = d.contentType,
+                        title = d.title,
+                        description = d.description,
+                        extension = d.extension,
+                        isMandatory = d.isMandatory
+                    )
+                )
+            }
+            documentsList.value = docs
         }
+    }
+
+    override fun onSalaryOrEmployerUpdate(
+        status: EmploymentStatus,
+        fieldType: EmploymentFieldType
+    ) {
+        val docs = requiredDocumentsResponse.value?.find { it.onChange == fieldType.name }
+        docs?.let {
+            documentsList.value?.forEach { doc ->
+                it.documents.find { it.documentType == doc.documentType }?.let {
+                    doc.fileURL = null
+                }
+            }
+        }
+        documentAdapter.setList(documentsList.value ?: listOf())
     }
 
     override fun setAnswersForQuestions() {
@@ -470,7 +505,8 @@ class EmploymentQuestionnaireAmendmentViewModel(application: Application) :
                 }?.employmentType ?: "")
                 questionsList[selectedQuestionItemPosition] = objQuestion
             }
-            else -> {}
+            else -> {
+            }
         }
     }
 
@@ -485,7 +521,10 @@ class EmploymentQuestionnaireAmendmentViewModel(application: Application) :
     ) {
         launch(Dispatcher.Background) {
             state.viewState.postValue(true)
-            val response = repository.saveEmploymentInfo(employmentInfoRequest)
+            val response = repository.saveEmploymentInfoWithDocument(
+                employmentInfoRequest = employmentInfoRequest,
+                documentsList = documentsList.value ?: listOf()
+            )
             launch(Dispatcher.Main) {
                 when (response) {
                     is RetroApiResponse.Success -> {
@@ -568,5 +607,4 @@ class EmploymentQuestionnaireAmendmentViewModel(application: Application) :
             add(CoreBottomSheetData(subTitle = EmploymentStatus.SALARIED_AND_SELF_EMPLOYED.status))
             add(CoreBottomSheetData(subTitle = EmploymentStatus.OTHER.status))
         }
-
 }
