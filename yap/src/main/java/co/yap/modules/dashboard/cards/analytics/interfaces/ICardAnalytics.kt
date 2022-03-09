@@ -18,13 +18,15 @@ interface ICardAnalytics {
     interface ViewModel : IBase.ViewModel<State> {
         val clickEvent: SingleClickEvent
         var selectedModel: MutableLiveData<AnalyticsItem>
-        var currentDate: Date?
         fun fetchCardCategoryAnalytics(currentMonth: String)
         fun fetchCardMerchantAnalytics(currentMonth: String)
         fun handlePressOnView(id: Int)
         fun isDataAvailableForSelectedMonth(tab: Int): Boolean
         //      var type: ObservableField<String>
         fun setPieChartIcon(image: ImageView)
+        fun setDateAndMonthsEnableStates(date: Date?)
+        fun fetchCardCategoryAnalyticsByDate()
+        fun setCurrentMonthCall()
     }
 
     interface State : IBase.State {

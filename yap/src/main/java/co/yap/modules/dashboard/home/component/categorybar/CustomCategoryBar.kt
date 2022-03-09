@@ -169,12 +169,14 @@ class CustomCategoryBar(context: Context, attrs: AttributeSet) : ConstraintLayou
     }
 
     private fun setCategorySegmentColor(
-        categoryColor: String,
+        categoryColor: String?,
         constraintSegment: ConstraintLayout
     ) {
-        val categoryColorCode = Utils.categoryColorValidation(categoryColor)
-        if (categoryColorCode != -1) {
-            constraintSegment.setBackgroundColor(categoryColorCode)
+        categoryColor?.let {it->
+            val categoryColorCode = Utils.categoryColorValidation(it)
+            if (categoryColorCode != -1) {
+                constraintSegment.setBackgroundColor(categoryColorCode)
+            }
         }
     }
 
