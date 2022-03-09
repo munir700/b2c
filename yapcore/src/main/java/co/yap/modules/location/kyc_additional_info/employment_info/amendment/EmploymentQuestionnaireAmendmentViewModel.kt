@@ -99,10 +99,7 @@ class EmploymentQuestionnaireAmendmentViewModel(application: Application) :
         state.rightButtonText =
             getString(Strings.screen_employment_information_display_right_toolbar_text)
         validator?.setValidationListener(this)
-        //TODO need to uncomment below line and remove last one
-//        accountActivated.value =
-//            SessionManager.user?.partnerBankStatus == PartnerBankStatus.ACTIVATED.status && SessionManager.card.value?.status == PaymentCardStatus.ACTIVE.name
-        accountActivated.value = true
+        accountActivated.value = SessionManager.user?.partnerBankStatus == PartnerBankStatus.ACTIVATED.status && SessionManager.card.value?.status == PaymentCardStatus.ACTIVE.name
     }
 
     override fun questionnaires(
@@ -444,13 +441,26 @@ class EmploymentQuestionnaireAmendmentViewModel(application: Application) :
         requiredDocumentsResponse.value?.find { it.empType == status.name }?.let {
             val docs = arrayListOf<Document>()
             it.documents.forEach { d ->
-                docs.add(d.copy(documentType = d.documentType, fileURL = d.fileURL, contentType = d.contentType, title = d.title, description = d.description, extension = d.extension, isMandatory = d.isMandatory))
+                docs.add(
+                    d.copy(
+                        documentType = d.documentType,
+                        fileURL = d.fileURL,
+                        contentType = d.contentType,
+                        title = d.title,
+                        description = d.description,
+                        extension = d.extension,
+                        isMandatory = d.isMandatory
+                    )
+                )
             }
             documentsList.value = docs
         }
     }
 
-    override fun onSalaryOrEmployerUpdate(status: EmploymentStatus, fieldType: EmploymentFieldType) {
+    override fun onSalaryOrEmployerUpdate(
+        status: EmploymentStatus,
+        fieldType: EmploymentFieldType
+    ) {
         val docs = requiredDocumentsResponse.value?.find { it.onChange == fieldType.name }
         docs?.let {
             documentsList.value?.forEach { doc ->
