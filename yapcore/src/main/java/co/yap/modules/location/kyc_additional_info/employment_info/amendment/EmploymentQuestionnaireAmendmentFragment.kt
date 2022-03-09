@@ -140,6 +140,8 @@ class EmploymentQuestionnaireAmendmentFragment :
     }
 
     private fun initQuestionViews() {
+        viewModel.unselectDocuments()
+        viewModel.selectedBusinessCountries.get()?.clear()
         viewModel.questionsList.clear()
         val empStatus = viewModel.employmentStatus.value ?: EmploymentStatus.EMPLOYED
         viewModel.questionsList.addAll(
@@ -413,7 +415,9 @@ class EmploymentQuestionnaireAmendmentFragment :
                 if (proceed) {
                     viewModel.employmentStatus.value = viewModel.tempEmploymentStatus.value
                     viewModel.previousEmploymentStatus.value = viewModel.tempEmploymentStatus.value
-                    viewModel.updateDocumentsInView(viewModel.employmentStatus.value ?: EmploymentStatus.NONE)
+                    viewModel.updateDocumentsInView(
+                        viewModel.employmentStatus.value ?: EmploymentStatus.NONE
+                    )
                     viewModel.validateForm()
                 } else {
                     requireActivity().finish()

@@ -269,8 +269,7 @@ class EmploymentQuestionnaireAmendmentViewModel(application: Application) :
                 state.needToShowAdditionalDocumentDialogue.value =
                     tempEmploymentStatus.value?.equals(EmploymentStatus.SELF_EMPLOYED)
             } else {
-                employmentStatus.value = tempEmploymentStatus.value
-                previousEmploymentStatus.value = tempEmploymentStatus.value
+                handlePostEmploymentChange()
             }
         } else if (tempEmploymentStatus.value?.equals(EmploymentStatus.SALARIED_AND_SELF_EMPLOYED) == true) {
             if (previousEmploymentStatus.value?.equals(EmploymentStatus.EMPLOYED) == true || previousEmploymentStatus.value?.equals(
@@ -280,15 +279,18 @@ class EmploymentQuestionnaireAmendmentViewModel(application: Application) :
                 state.needToShowAdditionalDocumentDialogue.value =
                     tempEmploymentStatus.value?.equals(EmploymentStatus.SALARIED_AND_SELF_EMPLOYED)
             } else {
-                employmentStatus.value = tempEmploymentStatus.value
-                previousEmploymentStatus.value = tempEmploymentStatus.value
+                handlePostEmploymentChange()
             }
         } else {
-            employmentStatus.value = tempEmploymentStatus.value
-            previousEmploymentStatus.value = tempEmploymentStatus.value
-            updateDocumentsInView(employmentStatus.value ?: EmploymentStatus.NONE)
-            validateForm()
+            handlePostEmploymentChange()
         }
+    }
+
+    private fun handlePostEmploymentChange() {
+        employmentStatus.value = tempEmploymentStatus.value
+        previousEmploymentStatus.value = tempEmploymentStatus.value
+        updateDocumentsInView(employmentStatus.value ?: EmploymentStatus.NONE)
+        validateForm()
     }
 
     override fun validateForm() {
@@ -439,21 +441,15 @@ class EmploymentQuestionnaireAmendmentViewModel(application: Application) :
 
     override fun updateDocumentsInView(status: EmploymentStatus) {
         requiredDocumentsResponse.value?.find { it.empType == status.name }?.let {
-            val docs = arrayListOf<Document>()
-            it.documents.forEach { d ->
-                docs.add(
-                    d.copy(
-                        documentType = d.documentType,
-                        fileURL = d.fileURL,
-                        contentType = d.contentType,
-                        title = d.title,
-                        description = d.description,
-                        extension = d.extension,
-                        isMandatory = d.isMandatory
-                    )
-                )
+            documentsList.value = it.documents
+        }
+    }
+
+    override fun unselectDocuments() {
+        requiredDocumentsResponse.value?.forEach {
+            it.documents.forEach { doc ->
+                doc.fileURL = null
             }
-            documentsList.value = docs
         }
     }
 
