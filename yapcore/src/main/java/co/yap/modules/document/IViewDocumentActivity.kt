@@ -17,7 +17,7 @@ interface IViewDocumentActivity {
     interface ViewModel : IBase.ViewModel<State> {
         val clickEvent: SingleClickEvent
         var file: File?
-        var fileUri: Uri?
+        var fileForUpdate: File?
         fun handlePressView(id: Int)
         fun downloadFile(filePath: String, success: (file: File?) -> Unit)
         fun getDialogueOptions(): ArrayList<BottomSheetItem>

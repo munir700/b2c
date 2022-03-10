@@ -53,6 +53,7 @@ import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.SessionManager
 import com.liveperson.infra.utils.UIUtils
 import pl.aprilapps.easyphotopicker.MediaFile
+import java.io.File
 
 
 class EmploymentQuestionnaireAmendmentFragment :
@@ -452,9 +453,8 @@ class EmploymentQuestionnaireAmendmentFragment :
             data?.getValue(ExtraKeys.FILE_PATH.name, ExtraType.STRING.name) as? String
         val fileType =
             data?.getValue(ExtraKeys.FILE_TYPE.name, ExtraType.STRING.name) as? String
-        val fileUri =
-            data?.getParcelableExtra<Uri>(ExtraKeys.FILE_URI.name)
-        updateDocumentLists(file, fileType, fileUri)
+        val fileForUpdate = data?.getSerializableExtra(ExtraKeys.FILE_FOR_UPDATE.name) as File
+        updateDocumentLists(file, fileType, fileForUpdate)
     }
 
     private fun startOtpFragment() {
@@ -512,7 +512,7 @@ class EmploymentQuestionnaireAmendmentFragment :
                                         updateDocumentLists(
                                             it.absolutePath,
                                             it.extension,
-                                            it.toUri()
+                                            fileAfterBrowse
                                         )
                                     }
 
@@ -531,18 +531,18 @@ class EmploymentQuestionnaireAmendmentFragment :
             updateDocumentLists(
                 mediaFile.file.absolutePath,
                 mediaFile.file.extension,
-                FileUtils.getUri(mediaFile.file)
+                mediaFile.file
             )
         } else {
             showToast("Your file size is too big. Please upload a file less than 25MB to proceed")
         }
     }
 
-    fun updateDocumentLists(filePath: String?, extension: String?, fileUri: Uri?) {
+    fun updateDocumentLists(filePath: String?, extension: String?, fileForUpdate: File?) {
         viewModel.posOfUpdatedDocument?.let {
             viewModel.documentsList.value?.get(it)?.fileURL = filePath ?: ""
             viewModel.documentsList.value?.get(it)?.extension = extension ?: ""
-            viewModel.documentsList.value?.get(it)?.fileUri = fileUri
+            viewModel.documentsList.value?.get(it)?.fileForUpdate = fileForUpdate
             viewModel.documentAdapter.setItemAt(
                 it,
                 viewModel.documentsList.value?.get(it) ?: Document()

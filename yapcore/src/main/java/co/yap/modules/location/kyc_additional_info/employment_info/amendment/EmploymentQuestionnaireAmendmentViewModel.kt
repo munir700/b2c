@@ -477,6 +477,13 @@ class EmploymentQuestionnaireAmendmentViewModel(application: Application) :
             return
         when (employmentStatus.value) {
             EmploymentStatus.SALARIED_AND_SELF_EMPLOYED, EmploymentStatus.SELF_EMPLOYED -> {
+                employmentStatusValue.value?.let { emp ->
+                    val empType = selfEmploymentTypes().find {
+                        it.employmentTypeCode == emp.typeOfSelfEmployment
+                    }
+                    val objQuestionSegment = getDataForPosition(1)
+                    objQuestionSegment.question.answer.set(empType?.employmentTypeCode ?: "")
+                }
                 employmentStatusValue.value?.industrySubSegmentCode?.let {
                     val industrySegment = industrySegmentsList.first {
                         it.segmentCode == employmentStatusValue.value?.industrySubSegmentCode?.get(0) ?: ""
@@ -523,13 +530,13 @@ class EmploymentQuestionnaireAmendmentViewModel(application: Application) :
         var documentTypeList = ArrayList<String>()
         documentsList.value?.forEach {
             if (it.fileURL != null && it.fileURL?.contains("http") != true) {
-                val file = FileUtils.getFile(context, it.fileUri)
-                val reqFile: RequestBody = if (file.extension.contains("pdf")) {
+                val file = it.fileForUpdate
+                val reqFile: RequestBody = if (file?.extension?.contains("pdf") == true) {
                     RequestBody.create(MediaType.parse("application/pdf"), file)
                 } else {
-                    RequestBody.create(MediaType.parse("image/" + file.extension), file)
+                    RequestBody.create(MediaType.parse("image/" + file?.extension), file)
                 }
-                val body = MultipartBody.Part.createFormData("files", file.name, reqFile)
+                val body = MultipartBody.Part.createFormData("files", file?.name, reqFile)
                 files.add(body)
                 documentTypeList.add(it.documentType ?: "")
             }
@@ -573,7 +580,7 @@ class EmploymentQuestionnaireAmendmentViewModel(application: Application) :
                 EmploymentInfoRequest(
                     employmentStatus = status.name,
                     companyName = getDataForPosition(0).getAnswer(),
-                    typeOfSelfEmployment= selfEmploymentTypes().find {
+                    typeOfSelfEmployment = selfEmploymentTypes().find {
                         it.employmentType == getDataForPosition(
                             1
                         ).getAnswer().trim()

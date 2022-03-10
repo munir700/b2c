@@ -17,7 +17,6 @@ import co.yap.widgets.bottomsheet.TakePhotoBottomSheet
 import co.yap.yapcore.BR
 import co.yap.yapcore.BaseBindingImageActivity
 import co.yap.yapcore.R
-import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.databinding.ActivityViewDocumentBinding
 import co.yap.yapcore.enums.PhotoSelectionType
 import co.yap.yapcore.helpers.ExtraKeys
@@ -27,7 +26,6 @@ import kotlinx.android.synthetic.main.activity_view_document.view.*
 import pl.aprilapps.easyphotopicker.MediaFile
 import co.yap.yapcore.interfaces.BackPressImpl
 import kotlinx.android.synthetic.main.alert_dialogue.*
-import java.io.FileOutputStream
 
 class ViewDocumentActivity : BaseBindingImageActivity<IViewDocumentActivity.ViewModel>(),
     IViewDocumentActivity.View {
@@ -180,10 +178,9 @@ class ViewDocumentActivity : BaseBindingImageActivity<IViewDocumentActivity.View
                             dataUri?.let { uriIntent ->
                                 var fileSelected = FileUtils.getFile(context, uriIntent.data)
                                 if (fileSelected.sizeInMb() <= 25) {
-                                    var fileAfterBrowse =
-                                        context.createTempFileForBrowse(fileSelected.extension)
+                                    var fileAfterBrowse = context.createTempFileForBrowse(fileSelected.extension)
                                     fileSelected.copyTo(fileAfterBrowse)
-                                    viewModel.fileUri = fileAfterBrowse.toUri()
+                                    viewModel.fileForUpdate = fileAfterBrowse
                                     loadFileInView(
                                         fileAfterBrowse.extension,
                                         FileFrom.Local().local,
@@ -237,7 +234,7 @@ class ViewDocumentActivity : BaseBindingImageActivity<IViewDocumentActivity.View
     override fun onBackPressed() {
         if (viewModel.state.isFileUpdated.value == true) {
             val intent = Intent()
-            intent.putExtra(ExtraKeys.FILE_URI.name, viewModel.fileUri)
+            intent.putExtra(ExtraKeys.FILE_FOR_UPDATE.name, viewModel.fileForUpdate)
             intent.putExtra(ExtraKeys.FILE_PATH.name, viewModel.state.filePath?.value)
             intent.putExtra(ExtraKeys.FILE_TYPE.name, viewModel.state.fileType?.value)
             setResult(Activity.RESULT_OK, intent)
@@ -260,7 +257,7 @@ class ViewDocumentActivity : BaseBindingImageActivity<IViewDocumentActivity.View
 
     override fun onImageReturn(mediaFile: MediaFile) {
         if (mediaFile.file.sizeInMb() <= 25) {
-            viewModel.fileUri = FileUtils.getUri(mediaFile.file)
+            viewModel.fileForUpdate = mediaFile.file
             loadFileInView(
                 mediaFile.file.extension,
                 FileFrom.Local().local,

@@ -1049,14 +1049,12 @@ object UIBinder {
             var progress = Utils.createProgressDialog(view.context)
             imageSrc?.let {
                 progress.show()
-                val mUrl = getUrl(imageSrc)
+                var mUrl = getUrl(imageSrc)
+                if (!mUrl.contains("http")) {
+                    mUrl = "file://$mUrl"
+                }
                 Picasso.get().load(mUrl).into(view, object : Callback {
                     override fun onSuccess() {
-                        Toast.makeText(
-                            view.context,
-                            "Having trouble viewing the document? Please try again.",
-                            Toast.LENGTH_LONG
-                        ).show()
                         progress.dismiss()
                         progress.hide()
                     }
@@ -1068,7 +1066,6 @@ object UIBinder {
                         ).show()
                         progress.dismiss()
                         progress.hide()
-
                     }
                 })
             }

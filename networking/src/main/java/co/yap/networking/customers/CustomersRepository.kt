@@ -248,6 +248,10 @@ object CustomersRepository : BaseRepository(), CustomersApi {
                     sponsorName = RequestBody.create(
                         MediaType.parse("multipart/form-dataList"),
                         sponsorName ?: ""
+                    ),
+                    typeOfSelfEmployment = RequestBody.create(
+                        MediaType.parse("multipart/form-dataList"),
+                        typeOfSelfEmployment ?: ""
                     )
                 )
             })
