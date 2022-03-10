@@ -60,7 +60,7 @@ interface IEidInfoReviewAmendment {
         fun showExpiredEidScreen()
         fun showInvalidEidScreen()
         fun showUSACitizenScreen()
-        fun openCardScanner()
+      //  fun openCardScanner()
     }
 
     interface ViewModel : IBase.ViewModel<State> {

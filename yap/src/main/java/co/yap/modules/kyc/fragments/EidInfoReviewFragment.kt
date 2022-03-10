@@ -48,7 +48,9 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         if (viewModel.parentViewModel?.skipFirstScreen?.value == true) {
-            openCardScanner()
+            //TODO Uqudo Camera WILL BE Handled here
+            showToast("Uqudo Camera will be integrated here!!")
+            //   openCardScanner()
             tbBtnBack.setOnClickListener {
                 viewModel.parentViewModel?.finishKyc?.value = DocumentsResponse(false)
             }
@@ -102,11 +104,15 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
                 viewModel.eventErrorExpiredEid -> showExpiredEidScreen()
                 viewModel.eventErrorUnderAge -> showUnderAgeScreen()
                 viewModel.eventErrorFromUsa -> showUSACitizenScreen()
-                viewModel.eventRescan -> openCardScanner()
+                viewModel.eventRescan -> {//openCardScanner()
+                    //TODO Uqudo Camera WILL BE Handled here
+                    showToast("Uqudo Camera will be integrated here!!") }
                 R.id.tvNoThanks -> {
                     trackEventWithScreenName(FirebaseEvent.RESCAN_ID)
                     hideKeyboard(tvNoThanks)
-                    openCardScanner()
+                    //TODO Uqudo Camera WILL BE Handled here
+                    showToast("Uqudo Camera will be integrated here!!")
+                  //  openCardScanner()
                 }
                 viewModel.eventAlreadyUsedEid -> {
                     viewModel.parentViewModel?.finishKyc?.value =
@@ -202,7 +208,9 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
             it.showAlertDialogAndExitApp(
                 message = title,
                 callback = {
-                    openCardScanner()
+                    //TODO Uqudo Camera WILL BE Handled here
+                    showToast("Uqudo Camera will be integrated here!!")
+                    //   openCardScanner()
                 },
                 closeActivity = false
             )
@@ -304,7 +312,7 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
         }
     }
 
-    override fun openCardScanner() {
+   /* override fun openCardScanner() {
         viewModel.invalidateFields()
         startActivityForResult(
             IdentityScannerActivity.getLaunchIntent(
@@ -314,7 +322,7 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
             ),
             IdentityScannerActivity.SCAN_EID_CAM
         )
-    }
+    }*/
 
     override fun onDestroy() {
         viewModel.parentViewModel?.paths?.forEach { filePath ->
