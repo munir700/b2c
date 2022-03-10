@@ -10,6 +10,7 @@ import androidx.lifecycle.MutableLiveData
 import co.yap.BR
 import co.yap.app.R
 import co.yap.app.modules.login.interfaces.ILogin
+import co.yap.modules.onboarding.models.CountryCode
 import co.yap.yapcore.BaseState
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.isValidPhoneNumber
@@ -27,7 +28,7 @@ class LoginState(application: Application) : BaseState(), ILogin.State {
 
     override var emailError: MutableLiveData<String> = MutableLiveData("")
 
-    override var  valid: ObservableBoolean = ObservableBoolean(false)
+    override var valid: ObservableBoolean = ObservableBoolean(false)
 
 
     fun validate(): Boolean {
@@ -86,9 +87,12 @@ class LoginState(application: Application) : BaseState(), ILogin.State {
         emailError.value = ""
         drawbleRight = context.resources.getDrawable(R.drawable.path, null)
     }
+
     override var isError: ObservableBoolean = ObservableBoolean()
-    override var countryCode: ObservableField<String> = ObservableField("+971")
-    override var mobile: ObservableField<String> = ObservableField()
+    override var isRemember: ObservableBoolean = ObservableBoolean(true)
+    override var countryCode: MutableLiveData<String> =
+        MutableLiveData(CountryCode.UAE.countryCode ?: "")
+    override var mobile: MutableLiveData<String> = MutableLiveData()
     override var mobileNumber: MutableLiveData<String> = MutableLiveData("")
 
 }

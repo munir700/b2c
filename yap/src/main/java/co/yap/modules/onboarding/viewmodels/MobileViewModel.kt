@@ -72,15 +72,13 @@ class MobileViewModel(application: Application) :
 
     override fun createOtp(success: (success: Boolean) -> Unit) {
         parentViewModel?.onboardingData?.startTime = Date()
-        var mobileNumber: String =
-            state.mobile.trim().replace(state.countryCode.get()?.trim() ?: "", "")
-        mobileNumber = state.mobile.trim().replace(" ", "")
+        val mobileNumber: String = state.mobile.trim().replace(" ", "")
         val formattedMobileNumber: String =
-            state.countryCode.get()?.trim() + " " + state.mobile.trim().replace(
-                state.countryCode.get()?.trim() ?: "",
+            state.countryCode.value?.trim() + " " + state.mobile.trim().replace(
+                state.countryCode.value?.trim() ?: "",
                 ""
             )
-        val countryCode: String = state.countryCode.get()?.trim()?.replace("+", "00") ?: ""
+        val countryCode: String = state.countryCode.value?.trim()?.replace("+", "00") ?: ""
         trackEvent(SignupEvents.SIGN_UP_NUMBER.type, countryCode + mobileNumber)
         launch {
             state.loading = true
@@ -115,12 +113,13 @@ class MobileViewModel(application: Application) :
     }
 
     fun onPhoneNumberTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-        state.isError.set(false)
+        state.error = ""
+        state.mobileError = ""
         state.valid.set(
             isValidPhoneNumber(
                 s.toString(),
                 getCountryCodeForRegion(
-                    state.countryCode.get().toString().replace("+", "").toInt()
+                    state.countryCode.value.toString().replace("+", "").toInt()
                 )
             )
         )
@@ -130,14 +129,19 @@ class MobileViewModel(application: Application) :
     override val userVerified: MutableLiveData<String> = MutableLiveData()
     override val userVerifier: UserVerifierProvider = UserVerifierProvider()
 
-   override fun verifyUser(countryCode: String, mobileNumber: String) {
+    override fun verifyUser(countryCode: String, mobileNumber: String) {
         state.loading = true
-       LoadConfig(context).initYapRegion(countryCode)
+        LoadConfig(context).initYapRegion(countryCode)
         userVerifier.provideOtpVerifier(countryCode)
-            .createOtp(countryCode.replace("+","00"), mobileNumber) { result ->
+            .createOtp(countryCode.replace("+", "00"), mobileNumber) { result ->
                 state.loading = false
                 if (result.isSuccess && result.getOrNull() == true) {
                     userVerified.value = countryCode
+                } else {
+                    result.onFailure {
+                        state.error = it.message ?: ""
+                        state.mobileError = it.message ?: ""
+                    }
                 }
 
             }

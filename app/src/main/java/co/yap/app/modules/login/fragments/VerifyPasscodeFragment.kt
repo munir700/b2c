@@ -105,9 +105,9 @@ class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), B
             viewModel.state.verifyPassCodeEnum =
                 it.getString(REQUEST_CODE, VerifyPassCodeEnum.ACCESS_ACCOUNT.name)
         }
-        shardPrefs?.getValueString(KEY_MOBILE_NO)?.let {
-            var mobileNo= it
-        }
+//        shardPrefs?.getValueString(KEY_MOBILE_NO)?.let {
+//            var mobileNo= it
+//        }
 
     }
 

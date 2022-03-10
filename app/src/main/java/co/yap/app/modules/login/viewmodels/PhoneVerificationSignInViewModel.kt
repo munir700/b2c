@@ -77,12 +77,12 @@ class PhoneVerificationSignInViewModel(application: Application) :
                         KEY_IS_USER_LOGGED_IN,
                         true
                     )
-                    SessionManager.isRemembered.value?.let {
-                        sharedPreferenceManager.save(Constants.KEY_IS_REMEMBER, it)
-                    }
+//                    SessionManager.isRemembered.value?.let {
+//                        sharedPreferenceManager.save(Constants.KEY_IS_REMEMBER, it)
+//                    }
 
                     sharedPreferenceManager.savePassCodeWithEncryption(state.passcode)
-                    sharedPreferenceManager.saveUserNameWithEncryption(state.username)
+//                    sharedPreferenceManager.saveUserNameWithEncryption(state.username)
                     postDemographicData()
                 }
                 is RetroApiResponse.Error -> {

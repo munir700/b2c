@@ -35,13 +35,11 @@ interface IMobile {
         var drawbleRight: Drawable?
         var mobileError: String
         var valid: ObservableBoolean
-        var errorVisibility: Int
+//        var errorVisibility: Int
         var background: Drawable?
         var activeFieldValue: Boolean
         var mobileNoLength: Int
-
-        var isError: ObservableBoolean
-        var countryCode: ObservableField<String>
+        var countryCode: MutableLiveData<String>
         var mobileNumber: MutableLiveData<String>
 
     }

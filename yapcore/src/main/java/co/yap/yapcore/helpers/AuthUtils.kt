@@ -5,7 +5,10 @@ import android.content.Intent
 import co.yap.yapcore.adjust.ReferralInfo
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.Constants.KEY_APP_UUID
+import co.yap.yapcore.constants.Constants.KEY_COUNTRY_CODE
 import co.yap.yapcore.constants.Constants.KEY_IS_FIRST_TIME_USER
+import co.yap.yapcore.constants.Constants.KEY_MOBILE_NO
+import co.yap.yapcore.managers.saveUserDetails
 import java.util.*
 
 object AuthUtils {
@@ -20,10 +23,18 @@ object AuthUtils {
                 KEY_IS_FIRST_TIME_USER,
                 false
             )
-        var userName: String? = ""
+//        var userName: String? = ""
+        var mobileNo: String? = ""
+        var countryCode: String? = ""
         val isRemember = sharedPreferenceManager.getValueBoolien(Constants.KEY_IS_REMEMBER, false)
         if (isRemember) {
-            userName = sharedPreferenceManager.getDecryptedUserName()
+            sharedPreferenceManager.getValueString(KEY_MOBILE_NO)?.let {
+                mobileNo = it
+            }
+            sharedPreferenceManager.getValueString(KEY_COUNTRY_CODE)?.let {
+                countryCode = it
+            }
+//            userName = sharedPreferenceManager.getDecryptedUserName()
         }
         //Removing it will take user to otp screen will login after logout
         //val uuid: String? =
@@ -38,7 +49,8 @@ object AuthUtils {
             UUID.randomUUID().toString()
         )
         if (isRemember) {
-            sharedPreferenceManager.saveUserNameWithEncryption(userName ?: "")
+            context.saveUserDetails(mobileNo, countryCode, isRemember)
+//            sharedPreferenceManager.saveUserNameWithEncryption(userName ?: "")
         }
         sharedPreferenceManager.save(Constants.KEY_IS_REMEMBER, isRemember)
         sharedPreferenceManager.save(

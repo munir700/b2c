@@ -260,7 +260,7 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
 
     fun getDefaultCurrency() = DEFAULT_CURRENCY
 
-    fun sendFcmTokenToServer(deviceId:String? , success: () -> Unit = {}) {
+    fun sendFcmTokenToServer(deviceId: String?, success: () -> Unit = {}) {
         getFCMToken() {
             it?.let { token ->
                 GlobalScope.launch {
@@ -282,14 +282,15 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
 
         }
     }
-    fun saveUserDetails(mobile: String?, countryCode: String?, isRemember: Boolean?,context: Context) {
-        SharedPreferenceManager.getInstance(context).save(Constants.KEY_IS_REMEMBER, isRemember?:true)
-        SharedPreferenceManager.getInstance(context)
-            .save(Constants.KEY_MOBILE_NO, if (isRemember==true) mobile ?: "" else "")
-        SharedPreferenceManager.getInstance(context)
-            .save(Constants.KEY_COUNTRY_CODE, if (isRemember==true) countryCode ?: "" else "")
-        SharedPreferenceManager.getInstance(context).getValueString(Constants.KEY_MOBILE_NO)
-    }
+
+}
+
+fun Context.saveUserDetails(mobile: String?, countryCode: String?, isRemember: Boolean?) {
+    SharedPreferenceManager.getInstance(this).save(Constants.KEY_IS_REMEMBER, isRemember ?: true)
+    SharedPreferenceManager.getInstance(this)
+        .save(Constants.KEY_MOBILE_NO, mobile ?: "")
+    SharedPreferenceManager.getInstance(this)
+        .save(Constants.KEY_COUNTRY_CODE, countryCode ?: "")
 }
 
 fun Context?.isUserLogin() = this?.let {

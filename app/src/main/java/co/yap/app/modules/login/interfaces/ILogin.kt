@@ -17,10 +17,6 @@ interface ILogin {
         fun onEditorActionListener(): TextView.OnEditorActionListener
         var clickEvent: SingleClickEvent
         fun handlePressOnView(id: Int)
-        fun saveUserDetails(
-            mobile: String?, countryCode: String?,
-            isRemember: Boolean?
-        )
     }
 
     interface State : IBase.State {
@@ -31,8 +27,9 @@ interface ILogin {
         var drawbleRight: Drawable?
         var refreshField: Boolean
         var isError: ObservableBoolean
-        var countryCode: ObservableField<String>
-        var mobile: ObservableField<String>
+        var isRemember: ObservableBoolean
+        var countryCode: MutableLiveData<String>
+        var mobile: MutableLiveData<String>
         var mobileNumber: MutableLiveData<String>
     }
 }

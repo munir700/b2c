@@ -15,6 +15,7 @@ import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import co.yap.BR
 import co.yap.modules.onboarding.interfaces.IMobile
+import co.yap.modules.onboarding.models.CountryCode
 import co.yap.modules.onboarding.viewmodels.MobileViewModel
 import co.yap.widgets.mobile.CountryCodePicker
 import co.yap.yapcore.BaseState
@@ -81,12 +82,12 @@ class MobileState(application: Application, var viewModel: MobileViewModel) : Ba
             notifyPropertyChanged(BR.activeFieldValue)
         }
 
-    @get:Bindable
-    override var errorVisibility: Int = VISIBLE
-        set(value) {
-            field = value
-            notifyPropertyChanged(BR.handleBackPress)
-        }
+//    @get:Bindable
+//    override var errorVisibility: Int = VISIBLE
+//        set(value) {
+//            field = value
+//            notifyPropertyChanged(BR.handleBackPress)
+//        }
 
     @get:Bindable
     override var mobileNoLength: Int = 11
@@ -167,7 +168,6 @@ class MobileState(application: Application, var viewModel: MobileViewModel) : Ba
             drawbleRight = mContext.resources.getDrawable(R.drawable.invalid_name)
             background =
                 mContext.resources.getDrawable(R.drawable.bg_round_error_layout)
-            errorVisibility = VISIBLE
             //valid = false
         }
     }
@@ -193,8 +193,6 @@ class MobileState(application: Application, var viewModel: MobileViewModel) : Ba
         }
 
     }
-
-    override var isError: ObservableBoolean = ObservableBoolean()
-    override var countryCode: ObservableField<String> = ObservableField("+971")
+    override var countryCode: MutableLiveData<String> = MutableLiveData(CountryCode.UAE.countryCode ?: "")
     override var mobileNumber: MutableLiveData<String> = MutableLiveData("")
 }

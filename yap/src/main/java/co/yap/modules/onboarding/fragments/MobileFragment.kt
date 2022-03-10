@@ -9,11 +9,14 @@ import co.yap.BR
 import co.yap.R
 import co.yap.databinding.FragmentMobileBinding
 import co.yap.modules.onboarding.interfaces.IMobile
+import co.yap.modules.onboarding.models.CountryCode
 import co.yap.modules.onboarding.viewmodels.MobileViewModel
 import co.yap.networking.coreitems.CoreBottomSheetData
+import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.interfaces.OnItemClickListener
-import com.yap.core.extensions.finishAffinity
+import co.yap.yapcore.managers.saveUserDetails
 import com.yap.ghana.ui.onboarding.main.YapGhanaMainActivity
 import com.yap.yappakistan.ui.onboarding.main.YapPkMainActivity
 
@@ -37,21 +40,29 @@ class MobileFragment : OnboardingChildFragment<IMobile.ViewModel>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        getDataBindingView<FragmentMobileBinding>().lifecycleOwner = this
         getDataBindingView<FragmentMobileBinding>().tlPhoneNumber.requestFocusForField()
         viewModel.clickEvent.observe(viewLifecycleOwner, clickListenerHandler)
         setTouchListener()
 
         viewModel.userVerified.observe(viewLifecycleOwner, Observer {
             val mobile = viewModel.state.mobile.replace(" ", "")
-            if (it == "+92") {
-                launchActivity<YapPkMainActivity>() {
-                    putExtra("countryCode", viewModel.state.countryCode.get())
-                    putExtra("mobileNo", mobile)
+            SharedPreferenceManager.getInstance(requireContext())
+                .save(Constants.KEY_COUNTRY_CODE, it)
+            SharedPreferenceManager.getInstance(requireContext())
+                .save(Constants.KEY_MOBILE_NO, mobile ?: "")
+            when (it) {
+                CountryCode.GHANA.countryCode -> {
+                    launchActivity<YapPkMainActivity>() {
+                        putExtra("countryCode", viewModel.state.countryCode.value)
+                        putExtra("mobileNo", mobile)
+                    }
                 }
-            } else if (it == "+233") {
-                launchActivity<YapGhanaMainActivity> {
-                    putExtra("countryCode", viewModel.state.countryCode.get())
-                    putExtra("mobileNo", mobile)
+                CountryCode.PAK.countryCode -> {
+                    launchActivity<YapGhanaMainActivity> {
+                        putExtra("countryCode", viewModel.state.countryCode.value)
+                        putExtra("mobileNo", mobile)
+                    }
                 }
             }
         })
@@ -61,10 +72,10 @@ class MobileFragment : OnboardingChildFragment<IMobile.ViewModel>() {
     private val clickListenerHandler = Observer<Int> { id ->
         when (id) {
             R.id.next_button -> {
-                if (getDataBindingView<FragmentMobileBinding>().tlPhoneNumber.prefixText != "+971")
+                if (getDataBindingView<FragmentMobileBinding>().tlPhoneNumber.prefixText != CountryCode.UAE.countryCode)
                     viewModel.verifyUser(
                         getDataBindingView<FragmentMobileBinding>().tlPhoneNumber.prefixText.toString(),
-                        viewModel.state.mobile.replace(" ","")
+                        viewModel.state.mobile.replace(" ", "")
                     )
                 else {
                     viewModel.createOtp { success ->
@@ -93,7 +104,9 @@ class MobileFragment : OnboardingChildFragment<IMobile.ViewModel>() {
                     )
                 )
                 viewModel.state.mobile = ""
-                viewModel.state.countryCode.set(data.content.toString())
+                viewModel.state.countryCode.value = data.content.toString()
+                viewModel.state.error = ""
+                viewModel.state.mobileError = ""
                 getDataBindingView<FragmentMobileBinding>().tlPhoneNumber.requestFocusForField()
             }
         }

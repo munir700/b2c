@@ -54,6 +54,9 @@ class SharedPreferenceManager private constructor(val context: Context) {
     fun getValueString(KEY_NAME: String): String? {
         return sharedPref.getString(KEY_NAME, null)
     }
+    fun getValueString(KEY_NAME: String,defaultValue:String): String? {
+        return sharedPref.getString(KEY_NAME, defaultValue)
+    }
 
     fun getValueInt(KEY_NAME: String): Int {
         return sharedPref.getInt(KEY_NAME, 0)

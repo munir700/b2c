@@ -20,13 +20,16 @@ import co.yap.modules.onboarding.models.CountryCode
 import co.yap.networking.coreitems.CoreBottomSheetData
 import co.yap.widgets.keyboardvisibilityevent.KeyboardVisibilityEvent
 import co.yap.widgets.keyboardvisibilityevent.KeyboardVisibilityEventListener
+import co.yap.yapcore.constants.Constants.KEY_COUNTRY_CODE
 import co.yap.yapcore.constants.Constants.KEY_IS_REMEMBER
 import co.yap.yapcore.constants.Constants.KEY_IS_USER_LOGGED_IN
+import co.yap.yapcore.constants.Constants.KEY_MOBILE_NO
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.*
+import co.yap.yapcore.helpers.getCountryCodeForRegion
 import co.yap.yapcore.interfaces.OnItemClickListener
-import co.yap.yapcore.managers.SessionManager
+import co.yap.yapcore.managers.saveUserDetails
 import com.yap.ghana.ui.auth.main.GhAuthenticationActivity
 import com.yap.yappakistan.ui.auth.main.AuthenticationActivity
 import kotlinx.android.synthetic.main.fragment_log_in.*
@@ -42,6 +45,7 @@ class LoginFragment : MainChildFragment<ILogin.ViewModel>(), ILogin.View {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        getDataBindingView<FragmentLogInBinding>().lifecycleOwner = this
         initiatePreference()
         configureWindow()
         setTouchListener()
@@ -69,11 +73,34 @@ class LoginFragment : MainChildFragment<ILogin.ViewModel>(), ILogin.View {
             // etEmailField.requestKeyboard()
         }
 
-        SessionManager.isRemembered.value =
-            sharedPreferenceManager.getValueBoolien(
-                KEY_IS_REMEMBER,
-                getDataBindingView<FragmentLogInBinding>().swRemember.isChecked
-            )
+//        SessionManager.isRemembered.value =
+//            sharedPreferenceManager.getValueBoolien(
+//                KEY_IS_REMEMBER,
+//                getDataBindingView<FragmentLogInBinding>().swRemember.isChecked
+//            )
+        sharedPreferenceManager.getValueBoolien(KEY_IS_REMEMBER, true).apply {
+            viewModel.state.isRemember.set(this)
+            sharedPreferenceManager.getValueString(
+                KEY_COUNTRY_CODE, viewModel.state.countryCode.value ?: ""
+            )?.let {
+                viewModel.state.countryCode.value = it
+                getDataBindingView<FragmentLogInBinding>().tlPhoneNumber.setStartIconDrawable(
+                    requireContext().getDropDownIconByName(
+                        getCountryCodeForRegion(it.replace("+", "").parseToInt())
+                    )
+                )
+            }
+            if (this) {
+                sharedPreferenceManager.getValueString(KEY_MOBILE_NO)
+                    ?.let {
+                        viewModel.state.mobile.value = it
+                        if (getDataBindingView<FragmentLogInBinding>().etMobileNumber.length() > 1)
+                            getDataBindingView<FragmentLogInBinding>().etMobileNumber.setSelection(
+                                getDataBindingView<FragmentLogInBinding>().etMobileNumber.length()
+                            )
+                    }
+            }
+        }
         //TODO() Need to be modified according to the Country Number
         /* SessionManager.isRemembered.value?.let {
              etEmailField.editText.setText(if (it) sharedPreferenceManager.getDecryptedUserName() else "")
@@ -103,12 +130,11 @@ class LoginFragment : MainChildFragment<ILogin.ViewModel>(), ILogin.View {
 
         viewModel.userVerified.observe(viewLifecycleOwner, Observer {
             val mobileNo =
-                viewModel.state.mobile.get()?.replace(" ", "")
-            SessionManager.saveUserDetails(
+                viewModel.state.mobile.value?.replace(" ", "")
+            requireContext().saveUserDetails(
                 mobileNo,
                 it,
-                getDataBindingView<FragmentLogInBinding>().swRemember.isChecked,
-                requireContext()
+                getDataBindingView<FragmentLogInBinding>().swRemember.isChecked
             )
             when (it) {
                 CountryCode.GHANA.countryCode -> {
@@ -130,9 +156,9 @@ class LoginFragment : MainChildFragment<ILogin.ViewModel>(), ILogin.View {
     }
 
     private fun navigateToPassCode() {
-        viewModel.saveUserDetails(
-            viewModel.state.mobileNumber.value ,
-            viewModel.state.countryCode.get(),
+        requireContext().saveUserDetails(
+            viewModel.state.mobileNumber.value,
+            viewModel.state.countryCode.value,
             getDataBindingView<FragmentLogInBinding>().swRemember.isChecked
         )
         val action =
@@ -151,7 +177,7 @@ class LoginFragment : MainChildFragment<ILogin.ViewModel>(), ILogin.View {
                 val countryCode =
                     getDataBindingView<FragmentLogInBinding>().tlPhoneNumber.prefixText.toString()
                 val mobileNo =
-                    viewModel.state.mobile.get()?.filter { it.isWhitespace().not() }?.trim()
+                    viewModel.state.mobile.value?.filter { it.isWhitespace().not() }?.trim()
                         ?: ""
                 when (countryCode) {
                     CountryCode.UAE.countryCode -> {
@@ -195,8 +221,8 @@ class LoginFragment : MainChildFragment<ILogin.ViewModel>(), ILogin.View {
                         data.key ?: "AE"
                     )
                 )
-                viewModel.state.mobile.set("")
-                viewModel.state.countryCode.set(data.content.toString())
+                viewModel.state.mobile.value = ""
+                viewModel.state.countryCode.value = data.content.toString()
                 getDataBindingView<FragmentLogInBinding>().tlPhoneNumber.requestFocusForField()
 
             }

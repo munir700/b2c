@@ -29,7 +29,7 @@ class LoadConfig @Inject constructor(@ApplicationContext val appContext: Context
         val pkConfigs = PKBuildConfigurations(context)
         pkConfigs.configure(
             flavour = "qa",
-            buildType = "debug",
+            buildType = BuildConfig.BUILD_TYPE,
             versionName = YAPApplication.configManager?.versionName ?: "1.0.0",
             versionCode = YAPApplication.configManager?.versionCode ?: "1",
             applicationId = "co.yap.qa"
@@ -70,7 +70,8 @@ class LoadConfig @Inject constructor(@ApplicationContext val appContext: Context
     private fun handlePkAppEvent(event: PkAppEvent, context: Context) {
         when (event) {
             PkAppEvent.IS_LOGGED_IN -> {
-
+                SharedPreferenceManager.getInstance(context)
+                    .save(Constants.KEY_IS_USER_LOGGED_IN, true)
             }
             PkAppEvent.LOGOUT -> {
                 SharedPreferenceManager.getInstance(context)
