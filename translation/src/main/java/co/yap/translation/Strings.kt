@@ -500,6 +500,8 @@ object Strings {
         "screen_set_card_pin_success_display_text_title"
     const val screen_set_card_pin_success_display_text_description: String =
         "screen_set_card_pin_success_display_text_description"
+    const val screen_view_document_refresh_text_description: String =
+        "screen_view_document_refresh_text_description"
     const val screen_set_card_pin_success_button_create_pin: String =
         "screen_set_card_pin_success_button_create_pin"
     const val screen_set_card_pin_success_button_create_pin_later: String =
@@ -2658,4 +2660,5 @@ object Strings {
     const val screen_missing_info_confirmation_button_done = "screen_missing_info_confirmation_button_done"
     const val screen_missing_info_confirmation_display_all_set = "screen_missing_info_confirmation_display_all_set"
 
+    const val screen_view_document_refresh_button_text = "screen_view_document_refresh_button_text"
 }

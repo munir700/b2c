@@ -1,9 +1,11 @@
 package co.yap.networking.customers.responsedtos.employment_amendment
 
+import android.net.Uri
 import android.os.Parcelable
 import co.yap.networking.models.ApiResponse
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
+import java.io.File
 
 @Parcelize
 data class EmploymentInfoAmendmentResponse(
@@ -49,6 +51,8 @@ data class Document(
     var description: String = "",
     @SerializedName("extension")
     var extension: String = "",
+    @SerializedName("fileForUpdate")
+    var fileForUpdate: File? = null,
     @SerializedName("isMandatory")
     val isMandatory: Boolean = false
 ) : Parcelable

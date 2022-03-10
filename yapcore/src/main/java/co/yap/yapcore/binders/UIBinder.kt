@@ -61,19 +61,17 @@ import co.yap.yapcore.interfaces.IBindable
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.SessionManager
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.DataSource
-import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
-import com.bumptech.glide.request.RequestListener
 import com.daimajia.androidanimations.library.Techniques
 import com.daimajia.androidanimations.library.YoYo
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.google.android.material.textfield.TextInputLayout
+import com.liveperson.infra.utils.picasso.Callback
 import com.uxcam.UXCam
 import java.text.SimpleDateFormat
-import com.bumptech.glide.request.target.Target
+import com.liveperson.infra.utils.picasso.Picasso
 
 object UIBinder {
     @BindingAdapter(requireAll = false, value = ["adaptor", "selectedListener"])
@@ -1051,35 +1049,25 @@ object UIBinder {
             var progress = Utils.createProgressDialog(view.context)
             imageSrc?.let {
                 progress.show()
-                val mUrl = getUrl(imageSrc)
-                Glide.with(view.context)
-                    .load(mUrl)
-                    .listener(object : RequestListener<Drawable?> {
-                        override fun onResourceReady(
-                            resource: Drawable?,
-                            model: Any?,
-                            target: Target<Drawable?>?,
-                            dataSource: DataSource?,
-                            isFirstResource: Boolean
-                        ): Boolean {
-                            progress.dismiss()
-                            progress.hide()
-                            return false
-                        }
-
-                        override fun onLoadFailed(
-                            e: GlideException?,
-                            model: Any?,
-                            target: Target<Drawable?>?,
-                            isFirstResource: Boolean
-                        ): Boolean {
-                            progress.dismiss()
-                            progress.hide()
-                            return false
-                        }
-                    })
-                    .into(view)
-
+                var mUrl = getUrl(imageSrc)
+                if (!mUrl.contains("http")) {
+                    mUrl = "file://$mUrl"
+                }
+                Picasso.get().load(mUrl).into(view, object : Callback {
+                    override fun onSuccess() {
+                        progress.dismiss()
+                        progress.hide()
+                    }
+                    override fun onError(e: java.lang.Exception?) {
+                        Toast.makeText(
+                            view.context,
+                            "Having trouble viewing the document? Please try again.",
+                            Toast.LENGTH_LONG
+                        ).show()
+                        progress.dismiss()
+                        progress.hide()
+                    }
+                })
             }
         } else {
             imageSrc?.let {

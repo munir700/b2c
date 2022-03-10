@@ -343,6 +343,7 @@
     <string name="screen_forgot_passcode_otp_display_text_sub_heading">Enter the OTP sent to your registered mobile number %1$s</string>
     <string name="screen_verify_passcode_text_account_locked">Sorry, that’s too many incorrect attempts. Click on Forgot passcode to set a new one.</string>
 
+    <string name="screen_view_document_refresh_text_description">Having trouble viewing the document? Please refresh and try again.</string>
 
     <!-- Forgot posscode success screen -->
     <string name="screen_passcode_success_display_text_heading">Success!</string>
@@ -1246,7 +1247,7 @@
 
     <string name="screen_otp_blocked_display_text_details_card_blocked">Some of your account features may not work. This is due to a temporary block that has been put on your card or account.\n\nPlease get in touch via live chat for help &amp; support.</string>
     <string name="screen_otp_blocked_display_title_card_blocked">We’re sorry, %1s</string>
-<!--    <string name="iban_or_debit_card_freeze_or_blocked_message">Some of your card\'s features are temporarily disabled. Get in touch with us at %1s for assistance.</string>-->
+    <!--    <string name="iban_or_debit_card_freeze_or_blocked_message">Some of your card\'s features are temporarily disabled. Get in touch with us at %1s for assistance.</string>-->
     <string name="iban_or_debit_card_freeze_or_blocked_message">Sorry, some of your account features are temporarily unavailable. Please get in touch via <b>live chat</b> for help &amp; support</string>
 
     <!--  Yap home fragment screen-->
@@ -1519,7 +1520,7 @@
     <string name="screen_employment_questionnaire_display_text__bottom_sheet_title_describe_you">Select which statement describes your situation best:</string>
     <string name="screen_employment_questionnaire_display_text__bottom_sheet_title_segments">Select industry segment:</string>
     <string name="screen_employment_questionnaire_display_text__bottom_sheet_title_self_employment">Select which statement describes your self-employment status:</string>
-<!--    ERROR_INVALID_CARDINPUT-->
+    <!--    ERROR_INVALID_CARDINPUT-->
     <string name="screen_employment_type_display_text_bottom_sheet_title">Select employment status:</string>
     <string name="screen_employment_type_display_text_account_blocked">This account is in process to be activated</string>
     <!--    ERROR_INVALID_CARDINPUT-->
@@ -1717,10 +1718,12 @@
     <string name="eid_info_review_screen_select_nationality">Please select your Nationality</string>
     <!-- KYC Amendments End -->
 
-<!--    upload document bottom sheet-->
+    <!--    upload document bottom sheet-->
     <string name="screen_view_document_sheet_heading">Choose from Library</string>
     <string name="screen_view_document_sheet_take_photo_heading">Take a Photo</string>
     <string name="screen_view_document_sheet_browse_gallery_heading">Browse Files</string>
 
+
+    <string name="screen_view_document_refresh_button_text">Refresh</string>
 
 </resources>

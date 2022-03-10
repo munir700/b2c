@@ -2,9 +2,11 @@ package co.yap.modules.location.kyc_additional_info.employment_info.amendment
 
 import android.app.Activity
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
+import androidx.core.net.toUri
 import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.Observable
@@ -51,6 +53,7 @@ import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.SessionManager
 import com.liveperson.infra.utils.UIUtils
 import pl.aprilapps.easyphotopicker.MediaFile
+import java.io.File
 
 
 class EmploymentQuestionnaireAmendmentFragment :
@@ -74,15 +77,19 @@ class EmploymentQuestionnaireAmendmentFragment :
                 activity?.finish()
             }
             R.id.tvRightText -> {
-                startFragment(
-                    fragmentName = EmploymentQuestionnaireAmendmentFragment::class.java.name,
-                    bundle = bundleOf(
+                startFragmentForResult<EmploymentQuestionnaireAmendmentFragment>(
+                    EmploymentQuestionnaireAmendmentFragment::class.java.name,
+                    bundleOf(
                         "countries" to viewModel.countries,
                         "segments" to viewModel.industrySegmentsList,
                         "empStatus" to viewModel.employmentStatusValue.value,
                         "documentsList" to viewModel.requiredDocumentsResponse.value
-                    )
-                )
+                    ), false
+                ) { resultCode, data ->
+                    if (resultCode == Activity.RESULT_OK) {
+                        activity?.finish()
+                    }
+                }
             }
         }
     }
@@ -254,13 +261,19 @@ class EmploymentQuestionnaireAmendmentFragment :
                 if (data.fileURL.isNullOrEmpty()) {
                     showDialogueOptions()
                 } else {
+                    var fileLink = data.fileURL ?: ""
+                    var fileFrom = if (fileLink.contains("http")) {
+                        FileFrom.Link().link
+                    } else {
+                        FileFrom.Local().local
+                    }
                     context?.let {
                         startActivityForResult(
                             ViewDocumentActivity.newIntent(
                                 it,
-                                data.fileURL ?: "",
+                                fileLink,
                                 data.extension,
-                                FileFrom.Link().link,
+                                fileFrom,
                                 viewModel.isInEditMode.value ?: false
                             ), RequestCodes.REQUEST_VIEW_DOCUMENT
                         )
@@ -440,7 +453,8 @@ class EmploymentQuestionnaireAmendmentFragment :
             data?.getValue(ExtraKeys.FILE_PATH.name, ExtraType.STRING.name) as? String
         val fileType =
             data?.getValue(ExtraKeys.FILE_TYPE.name, ExtraType.STRING.name) as? String
-        updateDocumentLists(file, fileType)
+        val fileForUpdate = data?.getSerializableExtra(ExtraKeys.FILE_FOR_UPDATE.name) as File
+        updateDocumentLists(file, fileType, fileForUpdate)
     }
 
     private fun startOtpFragment() {
@@ -485,19 +499,23 @@ class EmploymentQuestionnaireAmendmentFragment :
                     openImagePicker(PhotoSelectionType.CAMERA)
                 }
                 TakePhotoType.Browse().tvbrowseFiles -> {
-                    activity?.openFilePicker("File picker",
+                    activity?.openFilePicker(
+                        "File picker",
                         completionHandler = { _, dataUri ->
                             dataUri?.let { uriIntent ->
-                                if (FileUtils.getFile(context, uriIntent.data).sizeInMb() <= 25) {
-                                    updateDocumentLists(
-                                        FileUtils.getFile(
-                                            context,
-                                            uriIntent.data
-                                        ).absolutePath, FileUtils.getFile(
-                                            context,
-                                            uriIntent.data
-                                        ).extension
-                                    )
+                                var fileSelected = FileUtils.getFile(context, uriIntent.data)
+                                if (fileSelected.sizeInMb() <= 25) {
+                                    var fileAfterBrowse =
+                                        context?.let { it.createTempFileForBrowse(fileSelected.extension) }
+                                    fileAfterBrowse?.let {
+                                        fileSelected.copyTo(it)
+                                        updateDocumentLists(
+                                            it.absolutePath,
+                                            it.extension,
+                                            fileAfterBrowse
+                                        )
+                                    }
+
                                 } else {
                                     showToast("Your file size is too big. Please upload a file less than 25MB to proceed")
                                 }
@@ -510,16 +528,21 @@ class EmploymentQuestionnaireAmendmentFragment :
 
     override fun onImageReturn(mediaFile: MediaFile) {
         if (mediaFile.file.sizeInMb() <= 25) {
-            updateDocumentLists(mediaFile.file.absolutePath, mediaFile.file.extension)
+            updateDocumentLists(
+                mediaFile.file.absolutePath,
+                mediaFile.file.extension,
+                mediaFile.file
+            )
         } else {
             showToast("Your file size is too big. Please upload a file less than 25MB to proceed")
         }
     }
 
-    fun updateDocumentLists(file: String?, extension: String?) {
+    fun updateDocumentLists(filePath: String?, extension: String?, fileForUpdate: File?) {
         viewModel.posOfUpdatedDocument?.let {
-            viewModel.documentsList.value?.get(it)?.fileURL = file ?: ""
+            viewModel.documentsList.value?.get(it)?.fileURL = filePath ?: ""
             viewModel.documentsList.value?.get(it)?.extension = extension ?: ""
+            viewModel.documentsList.value?.get(it)?.fileForUpdate = fileForUpdate
             viewModel.documentAdapter.setItemAt(
                 it,
                 viewModel.documentsList.value?.get(it) ?: Document()
@@ -553,6 +576,8 @@ class EmploymentQuestionnaireAmendmentFragment :
 
     override fun onAnimationComplete(isComplete: Boolean) {
         if (isComplete) {
+            val intent = Intent()
+            activity?.setResult(Activity.RESULT_OK, intent)
             activity?.finish()
         }
     }

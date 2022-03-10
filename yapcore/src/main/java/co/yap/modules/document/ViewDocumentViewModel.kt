@@ -1,6 +1,7 @@
 package co.yap.modules.document
 
 import android.app.Application
+import android.net.Uri
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.transactions.TransactionsRepository
 import co.yap.translation.Strings
@@ -27,7 +28,7 @@ class IViewDocumentViewModel(application: Application) :
     override val clickEvent: SingleClickEvent = SingleClickEvent()
     override var file: File? = null
     override val repository: TransactionsRepository = TransactionsRepository
-
+    override var fileForUpdate: File? = null
     override fun downloadFile(filePath: String, success: (file: File?) -> Unit) {
         launch {
             state.loading = true
