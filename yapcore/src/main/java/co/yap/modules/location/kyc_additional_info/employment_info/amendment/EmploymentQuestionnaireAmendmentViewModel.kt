@@ -522,7 +522,7 @@ class EmploymentQuestionnaireAmendmentViewModel(application: Application) :
         val files = ArrayList<MultipartBody.Part>()
         var documentTypeList = ArrayList<String>()
         documentsList.value?.forEach {
-            if (it.fileURL?.contains("http") != true) {
+            if (it.fileURL != null && it.fileURL?.contains("http") != true) {
                 val file = FileUtils.getFile(context, it.fileUri)
                 val reqFile: RequestBody = if (file.extension.contains("pdf")) {
                     RequestBody.create(MediaType.parse("application/pdf"), file)
@@ -573,18 +573,23 @@ class EmploymentQuestionnaireAmendmentViewModel(application: Application) :
                 EmploymentInfoRequest(
                     employmentStatus = status.name,
                     companyName = getDataForPosition(0).getAnswer(),
+                    typeOfSelfEmployment= selfEmploymentTypes().find {
+                        it.employmentType == getDataForPosition(
+                            1
+                        ).getAnswer().trim()
+                    }?.employmentTypeCode,
                     industrySegmentCodes = listOf(
                         industrySegmentsList.first {
                             it.segment == getDataForPosition(
-                                1
+                                2
                             ).getAnswer()
                         }.segmentCode ?: ""
                     ),
                     businessCountries = countries.filterSelectedIsoCodes(
-                        getDataForPosition(2).question.multipleAnswers.get() ?: arrayListOf()
+                        getDataForPosition(3).question.multipleAnswers.get() ?: arrayListOf()
                     ),
-                    monthlySalary = getDataForPosition(3).getAnswer(),
-                    expectedMonthlyCredit = getDataForPosition(4).getAnswer(),
+                    monthlySalary = getDataForPosition(4).getAnswer(),
+                    expectedMonthlyCredit = getDataForPosition(5).getAnswer(),
                     isAmendment = false
                 )
             }
