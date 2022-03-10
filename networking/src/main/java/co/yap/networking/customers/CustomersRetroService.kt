@@ -92,7 +92,8 @@ interface CustomersRetroService {
         @Part("employmentType") employmentType: RequestBody?,
         @Part("expectedMonthlyCredit") expectedMonthlyCredit: RequestBody?,
         @Part industrySubSegmentCodes: List<MultipartBody.Part>?,
-        @Part("monthlySalary") monthlySalary: RequestBody?
+        @Part("monthlySalary") monthlySalary: RequestBody?,
+        @Part("sponsorName") sponsorName: RequestBody?
     ): Response<ApiResponse>
 
     // Get Documents

@@ -239,11 +239,15 @@ object CustomersRepository : BaseRepository(), CustomersApi {
                     ),
                     industrySubSegmentCodes = createPartFromArray(
                         industrySegmentCodes ?: listOf(),
-                        "industrySubSegmentCodes"
+                        "industrySubSegmentCode"
                     ),
                     monthlySalary = RequestBody.create(
                         MediaType.parse("multipart/form-dataList"),
                         monthlySalary ?: ""
+                    ),
+                    sponsorName = RequestBody.create(
+                        MediaType.parse("multipart/form-dataList"),
+                        sponsorName ?: ""
                     )
                 )
             })
@@ -253,7 +257,7 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     private fun createPartFromArray(
         values: List<String>,
         param_name: String?
-    ): List<MultipartBody.Part>? {
+    ): List<MultipartBody.Part> {
         val descriptionList: MutableList<MultipartBody.Part> = ArrayList()
         values.forEach { index ->
             descriptionList.add(MultipartBody.Part.createFormData(param_name, index))
