@@ -16,7 +16,6 @@ import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.interfaces.OnItemClickListener
-import co.yap.yapcore.managers.saveUserDetails
 import com.yap.ghana.ui.onboarding.main.YapGhanaMainActivity
 import com.yap.yappakistan.ui.onboarding.main.YapPkMainActivity
 
@@ -27,7 +26,7 @@ class MobileFragment : OnboardingChildFragment<IMobile.ViewModel>() {
 
     override fun getLayoutId(): Int = R.layout.fragment_mobile
 
-    override val viewModel: IMobile.ViewModel
+    override val viewModel: MobileViewModel
         get() = ViewModelProvider(this).get(MobileViewModel::class.java)
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -53,15 +52,23 @@ class MobileFragment : OnboardingChildFragment<IMobile.ViewModel>() {
                 .save(Constants.KEY_MOBILE_NO, mobile ?: "")
             when (it) {
                 CountryCode.GHANA.countryCode -> {
-                    launchActivity<YapPkMainActivity>() {
+                    launchActivity<YapGhanaMainActivity>() {
                         putExtra("countryCode", viewModel.state.countryCode.value)
                         putExtra("mobileNo", mobile)
+                        putExtra(
+                            "startOnboardingTime",
+                            viewModel.parentViewModel?.onboardingData?.startTime?.time
+                        )
                     }
                 }
                 CountryCode.PAK.countryCode -> {
-                    launchActivity<YapGhanaMainActivity> {
+                    launchActivity<YapPkMainActivity> {
                         putExtra("countryCode", viewModel.state.countryCode.value)
                         putExtra("mobileNo", mobile)
+                        putExtra(
+                            "startOnboardingTime",
+                            viewModel.parentViewModel?.onboardingData?.startTime?.time
+                        )
                     }
                 }
             }

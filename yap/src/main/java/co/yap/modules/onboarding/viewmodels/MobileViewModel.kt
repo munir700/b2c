@@ -130,6 +130,7 @@ class MobileViewModel(application: Application) :
     override val userVerifier: UserVerifierProvider = UserVerifierProvider()
 
     override fun verifyUser(countryCode: String, mobileNumber: String) {
+        parentViewModel?.onboardingData?.startTime = Date()
         state.loading = true
         LoadConfig(context).initYapRegion(countryCode)
         userVerifier.provideOtpVerifier(countryCode)
