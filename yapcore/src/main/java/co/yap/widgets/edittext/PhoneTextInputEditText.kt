@@ -3,7 +3,6 @@ package co.yap.widgets.edittext
 import android.content.Context
 import android.telephony.PhoneNumberUtils
 import android.util.AttributeSet
-import android.view.inputmethod.InputMethodManager
 import androidx.databinding.BindingAdapter
 import co.yap.widgets.MaskTextWatcher
 import co.yap.yapcore.R
@@ -100,11 +99,13 @@ class PhoneTextInputEditText : TextInputEditText {
             text = text
         }
     }
+
     companion object {
         @JvmStatic
         @BindingAdapter(value = ["app:prefixTextNew"], requireAll = false)
         fun setPhonePrefix(view: PhoneTextInputEditText, prefixText: String) {
-            view.prefix = prefixText
+            if (prefixText.isBlank().not())
+                view.prefix = prefixText
         }
 
     }

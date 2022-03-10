@@ -65,9 +65,15 @@ class LoginFragment : MainChildFragment<ILogin.ViewModel>(), ILogin.View {
                 false
             )
         ) {
-            val action =
-                LoginFragmentDirections.actionLoginFragmentToVerifyPasscodeFragment("")
-            NavHostFragment.findNavController(this).navigate(action)
+            sharedPreferenceManager.getValueString(
+                KEY_COUNTRY_CODE, CountryCode.UAE.countryCode ?: ""
+            )?.let {
+                if (it == CountryCode.UAE.countryCode) {
+                    val action =
+                        LoginFragmentDirections.actionLoginFragmentToVerifyPasscodeFragment("")
+                    NavHostFragment.findNavController(this).navigate(action)
+                }
+            }
         } else {
             getDataBindingView<FragmentLogInBinding>().tlPhoneNumber.requestFocusForField()
             // etEmailField.requestKeyboard()
@@ -81,7 +87,7 @@ class LoginFragment : MainChildFragment<ILogin.ViewModel>(), ILogin.View {
         sharedPreferenceManager.getValueBoolien(KEY_IS_REMEMBER, true).apply {
             viewModel.state.isRemember.set(this)
             sharedPreferenceManager.getValueString(
-                KEY_COUNTRY_CODE, viewModel.state.countryCode.value ?: ""
+                KEY_COUNTRY_CODE, CountryCode.UAE.countryCode ?: ""
             )?.let {
                 viewModel.state.countryCode.value = it
                 getDataBindingView<FragmentLogInBinding>().tlPhoneNumber.setStartIconDrawable(
@@ -101,11 +107,6 @@ class LoginFragment : MainChildFragment<ILogin.ViewModel>(), ILogin.View {
                     }
             }
         }
-        //TODO() Need to be modified according to the Country Number
-        /* SessionManager.isRemembered.value?.let {
-             etEmailField.editText.setText(if (it) sharedPreferenceManager.getDecryptedUserName() else "")
-             if (etEmailField.editText.length() > 1) etEmailField.editText.setSelection(etEmailField.editText.length())
-         }*/
     }
 
     private fun setObservers() {
@@ -136,23 +137,27 @@ class LoginFragment : MainChildFragment<ILogin.ViewModel>(), ILogin.View {
                 it,
                 getDataBindingView<FragmentLogInBinding>().swRemember.isChecked
             )
-            when (it) {
-                CountryCode.GHANA.countryCode -> {
-                    launchActivity<GhAuthenticationActivity> {
-                        putExtra("countryCode", it)
-                        putExtra("mobileNo", mobileNo)
-                        putExtra("isAccountBlocked", false)
-                    }
-                }
-                CountryCode.PAK.countryCode -> {
-                    launchActivity<AuthenticationActivity> {
-                        putExtra("countryCode", it)
-                        putExtra("mobileNo", mobileNo)
-                        putExtra("isAccountBlocked", false)
-                    }
+            launchPkGhana(it, mobileNo)
+        })
+    }
+
+    private fun launchPkGhana(countryCode: String, mobileNo: String?) {
+        when (countryCode) {
+            CountryCode.GHANA.countryCode -> {
+                launchActivity<GhAuthenticationActivity> {
+                    putExtra("countryCode", countryCode)
+                    putExtra("mobileNo", mobileNo ?: "")
+                    putExtra("isAccountBlocked", false)
                 }
             }
-        })
+            CountryCode.PAK.countryCode -> {
+                launchActivity<AuthenticationActivity> {
+                    putExtra("countryCode", countryCode)
+                    putExtra("mobileNo", mobileNo ?: "")
+                    putExtra("isAccountBlocked", false)
+                }
+            }
+        }
     }
 
     private fun navigateToPassCode() {

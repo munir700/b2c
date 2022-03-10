@@ -91,7 +91,7 @@ class LoginState(application: Application) : BaseState(), ILogin.State {
     override var isError: ObservableBoolean = ObservableBoolean()
     override var isRemember: ObservableBoolean = ObservableBoolean(true)
     override var countryCode: MutableLiveData<String> =
-        MutableLiveData(CountryCode.UAE.countryCode ?: "")
+        MutableLiveData("")
     override var mobile: MutableLiveData<String> = MutableLiveData()
     override var mobileNumber: MutableLiveData<String> = MutableLiveData("")
 
