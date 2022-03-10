@@ -47,7 +47,7 @@ class KYCHomeFragment : KYCChildFragment<IKYCHome.ViewModel>(), IKYCHome.View {
         viewModel.state.addOnPropertyChangedCallback(stateObserver)
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
-                R.id.cvCard -> openCardScanner()
+                R.id.cvCard -> showToast("Uqudo Camera will be integrated here!!") //openCardScanner()
                 R.id.btnNext -> {
                     if (viewModel.parentViewModel?.accountStatus?.value == AccountStatus.CAPTURED_EID.name) {
                         viewModel.parentViewModel?.finishKyc?.value = DocumentsResponse(true)
@@ -93,7 +93,8 @@ class KYCHomeFragment : KYCChildFragment<IKYCHome.ViewModel>(), IKYCHome.View {
             when (propertyId) {
                 BR.eidScanStatus -> {
                     if (viewModel.state.eidScanStatus === DocScanStatus.SCAN_COMPLETED) {
-                        findNavController().navigate(if (viewModel.isFromAmendment()) R.id.action_KYCHomeFragment_to_eidInfoReviewAmendmentFragment else R.id.action_KYCHomeFragment_to_eidInfoReviewFragment)
+                        //TODO Uqudo Review FLOW WILL BE Handled here
+                      //  findNavController().navigate(if (viewModel.isFromAmendment()) R.id.action_KYCHomeFragment_to_eidInfoReviewAmendmentFragment else R.id.action_KYCHomeFragment_to_eidInfoReviewFragment)
                     }
                 }
             }
@@ -106,6 +107,7 @@ class KYCHomeFragment : KYCChildFragment<IKYCHome.ViewModel>(), IKYCHome.View {
         super.onDestroyView()
     }
 
+/*
     private fun openCardScanner() {
         if (BuildConfig.DEBUG) {
             val identityScannerResult = IdentityScannerResult()
@@ -139,18 +141,20 @@ class KYCHomeFragment : KYCChildFragment<IKYCHome.ViewModel>(), IKYCHome.View {
             )
         }
     }
+*/
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == IdentityScannerActivity.SCAN_EID_CAM && resultCode == Activity.RESULT_OK) {
-            data?.let {
+            //TODO UQUDO WILL BE IMPLEMENTED HERE
+            /*data?.let {
                 it.getParcelableExtra<IdentityScannerResult>(IdentityScannerActivity.SCAN_RESULT)
                     ?.let { it1 ->
                         viewModel.onEIDScanningComplete(
                             it1
                         )
                     }
-            }
+            }*/
         }
     }
 

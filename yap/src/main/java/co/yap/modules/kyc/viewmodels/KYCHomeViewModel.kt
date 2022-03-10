@@ -24,8 +24,10 @@ import com.digitify.identityscanner.core.arch.Gender
 import com.digitify.identityscanner.docscanner.models.Identity
 import com.digitify.identityscanner.docscanner.models.IdentityScannerResult
 import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.asRequestBody
 import java.io.File
 
 class KYCHomeViewModel(application: Application) : KYCChildViewModel<IKYCHome.State>(application),
@@ -72,11 +74,11 @@ class KYCHomeViewModel(application: Application) : KYCChildViewModel<IKYCHome.St
             parentViewModel?.paths?.add(result.document.files[0].croppedFile)
             parentViewModel?.paths?.add(result.document.files[1].croppedFile)
 
-            val fileFrontReqBody = RequestBody.create(MediaType.parse("image/*"), fileFront)
+            val fileFrontReqBody = fileFront.asRequestBody("image/*".toMediaTypeOrNull())
             val partFront =
                 MultipartBody.Part.createFormData("files_f", fileFront.name, fileFrontReqBody)
 
-            val fileBackReqBody = RequestBody.create(MediaType.parse("image/*"), fileBack)
+            val fileBackReqBody = fileBack.asRequestBody("image/*".toMediaTypeOrNull())
             val partBack =
                 MultipartBody.Part.createFormData("files_b", fileBack.name, fileBackReqBody)
             launch {

@@ -68,7 +68,9 @@ class EidInfoReviewAmendmentFragment : KYCChildFragment<IEidInfoReviewAmendment.
         super.onActivityCreated(savedInstanceState)
         if (viewModel.parentViewModel?.skipFirstScreen?.value == true) {
             if (!viewModel.state.errorScreenVisited) {
-                openCardScanner()
+                //TODO Uqudo Camera WILL BE Handled here
+                showToast("Uqudo Camera will be integrated here!!")
+              //  openCardScanner()
             }
             viewModel.state.errorScreenVisited = false
             tbBtnBack.setOnClickListener {
@@ -149,11 +151,14 @@ class EidInfoReviewAmendmentFragment : KYCChildFragment<IEidInfoReviewAmendment.
                 viewModel.eventErrorExpiredEid -> showExpiredEidScreen()
                 viewModel.eventErrorUnderAge -> showUnderAgeScreen()
                 viewModel.eventErrorFromUsa -> showUSACitizenScreen()
-                viewModel.eventRescan -> openCardScanner()
+                viewModel.eventRescan ->{  //TODO Uqudo Camera WILL BE Handled here
+                    showToast("Uqudo Camera will be integrated here!!")}// openCardScanner()
                 R.id.tvNoThanks -> {
                     trackEventWithScreenName(FirebaseEvent.RESCAN_ID)
                     Utils.hideKeyboard(tvNoThanks)
-                    openCardScanner()
+                    //TODO Uqudo Camera WILL BE Handled here
+                    showToast("Uqudo Camera will be integrated here!!")
+                   // openCardScanner()
                 }
                 viewModel.eventAlreadyUsedEid -> {
                     viewModel.parentViewModel?.finishKyc?.value =
@@ -336,7 +341,9 @@ class EidInfoReviewAmendmentFragment : KYCChildFragment<IEidInfoReviewAmendment.
             it.showAlertDialogAndExitApp(
                 message = title,
                 callback = {
-                    openCardScanner()
+                    //TODO Uqudo Camera WILL BE Handled here
+                    showToast("Uqudo Camera will be integrated here!!")
+                   // openCardScanner()
                 },
                 closeActivity = false
             )
@@ -431,7 +438,7 @@ class EidInfoReviewAmendmentFragment : KYCChildFragment<IEidInfoReviewAmendment.
             viewModel.parentViewModel?.finishKyc?.value = DocumentsResponse(false)
         }
     }
-
+/*
     override fun openCardScanner() {
         viewModel.invalidateFields()
         startActivityForResult(
@@ -442,7 +449,7 @@ class EidInfoReviewAmendmentFragment : KYCChildFragment<IEidInfoReviewAmendment.
             ),
             IdentityScannerActivity.SCAN_EID_CAM
         )
-    }
+    }*/
 
     override fun onDestroy() {
         viewModel.parentViewModel?.paths?.forEach { filePath ->
