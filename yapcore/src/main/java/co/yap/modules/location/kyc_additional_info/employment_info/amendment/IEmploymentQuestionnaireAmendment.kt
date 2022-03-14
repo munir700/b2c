@@ -39,7 +39,7 @@ interface IEmploymentQuestionnaireAmendment {
         var businessCountriesLiveData: MutableLiveData<ArrayList<String>>
         var countries: ArrayList<Country>
         val documentAdapter: DocumentsAdapter
-        val documentsList: MutableLiveData<List<Document>>
+        val documentsList: MutableLiveData<MutableList<Document>>
         var salaryAmount: String?
         var monthlyCreditAmount: String?
         var posOfUpdatedDocument: Int?

@@ -1,33 +1,34 @@
 package co.yap.modules.location.kyc_additional_info.employment_info.amendment
 
+import android.view.View
 import androidx.databinding.ViewDataBinding
-import androidx.recyclerview.widget.RecyclerView
+import androidx.navigation.NavController
 import co.yap.networking.customers.responsedtos.employment_amendment.Document
-import co.yap.yapcore.BaseBindingRecyclerAdapter
-import co.yap.yapcore.R
-import co.yap.yapcore.databinding.ItemEmploymentInfoDocumentBinding
+import co.yap.yapcore.BR
+import co.yap.yapcore.BaseRVAdapter
+import co.yap.yapcore.BaseViewHolder
 
 class DocumentsAdapter(
-    private val list: MutableList<Document>
+    val list: MutableList<Document>, navigation: NavController?
 ) :
-    BaseBindingRecyclerAdapter<Document, RecyclerView.ViewHolder>(list) {
+    BaseRVAdapter<Document, DocumentItemViewModel, BaseViewHolder<Document, DocumentItemViewModel>>(
+        list,
+        navigation
+    ) {
 
-    override fun getLayoutIdForViewType(viewType: Int): Int = R.layout.item_employment_info_document
-
-    override fun onCreateViewHolder(binding: ViewDataBinding): RecyclerView.ViewHolder {
-        return DocumentItemViewHolder(
-            binding as ItemEmploymentInfoDocumentBinding
-        )
+    override fun getItemId(position: Int): Long {
+        return position.toLong()
     }
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        super.onBindViewHolder(holder, position)
-        if (holder is DocumentItemViewHolder) {
-            holder.onBind(
-                list[position],
-                position,
-                onItemClickListener
-            )
-        }
-    }
+    override fun getLayoutId(viewType: Int): Int = getViewModel(viewType).layoutRes()
+    override fun getViewHolder(
+        view: View,
+        viewModel: DocumentItemViewModel,
+        mDataBinding: ViewDataBinding,
+        viewType: Int
+    ) = BaseViewHolder(view, viewModel, mDataBinding)
+
+    override fun getViewModel(viewType: Int) = DocumentItemViewModel()
+
+    override fun getVariableId() = BR.viewModel
 }

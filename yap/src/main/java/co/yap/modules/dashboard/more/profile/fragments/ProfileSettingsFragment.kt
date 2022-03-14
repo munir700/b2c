@@ -1,6 +1,5 @@
 package co.yap.modules.dashboard.more.profile.fragments
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
@@ -21,22 +20,19 @@ import co.yap.modules.dashboard.more.main.fragments.MoreBaseFragment
 import co.yap.modules.dashboard.more.profile.intefaces.IProfile
 import co.yap.modules.dashboard.more.profile.viewmodels.ProfileSettingsViewModel
 import co.yap.modules.location.kyc_additional_info.employment_info.amendment.EmploymentQuestionnaireAmendmentFragment
-import co.yap.modules.otp.GenericOtpFragment
-import co.yap.modules.otp.OtpDataModel
 import co.yap.modules.webview.WebViewFragment
 import co.yap.translation.Strings
 import co.yap.widgets.bottomsheet.BottomSheetItem
 import co.yap.yapcore.constants.Constants.KEY_IS_FINGERPRINT_PERMISSION_SHOWN
 import co.yap.yapcore.constants.Constants.KEY_TOUCH_ID_ENABLED
 import co.yap.yapcore.constants.RequestCodes.REQUEST_NOTIFICATION_SETTINGS
-import co.yap.yapcore.dialogs.showTwoOptionsAlertDialog
 import co.yap.yapcore.enums.AccountStatus
 import co.yap.yapcore.enums.FeatureSet
-import co.yap.yapcore.enums.OTPActions
 import co.yap.yapcore.enums.PhotoSelectionType
 import co.yap.yapcore.firebase.FirebaseEvent
 import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.SharedPreferenceManager
+import co.yap.yapcore.helpers.alert
 import co.yap.yapcore.helpers.biometric.BiometricUtil
 import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.interfaces.OnItemClickListener
@@ -197,11 +193,7 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
                         || accountInfo?.notificationStatuses == AccountStatus.BIRTH_INFO_COLLECTED.name
                         || accountInfo?.notificationStatuses == AccountStatus.FATCA_GENERATED.name
                     ) {
-                        context?.showTwoOptionsAlertDialog(
-                            dialogTitle = getString(Strings.screen_profile_settings_display_toast_text_account_not_active),
-                            dialogDescription = null,
-                            okButtonText = getString(Strings.common_text_ok)
-                        )
+                        context?.alert(getString(Strings.screen_profile_settings_display_toast_text_account_not_active))
                     } else {
                         startFragment(
                             fragmentName = EmploymentQuestionnaireAmendmentFragment::class.java.name

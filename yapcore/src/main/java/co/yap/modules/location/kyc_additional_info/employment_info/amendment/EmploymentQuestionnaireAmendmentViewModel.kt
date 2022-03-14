@@ -1,7 +1,6 @@
 package co.yap.modules.location.kyc_additional_info.employment_info.amendment
 
 import android.app.Application
-import android.net.Uri
 import android.view.View
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
@@ -38,7 +37,6 @@ import co.yap.yapcore.enums.EmploymentQuestionIdentifier
 import co.yap.yapcore.enums.EmploymentStatus
 import co.yap.yapcore.enums.PartnerBankStatus
 import co.yap.yapcore.enums.PaymentCardStatus
-import co.yap.yapcore.helpers.FileUtils
 import co.yap.yapcore.helpers.StringUtils
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.getJsonDataFromAsset
@@ -53,6 +51,7 @@ import kotlinx.coroutines.delay
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+
 class EmploymentQuestionnaireAmendmentViewModel(application: Application) :
     LocationChildViewModel<IEmploymentQuestionnaireAmendment.State>(application),
     IEmploymentQuestionnaireAmendment.ViewModel, IRepositoryHolder<CustomersRepository>, IValidator,
@@ -80,8 +79,8 @@ class EmploymentQuestionnaireAmendmentViewModel(application: Application) :
     override var countries: ArrayList<Country> = arrayListOf()
     override var accountActivated: MutableLiveData<Boolean> = MutableLiveData(false)
     override var isInEditMode: MutableLiveData<Boolean> = MutableLiveData(false)
-    override val documentsList: MutableLiveData<List<Document>> = MutableLiveData()
-    override val documentAdapter = DocumentsAdapter(mutableListOf())
+    override val documentsList: MutableLiveData<MutableList<Document>> = MutableLiveData()
+    override val documentAdapter = DocumentsAdapter(mutableListOf(), null)
     override var salaryAmount: String? = null
     override var monthlyCreditAmount: String? = null
     override var posOfUpdatedDocument: Int? = null
@@ -103,7 +102,8 @@ class EmploymentQuestionnaireAmendmentViewModel(application: Application) :
         state.rightButtonText =
             getString(Strings.screen_employment_information_display_right_toolbar_text)
         validator?.setValidationListener(this)
-        accountActivated.value = SessionManager.user?.partnerBankStatus == PartnerBankStatus.ACTIVATED.status && SessionManager.card.value?.status == PaymentCardStatus.ACTIVE.name
+        accountActivated.value =
+            SessionManager.user?.partnerBankStatus == PartnerBankStatus.ACTIVATED.status && SessionManager.card.value?.status == PaymentCardStatus.ACTIVE.name
     }
 
     override fun questionnaires(
@@ -404,7 +404,8 @@ class EmploymentQuestionnaireAmendmentViewModel(application: Application) :
                                 serverEmploymentStatus =
                                     EmploymentStatus.valueOf(res.employmentStatus ?: "")
                                 employmentStatus.value = serverEmploymentStatus
-                                documentsList.value = res.documents ?: mutableListOf()
+                                documentsList.value =
+                                    res.documents?.toMutableList() ?: mutableListOf()
                             }
                         }
                     }
@@ -445,7 +446,7 @@ class EmploymentQuestionnaireAmendmentViewModel(application: Application) :
 
     override fun updateDocumentsInView(status: EmploymentStatus) {
         requiredDocumentsResponse.value?.find { it.empType == status.name }?.let {
-            documentsList.value = it.documents
+            documentsList.value = it.documents.toMutableList()
         }
     }
 
@@ -469,7 +470,7 @@ class EmploymentQuestionnaireAmendmentViewModel(application: Application) :
                 }
             }
         }
-        documentAdapter.setList(documentsList.value ?: listOf())
+        documentAdapter.setData(documentsList.value ?: mutableListOf())
     }
 
     override fun setAnswersForQuestions() {
