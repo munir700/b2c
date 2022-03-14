@@ -145,7 +145,7 @@ class KYCHomeFragment : KYCChildFragment<IKYCHome.ViewModel>(), IKYCHome.View {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == IdentityScannerActivity.SCAN_EID_CAM && resultCode == Activity.RESULT_OK) {
+       // if (requestCode == IdentityScannerActivity.SCAN_EID_CAM && resultCode == Activity.RESULT_OK) {
             //TODO UQUDO WILL BE IMPLEMENTED HERE
             /*data?.let {
                 it.getParcelableExtra<IdentityScannerResult>(IdentityScannerActivity.SCAN_RESULT)
@@ -155,7 +155,7 @@ class KYCHomeFragment : KYCChildFragment<IKYCHome.ViewModel>(), IKYCHome.View {
                         )
                     }
             }*/
-        }
+     //   }
     }
 
     override fun onDestroy() {
