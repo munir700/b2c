@@ -57,8 +57,8 @@ android {
         }
 
         stg {
-            versionCode 384
-            versionName "2.0.4"
+            versionCode 287
+            versionName "2.0.7"
             applicationIdSuffix ".stg"
             resValue "string", "app_name", "YAP Stage"
             resValue "string", "google_maps_key", "AIzaSyAwMbe3AAuJfPm6w1LEQpx7IME9iIUiSR4"

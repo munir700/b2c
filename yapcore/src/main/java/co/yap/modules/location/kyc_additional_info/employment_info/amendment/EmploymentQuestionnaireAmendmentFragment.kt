@@ -423,7 +423,7 @@ class EmploymentQuestionnaireAmendmentFragment :
             title = "Additional documents\n" +
                     "required.",
             message = "Since you’re self-employed we will need to ask you to provide additional documentation.",
-            buttonText = "Cancel",
+            buttonText = "Back",
             callback = { proceed ->
                 if (proceed) {
                     viewModel.employmentStatus.value = viewModel.tempEmploymentStatus.value
