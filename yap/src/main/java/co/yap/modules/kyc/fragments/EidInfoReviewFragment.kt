@@ -112,7 +112,7 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
                     hideKeyboard(tvNoThanks)
                     //TODO Uqudo Camera WILL BE Handled here
                     showToast("Uqudo Camera will be integrated here!!")
-                  // openCardScanner()
+                  //  openCardScanner()
                 }
                 viewModel.eventAlreadyUsedEid -> {
                     viewModel.parentViewModel?.finishKyc?.value =
