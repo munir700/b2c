@@ -2,11 +2,9 @@ package co.yap.modules.location.kyc_additional_info.employment_info.amendment
 
 import android.app.Activity
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
-import androidx.core.net.toUri
 import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.Observable
@@ -102,8 +100,7 @@ class EmploymentQuestionnaireAmendmentFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         getDataBindingView<FragmentEmploymentQuestionnaireAmendmentBinding>().lifecycleOwner = this
-        viewModel.documentAdapter.allowFullItemClickListener = true
-        viewModel.documentAdapter.setItemListener(documentListener)
+        viewModel.documentAdapter.onItemClickListener = documentListener
         arguments?.let {
             viewModel.countries =
                 it.getParcelableArrayList<Country>("countries") as? ArrayList<Country>
@@ -126,7 +123,7 @@ class EmploymentQuestionnaireAmendmentFragment :
                 (it.getParcelableArrayList<DocumentResponse>("documentsList") as? ArrayList<DocumentResponse>
                     ?: arrayListOf()).toMutableList()
             viewModel.employmentStatusValue.value?.let { emp ->
-                viewModel.documentsList.value = emp.documents ?: mutableListOf()
+                viewModel.documentsList.value = emp.documents?.toMutableList() ?: mutableListOf()
                 if (viewModel.documentsList.value.isNullOrEmpty()) {
                     viewModel.updateDocumentsInView(
                         EmploymentStatus.valueOf(
@@ -250,7 +247,7 @@ class EmploymentQuestionnaireAmendmentFragment :
 
     private val documentsLiveDataObserver =
         Observer<List<Document>> {
-            viewModel.documentAdapter.setList(it)
+            viewModel.documentAdapter.setData(it.toMutableList())
             viewModel.validateForm()
         }
 
@@ -543,10 +540,7 @@ class EmploymentQuestionnaireAmendmentFragment :
             viewModel.documentsList.value?.get(it)?.fileURL = filePath ?: ""
             viewModel.documentsList.value?.get(it)?.extension = extension ?: ""
             viewModel.documentsList.value?.get(it)?.fileForUpdate = fileForUpdate
-            viewModel.documentAdapter.setItemAt(
-                it,
-                viewModel.documentsList.value?.get(it) ?: Document()
-            )
+            viewModel.documentAdapter.update(viewModel.documentsList.value?.get(it) ?: Document())
             viewModel.validateForm()
         }
     }
