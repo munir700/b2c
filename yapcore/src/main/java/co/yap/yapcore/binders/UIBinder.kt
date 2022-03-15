@@ -69,6 +69,8 @@ import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.google.android.material.textfield.TextInputLayout
 import com.liveperson.infra.utils.picasso.Callback
+import com.liveperson.infra.utils.picasso.MemoryPolicy
+import com.liveperson.infra.utils.picasso.NetworkPolicy
 import com.uxcam.UXCam
 import java.text.SimpleDateFormat
 import com.liveperson.infra.utils.picasso.Picasso
@@ -1053,21 +1055,24 @@ object UIBinder {
                 if (!mUrl.contains("http")) {
                     mUrl = "file://$mUrl"
                 }
-                Picasso.get().load(mUrl).into(view, object : Callback {
-                    override fun onSuccess() {
-                        progress.dismiss()
-                        progress.hide()
-                    }
-                    override fun onError(e: java.lang.Exception?) {
-                        Toast.makeText(
-                            view.context,
-                            "Having trouble viewing the document? Please try again.",
-                            Toast.LENGTH_LONG
-                        ).show()
-                        progress.dismiss()
-                        progress.hide()
-                    }
-                })
+                Picasso.get()
+                    .load(mUrl)
+                    .into(view, object : Callback {
+                        override fun onSuccess() {
+                            progress.dismiss()
+                            progress.hide()
+                        }
+
+                        override fun onError(e: java.lang.Exception?) {
+                            Toast.makeText(
+                                view.context,
+                                "Having trouble viewing the document? Please try again.",
+                                Toast.LENGTH_LONG
+                            ).show()
+                            progress.dismiss()
+                            progress.hide()
+                        }
+                    })
             }
         } else {
             imageSrc?.let {

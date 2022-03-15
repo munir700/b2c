@@ -14,6 +14,7 @@ import androidx.lifecycle.ViewModelProvider
 import co.yap.countryutils.country.Country
 import co.yap.countryutils.country.unSelectAllCountries
 import co.yap.modules.document.ViewDocumentActivity
+import co.yap.modules.document.ViewDocumentFragment
 import co.yap.modules.document.enums.FileFrom
 import co.yap.modules.document.enums.TakePhotoType
 import co.yap.modules.location.kyc_additional_info.employment_info.questionnaire.adapter.QuestionItemViewHolders
@@ -264,16 +265,33 @@ class EmploymentQuestionnaireAmendmentFragment :
                     } else {
                         FileFrom.Local().local
                     }
+//                    context?.let {
+//                        startActivityForResult(
+//                            ViewDocumentActivity.newIntent(
+//                                it,
+//                                fileLink,
+//                                data.extension,
+//                                fileFrom,
+//                                viewModel.isInEditMode.value ?: false
+//                            ), RequestCodes.REQUEST_VIEW_DOCUMENT
+//                        )
+//                    }
                     context?.let {
-                        startActivityForResult(
-                            ViewDocumentActivity.newIntent(
-                                it,
-                                fileLink,
-                                data.extension,
-                                fileFrom,
-                                viewModel.isInEditMode.value ?: false
-                            ), RequestCodes.REQUEST_VIEW_DOCUMENT
-                        )
+                        startFragmentForResult<ViewDocumentFragment>(
+                            ViewDocumentFragment::class.java.name,
+                            bundleOf(
+                                "LINK" to fileLink,
+                                "FILETYPE" to data.extension,
+                                "FILEFROM" to fileFrom,
+                                "ISEDITABLE" to viewModel.isInEditMode.value
+                            ), true
+                        ) { resultCode, data ->
+                            if (resultCode == Activity.RESULT_OK) {
+                                showToast("I am ok")
+                                data?.let { handleFileResult(it) }
+                            }
+                        }
+
                     }
                 }
             }
@@ -400,6 +418,7 @@ class EmploymentQuestionnaireAmendmentFragment :
     override fun onDestroy() {
         super.onDestroy()
         removeObservers()
+        context?.let { it.deleteTempFolder() }
     }
 
     override fun onResume() {
@@ -436,13 +455,6 @@ class EmploymentQuestionnaireAmendmentFragment :
             icon = R.drawable.ic_exclamation_primary_white,
             coreButtonTitle = "Continue"
         )
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == RequestCodes.REQUEST_VIEW_DOCUMENT && resultCode == Activity.RESULT_OK) {
-            handleFileResult(data)
-        }
     }
 
     private fun handleFileResult(data: Intent?) {
