@@ -1,18 +1,15 @@
 package co.yap.modules.document
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import co.yap.modules.document.enums.FileFrom
 import co.yap.modules.document.enums.FileType
-import co.yap.modules.document.enums.TakePhotoType
-import co.yap.widgets.bottomsheet.TakePhotoBottomSheet
+import co.yap.translation.Strings
+import co.yap.widgets.bottomsheet.BottomSheetItem
 import co.yap.yapcore.BR
 import co.yap.yapcore.BaseBindingImageFragment
 import co.yap.yapcore.R
@@ -21,16 +18,16 @@ import co.yap.yapcore.enums.PhotoSelectionType
 import co.yap.yapcore.helpers.ExtraKeys
 import co.yap.yapcore.helpers.FileUtils
 import co.yap.yapcore.helpers.extentions.*
+import co.yap.yapcore.helpers.showAlertDialogAndExitApp
 import kotlinx.android.synthetic.main.activity_view_document.view.*
 import pl.aprilapps.easyphotopicker.MediaFile
-import co.yap.yapcore.interfaces.BackPressImpl
-import kotlinx.android.synthetic.main.alert_dialogue.*
+import co.yap.yapcore.interfaces.OnItemClickListener
 
-class ViewDocumentFragment : BaseBindingImageFragment<IViewDocumentActivity.ViewModel>(),
-    IViewDocumentActivity.View {
+class ViewDocumentFragment : BaseBindingImageFragment<IViewDocumentFragment.ViewModel>(),
+    IViewDocumentFragment.View {
 
 
-    override val viewModel: IViewDocumentActivity.ViewModel
+    override val viewModel: IViewDocumentFragment.ViewModel
         get() = ViewModelProvider(this).get(IViewDocumentViewModel::class.java)
 
     override fun getBindingVariable(): Int = BR.viewModel
@@ -46,7 +43,6 @@ class ViewDocumentFragment : BaseBindingImageFragment<IViewDocumentActivity.View
         super.onViewCreated(view, savedInstanceState)
         setupData()
         getDataBindingView<FragmentViewDocumentBinding>().lifecycleOwner = this
-
     }
 
     private fun setupData() {
@@ -58,19 +54,10 @@ class ViewDocumentFragment : BaseBindingImageFragment<IViewDocumentActivity.View
             when (fileFrom) {
                 FileFrom.Link().link -> {
                     viewModel.state.isNeedToShowUpdateDialogue?.value = !link.isNullOrEmpty()
-                    viewModel.state.isDeleteAble?.value = false
-                    viewModel.state.isUpdateAble?.value = true
+                    editable(isEditAble, false)
                 }
                 FileFrom.Local().local -> {
-                    viewModel.state.isDeleteAble?.value = true
-                    viewModel.state.isUpdateAble?.value = false
-                }
-            }
-            viewModel.state.isEditable?.value = isEditAble
-            when {
-                isEditAble -> {
-                    viewModel.state.isDeleteAble?.value = false
-                    viewModel.state.isUpdateAble?.value = false
+                    editable(isEditAble, true)
                 }
             }
             loadFileInView(fileType, fileFrom, link)
@@ -83,12 +70,11 @@ class ViewDocumentFragment : BaseBindingImageFragment<IViewDocumentActivity.View
         when (fileFrom) {
             FileFrom.Link().link -> {
                 if (fileType?.contains(FileType.PDF().pdf) == true) {
-                    viewModel.state.isPDF.value = true
-
+                    imageNeededShow(false)
                     link?.let {
                         viewModel.downloadFile(it) { file ->
                             file?.let {
-                                viewModel.state.isNeedToRefreshView.value = false
+                                refreshViewNeedTOShow(false)
                                 viewDataBinding?.root?.pdfView?.fromFile(file)?.show()
                             }
                         }
@@ -99,7 +85,7 @@ class ViewDocumentFragment : BaseBindingImageFragment<IViewDocumentActivity.View
             }
             FileFrom.Local().local -> {
                 if (fileType?.contains(FileType.PDF().pdf) == true) {
-                    viewModel.state.isPDF.value = true
+                    imageNeededShow(false)
                     link?.let {
                         viewDataBinding?.root?.pdfView?.fromFile(link)?.show()
                     }
@@ -123,19 +109,11 @@ class ViewDocumentFragment : BaseBindingImageFragment<IViewDocumentActivity.View
                 }
             }
             R.id.ivdelete -> {
-                viewModel.state.filePath?.value = null
-                viewModel.state.imageUrlForImageView?.value = null
-                viewModel.state.fileType?.value = null
-                viewModel.state.isPDF.value = false
-                viewModel.state.isFileUpdated.value = false
-                viewModel.state.isDeleteAble.value = false
-                viewModel.state.isUpdateAble.value = true
-                viewDataBinding?.root?.iviImage?.setImageResource(0)
-                viewModel.state.isNeedToRefreshView.value = false
+                performDelete()
             }
             R.id.btnRefresh -> {
                 if (viewModel.state.fileType?.value?.contains(FileType.PDF().pdf) == true) {
-                    viewModel.state.isNeedToRefreshView.value = false
+                    refreshViewNeedTOShow(false)
                     viewModel.state.filePath?.value?.let { it ->
                         viewModel.downloadFile(it) { file ->
                             file?.let {
@@ -149,25 +127,25 @@ class ViewDocumentFragment : BaseBindingImageFragment<IViewDocumentActivity.View
     }
 
     private fun showDialogueOptions() {
-        activity?.launchTakePhotoSheet(
-            itemClickListener = onBottomSheetClickListener,
+        activity?.launchSheet(
+            itemClickListener = itemListener,
+            itemsList = viewModel.getUploadDocumentOptions(),
             heading = getString(R.string.choose_from_library_display_text_title)
         )
     }
 
-    private val onBottomSheetClickListener = object :
-        TakePhotoBottomSheet.OnTakePhotoBottomSheetItemClickListener {
-        override fun onItemClick(viewId: Int) {
-            when (viewId) {
-                TakePhotoType.TakePhoto().tvTakePhoto -> {
+    private val itemListener = object : OnItemClickListener {
+        override fun onItemClick(view: View, data: Any, pos: Int) {
+            when ((data as BottomSheetItem).tag) {
+                PhotoSelectionType.CAMERA.name -> {
                     openImagePicker(PhotoSelectionType.CAMERA)
                 }
-                TakePhotoType.Browse().tvbrowseFiles -> {
-                    activity?.openFilePicker("File picker",
+                PhotoSelectionType.GALLERY.name -> {
+                    requireActivity().openFilePicker("File picker",
                         completionHandler = { _, dataUri ->
                             dataUri?.let { uriIntent ->
                                 var fileSelected = FileUtils.getFile(context, uriIntent.data)
-                                if (fileSelected.sizeInMb() <= 25) {
+                                if (fileSelected.sizeInMb() < 25) {
                                     var fileAfterBrowse =
                                         context?.createTempFileForBrowse(fileSelected.extension)
                                     fileAfterBrowse?.let {
@@ -180,13 +158,11 @@ class ViewDocumentFragment : BaseBindingImageFragment<IViewDocumentActivity.View
                                         )
                                         viewModel.state.isNeedToShowUpdateDialogue?.value =
                                             false
-                                        viewModel.state.isDeleteAble?.value = true
-                                        viewModel.state.isUpdateAble?.value = false
-                                        viewModel.state.isFileUpdated.value = true
+                                        deletable(true)
                                     }
 
                                 } else {
-                                    showToast("Your file size is too big. Please upload a file less than 25MB to proceed")
+                                    showToast(Strings.screen_view_document_file_size_not_fine)
                                 }
                             }
                         })
@@ -196,58 +172,33 @@ class ViewDocumentFragment : BaseBindingImageFragment<IViewDocumentActivity.View
     }
 
     private fun uploadAlert() {
-
-        context?.let {
-            val builder = android.app.AlertDialog.Builder(it)
-            var alertDialog: android.app.AlertDialog? = null
-            val inflater =
-                it.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-            val dialogLayout: View =
-                inflater.inflate(R.layout.alert_upload_document_custom_dialogue, null)
-            val tvDialogTitle =
-                dialogLayout.findViewById<TextView>(co.yap.yapcore.R.id.tvDialogTitle)
-            tvDialogTitle.text =
-                getString(R.string.screen_upload_document_display_text_alert_title)
-            val label = dialogLayout.findViewById<TextView>(R.id.tvTitle)
-            label.text = getString(R.string.screen_upload_document_display_text_alert_message)
-            val ok = dialogLayout.findViewById<TextView>(R.id.tvButtonTitle)
-            ok.text = getString(R.string.screen_upload_document_display_text_alert_got_it)
-            val cancel = dialogLayout.findViewById<TextView>(R.id.tvButtonCancel)
-            cancel.text = getString(R.string.common_button_cancel)
-
-            ok.setOnClickListener {
-                showDialogueOptions()
-                alertDialog?.dismiss()
-            }
-            cancel.setOnClickListener {
-                alertDialog?.dismiss()
-            }
-            builder.setView(dialogLayout)
-            builder.setCancelable(false)
-            alertDialog = builder.create()
-
-            alertDialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
-            alertDialog.show()
+        activity?.let {
+            it.showAlertDialogAndExitApp(
+                dialogTitle = getString(R.string.screen_upload_document_display_text_alert_title),
+                message = getString(R.string.screen_upload_document_display_text_alert_message),
+                leftButtonText = getString(R.string.screen_upload_document_display_text_alert_got_it),
+                callback = {
+                    showDialogueOptions()
+                },
+                titleVisibility = true,
+                closeActivity = false,
+                isTwoButton = true
+            )
         }
-
     }
 
     override fun onBackPressed(): Boolean {
-        if (viewModel.state.isFileUpdated.value == true) {
+        if (viewModel.state.isDeleteAble.value == true) {
             val intent = Intent()
             intent.putExtra(ExtraKeys.FILE_FOR_UPDATE.name, viewModel.fileForUpdate)
             activity?.setResult(Activity.RESULT_OK, intent)
         }
-        val fragment =
-            activity?.supportFragmentManager?.findFragmentById(R.id.main_nav_host_fragment)
-        if (!BackPressImpl(fragment).onBackPressed()) {
-            super.onBackPressed()
-        }
+        activity?.finish()
         return true
     }
 
     private fun close() {
-        viewModel.state.isNeedToRefreshView.value = true
+        refreshViewNeedTOShow(true)
     }
 
     override fun onDestroy() {
@@ -256,7 +207,7 @@ class ViewDocumentFragment : BaseBindingImageFragment<IViewDocumentActivity.View
     }
 
     override fun onImageReturn(mediaFile: MediaFile) {
-        if (mediaFile.file.sizeInMb() <= 25) {
+        if (mediaFile.file.sizeInMb() < 25) {
             viewModel.fileForUpdate = mediaFile.file
             loadFileInView(
                 mediaFile.file.extension,
@@ -264,16 +215,14 @@ class ViewDocumentFragment : BaseBindingImageFragment<IViewDocumentActivity.View
                 mediaFile.file.absolutePath
             )
             viewModel.state.isNeedToShowUpdateDialogue?.value = false
-            viewModel.state.isDeleteAble?.value = true
-            viewModel.state.isUpdateAble?.value = false
-            viewModel.state.isFileUpdated.value = true
+            deletable(true)
         } else {
-            showToast("Your file size is too big. Please upload a file less than 25MB to proceed")
+            showToast(Strings.screen_view_document_file_size_not_fine)
         }
     }
 
     private fun setImageResUrl(imageSrc: String?) {
-        viewModel.state.isPDF.value = false
+        imageNeededShow(true)
         viewModel.state.imageUrlForImageView?.value = imageSrc
     }
 
@@ -284,4 +233,57 @@ class ViewDocumentFragment : BaseBindingImageFragment<IViewDocumentActivity.View
     override fun addObservers() {
         viewModel.clickEvent.observe(this, listener)
     }
+
+    fun refreshViewNeedTOShow(isVisible: Boolean) {
+        if (!isVisible) {
+            viewModel.state.isNeedToRefreshView.value = false
+        } else {
+            viewModel.state.isNeedToRefreshView.value = true
+            viewModel.state.isPDF.value = false
+            viewModel.state.isImage.value = false
+        }
+    }
+
+    fun performDelete() {
+        context?.let { it.deleteTempFolder() }
+        viewModel.state.filePath?.value = null
+        viewModel.state.imageUrlForImageView?.value = null
+        viewModel.state.fileType?.value = null
+        deletable(false)
+        imageNeededShow(true)
+        viewDataBinding?.root?.iviImage?.setImageResource(0)
+        refreshViewNeedTOShow(false)
+    }
+
+    fun imageNeededShow(isImage: Boolean) {
+        if (!isImage) {
+            viewModel.state.isImage.value = false
+            viewModel.state.isPDF.value = true
+        } else {
+            viewModel.state.isPDF.value = false
+            viewModel.state.isImage.value = true
+        }
+    }
+
+    fun deletable(isDeleteAble: Boolean) {
+        if (isDeleteAble) {
+            viewModel.state.isDeleteAble.value = true
+            viewModel.state.isUpdateAble.value = false
+        } else {
+            viewModel.state.isDeleteAble.value = false
+            viewModel.state.isUpdateAble.value = true
+        }
+    }
+
+    fun editable(isEditAble: Boolean, isDeletable: Boolean) {
+        if (!isEditAble) {
+            deletable(isDeletable)
+            viewModel.state.isDeleteAble?.value = false
+            viewModel.state.isUpdateAble?.value = false
+        } else {
+            deletable(isDeletable)
+        }
+        viewModel.state.isEditable?.value = isEditAble
+    }
+
 }

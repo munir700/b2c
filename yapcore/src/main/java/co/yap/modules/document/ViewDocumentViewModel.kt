@@ -1,12 +1,12 @@
 package co.yap.modules.document
 
 import android.app.Application
-import android.net.Uri
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.transactions.TransactionsRepository
 import co.yap.translation.Strings
 import co.yap.widgets.bottomsheet.BottomSheetItem
 import co.yap.yapcore.BaseViewModel
+import co.yap.yapcore.R
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.PhotoSelectionType
 import co.yap.yapcore.helpers.extentions.createTempFile
@@ -22,18 +22,18 @@ import java.util.ArrayList
 
 
 class IViewDocumentViewModel(application: Application) :
-    BaseViewModel<IViewDocumentActivity.State>(application),
-    IViewDocumentActivity.ViewModel, IRepositoryHolder<TransactionsRepository> {
+    BaseViewModel<IViewDocumentFragment.State>(application),
+    IViewDocumentFragment.ViewModel, IRepositoryHolder<TransactionsRepository> {
     override val state: ViewDocumentState = ViewDocumentState()
     override val clickEvent: SingleClickEvent = SingleClickEvent()
-    override var file: File? = null
+    override var pdfFile: File? = null
     override val repository: TransactionsRepository = TransactionsRepository
     override var fileForUpdate: File? = null
     override fun downloadFile(filePath: String, success: (file: File?) -> Unit) {
         launch {
             state.loading = true
             getPDFFileFromWeb(filePath)?.let {
-                file = it
+                pdfFile = it
                 success.invoke(it)
             } ?: success.invoke(null)
             state.loading = false
@@ -93,6 +93,28 @@ class IViewDocumentViewModel(application: Application) :
                 tag = PhotoSelectionType.GALLERY.name
             )
         )
+        return list
+    }
+
+    override fun getUploadDocumentOptions(): ArrayList<BottomSheetItem> {
+        val list = arrayListOf<BottomSheetItem>()
+        list.add(
+            BottomSheetItem(
+                icon = R.drawable.ic_camera,
+                title = getString(Strings.screen_update_profile_photo_display_text_open_camera),
+                subTitle = getString(Strings.screen_upload_documents_display_sheet_text_scan_single_document),
+                tag = PhotoSelectionType.CAMERA.name
+            )
+        )
+        list.add(
+            BottomSheetItem(
+                icon = R.drawable.ic_file_manager,
+                title = getString(Strings.screen_upload_documents_display_sheet_text_upload_from_files),
+                subTitle = getString(Strings.screen_upload_documents_display_sheet_text_upload_from_files_descriptions),
+                tag = PhotoSelectionType.GALLERY.name
+            )
+        )
+
         return list
     }
 }

@@ -7,7 +7,7 @@ import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 import java.io.File
 
-interface IViewDocumentActivity {
+interface IViewDocumentFragment {
 
     interface View : IBase.View<ViewModel> {
         fun removeObservers()
@@ -16,8 +16,9 @@ interface IViewDocumentActivity {
 
     interface ViewModel : IBase.ViewModel<State> {
         val clickEvent: SingleClickEvent
-        var file: File?
+        var pdfFile: File?
         var fileForUpdate: File?
+        fun getUploadDocumentOptions(): java.util.ArrayList<BottomSheetItem>
         fun handlePressView(id: Int)
         fun downloadFile(filePath: String, success: (file: File?) -> Unit)
         fun getDialogueOptions(): ArrayList<BottomSheetItem>
@@ -27,11 +28,11 @@ interface IViewDocumentActivity {
         var fileType: MutableLiveData<String>?
         val imageUrlForImageView: MutableLiveData<String>?
         val isPDF: MutableLiveData<Boolean>
+        val isImage: MutableLiveData<Boolean>
         val isDeleteAble: MutableLiveData<Boolean>
         val isUpdateAble: MutableLiveData<Boolean>
         val isNeedToShowUpdateDialogue: MutableLiveData<Boolean>
         val filePath: MutableLiveData<String>?
-        val isFileUpdated: MutableLiveData<Boolean>
         val isEditable: MutableLiveData<Boolean>
         val isNeedToRefreshView: MutableLiveData<Boolean>
     }

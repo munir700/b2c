@@ -2661,4 +2661,15 @@ object Strings {
     const val screen_missing_info_confirmation_display_all_set = "screen_missing_info_confirmation_display_all_set"
 
     const val screen_view_document_refresh_button_text = "screen_view_document_refresh_button_text"
+    const val screen_view_document_file_size_not_fine = "screen_view_document_file_size_not_fine"
+
+//    Upload document dialogue
+
+    const val screen_upload_document_display_text_alert_title: String =
+        "screen_upload_document_display_text_alert_title"
+    const val screen_upload_document_display_text_alert_message: String =
+        "screen_upload_document_display_text_alert_message"
+    const val screen_upload_document_display_text_alert_got_it: String =
+        "screen_upload_document_display_text_alert_got_it"
+
 }

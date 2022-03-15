@@ -30,13 +30,11 @@ import co.yap.networking.models.BaseListResponse
 import co.yap.networking.models.BaseResponse
 import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
+import co.yap.widgets.bottomsheet.BottomSheetItem
 import co.yap.yapcore.Dispatcher
 import co.yap.yapcore.R
 import co.yap.yapcore.SingleClickEvent
-import co.yap.yapcore.enums.EmploymentQuestionIdentifier
-import co.yap.yapcore.enums.EmploymentStatus
-import co.yap.yapcore.enums.PartnerBankStatus
-import co.yap.yapcore.enums.PaymentCardStatus
+import co.yap.yapcore.enums.*
 import co.yap.yapcore.helpers.StringUtils
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.getJsonDataFromAsset
@@ -636,4 +634,25 @@ class EmploymentQuestionnaireAmendmentViewModel(application: Application) :
             add(CoreBottomSheetData(subTitle = EmploymentStatus.SALARIED_AND_SELF_EMPLOYED.status))
             add(CoreBottomSheetData(subTitle = EmploymentStatus.OTHER.status))
         }
+
+    override fun getUploadDocumentOptions(): java.util.ArrayList<BottomSheetItem> {
+        val list = arrayListOf<BottomSheetItem>()
+        list.add(
+            BottomSheetItem(
+                icon = R.drawable.ic_camera,
+                title = getString(Strings.screen_update_profile_photo_display_text_open_camera),
+                subTitle = getString(Strings.screen_upload_documents_display_sheet_text_scan_single_document),
+                tag = PhotoSelectionType.CAMERA.name
+            )
+        )
+        list.add(
+            BottomSheetItem(
+                icon = R.drawable.ic_file_manager,
+                title = getString(Strings.screen_upload_documents_display_sheet_text_upload_from_files),
+                subTitle = getString(Strings.screen_upload_documents_display_sheet_text_upload_from_files_descriptions),
+                tag = PhotoSelectionType.GALLERY.name
+            )
+        )
+        return list
+    }
 }

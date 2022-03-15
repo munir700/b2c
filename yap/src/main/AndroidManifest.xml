@@ -235,9 +235,6 @@
         <activity
             android:name=".modules.kyc.amendments.passportactivity.PassportActivity"
             android:screenOrientation="portrait" />
-        <activity
-            android:name=".modules.document.ViewDocumentActivity"
-            android:screenOrientation="portrait" />
     </application>
     <queries>
         <intent>

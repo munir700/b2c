@@ -2,9 +2,8 @@ package co.yap.modules.document
 
 import androidx.lifecycle.MutableLiveData
 import co.yap.yapcore.BaseState
-import java.io.File
 
-open class ViewDocumentState : BaseState(), IViewDocumentActivity.State {
+open class ViewDocumentState : BaseState(), IViewDocumentFragment.State {
 
     override var fileType: MutableLiveData<String>? = MutableLiveData()
     override var imageUrlForImageView: MutableLiveData<String>? = MutableLiveData()
@@ -12,7 +11,7 @@ open class ViewDocumentState : BaseState(), IViewDocumentActivity.State {
     override val isDeleteAble: MutableLiveData<Boolean> = MutableLiveData(false)
     override val isUpdateAble: MutableLiveData<Boolean> = MutableLiveData(false)
     override var filePath: MutableLiveData<String>? = MutableLiveData()
-    override val isFileUpdated: MutableLiveData<Boolean> = MutableLiveData(false)
+    override val isImage: MutableLiveData<Boolean> = MutableLiveData(false)
     override val isEditable: MutableLiveData<Boolean> = MutableLiveData(false)
     override val isNeedToShowUpdateDialogue: MutableLiveData<Boolean> = MutableLiveData(false)
     override val isNeedToRefreshView: MutableLiveData<Boolean> = MutableLiveData(false)

@@ -1726,4 +1726,7 @@
 
     <string name="screen_view_document_refresh_button_text">Refresh</string>
 
+    <string name="screen_view_document_file_size_not_fine">Your file size is too big. Please upload a file less than 25MB to proceed</string>
+
+
 </resources>

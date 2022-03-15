@@ -13,10 +13,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import co.yap.countryutils.country.Country
 import co.yap.countryutils.country.unSelectAllCountries
-import co.yap.modules.document.ViewDocumentActivity
 import co.yap.modules.document.ViewDocumentFragment
 import co.yap.modules.document.enums.FileFrom
-import co.yap.modules.document.enums.TakePhotoType
 import co.yap.modules.location.kyc_additional_info.employment_info.questionnaire.adapter.QuestionItemViewHolders
 import co.yap.modules.location.kyc_additional_info.employment_info.questionnaire.models.QuestionUiFields
 import co.yap.modules.otp.GenericOtpFragment
@@ -29,14 +27,13 @@ import co.yap.networking.customers.responsedtos.employment_amendment.EmploymentI
 import co.yap.networking.customers.responsedtos.employmentinfo.IndustrySegment
 import co.yap.translation.Strings
 import co.yap.widgets.bottomsheet.BottomSheetConfiguration
+import co.yap.widgets.bottomsheet.BottomSheetItem
 import co.yap.widgets.bottomsheet.IAnimationComplete
-import co.yap.widgets.bottomsheet.TakePhotoBottomSheet
 import co.yap.widgets.skeletonlayout.views
 import co.yap.yapcore.BR
 import co.yap.yapcore.BaseBindingImageFragment
 import co.yap.yapcore.R
 import co.yap.yapcore.constants.Constants
-import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.databinding.FragmentEmploymentQuestionnaireAmendmentBinding
 import co.yap.yapcore.databinding.FragmentEmploymentQuestionnaireBinding
 import co.yap.yapcore.enums.EmploymentQuestionIdentifier
@@ -265,17 +262,6 @@ class EmploymentQuestionnaireAmendmentFragment :
                     } else {
                         FileFrom.Local().local
                     }
-//                    context?.let {
-//                        startActivityForResult(
-//                            ViewDocumentActivity.newIntent(
-//                                it,
-//                                fileLink,
-//                                data.extension,
-//                                fileFrom,
-//                                viewModel.isInEditMode.value ?: false
-//                            ), RequestCodes.REQUEST_VIEW_DOCUMENT
-//                        )
-//                    }
                     context?.let {
                         startFragmentForResult<ViewDocumentFragment>(
                             ViewDocumentFragment::class.java.name,
@@ -284,11 +270,12 @@ class EmploymentQuestionnaireAmendmentFragment :
                                 "FILETYPE" to data.extension,
                                 "FILEFROM" to fileFrom,
                                 "ISEDITABLE" to viewModel.isInEditMode.value
-                            ), true
+                            ), false
                         ) { resultCode, data ->
                             if (resultCode == Activity.RESULT_OK) {
-                                showToast("I am ok")
-                                data?.let { handleFileResult(it) }
+                                data?.let {
+                                    handleFileResult(it)
+                                }
                             }
                         }
 
@@ -490,26 +477,25 @@ class EmploymentQuestionnaireAmendmentFragment :
     }
 
     private fun showDialogueOptions() {
-        activity?.launchTakePhotoSheet(
-            itemClickListener = onBottomSheetClickListener,
+        activity?.launchSheet(
+            itemClickListener = itemListener,
+            itemsList = viewModel.getUploadDocumentOptions(),
             heading = getString(R.string.choose_from_library_display_text_title)
         )
     }
 
-    private val onBottomSheetClickListener = object :
-        TakePhotoBottomSheet.OnTakePhotoBottomSheetItemClickListener {
-        override fun onItemClick(viewId: Int) {
-            when (viewId) {
-                TakePhotoType.TakePhoto().tvTakePhoto -> {
+    private val itemListener = object : OnItemClickListener {
+        override fun onItemClick(view: View, data: Any, pos: Int) {
+            when ((data as BottomSheetItem).tag) {
+                PhotoSelectionType.CAMERA.name -> {
                     openImagePicker(PhotoSelectionType.CAMERA)
                 }
-                TakePhotoType.Browse().tvbrowseFiles -> {
-                    activity?.openFilePicker(
-                        "File picker",
+                PhotoSelectionType.GALLERY.name -> {
+                    requireActivity().openFilePicker("File picker",
                         completionHandler = { _, dataUri ->
                             dataUri?.let { uriIntent ->
                                 var fileSelected = FileUtils.getFile(context, uriIntent.data)
-                                if (fileSelected.sizeInMb() <= 25) {
+                                if (fileSelected.sizeInMb() < 25) {
                                     var fileAfterBrowse =
                                         context?.let { it.createTempFileForBrowse(fileSelected.extension) }
                                     fileAfterBrowse?.let {
@@ -520,8 +506,9 @@ class EmploymentQuestionnaireAmendmentFragment :
                                     }
 
                                 } else {
-                                    showToast("Your file size is too big. Please upload a file less than 25MB to proceed")
+                                    showToast(Strings.screen_view_document_file_size_not_fine)
                                 }
+
                             }
                         })
                 }
@@ -529,13 +516,14 @@ class EmploymentQuestionnaireAmendmentFragment :
         }
     }
 
+
     override fun onImageReturn(mediaFile: MediaFile) {
-        if (mediaFile.file.sizeInMb() <= 25) {
+        if (mediaFile.file.sizeInMb() < 25) {
             updateDocumentLists(
                 mediaFile.file
             )
         } else {
-            showToast("Your file size is too big. Please upload a file less than 25MB to proceed")
+            showToast(Strings.screen_view_document_file_size_not_fine)
         }
     }
 
