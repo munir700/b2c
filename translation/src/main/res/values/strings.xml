@@ -412,7 +412,7 @@
     <!-- Add Spare card -->
     <string name="screen_add_spare_card_completion_display_text_complete_transaction">Transaction completed!\nYou now have a physical spare card</string>
     <string name="screen_add_spare_card_completion_display_text_complete_transaction_virtual">Transaction completed!\nYou now have a virtual spare card</string>
-    <string name="screen_employment_document_updation_completion_display_text_complete">Update completed!</string>
+    <string name="screen_employment_document_updation_completion_display_text_complete">Changes have been saved</string>
     <string name="screen_add_spare_card_completion_button_done">Done</string>
     <string name="screen_add_spare_card_completion_display_text_delivery_info">Our delivery agent will be in touch to confirm the delivery date and time. Please keep your Emirates ID at hand.</string>
     <string name="screen_add_spare_card_display_text_available_balance">Your available balance is  </string>
