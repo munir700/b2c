@@ -147,6 +147,7 @@ class ViewDocumentFragment : BaseBindingImageFragment<IViewDocumentFragment.View
     }
 
     private fun showDialogueOptions() {
+        viewModel.state.stateLiveData?.postValue(State.success(""))
         activity?.launchSheet(
             itemClickListener = itemListener,
             itemsList = viewModel.getUploadDocumentOptions(),
