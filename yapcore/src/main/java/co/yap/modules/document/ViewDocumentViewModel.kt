@@ -162,7 +162,6 @@ class IViewDocumentViewModel(application: Application) :
                                         )
                                     }
                                 }
-
                             }
                         }
                     }

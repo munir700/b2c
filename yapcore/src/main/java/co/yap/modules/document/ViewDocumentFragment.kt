@@ -51,14 +51,18 @@ class ViewDocumentFragment : BaseBindingImageFragment<IViewDocumentFragment.View
             viewDataBinding?.root?.multiStateView.setOnReloadListener(object :
                 MultiStateView.OnReloadListener {
                 override fun onReload(view: View) {
-                    viewModel.getAllApiCallsInParallelForScreen { fileType, link ->
-                        setupData(
-                            FileFrom.Link().link,
-                            link ?: "",
-                            viewModel.state.isEditable.value ?: false,
-                            fileType ?: ""
-                        )
-                        viewModel.state.stateLiveData?.postValue(State.success(""))
+                    if (context?.isNetworkAvailable() == true) {
+                        viewModel.getAllApiCallsInParallelForScreen { fileType, link ->
+                            setupData(
+                                FileFrom.Link().link,
+                                link ?: "",
+                                viewModel.state.isEditable.value ?: false,
+                                fileType ?: ""
+                            )
+                            viewModel.state.stateLiveData?.postValue(State.success(""))
+                        }
+                    } else {
+                        showInternetSnack(true)
                     }
                 }
             })
@@ -73,7 +77,8 @@ class ViewDocumentFragment : BaseBindingImageFragment<IViewDocumentFragment.View
             val fileFrom = it.getString("FILEFROM", ExtraType.STRING.name)
             val fileType = it.getString("FILETYPE", ExtraType.STRING.name)
             val isEditAble = it.getBoolean("ISEDITABLE", false)
-            viewModel.state.documentType.value = it.getString("DOCUMENTTYPE", ExtraType.STRING.name)
+            viewModel.state.documentType.value =
+                it.getString("DOCUMENTTYPE", ExtraType.STRING.name)
             setupData(fileFrom, link, isEditAble, fileType)
         }
     }
@@ -203,7 +208,7 @@ class ViewDocumentFragment : BaseBindingImageFragment<IViewDocumentFragment.View
     }
 
     override fun onBackPressed(): Boolean {
-        if (viewModel.state.isDeleteAble.value == true) {
+        if (viewModel.state.isDeleteAble.value == true && viewModel.fileForUpdate != null) {
             val intent = Intent()
             intent.putExtra(ExtraKeys.FILE_FOR_UPDATE.name, viewModel.fileForUpdate)
             activity?.setResult(Activity.RESULT_OK, intent)
