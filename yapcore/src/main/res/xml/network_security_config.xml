@@ -36,4 +36,7 @@
             disableDefaultReportUri="true"
             enforcePinning="true" />
     </domain-config>
+    <domain-config cleartextTrafficPermitted="true">
+        <domain includeSubdomains="true">https://auth.dev.uqudo.io</domain>
+    </domain-config>
 </network-security-config>

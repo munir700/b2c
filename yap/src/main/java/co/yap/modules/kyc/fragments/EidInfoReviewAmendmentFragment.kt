@@ -1,6 +1,5 @@
 package co.yap.modules.kyc.fragments
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -33,9 +32,6 @@ import co.yap.yapcore.helpers.extentions.launchBottomSheet
 import co.yap.yapcore.helpers.extentions.launchSheet
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.SessionManager
-import com.digitify.identityscanner.docscanner.activities.IdentityScannerActivity
-import com.digitify.identityscanner.docscanner.enums.DocumentType
-import com.digitify.identityscanner.docscanner.models.IdentityScannerResult
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog
 import kotlinx.android.synthetic.main.fragment_eid_info_review_amendment.*
 import java.io.File
@@ -70,7 +66,7 @@ class EidInfoReviewAmendmentFragment : KYCChildFragment<IEidInfoReviewAmendment.
             if (!viewModel.state.errorScreenVisited) {
                 //TODO Uqudo Camera WILL BE Handled here
                 showToast("Uqudo Camera will be integrated here!!")
-              //  openCardScanner()
+                //  openCardScanner()
             }
             viewModel.state.errorScreenVisited = false
             tbBtnBack.setOnClickListener {
@@ -151,14 +147,15 @@ class EidInfoReviewAmendmentFragment : KYCChildFragment<IEidInfoReviewAmendment.
                 viewModel.eventErrorExpiredEid -> showExpiredEidScreen()
                 viewModel.eventErrorUnderAge -> showUnderAgeScreen()
                 viewModel.eventErrorFromUsa -> showUSACitizenScreen()
-                viewModel.eventRescan ->{  //TODO Uqudo Camera WILL BE Handled here
-                    showToast("Uqudo Camera will be integrated here!!")}// openCardScanner()
+                viewModel.eventRescan -> {  //TODO Uqudo Camera WILL BE Handled here
+                    showToast("Uqudo Camera will be integrated here!!")
+                }// openCardScanner()
                 R.id.tvNoThanks -> {
                     trackEventWithScreenName(FirebaseEvent.RESCAN_ID)
                     Utils.hideKeyboard(tvNoThanks)
                     //TODO Uqudo Camera WILL BE Handled here
                     showToast("Uqudo Camera will be integrated here!!")
-                   // openCardScanner()
+                    // openCardScanner()
                 }
                 viewModel.eventAlreadyUsedEid -> {
                     viewModel.parentViewModel?.finishKyc?.value =
@@ -343,7 +340,7 @@ class EidInfoReviewAmendmentFragment : KYCChildFragment<IEidInfoReviewAmendment.
                 callback = {
                     //TODO Uqudo Camera WILL BE Handled here
                     showToast("Uqudo Camera will be integrated here!!")
-                   // openCardScanner()
+                    // openCardScanner()
                 },
                 closeActivity = false
             )
@@ -422,21 +419,21 @@ class EidInfoReviewAmendmentFragment : KYCChildFragment<IEidInfoReviewAmendment.
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (data == null && viewModel.parentViewModel?.skipFirstScreen?.value == true) {
+        /*      if (data == null && viewModel.parentViewModel?.skipFirstScreen?.value == true) {
 
-        }
-        if (requestCode == IdentityScannerActivity.SCAN_EID_CAM && resultCode == Activity.RESULT_OK) {
-            data?.let {
-                it.getParcelableExtra<IdentityScannerResult>(IdentityScannerActivity.SCAN_RESULT)
-                    ?.let { it1 ->
-                        viewModel.onEIDScanningComplete(
-                            it1
-                        )
-                    }
-            }
-        } else {
-            viewModel.parentViewModel?.finishKyc?.value = DocumentsResponse(false)
-        }
+              }
+              if (requestCode == IdentityScannerActivity.SCAN_EID_CAM && resultCode == Activity.RESULT_OK) {
+                  data?.let {
+                      it.getParcelableExtra<IdentityScannerResult>(IdentityScannerActivity.SCAN_RESULT)
+                          ?.let { it1 ->
+                              viewModel.onEIDScanningComplete(
+                                  it1
+                              )
+                          }
+                  }
+              } else {
+                  viewModel.parentViewModel?.finishKyc?.value = DocumentsResponse(false)
+              }*/
     }
 /*
     override fun openCardScanner() {

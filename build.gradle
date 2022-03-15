@@ -35,7 +35,14 @@ allprojects {
         maven { url "https://repo.leanplum.com/" }
         maven { url 'https://jitpack.io' }
         maven { url "http://pay.cards/maven" }
-        maven {url 'https://sdk.uxcam.com/android/'}
+        maven { url 'https://sdk.uxcam.com/android/' }
+        maven {
+            credentials {
+                username "digitify"
+                password "EKyTWcXk2rs9vZKviksfG6Hh"
+            }
+            url 'https://rm.dev.uqudo.io/repository/digitify'
+        }
     }
 }
 
