@@ -422,7 +422,7 @@ class EidInfoReviewAmendmentFragment : KYCChildFragment<IEidInfoReviewAmendment.
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (data == null && viewModel.parentViewModel?.skipFirstScreen?.value == true) {
+  /*      if (data == null && viewModel.parentViewModel?.skipFirstScreen?.value == true) {
 
         }
         if (requestCode == IdentityScannerActivity.SCAN_EID_CAM && resultCode == Activity.RESULT_OK) {
@@ -436,7 +436,7 @@ class EidInfoReviewAmendmentFragment : KYCChildFragment<IEidInfoReviewAmendment.
             }
         } else {
             viewModel.parentViewModel?.finishKyc?.value = DocumentsResponse(false)
-        }
+        }*/
     }
 /*
     override fun openCardScanner() {
