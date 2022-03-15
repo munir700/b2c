@@ -4,6 +4,7 @@ import android.app.Application
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.transactions.TransactionsRepository
 import co.yap.translation.Strings
+import co.yap.widgets.State
 import co.yap.widgets.bottomsheet.BottomSheetItem
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.R
@@ -31,12 +32,11 @@ class IViewDocumentViewModel(application: Application) :
     override var fileForUpdate: File? = null
     override fun downloadFile(filePath: String, success: (file: File?) -> Unit) {
         launch {
-            state.loading = true
+            state.stateLiveData?.postValue(State.loading(""))
             getPDFFileFromWeb(filePath)?.let {
                 pdfFile = it
                 success.invoke(it)
             } ?: success.invoke(null)
-            state.loading = false
         }
     }
 

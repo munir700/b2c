@@ -9,6 +9,9 @@ import androidx.lifecycle.ViewModelProvider
 import co.yap.modules.document.enums.FileFrom
 import co.yap.modules.document.enums.FileType
 import co.yap.translation.Strings
+import co.yap.widgets.MultiStateView
+import co.yap.widgets.State
+import co.yap.widgets.Status
 import co.yap.widgets.bottomsheet.BottomSheetItem
 import co.yap.yapcore.BR
 import co.yap.yapcore.BaseBindingImageFragment
@@ -19,9 +22,10 @@ import co.yap.yapcore.helpers.ExtraKeys
 import co.yap.yapcore.helpers.FileUtils
 import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.helpers.showAlertDialogAndExitApp
-import kotlinx.android.synthetic.main.activity_view_document.view.*
 import pl.aprilapps.easyphotopicker.MediaFile
 import co.yap.yapcore.interfaces.OnItemClickListener
+import kotlinx.android.synthetic.main.fragment_view_document.*
+import kotlinx.android.synthetic.main.fragment_view_document.view.*
 
 class ViewDocumentFragment : BaseBindingImageFragment<IViewDocumentFragment.ViewModel>(),
     IViewDocumentFragment.View {
@@ -41,8 +45,16 @@ class ViewDocumentFragment : BaseBindingImageFragment<IViewDocumentFragment.View
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupData()
         getDataBindingView<FragmentViewDocumentBinding>().lifecycleOwner = this
+        setupData()
+        viewModel.state.stateLiveData?.observe(viewLifecycleOwner, Observer { handleState(it) })
+        viewDataBinding?.root?.multiStateView.setOnReloadListener(object :
+            MultiStateView.OnReloadListener {
+            override fun onReload(view: View) {
+                //api call
+                showToast("You  can call api")
+            }
+        })
     }
 
     private fun setupData() {
@@ -76,6 +88,7 @@ class ViewDocumentFragment : BaseBindingImageFragment<IViewDocumentFragment.View
                             file?.let {
                                 refreshViewNeedTOShow(false)
                                 viewDataBinding?.root?.pdfView?.fromFile(file)?.show()
+//                                close()
                             }
                         }
                     } ?: close()
@@ -111,18 +124,18 @@ class ViewDocumentFragment : BaseBindingImageFragment<IViewDocumentFragment.View
             R.id.ivdelete -> {
                 performDelete()
             }
-            R.id.btnRefresh -> {
-                if (viewModel.state.fileType?.value?.contains(FileType.PDF().pdf) == true) {
-                    refreshViewNeedTOShow(false)
-                    viewModel.state.filePath?.value?.let { it ->
-                        viewModel.downloadFile(it) { file ->
-                            file?.let {
-                                viewDataBinding?.root?.pdfView?.fromFile(file)?.show()
-                            }
-                        }
-                    } ?: close()
-                }
-            }
+//            R.id.btnRefresh -> {
+//                if (viewModel.state.fileType?.value?.contains(FileType.PDF().pdf) == true) {
+//                    refreshViewNeedTOShow(false)
+//                    viewModel.state.filePath?.value?.let { it ->
+//                        viewModel.downloadFile(it) { file ->
+//                            file?.let {
+//                                viewDataBinding?.root?.pdfView?.fromFile(file)?.show()
+//                            }
+//                        }
+//                    } ?: close()
+//                }
+//            }
         }
     }
 
@@ -228,6 +241,7 @@ class ViewDocumentFragment : BaseBindingImageFragment<IViewDocumentFragment.View
 
     override fun removeObservers() {
         viewModel.clickEvent.removeObserver(listener)
+        viewModel.state.stateLiveData?.removeObservers(this)
     }
 
     override fun addObservers() {
@@ -235,12 +249,10 @@ class ViewDocumentFragment : BaseBindingImageFragment<IViewDocumentFragment.View
     }
 
     fun refreshViewNeedTOShow(isVisible: Boolean) {
-        if (!isVisible) {
-            viewModel.state.isNeedToRefreshView.value = false
+        if (isVisible) {
+            viewModel.state.stateLiveData?.postValue(State.error(getString(Strings.screen_view_document_refresh_text_description)))
         } else {
-            viewModel.state.isNeedToRefreshView.value = true
-            viewModel.state.isPDF.value = false
-            viewModel.state.isImage.value = false
+            viewModel.state.stateLiveData?.postValue(State.success(""))
         }
     }
 
@@ -286,4 +298,19 @@ class ViewDocumentFragment : BaseBindingImageFragment<IViewDocumentFragment.View
         viewModel.state.isEditable?.value = isEditAble
     }
 
+    private fun handleState(state: State?) {
+        when (state?.status) {
+            Status.LOADING -> {
+                multiStateView?.viewState = MultiStateView.ViewState.LOADING
+            }
+            Status.EMPTY -> {
+                multiStateView?.viewState = MultiStateView.ViewState.EMPTY
+            }
+            Status.ERROR -> {
+                multiStateView?.viewState = MultiStateView.ViewState.ERROR
+            }
+            else ->
+                multiStateView?.viewState = MultiStateView.ViewState.CONTENT
+        }
+    }
 }
