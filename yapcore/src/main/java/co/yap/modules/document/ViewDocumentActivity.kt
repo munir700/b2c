@@ -177,8 +177,9 @@ class ViewDocumentActivity : BaseBindingImageActivity<IViewDocumentActivity.View
                         completionHandler = { _, dataUri ->
                             dataUri?.let { uriIntent ->
                                 var fileSelected = FileUtils.getFile(context, uriIntent.data)
-                                if (fileSelected.sizeInMb() <= 25) {
-                                    var fileAfterBrowse = context.createTempFileForBrowse(fileSelected.extension)
+                                if (fileSelected.sizeInMb() < 25) {
+                                    var fileAfterBrowse =
+                                        context.createTempFileForBrowse(fileSelected.extension)
                                     fileSelected.copyTo(fileAfterBrowse)
                                     viewModel.fileForUpdate = fileAfterBrowse
                                     loadFileInView(
@@ -256,7 +257,7 @@ class ViewDocumentActivity : BaseBindingImageActivity<IViewDocumentActivity.View
     }
 
     override fun onImageReturn(mediaFile: MediaFile) {
-        if (mediaFile.file.sizeInMb() <= 25) {
+        if (mediaFile.file.sizeInMb() < 25) {
             viewModel.fileForUpdate = mediaFile.file
             loadFileInView(
                 mediaFile.file.extension,

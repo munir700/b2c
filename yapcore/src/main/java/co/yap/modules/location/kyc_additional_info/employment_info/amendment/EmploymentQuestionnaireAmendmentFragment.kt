@@ -501,7 +501,7 @@ class EmploymentQuestionnaireAmendmentFragment :
                         completionHandler = { _, dataUri ->
                             dataUri?.let { uriIntent ->
                                 var fileSelected = FileUtils.getFile(context, uriIntent.data)
-                                if (fileSelected.sizeInMb() <= 25) {
+                                if (fileSelected.sizeInMb() < 25) {
                                     var fileAfterBrowse =
                                         context?.let { it.createTempFileForBrowse(fileSelected.extension) }
                                     fileAfterBrowse?.let {
@@ -524,7 +524,7 @@ class EmploymentQuestionnaireAmendmentFragment :
     }
 
     override fun onImageReturn(mediaFile: MediaFile) {
-        if (mediaFile.file.sizeInMb() <= 25) {
+        if (mediaFile.file.sizeInMb() < 25) {
             updateDocumentLists(
                 mediaFile.file.absolutePath,
                 mediaFile.file.extension,
