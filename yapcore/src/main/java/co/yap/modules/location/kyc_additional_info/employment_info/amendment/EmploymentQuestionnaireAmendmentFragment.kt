@@ -269,7 +269,8 @@ class EmploymentQuestionnaireAmendmentFragment :
                                 "LINK" to fileLink,
                                 "FILETYPE" to data.extension,
                                 "FILEFROM" to fileFrom,
-                                "ISEDITABLE" to viewModel.isInEditMode.value
+                                "ISEDITABLE" to viewModel.isInEditMode.value,
+                                "DOCUMENTTYPE" to data.documentType
                             ), false
                         ) { resultCode, data ->
                             if (resultCode == Activity.RESULT_OK) {

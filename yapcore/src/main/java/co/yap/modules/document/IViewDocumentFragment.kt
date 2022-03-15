@@ -22,6 +22,7 @@ interface IViewDocumentFragment {
         fun handlePressView(id: Int)
         fun downloadFile(filePath: String, success: (file: File?) -> Unit)
         fun getDialogueOptions(): ArrayList<BottomSheetItem>
+        fun getAllApiCallsInParallelForScreen(success: (fileType: String?, link: String?) -> Unit)
     }
 
     interface State : IBase.State {
@@ -34,6 +35,7 @@ interface IViewDocumentFragment {
         val isNeedToShowUpdateDialogue: MutableLiveData<Boolean>
         val filePath: MutableLiveData<String>?
         val isEditable: MutableLiveData<Boolean>
-        val isNeedToRefreshView: MutableLiveData<Boolean>
+        val documentType: MutableLiveData<String>
+
     }
 }

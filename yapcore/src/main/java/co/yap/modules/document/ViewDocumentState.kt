@@ -10,9 +10,9 @@ open class ViewDocumentState : BaseState(), IViewDocumentFragment.State {
     override val isPDF: MutableLiveData<Boolean> = MutableLiveData(false)
     override val isDeleteAble: MutableLiveData<Boolean> = MutableLiveData(false)
     override val isUpdateAble: MutableLiveData<Boolean> = MutableLiveData(false)
-    override var filePath: MutableLiveData<String>? = MutableLiveData()
     override val isImage: MutableLiveData<Boolean> = MutableLiveData(false)
+    override var filePath: MutableLiveData<String>? = MutableLiveData()
     override val isEditable: MutableLiveData<Boolean> = MutableLiveData(false)
     override val isNeedToShowUpdateDialogue: MutableLiveData<Boolean> = MutableLiveData(false)
-    override val isNeedToRefreshView: MutableLiveData<Boolean> = MutableLiveData(false)
+    override var documentType: MutableLiveData<String> = MutableLiveData()
 }

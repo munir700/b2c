@@ -30,7 +30,6 @@ import kotlinx.android.synthetic.main.fragment_view_document.view.*
 class ViewDocumentFragment : BaseBindingImageFragment<IViewDocumentFragment.ViewModel>(),
     IViewDocumentFragment.View {
 
-
     override val viewModel: IViewDocumentFragment.ViewModel
         get() = ViewModelProvider(this).get(IViewDocumentViewModel::class.java)
 
@@ -46,34 +45,50 @@ class ViewDocumentFragment : BaseBindingImageFragment<IViewDocumentFragment.View
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         getDataBindingView<FragmentViewDocumentBinding>().lifecycleOwner = this
-        setupData()
-        viewModel.state.stateLiveData?.observe(viewLifecycleOwner, Observer { handleState(it) })
-        viewDataBinding?.root?.multiStateView.setOnReloadListener(object :
-            MultiStateView.OnReloadListener {
-            override fun onReload(view: View) {
-                //api call
-                showToast("You  can call api")
-            }
-        })
+        if (context?.isNetworkAvailable() == true) {
+            getDataFromIntent()
+            viewModel.state.stateLiveData?.observe(viewLifecycleOwner, Observer { handleState(it) })
+            viewDataBinding?.root?.multiStateView.setOnReloadListener(object :
+                MultiStateView.OnReloadListener {
+                override fun onReload(view: View) {
+                    viewModel.getAllApiCallsInParallelForScreen { fileType, link ->
+                        setupData(
+                            FileFrom.Link().link,
+                            link ?: "",
+                            viewModel.state.isEditable.value ?: false,
+                            fileType ?: ""
+                        )
+                        viewModel.state.stateLiveData?.postValue(State.success(""))
+                    }
+                }
+            })
+        } else {
+            showInternetSnack(true)
+        }
     }
 
-    private fun setupData() {
+    private fun getDataFromIntent() {
         arguments?.let {
             val link = it.getString("LINK", ExtraType.STRING.name)
             val fileFrom = it.getString("FILEFROM", ExtraType.STRING.name)
             val fileType = it.getString("FILETYPE", ExtraType.STRING.name)
             val isEditAble = it.getBoolean("ISEDITABLE", false)
-            when (fileFrom) {
-                FileFrom.Link().link -> {
-                    viewModel.state.isNeedToShowUpdateDialogue?.value = !link.isNullOrEmpty()
-                    editable(isEditAble, false)
-                }
-                FileFrom.Local().local -> {
-                    editable(isEditAble, true)
-                }
-            }
-            loadFileInView(fileType, fileFrom, link)
+            viewModel.state.documentType.value = it.getString("DOCUMENTTYPE", ExtraType.STRING.name)
+            setupData(fileFrom, link, isEditAble, fileType)
         }
+    }
+
+    fun setupData(fileFrom: String, link: String, isEditAble: Boolean, fileType: String) {
+        when (fileFrom) {
+            FileFrom.Link().link -> {
+                viewModel.state.isNeedToShowUpdateDialogue?.value = !link.isNullOrEmpty()
+                editable(isEditAble, false)
+            }
+            FileFrom.Local().local -> {
+                editable(isEditAble, true)
+            }
+        }
+        loadFileInView(fileType, fileFrom, link)
     }
 
     fun loadFileInView(fileType: String?, fileFrom: String?, link: String?) {
@@ -88,7 +103,6 @@ class ViewDocumentFragment : BaseBindingImageFragment<IViewDocumentFragment.View
                             file?.let {
                                 refreshViewNeedTOShow(false)
                                 viewDataBinding?.root?.pdfView?.fromFile(file)?.show()
-//                                close()
                             }
                         }
                     } ?: close()
@@ -124,18 +138,6 @@ class ViewDocumentFragment : BaseBindingImageFragment<IViewDocumentFragment.View
             R.id.ivdelete -> {
                 performDelete()
             }
-//            R.id.btnRefresh -> {
-//                if (viewModel.state.fileType?.value?.contains(FileType.PDF().pdf) == true) {
-//                    refreshViewNeedTOShow(false)
-//                    viewModel.state.filePath?.value?.let { it ->
-//                        viewModel.downloadFile(it) { file ->
-//                            file?.let {
-//                                viewDataBinding?.root?.pdfView?.fromFile(file)?.show()
-//                            }
-//                        }
-//                    } ?: close()
-//                }
-//            }
         }
     }
 
