@@ -458,12 +458,8 @@ class EmploymentQuestionnaireAmendmentFragment :
     }
 
     private fun handleFileResult(data: Intent?) {
-        val file =
-            data?.getValue(ExtraKeys.FILE_PATH.name, ExtraType.STRING.name) as? String
-        val fileType =
-            data?.getValue(ExtraKeys.FILE_TYPE.name, ExtraType.STRING.name) as? String
         val fileForUpdate = data?.getSerializableExtra(ExtraKeys.FILE_FOR_UPDATE.name) as File
-        updateDocumentLists(file, fileType, fileForUpdate)
+        updateDocumentLists(fileForUpdate)
     }
 
     private fun startOtpFragment() {
@@ -519,8 +515,6 @@ class EmploymentQuestionnaireAmendmentFragment :
                                     fileAfterBrowse?.let {
                                         fileSelected.copyTo(it)
                                         updateDocumentLists(
-                                            it.absolutePath,
-                                            it.extension,
                                             fileAfterBrowse
                                         )
                                     }
@@ -538,8 +532,6 @@ class EmploymentQuestionnaireAmendmentFragment :
     override fun onImageReturn(mediaFile: MediaFile) {
         if (mediaFile.file.sizeInMb() <= 25) {
             updateDocumentLists(
-                mediaFile.file.absolutePath,
-                mediaFile.file.extension,
                 mediaFile.file
             )
         } else {
@@ -547,10 +539,10 @@ class EmploymentQuestionnaireAmendmentFragment :
         }
     }
 
-    fun updateDocumentLists(filePath: String?, extension: String?, fileForUpdate: File?) {
+    fun updateDocumentLists(fileForUpdate: File?) {
         viewModel.posOfUpdatedDocument?.let {
-            viewModel.documentsList.value?.get(it)?.fileURL = filePath ?: ""
-            viewModel.documentsList.value?.get(it)?.extension = extension ?: ""
+            viewModel.documentsList.value?.get(it)?.fileURL = fileForUpdate?.absolutePath ?: ""
+            viewModel.documentsList.value?.get(it)?.extension = fileForUpdate?.extension ?: ""
             viewModel.documentsList.value?.get(it)?.fileForUpdate = fileForUpdate
             viewModel.documentAdapter.update(viewModel.documentsList.value?.get(it) ?: Document())
             viewModel.validateForm()

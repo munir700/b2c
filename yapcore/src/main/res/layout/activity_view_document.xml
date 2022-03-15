@@ -132,7 +132,7 @@
             app:layout_constraintRight_toRightOf="parent">
 
             <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/ivshare"
+                android:id="@+id/ivUpdate"
                 android:layout_width="@dimen/_27sdp"
                 android:layout_height="@dimen/_27sdp"
                 android:layout_centerInParent="true"

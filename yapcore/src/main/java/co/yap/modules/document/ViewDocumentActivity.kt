@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.TextView
-import androidx.core.net.toUri
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import co.yap.modules.document.enums.FileFrom
@@ -125,7 +124,7 @@ class ViewDocumentActivity : BaseBindingImageActivity<IViewDocumentActivity.View
             R.id.ivCancel -> {
                 onBackPressed()
             }
-            R.id.ivshare -> {
+            R.id.ivUpdate -> {
                 if (viewModel.state.isNeedToShowUpdateDialogue.value == true) {
                     uploadAlert()
                 } else {

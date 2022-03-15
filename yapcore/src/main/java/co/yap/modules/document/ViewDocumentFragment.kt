@@ -16,7 +16,6 @@ import co.yap.widgets.bottomsheet.TakePhotoBottomSheet
 import co.yap.yapcore.BR
 import co.yap.yapcore.BaseBindingImageFragment
 import co.yap.yapcore.R
-import co.yap.yapcore.databinding.ActivityViewDocumentBinding
 import co.yap.yapcore.databinding.FragmentViewDocumentBinding
 import co.yap.yapcore.enums.PhotoSelectionType
 import co.yap.yapcore.helpers.ExtraKeys
@@ -68,6 +67,12 @@ class ViewDocumentFragment : BaseBindingImageFragment<IViewDocumentActivity.View
                 }
             }
             viewModel.state.isEditable?.value = isEditAble
+            when {
+                isEditAble -> {
+                    viewModel.state.isDeleteAble?.value = false
+                    viewModel.state.isUpdateAble?.value = false
+                }
+            }
             loadFileInView(fileType, fileFrom, link)
         }
     }
@@ -110,7 +115,7 @@ class ViewDocumentFragment : BaseBindingImageFragment<IViewDocumentActivity.View
             R.id.ivCancel -> {
                 onBackPressed()
             }
-            R.id.ivshare -> {
+            R.id.ivUpdate -> {
                 if (viewModel.state.isNeedToShowUpdateDialogue.value == true) {
                     uploadAlert()
                 } else {
@@ -231,8 +236,6 @@ class ViewDocumentFragment : BaseBindingImageFragment<IViewDocumentActivity.View
         if (viewModel.state.isFileUpdated.value == true) {
             val intent = Intent()
             intent.putExtra(ExtraKeys.FILE_FOR_UPDATE.name, viewModel.fileForUpdate)
-            intent.putExtra(ExtraKeys.FILE_PATH.name, viewModel.state.filePath?.value)
-            intent.putExtra(ExtraKeys.FILE_TYPE.name, viewModel.state.fileType?.value)
             activity?.setResult(Activity.RESULT_OK, intent)
         }
         val fragment =
@@ -248,7 +251,6 @@ class ViewDocumentFragment : BaseBindingImageFragment<IViewDocumentActivity.View
     }
 
     override fun onDestroy() {
-        context?.deleteTempFolder()
         super.onDestroy()
         removeObservers()
     }
