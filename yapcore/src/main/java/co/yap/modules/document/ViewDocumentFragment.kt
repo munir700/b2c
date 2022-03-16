@@ -65,7 +65,6 @@ class ViewDocumentFragment : BaseBindingImageFragment<IViewDocumentFragment.View
                                 viewModel.state.isEditable.value ?: false,
                                 fileType ?: ""
                             )
-                            viewModel.state.stateLiveData?.postValue(State.success(""))
                         }
                     } else {
                         showInternetSnack(true)
@@ -188,7 +187,7 @@ class ViewDocumentFragment : BaseBindingImageFragment<IViewDocumentFragment.View
                                         deletable(true)
                                     }
                                 } else {
-                                    showToast(Strings.screen_view_document_file_size_not_fine)
+                                    showToast(getString(R.string.screen_view_document_file_size_not_fine))
                                 }
                             }
                         })
@@ -243,7 +242,7 @@ class ViewDocumentFragment : BaseBindingImageFragment<IViewDocumentFragment.View
             viewModel.state.isNeedToShowUpdateDialogue?.value = false
             deletable(true)
         } else {
-            showToast(Strings.screen_view_document_file_size_not_fine)
+            showToast(getString(R.string.screen_view_document_file_size_not_fine))
         }
     }
 
@@ -289,7 +288,6 @@ class ViewDocumentFragment : BaseBindingImageFragment<IViewDocumentFragment.View
     }
 
     fun performDelete() {
-        context?.let { it.deleteTempFolder() }
         viewModel.state.filePath?.value = null
         viewModel.state.fileType?.value = null
         deletable(false)

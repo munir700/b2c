@@ -494,7 +494,7 @@ class EmploymentQuestionnaireAmendmentFragment :
                                         )
                                     }
                                 } else {
-                                    showToast(Strings.screen_view_document_file_size_not_fine)
+                                    showToast(getString(R.string.screen_view_document_file_size_not_fine))
                                 }
 
                             }
@@ -511,7 +511,7 @@ class EmploymentQuestionnaireAmendmentFragment :
                 mediaFile.file
             )
         } else {
-            showToast(Strings.screen_view_document_file_size_not_fine)
+            showToast(getString(R.string.screen_view_document_file_size_not_fine))
         }
     }
 
