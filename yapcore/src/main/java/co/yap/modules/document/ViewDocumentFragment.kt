@@ -13,7 +13,6 @@ import co.yap.widgets.MultiStateView
 import co.yap.widgets.State
 import co.yap.widgets.Status
 import co.yap.widgets.bottomsheet.BottomSheetItem
-import co.yap.widgets.loading.CircularProgressBar
 import co.yap.yapcore.BR
 import co.yap.yapcore.BaseBindingImageFragment
 import co.yap.yapcore.R
