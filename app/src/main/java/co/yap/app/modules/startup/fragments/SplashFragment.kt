@@ -2,6 +2,7 @@ package co.yap.app.modules.startup.fragments
 
 import android.animation.Animator
 import android.animation.AnimatorSet
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
@@ -14,14 +15,20 @@ import co.yap.app.R
 import co.yap.app.main.MainChildFragment
 import co.yap.app.modules.startup.interfaces.ISplash
 import co.yap.app.modules.startup.viewmodels.SplashViewModel
+import co.yap.modules.onboarding.models.CountryCode
+import co.yap.modules.onboarding.models.LoadConfig
 import co.yap.yapcore.animations.animators.ScaleAnimator
+import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.Constants.KEY_IMAGE_LOADING_TIME
 import co.yap.yapcore.constants.Constants.KEY_IS_FIRST_TIME_USER
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.alert
 import co.yap.yapcore.helpers.extentions.openPlayStore
+import com.yap.ghana.ui.auth.main.GhAuthenticationActivity
+import com.yap.yappakistan.ui.auth.main.AuthenticationActivity
 import kotlinx.android.synthetic.main.fragment_splash.*
+import kotlinx.coroutines.delay
 
 class SplashFragment : MainChildFragment<ISplash.ViewModel>(), ISplash.View {
     private var animatorSet: AnimatorSet? = null
@@ -29,13 +36,17 @@ class SplashFragment : MainChildFragment<ISplash.ViewModel>(), ISplash.View {
     override fun getBindingVariable() = BR.viewModel
     override fun getLayoutId() = R.layout.fragment_splash
 
+    private lateinit var pkIntent: Intent
+    private lateinit var ghIntent: Intent
+
+
     override val viewModel: SplashViewModel
         get() = ViewModelProviders.of(this).get(SplashViewModel::class.java)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         animatorSet = AnimatorSet()
-        viewModel.state.downTime.observe(viewLifecycleOwner, Observer {downTime->
+        viewModel.state.downTime.observe(viewLifecycleOwner, Observer { downTime ->
             requireActivity().alert(
                 message = downTime.downTimeMessage ?: "",
                 positiveButton = if (downTime.isDown == true) getString(android.R.string.ok) else getString(
@@ -77,6 +88,7 @@ class SplashFragment : MainChildFragment<ISplash.ViewModel>(), ISplash.View {
     }
 
     private fun playAnimationAndMoveNext() {
+        initPkGhana()
         val scaleLogo =
             ScaleAnimator(1.0f, 150.0f, AccelerateDecelerateInterpolator()).with(ivLogo, 1500)
         val scaleDot =
@@ -111,7 +123,84 @@ class SplashFragment : MainChildFragment<ISplash.ViewModel>(), ISplash.View {
             )
             findNavController().navigate(R.id.action_splashFragment_to_accountSelectionFragment)
         } else {
-            findNavController().navigate(R.id.action_splashFragment_to_loginFragment)
+            val sharedPreferenceManager = SharedPreferenceManager.getInstance(requireContext())
+            if (sharedPreferenceManager.getValueBoolien(
+                    Constants.KEY_IS_USER_LOGGED_IN,
+                    false
+                )
+            ) {
+                sharedPreferenceManager.getValueString(
+                    Constants.KEY_COUNTRY_CODE, CountryCode.UAE.countryCode ?: ""
+                )?.let {
+                    if (it != CountryCode.UAE.countryCode) {
+                        launchPkGhana(
+                            it
+                        )
+                    }
+                }
+            }
+            launch {
+                delay(10)
+                findNavController().navigate(R.id.action_splashFragment_to_loginFragment)
+            }
+        }
+    }
+
+
+    private fun initPkGhana() {
+        val sharedPreferenceManager = SharedPreferenceManager.getInstance(requireContext())
+        if (sharedPreferenceManager.getValueBoolien(
+                Constants.KEY_IS_USER_LOGGED_IN,
+                false
+            )
+        ) {
+            sharedPreferenceManager.getValueString(
+                Constants.KEY_COUNTRY_CODE, CountryCode.UAE.countryCode ?: ""
+            )?.let {
+                if (it != CountryCode.UAE.countryCode) {
+                    val mobileNo = sharedPreferenceManager.getValueString(Constants.KEY_MOBILE_NO)
+                        ?.replace(" ", "")
+                    LoadConfig(requireContext()).initYapRegion(it)
+                    when (it) {
+                        CountryCode.PAK.countryCode -> {
+                            pkIntent = Intent(requireContext(), AuthenticationActivity::class.java)
+                            pkIntent.putExtra("countryCode", it)
+                            pkIntent.putExtra("mobileNo", mobileNo ?: "")
+                            pkIntent.putExtra("isAccountBlocked", false)
+                        }
+                        CountryCode.GHANA.countryCode -> {
+                            ghIntent =
+                                Intent(requireContext(), GhAuthenticationActivity::class.java)
+                            ghIntent = Intent(requireContext(), AuthenticationActivity::class.java)
+                            ghIntent.putExtra("countryCode", it)
+                            ghIntent.putExtra("mobileNo", mobileNo ?: "")
+                            ghIntent.putExtra("isAccountBlocked", false)
+                        }
+
+                    }
+                }
+            }
+        }
+    }
+
+    private fun launchPkGhana(countryCode: String) {
+        when (countryCode) {
+            CountryCode.GHANA.countryCode -> {
+                startActivity(ghIntent)
+//                launchActivity<GhAuthenticationActivity> {
+//                    putExtra("countryCode", countryCode)
+//                    putExtra("mobileNo", mobileNo ?: "")
+//                    putExtra("isAccountBlocked", false)
+//                }
+            }
+            CountryCode.PAK.countryCode -> {
+                startActivity(pkIntent)
+//                launchActivity<AuthenticationActivity> {
+//                    putExtra("countryCode", countryCode)
+//                    putExtra("mobileNo", mobileNo ?: "")
+//                    putExtra("isAccountBlocked", false)
+//                }
+            }
         }
     }
 

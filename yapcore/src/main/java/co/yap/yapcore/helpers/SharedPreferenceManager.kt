@@ -5,6 +5,7 @@ import android.content.SharedPreferences
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKeys
 import co.yap.yapcore.adjust.ReferralInfo
+import co.yap.yapcore.constants.Constants.KEY_MOBILE_NO
 import co.yap.yapcore.constants.Constants.KEY_PASSCODE
 import co.yap.yapcore.constants.Constants.KEY_THEME
 import co.yap.yapcore.constants.Constants.KEY_USERNAME
@@ -97,7 +98,8 @@ class SharedPreferenceManager private constructor(val context: Context) {
     }
 
     fun getDecryptedUserName(): String? {
-        return getValueString(KEY_USERNAME)
+        return getValueString(KEY_USERNAME) ?: getValueString(KEY_MOBILE_NO)
+      //  return getValueString(KEY_USERNAME)
     }
 
     fun savePassCodeWithEncryption(text: String) {
