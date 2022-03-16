@@ -41,7 +41,7 @@ class MultiStateView
 
     private var contentView: View? = null
 
-    public var loadingView: View? = null
+    private var loadingView: View? = null
 
     private var errorView: View? = null
 

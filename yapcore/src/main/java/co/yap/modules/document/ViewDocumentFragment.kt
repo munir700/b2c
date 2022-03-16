@@ -27,6 +27,7 @@ import pl.aprilapps.easyphotopicker.MediaFile
 import co.yap.yapcore.interfaces.OnItemClickListener
 import kotlinx.android.synthetic.main.fragment_view_document.*
 import kotlinx.android.synthetic.main.fragment_view_document.view.*
+import kotlinx.android.synthetic.main.layout_loading_view_for_view_document.view.*
 
 class ViewDocumentFragment : BaseBindingImageFragment<IViewDocumentFragment.ViewModel>(),
     IViewDocumentFragment.View {
@@ -311,8 +312,7 @@ class ViewDocumentFragment : BaseBindingImageFragment<IViewDocumentFragment.View
         when (state?.status) {
             Status.LOADING -> {
                 multiStateView?.viewState = MultiStateView.ViewState.LOADING
-                multiStateView?.loadingView?.findViewById<CircularProgressBar>(R.id.circularProgressBar)
-                    ?.indeterminateMode  = true
+                multiStateView?.circularProgressBar?.indeterminateMode = true
             }
             Status.EMPTY -> {
                 multiStateView?.viewState = MultiStateView.ViewState.EMPTY
