@@ -3,7 +3,9 @@ package co.yap.modules.onboarding.models
 import android.content.Context
 import co.yap.BuildConfig
 import co.yap.app.YAPApplication
+import co.yap.yapcore.adjust.ReferralInfo
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.constants.Constants.REFERRAL_COUNTRY_ISO_CODE
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import com.yap.core.enums.ProductFlavour
 import com.yap.ghana.configs.GhanaBuildConfigurations
@@ -32,10 +34,15 @@ class LoadConfig @Inject constructor(@ApplicationContext val appContext: Context
             buildType = BuildConfig.BUILD_TYPE,
             versionName = YAPApplication.configManager?.versionName ?: "1.0.0",
             versionCode = YAPApplication.configManager?.versionCode ?: "1",
-            applicationId = YAPApplication.configManager?.applicationId?:""
+            applicationId = YAPApplication.configManager?.applicationId ?: ""
         ) { event ->
             handlePkAppEvent(event, context)
         }
+        pkConfigs.setAdjustAppId(getAdjustReferralTrackerId("qa"))
+        getReferralInfo("PK")?.let {
+            pkConfigs.setReferralInfo(it.id, it.date)
+        }
+
         return pkConfigs
     }
 
@@ -46,10 +53,15 @@ class LoadConfig @Inject constructor(@ApplicationContext val appContext: Context
             buildType = BuildConfig.BUILD_TYPE,
             versionName = YAPApplication.configManager?.versionName ?: "1.0.0",
             versionCode = YAPApplication.configManager?.versionCode ?: "1",
-            applicationId = YAPApplication.configManager?.applicationId?:""
+            applicationId = YAPApplication.configManager?.applicationId ?: ""
         ) {
             handleGhanaAppEvent(it, context)
         }
+        getReferralInfo("GH")?.let {
+            ghConfigs.setReferralInfo(it.id, it.date)
+        }
+        ghConfigs.setAdjustAppId(getAdjustReferralTrackerId("qa"))
+
         return ghConfigs
     }
 
@@ -95,8 +107,20 @@ class LoadConfig @Inject constructor(@ApplicationContext val appContext: Context
 
     private fun getAdjustReferralTrackerId(flavour: String): String {
         return when (flavour) {
-            ProductFlavour.DEV.flavour, ProductFlavour.QA.flavour -> "fj4r46p"
+            ProductFlavour.PROD.flavour -> "n44w5ee"
+            ProductFlavour.PREPROD.flavour -> "oo71763"
+            ProductFlavour.DEV.flavour, ProductFlavour.QA.flavour, ProductFlavour.STG.flavour -> "q3o2z0e"
             else -> throw IllegalStateException("There is no app has been created on adjust dashboard against this flavour:=> $flavour")
+        }
+    }
+
+    private fun getReferralInfo(countryCode: String): ReferralInfo? {
+        val sharedPref = SharedPreferenceManager.getInstance(appContext)
+        return when (sharedPref.getValueString(REFERRAL_COUNTRY_ISO_CODE)) {
+            countryCode -> {
+                sharedPref.getReferralInfo()
+            }
+            else -> null
         }
     }
 }

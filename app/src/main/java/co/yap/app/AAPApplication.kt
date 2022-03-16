@@ -1,6 +1,5 @@
 package co.yap.app
 
-//import com.yap.yappakistan.configs.PKBuildConfigurations
 import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
@@ -68,8 +67,6 @@ class AAPApplication : YAPApplication(), NavigatorProvider {
 
     override fun onCreate() {
         super.onCreate()
-//        LoadConfig().initConfigs(applicationContext, pkBuildConfigurations)
-//        LoadConfig().initConfigs(applicationContext, ghanaBuildConfiguration)
         initFireBase()
         val originalSign =
             signatureKeysFromJNI(
