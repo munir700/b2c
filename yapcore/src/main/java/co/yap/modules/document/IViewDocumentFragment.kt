@@ -18,7 +18,7 @@ interface IViewDocumentFragment {
         val clickEvent: SingleClickEvent
         var pdfFile: File?
         var fileForUpdate: File?
-        fun getUploadDocumentOptions(): java.util.ArrayList<BottomSheetItem>
+        fun getUploadDocumentOptions(): ArrayList<BottomSheetItem>
         fun handlePressView(id: Int)
         fun downloadFile(filePath: String, success: (file: File?) -> Unit)
         fun getDialogueOptions(): ArrayList<BottomSheetItem>

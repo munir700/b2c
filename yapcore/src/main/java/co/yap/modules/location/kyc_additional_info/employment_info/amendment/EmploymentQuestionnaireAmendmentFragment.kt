@@ -398,7 +398,6 @@ class EmploymentQuestionnaireAmendmentFragment :
     override fun onDestroy() {
         super.onDestroy()
         removeObservers()
-        context?.let { it.deleteTempFolder() }
     }
 
     override fun onResume() {
