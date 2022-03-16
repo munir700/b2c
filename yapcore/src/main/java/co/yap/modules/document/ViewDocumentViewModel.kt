@@ -145,7 +145,7 @@ class IViewDocumentViewModel(application: Application) :
         }
     }
 
-    override fun getAllApiCallsInParallelForScreen(success: (fileType: String?, link: String?) -> Unit) {
+    override fun getEmploymentInfoApiCall(success: (fileType: String?, link: String?) -> Unit) {
         fetchEmploymentInfoAPIResponses { employmentResponse ->
             launch(Dispatcher.Main) {
                 when (employmentResponse) {

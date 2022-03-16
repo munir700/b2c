@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.activity.OnBackPressedCallback
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import co.yap.modules.document.enums.FileFrom
@@ -58,7 +59,7 @@ class ViewDocumentFragment : BaseBindingImageFragment<IViewDocumentFragment.View
                 MultiStateView.OnReloadListener {
                 override fun onReload(view: View) {
                     if (context?.isNetworkAvailable() == true) {
-                        viewModel.getAllApiCallsInParallelForScreen { fileType, link ->
+                        viewModel.getEmploymentInfoApiCall { fileType, link ->
                             setupData(
                                 FileFrom.Link().link,
                                 link ?: "",

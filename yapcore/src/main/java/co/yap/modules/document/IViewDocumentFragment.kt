@@ -21,7 +21,7 @@ interface IViewDocumentFragment {
         fun handlePressView(id: Int)
         fun downloadFile(filePath: String, success: (file: File?) -> Unit)
         fun getDialogueOptions(): ArrayList<BottomSheetItem>
-        fun getAllApiCallsInParallelForScreen(success: (fileType: String?, link: String?) -> Unit)
+        fun getEmploymentInfoApiCall(success: (fileType: String?, link: String?) -> Unit)
     }
 
     interface State : IBase.State {
