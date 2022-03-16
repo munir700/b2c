@@ -27,7 +27,6 @@ interface IViewDocumentFragment {
 
     interface State : IBase.State {
         var fileType: MutableLiveData<String>?
-        val imageUrlForImageView: MutableLiveData<String>?
         val isPDF: MutableLiveData<Boolean>
         val isImage: MutableLiveData<Boolean>
         val isDeleteAble: MutableLiveData<Boolean>

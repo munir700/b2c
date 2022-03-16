@@ -21,9 +21,14 @@ import co.yap.yapcore.enums.PhotoSelectionType
 import co.yap.yapcore.helpers.ExtraKeys
 import co.yap.yapcore.helpers.FileUtils
 import co.yap.yapcore.helpers.extentions.*
+import co.yap.yapcore.helpers.glide.getUrl
 import co.yap.yapcore.helpers.showAlertDialogAndExitApp
 import pl.aprilapps.easyphotopicker.MediaFile
 import co.yap.yapcore.interfaces.OnItemClickListener
+import com.liveperson.infra.utils.picasso.Callback
+import com.liveperson.infra.utils.picasso.MemoryPolicy
+import com.liveperson.infra.utils.picasso.NetworkPolicy
+import com.liveperson.infra.utils.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_view_document.*
 import kotlinx.android.synthetic.main.fragment_view_document.view.*
 import kotlinx.android.synthetic.main.layout_loading_view_for_view_document.view.*
@@ -244,8 +249,27 @@ class ViewDocumentFragment : BaseBindingImageFragment<IViewDocumentFragment.View
     }
 
     private fun setImageResUrl(imageSrc: String?) {
+        viewModel.state.stateLiveData?.postValue(State.loading(""))
         imageNeededShow(true)
-        viewModel.state.imageUrlForImageView?.value = imageSrc
+        imageSrc?.let {
+            var mUrl = getUrl(imageSrc)
+            if (!mUrl.contains("http")) {
+                mUrl = "file://$mUrl"
+            }
+            Picasso.get()
+                .load(mUrl)
+                .networkPolicy(NetworkPolicy.NO_CACHE)
+                .memoryPolicy(MemoryPolicy.NO_CACHE)
+                .into(viewDataBinding?.root?.iviImage, object : Callback {
+                    override fun onSuccess() {
+                        viewModel.state.stateLiveData?.postValue(State.success(""))
+                    }
+
+                    override fun onError(e: java.lang.Exception?) {
+                        viewModel.state.stateLiveData?.postValue(State.error(getString(Strings.screen_view_document_refresh_text_description)))
+                    }
+                })
+        }
     }
 
     override fun removeObservers() {
@@ -268,7 +292,6 @@ class ViewDocumentFragment : BaseBindingImageFragment<IViewDocumentFragment.View
     fun performDelete() {
         context?.let { it.deleteTempFolder() }
         viewModel.state.filePath?.value = null
-        viewModel.state.imageUrlForImageView?.value = null
         viewModel.state.fileType?.value = null
         deletable(false)
         imageNeededShow(true)
@@ -323,4 +346,5 @@ class ViewDocumentFragment : BaseBindingImageFragment<IViewDocumentFragment.View
                 multiStateView?.viewState = MultiStateView.ViewState.CONTENT
         }
     }
+
 }
