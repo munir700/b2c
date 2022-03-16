@@ -16,7 +16,6 @@ interface IViewDocumentFragment {
 
     interface ViewModel : IBase.ViewModel<State> {
         val clickEvent: SingleClickEvent
-        var pdfFile: File?
         var fileForUpdate: File?
         fun getUploadDocumentOptions(): ArrayList<BottomSheetItem>
         fun handlePressView(id: Int)

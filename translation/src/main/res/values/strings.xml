@@ -1723,10 +1723,11 @@
     <string name="screen_view_document_sheet_take_photo_heading">Take a Photo</string>
     <string name="screen_view_document_sheet_browse_gallery_heading">Browse Files</string>
 
-
     <string name="screen_view_document_refresh_button_text">Refresh</string>
 
     <string name="screen_view_document_file_size_not_fine">Your file size is too big. Please upload a file less than 25MB to proceed</string>
+    <string name="screen_view_document_otp_message_first_part">Hi, your OTP for your employment information update is </string>
+    <string name="screen_view_document_otp_message_second_part">. Please do not share your OTP with anyone. For help, contact our customer support team on 0600551214</string>
 
 
 </resources>

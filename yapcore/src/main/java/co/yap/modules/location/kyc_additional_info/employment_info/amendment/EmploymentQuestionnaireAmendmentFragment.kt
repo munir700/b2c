@@ -449,7 +449,9 @@ class EmploymentQuestionnaireAmendmentFragment :
             bundleOf(
                 OtpDataModel::class.java.name to OtpDataModel(
                     OTPActions.EMPLOYMENT_AMENDMENT.name,
-                    otpMessage = "Hi, your OTP for your employment information update is $mobileNumber. Please do not share your OTP with anyone. For help, contact our customer support team on 0600551214",
+                    otpMessage = getString(R.string.screen_view_document_otp_message_first_part) + " " + mobileNumber + getString(
+                        R.string.screen_view_document_otp_message_second_part
+                    ),
                     mobileNumber = mobileNumber
                 )
             ),

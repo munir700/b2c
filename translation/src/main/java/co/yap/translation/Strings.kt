@@ -2662,6 +2662,8 @@ object Strings {
 
     const val screen_view_document_refresh_button_text = "screen_view_document_refresh_button_text"
     const val screen_view_document_file_size_not_fine = "screen_view_document_file_size_not_fine"
+    const val screen_view_document_otp_message_first_part = "screen_view_document_otp_message_first_part"
+    const val screen_view_document_otp_message_second_part = "screen_view_document_otp_message_second_part"
 
 //    Upload document dialogue
 

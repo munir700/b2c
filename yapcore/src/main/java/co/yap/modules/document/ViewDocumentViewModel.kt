@@ -40,7 +40,6 @@ class IViewDocumentViewModel(application: Application) :
     IViewDocumentFragment.ViewModel, IRepositoryHolder<TransactionsRepository> {
     override val state: ViewDocumentState = ViewDocumentState()
     override val clickEvent: SingleClickEvent = SingleClickEvent()
-    override var pdfFile: File? = null
     override val repository: TransactionsRepository = TransactionsRepository
     val repositoryCustomer: CustomersRepository = CustomersRepository
 
@@ -49,7 +48,6 @@ class IViewDocumentViewModel(application: Application) :
         launch {
             state.stateLiveData?.postValue(State.loading(""))
             getPDFFileFromWeb(filePath)?.let {
-                pdfFile = it
                 success.invoke(it)
             } ?: success.invoke(null)
         }

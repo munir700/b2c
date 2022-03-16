@@ -36,7 +36,7 @@ import kotlinx.android.synthetic.main.layout_loading_view_for_view_document.view
 class ViewDocumentFragment : BaseBindingImageFragment<IViewDocumentFragment.ViewModel>(),
     IViewDocumentFragment.View {
 
-    override val viewModel: IViewDocumentFragment.ViewModel
+    override val viewModel: IViewDocumentViewModel
         get() = ViewModelProvider(this).get(IViewDocumentViewModel::class.java)
 
     override fun getBindingVariable(): Int = BR.viewModel
