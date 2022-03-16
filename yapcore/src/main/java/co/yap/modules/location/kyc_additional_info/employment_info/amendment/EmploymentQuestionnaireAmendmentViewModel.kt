@@ -297,8 +297,9 @@ class EmploymentQuestionnaireAmendmentViewModel(application: Application) :
 
     override fun validateForm() {
         launch {
-            delay(500)
             validator?.toValidate()
+            validator?.isValidate?.value = false
+            delay(500)
             validate()
         }
     }
