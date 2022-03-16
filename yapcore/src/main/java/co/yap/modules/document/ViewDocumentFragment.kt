@@ -13,6 +13,7 @@ import co.yap.widgets.MultiStateView
 import co.yap.widgets.State
 import co.yap.widgets.Status
 import co.yap.widgets.bottomsheet.BottomSheetItem
+import co.yap.widgets.loading.CircularProgressBar
 import co.yap.yapcore.BR
 import co.yap.yapcore.BaseBindingImageFragment
 import co.yap.yapcore.R
@@ -310,6 +311,8 @@ class ViewDocumentFragment : BaseBindingImageFragment<IViewDocumentFragment.View
         when (state?.status) {
             Status.LOADING -> {
                 multiStateView?.viewState = MultiStateView.ViewState.LOADING
+                multiStateView?.loadingView?.findViewById<CircularProgressBar>(R.id.circularProgressBar)
+                    ?.indeterminateMode  = true
             }
             Status.EMPTY -> {
                 multiStateView?.viewState = MultiStateView.ViewState.EMPTY
