@@ -47,6 +47,11 @@ class ViewDocumentFragment : BaseBindingImageFragment<IViewDocumentFragment.View
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         addObservers()
+        requireActivity().onBackPressedDispatcher.addCallback(object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                onBackPressedWithData()
+            }
+        })
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -140,7 +145,7 @@ class ViewDocumentFragment : BaseBindingImageFragment<IViewDocumentFragment.View
     val listener = Observer<Int> {
         when (it) {
             R.id.ivCancel -> {
-                onBackPressed()
+                onBackPressedWithData()
             }
             R.id.ivUpdate -> {
                 if (viewModel.state.isNeedToShowUpdateDialogue.value == true) {
@@ -213,14 +218,13 @@ class ViewDocumentFragment : BaseBindingImageFragment<IViewDocumentFragment.View
         }
     }
 
-    override fun onBackPressed(): Boolean {
+    fun onBackPressedWithData() {
         if (viewModel.state.isDeleteAble.value == true && viewModel.fileForUpdate != null) {
             val intent = Intent()
             intent.putExtra(ExtraKeys.FILE_FOR_UPDATE.name, viewModel.fileForUpdate)
             activity?.setResult(Activity.RESULT_OK, intent)
         }
         activity?.finish()
-        return true
     }
 
     private fun close() {

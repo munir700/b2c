@@ -150,7 +150,6 @@ class IViewDocumentViewModel(application: Application) :
             launch(Dispatcher.Main) {
                 when (employmentResponse) {
                     is RetroApiResponse.Success -> {
-                        if (employmentResponse.data.data != null) {
                             employmentResponse.data.data?.let { res ->
                                 res.documents?.forEach { item ->
                                     if (state.documentType.value.equals(item.documentType)) {
@@ -161,7 +160,6 @@ class IViewDocumentViewModel(application: Application) :
                                     }
                                 }
                             }
-                        }
                     }
                     is RetroApiResponse.Error -> {
                         showDialogWithCancel(employmentResponse.error.message)
