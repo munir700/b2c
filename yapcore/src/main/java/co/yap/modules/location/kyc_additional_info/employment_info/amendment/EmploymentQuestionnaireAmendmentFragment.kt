@@ -256,19 +256,12 @@ class EmploymentQuestionnaireAmendmentFragment :
                 if (data.fileURL.isNullOrEmpty()) {
                     showDialogueOptions()
                 } else {
-                    var fileLink = data.fileURL ?: ""
-                    var fileFrom = if (fileLink.contains("http")) {
-                        FileFrom.Link().link
-                    } else {
-                        FileFrom.Local().local
-                    }
                     context?.let {
                         startFragmentForResult<ViewDocumentFragment>(
                             ViewDocumentFragment::class.java.name,
                             bundleOf(
-                                "LINK" to fileLink,
+                                "LINK" to data.fileURL,
                                 "FILETYPE" to data.extension,
-                                "FILEFROM" to fileFrom,
                                 "ISEDITABLE" to viewModel.isInEditMode.value,
                                 "DOCUMENTTYPE" to data.documentType
                             ), false
@@ -279,7 +272,6 @@ class EmploymentQuestionnaireAmendmentFragment :
                                 }
                             }
                         }
-
                     }
                 }
             }
@@ -497,15 +489,11 @@ class EmploymentQuestionnaireAmendmentFragment :
                             dataUri?.let { uriIntent ->
                                 var fileSelected = FileUtils.getFile(context, uriIntent.data)
                                 if (fileSelected.sizeInMb() < 25) {
-                                    var fileAfterBrowse =
-                                        context?.let { it.createTempFileForBrowse(fileSelected.extension) }
-                                    fileAfterBrowse?.let {
-                                        fileSelected.copyTo(it)
+                                    fileSelected?.let {
                                         updateDocumentLists(
-                                            fileAfterBrowse
+                                            it
                                         )
                                     }
-
                                 } else {
                                     showToast(Strings.screen_view_document_file_size_not_fine)
                                 }

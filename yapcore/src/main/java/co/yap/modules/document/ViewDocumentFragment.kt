@@ -80,11 +80,14 @@ class ViewDocumentFragment : BaseBindingImageFragment<IViewDocumentFragment.View
     private fun getDataFromIntent() {
         arguments?.let {
             val link = it.getString("LINK", ExtraType.STRING.name)
-            val fileFrom = it.getString("FILEFROM", ExtraType.STRING.name)
             val fileType = it.getString("FILETYPE", ExtraType.STRING.name)
             val isEditAble = it.getBoolean("ISEDITABLE", false)
-            viewModel.state.documentType.value =
-                it.getString("DOCUMENTTYPE", ExtraType.STRING.name)
+            viewModel.state.documentType.value = it.getString("DOCUMENTTYPE", ExtraType.STRING.name)
+            val fileFrom = if (link.contains("http")) {
+                FileFrom.Link().link
+            } else {
+                FileFrom.Local().local
+            }
             setupData(fileFrom, link, isEditAble, fileType)
         }
     }
@@ -173,10 +176,7 @@ class ViewDocumentFragment : BaseBindingImageFragment<IViewDocumentFragment.View
                             dataUri?.let { uriIntent ->
                                 var fileSelected = FileUtils.getFile(context, uriIntent.data)
                                 if (fileSelected.sizeInMb() < 25) {
-                                    var fileAfterBrowse =
-                                        context?.createTempFileForBrowse(fileSelected.extension)
-                                    fileAfterBrowse?.let {
-                                        fileSelected.copyTo(it)
+                                    fileSelected?.let {
                                         viewModel.fileForUpdate = it
                                         loadFileInView(
                                             it.extension,
@@ -187,7 +187,6 @@ class ViewDocumentFragment : BaseBindingImageFragment<IViewDocumentFragment.View
                                             false
                                         deletable(true)
                                     }
-
                                 } else {
                                     showToast(Strings.screen_view_document_file_size_not_fine)
                                 }
