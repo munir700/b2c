@@ -59,13 +59,10 @@
 
             <co.yap.modules.imagepreviewer.TouchImageView
                 android:id="@+id/iviImage"
-                isNeedToShowLoader="@{true}"
-                previewImageSrc="@{viewModel.state.imageUrlForImageView}"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="fitXY"
                 android:visibility="@{viewModel.state.isImage ? View.VISIBLE : View.GONE}" />
-
 
         </co.yap.widgets.MultiStateView>
 
