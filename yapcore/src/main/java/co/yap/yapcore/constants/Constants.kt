@@ -172,7 +172,7 @@ object Constants {
 
     const val REFERRAL_TIME = "time"
     const val REFERRAL_ID = "customer_id"
-    const val REFERRAL_COUNTRY_ISO_CODE = "country_code"
+    const val REFERRAL_COUNTRY_ISO_CODE = "referral_iso_2_digit_country_code"
     const val FILE_PATH = "imagePath"
 
     const val CURRENCYWALLET = "MultiCurrencyWallet"

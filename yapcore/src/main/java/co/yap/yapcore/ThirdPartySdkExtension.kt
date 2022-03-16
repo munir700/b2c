@@ -79,9 +79,8 @@ fun Application.initializeAdjustSdk(configManager: BuildConfigManager?) {
                     UrlQuerySanitizer(uri.toString()).getValue(REFERRAL_COUNTRY_ISO_CODE)
                 sharedPref.setReferralInfo(ReferralInfo(customerId, time))
                 sharedPref.save(REFERRAL_COUNTRY_ISO_CODE, countryISOCode)
-                showSnackBar("Adjust $customerId")
             }
-            true
+            false
         }
         config.setOnAttributionChangedListener { attribution ->
         }
