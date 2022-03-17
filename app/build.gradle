@@ -59,8 +59,8 @@ android {
         }
 
         stg {
-            versionCode 289
-            versionName "2.0.9"
+            versionCode 291
+            versionName "2.1.1"
             applicationIdSuffix ".stg"
             resValue "string", "app_name", "YAP Stage"
             resValue "string", "google_maps_key", "AIzaSyAwMbe3AAuJfPm6w1LEQpx7IME9iIUiSR4"
@@ -124,10 +124,10 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    implementation ('com.digitify:yappakistan:0.1.7'){
+    implementation ('com.digitify:yappakistan:0.1.8'){
         exclude group: 'com.squareup.okhttp3', module: 'okhttp'
     }
-    implementation ('com.digitify:yapghana:0.1.7'){
+    implementation ('com.digitify:yapghana:0.1.8'){
         exclude group: 'com.squareup.okhttp3', module: 'okhttp'
     }
 

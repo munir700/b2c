@@ -3,11 +3,12 @@ package co.yap.modules.onboarding.models
 import android.content.Context
 import co.yap.BuildConfig
 import co.yap.app.YAPApplication
+import co.yap.modules.adjustevents.AnalyticsEventsHandler
 import co.yap.yapcore.adjust.ReferralInfo
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.Constants.REFERRAL_COUNTRY_ISO_CODE
 import co.yap.yapcore.helpers.SharedPreferenceManager
-import co.yap.yapcore.helpers.extentions.shortToast
+import com.yap.core.analytics.AnalyticsEvent
 import com.yap.core.enums.ProductFlavour
 import com.yap.ghana.configs.GhanaBuildConfigurations
 import com.yap.ghana.utils.enums.GhanaAppEvent
@@ -21,14 +22,24 @@ import javax.inject.Singleton
 class LoadConfig @Inject constructor(@ApplicationContext val appContext: Context) {
 
     fun initYapRegion(countryDialCode: String) {
+        val analyticsEvent: AnalyticsEvent = AnalyticsEventsHandler()
         when (countryDialCode) {
-            "+92", "0092" -> initYapPakistan(context = appContext)
-            "+233", "00233" -> initYapGhana(context = appContext)
+            "+92", "0092" -> initYapPakistan(
+                context = appContext,
+                analyticsEvent = analyticsEvent
+            )
+            "+233", "00233" -> initYapGhana(
+                context = appContext,
+                analyticsEvent = analyticsEvent
+            )
             else -> throw IllegalStateException("Configuration has not been handled for $countryDialCode")
         }
     }
 
-    private fun initYapPakistan(context: Context): PKBuildConfigurations {
+    private fun initYapPakistan(
+        context: Context,
+        analyticsEvent: AnalyticsEvent
+    ): PKBuildConfigurations {
         val pkConfigs = PKBuildConfigurations(context)
         pkConfigs.configure(
             flavour = "qa",
@@ -39,16 +50,19 @@ class LoadConfig @Inject constructor(@ApplicationContext val appContext: Context
         ) { event ->
             handlePkAppEvent(event, context)
         }
-        pkConfigs.setAdjustAppId(getAdjustReferralTrackerId("qa"))
+        pkConfigs.setAdjustAppId(getAdjustReferralTrackerId("PK", "qa"))
         getReferralInfo("PK")?.let {
-            context.shortToast("The referral id " + it.id)
             pkConfigs.setReferralInfo(it.id, it.date)
-        } ?: context.shortToast("TThe referral id is null")
+            SharedPreferenceManager.getInstance(context).setReferralInfo(null)
+        }
 
         return pkConfigs
     }
 
-    private fun initYapGhana(context: Context): GhanaBuildConfigurations {
+    private fun initYapGhana(
+        context: Context,
+        analyticsEvent: AnalyticsEvent
+    ): GhanaBuildConfigurations {
         val ghConfigs = GhanaBuildConfigurations(context)
         ghConfigs.configure(
             flavour = "qa",
@@ -60,10 +74,11 @@ class LoadConfig @Inject constructor(@ApplicationContext val appContext: Context
             handleGhanaAppEvent(it, context)
         }
         getReferralInfo("GH")?.let {
-            context.shortToast("The referral id " + it.id)
             ghConfigs.setReferralInfo(it.id, it.date)
-        } ?: context.shortToast("The referral id is null")
-        ghConfigs.setAdjustAppId(getAdjustReferralTrackerId("qa"))
+            SharedPreferenceManager.getInstance(context).setReferralInfo(null)
+        }
+
+        ghConfigs.setAdjustAppId(getAdjustReferralTrackerId("GH", "qa"))
 
         return ghConfigs
     }
@@ -95,22 +110,9 @@ class LoadConfig @Inject constructor(@ApplicationContext val appContext: Context
         }
     }
 
-    private fun startDemoActivity(context: Context) {
-//        val intent = newIntent<MainActivity>(context)
-//        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-//        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-//        intent.putExtra(NAVIGATION_GRAPH_ID, R.navigation.nav_graph)
-////        intent.putExtra(
-////            NAVIGATION_GRAPH_START_DESTINATION_ID,
-////            R.id.loginFragment
-////        )
-//        context.startActivity(intent)
-
-    }
-
-    private fun getAdjustReferralTrackerId(flavour: String): String {
+    private fun getAdjustReferralTrackerId(countryCode: String, flavour: String): String {
         return when (flavour) {
-            ProductFlavour.PROD.flavour -> "n44w5ee"
+            ProductFlavour.PROD.flavour -> if (countryCode == "PK") "j2l7bsr" else "n44w5ee"
             ProductFlavour.PREPROD.flavour -> "oo71763"
             ProductFlavour.DEV.flavour, ProductFlavour.QA.flavour, ProductFlavour.STG.flavour -> "q3o2z0e"
             else -> throw IllegalStateException("There is no app has been created on adjust dashboard against this flavour:=> $flavour")
