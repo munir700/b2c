@@ -61,7 +61,6 @@ class EidInfoReviewAmendmentFragment : KYCChildFragment<IEidInfoReviewAmendment.
                 InputFilter.LengthFilter(resources.getInteger(R.integer.eid_length)),
                 EidFilter(intArrayOf(3, 8, 16), '-')
             )
-
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -247,8 +246,7 @@ class EidInfoReviewAmendmentFragment : KYCChildFragment<IEidInfoReviewAmendment.
         })
         viewModel.uqudoToken.observe(viewLifecycleOwner, Observer { token ->
             //TODO Uqudo will be initialised here
-
-
+            if (token.isNullOrEmpty().not() && viewModel.state.isTokenValid.get()) viewModel.eidStateLiveData.postValue(State.empty("")) else  viewModel.eidStateLiveData.postValue(State.error(""))
         })
     }
 

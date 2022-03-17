@@ -35,6 +35,7 @@ interface IEidInfoReview {
         var isDateOfBirthValid: ObservableBoolean
         var AgeLimit: Int?
         var isCountryUS: Boolean
+        var isTokenValid : ObservableBoolean
     }
 
     interface View : IBase.View<ViewModel> {
