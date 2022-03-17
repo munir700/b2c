@@ -21,6 +21,8 @@ import co.yap.modules.kyc.activities.DocumentsResponse
 import co.yap.modules.kyc.enums.KYCAction
 import co.yap.modules.kyc.viewmodels.EidInfoReviewViewModel
 import co.yap.modules.onboarding.interfaces.IEidInfoReview
+import co.yap.widgets.MultiStateView
+import co.yap.widgets.State
 import co.yap.widgets.Status
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.AlertType
@@ -32,14 +34,14 @@ import co.yap.yapcore.helpers.showAlertDialogAndExitApp
 import co.yap.yapcore.managers.SessionManager
 import com.digitify.identityscanner.docscanner.activities.IdentityScannerActivity
 import com.digitify.identityscanner.docscanner.models.IdentityScannerResult
-import kotlinx.android.synthetic.main.activity_eid_info_review.*
+import kotlinx.android.synthetic.main.fragment_eid_info_review.*
 import java.io.File
 
 class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEidInfoReview.View {
 
     override fun getBindingVariable(): Int = BR.viewModel
 
-    override fun getLayoutId(): Int = R.layout.activity_eid_info_review
+    override fun getLayoutId(): Int = R.layout.fragment_eid_info_review
 
     override val viewModel: EidInfoReviewViewModel
         get() = ViewModelProvider(this).get(EidInfoReviewViewModel::class.java)
@@ -56,6 +58,7 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
         }
         addObservers()
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.requestAllAPIs()
@@ -63,6 +66,7 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
             viewModel.populateState(it)
         }
     }
+
     private fun addObservers() {
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
@@ -105,13 +109,14 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
                 viewModel.eventErrorFromUsa -> showUSACitizenScreen()
                 viewModel.eventRescan -> {//openCardScanner()
                     //TODO Uqudo Camera WILL BE Handled here
-                    showToast("Uqudo Camera will be integrated here!!") }
+                    showToast("Uqudo Camera will be integrated here!!")
+                }
                 R.id.tvNoThanks -> {
                     trackEventWithScreenName(FirebaseEvent.RESCAN_ID)
                     hideKeyboard(tvNoThanks)
                     //TODO Uqudo Camera WILL BE Handled here
                     showToast("Uqudo Camera will be integrated here!!")
-                  //  openCardScanner()
+                    //  openCardScanner()
                 }
                 viewModel.eventAlreadyUsedEid -> {
                     viewModel.parentViewModel?.finishKyc?.value =
@@ -176,9 +181,12 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
         })
         viewModel.eidStateLiveData.observe(viewLifecycleOwner, Observer
         {
-            if (it.status == Status.ERROR) {
-                invalidCitizenNumber(it.message ?: "Sorry, that didn’t work. Please try again")
-            }
+            handleState(it)
+        })
+        viewModel.uqudoToken.observe(viewLifecycleOwner, Observer { token ->
+            //TODO Uqudo will be initialised here
+
+
         })
 
     }
@@ -296,7 +304,8 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (data == null && viewModel.parentViewModel?.skipFirstScreen?.value == true) { }
+        if (data == null && viewModel.parentViewModel?.skipFirstScreen?.value == true) {
+        }
         if (requestCode == IdentityScannerActivity.SCAN_EID_CAM && resultCode == Activity.RESULT_OK) {
             data?.let {
                 it.getParcelableExtra<IdentityScannerResult>(IdentityScannerActivity.SCAN_RESULT)
@@ -311,22 +320,51 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
         }
     }
 
-   /* override fun openCardScanner() {
-        viewModel.invalidateFields()
-        startActivityForResult(
-            IdentityScannerActivity.getLaunchIntent(
-                requireContext(),
-                DocumentType.EID,
-                IdentityScannerActivity.SCAN_FROM_CAMERA
-            ),
-            IdentityScannerActivity.SCAN_EID_CAM
-        )
-    }*/
+    /* override fun openCardScanner() {
+         viewModel.invalidateFields()
+         startActivityForResult(
+             IdentityScannerActivity.getLaunchIntent(
+                 requireContext(),
+                 DocumentType.EID,
+                 IdentityScannerActivity.SCAN_FROM_CAMERA
+             ),
+             IdentityScannerActivity.SCAN_EID_CAM
+         )
+     }*/
 
     override fun onDestroy() {
         viewModel.parentViewModel?.paths?.forEach { filePath ->
             File(filePath).deleteRecursively()
         }
         super.onDestroy()
+    }
+
+    private fun handleState(state: State?) {
+        when (state?.status) {
+            Status.LOADING -> {
+                multiStateView.viewState = MultiStateView.ViewState.LOADING
+            }
+            Status.EMPTY -> {
+                multiStateView.viewState = MultiStateView.ViewState.EMPTY
+                initializeUqudoScanner()
+            }
+            Status.SUCCESS -> {
+                multiStateView.viewState = MultiStateView.ViewState.CONTENT
+                viewModel.parentViewModel?.identity?.let {
+                    viewModel.populateState(it)
+                }
+            }
+            Status.ERROR -> {
+                multiStateView.viewState = MultiStateView.ViewState.ERROR
+                invalidCitizenNumber(state.message ?: "Sorry, that didn’t work. Please try again")
+            }
+            else -> {
+                throw IllegalStateException("State is not handled " + state?.status)
+            }
+        }
+    }
+
+    private fun initializeUqudoScanner() {
+        //TODO Initialise uqudo scanner here
     }
 }
