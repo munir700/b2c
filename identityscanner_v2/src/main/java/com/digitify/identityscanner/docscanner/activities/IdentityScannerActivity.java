@@ -1,5 +1,7 @@
 package com.digitify.identityscanner.docscanner.activities;
 
+import static co.yap.yapcore.helpers.extentions.FileExtentionsKt.deleteRecursivelyYap;
+
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
@@ -31,8 +33,6 @@ import co.yap.yapcore.defaults.DefaultActivity;
 import co.yap.yapcore.helpers.extentions.ToastKt;
 import co.yap.yapcore.helpers.permissions.PermissionHelper;
 
-import static co.yap.yapcore.helpers.extentions.FileExtentionsKt.deleteRecursivelyYap;
-import static co.yap.yapcore.helpers.extentions.FileExtentionsKt.deleteTempFolder;
 /**
  * This scanner is replaced with new 3rd party SDK that is Uqudo
  * Due to increase in failed KYC complaints YAP team has decided to replace the identity scanner with a new
