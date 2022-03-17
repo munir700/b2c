@@ -3,10 +3,12 @@ package co.yap.modules.onboarding.models
 import android.content.Context
 import co.yap.BuildConfig
 import co.yap.app.YAPApplication
+import co.yap.modules.adjustevents.AnalyticsEventsHandler
 import co.yap.yapcore.adjust.ReferralInfo
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.Constants.REFERRAL_COUNTRY_ISO_CODE
 import co.yap.yapcore.helpers.SharedPreferenceManager
+import com.yap.core.analytics.AnalyticsEvent
 import com.yap.core.enums.ProductFlavour
 import com.yap.ghana.configs.GhanaBuildConfigurations
 import com.yap.ghana.utils.enums.GhanaAppEvent
@@ -20,14 +22,24 @@ import javax.inject.Singleton
 class LoadConfig @Inject constructor(@ApplicationContext val appContext: Context) {
 
     fun initYapRegion(countryDialCode: String) {
+        val analyticsEvent: AnalyticsEvent = AnalyticsEventsHandler()
         when (countryDialCode) {
-            "+92", "0092" -> initYapPakistan(context = appContext)
-            "+233", "00233" -> initYapGhana(context = appContext)
+            "+92", "0092" -> initYapPakistan(
+                context = appContext,
+                analyticsEvent = analyticsEvent
+            )
+            "+233", "00233" -> initYapGhana(
+                context = appContext,
+                analyticsEvent = analyticsEvent
+            )
             else -> throw IllegalStateException("Configuration has not been handled for $countryDialCode")
         }
     }
 
-    private fun initYapPakistan(context: Context): PKBuildConfigurations {
+    private fun initYapPakistan(
+        context: Context,
+        analyticsEvent: AnalyticsEvent
+    ): PKBuildConfigurations {
         val pkConfigs = PKBuildConfigurations(context)
         pkConfigs.configure(
             flavour = "qa",
@@ -46,7 +58,10 @@ class LoadConfig @Inject constructor(@ApplicationContext val appContext: Context
         return pkConfigs
     }
 
-    private fun initYapGhana(context: Context): GhanaBuildConfigurations {
+    private fun initYapGhana(
+        context: Context,
+        analyticsEvent: AnalyticsEvent
+    ): GhanaBuildConfigurations {
         val ghConfigs = GhanaBuildConfigurations(context)
         ghConfigs.configure(
             flavour = "qa",
