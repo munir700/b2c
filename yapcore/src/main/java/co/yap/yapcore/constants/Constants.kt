@@ -141,6 +141,7 @@ object Constants {
     const val status = "status"
     val FRAGMENT_CLASS = "fragment_class"
     val SHOW_TOOLBAR = "_show_toolbar"
+    val TOOLBAR_BACK_ICON = "toolbar_icon"
     val EXTRA = "_bundle_extras"
     const val OVERVIEW_BENEFICIARY = "overview_beneficiary"
     const val IS_IBAN_NEEDED = "is_iban_need"

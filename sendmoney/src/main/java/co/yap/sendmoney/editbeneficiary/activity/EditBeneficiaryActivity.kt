@@ -163,8 +163,8 @@ class EditBeneficiaryActivity : BaseBindingActivity<IEditBeneficiary.ViewModel>(
             }
 
             startFragmentForResult<GenericOtpFragment>(
-                GenericOtpFragment::class.java.name,
-                bundleOf(
+               fragmentName =  GenericOtpFragment::class.java.name,
+                bundle = bundleOf(
                     OtpDataModel::class.java.name to OtpDataModel(
                         otpAction = action,
                         mobileNumber = SessionManager.user?.currentCustomer?.getCompletePhone(),

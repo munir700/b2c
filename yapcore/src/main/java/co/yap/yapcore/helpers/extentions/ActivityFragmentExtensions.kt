@@ -20,10 +20,6 @@ import co.yap.modules.frame.FrameDialogActivity
 import co.yap.networking.coreitems.CoreBottomSheetData
 import co.yap.translation.Strings
 import co.yap.translation.Translator
-import co.yap.widgets.bottomsheet.BottomSheet
-import co.yap.widgets.bottomsheet.BottomSheetConfiguration
-import co.yap.widgets.bottomsheet.BottomSheetItem
-import co.yap.widgets.bottomsheet.CoreBottomSheet
 import co.yap.widgets.bottomsheet.*
 import co.yap.widgets.bottomsheet.bottomsheet_with_initials.CoreInitialsBottomSheet
 import co.yap.widgets.guidedtour.TourSetup
@@ -36,6 +32,7 @@ import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.Constants.EXTRA
 import co.yap.yapcore.constants.Constants.FRAGMENT_CLASS
 import co.yap.yapcore.constants.Constants.SHOW_TOOLBAR
+import co.yap.yapcore.constants.Constants.TOOLBAR_BACK_ICON
 import co.yap.yapcore.constants.Constants.TOOLBAR_TITLE
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.enums.FeatureSet
@@ -194,22 +191,22 @@ inline fun <reified T : Any> Context.intent(body: Intent.() -> Unit): Intent {
 }
 
 fun showBlockedFeatureAlert(context: Activity, type: FeatureSet) {
-    val blockedMessage=
-    when (type) {
-        FeatureSet.PAY_BILL_PAYMENT, FeatureSet.EDIT_BILL_PAYMENT, FeatureSet.ADD_BILL_PAYMENT -> {
-            Translator.getString(
-                context,
-                Strings.common_display_text_feature_blocked_bill_payment_error
-            )
-        }
-        else -> {
-         SessionManager.user?.getBlockedMessage(
-                key = FeatureProvisioning.getUserAccessRestriction(type),
-                context = context
-            )
-        }
+    val blockedMessage =
+        when (type) {
+            FeatureSet.PAY_BILL_PAYMENT, FeatureSet.EDIT_BILL_PAYMENT, FeatureSet.ADD_BILL_PAYMENT -> {
+                Translator.getString(
+                    context,
+                    Strings.common_display_text_feature_blocked_bill_payment_error
+                )
+            }
+            else -> {
+                SessionManager.user?.getBlockedMessage(
+                    key = FeatureProvisioning.getUserAccessRestriction(type),
+                    context = context
+                )
+            }
 
-    }
+        }
 
     context.showAlertDialogAndExitApp(
         message = blockedMessage,
@@ -360,6 +357,7 @@ fun <T : Fragment> FragmentActivity.startFragmentForResult(
     bundle: Bundle = Bundle(),
     showToolBar: Boolean = false,
     toolBarTitle: String = "",
+    homeAsUpIndicator: Int = -1,
     completionHandler: ((resultCode: Int, data: Intent?) -> Unit)? = null
 ) {
     val intent = Intent(this, FrameActivity::class.java)
@@ -367,7 +365,7 @@ fun <T : Fragment> FragmentActivity.startFragmentForResult(
         intent.putExtra(FRAGMENT_CLASS, fragmentName)
         intent.putExtra(EXTRA, bundle)
         intent.putExtra(SHOW_TOOLBAR, showToolBar)
-
+        intent.putExtra(TOOLBAR_BACK_ICON, homeAsUpIndicator)
         intent.putExtra(TOOLBAR_TITLE, toolBarTitle)
 
         (this as AppCompatActivity).startForResult(intent) { result ->
