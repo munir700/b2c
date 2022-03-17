@@ -2,10 +2,12 @@ package co.yap.modules.onboarding.interfaces
 
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import co.yap.countryutils.country.Country
 import co.yap.networking.customers.responsedtos.SectionedCountriesResponseDTO
 import co.yap.networking.customers.responsedtos.documents.ConfigureEIDResponse
+import co.yap.networking.customers.responsedtos.documents.UqudoTokenResponse
 import co.yap.networking.models.BaseResponse
 import co.yap.networking.models.RetroApiResponse
 import co.yap.widgets.bottomsheet.BottomSheetItem
@@ -52,7 +54,7 @@ interface IEidInfoReviewAmendment {
         var ageLimit: Int?
         var isCountryUS: Boolean
         var countryName: ObservableField<String>
-        var errorScreenVisited : Boolean
+        var errorScreenVisited: Boolean
     }
 
     interface View : IBase.View<ViewModel> {
@@ -60,7 +62,7 @@ interface IEidInfoReviewAmendment {
         fun showExpiredEidScreen()
         fun showInvalidEidScreen()
         fun showUSACitizenScreen()
-      //  fun openCardScanner()
+        //  fun openCardScanner()
     }
 
     interface ViewModel : IBase.ViewModel<State> {
@@ -86,7 +88,6 @@ interface IEidInfoReviewAmendment {
         var errorTitle: String
         var errorBody: String
         fun requestAllAPIs()
-        fun requestAllEIDConfigurations(responses: (RetroApiResponse<SectionedCountriesResponseDTO>?, RetroApiResponse<BaseResponse<ConfigureEIDResponse>>?) -> Unit)
         val drawableClickListener: OnDrawableClickListener
         fun getGenderOptions(): ArrayList<BottomSheetItem>
         var countries: ArrayList<Country>
@@ -96,5 +97,15 @@ interface IEidInfoReviewAmendment {
         fun isFromAmendment(): Boolean
         fun handleAgeValidation()
         fun handleIsUsValidation()
+        fun requestAllEIDConfigurations(
+            responses: (
+                RetroApiResponse<SectionedCountriesResponseDTO>?,
+                RetroApiResponse<BaseResponse<ConfigureEIDResponse>>?,
+                RetroApiResponse<BaseResponse<UqudoTokenResponse>>?
+            ) -> Unit
+        )
+
+        var uqudoToken: LiveData<String>
+
     }
 }

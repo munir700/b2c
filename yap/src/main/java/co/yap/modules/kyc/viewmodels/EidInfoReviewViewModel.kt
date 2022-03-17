@@ -45,8 +45,6 @@ class EidInfoReviewViewModel(application: Application) :
 
     override val repository: CustomersRepository
         get() = CustomersRepository
-    private var _uqudoToken: MutableLiveData<String> = MutableLiveData()
-
     override val clickEvent: SingleClickEvent = SingleClickEvent()
     override val state: EidInfoReviewState = EidInfoReviewState()
     private var sectionedCountries: SectionedCountriesResponseDTO? = null
@@ -406,7 +404,7 @@ class EidInfoReviewViewModel(application: Application) :
                 )
         }
     }
-
+    private var _uqudoToken: MutableLiveData<String> = MutableLiveData()
     override var uqudoToken: LiveData<String> = _uqudoToken
 
     private fun getFormattedCitizenNumber(citizenNo: String?): String {

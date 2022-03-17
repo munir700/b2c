@@ -20,6 +20,8 @@ import co.yap.modules.kyc.enums.KYCAction
 import co.yap.modules.kyc.viewmodels.EidInfoReviewAmendmentViewModel
 import co.yap.modules.onboarding.interfaces.IEidInfoReviewAmendment
 import co.yap.translation.Strings
+import co.yap.widgets.MultiStateView
+import co.yap.widgets.State
 import co.yap.widgets.Status
 import co.yap.widgets.bottomsheet.BottomSheetItem
 import co.yap.widgets.edittext.EditTextRichDrawable
@@ -33,7 +35,13 @@ import co.yap.yapcore.helpers.extentions.launchSheet
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.SessionManager
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog
+import kotlinx.android.synthetic.main.fragment_eid_info_review.*
 import kotlinx.android.synthetic.main.fragment_eid_info_review_amendment.*
+import kotlinx.android.synthetic.main.fragment_eid_info_review_amendment.tbBtnBack
+import kotlinx.android.synthetic.main.fragment_eid_info_review_amendment.tvFirstName
+import kotlinx.android.synthetic.main.fragment_eid_info_review_amendment.tvLastName
+import kotlinx.android.synthetic.main.fragment_eid_info_review_amendment.tvMiddleName
+import kotlinx.android.synthetic.main.fragment_eid_info_review_amendment.tvNoThanks
 import java.io.File
 import java.util.*
 
@@ -58,6 +66,7 @@ class EidInfoReviewAmendmentFragment : KYCChildFragment<IEidInfoReviewAmendment.
                 InputFilter.LengthFilter(resources.getInteger(R.integer.eid_length)),
                 EidFilter(intArrayOf(3, 8, 16), '-')
             )
+
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -226,16 +235,21 @@ class EidInfoReviewAmendmentFragment : KYCChildFragment<IEidInfoReviewAmendment.
                 )
             }
         })
-        viewModel.eidStateLiveData.observe(viewLifecycleOwner, Observer {
-            if (it.status == Status.ERROR) {
-                invalidCitizenNumber(it.message ?: "Sorry, that didn’t work. Please try again")
-            }
-        })
         viewModel.state.dateOfBirth.observe(viewLifecycleOwner, Observer {
             viewModel.handleAgeValidation()
         })
         viewModel.state.nationality.observe(viewLifecycleOwner, Observer {
             viewModel.handleIsUsValidation()
+        })
+
+        viewModel.eidStateLiveData.observe(viewLifecycleOwner, Observer
+        {
+            handleState(it)
+        })
+        viewModel.uqudoToken.observe(viewLifecycleOwner, Observer { token ->
+            //TODO Uqudo will be initialised here
+
+
         })
     }
 
@@ -491,5 +505,34 @@ class EidInfoReviewAmendmentFragment : KYCChildFragment<IEidInfoReviewAmendment.
         override fun onItemClick(view: View, data: Any, pos: Int) {
             viewModel.state.nationality.value = (data as Country)
         }
+    }
+
+    private fun handleState(state: State?) {
+        when (state?.status) {
+            Status.LOADING -> {
+                multiStateView.viewState = MultiStateView.ViewState.LOADING
+            }
+            Status.EMPTY -> {
+                multiStateView.viewState = MultiStateView.ViewState.EMPTY
+                initializeUqudoScanner()
+            }
+            Status.SUCCESS -> {
+                multiStateView.viewState = MultiStateView.ViewState.CONTENT
+                viewModel.parentViewModel?.identity?.let {
+                    viewModel.populateState(it)
+                }
+            }
+            Status.ERROR -> {
+                multiStateView.viewState = MultiStateView.ViewState.ERROR
+                invalidCitizenNumber(state.message ?: "Sorry, that didn’t work. Please try again")
+            }
+            else -> {
+                throw IllegalStateException("State is not handled " + state?.status)
+            }
+        }
+    }
+
+    private fun initializeUqudoScanner() {
+        //TODO Initialise uqudo scanner here
     }
 }

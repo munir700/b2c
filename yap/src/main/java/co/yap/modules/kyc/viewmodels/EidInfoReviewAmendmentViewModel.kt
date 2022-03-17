@@ -3,6 +3,7 @@ package co.yap.modules.kyc.viewmodels
 import android.app.Application
 import android.text.TextUtils
 import android.view.View
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import co.yap.BuildConfig
 import co.yap.R
@@ -13,6 +14,7 @@ import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.requestdtos.UploadDocumentsRequest
 import co.yap.networking.customers.responsedtos.SectionedCountriesResponseDTO
 import co.yap.networking.customers.responsedtos.documents.ConfigureEIDResponse
+import co.yap.networking.customers.responsedtos.documents.UqudoTokenResponse
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.BaseResponse
 import co.yap.networking.models.RetroApiResponse
@@ -69,6 +71,9 @@ class EidInfoReviewAmendmentViewModel(application: Application) :
     override var populateNationalitySpinnerData: MutableLiveData<ArrayList<Country>> =
         MutableLiveData()
 
+    private var _uqudoToken: MutableLiveData<String> = MutableLiveData()
+    override var uqudoToken: LiveData<String> = _uqudoToken
+
     override fun onCreate() {
         super.onCreate()
         getAllCountries()
@@ -77,9 +82,9 @@ class EidInfoReviewAmendmentViewModel(application: Application) :
         }
         validator?.setValidationListener(this)
         requestAllAPIs()
-        parentViewModel?.identity?.let {
+      /*  parentViewModel?.identity?.let {
             populateState(it)
-        }
+        }*/
     }
 
     override fun handlePressOnView(id: Int) {
@@ -266,7 +271,10 @@ class EidInfoReviewAmendmentViewModel(application: Application) :
                     state.previousFirstName = response.data.data?.firstName ?: ""
                     state.previousMiddleName = response.data.data?.middleName ?: ""
                     state.previousLastName = response.data.data?.lastName ?: ""
-                    state.previousNationality = response.data.data?.nationality?.let { countries.firstOrNull { country -> country.isoCountryCode3Digit == it }?.getName() }
+                    state.previousNationality = response.data.data?.nationality?.let {
+                        countries.firstOrNull { country -> country.isoCountryCode3Digit == it }
+                            ?.getName()
+                    }
                     response.data.data?.dob?.let {
                         state.previousDateOfBirth = DateUtils.dateToString(
                             DateUtils.stringToDate(it, "yyyy-MM-dd"), "dd/MM/yyyy",
@@ -429,7 +437,7 @@ class EidInfoReviewAmendmentViewModel(application: Application) :
         }
     }
 
-    private fun populateState(identity: Identity?) {
+    fun populateState(identity: Identity?) {
         identity?.let {
             splitLastNames(it.givenName + " " + it.sirName)
             state.fullNameValid = state.firstName.isNotBlank()
@@ -531,11 +539,11 @@ class EidInfoReviewAmendmentViewModel(application: Application) :
     }
 
     override fun requestAllAPIs() {
-        requestAllEIDConfigurations { senctionedCountryResponse, configurationEIDResponse ->
+        requestAllEIDConfigurations { senctionedCountryResponse, configurationEIDResponse, uqudoTokenResponse ->
             launch(Dispatcher.Main) {
                 state.viewState.postValue(false)
                 when {
-                    senctionedCountryResponse is RetroApiResponse.Success && configurationEIDResponse is RetroApiResponse.Success -> {
+                    senctionedCountryResponse is RetroApiResponse.Success && configurationEIDResponse is RetroApiResponse.Success && uqudoTokenResponse is RetroApiResponse.Success -> {
                         sectionedCountries = senctionedCountryResponse.data
                         val data = configurationEIDResponse.data.data
                         state.ageLimit = data?.ageLimit
@@ -546,6 +554,7 @@ class EidInfoReviewAmendmentViewModel(application: Application) :
                             }
                         })
                         handleIsUsValidation()
+                        _uqudoToken.value = uqudoTokenResponse.data.data?.accessToken ?: ""
 
                     }
                     else -> {
@@ -558,7 +567,13 @@ class EidInfoReviewAmendmentViewModel(application: Application) :
 
     }
 
-    override fun requestAllEIDConfigurations(responses: (RetroApiResponse<SectionedCountriesResponseDTO>?, RetroApiResponse<BaseResponse<ConfigureEIDResponse>>?) -> Unit) {
+    override fun requestAllEIDConfigurations(
+        responses: (
+            RetroApiResponse<SectionedCountriesResponseDTO>?,
+            RetroApiResponse<BaseResponse<ConfigureEIDResponse>>?,
+            RetroApiResponse<BaseResponse<UqudoTokenResponse>>?
+        ) -> Unit
+    ) {
         launch(Dispatcher.Background) {
             state.viewState.postValue(true)
             val senctionedCountriesList = launchAsync {
@@ -568,7 +583,14 @@ class EidInfoReviewAmendmentViewModel(application: Application) :
             val eidConfigurationResponse = launchAsync {
                 repository.getEIDConfigurations()
             }
-            responses(senctionedCountriesList.await(), eidConfigurationResponse.await())
+            val uqudoTokenResponse = launchAsync {
+                repository.getUqudoAuthToken()
+            }
+            responses(
+                senctionedCountriesList.await(),
+                eidConfigurationResponse.await(),
+                uqudoTokenResponse.await()
+            )
         }
     }
 
