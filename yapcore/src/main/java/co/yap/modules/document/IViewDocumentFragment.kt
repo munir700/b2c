@@ -2,6 +2,7 @@ package co.yap.modules.document
 
 import android.net.Uri
 import androidx.lifecycle.MutableLiveData
+import co.yap.networking.customers.responsedtos.employment_amendment.Document
 import co.yap.widgets.bottomsheet.BottomSheetItem
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
@@ -21,19 +22,18 @@ interface IViewDocumentFragment {
         fun handlePressView(id: Int)
         fun downloadFile(filePath: String, success: (file: File?) -> Unit)
         fun getDialogueOptions(): ArrayList<BottomSheetItem>
-        fun getEmploymentInfoApiCall(success: (fileType: String?, link: String?) -> Unit)
+        fun getEmploymentInfoApiCall()
     }
 
     interface State : IBase.State {
-        var fileType: MutableLiveData<String>?
+        var fileDataFromRefreshApi: MutableLiveData<Document>
         val isPDF: MutableLiveData<Boolean>
-        val isImage: MutableLiveData<Boolean>
-        val isDeleteAble: MutableLiveData<Boolean>
         val isUpdateAble: MutableLiveData<Boolean>
+        val isDeleteAble: MutableLiveData<Boolean>
         val isNeedToShowUpdateDialogue: MutableLiveData<Boolean>
-        val filePath: MutableLiveData<String>?
         val isEditable: MutableLiveData<Boolean>
         val documentType: MutableLiveData<String>
-
+        val fileExtension: MutableLiveData<String>
+        val fileUrl: MutableLiveData<String>
     }
 }

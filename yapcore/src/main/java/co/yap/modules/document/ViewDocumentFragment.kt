@@ -7,8 +7,8 @@ import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import co.yap.modules.document.enums.FileFrom
 import co.yap.modules.document.enums.FileType
+import co.yap.networking.customers.responsedtos.employment_amendment.Document
 import co.yap.translation.Strings
 import co.yap.widgets.MultiStateView
 import co.yap.widgets.State
@@ -32,7 +32,9 @@ import com.liveperson.infra.utils.picasso.NetworkPolicy
 import com.liveperson.infra.utils.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_view_document.*
 import kotlinx.android.synthetic.main.fragment_view_document.view.*
+import kotlinx.android.synthetic.main.layout_error_view.view.*
 import kotlinx.android.synthetic.main.layout_loading_view_for_view_document.view.*
+import kotlinx.coroutines.delay
 
 class ViewDocumentFragment : BaseBindingImageFragment<IViewDocumentFragment.ViewModel>(),
     IViewDocumentFragment.View {
@@ -41,7 +43,6 @@ class ViewDocumentFragment : BaseBindingImageFragment<IViewDocumentFragment.View
         get() = ViewModelProvider(this).get(IViewDocumentViewModel::class.java)
 
     override fun getBindingVariable(): Int = BR.viewModel
-
     override fun getLayoutId(): Int = R.layout.fragment_view_document
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -57,86 +58,74 @@ class ViewDocumentFragment : BaseBindingImageFragment<IViewDocumentFragment.View
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         getDataBindingView<FragmentViewDocumentBinding>().lifecycleOwner = this
-        if (context?.isNetworkAvailable() == true) {
-            getDataFromIntent()
-            viewModel.state.stateLiveData?.observe(viewLifecycleOwner, Observer { handleState(it) })
-            viewDataBinding?.root?.multiStateView.setOnReloadListener(object :
-                MultiStateView.OnReloadListener {
-                override fun onReload(view: View) {
-                    if (context?.isNetworkAvailable() == true) {
-                        viewModel.getEmploymentInfoApiCall { fileType, link ->
-                            setupData(
-                                FileFrom.Link().link,
-                                link ?: "",
-                                viewModel.state.isEditable.value ?: false,
-                                fileType ?: ""
-                            )
+        when {
+            context?.isNetworkAvailable() == true -> {
+                getDataFromIntent()
+                viewModel.state.stateLiveData?.observe(
+                    viewLifecycleOwner,
+                    Observer { handleState(it) })
+                getDataBindingView<FragmentViewDocumentBinding>()?.multiStateView.setOnReloadListener(
+                    object :
+                        MultiStateView.OnReloadListener {
+                        override fun onReload(view: View) {
+                            if (context?.isNetworkAvailable() == true) {
+                                viewModel.getEmploymentInfoApiCall()
+                            } else {
+                                showInternetSnack(true)
+                            }
                         }
-                    } else {
-                        showInternetSnack(true)
-                    }
-                }
-            })
-        } else {
-            showInternetSnack(true)
+                    })
+            }
+            else -> {
+                showInternetSnack(true)
+            }
         }
     }
 
     private fun getDataFromIntent() {
-        arguments?.let {
-            val link = it.getString("LINK", ExtraType.STRING.name)
-            val fileType = it.getString("FILETYPE", ExtraType.STRING.name)
-            val isEditAble = it.getBoolean("ISEDITABLE", false)
+        arguments?.let { it ->
+            viewModel.state.fileUrl.value = it.getString("LINK", ExtraType.STRING.name)
+            viewModel.state.fileExtension.value =
+                it.getString("FILEEXTENSTION", ExtraType.STRING.name)
+            viewModel.state.isEditable.value = it.getBoolean("ISEDITABLE", false)
             viewModel.state.documentType.value = it.getString("DOCUMENTTYPE", ExtraType.STRING.name)
-            val fileFrom = if (link.contains("http")) {
-                FileFrom.Link().link
-            } else {
-                FileFrom.Local().local
-            }
-            setupData(fileFrom, link, isEditAble, fileType)
-        }
-    }
-
-    fun setupData(fileFrom: String, link: String, isEditAble: Boolean, fileType: String) {
-        when (fileFrom) {
-            FileFrom.Link().link -> {
-                viewModel.state.isNeedToShowUpdateDialogue?.value = !link.isNullOrEmpty()
-                editable(isEditAble, false)
-            }
-            FileFrom.Local().local -> {
-                editable(isEditAble, true)
-            }
-        }
-        loadFileInView(fileType, fileFrom, link)
-    }
-
-    fun loadFileInView(fileType: String?, fileFrom: String?, link: String?) {
-        viewModel.state.fileType?.value = fileType
-        viewModel.state.filePath?.value = link
-        when (fileFrom) {
-            FileFrom.Link().link -> {
-                if (fileType?.contains(FileType.PDF().pdf) == true) {
-                    imageNeededShow(false)
-                    link?.let {
-                        viewModel.downloadFile(it) { file ->
-                            file?.let {
-                                refreshViewNeedTOShow(false)
-                                viewDataBinding?.root?.pdfView?.fromFile(file)?.show()
-                            }
-                        }
-                    } ?: close()
+            viewModel.state.fileUrl.value?.let { fileUrl ->
+                if (fileUrl.contains("http") && viewModel.state.isEditable.value == true) {
+                    viewModel.state.isNeedToShowUpdateDialogue?.value = true
+                    isDeleteAble(false)
                 } else {
-                    setImageResUrl(link)
+                    isDeleteAble(true)
                 }
+                loadFileInView()
             }
-            FileFrom.Local().local -> {
-                if (fileType?.contains(FileType.PDF().pdf) == true) {
-                    imageNeededShow(false)
-                    link?.let {
-                        viewDataBinding?.root?.pdfView?.fromFile(link)?.show()
+
+        }
+    }
+
+    fun loadFileInView() {
+        viewModel.state.fileUrl?.let { fileUrl ->
+            if (fileUrl.value?.contains("http") == true) {
+                if (viewModel.state.fileExtension.value?.contains("pdf") == true) {
+                    viewModel.downloadFile(fileUrl.value ?: "") { file ->
+                        file?.let {
+                            refreshViewNeedTOShow(false)
+                            getDataBindingView<FragmentViewDocumentBinding>()?.pdfView?.fromFile(
+                                file
+                            )?.show()
+                        } ?: close()
                     }
                 } else {
-                    setImageResUrl(link)
+                    setImageResUrl(viewModel.state.fileUrl.value)
+                }
+            } else {
+                if (viewModel.state.fileExtension.value?.contains("pdf") == true) {
+                    fileUrl?.let { file ->
+                        getDataBindingView<FragmentViewDocumentBinding>()?.pdfView?.fromFile(
+                            file.value ?: ""
+                        )?.show()
+                    } ?: close()
+                } else {
+                    setImageResUrl(viewModel.state.fileUrl.value)
                 }
             }
         }
@@ -154,7 +143,7 @@ class ViewDocumentFragment : BaseBindingImageFragment<IViewDocumentFragment.View
                     showDialogueOptions()
                 }
             }
-            R.id.ivdelete -> {
+            R.id.ivDelete -> {
                 performDelete()
             }
         }
@@ -183,14 +172,12 @@ class ViewDocumentFragment : BaseBindingImageFragment<IViewDocumentFragment.View
                                 if (fileSelected.sizeInMb() < 25) {
                                     fileSelected?.let {
                                         viewModel.fileForUpdate = it
-                                        loadFileInView(
-                                            it.extension,
-                                            FileFrom.Local().local,
-                                            it.absolutePath
-                                        )
+                                        viewModel.state.fileUrl.value = it.absolutePath
+                                        viewModel.state.fileExtension.value = it.extension
+                                        loadFileInView()
                                         viewModel.state.isNeedToShowUpdateDialogue?.value =
                                             false
-                                        deletable(true)
+                                        isDeleteAble(true)
                                     }
                                 } else {
                                     showToast(getString(R.string.screen_view_document_file_size_not_fine))
@@ -219,7 +206,7 @@ class ViewDocumentFragment : BaseBindingImageFragment<IViewDocumentFragment.View
     }
 
     fun onBackPressedWithData() {
-        if (viewModel.state.isDeleteAble.value == true && viewModel.fileForUpdate != null) {
+        if (viewModel.state.isUpdateAble.value == false && viewModel.fileForUpdate != null) {
             val intent = Intent()
             intent.putExtra(ExtraKeys.FILE_FOR_UPDATE.name, viewModel.fileForUpdate)
             activity?.setResult(Activity.RESULT_OK, intent)
@@ -239,13 +226,11 @@ class ViewDocumentFragment : BaseBindingImageFragment<IViewDocumentFragment.View
     override fun onImageReturn(mediaFile: MediaFile) {
         if (mediaFile.file.sizeInMb() < 25) {
             viewModel.fileForUpdate = mediaFile.file
-            loadFileInView(
-                mediaFile.file.extension,
-                FileFrom.Local().local,
-                mediaFile.file.absolutePath
-            )
+            viewModel.state.fileUrl.value = mediaFile.file.absolutePath
+            viewModel.state.fileExtension.value = mediaFile.file.extension
             viewModel.state.isNeedToShowUpdateDialogue?.value = false
-            deletable(true)
+            loadFileInView()
+            isDeleteAble(true)
         } else {
             showToast(getString(R.string.screen_view_document_file_size_not_fine))
         }
@@ -253,7 +238,6 @@ class ViewDocumentFragment : BaseBindingImageFragment<IViewDocumentFragment.View
 
     private fun setImageResUrl(imageSrc: String?) {
         viewModel.state.stateLiveData?.postValue(State.loading(""))
-        imageNeededShow(true)
         imageSrc?.let {
             var mUrl = getUrl(imageSrc)
             if (!mUrl.contains("http")) {
@@ -263,25 +247,57 @@ class ViewDocumentFragment : BaseBindingImageFragment<IViewDocumentFragment.View
                 .load(mUrl)
                 .networkPolicy(NetworkPolicy.NO_CACHE)
                 .memoryPolicy(MemoryPolicy.NO_CACHE)
-                .into(viewDataBinding?.root?.iviImage, object : Callback {
-                    override fun onSuccess() {
-                        viewModel.state.stateLiveData?.postValue(State.success(""))
-                    }
+                .into(
+                    getDataBindingView<FragmentViewDocumentBinding>()?.iviImage,
+                    object : Callback {
+                        override fun onSuccess() {
+                            viewModel.state.stateLiveData?.postValue(State.success(""))
+                        }
 
-                    override fun onError(e: java.lang.Exception?) {
-                        viewModel.state.stateLiveData?.postValue(State.error(getString(Strings.screen_view_document_refresh_text_description)))
-                    }
-                })
+                        override fun onError(e: java.lang.Exception?) {
+                            viewModel.state.stateLiveData?.postValue(State.error(getString(Strings.screen_view_document_refresh_text_description)))
+                        }
+                    })
         }
     }
+
+    private val refreshViewWithUpdatedData =
+        Observer<Document?> {
+            it?.let {
+                viewModel.state.fileUrl.value = it.fileURL
+                viewModel.state.fileExtension.value = it.extension
+                loadFileInView()
+            }
+            viewModel.state.isNeedToShowUpdateDialogue?.value = false
+        }
+
+    private val isEditAbleCheck =
+        Observer<Boolean?> {
+            if (it == false) {
+                viewModel.state.isDeleteAble.value = false
+                viewModel.state.isUpdateAble.value = false
+            }
+        }
+
+    private val isPdfViewNeedToActive =
+        Observer<String?> {
+            it?.let { extension ->
+                viewModel.state.isPDF.value = extension?.contains("pdf") ?: false
+            }
+        }
 
     override fun removeObservers() {
         viewModel.clickEvent.removeObserver(listener)
         viewModel.state.stateLiveData?.removeObservers(this)
+        viewModel.state.fileDataFromRefreshApi.removeObservers(this)
+        viewModel.state.isEditable.removeObservers(this)
     }
 
     override fun addObservers() {
         viewModel.clickEvent.observe(this, listener)
+        viewModel.state.fileDataFromRefreshApi.observe(this, refreshViewWithUpdatedData)
+        viewModel.state.isEditable.observe(this, isEditAbleCheck)
+        viewModel.state.fileExtension.observe(this, isPdfViewNeedToActive)
     }
 
     fun refreshViewNeedTOShow(isVisible: Boolean) {
@@ -293,43 +309,27 @@ class ViewDocumentFragment : BaseBindingImageFragment<IViewDocumentFragment.View
     }
 
     fun performDelete() {
-        viewModel.state.filePath?.value = null
-        viewModel.state.fileType?.value = null
-        deletable(false)
-        imageNeededShow(true)
-        viewDataBinding?.root?.iviImage?.setImageResource(0)
-        refreshViewNeedTOShow(false)
+        isDeleteAble(false)
+        viewModel.state.fileUrl.value = ""
+        viewModel.state.fileExtension.value = ""
+        viewModel.state.documentType.value = ""
+        viewModel.state.isPDF.value = false
+        viewModel.fileForUpdate = null
+        getDataBindingView<FragmentViewDocumentBinding>()?.iviImage.setImageResource(0)
+
+        viewModel.state.stateLiveData?.postValue(State.empty(""))
+
+
     }
 
-    fun imageNeededShow(isImage: Boolean) {
-        if (!isImage) {
-            viewModel.state.isImage.value = false
-            viewModel.state.isPDF.value = true
-        } else {
-            viewModel.state.isPDF.value = false
-            viewModel.state.isImage.value = true
-        }
-    }
-
-    fun deletable(isDeleteAble: Boolean) {
+    fun isDeleteAble(isDeleteAble: Boolean) {
         if (isDeleteAble) {
-            viewModel.state.isDeleteAble.value = true
             viewModel.state.isUpdateAble.value = false
+            viewModel.state.isDeleteAble.value = true
         } else {
-            viewModel.state.isDeleteAble.value = false
             viewModel.state.isUpdateAble.value = true
+            viewModel.state.isDeleteAble.value = false
         }
-    }
-
-    fun editable(isEditAble: Boolean, isDeletable: Boolean) {
-        if (!isEditAble) {
-            deletable(isDeletable)
-            viewModel.state.isDeleteAble?.value = false
-            viewModel.state.isUpdateAble?.value = false
-        } else {
-            deletable(isDeletable)
-        }
-        viewModel.state.isEditable?.value = isEditAble
     }
 
     private fun handleState(state: State?) {

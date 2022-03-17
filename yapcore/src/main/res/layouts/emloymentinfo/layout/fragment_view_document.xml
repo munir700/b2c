@@ -62,7 +62,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="fitXY"
-                android:visibility="@{viewModel.state.isImage ? View.VISIBLE : View.GONE}" />
+                android:visibility="@{viewModel.state.isPDF ? View.GONE : View.VISIBLE}" />
 
         </co.yap.widgets.MultiStateView>
 
@@ -79,7 +79,7 @@
             app:srcCompat="@drawable/ic_share_code" />
 
         <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/ivdelete"
+            android:id="@+id/ivDelete"
             android:layout_width="@dimen/_27sdp"
             android:layout_height="@dimen/_27sdp"
             android:layout_marginBottom="@dimen/_60sdp"

@@ -1,15 +1,9 @@
 package co.yap.modules.document
 
 import android.app.Application
-import co.yap.countryutils.country.Country
-import co.yap.modules.document.enums.FileFrom
 import co.yap.networking.customers.CustomersRepository
-import co.yap.networking.customers.responsedtos.employment_amendment.DocumentResponse
 import co.yap.networking.customers.responsedtos.employment_amendment.EmploymentInfoAmendmentResponse
-import co.yap.networking.customers.responsedtos.employmentinfo.IndustrySegmentsResponse
-import co.yap.networking.customers.responsedtos.sendmoney.CountryModel
 import co.yap.networking.interfaces.IRepositoryHolder
-import co.yap.networking.models.BaseListResponse
 import co.yap.networking.models.BaseResponse
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
@@ -20,9 +14,7 @@ import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.Dispatcher
 import co.yap.yapcore.R
 import co.yap.yapcore.SingleClickEvent
-import co.yap.yapcore.enums.EmploymentStatus
 import co.yap.yapcore.enums.PhotoSelectionType
-import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.createTempFile
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
@@ -145,21 +137,14 @@ class IViewDocumentViewModel(application: Application) :
         }
     }
 
-    override fun getEmploymentInfoApiCall(success: (fileType: String?, link: String?) -> Unit) {
+    override fun getEmploymentInfoApiCall() {
         fetchEmploymentInfoAPIResponses { employmentResponse ->
             launch(Dispatcher.Main) {
                 when (employmentResponse) {
                     is RetroApiResponse.Success -> {
-                            employmentResponse.data.data?.let { res ->
-                                res.documents?.forEach { item ->
-                                    if (state.documentType.value.equals(item.documentType)) {
-                                        success.invoke(
-                                            item.extension,
-                                            item.fileURL
-                                        )
-                                    }
-                                }
-                            }
+                        employmentResponse.data.data?.let { res ->
+                            state.fileDataFromRefreshApi.value = res.documents?.first { state.documentType.value.equals(it.documentType)}
+                        }
                     }
                     is RetroApiResponse.Error -> {
                         showDialogWithCancel(employmentResponse.error.message)

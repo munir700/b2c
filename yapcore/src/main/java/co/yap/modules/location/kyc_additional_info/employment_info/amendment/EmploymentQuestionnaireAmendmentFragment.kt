@@ -14,7 +14,6 @@ import androidx.lifecycle.ViewModelProvider
 import co.yap.countryutils.country.Country
 import co.yap.countryutils.country.unSelectAllCountries
 import co.yap.modules.document.ViewDocumentFragment
-import co.yap.modules.document.enums.FileFrom
 import co.yap.modules.location.kyc_additional_info.employment_info.questionnaire.adapter.QuestionItemViewHolders
 import co.yap.modules.location.kyc_additional_info.employment_info.questionnaire.models.QuestionUiFields
 import co.yap.modules.otp.GenericOtpFragment
@@ -261,7 +260,7 @@ class EmploymentQuestionnaireAmendmentFragment :
                             ViewDocumentFragment::class.java.name,
                             bundleOf(
                                 "LINK" to data.fileURL,
-                                "FILETYPE" to data.extension,
+                                "FILEEXTENSTION" to data.extension,
                                 "ISEDITABLE" to viewModel.isInEditMode.value,
                                 "DOCUMENTTYPE" to data.documentType
                             ), false
