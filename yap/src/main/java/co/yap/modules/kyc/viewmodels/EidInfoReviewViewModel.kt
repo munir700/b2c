@@ -404,6 +404,7 @@ class EidInfoReviewViewModel(application: Application) :
                 )
         }
     }
+
     private var _uqudoToken: MutableLiveData<String> = MutableLiveData()
     override var uqudoToken: LiveData<String> = _uqudoToken
 

@@ -246,7 +246,11 @@ class EidInfoReviewAmendmentFragment : KYCChildFragment<IEidInfoReviewAmendment.
         })
         viewModel.uqudoToken.observe(viewLifecycleOwner, Observer { token ->
             //TODO Uqudo will be initialised here
-            if (token.isNullOrEmpty().not() && viewModel.state.isTokenValid.get()) viewModel.eidStateLiveData.postValue(State.empty("")) else  viewModel.eidStateLiveData.postValue(State.error(""))
+            if (token.isNullOrEmpty()
+                    .not() && viewModel.state.isTokenValid.get()
+            ) viewModel.eidStateLiveData.postValue(State.empty("")) else viewModel.eidStateLiveData.postValue(
+                State.error("")
+            )
         })
     }
 

@@ -35,7 +35,7 @@ interface IEidInfoReview {
         var isDateOfBirthValid: ObservableBoolean
         var AgeLimit: Int?
         var isCountryUS: Boolean
-        var isTokenValid : ObservableBoolean
+        var isTokenValid: ObservableBoolean
     }
 
     interface View : IBase.View<ViewModel> {
@@ -79,6 +79,6 @@ interface IEidInfoReview {
         )
 
         fun populateState(identity: Identity?)
-        var uqudoToken : LiveData<String>
+        var uqudoToken: LiveData<String>
     }
 }
