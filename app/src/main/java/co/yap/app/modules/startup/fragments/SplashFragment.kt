@@ -171,12 +171,10 @@ class SplashFragment : MainChildFragment<ISplash.ViewModel>(), ISplash.View {
                         CountryCode.GHANA.countryCode -> {
                             ghIntent =
                                 Intent(requireContext(), GhAuthenticationActivity::class.java)
-                            ghIntent = Intent(requireContext(), AuthenticationActivity::class.java)
                             ghIntent.putExtra("countryCode", it)
                             ghIntent.putExtra("mobileNo", mobileNo ?: "")
                             ghIntent.putExtra("isAccountBlocked", false)
                         }
-
                     }
                 }
             }
@@ -187,19 +185,9 @@ class SplashFragment : MainChildFragment<ISplash.ViewModel>(), ISplash.View {
         when (countryCode) {
             CountryCode.GHANA.countryCode -> {
                 startActivity(ghIntent)
-//                launchActivity<GhAuthenticationActivity> {
-//                    putExtra("countryCode", countryCode)
-//                    putExtra("mobileNo", mobileNo ?: "")
-//                    putExtra("isAccountBlocked", false)
-//                }
             }
             CountryCode.PAK.countryCode -> {
                 startActivity(pkIntent)
-//                launchActivity<AuthenticationActivity> {
-//                    putExtra("countryCode", countryCode)
-//                    putExtra("mobileNo", mobileNo ?: "")
-//                    putExtra("isAccountBlocked", false)
-//                }
             }
         }
     }

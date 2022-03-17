@@ -7,6 +7,7 @@ import co.yap.yapcore.adjust.ReferralInfo
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.Constants.REFERRAL_COUNTRY_ISO_CODE
 import co.yap.yapcore.helpers.SharedPreferenceManager
+import co.yap.yapcore.helpers.extentions.shortToast
 import com.yap.core.enums.ProductFlavour
 import com.yap.ghana.configs.GhanaBuildConfigurations
 import com.yap.ghana.utils.enums.GhanaAppEvent
@@ -40,8 +41,9 @@ class LoadConfig @Inject constructor(@ApplicationContext val appContext: Context
         }
         pkConfigs.setAdjustAppId(getAdjustReferralTrackerId("qa"))
         getReferralInfo("PK")?.let {
+            context.shortToast("The referral id " + it.id)
             pkConfigs.setReferralInfo(it.id, it.date)
-        }
+        } ?: context.shortToast("TThe referral id is null")
 
         return pkConfigs
     }
@@ -58,8 +60,9 @@ class LoadConfig @Inject constructor(@ApplicationContext val appContext: Context
             handleGhanaAppEvent(it, context)
         }
         getReferralInfo("GH")?.let {
+            context.shortToast("The referral id " + it.id)
             ghConfigs.setReferralInfo(it.id, it.date)
-        }
+        } ?: context.shortToast("The referral id is null")
         ghConfigs.setAdjustAppId(getAdjustReferralTrackerId("qa"))
 
         return ghConfigs

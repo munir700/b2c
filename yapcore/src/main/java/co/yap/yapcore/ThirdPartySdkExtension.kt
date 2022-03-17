@@ -6,12 +6,12 @@ import android.net.UrlQuerySanitizer
 import android.os.Bundle
 import co.yap.yapcore.adjust.ReferralInfo
 import co.yap.yapcore.config.BuildConfigManager
+import co.yap.yapcore.constants.Constants.KEY_COUNTRY_CODE
 import co.yap.yapcore.constants.Constants.REFERRAL_COUNTRY_ISO_CODE
 import co.yap.yapcore.constants.Constants.REFERRAL_ID
 import co.yap.yapcore.constants.Constants.REFERRAL_TIME
 import co.yap.yapcore.enums.ProductFlavour
 import co.yap.yapcore.helpers.SharedPreferenceManager
-import co.yap.yapcore.helpers.showSnackBar
 import co.yap.yapcore.managers.SessionManager
 import com.adjust.sdk.Adjust
 import com.adjust.sdk.AdjustConfig
@@ -75,8 +75,7 @@ fun Application.initializeAdjustSdk(configManager: BuildConfigManager?) {
                 val sharedPref = SharedPreferenceManager.getInstance(this)
                 val customerId = UrlQuerySanitizer(uri.toString()).getValue(REFERRAL_ID)
                 val time = UrlQuerySanitizer(uri.toString()).getValue(REFERRAL_TIME)
-                val countryISOCode =
-                    UrlQuerySanitizer(uri.toString()).getValue(REFERRAL_COUNTRY_ISO_CODE)
+                val countryISOCode = UrlQuerySanitizer(uri.toString()).getValue(KEY_COUNTRY_CODE)
                 sharedPref.setReferralInfo(ReferralInfo(customerId, time))
                 sharedPref.save(REFERRAL_COUNTRY_ISO_CODE, countryISOCode)
             }
