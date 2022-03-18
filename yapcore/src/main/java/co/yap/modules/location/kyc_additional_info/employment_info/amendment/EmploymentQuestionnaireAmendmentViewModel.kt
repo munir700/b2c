@@ -418,7 +418,7 @@ class EmploymentQuestionnaireAmendmentViewModel(application: Application) :
                         requiredDocumentsResponse.value = documentResponse.data.data
                         fillTitlesOfDocuments(
                             EmploymentStatus.valueOf(
-                                employmentStatusValue.value?.employmentStatus ?: ""
+                                employmentStatusValue.value?.employmentStatus ?: EmploymentStatus.EMPLOYED.name
                             )
                         )
                     }
