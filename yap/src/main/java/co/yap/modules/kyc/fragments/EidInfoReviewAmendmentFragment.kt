@@ -157,7 +157,7 @@ class EidInfoReviewAmendmentFragment : KYCChildFragment<IEidInfoReviewAmendment.
                 }// openCardScanner()
                 R.id.tvNoThanks -> {
                     trackEventWithScreenName(FirebaseEvent.RESCAN_ID)
-                    Utils.hideKeyboard(getDataBindingView<FragmentEidInfoReviewAmendmentBinding>().tvNoThanks)
+                    Utils.hideKeyboard(getViewBinding().tvNoThanks)
                     //TODO Uqudo Camera WILL BE Handled here
                     showToast("Uqudo Camera will be integrated here!!")
                     // openCardScanner()
@@ -296,10 +296,10 @@ class EidInfoReviewAmendmentFragment : KYCChildFragment<IEidInfoReviewAmendment.
 
     private fun disableEndDrawable(view: EditTextRichDrawable?) {
         val list = listOf(
-            getDataBindingView<FragmentEidInfoReviewAmendmentBinding>().tvEidNumber,
-            getDataBindingView<FragmentEidInfoReviewAmendmentBinding>().tvFirstName,
-            getDataBindingView<FragmentEidInfoReviewAmendmentBinding>().tvMiddleName,
-            getDataBindingView<FragmentEidInfoReviewAmendmentBinding>().tvLastName
+            getViewBinding().tvEidNumber,
+            getViewBinding().tvFirstName,
+            getViewBinding().tvMiddleName,
+            getViewBinding().tvLastName
         )
         list.forEach {
             it.setDrawableEndVectorId(
