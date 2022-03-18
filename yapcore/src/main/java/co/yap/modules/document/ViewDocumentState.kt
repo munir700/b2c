@@ -7,14 +7,12 @@ import co.yap.yapcore.BaseState
 open class ViewDocumentState : BaseState(), IViewDocumentFragment.State {
 
     override var fileDataFromRefreshApi: MutableLiveData<Document> = MutableLiveData()
-    override val isPDF: MutableLiveData<Boolean> = MutableLiveData(false)
-    override val isUpdateAble: MutableLiveData<Boolean> = MutableLiveData(false)
-    override val isDeleteAble: MutableLiveData<Boolean> = MutableLiveData(false)
-    override val isEditable: MutableLiveData<Boolean> = MutableLiveData(false)
-    override val isNeedToShowUpdateDialogue: MutableLiveData<Boolean> = MutableLiveData(false)
+    override var isPDF: MutableLiveData<Boolean> = MutableLiveData(false)
+    override var isUpdateAble: MutableLiveData<Boolean> = MutableLiveData(false)
+    override var isDeleteAble: MutableLiveData<Boolean> = MutableLiveData(false)
+    override var isEditable: MutableLiveData<Boolean> = MutableLiveData(false)
+    override var isNeedToShowUpdateDialogue: MutableLiveData<Boolean> = MutableLiveData(false)
     override var documentType: MutableLiveData<String> = MutableLiveData()
     override var fileExtension: MutableLiveData<String> = MutableLiveData()
     override var fileUrl: MutableLiveData<String> = MutableLiveData()
-
-
 }

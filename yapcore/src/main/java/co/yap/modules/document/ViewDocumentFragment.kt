@@ -7,7 +7,6 @@ import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import co.yap.modules.document.enums.FileType
 import co.yap.networking.customers.responsedtos.employment_amendment.Document
 import co.yap.translation.Strings
 import co.yap.widgets.MultiStateView
@@ -31,10 +30,7 @@ import com.liveperson.infra.utils.picasso.MemoryPolicy
 import com.liveperson.infra.utils.picasso.NetworkPolicy
 import com.liveperson.infra.utils.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_view_document.*
-import kotlinx.android.synthetic.main.fragment_view_document.view.*
-import kotlinx.android.synthetic.main.layout_error_view.view.*
 import kotlinx.android.synthetic.main.layout_loading_view_for_view_document.view.*
-import kotlinx.coroutines.delay
 
 class ViewDocumentFragment : BaseBindingImageFragment<IViewDocumentFragment.ViewModel>(),
     IViewDocumentFragment.View {
@@ -64,7 +60,7 @@ class ViewDocumentFragment : BaseBindingImageFragment<IViewDocumentFragment.View
                 viewModel.state.stateLiveData?.observe(
                     viewLifecycleOwner,
                     Observer { handleState(it) })
-                getDataBindingView<FragmentViewDocumentBinding>()?.multiStateView.setOnReloadListener(
+                getDataBindingView<FragmentViewDocumentBinding>().multiStateView.setOnReloadListener(
                     object :
                         MultiStateView.OnReloadListener {
                         override fun onReload(view: View) {
@@ -91,7 +87,7 @@ class ViewDocumentFragment : BaseBindingImageFragment<IViewDocumentFragment.View
             viewModel.state.documentType.value = it.getString("DOCUMENTTYPE", ExtraType.STRING.name)
             viewModel.state.fileUrl.value?.let { fileUrl ->
                 if (fileUrl.contains("http") && viewModel.state.isEditable.value == true) {
-                    viewModel.state.isNeedToShowUpdateDialogue?.value = true
+                    viewModel.state.isNeedToShowUpdateDialogue.value = true
                     isDeleteAble(false)
                 } else {
                     isDeleteAble(true)
@@ -103,28 +99,31 @@ class ViewDocumentFragment : BaseBindingImageFragment<IViewDocumentFragment.View
     }
 
     fun loadFileInView() {
-        viewModel.state.fileUrl?.let { fileUrl ->
-            if (fileUrl.value?.contains("http") == true) {
-                if (viewModel.state.fileExtension.value?.contains("pdf") == true) {
-                    viewModel.downloadFile(fileUrl.value ?: "") { file ->
-                        file?.let {
-                            refreshViewNeedTOShow(false)
-                            getDataBindingView<FragmentViewDocumentBinding>()?.pdfView?.fromFile(
-                                file
-                            )?.show()
-                        } ?: close()
+        viewModel.state.fileUrl.let { fileUrl ->
+            when {
+                viewModel.state.fileExtension.value?.contains("pdf") == true -> {
+                    when {
+                        fileUrl.value?.contains("http") == true -> {
+                            viewModel.downloadFile(fileUrl.value ?: "") { file ->
+                                file?.let {
+                                    refreshViewNeedTOShow(false)
+                                    getDataBindingView<FragmentViewDocumentBinding>().pdfView.fromFile(
+                                        file
+                                    ).show()
+                                } ?: close()
+
+                            }
+                        }
+                        else -> {
+                            fileUrl.let { file ->
+                                getDataBindingView<FragmentViewDocumentBinding>().pdfView.fromFile(
+                                    file.value ?: ""
+                                ).show()
+                            }
+                        }
                     }
-                } else {
-                    setImageResUrl(viewModel.state.fileUrl.value)
                 }
-            } else {
-                if (viewModel.state.fileExtension.value?.contains("pdf") == true) {
-                    fileUrl?.let { file ->
-                        getDataBindingView<FragmentViewDocumentBinding>()?.pdfView?.fromFile(
-                            file.value ?: ""
-                        )?.show()
-                    } ?: close()
-                } else {
+                else -> {
                     setImageResUrl(viewModel.state.fileUrl.value)
                 }
             }
@@ -168,14 +167,14 @@ class ViewDocumentFragment : BaseBindingImageFragment<IViewDocumentFragment.View
                     requireActivity().openFilePicker("File picker",
                         completionHandler = { _, dataUri ->
                             dataUri?.let { uriIntent ->
-                                var fileSelected = FileUtils.getFile(context, uriIntent.data)
+                                val fileSelected = FileUtils.getFile(context, uriIntent.data)
                                 if (fileSelected.sizeInMb() < 25) {
                                     fileSelected?.let {
                                         viewModel.fileForUpdate = it
                                         viewModel.state.fileUrl.value = it.absolutePath
                                         viewModel.state.fileExtension.value = it.extension
                                         loadFileInView()
-                                        viewModel.state.isNeedToShowUpdateDialogue?.value =
+                                        viewModel.state.isNeedToShowUpdateDialogue.value =
                                             false
                                         isDeleteAble(true)
                                     }
@@ -228,7 +227,7 @@ class ViewDocumentFragment : BaseBindingImageFragment<IViewDocumentFragment.View
             viewModel.fileForUpdate = mediaFile.file
             viewModel.state.fileUrl.value = mediaFile.file.absolutePath
             viewModel.state.fileExtension.value = mediaFile.file.extension
-            viewModel.state.isNeedToShowUpdateDialogue?.value = false
+            viewModel.state.isNeedToShowUpdateDialogue.value = false
             loadFileInView()
             isDeleteAble(true)
         } else {
@@ -248,7 +247,7 @@ class ViewDocumentFragment : BaseBindingImageFragment<IViewDocumentFragment.View
                 .networkPolicy(NetworkPolicy.NO_CACHE)
                 .memoryPolicy(MemoryPolicy.NO_CACHE)
                 .into(
-                    getDataBindingView<FragmentViewDocumentBinding>()?.iviImage,
+                    getDataBindingView<FragmentViewDocumentBinding>().ivImage,
                     object : Callback {
                         override fun onSuccess() {
                             viewModel.state.stateLiveData?.postValue(State.success(""))
@@ -268,7 +267,7 @@ class ViewDocumentFragment : BaseBindingImageFragment<IViewDocumentFragment.View
                 viewModel.state.fileExtension.value = it.extension
                 loadFileInView()
             }
-            viewModel.state.isNeedToShowUpdateDialogue?.value = false
+            viewModel.state.isNeedToShowUpdateDialogue.value = false
         }
 
     private val isEditAbleCheck =
@@ -282,7 +281,7 @@ class ViewDocumentFragment : BaseBindingImageFragment<IViewDocumentFragment.View
     private val isPdfViewNeedToActive =
         Observer<String?> {
             it?.let { extension ->
-                viewModel.state.isPDF.value = extension?.contains("pdf") ?: false
+                viewModel.state.isPDF.value = extension.contains("pdf")
             }
         }
 
@@ -313,13 +312,8 @@ class ViewDocumentFragment : BaseBindingImageFragment<IViewDocumentFragment.View
         viewModel.state.fileUrl.value = ""
         viewModel.state.fileExtension.value = ""
         viewModel.state.documentType.value = ""
-        viewModel.state.isPDF.value = false
         viewModel.fileForUpdate = null
-        getDataBindingView<FragmentViewDocumentBinding>()?.iviImage.setImageResource(0)
-
-        viewModel.state.stateLiveData?.postValue(State.empty(""))
-
-
+        getDataBindingView<FragmentViewDocumentBinding>().ivImage.setImageResource(0)
     }
 
     fun isDeleteAble(isDeleteAble: Boolean) {

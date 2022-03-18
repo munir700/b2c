@@ -51,18 +51,25 @@
             app:msv_loadingView="@layout/layout_loading_view_for_view_document"
             app:msv_viewState="content">
 
-            <com.pdfview.PDFView
-                android:id="@+id/pdfView"
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:visibility="@{viewModel.state.isPDF ? View.VISIBLE : View.GONE}" />
+                android:layout_height="match_parent">
 
-            <co.yap.modules.imagepreviewer.TouchImageView
-                android:id="@+id/iviImage"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="fitXY"
-                android:visibility="@{viewModel.state.isPDF ? View.GONE : View.VISIBLE}" />
+                <com.pdfview.PDFView
+                    android:id="@+id/pdfView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:visibility="@{viewModel.state.isPDF ? View.VISIBLE : View.GONE}" />
+
+                <co.yap.modules.imagepreviewer.TouchImageView
+                    android:id="@+id/ivImage"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:visibility="@{viewModel.state.isPDF ? View.GONE : View.VISIBLE}" />
+
+            </FrameLayout>
+
 
         </co.yap.widgets.MultiStateView>
 

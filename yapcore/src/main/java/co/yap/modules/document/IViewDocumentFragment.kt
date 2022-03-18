@@ -1,6 +1,5 @@
 package co.yap.modules.document
 
-import android.net.Uri
 import androidx.lifecycle.MutableLiveData
 import co.yap.networking.customers.responsedtos.employment_amendment.Document
 import co.yap.widgets.bottomsheet.BottomSheetItem
@@ -27,13 +26,13 @@ interface IViewDocumentFragment {
 
     interface State : IBase.State {
         var fileDataFromRefreshApi: MutableLiveData<Document>
-        val isPDF: MutableLiveData<Boolean>
-        val isUpdateAble: MutableLiveData<Boolean>
-        val isDeleteAble: MutableLiveData<Boolean>
-        val isNeedToShowUpdateDialogue: MutableLiveData<Boolean>
-        val isEditable: MutableLiveData<Boolean>
-        val documentType: MutableLiveData<String>
-        val fileExtension: MutableLiveData<String>
-        val fileUrl: MutableLiveData<String>
+        var isPDF: MutableLiveData<Boolean>
+        var isUpdateAble: MutableLiveData<Boolean>
+        var isDeleteAble: MutableLiveData<Boolean>
+        var isNeedToShowUpdateDialogue: MutableLiveData<Boolean>
+        var isEditable: MutableLiveData<Boolean>
+        var documentType: MutableLiveData<String>
+        var fileExtension: MutableLiveData<String>
+        var fileUrl: MutableLiveData<String>
     }
 }
