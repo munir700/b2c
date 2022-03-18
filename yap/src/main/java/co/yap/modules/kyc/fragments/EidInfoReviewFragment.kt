@@ -48,6 +48,7 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        getViewBinding().lifecycleOwner = this
         if (viewModel.parentViewModel?.skipFirstScreen?.value == true) {
             //TODO Uqudo Camera WILL BE Handled here
             showToast("Uqudo Camera will be integrated here!!")
