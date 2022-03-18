@@ -35,8 +35,7 @@ import co.yap.yapcore.helpers.extentions.launchSheet
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.SessionManager
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog
-import kotlinx.android.synthetic.main.fragment_eid_info_review.*
-import kotlinx.android.synthetic.main.fragment_eid_info_review_amendment.*
+
 import java.io.File
 import java.util.*
 
@@ -51,12 +50,11 @@ class EidInfoReviewAmendmentFragment : KYCChildFragment<IEidInfoReviewAmendment.
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        getDataBindingView<FragmentEidInfoReviewAmendmentBinding>().lifecycleOwner = this
-        viewModel.validator?.targetViewBinding =
-            getDataBindingView<FragmentEidInfoReviewAmendmentBinding>()
+        getViewBinding().lifecycleOwner = this
+        viewModel.validator?.targetViewBinding = getViewBinding()
         viewModel.validator?.toValidate()
         // TODO use MaskTextWatcher to mask the eid number
-        getDataBindingView<FragmentEidInfoReviewAmendmentBinding>().tvEidNumber.filters =
+        getViewBinding().tvEidNumber.filters =
             arrayOf(
                 InputFilter.LengthFilter(resources.getInteger(R.integer.eid_length)),
                 EidFilter(intArrayOf(3, 8, 16), '-')
@@ -72,7 +70,7 @@ class EidInfoReviewAmendmentFragment : KYCChildFragment<IEidInfoReviewAmendment.
                 //  openCardScanner()
             }
             viewModel.state.errorScreenVisited = false
-            getDataBindingView<FragmentEidInfoReviewAmendmentBinding>().tbBtnBack.setOnClickListener {
+            getViewBinding().tbBtnBack.setOnClickListener {
                 viewModel.parentViewModel?.finishKyc?.value = DocumentsResponse(false)
             }
         }
@@ -81,13 +79,13 @@ class EidInfoReviewAmendmentFragment : KYCChildFragment<IEidInfoReviewAmendment.
     }
 
     private fun addFocusListeners() {
-        getDataBindingView<FragmentEidInfoReviewAmendmentBinding>().tvEidNumber.onFocusChangeListener =
+        getViewBinding().tvEidNumber.onFocusChangeListener =
             this
-        getDataBindingView<FragmentEidInfoReviewAmendmentBinding>().tvFirstName.onFocusChangeListener =
+        getViewBinding().tvFirstName.onFocusChangeListener =
             this
-        getDataBindingView<FragmentEidInfoReviewAmendmentBinding>().tvMiddleName.onFocusChangeListener =
+        getViewBinding().tvMiddleName.onFocusChangeListener =
             this
-        getDataBindingView<FragmentEidInfoReviewAmendmentBinding>().tvLastName.onFocusChangeListener =
+        getViewBinding().tvLastName.onFocusChangeListener =
             this
     }
 
@@ -95,12 +93,12 @@ class EidInfoReviewAmendmentFragment : KYCChildFragment<IEidInfoReviewAmendment.
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
                 R.id.tvEidNumber -> {
-                    disableEndDrawable(tvEidNumber)
-                    manageFocus(tvEidNumber)
+                    disableEndDrawable(getViewBinding().tvEidNumber)
+                    manageFocus(getViewBinding().tvEidNumber)
                 }
                 R.id.tvFirstName -> {
-                    disableEndDrawable(getDataBindingView<FragmentEidInfoReviewAmendmentBinding>().tvFirstName)
-                    manageFocus(getDataBindingView<FragmentEidInfoReviewAmendmentBinding>().tvFirstName)
+                    disableEndDrawable(getViewBinding().tvFirstName)
+                    manageFocus(getViewBinding().tvFirstName)
                     trackEventWithScreenName(
                         FirebaseEvent.EDIT_FIELD,
                         bundleOf("field_name" to "first_name")
@@ -108,8 +106,8 @@ class EidInfoReviewAmendmentFragment : KYCChildFragment<IEidInfoReviewAmendment.
                 }
 
                 R.id.tvMiddleName -> {
-                    disableEndDrawable(getDataBindingView<FragmentEidInfoReviewAmendmentBinding>().tvMiddleName)
-                    manageFocus(getDataBindingView<FragmentEidInfoReviewAmendmentBinding>().tvMiddleName)
+                    disableEndDrawable(getViewBinding().tvMiddleName)
+                    manageFocus(getViewBinding().tvMiddleName)
                     trackEventWithScreenName(
                         FirebaseEvent.EDIT_FIELD,
                         bundleOf("field_name" to "middle_name")
@@ -117,8 +115,8 @@ class EidInfoReviewAmendmentFragment : KYCChildFragment<IEidInfoReviewAmendment.
                 }
 
                 R.id.tvLastName -> {
-                    disableEndDrawable(getDataBindingView<FragmentEidInfoReviewAmendmentBinding>().tvLastName)
-                    manageFocus(getDataBindingView<FragmentEidInfoReviewAmendmentBinding>().tvLastName)
+                    disableEndDrawable(getViewBinding().tvLastName)
+                    manageFocus(getViewBinding().tvLastName)
                     trackEventWithScreenName(
                         FirebaseEvent.EDIT_FIELD,
                         bundleOf("field_name" to "last_name")
@@ -511,20 +509,20 @@ class EidInfoReviewAmendmentFragment : KYCChildFragment<IEidInfoReviewAmendment.
     private fun handleState(state: State?) {
         when (state?.status) {
             Status.LOADING -> {
-                multiStateView.viewState = MultiStateView.ViewState.LOADING
+                getViewBinding().multiStateView.viewState = MultiStateView.ViewState.LOADING
             }
             Status.EMPTY -> {
-                multiStateView.viewState = MultiStateView.ViewState.EMPTY
+                getViewBinding().multiStateView.viewState = MultiStateView.ViewState.EMPTY
                 initializeUqudoScanner()
             }
             Status.SUCCESS -> {
-                multiStateView.viewState = MultiStateView.ViewState.CONTENT
+                getViewBinding().multiStateView.viewState = MultiStateView.ViewState.CONTENT
                 viewModel.parentViewModel?.identity?.let {
                     viewModel.populateState(it)
                 }
             }
             Status.ERROR -> {
-                multiStateView.viewState = MultiStateView.ViewState.ERROR
+                getViewBinding().multiStateView.viewState = MultiStateView.ViewState.ERROR
                 invalidCitizenNumber(state.message ?: "Sorry, that didn’t work. Please try again")
             }
             else -> {
@@ -536,4 +534,6 @@ class EidInfoReviewAmendmentFragment : KYCChildFragment<IEidInfoReviewAmendment.
     private fun initializeUqudoScanner() {
         //TODO Initialise uqudo scanner here
     }
+
+    private fun getViewBinding() = getDataBindingView<FragmentEidInfoReviewAmendmentBinding>()
 }
