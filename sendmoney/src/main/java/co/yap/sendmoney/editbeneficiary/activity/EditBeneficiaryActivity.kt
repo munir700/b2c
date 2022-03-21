@@ -180,7 +180,7 @@ class EditBeneficiaryActivity : BaseBindingActivity<IEditBeneficiary.ViewModel>(
                             SessionManager.helpPhoneNumber
                         )
                     )
-                ), false
+                ), showToolBar = false
             ) { resultCode, data ->
                 if (resultCode == Activity.RESULT_OK) {
                     viewModel.createBeneficiaryRequest()

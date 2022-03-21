@@ -31,10 +31,10 @@ class AddTopUpCardFragment : BaseBindingFragment<IAddTopUpCard.ViewModel>() {
     }
 
     private fun initCheckOut() {
-        val checkoutForm = getDataBindingView<FragmentAddTopupCardBinding>().checkoutForm
-        checkoutForm.setKey(YAPApplication.configManager?.checkoutKey ?: "")
-            .setEnvironment(if (YAPApplication.configManager?.flavor == ProductFlavour.PROD.flavour) Environment.LIVE else Environment.SANDBOX)
-            .includeBilling(false).setFormListener(mFormListener)
+//        val checkoutForm = getDataBindingView<FragmentAddTopupCardBinding>().checkoutForm
+//        checkoutForm.setKey(YAPApplication.configManager?.checkoutKey ?: "")
+//            .setEnvironment(if (YAPApplication.configManager?.flavor == ProductFlavour.PROD.flavour) Environment.LIVE else Environment.SANDBOX)
+//            .includeBilling(false).setFormListener(mFormListener)
     }
 
     var mFormListener: PaymentFormCallback = object : PaymentFormCallback {
@@ -54,7 +54,7 @@ class AddTopUpCardFragment : BaseBindingFragment<IAddTopUpCard.ViewModel>() {
 
         override fun onBackPressed() {
             // the user decided to leave the payment page
-            getDataBindingView<FragmentAddTopupCardBinding>().checkoutForm.clearForm() // this clears the Payment Form
+//            getDataBindingView<FragmentAddTopupCardBinding>().checkoutForm.clearForm() // this clears the Payment Form
         }
     }
 
