@@ -436,8 +436,24 @@ class EmploymentQuestionnaireAmendmentFragment :
     }
 
     private fun handleFileResult(data: Intent?) {
-        val fileForUpdate = data?.getSerializableExtra(ExtraKeys.FILE_FOR_UPDATE.name) as File
-        updateDocumentLists(fileForUpdate)
+        if (data?.hasExtra(ExtraKeys.FILE_FOR_UPDATE.name) == true) {
+            val fileForUpdate = data.getSerializableExtra(ExtraKeys.FILE_FOR_UPDATE.name) as File
+            updateDocumentLists(fileForUpdate)
+        }else{
+            if (data?.hasExtra(ExtraKeys.DELETED.name) == true) {
+                viewModel.posOfUpdatedDocument?.let { it ->
+                    if(viewModel.documentsList.value?.get(it)?.fileURL?.contains("http") == false){
+                        viewModel.documentsList.value?.get(it)?.fileURL = null
+                        viewModel.documentsList.value?.get(it)?.extension = ""
+                        viewModel.documentsList.value?.get(it)?.fileForUpdate = null
+                        viewModel.documentAdapter.update(
+                            viewModel.documentsList.value?.get(it) ?: Document()
+                        )
+                        viewModel.validateForm()
+                    }
+                }
+            }
+        }
     }
 
     private fun startOtpFragment() {

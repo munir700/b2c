@@ -204,24 +204,6 @@ class ViewDocumentFragment : BaseBindingImageFragment<IViewDocumentFragment.View
         }
     }
 
-    fun onBackPressedWithData() {
-        if (viewModel.state.isUpdateAble.value == false && viewModel.fileForUpdate != null) {
-            val intent = Intent()
-            intent.putExtra(ExtraKeys.FILE_FOR_UPDATE.name, viewModel.fileForUpdate)
-            activity?.setResult(Activity.RESULT_OK, intent)
-        }
-        activity?.finish()
-    }
-
-    private fun close() {
-        refreshViewNeedTOShow(true)
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        removeObservers()
-    }
-
     override fun onImageReturn(mediaFile: MediaFile) {
         if (mediaFile.file.sizeInMb() < 25) {
             viewModel.fileForUpdate = mediaFile.file
@@ -250,11 +232,21 @@ class ViewDocumentFragment : BaseBindingImageFragment<IViewDocumentFragment.View
                     getDataBindingView<FragmentViewDocumentBinding>().ivImage,
                     object : Callback {
                         override fun onSuccess() {
-                            viewModel.state.stateLiveData?.postValue(State.success(""))
+                            if (isAdded) {
+                                viewModel.state.stateLiveData?.postValue(State.success(""))
+                            }
                         }
 
                         override fun onError(e: java.lang.Exception?) {
-                            viewModel.state.stateLiveData?.postValue(State.error(getString(Strings.screen_view_document_refresh_text_description)))
+                            if (isAdded) {
+                                viewModel.state.stateLiveData?.postValue(
+                                    State.error(
+                                        getString(
+                                            Strings.screen_view_document_refresh_text_description
+                                        )
+                                    )
+                                )
+                            }
                         }
                     })
         }
@@ -307,25 +299,6 @@ class ViewDocumentFragment : BaseBindingImageFragment<IViewDocumentFragment.View
         }
     }
 
-    fun performDelete() {
-        isDeleteAble(false)
-        viewModel.state.fileUrl.value = ""
-        viewModel.state.fileExtension.value = ""
-        viewModel.state.documentType.value = ""
-        viewModel.fileForUpdate = null
-        getDataBindingView<FragmentViewDocumentBinding>().ivImage.setImageResource(0)
-    }
-
-    fun isDeleteAble(isDeleteAble: Boolean) {
-        if (isDeleteAble) {
-            viewModel.state.isUpdateAble.value = false
-            viewModel.state.isDeleteAble.value = true
-        } else {
-            viewModel.state.isUpdateAble.value = true
-            viewModel.state.isDeleteAble.value = false
-        }
-    }
-
     private fun handleState(state: State?) {
         when (state?.status) {
             Status.LOADING -> {
@@ -341,6 +314,51 @@ class ViewDocumentFragment : BaseBindingImageFragment<IViewDocumentFragment.View
             else ->
                 multiStateView?.viewState = MultiStateView.ViewState.CONTENT
         }
+    }
+
+    fun isDeleteAble(isDeleteAble: Boolean) {
+        if (isDeleteAble) {
+            viewModel.state.isUpdateAble.value = false
+            viewModel.state.isDeleteAble.value = true
+        } else {
+            viewModel.state.isUpdateAble.value = true
+            viewModel.state.isDeleteAble.value = false
+        }
+    }
+
+    fun performDelete() {
+        isDeleteAble(false)
+        viewModel.state.fileUrl.value = ""
+        viewModel.state.fileExtension.value = ""
+        viewModel.state.documentType.value = ""
+        viewModel.fileForUpdate = null
+        getDataBindingView<FragmentViewDocumentBinding>().ivImage.setImageResource(0)
+    }
+
+    fun onBackPressedWithData() {
+        val intent = Intent()
+        if (viewModel.state.isUpdateAble.value == false) {
+            viewModel.fileForUpdate?.let { file ->
+                intent.putExtra(
+                    ExtraKeys.FILE_FOR_UPDATE.name,
+                    file
+                )
+            }
+            activity?.setResult(Activity.RESULT_OK, intent)
+        }else{
+            intent.putExtra(ExtraKeys.DELETED.name, true)
+            activity?.setResult(Activity.RESULT_OK, intent)
+        }
+        activity?.finish()
+    }
+
+    private fun close() {
+        refreshViewNeedTOShow(true)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        removeObservers()
     }
 
 }
