@@ -345,7 +345,7 @@ class ViewDocumentFragment : BaseBindingImageFragment<IViewDocumentFragment.View
                 )
             }
             activity?.setResult(Activity.RESULT_OK, intent)
-        }else{
+        } else {
             intent.putExtra(ExtraKeys.DELETED.name, true)
             activity?.setResult(Activity.RESULT_OK, intent)
         }

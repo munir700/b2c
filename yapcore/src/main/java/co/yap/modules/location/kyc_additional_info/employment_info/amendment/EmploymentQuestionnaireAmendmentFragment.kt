@@ -439,10 +439,10 @@ class EmploymentQuestionnaireAmendmentFragment :
         if (data?.hasExtra(ExtraKeys.FILE_FOR_UPDATE.name) == true) {
             val fileForUpdate = data.getSerializableExtra(ExtraKeys.FILE_FOR_UPDATE.name) as File
             updateDocumentLists(fileForUpdate)
-        }else{
+        } else {
             if (data?.hasExtra(ExtraKeys.DELETED.name) == true) {
                 viewModel.posOfUpdatedDocument?.let { it ->
-                    if(viewModel.documentsList.value?.get(it)?.fileURL?.contains("http") == false){
+                    if (viewModel.documentsList.value?.get(it)?.fileURL?.contains("http") == false) {
                         viewModel.documentsList.value?.get(it)?.fileURL = null
                         viewModel.documentsList.value?.get(it)?.extension = ""
                         viewModel.documentsList.value?.get(it)?.fileForUpdate = null
