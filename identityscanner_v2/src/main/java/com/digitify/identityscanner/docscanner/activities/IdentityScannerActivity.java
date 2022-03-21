@@ -32,14 +32,16 @@ import java.util.ArrayList;
 import co.yap.yapcore.defaults.DefaultActivity;
 import co.yap.yapcore.helpers.extentions.ToastKt;
 import co.yap.yapcore.helpers.permissions.PermissionHelper;
+import kotlin.Deprecated;
+import kotlin.DeprecationLevel;
 
 /**
  * This scanner is replaced with new 3rd party SDK that is Uqudo
  * Due to increase in failed KYC complaints YAP team has decided to replace the identity scanner with a new
  * 3rd party sdk
  */
-@SuppressWarnings("DeprecatedIsStillUsed")
-@Deprecated
+@Deprecated(message = "We are using Uqudo SDK instead of Identity Scanner", level = DeprecationLevel.WARNING)
+
 public class IdentityScannerActivity extends DefaultActivity implements IIdentityScanner.IView {
 
     public static final int SCAN_FROM_CAMERA = 1;
