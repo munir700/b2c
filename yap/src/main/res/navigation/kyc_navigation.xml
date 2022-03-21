@@ -52,7 +52,7 @@
         android:id="@+id/eidInfoReviewFragment"
         android:name="co.yap.modules.kyc.fragments.EidInfoReviewFragment"
         android:label="EidInfoReviewFragment"
-        tools:layout="@layout/activity_eid_info_review">
+        tools:layout="@layout/fragment_eid_info_review">
         <action
             android:id="@+id/action_eidInfoReviewFragment_to_informationErrorFragment"
             app:destination="@id/informationErrorFragment"

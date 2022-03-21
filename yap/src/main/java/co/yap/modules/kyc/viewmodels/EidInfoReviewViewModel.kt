@@ -2,6 +2,7 @@ package co.yap.modules.kyc.viewmodels
 
 import android.app.Application
 import android.text.TextUtils
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import co.yap.R
 import co.yap.modules.onboarding.interfaces.IEidInfoReview
@@ -10,6 +11,7 @@ import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.requestdtos.UploadDocumentsRequest
 import co.yap.networking.customers.responsedtos.SectionedCountriesResponseDTO
 import co.yap.networking.customers.responsedtos.documents.ConfigureEIDResponse
+import co.yap.networking.customers.responsedtos.documents.UqudoTokenResponse
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.BaseResponse
 import co.yap.networking.models.RetroApiResponse
@@ -43,7 +45,6 @@ class EidInfoReviewViewModel(application: Application) :
 
     override val repository: CustomersRepository
         get() = CustomersRepository
-
     override val clickEvent: SingleClickEvent = SingleClickEvent()
     override val state: EidInfoReviewState = EidInfoReviewState()
     private var sectionedCountries: SectionedCountriesResponseDTO? = null
@@ -404,6 +405,9 @@ class EidInfoReviewViewModel(application: Application) :
         }
     }
 
+    private var _uqudoToken: MutableLiveData<String> = MutableLiveData()
+    override var uqudoToken: LiveData<String> = _uqudoToken
+
     private fun getFormattedCitizenNumber(citizenNo: String?): String {
         return citizenNo?.let {
             state.caption =
@@ -458,11 +462,11 @@ class EidInfoReviewViewModel(application: Application) :
     }
 
     override fun requestAllAPIs() {
-        requestAllEIDConfigurations { senctionedCountryResponse, configurationEIDResponse ->
+        requestAllEIDConfigurations { senctionedCountryResponse, configurationEIDResponse, uqudoTokenResponse ->
             launch(Dispatcher.Main) {
                 state.viewState.postValue(false)
                 when {
-                    senctionedCountryResponse is RetroApiResponse.Success && configurationEIDResponse is RetroApiResponse.Success -> {
+                    senctionedCountryResponse is RetroApiResponse.Success && configurationEIDResponse is RetroApiResponse.Success && uqudoTokenResponse is RetroApiResponse.Success -> {
                         sectionedCountries = senctionedCountryResponse.data
                         configureEIDResponse.value = configurationEIDResponse.data.data
 //                        state.isDateOfBirthValid.set(getAge(identity.dateOfBirth) >= configureEIDResponse.value?.ageLimit ?: 18)
@@ -477,6 +481,9 @@ class EidInfoReviewViewModel(application: Application) :
 //                            identity.isoCountryCode2Digit.contains(
 //                                countryName ?: "US"
 //                            )
+
+                        _uqudoToken.value = uqudoTokenResponse.data.data?.accessToken ?: ""
+
                     }
                     else -> {
                         if (senctionedCountryResponse is RetroApiResponse.Error)
@@ -488,7 +495,13 @@ class EidInfoReviewViewModel(application: Application) :
 
     }
 
-    override fun requestAllEIDConfigurations(responses: (RetroApiResponse<SectionedCountriesResponseDTO>?, RetroApiResponse<BaseResponse<ConfigureEIDResponse>>?) -> Unit) {
+    override fun requestAllEIDConfigurations(
+        responses: (
+            RetroApiResponse<SectionedCountriesResponseDTO>?,
+            RetroApiResponse<BaseResponse<ConfigureEIDResponse>>?,
+            RetroApiResponse<BaseResponse<UqudoTokenResponse>>?
+        ) -> Unit
+    ) {
         launch(Dispatcher.Background) {
             state.viewState.postValue(true)
             val senctionedCountriesList = launchAsync {
@@ -498,7 +511,14 @@ class EidInfoReviewViewModel(application: Application) :
             val eidConfigurationResponse = launchAsync {
                 repository.getEIDConfigurations()
             }
-            responses(senctionedCountriesList.await(), eidConfigurationResponse.await())
+            val uqudoTokenResponse = launchAsync {
+                repository.getUqudoAuthToken()
+            }
+            responses(
+                senctionedCountriesList.await(),
+                eidConfigurationResponse.await(),
+                uqudoTokenResponse.await()
+            )
         }
     }
 }

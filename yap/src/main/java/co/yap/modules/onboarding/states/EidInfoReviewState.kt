@@ -117,4 +117,5 @@ class EidInfoReviewState : BaseState(), IEidInfoReview.State {
     override var isDateOfBirthValid: ObservableBoolean = ObservableBoolean()
     override var AgeLimit: Int? = 0
     override var isCountryUS: Boolean = false
+    override var isTokenValid: ObservableBoolean = ObservableBoolean(false)
 }

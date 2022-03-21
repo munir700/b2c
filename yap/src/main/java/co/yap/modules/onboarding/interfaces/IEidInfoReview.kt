@@ -1,9 +1,11 @@
 package co.yap.modules.onboarding.interfaces
 
 import androidx.databinding.ObservableBoolean
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import co.yap.networking.customers.responsedtos.SectionedCountriesResponseDTO
 import co.yap.networking.customers.responsedtos.documents.ConfigureEIDResponse
+import co.yap.networking.customers.responsedtos.documents.UqudoTokenResponse
 import co.yap.networking.models.BaseResponse
 import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.IBase
@@ -33,6 +35,7 @@ interface IEidInfoReview {
         var isDateOfBirthValid: ObservableBoolean
         var AgeLimit: Int?
         var isCountryUS: Boolean
+        var isTokenValid: ObservableBoolean
     }
 
     interface View : IBase.View<ViewModel> {
@@ -40,7 +43,7 @@ interface IEidInfoReview {
         fun showExpiredEidScreen()
         fun showInvalidEidScreen()
         fun showUSACitizenScreen()
-     //   fun openCardScanner()
+        //   fun openCardScanner()
     }
 
     interface ViewModel : IBase.ViewModel<State> {
@@ -57,7 +60,7 @@ interface IEidInfoReview {
         val eventCitizenNumberIssue: Int get() = 10
         val eventEidExpiryDateIssue: Int get() = 11
         var eidStateLiveData: MutableLiveData<co.yap.widgets.State>
-        var configureEIDResponse:MutableLiveData<ConfigureEIDResponse>
+        var configureEIDResponse: MutableLiveData<ConfigureEIDResponse>
         val clickEvent: SingleClickEvent
         fun handlePressOnView(id: Int)
         fun updateLabels(title: String, body: String)
@@ -67,7 +70,15 @@ interface IEidInfoReview {
         var errorTitle: String
         var errorBody: String
         fun requestAllAPIs()
-        fun requestAllEIDConfigurations(responses: (RetroApiResponse<SectionedCountriesResponseDTO>?, RetroApiResponse<BaseResponse<ConfigureEIDResponse>>?) -> Unit)
+        fun requestAllEIDConfigurations(
+            responses: (
+                RetroApiResponse<SectionedCountriesResponseDTO>?,
+                RetroApiResponse<BaseResponse<ConfigureEIDResponse>>?,
+                RetroApiResponse<BaseResponse<UqudoTokenResponse>>?
+            ) -> Unit
+        )
+
         fun populateState(identity: Identity?)
+        var uqudoToken: LiveData<String>
     }
 }

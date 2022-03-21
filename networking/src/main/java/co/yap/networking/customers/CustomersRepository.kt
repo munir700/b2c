@@ -3,8 +3,8 @@ package co.yap.networking.customers
 import co.yap.networking.BaseRepository
 import co.yap.networking.CookiesManager
 import co.yap.networking.RetroNetwork
-import co.yap.networking.customers.models.dashboardwidget.WidgetData
 import co.yap.networking.customers.models.dashboardwidget.UpdateWidgetResponse
+import co.yap.networking.customers.models.dashboardwidget.WidgetData
 import co.yap.networking.customers.requestdtos.*
 import co.yap.networking.customers.responsedtos.*
 import co.yap.networking.customers.responsedtos.additionalinfo.AdditionalInfoResponse
@@ -16,6 +16,7 @@ import co.yap.networking.customers.responsedtos.currency.CurrenciesResponse
 import co.yap.networking.customers.responsedtos.documents.ConfigureEIDResponse
 import co.yap.networking.customers.responsedtos.documents.EIDDocumentsResponse
 import co.yap.networking.customers.responsedtos.documents.GetMoreDocumentsResponse
+import co.yap.networking.customers.responsedtos.documents.UqudoTokenResponse
 import co.yap.networking.customers.responsedtos.employment_amendment.EmploymentInfoAmendmentResponse
 import co.yap.networking.customers.responsedtos.employmentinfo.IndustrySegmentsResponse
 import co.yap.networking.customers.responsedtos.sendmoney.*
@@ -155,8 +156,11 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     const val URL_GET_AMENDMENT_FIELDS = "customers/api/amendment-fields"
     const val URL_GET_CUSTOMER_KYC_DOCUMENTS = "customers/api/v2/documents"
     const val URL_UPDATE_PASSPORT_AMENDMENT = "customers/api/kyc-amendments/passport"
-    const val URL_GET_CUSTOMER_DOCUMENTS =
-        "customers/api/eida-data"
+    const val URL_GET_CUSTOMER_DOCUMENTS = "customers/api/eida-data"
+
+    //Uqudo API
+    const val URL_GET_UQUDO_AUTH_TOKEN = "customers/api/uqudo/get-token"
+
     private val api: CustomersRetroService =
         RetroNetwork.createService(CustomersRetroService::class.java)
 
@@ -573,6 +577,7 @@ object CustomersRepository : BaseRepository(), CustomersApi {
             api.getEIDConfigurations()
         })
 
+
     override suspend fun getMissingInfoList(accountUuid: String): RetroApiResponse<BaseListResponse<AmendmentFields>> {
         return executeSafely(call = { api.getMissingInfoList(accountUuid) })
     }
@@ -615,5 +620,8 @@ object CustomersRepository : BaseRepository(), CustomersApi {
 
     override suspend fun getCustomerDocuments(accountUuid: String?) =
         executeSafely(call = { api.getCustomerDocuments(accountUuid) })
+
+    override suspend fun getUqudoAuthToken(): RetroApiResponse<BaseResponse<UqudoTokenResponse>> =
+        executeSafely(call = { api.getUqudoAuthToken() })
 
 }
