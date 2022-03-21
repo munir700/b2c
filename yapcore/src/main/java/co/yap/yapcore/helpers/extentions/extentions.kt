@@ -3,6 +3,8 @@ package co.yap.yapcore.helpers.extentions
 import android.content.Context
 import android.content.Context.CONNECTIVITY_SERVICE
 import android.content.Intent
+import android.content.pm.ApplicationInfo
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Typeface
 import android.graphics.drawable.BitmapDrawable
@@ -246,3 +248,14 @@ fun Context?.getJsonDataFromAsset(fileName: String): String? {
     }
     return jsonString
 }
+
+fun Context?.readManifestPlaceholders(metaDataName: String?): String =
+    this?.let {
+        val ai: ApplicationInfo = it.applicationContext.packageManager.getApplicationInfo(
+            it.applicationContext.packageName,
+            PackageManager.GET_META_DATA
+        )
+        if (metaDataName.isNullOrBlank().not())
+            ai.metaData[metaDataName].toString()
+        else ""
+    } ?: ""
