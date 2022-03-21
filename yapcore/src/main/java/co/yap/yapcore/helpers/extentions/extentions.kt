@@ -3,6 +3,8 @@ package co.yap.yapcore.helpers.extentions
 import android.content.Context
 import android.content.Context.CONNECTIVITY_SERVICE
 import android.content.Intent
+import android.content.pm.ApplicationInfo
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Typeface
 import android.graphics.drawable.BitmapDrawable
@@ -27,13 +29,11 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import co.yap.modules.qrcode.BarcodeEncoder
 import co.yap.modules.qrcode.BarcodeFormat
-import co.yap.widgets.edittext.PhoneTextInputEditText
 import co.yap.yapcore.R
 import co.yap.yapcore.helpers.Utils
 import com.bumptech.glide.Glide
 import com.google.android.gms.auth.api.phone.SmsRetriever
 import com.google.android.material.navigation.NavigationView
-import com.google.android.material.textfield.TextInputLayout
 import java.io.IOException
 import java.math.RoundingMode
 
@@ -248,3 +248,14 @@ fun Context?.getJsonDataFromAsset(fileName: String): String? {
     }
     return jsonString
 }
+
+fun Context?.readManifestPlaceholders(metaDataName: String?): String =
+    this?.let {
+        val ai: ApplicationInfo = it.applicationContext.packageManager.getApplicationInfo(
+            it.applicationContext.packageName,
+            PackageManager.GET_META_DATA
+        )
+        if (metaDataName.isNullOrBlank().not())
+            ai.metaData[metaDataName].toString()
+        else ""
+    } ?: ""
