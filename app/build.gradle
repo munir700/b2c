@@ -124,10 +124,10 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    implementation ('com.digitify:yappakistan:0.1.8'){
+    implementation ('com.digitify:yappakistan:0.2.0'){
         exclude group: 'com.squareup.okhttp3', module: 'okhttp'
     }
-    implementation ('com.digitify:yapghana:0.1.8'){
+    implementation ('com.digitify:yapghana:0.2.0'){
         exclude group: 'com.squareup.okhttp3', module: 'okhttp'
     }
 

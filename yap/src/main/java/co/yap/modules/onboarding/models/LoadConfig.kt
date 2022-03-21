@@ -46,7 +46,8 @@ class LoadConfig @Inject constructor(@ApplicationContext val appContext: Context
             buildType = BuildConfig.BUILD_TYPE,
             versionName = YAPApplication.configManager?.versionName ?: "1.0.0",
             versionCode = YAPApplication.configManager?.versionCode ?: "1",
-            applicationId = YAPApplication.configManager?.applicationId ?: ""
+            applicationId = YAPApplication.configManager?.applicationId ?: "",
+            analyticsEvent = analyticsEvent
         ) { event ->
             handlePkAppEvent(event, context)
         }
@@ -69,7 +70,8 @@ class LoadConfig @Inject constructor(@ApplicationContext val appContext: Context
             buildType = BuildConfig.BUILD_TYPE,
             versionName = YAPApplication.configManager?.versionName ?: "1.0.0",
             versionCode = YAPApplication.configManager?.versionCode ?: "1",
-            applicationId = YAPApplication.configManager?.applicationId ?: ""
+            applicationId = YAPApplication.configManager?.applicationId ?: "",
+            analyticsEvent = analyticsEvent
         ) {
             handleGhanaAppEvent(it, context)
         }

@@ -1,6 +1,5 @@
 package co.yap.modules.adjustevents
 
-import co.yap.modules.adjustevents.AdjustEventProvider
 import com.yap.core.analytics.AnalyticsEvent
 import com.yap.core.analytics.IAdjustEvent
 import javax.inject.Inject
