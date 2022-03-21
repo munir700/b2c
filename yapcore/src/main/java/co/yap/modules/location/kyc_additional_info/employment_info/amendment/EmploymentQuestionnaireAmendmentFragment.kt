@@ -78,7 +78,8 @@ class EmploymentQuestionnaireAmendmentFragment :
                         "countries" to viewModel.countries,
                         "segments" to viewModel.industrySegmentsList,
                         "empStatus" to viewModel.employmentStatusValue.value,
-                        "documentsList" to viewModel.requiredDocumentsResponse.value
+                        "documentsList" to viewModel.requiredDocumentsResponse.value,
+                        "needToShowEmploymentStatusBottomSheet" to viewModel.state.needToShowEmploymentStatusBottomSheet.value
                     ), false
                 ) { resultCode, data ->
                     if (resultCode == Activity.RESULT_OK) {
@@ -115,6 +116,9 @@ class EmploymentQuestionnaireAmendmentFragment :
                     )
                 viewModel.employmentStatus.value = viewModel.serverEmploymentStatus
                 viewModel.updateEditMode(true)
+                if (it.getBoolean("needToShowEmploymentStatusBottomSheet", false)) {
+                    openAmendmentEmploymentTypeBottomSheet()
+                }
             }
             viewModel.requiredDocumentsResponse.value =
                 (it.getParcelableArrayList<DocumentResponse>("documentsList") as? ArrayList<DocumentResponse>
@@ -226,7 +230,6 @@ class EmploymentQuestionnaireAmendmentFragment :
                 startOtpFragment()
             }
             R.id.tvEmploymentStatusDropDown -> {
-                UIUtils.hideKeyboard(requireActivity())
                 openAmendmentEmploymentTypeBottomSheet()
             }
         }
@@ -347,6 +350,7 @@ class EmploymentQuestionnaireAmendmentFragment :
     }
 
     private fun openAmendmentEmploymentTypeBottomSheet() {
+        UIUtils.hideKeyboard(requireActivity())
         launchBottomSheetSegment(
             viewModel.employmentStatusItemClickListener,
             configuration = BottomSheetConfiguration(heading = getString(Strings.screen_employment_type_display_text_bottom_sheet_title)),
