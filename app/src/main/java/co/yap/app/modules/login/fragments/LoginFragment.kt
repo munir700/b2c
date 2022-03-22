@@ -46,6 +46,7 @@ class LoginFragment : MainChildFragment<ILogin.ViewModel>(), ILogin.View {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         getDataBindingView<FragmentLogInBinding>().lifecycleOwner = this
+//        setTouchListener()
         initiatePreference()
         configureWindow()
         setTouchListener()
@@ -89,10 +90,14 @@ class LoginFragment : MainChildFragment<ILogin.ViewModel>(), ILogin.View {
             sharedPreferenceManager.getValueString(
                 KEY_COUNTRY_CODE, CountryCode.UAE.countryCode ?: ""
             )?.let {
-                viewModel.state.countryCode.value = it
+                viewModel.state.countryCode.value =
+                    if (it.isBlank()) CountryCode.UAE.countryCode else it
+                viewModel.state.countryCode.value?.replace("+", "")
                 getDataBindingView<FragmentLogInBinding>().tlPhoneNumber.setStartIconDrawable(
                     requireContext().getDropDownIconByName(
-                        getCountryCodeForRegion(it.replace("+", "").parseToInt())
+                        getCountryCodeForRegion(
+                            viewModel.state.countryCode.value?.replace("+", "")?.parseToInt() ?: 971
+                        )
                     )
                 )
             }
@@ -100,6 +105,7 @@ class LoginFragment : MainChildFragment<ILogin.ViewModel>(), ILogin.View {
                 sharedPreferenceManager.getValueString(KEY_MOBILE_NO)
                     ?.let {
                         viewModel.state.mobile.value = it
+                        getDataBindingView<FragmentLogInBinding>().etMobileNumber.setText(viewModel.state.mobile.value)
                         if (getDataBindingView<FragmentLogInBinding>().etMobileNumber.length() > 1)
                             getDataBindingView<FragmentLogInBinding>().etMobileNumber.setSelection(
                                 getDataBindingView<FragmentLogInBinding>().etMobileNumber.length()
@@ -238,11 +244,9 @@ class LoginFragment : MainChildFragment<ILogin.ViewModel>(), ILogin.View {
     private fun setTouchListener() {
         getDataBindingView<FragmentLogInBinding>().etMobileNumber.setTouchListener {
             getDataBindingView<FragmentLogInBinding>().tlPhoneNumber.hideKeyboard()
-            activity?.let { context ->
-                context.launchBottomSheetForMutlipleCountries(
-                    selectCountryItemClickListener
-                )
-            }
+            requireActivity().launchBottomSheetForMutlipleCountries(
+                selectCountryItemClickListener
+            )
         }
     }
 

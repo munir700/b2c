@@ -25,7 +25,7 @@ object AuthUtils {
             )
 //        var userName: String? = ""
         var mobileNo: String? = ""
-        var countryCode: String? = ""
+        var countryCode: String? = null
         val isRemember = sharedPreferenceManager.getValueBoolien(Constants.KEY_IS_REMEMBER, false)
         if (isRemember) {
             sharedPreferenceManager.getValueString(KEY_MOBILE_NO)?.let {
