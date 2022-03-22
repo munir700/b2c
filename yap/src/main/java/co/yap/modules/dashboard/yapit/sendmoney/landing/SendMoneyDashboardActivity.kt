@@ -76,7 +76,7 @@ class SendMoneyDashboardActivity : BaseBindingActivity<ISendMoneyDashboard.ViewM
     private fun setupRecycleView() {
         getBinding().recyclerOptions.addItemDecoration(
             SpaceGridItemDecoration(
-                dimen(R.dimen.margin_normal_large) ?: 16, 2, true
+                dimen(R.dimen.margin_normal_large) ?: 16, 1, true
             )
         )
         viewModel.dashboardAdapter.allowFullItemClickListener = true

@@ -82,7 +82,6 @@ class SendMoneyDashboardViewModel(application: Application) :
                 recentsAdapter.setList(jointList)
             }
         }
-
     }
 
     private fun fetchRecentsApis(
@@ -102,47 +101,45 @@ class SendMoneyDashboardViewModel(application: Application) :
         val list = mutableListOf<SendMoneyOptions>()
         list.add(
             SendMoneyOptions(
-                getString(Strings.screen_y2y_display_button_yap_contacts),
+                getString(Strings.screen_send_money_display_yap_to_yap_contact_title),
                 R.drawable.ic_iconprofile,
-                false,
-                null, SendMoneyType.sendMoneyToYAPContacts
+                type = SendMoneyType.sendMoneyToYAPContacts,
+                description = getString(Strings.screen_send_money_display_yap_to_yap_contact_description)
+            )
+        )
+        list.add(
+            SendMoneyOptions(
+                getString(Strings.screen_fragment_yap_it_add_money_text_qr_code),
+                R.drawable.ic_qr_code,
+                type = SendMoneyType.sendMoneyQRCode,
+                description = getString(Strings.screen_send_money_display_qr_code_description)
             )
         )
         list.add(
             SendMoneyOptions(
                 getString(Strings.screen_send_money_local_bank_label),
-                R.drawable.ic_bankicon,
-                true,
-                CurrencyUtils.getFlagDrawable(context, "AE"), SendMoneyType.sendMoneyToLocalBank
-            )
-        )
-        list.add(
-            SendMoneyOptions(
-                getString(Strings.screen_send_money_international_label),
-                R.drawable.ic_bankicon,
-                true,
-                null, SendMoneyType.sendMoneyToInternational
+                CurrencyUtils.getFlagDrawable(context, "AE"),
+                type = SendMoneyType.sendMoneyToLocalBank,
+                description = getString(Strings.screen_send_money_display_local_bank_description)
             )
         )
         if (SessionManager.homeCountry2Digit != "AE")
             list.add(
                 SendMoneyOptions(
                     getString(Strings.screen_send_money_home_label),
-                    R.drawable.ic_houseicon,
-                    true,
                     CurrencyUtils.getFlagDrawable(
                         context,
                         SessionManager.homeCountry2Digit
-                    ), SendMoneyType.sendMoneyToHomeCountry
+                    ), type = SendMoneyType.sendMoneyToHomeCountry,
+                    description = getString(Strings.screen_send_money_display_home_country_description)
                 )
             )
-
         list.add(
             SendMoneyOptions(
-                getString(Strings.screen_fragment_yap_it_add_money_text_qr_code),
-                R.drawable.ic_qr_code,
-                false,
-                null, SendMoneyType.sendMoneyQRCode
+                getString(Strings.screen_send_money_international_label),
+                R.drawable.ic_international_transfer,
+                type = SendMoneyType.sendMoneyToInternational,
+                description = getString(Strings.screen_send_money_display_international_transfer_description)
             )
         )
         return list

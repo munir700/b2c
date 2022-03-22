@@ -10,7 +10,9 @@
             type="co.yap.modules.dashboard.yapit.sendmoney.landing.viewmodels.SendMoneyDashboardViewModel" />
 
         <import type="co.yap.R" />
+
         <import type="android.view.View" />
+
         <import type="co.yap.translation.Strings" />
     </data>
 
@@ -28,33 +30,18 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:leftIcon="@{R.drawable.ic_closeicon}"
-            app:rightIconVisibility="@{true}"
             app:onClick="@{viewModel::onToolBarClick}"
-            app:rightIcon="@{R.drawable.ic_user_search}"
+            app:rightIcon="@{R.drawable.ic_search}"
+            app:rightIconVisibility="@{true}"
             app:titleString="@{viewModel.state.toolbarTitle}" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvTitle"
-            style="@style/Large"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_normal"
-            android:layout_marginTop="@dimen/margin_small"
-            android:layout_marginEnd="@dimen/margin_normal"
-            android:gravity="center"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar"
-            app:text="@{Strings.screen_fragment_yap_it_send_money_label}"
-            tools:text="@string/screen_fragment_yap_it_send_money_label" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_normal_large"
             android:layout_marginTop="@dimen/margin_medium"
-            android:visibility="@{viewModel.state.isNoRecents ? View.GONE : View.VISIBLE}"
-            android:layout_marginEnd="@dimen/margin_normal_large">
+            android:layout_marginEnd="@dimen/margin_normal_large"
+            android:visibility="@{viewModel.state.isNoRecents ? View.GONE : View.VISIBLE}">
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvrecentTransfer"
@@ -66,7 +53,7 @@
                 android:paddingTop="@dimen/margin_small"
                 android:paddingEnd="@dimen/margin_small"
                 android:paddingBottom="@dimen/margin_small"
-                android:textColor="@{viewModel.state.isRecentsVisible == false ? @color/greyDark: @color/colorPrimary}"
+                android:textColor="@{viewModel.state.isRecentsVisible == false ? @color/colorPrimaryDark: @color/colorPrimary}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:text="@{viewModel.state.isRecentsVisible == false ? Strings.screen_send_money_display_text_recent_transfer : Strings.screen_send_show_recent }"
@@ -102,19 +89,31 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/showrecentext" />
 
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvTitle"
+            style="@style/Large"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_normal"
+            android:layout_marginTop="@dimen/margin_small"
+            android:layout_marginEnd="@dimen/margin_normal"
+            android:gravity="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar"
+            app:text="@{Strings.screen_fragment_yap_it_send_money_label}"
+            tools:text="@string/screen_fragment_yap_it_send_money_label" />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerOptions"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_small"
-            android:dividerHeight="2dp"
-            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/vsRecentBeneficiaries"
             app:recycleViewAdapter="@{viewModel.dashboardAdapter}"
-            app:spanCount="2"
-            tools:itemCount="7"
             tools:listitem="@layout/item_yap_it_send_money_landing" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>

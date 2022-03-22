@@ -9,9 +9,10 @@ import kotlinx.android.parcel.Parcelize
 data class SendMoneyOptions(
     var name: String,
     val image: Int,
-    val showFlag: Boolean,
+    val showFlag: Boolean? = false,
     var flag: Int? = null,
-    var type: SendMoneyType = SendMoneyType.none
+    var type: SendMoneyType = SendMoneyType.none,
+    var description: String
 ) : Parcelable
 
 enum class SendMoneyType {
