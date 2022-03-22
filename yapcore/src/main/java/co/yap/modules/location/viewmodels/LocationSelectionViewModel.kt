@@ -3,6 +3,7 @@ package co.yap.modules.location.viewmodels
 import android.app.Application
 import android.view.View
 import androidx.lifecycle.MutableLiveData
+import co.yap.app.YAPApplication
 import co.yap.modules.location.interfaces.ILocationSelection
 import co.yap.modules.location.states.LocationSelectionState
 import co.yap.modules.placesautocomplete.PlaceAPI
@@ -21,6 +22,7 @@ import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.AccountStatus
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.helpers.StringUtils
+import co.yap.yapcore.helpers.extentions.readManifestPlaceholders
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.SessionManager
 
@@ -197,7 +199,7 @@ class LocationSelectionViewModel(application: Application) :
 
     private fun initializePlacesAdapter() {
         val placeAPI =
-            PlaceAPI.Builder().apiKey(context.getString(R.string.google_maps_key)).build(context)
+            PlaceAPI.Builder().apiKey(context.readManifestPlaceholders("com.google.android.geo.API_KEY")).build(context)
         placesAdapter = PlacesAutoCompleteAdapter(context, placeAPI)
     }
 }
