@@ -143,7 +143,8 @@ class IViewDocumentViewModel(application: Application) :
                 when (employmentResponse) {
                     is RetroApiResponse.Success -> {
                         employmentResponse.data.data?.let { res ->
-                            state.fileDataFromRefreshApi.value = res.documents?.first { state.documentType.value.equals(it.documentType)}
+                            state.fileDataFromRefreshApi.value =
+                                res.documents?.first { state.documentType.value.equals(it.documentType) }
                         }
                     }
                     is RetroApiResponse.Error -> {
