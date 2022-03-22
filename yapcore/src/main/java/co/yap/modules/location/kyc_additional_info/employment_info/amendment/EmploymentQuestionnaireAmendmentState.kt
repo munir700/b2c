@@ -7,5 +7,7 @@ class EmploymentQuestionnaireAmendmentState : BaseState(), IEmploymentQuestionna
     override var ruleValid = true
     override var rightButtonText: String? = null
     override var needToShowAdditionalDocumentDialogue: MutableLiveData<Boolean> =
-        MutableLiveData<Boolean>(false)
+        MutableLiveData(false)
+    override var needToShowEmploymentStatusBottomSheet: MutableLiveData<Boolean> =
+        MutableLiveData(false)
 }

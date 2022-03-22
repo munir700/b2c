@@ -397,6 +397,7 @@ class EmploymentQuestionnaireAmendmentViewModel(application: Application) :
                             employmentStatusValue.value =
                                 EmploymentInfoAmendmentResponse(employmentStatus = EmploymentStatus.EMPLOYED.name)
                             employmentStatus.value = EmploymentStatus.EMPLOYED
+                            state.needToShowEmploymentStatusBottomSheet.value = true
                         } else {
                             employmentResponse.data.data?.let { res ->
                                 employmentStatusValue.value = res
@@ -418,7 +419,8 @@ class EmploymentQuestionnaireAmendmentViewModel(application: Application) :
                         requiredDocumentsResponse.value = documentResponse.data.data
                         fillTitlesOfDocuments(
                             EmploymentStatus.valueOf(
-                                employmentStatusValue.value?.employmentStatus ?: EmploymentStatus.EMPLOYED.name
+                                employmentStatusValue.value?.employmentStatus
+                                    ?: EmploymentStatus.EMPLOYED.name
                             )
                         )
                     }

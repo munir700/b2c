@@ -96,6 +96,7 @@ interface IEmploymentQuestionnaireAmendment {
         var ruleValid: Boolean
         var rightButtonText: String?
         var needToShowAdditionalDocumentDialogue: MutableLiveData<Boolean>
+        var needToShowEmploymentStatusBottomSheet: MutableLiveData<Boolean>
     }
 
 }
