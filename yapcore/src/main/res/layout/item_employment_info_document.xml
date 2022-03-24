@@ -13,6 +13,8 @@
 
         <import type="co.yap.translation.Strings" />
 
+        <import type="co.yap.translation.Translator" />
+
     </data>
 
 
@@ -55,7 +57,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/margin_medium"
                 android:gravity="start"
-                android:text="@{viewModel.item.description}"
+                android:text="@{viewModel.item.fileURL !=null &amp;&amp; viewModel.item.fileURL.contains(`http`) ? Translator.INSTANCE.getString(context,Strings.screen_upload_document_item_subtitle) : viewModel.item.description}"
                 android:textColor="@color/colorPrimaryDark"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/ivCheck"

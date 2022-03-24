@@ -2673,5 +2673,6 @@ object Strings {
         "screen_upload_document_display_text_alert_message"
     const val screen_upload_document_display_text_alert_got_it: String =
         "screen_upload_document_display_text_alert_got_it"
-
+    const val screen_upload_document_item_subtitle: String =
+        "screen_upload_document_item_subtitle"
 }
