@@ -448,9 +448,17 @@ class EmploymentQuestionnaireAmendmentViewModel(application: Application) :
     }
 
     override fun updateDocumentsInView(status: EmploymentStatus) {
+        val docList = mutableListOf<Document>()
         requiredDocumentsResponse.value?.find { it.empType == status.name }?.let {
-            documentsList.value = it.documents.toMutableList()
+            docList.addAll(it.documents.toMutableList())
         }
+        if(status == serverEmploymentStatus && employmentStatusValue.value?.documents?.isNotEmpty() == true) {
+            docList.forEach { doc ->
+                doc.fileURL =
+                    employmentStatusValue.value?.documents?.first { it.documentType == doc.documentType }?.fileURL
+            }
+        }
+        documentsList.value = docList
     }
 
     override fun unselectDocuments() {
