@@ -624,6 +624,7 @@
     <string name="screen_upload_document_display_text_alert_title">Just so you know!</string>
     <string name="screen_upload_document_display_text_alert_message">Once you upload a new document, it will replace the previous one.</string>
     <string name="screen_upload_document_display_text_alert_got_it">Got it</string>
+    <string name="screen_upload_document_item_subtitle">View your uploaded document</string>
 
     <!-- Upload document bottom sheet -->
     <string name="choose_from_library_display_text_title">Choose from Library</string>
