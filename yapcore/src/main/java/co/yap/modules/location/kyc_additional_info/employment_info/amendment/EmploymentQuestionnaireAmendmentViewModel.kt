@@ -439,12 +439,7 @@ class EmploymentQuestionnaireAmendmentViewModel(application: Application) :
             documentsList.value?.forEach { doc ->
                 it.documents.find { it.documentType == doc.documentType }?.let {
                     doc.title = it.title
-                    doc.description =
-                        if (doc.fileURL?.contains("http") == true) {
-                            getString(Strings.screen_upload_document_item_subtitle)
-                        } else {
-                            it.description
-                        }
+                    doc.description = it.description
                 }
             }
         }
