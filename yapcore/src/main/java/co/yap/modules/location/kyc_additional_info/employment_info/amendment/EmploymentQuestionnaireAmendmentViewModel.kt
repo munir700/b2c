@@ -401,6 +401,8 @@ class EmploymentQuestionnaireAmendmentViewModel(application: Application) :
                         } else {
                             employmentResponse.data.data?.let { res ->
                                 employmentStatusValue.value = res
+                                salaryAmount = res.monthlySalary
+                                monthlyCreditAmount = res.expectedMonthlyCredit
                                 serverEmploymentStatus =
                                     EmploymentStatus.valueOf(res.employmentStatus ?: "")
                                 employmentStatus.value = serverEmploymentStatus

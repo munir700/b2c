@@ -114,6 +114,8 @@ class EmploymentQuestionnaireAmendmentFragment :
                     EmploymentStatus.valueOf(
                         empResp.employmentStatus ?: ""
                     )
+                viewModel.salaryAmount = empResp.monthlySalary
+                viewModel.monthlyCreditAmount = empResp.expectedMonthlyCredit
                 viewModel.employmentStatus.value = viewModel.serverEmploymentStatus
                 viewModel.updateEditMode(true)
                 if (it.getBoolean("needToShowEmploymentStatusBottomSheet", false)) {
