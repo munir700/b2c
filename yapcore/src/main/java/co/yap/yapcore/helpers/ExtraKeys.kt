@@ -28,5 +28,6 @@ enum class ExtraKeys {
     UPDATED_CATEGORY_NAME,
     FILE_PATH,
     FILE_TYPE,
-    FILE_FOR_UPDATE
+    FILE_FOR_UPDATE,
+    DELETED
 }

@@ -12,6 +12,7 @@ import co.yap.networking.customers.responsedtos.employment_amendment.DocumentRes
 import co.yap.networking.customers.responsedtos.employment_amendment.EmploymentFieldType
 import co.yap.networking.customers.responsedtos.employment_amendment.EmploymentInfoAmendmentResponse
 import co.yap.networking.customers.responsedtos.employmentinfo.IndustrySegment
+import co.yap.widgets.bottomsheet.BottomSheetItem
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.EmploymentStatus
@@ -43,6 +44,7 @@ interface IEmploymentQuestionnaireAmendment {
         var salaryAmount: String?
         var monthlyCreditAmount: String?
         var posOfUpdatedDocument: Int?
+        fun getUploadDocumentOptions(): java.util.ArrayList<BottomSheetItem>
         fun handleOnPressView(id: Int)
         fun updateEditMode(isEditable: Boolean)
         fun questionnaires(
@@ -94,6 +96,7 @@ interface IEmploymentQuestionnaireAmendment {
         var ruleValid: Boolean
         var rightButtonText: String?
         var needToShowAdditionalDocumentDialogue: MutableLiveData<Boolean>
+        var needToShowEmploymentStatusBottomSheet: MutableLiveData<Boolean>
     }
 
 }

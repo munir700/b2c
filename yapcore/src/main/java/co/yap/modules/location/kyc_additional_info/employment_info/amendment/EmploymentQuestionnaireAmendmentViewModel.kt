@@ -30,13 +30,11 @@ import co.yap.networking.models.BaseListResponse
 import co.yap.networking.models.BaseResponse
 import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
+import co.yap.widgets.bottomsheet.BottomSheetItem
 import co.yap.yapcore.Dispatcher
 import co.yap.yapcore.R
 import co.yap.yapcore.SingleClickEvent
-import co.yap.yapcore.enums.EmploymentQuestionIdentifier
-import co.yap.yapcore.enums.EmploymentStatus
-import co.yap.yapcore.enums.PartnerBankStatus
-import co.yap.yapcore.enums.PaymentCardStatus
+import co.yap.yapcore.enums.*
 import co.yap.yapcore.helpers.StringUtils
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.getJsonDataFromAsset
@@ -299,8 +297,9 @@ class EmploymentQuestionnaireAmendmentViewModel(application: Application) :
 
     override fun validateForm() {
         launch {
-            delay(500)
             validator?.toValidate()
+            validator?.isValidate?.value = false
+            delay(500)
             validate()
         }
     }
@@ -398,9 +397,12 @@ class EmploymentQuestionnaireAmendmentViewModel(application: Application) :
                             employmentStatusValue.value =
                                 EmploymentInfoAmendmentResponse(employmentStatus = EmploymentStatus.EMPLOYED.name)
                             employmentStatus.value = EmploymentStatus.EMPLOYED
+                            state.needToShowEmploymentStatusBottomSheet.value = true
                         } else {
                             employmentResponse.data.data?.let { res ->
                                 employmentStatusValue.value = res
+                                salaryAmount = res.monthlySalary
+                                monthlyCreditAmount = res.expectedMonthlyCredit
                                 serverEmploymentStatus =
                                     EmploymentStatus.valueOf(res.employmentStatus ?: "")
                                 employmentStatus.value = serverEmploymentStatus
@@ -419,7 +421,8 @@ class EmploymentQuestionnaireAmendmentViewModel(application: Application) :
                         requiredDocumentsResponse.value = documentResponse.data.data
                         fillTitlesOfDocuments(
                             EmploymentStatus.valueOf(
-                                employmentStatusValue.value?.employmentStatus ?: ""
+                                employmentStatusValue.value?.employmentStatus
+                                    ?: EmploymentStatus.EMPLOYED.name
                             )
                         )
                     }
@@ -445,9 +448,17 @@ class EmploymentQuestionnaireAmendmentViewModel(application: Application) :
     }
 
     override fun updateDocumentsInView(status: EmploymentStatus) {
+        val docList = mutableListOf<Document>()
         requiredDocumentsResponse.value?.find { it.empType == status.name }?.let {
-            documentsList.value = it.documents.toMutableList()
+            docList.addAll(it.documents.toMutableList())
         }
+        if(status == serverEmploymentStatus && employmentStatusValue.value?.documents?.isNotEmpty() == true) {
+            docList.forEach { doc ->
+                doc.fileURL =
+                    employmentStatusValue.value?.documents?.first { it.documentType == doc.documentType }?.fileURL
+            }
+        }
+        documentsList.value = docList
     }
 
     override fun unselectDocuments() {
@@ -636,4 +647,25 @@ class EmploymentQuestionnaireAmendmentViewModel(application: Application) :
             add(CoreBottomSheetData(subTitle = EmploymentStatus.SALARIED_AND_SELF_EMPLOYED.status))
             add(CoreBottomSheetData(subTitle = EmploymentStatus.OTHER.status))
         }
+
+    override fun getUploadDocumentOptions(): java.util.ArrayList<BottomSheetItem> {
+        val list = arrayListOf<BottomSheetItem>()
+        list.add(
+            BottomSheetItem(
+                icon = R.drawable.ic_camera,
+                title = getString(Strings.screen_update_profile_photo_display_text_open_camera),
+                subTitle = getString(Strings.screen_upload_documents_display_sheet_text_scan_single_document),
+                tag = PhotoSelectionType.CAMERA.name
+            )
+        )
+        list.add(
+            BottomSheetItem(
+                icon = R.drawable.ic_file_manager,
+                title = getString(Strings.screen_upload_documents_display_sheet_text_upload_from_files),
+                subTitle = getString(Strings.screen_upload_documents_display_sheet_text_upload_from_files_descriptions),
+                tag = PhotoSelectionType.GALLERY.name
+            )
+        )
+        return list
+    }
 }

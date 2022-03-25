@@ -624,6 +624,7 @@
     <string name="screen_upload_document_display_text_alert_title">Just so you know!</string>
     <string name="screen_upload_document_display_text_alert_message">Once you upload a new document, it will replace the previous one.</string>
     <string name="screen_upload_document_display_text_alert_got_it">Got it</string>
+    <string name="screen_upload_document_item_subtitle">View your uploaded document</string>
 
     <!-- Upload document bottom sheet -->
     <string name="choose_from_library_display_text_title">Choose from Library</string>
@@ -1696,6 +1697,7 @@
         <item>SIGN_UP_NUMBER;Hey there! Your OTP to verify your number for YAP is %1$s. This code expires in %2$s minutes. Please do not share this code with anyone else. Need help? Contact our customer support team at  %3$s</item>
         <item>DEMOGRAPHIC_VALIDATION;Hi %1$s! Your OTP to sign into YAP is %2$s. This code expires in %3$s minutes. Please do not share this code with anyone else. Need help? Contact our customer support team at %4$s</item>
         <item>CHANGE_EMAIL;Hi %1$s! Your OTP to change your email for YAP is %2$s. This code expires in %3$s minutes. Please do not share this code with anyone else. Need help? Contact our customer support team at %4$s</item>
+        <item>EMPLOYMENT_AMENDMENT;Hi %1$s! your OTP for your employment information update is %2$s. Please do not share your OTP with anyone. For help, contact our customer support team on %3$s</item>
     </string-array>
 
     <!-- KYC Amendments/ Missing Info Screen start -->
@@ -1723,7 +1725,8 @@
     <string name="screen_view_document_sheet_take_photo_heading">Take a Photo</string>
     <string name="screen_view_document_sheet_browse_gallery_heading">Browse Files</string>
 
-
     <string name="screen_view_document_refresh_button_text">Refresh</string>
+
+    <string name="screen_view_document_file_size_not_fine">Your file size is too big. Please upload a file less than 25MB to proceed</string>
 
 </resources>
