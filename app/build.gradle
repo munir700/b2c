@@ -126,7 +126,6 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation "io.uqudo.sdk:digitify:1.12.1"
     project.testDependencies.each {
         add(it.configuration, it.dependency)
     }
@@ -145,7 +144,3 @@ dependencies {
         }
     }
 }
-//configurations {
-//    implementation {
-//        exclude group: 'androidx.work', module: 'work-runtime-ktx'
-//        exclude group: 'androidx.camera', module: 'camera-view'}}
