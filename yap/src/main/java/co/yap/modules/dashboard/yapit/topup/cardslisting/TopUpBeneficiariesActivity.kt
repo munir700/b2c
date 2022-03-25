@@ -327,15 +327,15 @@ class TopUpBeneficiariesActivity : BaseBindingActivity<ITopUpBeneficiaries.ViewM
     }
 
     private fun addCardProcess() {
-        startFragmentForResult<AddTopUpCardFragment>(
-            fragmentName = AddTopUpCardFragment::class.java.name)
-//        getUrl()?.let {
-//            trackEventWithScreenName(FirebaseEvent.CLICK_ADD_CARD)
-//            launchActivity<AddTopUpCardActivityV2>(requestCode = EVENT_ADD_TOPUP_CARD) {
-//                putExtra(co.yap.yapcore.constants.Constants.KEY, it)
-//                putExtra(co.yap.yapcore.constants.Constants.TYPE, TYPE_ADD_CARD)
-//            }
-//        }
+//        startFragmentForResult<AddTopUpCardFragment>(
+//            fragmentName = AddTopUpCardFragment::class.java.name)
+        getUrl()?.let {
+            trackEventWithScreenName(FirebaseEvent.CLICK_ADD_CARD)
+            launchActivity<AddTopUpCardActivityV2>(requestCode = EVENT_ADD_TOPUP_CARD) {
+                putExtra(co.yap.yapcore.constants.Constants.KEY, it)
+                putExtra(co.yap.yapcore.constants.Constants.TYPE, TYPE_ADD_CARD)
+            }
+        }
 
     }
 

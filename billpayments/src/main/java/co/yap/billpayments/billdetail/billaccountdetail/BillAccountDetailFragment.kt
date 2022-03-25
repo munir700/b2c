@@ -160,9 +160,9 @@ class BillAccountDetailFragment :
         yAxis.setDrawLimitLinesBehindData(true)
         yAxis.axisLineColor = Color.parseColor("#dae0f0")
         // axis range
-        yAxis.axisMaximum =
-            it.maxWith(Comparator.comparingDouble { it.amount!! })?.amount?.toFloat()
-                ?: 0f
+//        yAxis.axisMaximum =
+//            it.maxWith(Comparator.comparingDouble { it.amount!! })?.amount?.toFloat()
+//                ?: 0f
         yAxis.axisMinimum = 0f
         yAxis.setPosition(YAxis.YAxisLabelPosition.INSIDE_CHART)
         yAxis.textColor = Color.parseColor("#9391B1")

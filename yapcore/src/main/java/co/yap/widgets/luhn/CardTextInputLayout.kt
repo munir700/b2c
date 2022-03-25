@@ -45,6 +45,9 @@ class CardTextInputLayout : CollapsedColoredHintTextInputLayout {
         editText?.doOnTextChanged { text, start, before, count ->
             passwordVisibilityToggleRequested(null)
         }
+        editText?.setOnFocusChangeListener { v, hasFocus ->
+
+        }
     }
 
     fun passwordVisibilityToggleRequested(@DrawableRes drawResId: Int? = null) {

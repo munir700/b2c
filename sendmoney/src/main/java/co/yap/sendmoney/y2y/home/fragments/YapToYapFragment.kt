@@ -19,7 +19,6 @@ import co.yap.yapcore.BR
 import co.yap.yapcore.adapters.SectionsPagerAdapter
 import co.yap.yapcore.enums.FeatureSet
 import co.yap.yapcore.interfaces.OnItemClickListener
-import kotlinx.android.synthetic.main.fragment_yap_to_yap.*
 
 class YapToYapFragment : Y2YBaseFragment<IYapToYap.ViewModel>(), OnItemClickListener {
     override fun getBindingVariable(): Int = BR.viewModel
@@ -59,9 +58,9 @@ class YapToYapFragment : Y2YBaseFragment<IYapToYap.ViewModel>(), OnItemClickList
         val adapter = SectionsPagerAdapter(requireActivity(), childFragmentManager)
         adapter.addFragmentInfo<YapContactsFragment>(getString(Strings.screen_y2y_display_button_yap_contacts))
         adapter.addFragmentInfo<PhoneContactFragment>(getString(Strings.screen_y2y_display_button_all_contacts))
-        getBindingView().viewPager.adapter = adapter
+        getDataBindingView<FragmentYapToYapBinding>().viewPager.adapter = adapter
         viewModel.parentViewModel?.selectedTabPos?.value?.let {
-            getBindingView().viewPager.currentItem = it
+            getDataBindingView<FragmentYapToYapBinding>().viewPager.currentItem = it
         }
         viewModel.recentsAdapter.allowFullItemClickListener = true
         viewModel.recentsAdapter.setItemListener(this)
@@ -71,7 +70,7 @@ class YapToYapFragment : Y2YBaseFragment<IYapToYap.ViewModel>(), OnItemClickList
         when (it) {
             R.id.layoutSearchView -> {
                 if (viewModel.parentViewModel?.y2yBeneficiries?.value?.isEmpty() == false || viewModel.parentViewModel?.yapContactLiveData?.value?.isEmpty() == false) {
-                    viewModel.parentViewModel?.selectedTabPos?.value = tabLayout.selectedTabPosition
+                    viewModel.parentViewModel?.selectedTabPos?.value = getDataBindingView<FragmentYapToYapBinding>().tabLayout.selectedTabPosition
                     navigate(R.id.action_yapToYapHome_to_y2YSearchContactsFragment)
                 }
             }
@@ -79,7 +78,7 @@ class YapToYapFragment : Y2YBaseFragment<IYapToYap.ViewModel>(), OnItemClickList
                requireActivity().finish()
             }
             R.id.tvHideRecents, R.id.recents -> {
-                viewModel.state.isRecentsVisible.set(getBindingView().layoutRecent.recyclerView.visibility == View.VISIBLE)
+                viewModel.state.isRecentsVisible.set(getDataBindingView<FragmentYapToYapBinding>().layoutRecent.recyclerView.visibility == View.VISIBLE)
             }
         }
     }
@@ -105,10 +104,6 @@ class YapToYapFragment : Y2YBaseFragment<IYapToYap.ViewModel>(), OnItemClickList
     override fun onDestroy() {
         super.onDestroy()
         viewModel.clickEvent.removeObservers(this)
-    }
-
-    private fun getBindingView(): FragmentYapToYapBinding {
-        return (viewDataBinding as FragmentYapToYapBinding)
     }
 
 }

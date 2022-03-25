@@ -1,5 +1,6 @@
 package co.yap.widgets.luhn
 
+import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.view.View.OnFocusChangeListener
@@ -32,6 +33,11 @@ abstract class CvvTextWatcher(cardTextInputLayout: CardTextInputLayout) : TextWa
         val text = mCardTextInputLayout?.editText?.text.toString()
         onValidated(moveToNext, text)
     }
+
+    override fun afterTextChanged(s: Editable?) {
+
+    }
+
 
     open fun isValid(source: CharSequence): Boolean {
         return source.toString().length == 3

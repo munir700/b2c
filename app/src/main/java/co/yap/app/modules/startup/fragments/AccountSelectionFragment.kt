@@ -14,6 +14,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import co.yap.app.BR
 import co.yap.app.R
+import co.yap.app.databinding.FragmentAccountSelectionBinding
 import co.yap.app.modules.startup.interfaces.IAccountSelection
 import co.yap.app.modules.startup.viewmodels.AccountSelectionViewModel
 import co.yap.modules.onboarding.enums.AccountType
@@ -26,7 +27,6 @@ import com.daimajia.androidanimations.library.YoYo
 import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.source.TrackGroupArray
 import com.google.android.exoplayer2.trackselection.TrackSelectionArray
-import kotlinx.android.synthetic.main.fragment_account_selection.*
 
 class AccountSelectionFragment : BaseBindingFragment<IAccountSelection.ViewModel>(),
     IAccountSelection.View {
@@ -52,61 +52,68 @@ class AccountSelectionFragment : BaseBindingFragment<IAccountSelection.ViewModel
     }
 
     private fun setupPlayer() {
-        andExoPlayerView.setSource(R.raw.yap_demo_intro)
+        getDataBindingView<FragmentAccountSelectionBinding>().andExoPlayerView.setSource(R.raw.yap_demo_intro)
         captionsIndex = 0
         handler.postDelayed(runnable, 1000)
-        andExoPlayerView.setExoPlayerCallBack(object : ExoPlayerCallBack {
-            override fun onError() {
-                handler.removeCallbacks(runnable)
-                andExoPlayerView.setSource(R.raw.demo_test)
-                captionsIndex = 0
-                handler.postDelayed(runnable, 1000)
-            }
-
-            override fun onTracksChanged(
-                trackGroups: TrackGroupArray,
-                trackSelections: TrackSelectionArray
-            ) {
-            }
-
-            override fun onPositionDiscontinuity(reason: Int) {
-                animatorSet?.cancel()
-                animatorSet = null
-                //captionsIndex = 0
-                tvCaption?.postDelayed({
+        getDataBindingView<FragmentAccountSelectionBinding>().andExoPlayerView.setExoPlayerCallBack(
+            object : ExoPlayerCallBack {
+                override fun onError() {
+                    handler.removeCallbacks(runnable)
+                    getDataBindingView<FragmentAccountSelectionBinding>().andExoPlayerView.setSource(
+                        R.raw.demo_test
+                    )
                     captionsIndex = 0
-                    playCaptionAnimation()
-                }, 1800)
-            }
+                    handler.postDelayed(runnable, 1000)
+                }
 
-            override fun onPlayerStateChanged(playWhenReady: Boolean, playbackState: Int) {
-                if (playbackState == Player.STATE_READY) {
-                    captionsIndex = 0
-                    tvCaption?.postDelayed({
+                override fun onTracksChanged(
+                    trackGroups: TrackGroupArray,
+                    trackSelections: TrackSelectionArray
+                ) {
+                }
+
+                override fun onPositionDiscontinuity(reason: Int) {
+                    animatorSet?.cancel()
+                    animatorSet = null
+                    //captionsIndex = 0
+                    getDataBindingView<FragmentAccountSelectionBinding>().tvCaption?.postDelayed({
+                        captionsIndex = 0
                         playCaptionAnimation()
                     }, 1800)
                 }
-            }
 
-            override fun onRepeatModeChanged(repeatMode: Int) {
-            }
-        })
+                override fun onPlayerStateChanged(playWhenReady: Boolean, playbackState: Int) {
+                    if (playbackState == Player.STATE_READY) {
+                        captionsIndex = 0
+                        getDataBindingView<FragmentAccountSelectionBinding>().tvCaption?.postDelayed(
+                            {
+                                playCaptionAnimation()
+                            },
+                            1800
+                        )
+                    }
+                }
+
+                override fun onRepeatModeChanged(repeatMode: Int) {
+                }
+            })
     }
 
     private val runnable = Runnable {
-        layoutButtons?.let {
+        getDataBindingView<FragmentAccountSelectionBinding>().layoutButtons.let {
             YoYo.with(Techniques.FadeIn).duration(1500)
-                .onStart { layoutButtons?.visibility = View.VISIBLE }.playOn(layoutButtons)
+                .onStart {
+                    getDataBindingView<FragmentAccountSelectionBinding>().layoutButtons.visibility =
+                        View.VISIBLE
+                }.playOn(getDataBindingView<FragmentAccountSelectionBinding>().layoutButtons)
         }
-    }
-    private val layoutButtonsRunnable = Runnable {
-        layoutButtons?.let { playCaptionAnimation() }
     }
 
     fun playCaptionAnimation() {
-        tvCaption?.let {
+        getDataBindingView<FragmentAccountSelectionBinding>().tvCaption.let {
             if (!isPaused && captionsIndex != -1) {
-                tvCaption?.text = captions[captionsIndex]
+                getDataBindingView<FragmentAccountSelectionBinding>().tvCaption.text =
+                    captions[captionsIndex]
                 val fadeIn = ObjectAnimator.ofFloat(
                     it,
                     View.ALPHA,
@@ -141,7 +148,8 @@ class AccountSelectionFragment : BaseBindingFragment<IAccountSelection.ViewModel
                     }
 
                     override fun onAnimationStart(animation: Animator?) {
-                        tvCaption?.visibility = View.VISIBLE
+                        getDataBindingView<FragmentAccountSelectionBinding>().tvCaption.visibility =
+                            View.VISIBLE
                     }
                 })
                 animatorSet?.start()
