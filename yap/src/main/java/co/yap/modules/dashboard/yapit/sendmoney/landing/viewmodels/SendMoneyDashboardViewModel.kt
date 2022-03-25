@@ -3,11 +3,11 @@ package co.yap.modules.dashboard.yapit.sendmoney.landing.viewmodels
 import android.app.Application
 import co.yap.R
 import co.yap.countryutils.country.utils.CurrencyUtils
-import co.yap.modules.dashboard.yapit.sendmoney.landing.SendMoneyDashboardAdapter
+import co.yap.modules.dashboard.yapit.sendmoney.landing.SendMoneyLinearDashboardAdapter
 import co.yap.modules.dashboard.yapit.sendmoney.main.ISendMoneyDashboard
+import co.yap.modules.dashboard.yapit.sendmoney.main.SendMoneyCategoryType
 import co.yap.modules.dashboard.yapit.sendmoney.main.SendMoneyDashboardState
-import co.yap.modules.dashboard.yapit.sendmoney.main.SendMoneyOptions
-import co.yap.modules.dashboard.yapit.sendmoney.main.SendMoneyType
+import co.yap.modules.dashboard.yapit.sendmoney.main.SendMoneyLinearOptions
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.responsedtos.beneficiary.RecentBeneficiariesResponse
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
@@ -29,10 +29,10 @@ class SendMoneyDashboardViewModel(application: Application) :
     override val clickEvent: SingleClickEvent = SingleClickEvent()
     override val repository: CustomersRepository = CustomersRepository
     override var recentTransfers: ArrayList<Beneficiary> = arrayListOf()
-    override var dashboardAdapter: SendMoneyDashboardAdapter = SendMoneyDashboardAdapter(
-        context,
-        mutableListOf()
-    )
+    override var dashboardAdapter: SendMoneyLinearDashboardAdapter =
+        SendMoneyLinearDashboardAdapter(
+            mutableListOf(), null
+        )
     override var recentsAdapter: CoreRecentTransferAdapter = CoreRecentTransferAdapter(
         context,
         mutableListOf()
@@ -97,48 +97,48 @@ class SendMoneyDashboardViewModel(application: Application) :
         }
     }
 
-    override fun geSendMoneyOptions(): MutableList<SendMoneyOptions> {
-        val list = mutableListOf<SendMoneyOptions>()
+    override fun geSendMoneyOptions(): MutableList<SendMoneyLinearOptions> {
+        val list = mutableListOf<SendMoneyLinearOptions>()
         list.add(
-            SendMoneyOptions(
+            SendMoneyLinearOptions(
                 getString(Strings.screen_send_money_display_yap_to_yap_contact_title),
                 R.drawable.ic_iconprofile,
-                type = SendMoneyType.sendMoneyToYAPContacts,
+                type = SendMoneyCategoryType.SendMoneyToYAPContacts,
                 description = getString(Strings.screen_send_money_display_yap_to_yap_contact_description)
             )
         )
         list.add(
-            SendMoneyOptions(
+            SendMoneyLinearOptions(
                 getString(Strings.screen_fragment_yap_it_add_money_text_qr_code),
                 R.drawable.ic_qr_code,
-                type = SendMoneyType.sendMoneyQRCode,
+                type = SendMoneyCategoryType.SendMoneyQRCode,
                 description = getString(Strings.screen_send_money_display_qr_code_description)
             )
         )
         list.add(
-            SendMoneyOptions(
+            SendMoneyLinearOptions(
                 getString(Strings.screen_send_money_local_bank_label),
                 CurrencyUtils.getFlagDrawable(context, "AE"),
-                type = SendMoneyType.sendMoneyToLocalBank,
+                type = SendMoneyCategoryType.SendMoneyToLocalBank,
                 description = getString(Strings.screen_send_money_display_local_bank_description)
             )
         )
         if (SessionManager.homeCountry2Digit != "AE")
             list.add(
-                SendMoneyOptions(
+                SendMoneyLinearOptions(
                     getString(Strings.screen_send_money_home_label),
                     CurrencyUtils.getFlagDrawable(
                         context,
                         SessionManager.homeCountry2Digit
-                    ), type = SendMoneyType.sendMoneyToHomeCountry,
+                    ), type = SendMoneyCategoryType.SendMoneyToHomeCountry,
                     description = getString(Strings.screen_send_money_display_home_country_description)
                 )
             )
         list.add(
-            SendMoneyOptions(
+            SendMoneyLinearOptions(
                 getString(Strings.screen_send_money_international_label),
                 R.drawable.ic_international_transfer,
-                type = SendMoneyType.sendMoneyToInternational,
+                type = SendMoneyCategoryType.SendMoneyToInternational,
                 description = getString(Strings.screen_send_money_display_international_transfer_description)
             )
         )

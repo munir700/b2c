@@ -15,8 +15,8 @@ import co.yap.databinding.ActivitySendMoneyDashboardBinding
 import co.yap.modules.dashboard.yapit.sendmoney.homecountry.SMHomeCountryActivity
 import co.yap.modules.dashboard.yapit.sendmoney.landing.viewmodels.SendMoneyDashboardViewModel
 import co.yap.modules.dashboard.yapit.sendmoney.main.ISendMoneyDashboard
-import co.yap.modules.dashboard.yapit.sendmoney.main.SendMoneyOptions
-import co.yap.modules.dashboard.yapit.sendmoney.main.SendMoneyType
+import co.yap.modules.dashboard.yapit.sendmoney.main.SendMoneyCategoryType
+import co.yap.modules.dashboard.yapit.sendmoney.main.SendMoneyLinearOptions
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.sendmoney.fundtransfer.activities.BeneficiaryFundTransferActivity
 import co.yap.sendmoney.home.main.SMBeneficiaryParentActivity
@@ -40,7 +40,6 @@ import co.yap.yapcore.helpers.extentions.startFragmentForResult
 import co.yap.yapcore.helpers.permissions.PermissionHelper
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.SessionManager
-
 
 class SendMoneyDashboardActivity : BaseBindingActivity<ISendMoneyDashboard.ViewModel>(),
     ISendMoneyDashboard.View {
@@ -79,8 +78,7 @@ class SendMoneyDashboardActivity : BaseBindingActivity<ISendMoneyDashboard.ViewM
                 dimen(R.dimen.margin_normal_large) ?: 16, 1, true
             )
         )
-        viewModel.dashboardAdapter.allowFullItemClickListener = true
-        viewModel.dashboardAdapter.setItemListener(itemClickListener)
+        viewModel.dashboardAdapter.onItemClickListener = itemClickListener
         viewModel.recentsAdapter.allowFullItemClickListener = true
         viewModel.recentsAdapter.setItemListener(itemClickListener)
     }
@@ -92,7 +90,7 @@ class SendMoneyDashboardActivity : BaseBindingActivity<ISendMoneyDashboard.ViewM
                     SendMoneyBeneficiaryType.YAP2YAP.type -> startY2YTransfer(data, false, pos)
                     else -> startMoneyTransfer(data, pos)
                 }
-            } else if (data is SendMoneyOptions) {
+            } else if (data is SendMoneyLinearOptions) {
                 viewModel.clickEvent.setValue(data.type.ordinal)
             }
         }
@@ -100,19 +98,19 @@ class SendMoneyDashboardActivity : BaseBindingActivity<ISendMoneyDashboard.ViewM
 
     private val observer = Observer<Int> {
         when (it) {
-            SendMoneyType.sendMoneyToYAPContacts.ordinal -> {
+            SendMoneyCategoryType.SendMoneyToYAPContacts.ordinal -> {
                 checkPermission(contactPer)
             }
-            SendMoneyType.sendMoneyToLocalBank.ordinal -> {
+            SendMoneyCategoryType.SendMoneyToLocalBank.ordinal -> {
                 startSendMoneyFlow(SendMoneyTransferType.LOCAL.name)
             }
-            SendMoneyType.sendMoneyToInternational.ordinal -> {
+            SendMoneyCategoryType.SendMoneyToInternational.ordinal -> {
                 startSendMoneyFlow(SendMoneyTransferType.INTERNATIONAL.name)
             }
-            SendMoneyType.sendMoneyToHomeCountry.ordinal -> {
+            SendMoneyCategoryType.SendMoneyToHomeCountry.ordinal -> {
                 launchActivity<SMHomeCountryActivity>(requestCode = RequestCodes.REQUEST_TRANSFER_MONEY)
             }
-            SendMoneyType.sendMoneyQRCode.ordinal -> {
+            SendMoneyCategoryType.SendMoneyQRCode.ordinal -> {
                 checkPermission(cameraPer)
             }
             R.id.tvrecentTransfer, R.id.hiderecentext -> {
@@ -123,11 +121,11 @@ class SendMoneyDashboardActivity : BaseBindingActivity<ISendMoneyDashboard.ViewM
         }
     }
 
-    private fun startSendMoneyFlow(sendMoneyType: String) {
+    private fun startSendMoneyFlow(SendMoneyCategoryType: String) {
         launchActivity<SMBeneficiaryParentActivity>(requestCode = RequestCodes.REQUEST_NOTIFY_BENEFICIARY_LIST) {
             putExtra(
                 ExtraKeys.SEND_MONEY_TYPE.name,
-                sendMoneyType
+                SendMoneyCategoryType
             )
         }
     }
@@ -262,18 +260,18 @@ class SendMoneyDashboardActivity : BaseBindingActivity<ISendMoneyDashboard.ViewM
 
     override fun onResume() {
         super.onResume()
-        viewModel.dashboardAdapter.setList(viewModel.geSendMoneyOptions())
-        if (!viewModel.dashboardAdapter.getDataList()
+        viewModel.dashboardAdapter.setData(viewModel.geSendMoneyOptions())
+        if (!viewModel.dashboardAdapter.datas
                 .isNullOrEmpty() && SessionManager.homeCountry2Digit != "AE"
         ) {
-            viewModel.dashboardAdapter.getDataList()
+            viewModel.dashboardAdapter.datas
                 .find { it.name == getString(Strings.screen_send_money_home_label) }?.let {
-                    val index = viewModel.dashboardAdapter.getDataList().indexOf(it)
-                    it.flag = CurrencyUtils.getFlagDrawable(
+                    val index = viewModel.dashboardAdapter.datas.indexOf(it)
+                    it.image = CurrencyUtils.getFlagDrawable(
                         context,
                         SessionManager.homeCountry2Digit
                     )
-                    viewModel.dashboardAdapter.setItemAt(index, it)
+                    viewModel.dashboardAdapter.update(index)
                 }
         }
     }
@@ -282,7 +280,6 @@ class SendMoneyDashboardActivity : BaseBindingActivity<ISendMoneyDashboard.ViewM
         super.onDestroy()
         removeObservers()
     }
-
 
     private fun startQrFragment() {
         trackEventWithScreenName(FirebaseEvent.SEND_QR_CODE)
