@@ -163,8 +163,8 @@ class EditBeneficiaryActivity : BaseBindingActivity<IEditBeneficiary.ViewModel>(
             }
 
             startFragmentForResult<GenericOtpFragment>(
-                GenericOtpFragment::class.java.name,
-                bundleOf(
+               fragmentName =  GenericOtpFragment::class.java.name,
+                bundle = bundleOf(
                     OtpDataModel::class.java.name to OtpDataModel(
                         otpAction = action,
                         mobileNumber = SessionManager.user?.currentCustomer?.getCompletePhone(),
@@ -180,7 +180,7 @@ class EditBeneficiaryActivity : BaseBindingActivity<IEditBeneficiary.ViewModel>(
                             SessionManager.helpPhoneNumber
                         )
                     )
-                ), false
+                ), showToolBar = false
             ) { resultCode, data ->
                 if (resultCode == Activity.RESULT_OK) {
                     viewModel.createBeneficiaryRequest()

@@ -200,8 +200,8 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
 
     private fun startOtpFragment() {
         startFragmentForResult<GenericOtpFragment>(
-            GenericOtpFragment::class.java.name,
-            bundleOf(
+            fragmentName = GenericOtpFragment::class.java.name,
+           bundle =  bundleOf(
                 OtpDataModel::class.java.name to OtpDataModel(
                     OTPActions.Y2Y.name,
                     SessionManager.user?.currentCustomer?.getFormattedPhoneNumber(requireContext())

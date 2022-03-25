@@ -13,7 +13,7 @@
         tools:layout="@layout/fragment_spare_card_landing">
         <argument
             android:name="landedFrom"
-            android:defaultValue=""
+            android:defaultValue=" "
             app:argType="string" />
 
         <action

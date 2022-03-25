@@ -54,8 +54,8 @@ open class ChangeEmailFragment : MoreBaseFragment<IChangeEmail.ViewModel>(), ICh
 
     private fun startOtpFragment() {
         startFragmentForResult<GenericOtpFragment>(
-            GenericOtpFragment::class.java.name,
-            bundleOf(
+            fragmentName = GenericOtpFragment::class.java.name,
+            bundle = bundleOf(
                 OtpDataModel::class.java.name to OtpDataModel(
                     OTPActions.CHANGE_EMAIL.name,
                     SessionManager.user?.currentCustomer?.getFormattedPhoneNumber(requireContext())

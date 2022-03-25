@@ -9,6 +9,7 @@ import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.helpers.extentions.sizeInMb
 import id.zelory.compressor.Compressor
 import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import java.io.File
@@ -30,7 +31,7 @@ class PreviewTransactionReceiptViewModel(application: Application) :
             if (file.sizeInMb() < 25) {
                 state.loading = true
                 val reqFile =
-                    RequestBody.create(MediaType.parse("image/${file.extension}"), file)
+                    RequestBody.create("image/${file.extension}".toMediaTypeOrNull(), file)
                 val multiPartImageFile: MultipartBody.Part =
                     MultipartBody.Part.createFormData("receipt-image", file.name, reqFile)
                 when (val response =

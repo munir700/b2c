@@ -33,6 +33,7 @@ import co.yap.yapcore.managers.SessionManager
 import com.bumptech.glide.Glide
 import id.zelory.compressor.Compressor
 import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import java.io.File
@@ -116,7 +117,7 @@ class ProfileSettingsViewModel(application: Application) :
             if (file.sizeInMb() < 25) {
                 state.loading = true
                 val reqFile =
-                    RequestBody.create(MediaType.parse("image/${file.extension}"), file)
+                    RequestBody.create("image/${file.extension}".toMediaTypeOrNull(), file)
                 val multiPartImageFile: MultipartBody.Part =
                     MultipartBody.Part.createFormData("profile-picture", file.name, reqFile)
                 when (val response = repository.uploadProfilePicture(multiPartImageFile)) {

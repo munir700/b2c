@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="co.yap.modules.dashboard.yapit.topup.addcard.AddTopUpCardViewModel" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <co.yap.widgets.CollapsedColoredHintTextInputLayout
+            android:id="@+id/tiLNickName"
+            style="@style/Yap.App.Widget.TextInputLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/margin_medium"
+            android:hint="Add a card nickname"
+            android:textColorHint="@color/colorPrimaryDark"
+            app:hintTextColor="@color/colorPrimaryDark"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etNickName"
+                style="@style/ARegular"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="Add nickname"
+                android:inputType="number" />
+        </co.yap.widgets.CollapsedColoredHintTextInputLayout>
+
+        <co.yap.widgets.CollapsedColoredHintTextInputLayout
+            android:id="@+id/tilFullName"
+            style="@style/Yap.App.Widget.TextInputLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/margin_medium"
+            android:hint="Full name on card"
+            android:textColorHint="@color/colorPrimaryDark"
+            app:hintTextColor="@color/colorPrimaryDark"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tiLNickName">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etFullName"
+                style="@style/ARegular"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="Add cardholder name"
+                android:inputType="number" />
+        </co.yap.widgets.CollapsedColoredHintTextInputLayout>
+
+        <co.yap.widgets.luhn.CardTextInputLayout
+            android:id="@+id/tilPanNumber"
+            style="@style/Yap.App.Widget.TextInputLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/margin_medium"
+            android:hint="Card number: 12-19 digits"
+            android:textColorHint="@color/colorPrimaryDark"
+            app:endIconDrawable="@drawable/ic_camera"
+            app:endIconMode="custom"
+            app:hintTextColor="@color/colorPrimaryDark"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tilFullName">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etPanNumber"
+                style="@style/ARegular"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawableStart="@drawable/payment_method_generic_card"
+                android:drawablePadding="@dimen/_4sdp"
+                android:focusable="true"
+                android:gravity="center_vertical"
+                android:hint="XXXX XXXX XXXX XXXX"
+                android:inputType="number" />
+        </co.yap.widgets.luhn.CardTextInputLayout>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/linearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_medium"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tilPanNumber">
+
+            <co.yap.widgets.luhn.CardTextInputLayout
+                android:id="@+id/tilExpireDate"
+                style="@style/Yap.App.Widget.TextInputLayout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="Expiry date"
+                android:textColorHint="@color/colorPrimaryDark"
+                app:hintTextColor="@color/colorPrimaryDark"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tiLNickName">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etExpireDate"
+                    style="@style/ARegular"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:focusable="true"
+
+                    android:hint="xx/xxxx"
+                    android:inputType="number" />
+            </co.yap.widgets.luhn.CardTextInputLayout>
+
+            <co.yap.widgets.luhn.CardTextInputLayout
+                android:id="@+id/tilCvv"
+                style="@style/Yap.App.Widget.TextInputLayout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="CVV"
+                android:textColorHint="@color/colorPrimaryDark"
+                app:hintTextColor="@color/colorPrimaryDark"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tiLNickName">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etCvv"
+                    style="@style/ARegular"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:focusable="true"
+                    android:hint="xxx"
+                    android:inputType="number" />
+            </co.yap.widgets.luhn.CardTextInputLayout>
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/appCompatTextView5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_large"
+            android:drawableStart="@drawable/ic_secured"
+            android:text="Secured by YAP"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+
+        <co.yap.widgets.CoreButton
+            android:id="@+id/btnNext"
+            style="@style/RectangleBtnStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/action_done"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/text_size_h4"
+            app:btn_size="small"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/appCompatTextView5"
+            tools:text="@string/action_done" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

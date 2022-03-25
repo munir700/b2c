@@ -39,7 +39,7 @@ class PaymentCardDetailViewModel(application: Application) :
     override lateinit var cardDetail: CardDetail
     override val clickEvent: SingleClickEvent = SingleClickEvent()
 
-    override var MAX_CLOSING_BALANCE: Double = 0.0
+//    override var MAX_CLOSING_BALANCE: Double = 0.0
     private var closingBalanceArray: ArrayList<Double> = arrayListOf()
     override lateinit var debitCardSerialNumber: String
     private val transactionsRepository: TransactionsRepository = TransactionsRepository
@@ -203,8 +203,8 @@ class PaymentCardDetailViewModel(application: Application) :
                 balanceYear = DateUtils.getYearFromDate(contentsList[0].creationDate.toString(), true,",")
             )
             transactionModelData.add(transactionModel)
-            MAX_CLOSING_BALANCE =
-                closingBalanceArray.max()!!
+//            MAX_CLOSING_BALANCE =
+//                closingBalanceArray.maxOrNull()
         }
         return transactionModelData
     }
