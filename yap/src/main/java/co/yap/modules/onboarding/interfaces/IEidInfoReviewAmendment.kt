@@ -2,10 +2,11 @@ package co.yap.modules.onboarding.interfaces
 
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import co.yap.countryutils.country.Country
 import co.yap.networking.customers.responsedtos.SectionedCountriesResponseDTO
+import co.yap.networking.customers.responsedtos.UqudoHeader
+import co.yap.networking.customers.responsedtos.UqudoPayLoad
 import co.yap.networking.customers.responsedtos.documents.ConfigureEIDResponse
 import co.yap.networking.customers.responsedtos.documents.UqudoTokenResponse
 import co.yap.networking.models.BaseResponse
@@ -56,6 +57,10 @@ interface IEidInfoReviewAmendment {
         var countryName: ObservableField<String>
         var errorScreenVisited: Boolean
         var isTokenValid: ObservableBoolean
+        var uqudoToken: MutableLiveData<String>
+        var payLoadObj: MutableLiveData<UqudoPayLoad>
+        var uqudoHeaderObj: MutableLiveData<UqudoHeader>
+        var isExpired: MutableLiveData<Boolean>
     }
 
     interface View : IBase.View<ViewModel> {
@@ -88,7 +93,6 @@ interface IEidInfoReviewAmendment {
         var sanctionedNationality: String
         var errorTitle: String
         var errorBody: String
-        fun requestAllAPIs()
         val drawableClickListener: OnDrawableClickListener
         fun getGenderOptions(): ArrayList<BottomSheetItem>
         var countries: ArrayList<Country>
@@ -98,7 +102,9 @@ interface IEidInfoReviewAmendment {
         fun isFromAmendment(): Boolean
         fun handleAgeValidation()
         fun handleIsUsValidation()
+        fun requestAllAPIs(callAll: Boolean)
         fun requestAllEIDConfigurations(
+            callAll: Boolean,
             responses: (
                 RetroApiResponse<SectionedCountriesResponseDTO>?,
                 RetroApiResponse<BaseResponse<ConfigureEIDResponse>>?,
@@ -106,7 +112,8 @@ interface IEidInfoReviewAmendment {
             ) -> Unit
         )
 
-        var uqudoToken: LiveData<String>
+        var uqudoResponse: MutableLiveData<UqudoTokenResponse>
+        fun populateUqudoState(identity: UqudoPayLoad?)
 
     }
 }

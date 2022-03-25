@@ -7,6 +7,7 @@ import android.text.InputFilter
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -35,6 +36,9 @@ import co.yap.yapcore.helpers.extentions.launchSheet
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.SessionManager
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog
+import io.uqudo.sdk.core.DocumentBuilder
+import io.uqudo.sdk.core.UqudoBuilder
+import io.uqudo.sdk.core.domain.model.DocumentType
 
 import java.io.File
 import java.util.*
@@ -65,9 +69,7 @@ class EidInfoReviewAmendmentFragment : KYCChildFragment<IEidInfoReviewAmendment.
         super.onActivityCreated(savedInstanceState)
         if (viewModel.parentViewModel?.skipFirstScreen?.value == true) {
             if (!viewModel.state.errorScreenVisited) {
-                //TODO Uqudo Camera WILL BE Handled here
-                showToast("Uqudo Camera will be integrated here!!")
-                //  openCardScanner()
+                initializeUqudoScanner()
             }
             viewModel.state.errorScreenVisited = false
             getViewBinding().tbBtnBack.setOnClickListener {
@@ -152,15 +154,13 @@ class EidInfoReviewAmendmentFragment : KYCChildFragment<IEidInfoReviewAmendment.
                 viewModel.eventErrorExpiredEid -> showExpiredEidScreen()
                 viewModel.eventErrorUnderAge -> showUnderAgeScreen()
                 viewModel.eventErrorFromUsa -> showUSACitizenScreen()
-                viewModel.eventRescan -> {  //TODO Uqudo Camera WILL BE Handled here
-                    showToast("Uqudo Camera will be integrated here!!")
-                }// openCardScanner()
+                viewModel.eventRescan -> {
+                    if (viewModel.state.isExpired.value == true) viewModel.requestAllAPIs(false) else initializeUqudoScanner()
+                }
                 R.id.tvNoThanks -> {
                     trackEventWithScreenName(FirebaseEvent.RESCAN_ID)
                     Utils.hideKeyboard(getViewBinding().tvNoThanks)
-                    //TODO Uqudo Camera WILL BE Handled here
-                    showToast("Uqudo Camera will be integrated here!!")
-                    // openCardScanner()
+                    if (viewModel.state.isExpired.value == true) viewModel.requestAllAPIs(false) else initializeUqudoScanner()
                 }
                 viewModel.eventAlreadyUsedEid -> {
                     viewModel.parentViewModel?.finishKyc?.value =
@@ -242,8 +242,7 @@ class EidInfoReviewAmendmentFragment : KYCChildFragment<IEidInfoReviewAmendment.
         {
             handleState(it)
         })
-        viewModel.uqudoToken.observe(viewLifecycleOwner, Observer { token ->
-            //TODO Uqudo will be initialised here
+        viewModel.state.uqudoToken.observe(viewLifecycleOwner, Observer { token ->
             if (token.isNullOrEmpty()
                     .not() && viewModel.state.isTokenValid.get()
             ) viewModel.eidStateLiveData.postValue(State.empty("")) else viewModel.eidStateLiveData.postValue(
@@ -351,9 +350,7 @@ class EidInfoReviewAmendmentFragment : KYCChildFragment<IEidInfoReviewAmendment.
             it.showAlertDialogAndExitApp(
                 message = title,
                 callback = {
-                    //TODO Uqudo Camera WILL BE Handled here
-                    showToast("Uqudo Camera will be integrated here!!")
-                    // openCardScanner()
+                    if (viewModel.state.isExpired.value == true) viewModel.requestAllAPIs(false) else initializeUqudoScanner()
                 },
                 closeActivity = false
             )
@@ -432,6 +429,18 @@ class EidInfoReviewAmendmentFragment : KYCChildFragment<IEidInfoReviewAmendment.
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+        when (requestCode) {
+            REQUEST_CODE -> {
+                viewModel.state.uqudoToken.value = data?.getStringExtra("data")
+                if (viewModel.state.uqudoToken.value.isNullOrBlank().not()) {
+                    viewModel.extractJwt(viewModel.state.uqudoToken.value)
+                } else {
+                    navigateBack()
+                }
+            }
+            else -> viewModel.parentViewModel?.finishKyc?.value = DocumentsResponse(false)
+
+        }
         /*      if (data == null && viewModel.parentViewModel?.skipFirstScreen?.value == true) {
         //TODO Uqudo Camera WILL BE Handled here
         showToast("Uqudo Camera will be integrated here!!")
@@ -464,18 +473,6 @@ class EidInfoReviewAmendmentFragment : KYCChildFragment<IEidInfoReviewAmendment.
             viewModel.parentViewModel?.finishKyc?.value = DocumentsResponse(false)
         }*/
     }
-/*
-    override fun openCardScanner() {
-        viewModel.invalidateFields()
-        startActivityForResult(
-            IdentityScannerActivity.getLaunchIntent(
-                requireContext(),
-                DocumentType.EID,
-                IdentityScannerActivity.SCAN_FROM_CAMERA
-            ),
-            IdentityScannerActivity.SCAN_EID_CAM
-        )
-    }*/
 
     override fun onDestroy() {
         viewModel.parentViewModel?.paths?.forEach { filePath ->
@@ -531,8 +528,24 @@ class EidInfoReviewAmendmentFragment : KYCChildFragment<IEidInfoReviewAmendment.
         }
     }
 
+    private val REQUEST_CODE get() = 1011
+
     private fun initializeUqudoScanner() {
-        //TODO Initialise uqudo scanner here
+        try {
+            val doc = DocumentBuilder(requireActivity().applicationContext)
+                .setDocumentType(DocumentType.UAE_ID).disableHelpPage().enableReading()
+                .enableScanReview(true, true)
+                .build()
+            val uqudoIntent = UqudoBuilder.Enrollment()
+                .setToken(viewModel.uqudoResponse.value?.accessToken ?: "")
+                .disableSecureWindow()
+                .add(doc)
+                .build(requireActivity().applicationContext)
+            startActivityForResult(uqudoIntent, REQUEST_CODE)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Toast.makeText(requireContext(), e.localizedMessage, Toast.LENGTH_LONG).show()
+        }
     }
 
     private fun getViewBinding() = getDataBindingView<FragmentEidInfoReviewAmendmentBinding>()

@@ -1,9 +1,11 @@
 package co.yap.modules.kyc.viewmodels
 
 import android.app.Application
+import android.os.Build
+import android.os.CountDownTimer
 import android.text.TextUtils
 import android.view.View
-import androidx.lifecycle.LiveData
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.MutableLiveData
 import co.yap.BuildConfig
 import co.yap.R
@@ -13,6 +15,8 @@ import co.yap.modules.onboarding.states.EidInfoReviewAmendmentState
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.requestdtos.UploadDocumentsRequest
 import co.yap.networking.customers.responsedtos.SectionedCountriesResponseDTO
+import co.yap.networking.customers.responsedtos.UqudoHeader
+import co.yap.networking.customers.responsedtos.UqudoPayLoad
 import co.yap.networking.customers.responsedtos.documents.ConfigureEIDResponse
 import co.yap.networking.customers.responsedtos.documents.UqudoTokenResponse
 import co.yap.networking.interfaces.IRepositoryHolder
@@ -42,12 +46,13 @@ import co.yap.yapcore.managers.SessionManager
 import com.digitify.identityscanner.core.arch.Gender
 import com.digitify.identityscanner.docscanner.models.Identity
 import com.digitify.identityscanner.docscanner.models.IdentityScannerResult
+import com.google.gson.Gson
 import kotlinx.coroutines.delay
-import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import java.io.File
+import java.text.SimpleDateFormat
 import java.util.*
 
 class EidInfoReviewAmendmentViewModel(application: Application) :
@@ -72,8 +77,8 @@ class EidInfoReviewAmendmentViewModel(application: Application) :
     override var populateNationalitySpinnerData: MutableLiveData<ArrayList<Country>> =
         MutableLiveData()
 
-    private var _uqudoToken: MutableLiveData<String> = MutableLiveData()
-    override var uqudoToken: LiveData<String> = _uqudoToken
+    override var uqudoResponse: MutableLiveData<UqudoTokenResponse> = MutableLiveData()
+
 
     override fun onCreate() {
         super.onCreate()
@@ -82,10 +87,10 @@ class EidInfoReviewAmendmentViewModel(application: Application) :
             getKYCDataFromServer()
         }
         validator?.setValidationListener(this)
-        requestAllAPIs()
-      /*  parentViewModel?.identity?.let {
-            populateState(it)
-        }*/
+        requestAllAPIs(true)
+        /*  parentViewModel?.identity?.let {
+              populateState(it)
+          }*/
     }
 
     override fun handlePressOnView(id: Int) {
@@ -539,23 +544,24 @@ class EidInfoReviewAmendmentViewModel(application: Application) :
         } ?: false
     }
 
-    override fun requestAllAPIs() {
-        requestAllEIDConfigurations { senctionedCountryResponse, configurationEIDResponse, uqudoTokenResponse ->
+    var configureEIDResponse: MutableLiveData<ConfigureEIDResponse> = MutableLiveData()
+    override fun requestAllAPIs(callAll: Boolean) {
+        requestAllEIDConfigurations(callAll) { senctionedCountryResponse, configurationEIDResponse, uqudoTokenResponse ->
             launch(Dispatcher.Main) {
                 state.viewState.postValue(false)
                 when {
                     senctionedCountryResponse is RetroApiResponse.Success && configurationEIDResponse is RetroApiResponse.Success && uqudoTokenResponse is RetroApiResponse.Success -> {
                         sectionedCountries = senctionedCountryResponse.data
-                        val data = configurationEIDResponse.data.data
-                        state.ageLimit = data?.ageLimit
+                        configureEIDResponse.value = configurationEIDResponse.data.data
+                        state.ageLimit = configureEIDResponse?.value?.ageLimit
                         handleAgeValidation()
-                        state.countryName.set(data?.country2DigitIsoCode?.let { str ->
+                        state.countryName.set(configureEIDResponse?.value?.country2DigitIsoCode?.let { str ->
                             str.split(",").map { it -> it.trim() }.find {
                                 it == "US"
                             }
                         })
                         handleIsUsValidation()
-                        _uqudoToken.value = uqudoTokenResponse.data.data?.accessToken ?: ""
+                        state.uqudoToken.value = uqudoTokenResponse.data.data?.accessToken ?: ""
 
                     }
                     else -> {
@@ -569,6 +575,7 @@ class EidInfoReviewAmendmentViewModel(application: Application) :
     }
 
     override fun requestAllEIDConfigurations(
+        callAll: Boolean,
         responses: (
             RetroApiResponse<SectionedCountriesResponseDTO>?,
             RetroApiResponse<BaseResponse<ConfigureEIDResponse>>?,
@@ -576,22 +583,37 @@ class EidInfoReviewAmendmentViewModel(application: Application) :
         ) -> Unit
     ) {
         launch(Dispatcher.Background) {
-            state.viewState.postValue(true)
-            val senctionedCountriesList = launchAsync {
-                repository.getSectionedCountries()
+            state.viewState.postValue(false)
+            when (callAll) {
+                true -> {
+                    val senctionedCountriesList = launchAsync {
+                        repository.getSectionedCountries()
+                    }
+
+                    val eidConfigurationResponse = launchAsync {
+                        repository.getEIDConfigurations()
+                    }
+                    val uqudoTokenResponse = launchAsync {
+                        repository.getUqudoAuthToken()
+                    }
+                    responses(
+                        senctionedCountriesList.await(),
+                        eidConfigurationResponse.await(),
+                        uqudoTokenResponse.await()
+                    )
+                }
+                else -> {
+                    val uqudoTokenResponse = launchAsync {
+                        repository.getUqudoAuthToken()
+                    }
+                    responses(
+                        null,
+                        null,
+                        uqudoTokenResponse.await()
+                    )
+                }
             }
 
-            val eidConfigurationResponse = launchAsync {
-                repository.getEIDConfigurations()
-            }
-            val uqudoTokenResponse = launchAsync {
-                repository.getUqudoAuthToken()
-            }
-            responses(
-                senctionedCountriesList.await(),
-                eidConfigurationResponse.await(),
-                uqudoTokenResponse.await()
-            )
         }
     }
 
@@ -645,4 +667,128 @@ class EidInfoReviewAmendmentViewModel(application: Application) :
     }
 
     override fun isFromAmendment() = parentViewModel?.amendmentMap?.isNullOrEmpty() == false
+    override fun populateUqudoState(identity: UqudoPayLoad?) {
+        identity?.let {
+            val documentBack = it.data?.documents?.get(0)?.scan?.back
+            val documentFront = it.data?.documents?.get(0)?.scan?.front
+            splitLastNames(documentBack?.primaryId + " " + documentBack?.secondaryId)
+            state.fullNameValid = state.firstName.isNotBlank()
+            state.nationality.value = Country(name = documentFront?.nationality ?: "")
+            state.nationalityValid =
+                state.nationality.value?.getName()?.isNotBlank() == true && !state.isCountryUS
+            var DOB = getDateFormatyyMMddToyyyyMMdd(documentBack?.dateOfBirth)
+            var EXD = getDateFormatyyMMddToyyyyMMdd(documentBack?.dateOfExpiry)
+            state.dateOfBirth.value =
+                DateUtils.reformatToLocalString(DOB, DateUtils.DEFAULT_DATE_FORMAT)
+            state.expiryDate =
+                DateUtils.reformatToLocalString(EXD, DateUtils.DEFAULT_DATE_FORMAT)
+            state.expiryDateValid = EXD?.let { it1 -> isExpiryDateValid(it1) } ?: false
+            state.genderValid = true
+            if (documentFront?.identityNumber?.length != eidLength && !Utils.isValidEID(
+                    documentFront?.identityNumber
+                )
+            ) {
+                clickEvent.setValue(eventCitizenNumberIssue)
+            } else {
+                state.citizenNumber = getFormattedCitizenNumber(documentFront?.identityNumber)
+                parentViewModel?.state?.identityNo?.set(documentFront?.identityNumber)
+            }
+            state.gender = documentBack?.sex.run {
+                when {
+                    this == co.yap.modules.kyc.enums.Gender.Male.mrz -> getString(Strings.screen_b2c_eid_info_review_display_text_gender_male)
+                    this == co.yap.modules.kyc.enums.Gender.Female.mrz -> getString(Strings.screen_b2c_eid_info_review_display_text_gender_female)
+                    else -> {
+                        state.genderValid = false
+                        ""
+                    }
+                }
+            }
+            // If Age Limit available in case of Re-Scan, set Age validity again.
+            state.ageLimit?.let { limit ->
+                state.isDateOfBirthValid.set(
+                    DOB?.let { it1 -> getAge(it1) } ?: 18 >= limit
+                )
+            }
+//            state.isDateOfBirthValid.set(getAge(identity.dateOfBirth) >= configureEIDResponse.value?.ageLimit ?: 18)
+            val countryName = configureEIDResponse.value?.country2DigitIsoCode?.let { str ->
+                str.split(",").map { it -> it.trim() }.find {
+                    it.equals("US")
+                }
+            }
+            state.isCountryUS =
+                getCountryCode(documentFront?.nationality ?: "").contains(countryName ?: "US")
+        }
+    }
+
+    fun isExpiryDateValid(expirationDate: Date): Boolean {
+        return if (expirationDate == null) {
+            false.also { it }
+        } else !DateUtils.isDatePassed(expirationDate).also {
+            it
+        }
+    }
+
+    fun getCountryCode(countryName: String): String =
+        Locale.getISOCountries().find { Locale("", it).displayCountry == countryName } ?: ""
+
+    fun getDateFormatyyMMddToyyyyMMdd(string: String?): Date? {
+        var inputSDF = SimpleDateFormat("yyMMdd")
+        val outputSDF = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        var date: Date? = null
+        try {
+//            val dateInput = string?.replace("..".toRegex(), "$0 ")?.trim()?.replace(" ".toRegex(),"-")
+            date = inputSDF.parse(string)
+            inputSDF.applyPattern("yyyy-mm-dd")
+            val newDate = outputSDF.format(date)
+            //after changing date format again you can change to string with changed format
+            val dateRes: Date = outputSDF.parse(newDate)
+            return dateRes
+        } catch (e: java.lang.Exception) {
+            e.printStackTrace()
+        }
+        return null
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun isAccessTokenExpired() {
+        state.isExpired.value = false
+        val timeInSec = uqudoResponse.value?.expiresIn?.toInt() ?: 0
+        object : CountDownTimer((timeInSec * 1000 + 1000).toLong(), 1000) {
+            override fun onTick(millisUntilFinished: Long) {
+                var seconds = (millisUntilFinished / 1000).toInt()
+                seconds %= 60
+                state.isExpired.value = false
+            }
+
+            override fun onFinish() {
+                state.isExpired.value = true
+            }
+        }.start()
+    }
+    fun extractJwt(token: String?) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) showToast("Requires SDK 26") else {
+            val parts = token?.split("\\.".toRegex())
+            parts?.let { parts ->
+                try {
+                    val decoder = Base64.getUrlDecoder()
+                    val charset = charset("UTF-8")
+                    val base64EncodedHeader: String = parts[0]
+                    val base64EncodedBody: String = parts[1]
+                    val header =
+                        String(decoder.decode(base64EncodedHeader.toByteArray(charset)), charset)
+                    val payload =
+                        String(decoder.decode(base64EncodedBody.toByteArray(charset)), charset)
+                    val gson = Gson()
+                    val headerObj: UqudoHeader = gson.fromJson(header, UqudoHeader::class.java)
+                    val payLoadObj: UqudoPayLoad = gson.fromJson(payload, UqudoPayLoad::class.java)
+                    state.uqudoHeaderObj.postValue(headerObj)
+                    state.payLoadObj.postValue(payLoadObj)
+                    eidStateLiveData.postValue(State.success(""))
+                } catch (e: Exception) {
+                    "Error parsing JWT: $e"
+                }
+            }
+        }
+    }
+
 }

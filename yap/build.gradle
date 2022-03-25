@@ -1,7 +1,7 @@
 apply plugin: 'kotlin-android-extensions'
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    //implementation "io.uqudo.sdk:digitify:1.12.1"
+    implementation "io.uqudo.sdk:digitify:1.12.1"
 
     // Test dependencies
     project.testDependencies.each {
