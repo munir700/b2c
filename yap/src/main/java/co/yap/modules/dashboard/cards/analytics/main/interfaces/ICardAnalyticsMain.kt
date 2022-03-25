@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import co.yap.networking.transactions.responsedtos.TxnAnalytic
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
+import java.util.*
 
 interface ICardAnalyticsMain {
 
@@ -17,6 +18,7 @@ interface ICardAnalyticsMain {
         val selectedItemPosition: MutableLiveData<Int>
         val selectedItemPositionParent: MutableLiveData<Int>
         val isMerchant: MutableLiveData<Boolean>
+        var currentDate: Date?
     }
 
     interface State : IBase.State {

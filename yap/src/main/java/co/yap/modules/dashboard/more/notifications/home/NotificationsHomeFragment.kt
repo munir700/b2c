@@ -9,7 +9,9 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.BR
 import co.yap.R
+import co.yap.databinding.FragmentNotificationsHomeV2Binding
 import co.yap.networking.notification.responsedtos.HomeNotification
+import co.yap.sendmoney.databinding.FragmentYapToYapBinding
 import co.yap.translation.Strings.screen_notification_listing_display_text_delete_alert_title
 import co.yap.translation.Strings.screen_notification_listing_display_text_delete_message
 import co.yap.widgets.DividerItemDecoration
@@ -24,7 +26,6 @@ import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.confirm
 import co.yap.yapcore.helpers.extentions.dimen
 import co.yap.yapcore.interfaces.OnItemClickListener
-import kotlinx.android.synthetic.main.fragment_notifications_home_v2.*
 
 class NotificationsHomeFragment : BaseBindingFragment<INotificationsHome.ViewModel>(),
     INotificationsHome.View, OnItemClickListener {
@@ -64,7 +65,7 @@ class NotificationsHomeFragment : BaseBindingFragment<INotificationsHome.ViewMod
             viewModel.mNotificationsHomeAdapter?.set(mNotificationsAdapter)
             mWrappedAdapter = createWrappedAdapter(mNotificationsAdapter)
         }
-        recyclerView?.apply {
+        getDataBindingView<FragmentNotificationsHomeV2Binding>().recyclerView.apply {
             adapter = mWrappedAdapter // requires *wrapped* adapter
             addItemDecoration(
                 DividerItemDecoration(
@@ -92,7 +93,7 @@ class NotificationsHomeFragment : BaseBindingFragment<INotificationsHome.ViewMod
                 }
             mNotificationsAdapter.onItemClickListener = this@NotificationsHomeFragment
         }
-        viewModel.state.stateLiveData?.observe(this, Observer {
+        viewModel.state.stateLiveData?.observe(viewLifecycleOwner, {
             handleState(it)
 
         })
@@ -101,15 +102,15 @@ class NotificationsHomeFragment : BaseBindingFragment<INotificationsHome.ViewMod
     private fun handleState(state: State?) {
         when (state?.status) {
             Status.EMPTY -> {
-                multiStateView.viewState = MultiStateView.ViewState.EMPTY
+                getDataBindingView<FragmentNotificationsHomeV2Binding>().multiStateView.viewState = MultiStateView.ViewState.EMPTY
             }
             Status.ERROR -> {
-                multiStateView.viewState = MultiStateView.ViewState.ERROR
+                getDataBindingView<FragmentNotificationsHomeV2Binding>().multiStateView.viewState = MultiStateView.ViewState.ERROR
             }
             Status.SUCCESS -> {
-                multiStateView.viewState = MultiStateView.ViewState.CONTENT
+                getDataBindingView<FragmentNotificationsHomeV2Binding>().multiStateView.viewState = MultiStateView.ViewState.CONTENT
             }
-            else -> multiStateView.viewState = MultiStateView.ViewState.LOADING
+            else -> getDataBindingView<FragmentNotificationsHomeV2Binding>().multiStateView.viewState = MultiStateView.ViewState.LOADING
         }
     }
 
