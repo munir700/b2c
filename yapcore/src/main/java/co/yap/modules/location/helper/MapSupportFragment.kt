@@ -19,6 +19,7 @@ import co.yap.modules.location.interfaces.ILocationSelection
 import co.yap.modules.location.viewmodels.LocationSelectionViewModel
 import co.yap.yapcore.BR
 import co.yap.yapcore.R
+import co.yap.yapcore.helpers.extentions.readManifestPlaceholders
 import co.yap.yapcore.helpers.permissions.PermissionHelper
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.location.*
@@ -80,8 +81,7 @@ open class MapSupportFragment : LocationBaseFragment<ILocationSelection.ViewMode
     }
 
     private fun initMap() {
-        val apiKey = getString(R.string.google_maps_key)
-        Places.initialize(requireContext(), apiKey)
+        Places.initialize(requireContext(), requireContext().readManifestPlaceholders("com.google.android.geo.API_KEY"))
         placesClient = Places.createClient(requireContext())
         mFusedLocationProviderClient =
             LocationServices.getFusedLocationProviderClient(requireContext())

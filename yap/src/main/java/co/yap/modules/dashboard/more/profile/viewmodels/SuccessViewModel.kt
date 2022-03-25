@@ -2,10 +2,12 @@ package co.yap.modules.dashboard.more.profile.viewmodels
 
 import android.app.Application
 import co.yap.R
+import co.yap.app.YAPApplication
 import co.yap.modules.dashboard.more.profile.intefaces.ISuccess
 import co.yap.modules.dashboard.more.profile.states.SuccessState
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.helpers.extentions.readManifestPlaceholders
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.api.net.*
@@ -22,7 +24,7 @@ class SuccessViewModel(application: Application) :
     override fun placesApiCall(photoPlacedId: String, success: () -> Unit) {
         Places.initialize(
             context,
-            getString(R.string.google_maps_key)
+            context.readManifestPlaceholders("com.google.android.geo.API_KEY")
         )
         val placesClient: PlacesClient = Places.createClient(context)
         val placeId = photoPlacedId
