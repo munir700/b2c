@@ -126,7 +126,6 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-
     project.testDependencies.each {
         add(it.configuration, it.dependency)
     }

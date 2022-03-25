@@ -3,9 +3,9 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     // Test dependencies
-    project.testDependencies.each {
-        add(it.configuration, it.dependency)
-    }
+//    project.testDependencies.each {
+//        add(it.configuration, it.dependency)
+//    }
 
     // shared dependencies to all modules
     project.commonDependencies.each {
