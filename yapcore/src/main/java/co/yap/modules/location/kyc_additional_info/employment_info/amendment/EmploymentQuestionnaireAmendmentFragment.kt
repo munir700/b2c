@@ -18,6 +18,7 @@ import co.yap.modules.location.kyc_additional_info.employment_info.questionnaire
 import co.yap.modules.location.kyc_additional_info.employment_info.questionnaire.models.QuestionUiFields
 import co.yap.modules.otp.GenericOtpFragment
 import co.yap.modules.otp.OtpDataModel
+import co.yap.modules.otp.getOtpMessageFromComposer
 import co.yap.networking.coreitems.CoreBottomSheetData
 import co.yap.networking.customers.responsedtos.employment_amendment.Document
 import co.yap.networking.customers.responsedtos.employment_amendment.DocumentResponse
@@ -463,15 +464,18 @@ class EmploymentQuestionnaireAmendmentFragment :
     }
 
     private fun startOtpFragment() {
-        var mobileNumber =
+        val mobileNumber =
             SessionManager.user?.currentCustomer?.getFormattedPhoneNumber(requireContext())
         startFragmentForResult<GenericOtpFragment>(
             GenericOtpFragment::class.java.name,
             bundleOf(
                 OtpDataModel::class.java.name to OtpDataModel(
                     OTPActions.EMPLOYMENT_AMENDMENT.name,
-                    otpMessage = getString(R.string.screen_view_document_otp_message_first_part) + " " + mobileNumber + getString(
-                        R.string.screen_view_document_otp_message_second_part
+                    otpMessage = requireContext().getOtpMessageFromComposer(
+                        OTPActions.EMPLOYMENT_AMENDMENT.name,
+                        SessionManager.user?.currentCustomer?.firstName,
+                        "%s1",
+                        SessionManager.helpPhoneNumber
                     ),
                     mobileNumber = mobileNumber
                 )
@@ -509,7 +513,7 @@ class EmploymentQuestionnaireAmendmentFragment :
                     requireActivity().openFilePicker("File picker",
                         completionHandler = { _, dataUri ->
                             dataUri?.let { uriIntent ->
-                                var fileSelected = FileUtils.getFile(context, uriIntent.data)
+                                val fileSelected = FileUtils.getFile(context, uriIntent.data)
                                 if (fileSelected.sizeInMb() < 25) {
                                     fileSelected?.let {
                                         updateDocumentLists(
@@ -549,7 +553,7 @@ class EmploymentQuestionnaireAmendmentFragment :
     }
 
     private fun openCardSuccessBottomSheet() {
-        var list: MutableList<CoreBottomSheetData> = mutableListOf()
+        val list: MutableList<CoreBottomSheetData> = mutableListOf()
         list.add(CoreBottomSheetData(subTitle = Strings.screen_employment_document_updation_completion_display_text_complete))
         launchBottomSheetSegment(
             cardBottomSheetItemClickListener,

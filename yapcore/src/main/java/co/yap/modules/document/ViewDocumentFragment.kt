@@ -13,6 +13,7 @@ import co.yap.widgets.MultiStateView
 import co.yap.widgets.State
 import co.yap.widgets.Status
 import co.yap.widgets.bottomsheet.BottomSheetItem
+import co.yap.widgets.loading.CircularProgressBar
 import co.yap.yapcore.BR
 import co.yap.yapcore.BaseBindingImageFragment
 import co.yap.yapcore.R
@@ -29,8 +30,6 @@ import com.liveperson.infra.utils.picasso.Callback
 import com.liveperson.infra.utils.picasso.MemoryPolicy
 import com.liveperson.infra.utils.picasso.NetworkPolicy
 import com.liveperson.infra.utils.picasso.Picasso
-import kotlinx.android.synthetic.main.fragment_view_document.*
-import kotlinx.android.synthetic.main.layout_loading_view_for_view_document.view.*
 
 class ViewDocumentFragment : BaseBindingImageFragment<IViewDocumentFragment.ViewModel>(),
     IViewDocumentFragment.View {
@@ -302,17 +301,23 @@ class ViewDocumentFragment : BaseBindingImageFragment<IViewDocumentFragment.View
     private fun handleState(state: State?) {
         when (state?.status) {
             Status.LOADING -> {
-                multiStateView?.viewState = MultiStateView.ViewState.LOADING
-                multiStateView?.circularProgressBar?.indeterminateMode = true
+                getDataBindingView<FragmentViewDocumentBinding>().multiStateView.viewState =
+                    MultiStateView.ViewState.LOADING
+                (getDataBindingView<FragmentViewDocumentBinding>().multiStateView.getView(
+                    MultiStateView.ViewState.LOADING
+                ) as CircularProgressBar).indeterminateMode = true
             }
             Status.EMPTY -> {
-                multiStateView?.viewState = MultiStateView.ViewState.EMPTY
+                getDataBindingView<FragmentViewDocumentBinding>().multiStateView.viewState =
+                    MultiStateView.ViewState.EMPTY
             }
             Status.ERROR -> {
-                multiStateView?.viewState = MultiStateView.ViewState.ERROR
+                getDataBindingView<FragmentViewDocumentBinding>().multiStateView.viewState =
+                    MultiStateView.ViewState.ERROR
             }
             else ->
-                multiStateView?.viewState = MultiStateView.ViewState.CONTENT
+                getDataBindingView<FragmentViewDocumentBinding>().multiStateView.viewState =
+                    MultiStateView.ViewState.CONTENT
         }
     }
 
