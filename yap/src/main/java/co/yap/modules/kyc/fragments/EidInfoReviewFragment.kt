@@ -33,6 +33,7 @@ import co.yap.yapcore.firebase.FirebaseEvent
 import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.Utils.hideKeyboard
+import co.yap.yapcore.helpers.extentions.deleteTempFolder
 import co.yap.yapcore.helpers.showAlertDialogAndExitApp
 import co.yap.yapcore.managers.SessionManager
 import io.uqudo.sdk.core.DocumentBuilder
@@ -64,7 +65,6 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.requestAllAPIs(true)
         viewModel.state.payLoadObj.value?.let { identity ->
             viewModel.populateUqudoState(identity = identity)
         }
@@ -145,7 +145,7 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
                 }
                 viewModel.eventNext -> {
                     trackEventWithScreenName(FirebaseEvent.CONFIRM_ID)
-//                    requireActivity().firebaseTagManagerEvent(FirebaseTagManagerModel(action = FirebaseEvents.CONFIRM_ID.event))
+                    requireContext().deleteTempFolder()
                     SessionManager.getAccountInfo()
                     SessionManager.onAccountInfoSuccess.observe(
                         viewLifecycleOwner,
@@ -214,7 +214,6 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     private fun invalidCitizenNumber(title: String) {
         activity?.let {
             it.showAlertDialogAndExitApp(

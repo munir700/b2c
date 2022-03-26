@@ -6,7 +6,6 @@ import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.CountDownTimer
 import android.text.TextUtils
-import androidx.annotation.RequiresApi
 import androidx.lifecycle.MutableLiveData
 import co.yap.R
 import co.yap.modules.kyc.enums.Gender.Female
@@ -67,6 +66,12 @@ class EidInfoReviewViewModel(application: Application) :
 
     private val eidLength = 15
     override var eidStateLiveData: MutableLiveData<State> = MutableLiveData()
+
+    override fun onCreate() {
+        super.onCreate()
+        requestAllAPIs(true)
+    }
+
     override fun handlePressOnView(id: Int) {
         if (id == R.id.btnTouchId)
             handlePressOnConfirmBtn()
@@ -343,7 +348,6 @@ class EidInfoReviewViewModel(application: Application) :
         } ?: false
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun requestAllAPIs(callAll: Boolean) {
         requestAllEIDConfigurations(callAll) { senctionedCountryResponse, configurationEIDResponse, uqudoTokenResponse ->
             launch(Dispatcher.Main) {
@@ -555,11 +559,17 @@ class EidInfoReviewViewModel(application: Application) :
         return Date()
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     fun isAccessTokenExpired() {
         state.isExpired.value = false
-        val timeInSec = uqudoResponse.value?.expiresIn?.toInt() ?: 0
-        object : CountDownTimer((timeInSec * 1000 + 1000).toLong(), 1000) {
+        val timeInSec = uqudoResponse.value?.expiresIn?.toInt()?.toLong() ?: 0
+        /*TODO for improvement
+         val formatter = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
+         val defaultDateString = formatter.format(Date(timeInSec * 1000))
+         val defaultDate = formatter.parse(defaultDateString)
+         val date = Calendar.getInstance().time
+         val CurrentDateString = formatter.format(date)
+         val CurrentDate = formatter.parse(CurrentDateString)*/
+        object : CountDownTimer((timeInSec * 1000 + 1000), 1000) {
             override fun onTick(millisUntilFinished: Long) {
                 var seconds = (millisUntilFinished / 1000).toInt()
                 seconds %= 60
@@ -587,24 +597,15 @@ class EidInfoReviewViewModel(application: Application) :
                         state.payLoadObj.value?.data?.documents?.get(0)?.scan?.backImageId ?: ""
                     ) { succsess, ressource ->
                         if (succsess) {
-                            state.BackImage.value = ressource?.let {
-                                context.saveEidTemp(
-                                    it
-                                )
-                            }
+                            state.BackImage.value = ressource?.let { context.saveEidTemp(it) }
                             success.invoke(true)
-
                         } else {
-                            showToast(
-                                "Re-scan your EID"
-                            )
+                            showToast("Re-scan your EID")
                             state.viewState.postValue(false)
                         }
                     }
                 } else {
-                    showToast(
-                        "Re-scan your EID"
-                    )
+                    showToast("Re-scan your EID")
                     state.viewState.postValue(false)
                 }
             }
@@ -639,8 +640,8 @@ class EidInfoReviewViewModel(application: Application) :
 
                 override fun onLoadFailed(errorDrawable: Drawable?) {
                     super.onLoadFailed(errorDrawable)
-                    downloaded.invoke(false, null)
-                    showToast("Unable to download")
+                    downloadImagewithGlide(imageId) { _,_ -> }
+                    showToast("Wait the image is downloading")
 
                 }
             })

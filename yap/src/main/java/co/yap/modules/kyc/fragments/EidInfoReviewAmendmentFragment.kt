@@ -31,13 +31,11 @@ import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.firebase.FirebaseEvent
 import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.*
+import co.yap.yapcore.helpers.extentions.deleteTempFolder
 import co.yap.yapcore.helpers.extentions.launchBottomSheet
 import co.yap.yapcore.helpers.extentions.launchSheet
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.SessionManager
-import com.bumptech.glide.load.model.GlideUrl
-import com.bumptech.glide.load.model.LazyHeaders
-import com.liveperson.messaging.commands.tasks.OpenSocketTask.AUTHORIZATION
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog
 import io.uqudo.sdk.core.DocumentBuilder
 import io.uqudo.sdk.core.UqudoBuilder
@@ -191,7 +189,7 @@ class EidInfoReviewAmendmentFragment : KYCChildFragment<IEidInfoReviewAmendment.
                 }
                 viewModel.eventNext -> {
                     trackEventWithScreenName(FirebaseEvent.CONFIRM_ID)
-//                    requireActivity().firebaseTagManagerEvent(FirebaseTagManagerModel(action = FirebaseEvents.CONFIRM_ID.event))
+                    requireContext().deleteTempFolder()
                     SessionManager.getAccountInfo()
                     SessionManager.onAccountInfoSuccess.observe(
                         viewLifecycleOwner,
@@ -518,7 +516,8 @@ class EidInfoReviewAmendmentFragment : KYCChildFragment<IEidInfoReviewAmendment.
                 getViewBinding().multiStateView.viewState = MultiStateView.ViewState.CONTENT
                 viewModel.state.payLoadObj.value?.let { identity ->
                     viewModel.populateUqudoState(identity = identity)
-                }            }
+                }
+            }
             Status.ERROR -> {
                 getViewBinding().multiStateView.viewState = MultiStateView.ViewState.ERROR
                 invalidCitizenNumber(state.message ?: "Sorry, that didn’t work. Please try again")
