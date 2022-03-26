@@ -641,10 +641,10 @@ class EidInfoReviewAmendmentViewModel(application: Application) :
                         fullName = getFullName(),
                         gender = it.gender,
                         nationality = it.digit3CountryCode ?: "",
-                        //    identityNo = it.identityNo,
-                        identityNo = (700000000000000..800000000000000).random().toString(),
+                        identityNo = it.identityNo,
                         filePaths = it.filePaths ?: arrayListOf(),
-                        countryIsSanctioned = if (fromInformationErrorFragment) fromInformationErrorFragment else null
+                        countryIsSanctioned = if (fromInformationErrorFragment) fromInformationErrorFragment else null,
+                        isAmendment = !parentViewModel?.amendmentMap.isNullOrEmpty()
                     )
 
                     state.loading = true

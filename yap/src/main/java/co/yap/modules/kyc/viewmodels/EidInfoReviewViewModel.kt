@@ -45,7 +45,6 @@ import com.bumptech.glide.load.model.GlideUrl
 import com.bumptech.glide.load.model.LazyHeaders
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
-import com.digitify.identityscanner.docscanner.models.Identity
 import com.digitify.identityscanner.docscanner.models.IdentityScannerResult
 import com.google.gson.Gson
 import java.text.SimpleDateFormat
@@ -158,87 +157,6 @@ class EidInfoReviewViewModel(application: Application) :
     }
 
 
-    /*  fun performUploadDocumentsRequest(
-          fromInformationErrorFragment: Boolean,
-          success: (message: String) -> Unit
-      ) {
-          parentViewModel?.identity?.let {
-              if (it.expirationDate == null) {
-                  clickEvent.setValue(eventEidExpiryDateIssue)
-              } else {
-                  launch {
-                      val request = UploadDocumentsRequest(
-                          documentType = "EMIRATES_ID",
-                          firstName = state.firstName,
-                          middleName = if (state.middleName.isNotBlank()) state.middleName else null,
-                          lastName = if (state.lastName.isNotBlank()) state.lastName else null,
-                          dateExpiry = it.expirationDate,
-                          dob = it.dateOfBirth,
-                          fullName = getFullName(),
-                          gender = it.gender.mrz.toString(),
-                          nationality = it.isoCountryCode3Digit.toUpperCase(),
-                          identityNo = it.citizenNumber,
-                          filePaths = parentViewModel?.paths ?: arrayListOf(),
-                          countryIsSanctioned = if (fromInformationErrorFragment) fromInformationErrorFragment else null
-                      )
-
-                      state.loading = true
-                      val response = repository.uploadDocuments(request)
-                      state.loading = false
-
-                      when (response) {
-                          is RetroApiResponse.Success -> {
-                              when (SessionManager.eidStatus) {
-                                  EIDStatus.EXPIRED, EIDStatus.VALID -> {
-                                      if (fromInformationErrorFragment) {
-                                          success.invoke("success")
-                                      } else {
-                                          SessionManager.eidStatus = EIDStatus.VALID
-                                          clickEvent.setValue(eventEidUpdate)
-                                          trackEvent(KYCEvents.KYC_ID_CONFIRMED.type)
-                                      }
-                                  }
-                                  EIDStatus.NOT_SET -> {
-                                      if (fromInformationErrorFragment) {
-                                          success.invoke("success")
-                                      } else {
-                                          SessionManager.eidStatus = EIDStatus.VALID
-                                          clickEvent.setValue(eventNext)
-                                          trackEvent(KYCEvents.KYC_ID_CONFIRMED.type)
-                                      }
-                                  }
-                                  else -> {
-                                      if (fromInformationErrorFragment) {
-                                          success.invoke("success")
-                                      } else {
-                                          SessionManager.eidStatus = EIDStatus.VALID
-                                          clickEvent.setValue(eventNext)
-                                          trackEvent(KYCEvents.KYC_ID_CONFIRMED.type)
-                                      }
-                                  }
-                              }
-                          }
-                          is RetroApiResponse.Error -> {
-                              if (fromInformationErrorFragment) {
-                                  success.invoke(response.error.message)
-                              } else {
-                                  if (response.error.actualCode.equals(
-                                          eventAlreadyUsedEid.toString(),
-                                          true
-                                      )
-                                  ) {
-                                      //clickEvent.setValue(EVENT_ALREADY_USED_EID)
-                                  }
-                                  state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
-                              }
-                          }
-                      }
-                  }
-
-              }
-          }
-      }*/
-
     fun performUqudoUploadDocumentsRequest(
         fromInformationErrorFragment: Boolean,
         success: (message: String) -> Unit
@@ -257,9 +175,8 @@ class EidInfoReviewViewModel(application: Application) :
                         dob = it.dob,
                         fullName = getFullName(),
                         gender = it.gender,
-                        nationality = it.digit3CountryCode?:"",
-                        //    identityNo = it.identityNo,
-                        identityNo = (700000000000000..800000000000000).random().toString(),
+                        nationality = it.digit3CountryCode ?: "",
+                        identityNo = it.identityNo,
                         filePaths = it.filePaths ?: arrayListOf(),
                         countryIsSanctioned = if (fromInformationErrorFragment) fromInformationErrorFragment else null
                     )
