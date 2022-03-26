@@ -23,13 +23,13 @@ interface IEidInfoReview {
         var nationality: String
         var dateOfBirth: String
         var gender: String
-        var expiryDate: String
+        var expiryDate: MutableLiveData<String>
         var citizenNumber: String
         var caption: String
         var fullNameValid: Boolean
         var nationalityValid: Boolean
         var genderValid: Boolean
-        var expiryDateValid: Boolean
+        var expiryDateValid: MutableLiveData<Boolean>
         var valid: Boolean
         var isShowMiddleName: ObservableBoolean
         var isShowLastName: ObservableBoolean
@@ -41,6 +41,8 @@ interface IEidInfoReview {
         var payLoadObj: MutableLiveData<UqudoPayLoad>
         var uqudoHeaderObj: MutableLiveData<UqudoHeader>
         var isExpired: MutableLiveData<Boolean>
+        var frontImage: MutableLiveData<String>
+        var BackImage: MutableLiveData<String>
     }
 
     interface View : IBase.View<ViewModel> {
@@ -74,9 +76,9 @@ interface IEidInfoReview {
         var sanctionedNationality: String
         var errorTitle: String
         var errorBody: String
-        fun requestAllAPIs(callAll : Boolean)
+        fun requestAllAPIs(callAll: Boolean)
         fun requestAllEIDConfigurations(
-            callAll : Boolean,
+            callAll: Boolean,
             responses: (
                 RetroApiResponse<SectionedCountriesResponseDTO>?,
                 RetroApiResponse<BaseResponse<ConfigureEIDResponse>>?,
@@ -84,8 +86,8 @@ interface IEidInfoReview {
             ) -> Unit
         )
 
-        fun populateState(identity: Identity?)
         var uqudoResponse: MutableLiveData<UqudoTokenResponse>
         fun populateUqudoState(identity: UqudoPayLoad?)
+
     }
 }

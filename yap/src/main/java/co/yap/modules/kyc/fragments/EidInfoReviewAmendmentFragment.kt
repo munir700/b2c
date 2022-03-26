@@ -35,13 +35,16 @@ import co.yap.yapcore.helpers.extentions.launchBottomSheet
 import co.yap.yapcore.helpers.extentions.launchSheet
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.SessionManager
+import com.bumptech.glide.load.model.GlideUrl
+import com.bumptech.glide.load.model.LazyHeaders
+import com.liveperson.messaging.commands.tasks.OpenSocketTask.AUTHORIZATION
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog
 import io.uqudo.sdk.core.DocumentBuilder
 import io.uqudo.sdk.core.UqudoBuilder
 import io.uqudo.sdk.core.domain.model.DocumentType
-
 import java.io.File
 import java.util.*
+
 
 class EidInfoReviewAmendmentFragment : KYCChildFragment<IEidInfoReviewAmendment.ViewModel>(),
     IEidInfoReviewAmendment.View, View.OnFocusChangeListener {
@@ -168,7 +171,7 @@ class EidInfoReviewAmendmentFragment : KYCChildFragment<IEidInfoReviewAmendment.
                 }
 
                 viewModel.eventNextWithError -> {
-                    viewModel.performUploadDocumentsRequest(true) {
+                    viewModel.performUqudoUploadDocumentsRequest(true) {
                         if (it.equals("success", true)) {
                             viewModel.state.errorScreenVisited = true
                             val action =
@@ -442,7 +445,6 @@ class EidInfoReviewAmendmentFragment : KYCChildFragment<IEidInfoReviewAmendment.
 
         }
         /*      if (data == null && viewModel.parentViewModel?.skipFirstScreen?.value == true) {
-        //TODO Uqudo Camera WILL BE Handled here
         showToast("Uqudo Camera will be integrated here!!")
        /* if (data == null && viewModel.parentViewModel?.skipFirstScreen?.value == true) {
 
@@ -514,10 +516,9 @@ class EidInfoReviewAmendmentFragment : KYCChildFragment<IEidInfoReviewAmendment.
             }
             Status.SUCCESS -> {
                 getViewBinding().multiStateView.viewState = MultiStateView.ViewState.CONTENT
-                viewModel.parentViewModel?.identity?.let {
-                    viewModel.populateState(it)
-                }
-            }
+                viewModel.state.payLoadObj.value?.let { identity ->
+                    viewModel.populateUqudoState(identity = identity)
+                }            }
             Status.ERROR -> {
                 getViewBinding().multiStateView.viewState = MultiStateView.ViewState.ERROR
                 invalidCitizenNumber(state.message ?: "Sorry, that didn’t work. Please try again")

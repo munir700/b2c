@@ -68,12 +68,7 @@ class EidInfoReviewState : BaseState(), IEidInfoReview.State {
             notifyPropertyChanged(BR.gender)
         }
 
-    @get:Bindable
-    override var expiryDate: String = ""
-        set(value) {
-            field = value
-            notifyPropertyChanged(BR.expiryDate)
-        }
+    override var expiryDate: MutableLiveData<String> = MutableLiveData()
 
     @get:Bindable
     override var fullNameValid: Boolean = false
@@ -96,12 +91,7 @@ class EidInfoReviewState : BaseState(), IEidInfoReview.State {
             notifyPropertyChanged(BR.genderValid)
         }
 
-    @get:Bindable
-    override var expiryDateValid: Boolean = false
-        set(value) {
-            field = value
-            notifyPropertyChanged(BR.expiryDateValid)
-        }
+    override var expiryDateValid: MutableLiveData<Boolean> = MutableLiveData()
 
     @get:Bindable
     override var valid: Boolean = true
@@ -125,4 +115,6 @@ class EidInfoReviewState : BaseState(), IEidInfoReview.State {
     override var payLoadObj: MutableLiveData<UqudoPayLoad> = MutableLiveData()
     override var uqudoHeaderObj: MutableLiveData<UqudoHeader> = MutableLiveData()
     override var isExpired: MutableLiveData<Boolean> = MutableLiveData()
+    override var frontImage: MutableLiveData<String> = MutableLiveData()
+    override var BackImage: MutableLiveData<String> = MutableLiveData()
 }

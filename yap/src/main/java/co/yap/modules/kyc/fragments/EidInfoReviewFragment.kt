@@ -126,7 +126,7 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
                 }
 
                 viewModel.eventNextWithError -> {
-                    viewModel.performUploadDocumentsRequest(true) {
+                    viewModel.performUqudoUploadDocumentsRequest(true) {
                         if (it.equals("success", true)) {
                             val action =
                                 EidInfoReviewFragmentDirections.actionEidInfoReviewFragmentToInformationErrorFragment(
@@ -313,26 +313,12 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
                 if (viewModel.state.uqudoToken.value.isNullOrBlank().not()) {
                     viewModel.extractJwt(viewModel.state.uqudoToken.value)
                 } else {
-                    navigateBack()
+                    if (viewModel.state.payLoadObj.value == null)  navigateBack()
                 }
             }
             else -> viewModel.parentViewModel?.finishKyc?.value = DocumentsResponse(false)
 
         }
-        /*if (data == null && viewModel.parentViewModel?.skipFirstScreen?.value == true) {
-        }
-        if (requestCode == IdentityScannerActivity.SCAN_EID_CAM && resultCode == Activity.RESULT_OK) {
-            data?.let {
-                it.getParcelableExtra<IdentityScannerResult>(IdentityScannerActivity.SCAN_RESULT)
-                    ?.let { it1 ->
-                        viewModel.onEIDScanningComplete(
-                            it1
-                        )
-                    }
-            }
-        } else {
-            viewModel.parentViewModel?.finishKyc?.value = DocumentsResponse(false)
-        }*/
     }
 
 

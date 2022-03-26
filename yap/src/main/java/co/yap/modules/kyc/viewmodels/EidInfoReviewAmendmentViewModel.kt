@@ -1,13 +1,14 @@
 package co.yap.modules.kyc.viewmodels
 
 import android.app.Application
+import android.graphics.Bitmap
+import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.CountDownTimer
 import android.text.TextUtils
 import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.MutableLiveData
-import co.yap.BuildConfig
 import co.yap.R
 import co.yap.countryutils.country.Country
 import co.yap.modules.onboarding.interfaces.IEidInfoReviewAmendment
@@ -17,6 +18,7 @@ import co.yap.networking.customers.requestdtos.UploadDocumentsRequest
 import co.yap.networking.customers.responsedtos.SectionedCountriesResponseDTO
 import co.yap.networking.customers.responsedtos.UqudoHeader
 import co.yap.networking.customers.responsedtos.UqudoPayLoad
+import co.yap.networking.customers.responsedtos.V2DocumentDTO
 import co.yap.networking.customers.responsedtos.documents.ConfigureEIDResponse
 import co.yap.networking.customers.responsedtos.documents.UqudoTokenResponse
 import co.yap.networking.interfaces.IRepositoryHolder
@@ -36,22 +38,20 @@ import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.DateUtils.getAge
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.extentions.saveEidTemp
 import co.yap.yapcore.helpers.validation.IValidator
 import co.yap.yapcore.helpers.validation.Validator
 import co.yap.yapcore.leanplum.KYCEvents
-import co.yap.yapcore.leanplum.getFormattedDate
 import co.yap.yapcore.leanplum.trackEvent
-import co.yap.yapcore.leanplum.trackEventWithAttributes
 import co.yap.yapcore.managers.SessionManager
-import com.digitify.identityscanner.core.arch.Gender
-import com.digitify.identityscanner.docscanner.models.Identity
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.model.GlideUrl
+import com.bumptech.glide.load.model.LazyHeaders
+import com.bumptech.glide.request.target.CustomTarget
+import com.bumptech.glide.request.transition.Transition
 import com.digitify.identityscanner.docscanner.models.IdentityScannerResult
 import com.google.gson.Gson
 import kotlinx.coroutines.delay
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import okhttp3.MultipartBody
-import okhttp3.RequestBody
-import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -88,9 +88,6 @@ class EidInfoReviewAmendmentViewModel(application: Application) :
         }
         validator?.setValidationListener(this)
         requestAllAPIs(true)
-        /*  parentViewModel?.identity?.let {
-              populateState(it)
-          }*/
     }
 
     override fun handlePressOnView(id: Int) {
@@ -102,12 +99,12 @@ class EidInfoReviewAmendmentViewModel(application: Application) :
     }
 
     private fun handlePressOnConfirmBtn() {
-        parentViewModel?.identity?.let {
+        parentViewModel?.uqudoIdentity?.value?.let {
             when {
-                TextUtils.isEmpty(it.givenName) || TextUtils.isEmpty(it.nationality) -> {
+                TextUtils.isEmpty(it.fullName) || TextUtils.isEmpty(it.nationality) -> {
                     clickEvent.setValue(eventErrorInvalidEid)
                 }
-                !it.isExpiryDateValid -> {
+                state.expiryDateValid.value?.not() == true -> {
                     updateLabels(
                         title = getString(Strings.screen_kyc_information_error_display_text_title_expired_card),
                         body = getString(Strings.screen_kyc_information_error_display_text_explanation_expired_card)
@@ -140,13 +137,13 @@ class EidInfoReviewAmendmentViewModel(application: Application) :
                     trackEventWithScreenName(FirebaseEvent.KYC_US)
                 }
                 sectionedCountries?.let { sc ->
-                    it.isoCountryCode2Digit.equals(
+                    it.digit3CountryCode.equals(
                         sc.data.find { country ->
-                            country.isoCountryCode2Digit.equals(
-                                it.isoCountryCode2Digit,
+                            country.isoCountryCode3Digit.equals(
+                                it.digit3CountryCode,
                                 true
                             )
-                        }?.isoCountryCode2Digit,
+                        }?.isoCountryCode3Digit,
                         true
                     )
                 } ?: true -> {
@@ -160,12 +157,12 @@ class EidInfoReviewAmendmentViewModel(application: Application) :
                     trackEvent(KYCEvents.KYC_PROHIBITED_CITIIZEN.type)
                     trackEventWithScreenName(FirebaseEvent.KYC_SANCTIONED)
                 }
-                parentViewModel?.document != null && it.citizenNumber != parentViewModel?.document?.identityNo -> {
+                parentViewModel?.document != null && it.identityNo != parentViewModel?.document?.identityNo -> {
                     state.toast =
                         "Your EID doesn't match with the current EID.^${AlertType.DIALOG.name}"
                 }
                 else -> {
-                    performUploadDocumentsRequest(false) {
+                    performUqudoUploadDocumentsRequest(false) {
                     }
                 }
             }
@@ -178,71 +175,9 @@ class EidInfoReviewAmendmentViewModel(application: Application) :
     }
 
     override fun onEIDScanningComplete(result: IdentityScannerResult) {
-        uploadDocuments(result)
+        //uploadDocuments(result)
     }
 
-    private fun uploadDocuments(result: IdentityScannerResult) {
-        if (!result.document.files.isNullOrEmpty() && result.document.files.size < 3) {
-            val fileFront = File(result.document.files[0].croppedFile)
-            val fileBack = File(result.document.files[1].croppedFile)
-
-            parentViewModel?.paths?.clear()
-            parentViewModel?.paths?.add(result.document.files[0].croppedFile)
-            parentViewModel?.paths?.add(result.document.files[1].croppedFile)
-
-            val fileFrontReqBody = RequestBody.create("image/*".toMediaTypeOrNull(), fileFront)
-            val partFront =
-                MultipartBody.Part.createFormData("files_f", fileFront.name, fileFrontReqBody)
-
-            val fileBackReqBody = RequestBody.create("image/*".toMediaTypeOrNull(), fileBack)
-            val partBack =
-                MultipartBody.Part.createFormData("files_b", fileBack.name, fileBackReqBody)
-            launch {
-                state.loading = true
-                when (val response = repository.detectCardData(partFront, partBack)) {
-
-                    is RetroApiResponse.Success -> {
-                        val data = response.data.data
-                        if (data != null) {
-                            val identity = Identity()
-                            identity.nationality = data.nationality
-                            identity.gender =
-                                if (data.sex.equals("M", true)) Gender.Male else Gender.Female
-                            identity.givenName = data.names
-                            trackEventWithAttributes(
-                                SessionManager.user,
-                                eidExpireDate = getFormattedDate(data.expiration_date)
-                            )
-                            identity.expirationDate =
-                                DateUtils.stringToDate(data.expiration_date, "yyMMdd")
-                            identity.dateOfBirth =
-                                DateUtils.stringToDate(data.date_of_birth, "yyMMdd")
-                            identity.citizenNumber = data.optional1
-                            identity.isoCountryCode2Digit = data.isoCountryCode2Digit
-                            identity.isoCountryCode3Digit = data.isoCountryCode3Digit
-                            result.identity = identity
-                            parentViewModel?.identity = identity
-                            populateState(parentViewModel?.identity)
-                        }
-                    }
-                    is RetroApiResponse.Error -> {
-                        if (null == parentViewModel?.identity)
-                            state.toast =
-                                "${response.error.message}^${AlertType.DIALOG_WITH_FINISH.name}"
-                        else {
-                            eidStateLiveData.postValue(State.error(response.error.message))
-//                            state.toast =
-//                                "${response.error.message}^${AlertType.DIALOG_WITH_FINISH.name}"
-                        }
-                        parentViewModel?.paths?.forEach { filePath ->
-                            File(filePath).deleteRecursively()
-                        }
-                    }
-                }
-                state.loading = false
-            }
-        }
-    }
 
     override fun getAllCountries() {
         launch(Dispatcher.Background) {
@@ -312,88 +247,6 @@ class EidInfoReviewAmendmentViewModel(application: Application) :
         }
     }
 
-    fun performUploadDocumentsRequest(
-        fromInformationErrorFragment: Boolean,
-        success: (message: String) -> Unit
-    ) {
-        parentViewModel?.identity?.let {
-            if (it.expirationDate == null) {
-                clickEvent.setValue(eventEidExpiryDateIssue)
-            } else {
-                launch {
-                    val request = UploadDocumentsRequest(
-                        documentType = "EMIRATES_ID",
-                        firstName = state.firstName,
-                        middleName = if (state.middleName.isNotBlank()) state.middleName else null,
-                        lastName = if (state.lastName.isNotBlank()) state.lastName else null,
-                        dateExpiry = state.expiryCalendar.time,
-                        dob = state.dobCalendar.time,
-                        fullName = getFullName(),
-                        gender = if (state.gender == Gender.Male.name) Gender.Male.mrz.toString() else Gender.Female.mrz.toString(),
-                        nationality = state.nationality.value?.isoCountryCode3Digit ?: "",
-                        identityNo = if (BuildConfig.DEBUG) (700000000000000..800000000000000).random()
-                            .toString() else state.citizenNumber.replace("-", ""),
-                        filePaths = parentViewModel?.paths ?: arrayListOf(),
-                        countryIsSanctioned = if (fromInformationErrorFragment) fromInformationErrorFragment else null,
-                        isAmendment = !parentViewModel?.amendmentMap.isNullOrEmpty()
-                    )
-                    state.loading = true
-                    val response = repository.uploadDocuments(request)
-                    state.loading = false
-
-                    when (response) {
-                        is RetroApiResponse.Success -> {
-                            when (SessionManager.eidStatus) {
-                                EIDStatus.EXPIRED, EIDStatus.VALID -> {
-                                    if (fromInformationErrorFragment) {
-                                        success.invoke("success")
-                                    } else {
-                                        SessionManager.eidStatus = EIDStatus.VALID
-                                        clickEvent.setValue(eventEidUpdate)
-                                        trackEvent(KYCEvents.KYC_ID_CONFIRMED.type)
-                                    }
-                                }
-                                EIDStatus.NOT_SET -> {
-                                    if (fromInformationErrorFragment) {
-                                        success.invoke("success")
-                                    } else {
-                                        SessionManager.eidStatus = EIDStatus.VALID
-                                        clickEvent.setValue(eventNext)
-                                        trackEvent(KYCEvents.KYC_ID_CONFIRMED.type)
-                                    }
-                                }
-                                else -> {
-                                    if (fromInformationErrorFragment) {
-                                        success.invoke("success")
-                                    } else {
-                                        SessionManager.eidStatus = EIDStatus.VALID
-                                        clickEvent.setValue(eventNext)
-                                        trackEvent(KYCEvents.KYC_ID_CONFIRMED.type)
-                                    }
-                                }
-                            }
-                        }
-                        is RetroApiResponse.Error -> {
-                            if (fromInformationErrorFragment) {
-                                success.invoke(response.error.message)
-                            } else {
-                                if (response.error.actualCode.equals(
-                                        eventAlreadyUsedEid.toString(),
-                                        true
-                                    )
-                                ) {
-                                    //clickEvent.setValue(EVENT_ALREADY_USED_EID)
-                                }
-                                state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
-                            }
-                        }
-                    }
-                }
-
-            }
-        }
-    }
-
     private fun getFullName(): String {
         return (when {
             state.middleName.isNotBlank() && state.lastName.isNotBlank() -> {
@@ -443,55 +296,6 @@ class EidInfoReviewAmendmentViewModel(application: Application) :
         }
     }
 
-    fun populateState(identity: Identity?) {
-        identity?.let {
-            splitLastNames(it.givenName + " " + it.sirName)
-            state.fullNameValid = state.firstName.isNotBlank()
-            state.nationality.value =
-                countries.firstOrNull { country -> country.isoCountryCode2Digit == it.isoCountryCode2Digit }
-            state.nationalityValid =
-                state.nationality.value != null && !state.isCountryUS
-            state.dateOfBirth.value =
-                DateUtils.reformatToLocalString(
-                    it.dateOfBirth,
-                    DateUtils.DEFAULT_DATE_FORMAT
-                )
-            state.expiryDate =
-                DateUtils.reformatToLocalString(it.expirationDate, DateUtils.DEFAULT_DATE_FORMAT)
-            state.expiryDateValid = it.isExpiryDateValid
-            state.genderValid = true
-            if (parentViewModel?.identity?.citizenNumber?.length != eidLength && !Utils.isValidEID(
-                    parentViewModel?.identity?.citizenNumber
-                )
-            ) {
-                clickEvent.setValue(eventCitizenNumberIssue)
-            } else {
-                state.citizenNumber = getFormattedCitizenNumber(it.citizenNumber)
-                parentViewModel?.state?.identityNo?.set(it.citizenNumber.replace("-", ""))
-            }
-            state.gender = it.gender.run {
-                when {
-                    this == Gender.Male -> getString(Strings.screen_b2c_eid_info_review_display_text_gender_male)
-                    this == Gender.Female -> getString(Strings.screen_b2c_eid_info_review_display_text_gender_female)
-                    else -> {
-                        state.genderValid = false
-                        ""
-                    }
-                }
-            }
-            state.dobCalendar = Calendar.getInstance().apply {
-                time = it.dateOfBirth
-            }
-            state.expiryCalendar = Calendar.getInstance().apply {
-                time = it.expirationDate
-            }
-            handleAgeValidation()
-            handleIsUsValidation()
-            validator?.toValidate()
-        }
-
-    }
-
     private fun getFormattedCitizenNumber(citizenNo: String?): String {
         return citizenNo?.let {
             state.caption =
@@ -531,7 +335,7 @@ class EidInfoReviewAmendmentViewModel(application: Application) :
         state.nationalityValid = false
         state.isDateOfBirthValid.set(false)
         state.genderValid = false
-        state.expiryDateValid = true
+        state.expiryDateValid.value = true
         state.expiryDate = ""
         state.isCountryUS = false
         //state.isShowMiddleName = false
@@ -676,13 +480,13 @@ class EidInfoReviewAmendmentViewModel(application: Application) :
             state.nationality.value = Country(name = documentFront?.nationality ?: "")
             state.nationalityValid =
                 state.nationality.value?.getName()?.isNotBlank() == true && !state.isCountryUS
-            var DOB = getDateFormatyyMMddToyyyyMMdd(documentBack?.dateOfBirth)
-            var EXD = getDateFormatyyMMddToyyyyMMdd(documentBack?.dateOfExpiry)
+            var DOB: Date = getDateFormatyyMMddToyyyyMMdd(documentBack?.dateOfBirth) ?: Date()
+            var EXD: Date = getDateFormatyyMMddToyyyyMMdd(documentBack?.dateOfExpiry) ?: Date()
             state.dateOfBirth.value =
                 DateUtils.reformatToLocalString(DOB, DateUtils.DEFAULT_DATE_FORMAT)
             state.expiryDate =
                 DateUtils.reformatToLocalString(EXD, DateUtils.DEFAULT_DATE_FORMAT)
-            state.expiryDateValid = EXD?.let { it1 -> isExpiryDateValid(it1) } ?: false
+            state.expiryDateValid.value = EXD?.let { it1 -> isExpiryDateValid(it1) } ?: false
             state.genderValid = true
             if (documentFront?.identityNumber?.length != eidLength && !Utils.isValidEID(
                     documentFront?.identityNumber
@@ -717,6 +521,32 @@ class EidInfoReviewAmendmentViewModel(application: Application) :
             }
             state.isCountryUS =
                 getCountryCode(documentFront?.nationality ?: "").contains(countryName ?: "US")
+            downloadImage {
+                state.viewState.postValue(
+                    it.not()
+                )
+                if (it) {
+                    parentViewModel?.uqudoIdentity?.value =
+                        V2DocumentDTO(
+                            filePaths = arrayListOf(
+                                state.frontImage.value ?: "",
+                                state.BackImage.value ?: ""
+                            ),
+                            documentType = "EMIRATES_ID",
+                            firstName = state.firstName,
+                            middleName = if (state.middleName.isNotBlank()) state.middleName else null,
+                            lastName = if (state.lastName.isNotBlank()) state.lastName else null,
+                            dateExpiry = EXD,
+                            dob = DOB,
+                            fullName = documentFront?.fullName ?: "",
+                            gender = documentBack?.sex.toString(),
+                            digit3CountryCode = documentBack?.nationality ?: "UAE",
+                            nationality = documentFront?.nationality ?: "",
+                            identityNo = documentFront?.identityNumber
+                        )
+                } else showToast("unable to download EIDs")
+            }
+
         }
     }
 
@@ -731,7 +561,7 @@ class EidInfoReviewAmendmentViewModel(application: Application) :
     fun getCountryCode(countryName: String): String =
         Locale.getISOCountries().find { Locale("", it).displayCountry == countryName } ?: ""
 
-    fun getDateFormatyyMMddToyyyyMMdd(string: String?): Date? {
+    fun getDateFormatyyMMddToyyyyMMdd(string: String?): Date {
         var inputSDF = SimpleDateFormat("yyMMdd")
         val outputSDF = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
         var date: Date? = null
@@ -746,7 +576,7 @@ class EidInfoReviewAmendmentViewModel(application: Application) :
         } catch (e: java.lang.Exception) {
             e.printStackTrace()
         }
-        return null
+        return Date()
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -765,6 +595,7 @@ class EidInfoReviewAmendmentViewModel(application: Application) :
             }
         }.start()
     }
+
     fun extractJwt(token: String?) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) showToast("Requires SDK 26") else {
             val parts = token?.split("\\.".toRegex())
@@ -791,4 +622,152 @@ class EidInfoReviewAmendmentViewModel(application: Application) :
         }
     }
 
+    fun performUqudoUploadDocumentsRequest(
+        fromInformationErrorFragment: Boolean,
+        success: (message: String) -> Unit
+    ) {
+        parentViewModel?.uqudoIdentity?.value?.let {
+            if (it.dateExpiry == null) {
+                clickEvent.setValue(eventEidExpiryDateIssue)
+            } else {
+                launch {
+                    val request = UploadDocumentsRequest(
+                        documentType = "EMIRATES_ID",
+                        firstName = state.firstName,
+                        middleName = if (state.middleName.isNotBlank()) state.middleName else null,
+                        lastName = if (state.lastName.isNotBlank()) state.lastName else null,
+                        dateExpiry = it.dateExpiry,
+                        dob = it.dob,
+                        fullName = getFullName(),
+                        gender = it.gender,
+                        nationality = it.digit3CountryCode ?: "",
+                        //    identityNo = it.identityNo,
+                        identityNo = (700000000000000..800000000000000).random().toString(),
+                        filePaths = it.filePaths ?: arrayListOf(),
+                        countryIsSanctioned = if (fromInformationErrorFragment) fromInformationErrorFragment else null
+                    )
+
+                    state.loading = true
+                    val response = repository.uploadDocuments(request)
+                    state.loading = false
+
+                    when (response) {
+                        is RetroApiResponse.Success -> {
+                            when (SessionManager.eidStatus) {
+                                EIDStatus.EXPIRED, EIDStatus.VALID -> {
+                                    if (fromInformationErrorFragment) {
+                                        success.invoke("success")
+                                    } else {
+                                        SessionManager.eidStatus = EIDStatus.VALID
+                                        clickEvent.setValue(eventEidUpdate)
+                                        trackEvent(KYCEvents.KYC_ID_CONFIRMED.type)
+                                    }
+                                }
+                                EIDStatus.NOT_SET -> {
+                                    if (fromInformationErrorFragment) {
+                                        success.invoke("success")
+                                    } else {
+                                        SessionManager.eidStatus = EIDStatus.VALID
+                                        clickEvent.setValue(eventNext)
+                                        trackEvent(KYCEvents.KYC_ID_CONFIRMED.type)
+                                    }
+                                }
+                                else -> {
+                                    if (fromInformationErrorFragment) {
+                                        success.invoke("success")
+                                    } else {
+                                        SessionManager.eidStatus = EIDStatus.VALID
+                                        clickEvent.setValue(eventNext)
+                                        trackEvent(KYCEvents.KYC_ID_CONFIRMED.type)
+                                    }
+                                }
+                            }
+                        }
+                        is RetroApiResponse.Error -> {
+                            if (fromInformationErrorFragment) {
+                                success.invoke(response.error.message)
+                            } else {
+                                if (response.error.actualCode.equals(
+                                        eventAlreadyUsedEid.toString(),
+                                        true
+                                    )
+                                ) {
+                                    //clickEvent.setValue(EVENT_ALREADY_USED_EID)
+                                }
+                                state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
+                            }
+                        }
+                    }
+                }
+
+            }
+        }
+    }
+
+    fun downloadImage(
+        success: (success: Boolean) -> Unit
+    ) {
+        launch(Dispatcher.Background) {
+            state.viewState.postValue(true)
+            downloadImagewithGlide(
+                state.payLoadObj.value?.data?.documents?.get(0)?.scan?.frontImageId ?: ""
+            ) { successs, resource ->
+                if (successs) {
+                    state.frontImage.value = resource?.let { context.saveEidTemp(it) }
+                    downloadImagewithGlide(
+                        state.payLoadObj.value?.data?.documents?.get(0)?.scan?.backImageId ?: ""
+                    ) { succsess, ressource ->
+                        if (succsess) {
+                            state.BackImage.value = ressource?.let {
+                                context.saveEidTemp(
+                                    it
+                                )
+                            }
+                            success.invoke(true)
+
+                        } else showToast(
+                            "Re-scan your EID"
+                        )
+                    }
+                } else showToast(
+                    "Re-scan your EID"
+                )
+            }
+        }
+    }
+
+    private fun downloadImagewithGlide(
+        imageId: String,
+        downloaded: (sucess: Boolean, bitmap: Bitmap?) -> Unit
+    ) {
+        Glide.with(context)
+            .asBitmap()
+            .load(
+                GlideUrl(
+                    "https://id.dev.uqudo.io/api/v1/info/img/$imageId", LazyHeaders.Builder()
+                        .addHeader(
+                            "Authorization",
+                            "Bearer " + uqudoResponse.value?.accessToken ?: ""
+                        )
+                        .build()
+                )
+            ).into(object : CustomTarget<Bitmap>() {
+                override fun onResourceReady(
+                    resource: Bitmap,
+                    transition: Transition<in Bitmap>?
+                ) {
+                    downloaded.invoke(true, resource)
+                }
+
+                override fun onLoadCleared(placeholder: Drawable?) {
+                }
+
+                override fun onLoadFailed(errorDrawable: Drawable?) {
+                    super.onLoadFailed(errorDrawable)
+                    downloaded.invoke(false, null)
+                    showToast("Unable to download")
+
+                }
+            })
+    }
 }

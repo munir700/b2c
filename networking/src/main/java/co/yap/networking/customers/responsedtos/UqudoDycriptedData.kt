@@ -4,6 +4,7 @@ import android.os.Parcelable
 import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
+import java.util.*
 
 @Keep
 @Parcelize
@@ -71,4 +72,24 @@ data class EidFront(
     @SerializedName("identityNumber") var identityNumber: String? = null,
     @SerializedName("fullName") var fullName: String? = null,
     @SerializedName("identityNumberVerified") var identityNumberVerified: Boolean? = null
+) : Parcelable
+
+
+@Parcelize
+data class V2DocumentDTO(
+    val filePaths: List<String>,
+    val documentType: String,
+    val firstName: String,
+    val middleName: String? = null,
+    val lastName: String? = null,
+    val nationality: String,
+    val dateExpiry: Date,
+    val dateIssue: Date? = null,
+    val dob: Date,
+    val fullName: String,
+    val gender: String, // M/F
+    val identityNo: String? = null,
+    val countryIsSanctioned: Boolean? = null,
+    val digit3CountryCode: String? = null,
+    val isAmendment: Boolean = false
 ) : Parcelable

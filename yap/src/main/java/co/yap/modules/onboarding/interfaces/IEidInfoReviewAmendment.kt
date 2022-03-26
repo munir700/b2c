@@ -35,7 +35,7 @@ interface IEidInfoReviewAmendment {
 
         //        var dateOfBirthValid: Boolean
         var genderValid: Boolean
-        var expiryDateValid: Boolean
+        var expiryDateValid: MutableLiveData<Boolean>
         var valid: Boolean
         var isShowMiddleName: ObservableBoolean
         var isShowLastName: ObservableBoolean
@@ -61,6 +61,8 @@ interface IEidInfoReviewAmendment {
         var payLoadObj: MutableLiveData<UqudoPayLoad>
         var uqudoHeaderObj: MutableLiveData<UqudoHeader>
         var isExpired: MutableLiveData<Boolean>
+        var frontImage: MutableLiveData<String>
+        var BackImage: MutableLiveData<String>
     }
 
     interface View : IBase.View<ViewModel> {
