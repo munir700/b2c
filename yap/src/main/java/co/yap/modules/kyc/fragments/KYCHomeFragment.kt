@@ -40,9 +40,8 @@ class KYCHomeFragment : KYCChildFragment<IKYCHome.ViewModel>(), IKYCHome.View {
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
                 R.id.cvCard -> {
-                  //  showToast("Uqudo Camera will be integrated here!!")
                     navigate(if (viewModel.isFromAmendment()) R.id.action_KYCHomeFragment_to_eidInfoReviewAmendmentFragment else R.id.action_KYCHomeFragment_to_eidInfoReviewFragment)
-                } //openCardScanner()
+                }
                 R.id.btnNext -> {
                     if (viewModel.parentViewModel?.accountStatus?.value == AccountStatus.CAPTURED_EID.name) {
                         viewModel.parentViewModel?.finishKyc?.value = DocumentsResponse(true)
@@ -102,41 +101,6 @@ class KYCHomeFragment : KYCChildFragment<IKYCHome.ViewModel>(), IKYCHome.View {
         super.onDestroyView()
     }
 
-/*
-    private fun openCardScanner() {
-        if (BuildConfig.DEBUG) {
-            val identityScannerResult = IdentityScannerResult()
-            identityScannerResult.document.type = DocumentType.EID
-            val fileFront = requireContext().dummyEID("FRONT")
-            identityScannerResult.document.files.add(
-                DocumentImage(
-                    fileFront?.absolutePath,
-                    DocumentPageType.FRONT
-                )
-            )
-            val fileBack =
-                requireContext().dummyEID("BACK")
-            identityScannerResult.document.files.add(
-                DocumentImage(
-                    fileBack?.absolutePath,
-                    DocumentPageType.BACK
-                )
-            )
-            viewModel.onEIDScanningComplete(
-                identityScannerResult
-            )
-        } else {
-            startActivityForResult(
-                IdentityScannerActivity.getLaunchIntent(
-                    requireContext(),
-                    DocumentType.EID,
-                    IdentityScannerActivity.SCAN_FROM_CAMERA
-                ),
-                IdentityScannerActivity.SCAN_EID_CAM
-            )
-        }
-    }
-*/
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)

@@ -594,13 +594,19 @@ class EidInfoReviewViewModel(application: Application) :
                             }
                             success.invoke(true)
 
-                        } else showToast(
-                            "Re-scan your EID"
-                        )
+                        } else {
+                            showToast(
+                                "Re-scan your EID"
+                            )
+                            state.viewState.postValue(false)
+                        }
                     }
-                } else showToast(
-                    "Re-scan your EID"
-                )
+                } else {
+                    showToast(
+                        "Re-scan your EID"
+                    )
+                    state.viewState.postValue(false)
+                }
             }
         }
     }
