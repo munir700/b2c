@@ -43,7 +43,7 @@ class KYCHomeFragment : KYCChildFragment<IKYCHome.ViewModel>(), IKYCHome.View {
                     navigate(if (viewModel.isFromAmendment()) R.id.action_KYCHomeFragment_to_eidInfoReviewAmendmentFragment else R.id.action_KYCHomeFragment_to_eidInfoReviewFragment)
                 }
                 R.id.btnNext -> {
-                    if (viewModel.parentViewModel?.accountStatus?.value == AccountStatus.CAPTURED_EID.name) {
+                    if (viewModel.parentViewModel?.accountStatus?.value == AccountStatus.FSS_PROFILE_UPDATED.name) {
                         viewModel.parentViewModel?.finishKyc?.value = DocumentsResponse(true)
                     } else {
                         viewModel.requestDocumentsInformation {
