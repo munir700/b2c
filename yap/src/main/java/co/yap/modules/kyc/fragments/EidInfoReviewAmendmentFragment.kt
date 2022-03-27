@@ -254,7 +254,7 @@ class EidInfoReviewAmendmentFragment : KYCChildFragment<IEidInfoReviewAmendment.
 
     private fun navigateToConfirmNameFragment() {
         viewModel.parentViewModel?.state?.let { state ->
-            state.identityNo.set(viewModel.state.citizenNumber.replace("-", ""))
+            state.identityNo.set(viewModel.state.citizenNumber.value?.replace("-", ""))
             state.middleName.set(viewModel.state.middleName)
             state.firstName.set(viewModel.state.firstName)
             state.lastName.set(viewModel.state.lastName)

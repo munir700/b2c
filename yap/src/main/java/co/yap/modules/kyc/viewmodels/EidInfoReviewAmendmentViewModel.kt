@@ -327,7 +327,7 @@ class EidInfoReviewAmendmentViewModel(application: Application) :
         state.nationality.value = null
         state.dateOfBirth.value = ""
         state.gender = ""
-        state.citizenNumber = ""
+        state.citizenNumber.value = ""
         state.caption = ""
         state.valid = false
         state.citizenNumberValid = false
@@ -475,7 +475,7 @@ class EidInfoReviewAmendmentViewModel(application: Application) :
         identity?.let {
             val documentBack = it.data?.documents?.get(0)?.scan?.back
             val documentFront = it.data?.documents?.get(0)?.scan?.front
-            splitLastNames(documentBack?.primaryId + " " + documentBack?.secondaryId)
+            documentFront?.fullName?.let { it1 -> splitLastNames(it1) }
             state.fullNameValid = state.firstName.isNotBlank()
             state.nationality.value = Country(name = documentFront?.nationality ?: "")
             state.nationalityValid =
@@ -494,7 +494,7 @@ class EidInfoReviewAmendmentViewModel(application: Application) :
             ) {
                 clickEvent.setValue(eventCitizenNumberIssue)
             } else {
-                state.citizenNumber = getFormattedCitizenNumber(documentFront?.identityNumber)
+                state.citizenNumber.value = documentFront?.identityNumber
                 parentViewModel?.state?.identityNo?.set(documentFront?.identityNumber)
             }
             state.gender = documentBack?.sex.run {

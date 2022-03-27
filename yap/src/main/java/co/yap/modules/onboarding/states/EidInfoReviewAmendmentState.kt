@@ -14,12 +14,7 @@ import java.util.*
 
 class EidInfoReviewAmendmentState : BaseState(), IEidInfoReviewAmendment.State {
 
-    @get:Bindable
-    override var citizenNumber: String = ""
-        set(value) {
-            field = value
-            notifyPropertyChanged(BR.citizenNumber)
-        }
+    override var citizenNumber: MutableLiveData<String> = MutableLiveData()
 
     @get:Bindable
     override var caption: String = ""
@@ -93,7 +88,7 @@ class EidInfoReviewAmendmentState : BaseState(), IEidInfoReviewAmendment.State {
             notifyPropertyChanged(BR.genderValid)
         }
 
-    override var expiryDateValid:MutableLiveData<Boolean> = MutableLiveData()
+    override var expiryDateValid: MutableLiveData<Boolean> = MutableLiveData()
 
     @get:Bindable
     override var valid: Boolean = true

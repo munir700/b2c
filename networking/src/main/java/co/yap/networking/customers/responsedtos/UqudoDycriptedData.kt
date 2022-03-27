@@ -25,10 +25,12 @@ data class UqudoPayLoad(
 ) : Parcelable
 
 @Parcelize
+@Keep
 data class EidData(
     @SerializedName("documents") var documents: MutableList<IdentityDocument> = mutableListOf()
 ) : Parcelable
 
+@Keep
 @Parcelize
 data class IdentityDocument(
     @SerializedName("face") var face: String? = null,
@@ -37,6 +39,7 @@ data class IdentityDocument(
     @SerializedName("reading") var reading: String? = null
 ) : Parcelable
 
+@Keep
 @Parcelize
 data class Scan(
     @SerializedName("edited") var edited: Boolean? = null,
@@ -48,6 +51,7 @@ data class Scan(
 
 ) : Parcelable
 
+@Keep
 @Parcelize
 data class EidBack(
     @SerializedName("documentCode") var documentCode: String? = null,
@@ -65,6 +69,7 @@ data class EidBack(
     @SerializedName("mrzVerified") var mrzVerified: Boolean? = null
 ) : Parcelable
 
+@Keep
 @Parcelize
 data class EidFront(
     @SerializedName("nationality") var nationality: String? = null,
@@ -74,7 +79,7 @@ data class EidFront(
     @SerializedName("identityNumberVerified") var identityNumberVerified: Boolean? = null
 ) : Parcelable
 
-
+@Keep
 @Parcelize
 data class V2DocumentDTO(
     val filePaths: List<String>,
