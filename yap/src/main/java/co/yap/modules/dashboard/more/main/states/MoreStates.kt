@@ -1,6 +1,7 @@
 package co.yap.modules.dashboard.more.main.states
 
 import androidx.databinding.Bindable
+import androidx.databinding.ObservableBoolean
 import co.yap.BR
 import co.yap.modules.dashboard.more.main.interfaces.IMore
 import co.yap.yapcore.BaseState
@@ -21,4 +22,5 @@ class MoreStates : BaseState(), IMore.State {
             field = value
             notifyPropertyChanged(BR.tootlBarBadgeVisibility)
         }
+    override var toolbarVisibility: ObservableBoolean = ObservableBoolean()
 }

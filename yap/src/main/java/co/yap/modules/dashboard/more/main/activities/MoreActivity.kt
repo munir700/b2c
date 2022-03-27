@@ -50,11 +50,12 @@ class MoreActivity : BaseBindingActivity<IMore.ViewModel>(), INavigator,
     }
 
     public fun hideToolbar() {
-        getDataBindingView<ActivityMoreBinding>().toolbar.visibility = View.INVISIBLE
+          getDataBindingView<ActivityMoreBinding>().toolbar.visibility = View.INVISIBLE
     }
 
     public fun goneToolbar() {
-        getDataBindingView<ActivityMoreBinding>().toolbar.visibility = View.GONE
+        viewModel.state.toolbarVisibility.set(false)
+        //getDataBindingView<ActivityMoreBinding>().toolbar.visibility = View.GONE
     }
 
     fun visibleToolbar() {

@@ -11,12 +11,7 @@ import com.digitify.identityscanner.BR
 
 class EidInfoReviewState : BaseState(), IEidInfoReview.State {
 
-    @get:Bindable
-    override var citizenNumber: String = ""
-        set(value) {
-            field = value
-            notifyPropertyChanged(BR.citizenNumber)
-        }
+    override var citizenNumber: MutableLiveData<String> = MutableLiveData()
 
     @get:Bindable
     override var caption: String = ""

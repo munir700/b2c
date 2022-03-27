@@ -54,8 +54,8 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        if (context is MoreActivity)
-            (context as MoreActivity).visibleToolbar()
+        viewModel.parentViewModel?.state?.toolbarVisibility?.set(true)
+
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

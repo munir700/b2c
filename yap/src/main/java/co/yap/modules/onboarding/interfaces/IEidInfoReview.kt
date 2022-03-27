@@ -24,7 +24,7 @@ interface IEidInfoReview {
         var dateOfBirth: String
         var gender: String
         var expiryDate: MutableLiveData<String>
-        var citizenNumber: String
+        var citizenNumber: MutableLiveData<String>
         var caption: String
         var fullNameValid: Boolean
         var nationalityValid: Boolean
