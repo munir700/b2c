@@ -21,7 +21,8 @@ data class BuildConfigManager(
     var sslHost: String?,
     var spayServiceId: String?,
     var flagSmithAPIKey: String?,
-    var uxCamKey: String?
+    var uxCamKey: String?,
+    var checkoutKey: String?
 ) {
 
     fun isReleaseBuild(): Boolean = buildType == "release"

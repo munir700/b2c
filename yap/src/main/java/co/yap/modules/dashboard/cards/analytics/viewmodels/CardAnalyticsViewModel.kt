@@ -21,6 +21,7 @@ import co.yap.yapcore.helpers.DateUtils.SIMPLE_DATE_FORMAT
 import co.yap.yapcore.helpers.ImageBinding
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.managers.SessionManager
+import java.text.SimpleDateFormat
 import java.util.*
 
 class CardAnalyticsViewModel(application: Application) :
@@ -30,7 +31,6 @@ class CardAnalyticsViewModel(application: Application) :
     override var selectedModel: MutableLiveData<AnalyticsItem> = MutableLiveData()
     val repository: TransactionsRepository = TransactionsRepository
     override val clickEvent: SingleClickEvent = SingleClickEvent()
-    override var currentDate: Date? = null
     private var listOfMonths: List<Date> = arrayListOf()
 //    override var type: ObservableField<String> = ObservableField("merchant-category-id")
 
@@ -46,33 +46,28 @@ class CardAnalyticsViewModel(application: Application) :
             startDate,
             endDate
         )
-        currentDate.let {
-            currentDate = Date()
-        }
-        setSelectedDate(currentDate)
-        state.previousMonth = isPreviousIconEnabled(listOfMonths, currentDate)
-        state.nextMonth = isNextIconEnabled(listOfMonths, currentDate)
     }
 
     override fun handlePressOnView(id: Int) {
         when (id) {
             R.id.ivPrevious -> {
-                currentDate = DateUtils.getPriviousMonthFromCurrentDate(
+                parentViewModel?.currentDate = DateUtils.getPriviousMonthFromCurrentDate(
                     listOfMonths,
-                    currentDate
+                    parentViewModel?.currentDate
                 )
-                fetchAnalytics(currentDate)
-                state.previousMonth = isPreviousIconEnabled(listOfMonths, currentDate)
+                fetchAnalytics(parentViewModel?.currentDate)
+                state.previousMonth =
+                    isPreviousIconEnabled(listOfMonths, parentViewModel?.currentDate)
                 state.nextMonth = true
                 trackEventWithScreenName(FirebaseEvent.SCROLL_DATES)
             }
             R.id.ivNext -> {
-                currentDate = DateUtils.getNextMonthFromCurrentDate(
+                parentViewModel?.currentDate = DateUtils.getNextMonthFromCurrentDate(
                     listOfMonths,
-                    currentDate
+                    parentViewModel?.currentDate
                 )
-                fetchAnalytics(currentDate)
-                state.nextMonth = isNextIconEnabled(listOfMonths, currentDate)
+                fetchAnalytics(parentViewModel?.currentDate)
+                state.nextMonth = isNextIconEnabled(listOfMonths, parentViewModel?.currentDate)
                 state.previousMonth = true
                 trackEventWithScreenName(FirebaseEvent.SCROLL_DATES)
 
@@ -198,8 +193,7 @@ class CardAnalyticsViewModel(application: Application) :
     }
 
     private fun setSelectedDate(currentDate: Date?) {
-        state.displayMonth =
-            currentDate?.let { DateUtils.getMonth(it) } ?: ""
+        state.displayMonth = currentDate?.let { DateUtils.getMonth(it) } ?: ""
         state.selectedMonth = DateUtils.dateToString(currentDate, FORMAT_MONTH_YEAR, false)
         parentViewModel?.state?.currentSelectedMonth = state.selectedMonth ?: ""
         parentViewModel?.state?.currentSelectedDate =
@@ -216,5 +210,45 @@ class CardAnalyticsViewModel(application: Application) :
             showFirstInitials = false,
             categoryColor = ""
         )
+    }
+
+    override fun setCurrentMonthCall() {
+        fetchCardCategoryAnalytics(
+            DateUtils.dateToString(
+                Calendar.getInstance().time,
+                SIMPLE_DATE_FORMAT, DateUtils.TIME_ZONE_Default
+            )
+        )
+        setDateAndMonthsEnableStates(Date())
+        setSelectedDate(parentViewModel?.currentDate)
+    }
+
+    override fun fetchCardCategoryAnalyticsByDate() {
+        if(parentViewModel?.currentDate == null){
+            with(parentViewModel?.state) {
+                this?.selectedDate?.let {
+                    if (it.isNotEmpty()) {
+                        SimpleDateFormat(
+                            DateUtils.FORMAT_COMPLETE_DATE,
+                            Locale.getDefault()
+                        ).parse(it)?.let { date ->
+                            fetchCardCategoryAnalytics(
+                                DateUtils.dateToString(
+                                    date, SIMPLE_DATE_FORMAT, DateUtils.TIME_ZONE_Default
+                                )
+                            )
+                            setDateAndMonthsEnableStates(date)
+                            setSelectedDate(parentViewModel?.currentDate)
+                        }
+                    } else setCurrentMonthCall()
+                } ?: setCurrentMonthCall()
+            }
+        }
+    }
+
+    override fun setDateAndMonthsEnableStates(date: Date?) {
+        parentViewModel?.currentDate = date
+        state.previousMonth = isPreviousIconEnabled(listOfMonths, parentViewModel?.currentDate)
+        state.nextMonth = isNextIconEnabled(listOfMonths, parentViewModel?.currentDate)
     }
 }

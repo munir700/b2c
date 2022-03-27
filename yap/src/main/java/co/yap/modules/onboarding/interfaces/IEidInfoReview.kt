@@ -1,9 +1,10 @@
 package co.yap.modules.onboarding.interfaces
 
 import androidx.databinding.ObservableBoolean
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import co.yap.networking.customers.responsedtos.SectionedCountriesResponseDTO
+import co.yap.networking.customers.responsedtos.UqudoHeader
+import co.yap.networking.customers.responsedtos.UqudoPayLoad
 import co.yap.networking.customers.responsedtos.documents.ConfigureEIDResponse
 import co.yap.networking.customers.responsedtos.documents.UqudoTokenResponse
 import co.yap.networking.models.BaseResponse
@@ -22,13 +23,13 @@ interface IEidInfoReview {
         var nationality: String
         var dateOfBirth: String
         var gender: String
-        var expiryDate: String
+        var expiryDate: MutableLiveData<String>
         var citizenNumber: String
         var caption: String
         var fullNameValid: Boolean
         var nationalityValid: Boolean
         var genderValid: Boolean
-        var expiryDateValid: Boolean
+        var expiryDateValid: MutableLiveData<Boolean>
         var valid: Boolean
         var isShowMiddleName: ObservableBoolean
         var isShowLastName: ObservableBoolean
@@ -36,6 +37,12 @@ interface IEidInfoReview {
         var AgeLimit: Int?
         var isCountryUS: Boolean
         var isTokenValid: ObservableBoolean
+        var uqudoToken: MutableLiveData<String>
+        var payLoadObj: MutableLiveData<UqudoPayLoad>
+        var uqudoHeaderObj: MutableLiveData<UqudoHeader>
+        var isExpired: MutableLiveData<Boolean>
+        var frontImage: MutableLiveData<String>
+        var BackImage: MutableLiveData<String>
     }
 
     interface View : IBase.View<ViewModel> {
@@ -69,8 +76,9 @@ interface IEidInfoReview {
         var sanctionedNationality: String
         var errorTitle: String
         var errorBody: String
-        fun requestAllAPIs()
+        fun requestAllAPIs(callAll: Boolean)
         fun requestAllEIDConfigurations(
+            callAll: Boolean,
             responses: (
                 RetroApiResponse<SectionedCountriesResponseDTO>?,
                 RetroApiResponse<BaseResponse<ConfigureEIDResponse>>?,
@@ -78,7 +86,8 @@ interface IEidInfoReview {
             ) -> Unit
         )
 
-        fun populateState(identity: Identity?)
-        var uqudoToken: LiveData<String>
+        var uqudoResponse: MutableLiveData<UqudoTokenResponse>
+        fun populateUqudoState(identity: UqudoPayLoad?)
+
     }
 }

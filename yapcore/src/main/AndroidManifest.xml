@@ -23,21 +23,26 @@
         <activity
             android:name="co.yap.modules.frame.FrameActivity"
             android:screenOrientation="portrait"
+            android:exported="false"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name="co.yap.modules.frame.FrameDialogActivity"
             android:configChanges="screenSize|keyboard"
+            android:exported="false"
             android:theme="@style/myDialog" />
         <activity
             android:name="co.yap.modules.setcardpin.activities.SetCardPinWelcomeActivity"
+            android:exported="false"
             android:screenOrientation="portrait" />
         <activity
             android:name="co.yap.modules.pdf.PDFActivity"
+            android:exported="false"
             android:screenOrientation="portrait" />
 
         <activity
             android:name="co.yap.modules.location.activities.LocationSelectionActivity"
             android:screenOrientation="portrait"
+            android:exported="false"
             android:windowSoftInputMode="adjustResize" />
 
         <meta-data

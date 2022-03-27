@@ -7,6 +7,7 @@ import co.yap.modules.dashboard.cards.analytics.main.states.CardAnalyticsMainSta
 import co.yap.networking.transactions.responsedtos.TxnAnalytic
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
+import java.util.*
 
 class CardAnalyticsMainViewModel(application: Application) :
     BaseViewModel<ICardAnalyticsMain.State>(application),
@@ -31,4 +32,5 @@ class CardAnalyticsMainViewModel(application: Application) :
 
     override val selectedItemPositionParent: MutableLiveData<Int> = MutableLiveData()
     override val isMerchant: MutableLiveData<Boolean> = MutableLiveData(false)
+    override var currentDate: Date? = null
 }

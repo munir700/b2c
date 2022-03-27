@@ -13,6 +13,7 @@
 
         <activity
             android:name="co.yap.sendmoney.activities.SendMoneyHomeActivity"
+            android:exported="false"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize">
             <nav-graph android:value="@navigation/send_money_main_navigation" />
@@ -21,17 +22,19 @@
         <!-- Send Money Edit Beneficiary -->
         <activity
             android:name="co.yap.sendmoney.editbeneficiary.activity.EditBeneficiaryActivity"
+            android:exported="false"
             android:screenOrientation="portrait" />
 
         <!--Update Flag to hide keyboard-->
         <activity
             android:name="co.yap.sendmoney.fundtransfer.activities.BeneficiaryFundTransferActivity"
+            android:exported="false"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
 
- <!--       <activity
-            android:name="co.yap.sendmoney.home.activities.SendMoneyLandingActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateAlwaysHidden" />-->
+        <!--       <activity
+                   android:name="co.yap.sendmoney.home.activities.SendMoneyLandingActivity"
+                   android:screenOrientation="portrait"
+                   android:windowSoftInputMode="stateAlwaysHidden" />-->
     </application>
 </manifest>

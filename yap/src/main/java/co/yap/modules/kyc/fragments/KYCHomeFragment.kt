@@ -1,6 +1,5 @@
 package co.yap.modules.kyc.fragments
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import androidx.databinding.Observable
@@ -17,7 +16,6 @@ import co.yap.translation.Strings
 import co.yap.yapcore.enums.AccountStatus
 import co.yap.yapcore.firebase.FirebaseEvent
 import co.yap.yapcore.firebase.trackEventWithScreenName
-import com.digitify.identityscanner.docscanner.activities.IdentityScannerActivity
 import java.io.File
 
 class KYCHomeFragment : KYCChildFragment<IKYCHome.ViewModel>(), IKYCHome.View {
@@ -41,9 +39,11 @@ class KYCHomeFragment : KYCChildFragment<IKYCHome.ViewModel>(), IKYCHome.View {
         viewModel.state.addOnPropertyChangedCallback(stateObserver)
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
-                R.id.cvCard -> showToast("Uqudo Camera will be integrated here!!") //openCardScanner()
+                R.id.cvCard -> {
+                    navigate(if (viewModel.isFromAmendment()) R.id.action_KYCHomeFragment_to_eidInfoReviewAmendmentFragment else R.id.action_KYCHomeFragment_to_eidInfoReviewFragment)
+                }
                 R.id.btnNext -> {
-                    if (viewModel.parentViewModel?.accountStatus?.value == AccountStatus.CAPTURED_EID.name) {
+                    if (viewModel.parentViewModel?.accountStatus?.value == AccountStatus.FSS_PROFILE_UPDATED.name) {
                         viewModel.parentViewModel?.finishKyc?.value = DocumentsResponse(true)
                     } else {
                         viewModel.requestDocumentsInformation {
@@ -101,55 +101,20 @@ class KYCHomeFragment : KYCChildFragment<IKYCHome.ViewModel>(), IKYCHome.View {
         super.onDestroyView()
     }
 
-/*
-    private fun openCardScanner() {
-        if (BuildConfig.DEBUG) {
-            val identityScannerResult = IdentityScannerResult()
-            identityScannerResult.document.type = DocumentType.EID
-            val fileFront = requireContext().dummyEID("FRONT")
-            identityScannerResult.document.files.add(
-                DocumentImage(
-                    fileFront?.absolutePath,
-                    DocumentPageType.FRONT
-                )
-            )
-            val fileBack =
-                requireContext().dummyEID("BACK")
-            identityScannerResult.document.files.add(
-                DocumentImage(
-                    fileBack?.absolutePath,
-                    DocumentPageType.BACK
-                )
-            )
-            viewModel.onEIDScanningComplete(
-                identityScannerResult
-            )
-        } else {
-            startActivityForResult(
-                IdentityScannerActivity.getLaunchIntent(
-                    requireContext(),
-                    DocumentType.EID,
-                    IdentityScannerActivity.SCAN_FROM_CAMERA
-                ),
-                IdentityScannerActivity.SCAN_EID_CAM
-            )
-        }
-    }
-*/
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-       // if (requestCode == IdentityScannerActivity.SCAN_EID_CAM && resultCode == Activity.RESULT_OK) {
-            //TODO UQUDO WILL BE IMPLEMENTED HERE
-            /*data?.let {
-                it.getParcelableExtra<IdentityScannerResult>(IdentityScannerActivity.SCAN_RESULT)
-                    ?.let { it1 ->
-                        viewModel.onEIDScanningComplete(
-                            it1
-                        )
-                    }
-            }*/
-     //   }
+        // if (requestCode == IdentityScannerActivity.SCAN_EID_CAM && resultCode == Activity.RESULT_OK) {
+        //TODO UQUDO WILL BE IMPLEMENTED HERE
+        /*data?.let {
+            it.getParcelableExtra<IdentityScannerResult>(IdentityScannerActivity.SCAN_RESULT)
+                ?.let { it1 ->
+                    viewModel.onEIDScanningComplete(
+                        it1
+                    )
+                }
+        }*/
+        //   }
     }
 
     override fun onDestroy() {

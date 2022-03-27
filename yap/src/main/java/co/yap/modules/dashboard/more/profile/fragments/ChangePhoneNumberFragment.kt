@@ -64,8 +64,8 @@ class ChangePhoneNumberFragment : MoreBaseFragment<IChangePhoneNumber.ViewModel>
 
     private fun startOtpFragment() {
         startFragmentForResult<GenericOtpFragment>(
-            GenericOtpFragment::class.java.name,
-            bundleOf(
+           fragmentName =  GenericOtpFragment::class.java.name,
+           bundle =  bundleOf(
                 OtpDataModel::class.java.name to OtpDataModel(
                     OTPActions.CHANGE_MOBILE_NO.name,
                     "+${viewModel.state.countryCode + " " + viewModel.state.mobile}",

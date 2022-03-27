@@ -14,6 +14,7 @@
 
         <activity
             android:name="co.yap.billpayments.dashboard.BillPaymentsHomeActivity"
+            android:exported="false"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize">
             <nav-graph android:value="@navigation/bill_payments_main_navigation" />
@@ -21,22 +22,26 @@
 
         <activity
             android:name=".addbiller.main.AddBillActivity"
+            android:exported="false"
             android:screenOrientation="portrait">
             <nav-graph android:value="@navigation/add_bill_navigation" />
         </activity>
         <activity
             android:name=".billdetail.BillDetailActivity"
+            android:exported="false"
             android:screenOrientation="portrait">
             <nav-graph android:value="@navigation/bill_detail_navigation" />
         </activity>
 
         <activity
             android:name=".paybill.main.PayBillMainActivity"
+            android:exported="false"
             android:screenOrientation="portrait">
             <nav-graph android:value="@navigation/pay_bill_navigation" />
         </activity>
         <activity
             android:name=".payall.main.PayAllMainActivity"
+            android:exported="false"
             android:screenOrientation="portrait">
             <nav-graph android:value="@navigation/pay_all_navigation" />
         </activity>
