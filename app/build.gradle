@@ -126,7 +126,12 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation "io.uqudo.sdk:digitify:1.12.1"
+    implementation ('io.uqudo.sdk:digitify:1.12.1') {
+        exclude group: 'androidx.appcompat', module: 'appcompat'
+        exclude group: 'androidx.fragment'
+        exclude group: 'androidx.activity'
+        exclude group: 'androidx.navigation'
+    }
     project.testDependencies.each {
         add(it.configuration, it.dependency)
     }
