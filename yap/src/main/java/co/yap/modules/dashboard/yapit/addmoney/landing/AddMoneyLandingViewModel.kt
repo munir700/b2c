@@ -14,15 +14,15 @@ class AddMoneyLandingViewModel(application: Application) :
     override val state: IAddMoneyLanding.State =
         AddMoneyLandingState()
     override val landingAdapter =
-        AddMoneyLandingAdapter(
-            context,
-            mutableListOf()
+        AddMoneyLinearDashboardAdapter(
+            mutableListOf(),
+            null
         )
 
     override fun onCreate() {
         super.onCreate()
         setToolBarTitle(getString(Strings.screen_fragment_yap_it_add_money_title))
-        landingAdapter.setList(getAddMoneyOptions())
+        landingAdapter.setData(getAddMoneyOptions())
     }
 
     override fun handlePressOnView(id: Int) {
@@ -33,10 +33,45 @@ class AddMoneyLandingViewModel(application: Application) :
         val list = mutableListOf<AddMoneyLandingOptions>()
         list.add(
             AddMoneyLandingOptions(
+                id = Constants.ADD_MONEY_INSTANT_BANK_TRANSFER,
+                name = getString(Strings.screen_fragment_yap_it_add_money_instant_bank_transfer_title),
+                image = R.drawable.ic_instant_bank_transfer,
+                isPadding = true,
+                description = getString(Strings.screen_fragment_yap_it_add_money_instant_bank_transfer_description)
+            )
+        )
+        list.add(
+            AddMoneyLandingOptions(
+                id = Constants.ADD_MONEY_BANK_TRANSFER,
+                name = getString(Strings.screen_fragment_yap_it_add_money_text_bank_transfer),
+                image = R.drawable.ic_bank_transfer,
+                isPadding = true,
+                description = getString(Strings.screen_fragment_yap_it_add_money_text_bank_transfer_description)
+            )
+        )
+        list.add(
+            AddMoneyLandingOptions(
+                Constants.ADD_MONEY_QR_CODE,
+                getString(Strings.screen_fragment_yap_it_add_money_text_qr_code),
+                R.drawable.ic_qr_code,
+                description = getString(Strings.screen_fragment_yap_it_add_money_text_qr_code_description)
+            )
+        )
+        list.add(
+            AddMoneyLandingOptions(
                 id = Constants.ADD_MONEY_TOP_UP_VIA_CARD,
                 name = getString(Strings.screen_fragment_yap_it_add_money_text_top_via_card),
-                image = R.drawable.ic_icon_card_transfer,
-                isPadding = false
+                image = R.drawable.ic_credit_debit,
+                isPadding = true,
+                description = getString(Strings.screen_fragment_yap_it_add_money_text_top_via_card_description)
+            )
+        )
+        list.add(
+            AddMoneyLandingOptions(
+                Constants.ADD_MONEY_CASH_OR_CHEQUE,
+                getString(Strings.screen_fragment_yap_it_add_money_text_cash_or_cheque),
+                R.drawable.ic_cash,
+                description = getString(Strings.screen_fragment_yap_it_add_money_text_cash_or_cheque_description)
             )
         )
         /*  list.add(
@@ -53,27 +88,6 @@ class AddMoneyLandingViewModel(application: Application) :
                   R.drawable.flag_ae
               )
           )*/
-        list.add(
-            AddMoneyLandingOptions(
-                id = Constants.ADD_MONEY_BANK_TRANSFER,
-                name = getString(Strings.screen_fragment_yap_it_add_money_text_bank_transfer),
-                image = R.drawable.ic_bank_transfer
-            )
-        )
-        list.add(
-            AddMoneyLandingOptions(
-                Constants.ADD_MONEY_CASH_OR_CHEQUE,
-                getString(Strings.screen_fragment_yap_it_add_money_text_cash_or_cheque),
-                R.drawable.ic_cash
-            )
-        )
-        list.add(
-            AddMoneyLandingOptions(
-                Constants.ADD_MONEY_QR_CODE,
-                getString(Strings.screen_fragment_yap_it_add_money_text_qr_code),
-                R.drawable.ic_qr_code
-            )
-        )
         return list
     }
 }

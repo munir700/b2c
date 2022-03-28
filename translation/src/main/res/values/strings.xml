@@ -1288,12 +1288,18 @@
     <!--  Yap It Add Money Screen-->
     <string name="screen_fragment_yap_it_add_money_title">Add money</string>
     <string name="screen_fragment_yap_it_add_money_how_do_you_want_to_add_money">How do you want to add money?</string>
-    <string name="screen_fragment_yap_it_add_money_text_top_via_card">Top up via debit/credit card</string>
+    <string name="screen_fragment_yap_it_add_money_text_top_via_card">Credit or debit card</string>
     <string name="screen_fragment_yap_it_add_money_text_samsung_pay">Samsung Pay</string>
     <string name="screen_fragment_yap_it_add_money_text_google_pay">Google Pay</string>
     <string name="screen_fragment_yap_it_add_money_text_bank_transfer">Bank Transfer</string>
-    <string name="screen_fragment_yap_it_add_money_text_cash_or_cheque">Cash or Cheque</string>
+    <string name="screen_fragment_yap_it_add_money_text_cash_or_cheque">Cash or cheque</string>
     <string name="screen_fragment_yap_it_add_money_text_qr_code">QR code</string>
+    <string name="screen_fragment_yap_it_add_money_instant_bank_transfer_title">Instant bank transfer</string>
+    <string name="screen_fragment_yap_it_add_money_instant_bank_transfer_description">Link your existing bank accounts</string>
+    <string name="screen_fragment_yap_it_add_money_text_bank_transfer_description">Share your account details</string>
+    <string name="screen_fragment_yap_it_add_money_text_qr_code_description">Share your unique payment code</string>
+    <string name="screen_fragment_yap_it_add_money_text_top_via_card_description">Link a card and top up</string>
+    <string name="screen_fragment_yap_it_add_money_text_cash_or_cheque_description">Link a card and top up with it</string>
 
     <!--  Yap It QR Code Screen-->
     <string name="screen_fragment_yap_it_qr_code_share_my_code">Share my code</string>
@@ -1702,6 +1708,13 @@
     <string name="kyc_incorrect_field">Looks like this is incorrect</string>
     <string name="eid_info_review_screen_select_nationality">Please select your Nationality</string>
     <!-- KYC Amendments End -->
+
+    <!--Lean -Adding an Account- Welcome Screen-->
+    <string name="screen_lean_welcome_screen_title">Easy bank transfer</string>
+    <string name="screen_lean_welcome_screen_welcome_to_open_banking">Welcome to open banking</string>
+    <string name="screen_lean_welcome_screen_connect_one_of_your_existing_bank">Connect one of your existing bank accounts to YAP and use it to top-up instantly with zero fees!</string>
+    <string name="screen_lean_welcome_screen_link_an_account">Link an account</string>
+
 
 
 </resources>

@@ -2084,6 +2084,18 @@ object Strings {
         "screen_fragment_yap_it_add_money_text_qr_code"
     const val screen_yap_analytics_detail_transaction_count: String =
         "screen_yap_analytics_detail_transaction_count"
+    const val screen_fragment_yap_it_add_money_instant_bank_transfer_title: String =
+        "screen_fragment_yap_it_add_money_instant_bank_transfer_title"
+    const val screen_fragment_yap_it_add_money_instant_bank_transfer_description: String =
+        "screen_fragment_yap_it_add_money_instant_bank_transfer_description"
+    const val screen_fragment_yap_it_add_money_text_bank_transfer_description: String =
+        "screen_fragment_yap_it_add_money_text_bank_transfer_description"
+    const val screen_fragment_yap_it_add_money_text_qr_code_description: String =
+        "screen_fragment_yap_it_add_money_text_qr_code_description"
+    const val screen_fragment_yap_it_add_money_text_top_via_card_description: String =
+        "screen_fragment_yap_it_add_money_text_top_via_card_description"
+    const val screen_fragment_yap_it_add_money_text_cash_or_cheque_description: String =
+        "screen_fragment_yap_it_add_money_text_cash_or_cheque_description"
 
     // yap it QR Code screen
     const val screen_fragment_yap_it_qr_code_share_my_code: String =
@@ -2651,7 +2663,19 @@ object Strings {
     const val screen_missing_info_review_required = "screen_missing_info_review_required"
 
     // KYC Amendments/ Missing Info Confirmation Screen
-    const val screen_missing_info_confirmation_button_done = "screen_missing_info_confirmation_button_done"
-    const val screen_missing_info_confirmation_display_all_set = "screen_missing_info_confirmation_display_all_set"
+    const val screen_missing_info_confirmation_button_done =
+        "screen_missing_info_confirmation_button_done"
+    const val screen_missing_info_confirmation_display_all_set =
+        "screen_missing_info_confirmation_display_all_set"
+
+    //Lean -Adding an Account- Welcome Screen
+    const val screen_lean_welcome_screen_title =
+        "screen_lean_welcome_screen_title"
+    const val screen_lean_welcome_screen_welcome_to_open_banking =
+        "screen_lean_welcome_screen_welcome_to_open_banking"
+    const val screen_lean_welcome_screen_connect_one_of_your_existing_bank =
+        "screen_lean_welcome_screen_connect_one_of_your_existing_bank"
+    const val screen_lean_welcome_screen_link_an_account =
+        "screen_lean_welcome_screen_link_an_account"
 
 }
