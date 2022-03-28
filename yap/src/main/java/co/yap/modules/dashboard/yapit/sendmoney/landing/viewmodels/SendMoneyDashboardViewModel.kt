@@ -152,4 +152,3 @@ class SendMoneyDashboardViewModel(application: Application) :
         return list
     }
 }
-
