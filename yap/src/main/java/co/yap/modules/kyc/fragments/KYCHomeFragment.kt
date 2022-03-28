@@ -43,12 +43,12 @@ class KYCHomeFragment : KYCChildFragment<IKYCHome.ViewModel>(), IKYCHome.View {
                     navigate(if (viewModel.isFromAmendment()) R.id.action_KYCHomeFragment_to_eidInfoReviewAmendmentFragment else R.id.action_KYCHomeFragment_to_eidInfoReviewFragment)
                 }
                 R.id.btnNext -> {
-                    if (viewModel.parentViewModel?.accountStatus?.value == AccountStatus.FSS_PROFILE_UPDATED.name) {
-                        viewModel.parentViewModel?.finishKyc?.value = DocumentsResponse(true)
-                    } else {
+                    if (viewModel.parentViewModel?.accountStatus?.value == AccountStatus.CAPTURED_EID.name) {
                         viewModel.requestDocumentsInformation {
                             navigate(R.id.action_KYCHomeFragment_to_confirmCardNameFragment)
                         }
+                    } else {
+                        viewModel.parentViewModel?.finishKyc?.value = DocumentsResponse(true)
                     }
                 }
                 R.id.tvSkip -> {
@@ -99,22 +99,6 @@ class KYCHomeFragment : KYCChildFragment<IKYCHome.ViewModel>(), IKYCHome.View {
         viewModel.clickEvent.removeObservers(this)
         viewModel.state.removeOnPropertyChangedCallback(stateObserver)
         super.onDestroyView()
-    }
-
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        // if (requestCode == IdentityScannerActivity.SCAN_EID_CAM && resultCode == Activity.RESULT_OK) {
-        //TODO UQUDO WILL BE IMPLEMENTED HERE
-        /*data?.let {
-            it.getParcelableExtra<IdentityScannerResult>(IdentityScannerActivity.SCAN_RESULT)
-                ?.let { it1 ->
-                    viewModel.onEIDScanningComplete(
-                        it1
-                    )
-                }
-        }*/
-        //   }
     }
 
     override fun onDestroy() {
