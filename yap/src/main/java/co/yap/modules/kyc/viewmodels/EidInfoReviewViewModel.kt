@@ -181,7 +181,7 @@ class EidInfoReviewViewModel(application: Application) :
                         fullName = getFullName(),
                         gender = it.gender,
                         nationality = it.digit3CountryCode ?: "",
-                        identityNo = it.identityNo,
+                        identityNo = it.identityNo?.replace("-".toRegex(),""),
                         filePaths = it.filePaths ?: arrayListOf(),
                         countryIsSanctioned = if (fromInformationErrorFragment) fromInformationErrorFragment else null
                     )
