@@ -52,7 +52,7 @@ class TransactionDetailFactory(private val transaction: Transaction) {
 
             TransactionDetailItem.SENT_RECEIVED -> {
                 getSpentAmount(transaction).toString()
-                    .toFormattedCurrency(showCurrency = transaction.status != TransactionStatus.FAILED.name)
+                    .toFormattedCurrency(true)
             }
             TransactionDetailItem.FEES -> {
                 fee(transaction)
@@ -121,7 +121,7 @@ class TransactionDetailFactory(private val transaction: Transaction) {
     private fun getSpentAmount(transaction: Transaction): Double {
         transaction.let {
             return when {
-                it.status == TransactionStatus.FAILED.name -> 0.00
+                it.status == TransactionStatus.FAILED.name -> it.amount ?: 0.00
                 it.getProductType() == TransactionProductType.IS_TRANSACTION_FEE && it.productCode != TransactionProductCode.MANUAL_ADJUSTMENT.pCode -> {
                     0.00
                 }
