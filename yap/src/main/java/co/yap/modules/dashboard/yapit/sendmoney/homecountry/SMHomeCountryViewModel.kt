@@ -62,6 +62,7 @@ class SMHomeCountryViewModel(application: Application) :
     override fun populateData(hc: Country) {
         state.name?.set(hc.getName())
         state.countryCode?.set(hc.isoCountryCode2Digit)
+        //need to set boolean here --
     }
 
     override fun getHomeCountryRecentBeneficiaries() {

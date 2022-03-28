@@ -47,7 +47,7 @@ import co.yap.modules.dashboard.transaction.detail.TransactionDetailsActivity
 import co.yap.modules.dashboard.transaction.search.TransactionSearchFragment
 import co.yap.modules.dashboard.widgets.WidgetFragment
 import co.yap.modules.dashboard.yapit.addmoney.main.AddMoneyActivity
-import co.yap.modules.dashboard.yapit.sendmoney.landing.SendMoneyDashboardActivity
+import co.yap.modules.dashboard.yapit.sendmoney.landing.SendMoneyLinearDashboardActivity
 import co.yap.modules.kyc.activities.DocumentsDashboardActivity
 import co.yap.modules.kyc.amendments.missinginfo.MissingInfoFragment
 import co.yap.modules.location.activities.LocationSelectionActivity
@@ -222,7 +222,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                                 launchActivity<AddMoneyActivity>(type = FeatureSet.TOP_UP)
                             }
                             EnumWidgetTitles.SEND_MONEY.title -> {
-                                launchActivity<SendMoneyDashboardActivity>(type = FeatureSet.SEND_MONEY)
+                                launchActivity<SendMoneyLinearDashboardActivity>(type = FeatureSet.SEND_MONEY)
                             }
                             EnumWidgetTitles.QR_CODE.title -> {
                                 (activity as YapDashboardActivity).openQRCodeFragment()

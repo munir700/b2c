@@ -255,6 +255,11 @@
             android:screenOrientation="portrait" />
 
         <activity
+            android:name=".modules.dashboard.yapit.sendmoney.landing.SendMoneyLinearDashboardActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+
+        <activity
             android:name=".modules.dashboard.yapit.sendmoney.homecountry.SMHomeCountryActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
