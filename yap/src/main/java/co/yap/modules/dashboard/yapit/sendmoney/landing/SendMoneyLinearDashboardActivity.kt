@@ -11,7 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import co.yap.BR
 import co.yap.R
 import co.yap.countryutils.country.utils.CurrencyUtils
-import co.yap.databinding.ActivitySendMoneyDashboardBinding
+import co.yap.databinding.ActivitySendMoneyLinearDashboardBinding
 import co.yap.modules.dashboard.yapit.sendmoney.homecountry.SMHomeCountryActivity
 import co.yap.modules.dashboard.yapit.sendmoney.landing.viewmodels.SendMoneyLinearDashboardViewModel
 import co.yap.modules.dashboard.yapit.sendmoney.main.ISendMoneyLinearDashboard
@@ -42,7 +42,7 @@ import co.yap.yapcore.managers.SessionManager
 class SendMoneyLinearDashboardActivity : BaseBindingActivity<ISendMoneyLinearDashboard.ViewModel>(),
     ISendMoneyLinearDashboard.View {
     override fun getBindingVariable(): Int = BR.viewModel
-    override fun getLayoutId(): Int = R.layout.activity_send_money_dashboard
+    override fun getLayoutId(): Int = R.layout.activity_send_money_linear_dashboard
     override var permissionHelper: PermissionHelper? = null
     override val viewModel: SendMoneyLinearDashboardViewModel
         get() = ViewModelProvider(this).get(SendMoneyLinearDashboardViewModel::class.java)
@@ -299,7 +299,7 @@ class SendMoneyLinearDashboardActivity : BaseBindingActivity<ISendMoneyLinearDas
      * Open New Screens End
      */
 
-    override fun getBinding() = getDataBindingView<ActivitySendMoneyDashboardBinding>()
+    override fun getBinding() = getDataBindingView<ActivitySendMoneyLinearDashboardBinding>()
 
     override fun removeObservers() {
         viewModel.clickEvent.removeObservers(this)

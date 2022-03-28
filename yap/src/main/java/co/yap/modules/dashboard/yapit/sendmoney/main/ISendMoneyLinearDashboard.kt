@@ -1,7 +1,7 @@
 package co.yap.modules.dashboard.yapit.sendmoney.main
 
 import androidx.databinding.ObservableBoolean
-import co.yap.databinding.ActivitySendMoneyDashboardBinding
+import co.yap.databinding.ActivitySendMoneyLinearDashboardBinding
 import co.yap.modules.dashboard.yapit.sendmoney.landing.SendMoneyLinearDashboardAdapter
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.widgets.recent_transfers.CoreRecentTransferAdapter
@@ -27,7 +27,7 @@ interface ISendMoneyLinearDashboard {
 
     interface View : IBase.View<ViewModel> {
         var permissionHelper: PermissionHelper?
-        fun getBinding(): ActivitySendMoneyDashboardBinding
+        fun getBinding(): ActivitySendMoneyLinearDashboardBinding
         fun setObservers()
         fun removeObservers()
     }
