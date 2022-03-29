@@ -25,7 +25,7 @@ import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.widgets.SpaceGridItemDecoration
 import co.yap.widgets.scanqrcode.ScanQRCodeFragment
-import co.yap.yapcore.BaseBindingActivity
+import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.enums.FeatureSet
@@ -39,7 +39,7 @@ import co.yap.yapcore.helpers.permissions.PermissionHelper
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.SessionManager
 
-class SendMoneyLinearDashboardActivity : BaseBindingActivity<ISendMoneyLinearDashboard.ViewModel>(),
+class SendMoneyLinearDashboardFragment : BaseBindingFragment<ISendMoneyLinearDashboard.ViewModel>(),
     ISendMoneyLinearDashboard.View {
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.activity_send_money_linear_dashboard
@@ -50,13 +50,17 @@ class SendMoneyLinearDashboardActivity : BaseBindingActivity<ISendMoneyLinearDas
     val contactPer = 1
     val cameraPer = 2
     private val vs: ViewStub by lazy {
-        findViewById(R.id.vsRecentBeneficiaries)
+        view?.findViewById(R.id.vsRecentBeneficiaries) as ViewStub
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        initViewStub()
         setObservers()
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initViewStub()
         setupRecycleView()
         setData()
     }
@@ -121,11 +125,13 @@ class SendMoneyLinearDashboardActivity : BaseBindingActivity<ISendMoneyLinearDas
                             .find { date -> date.name == getString(Strings.screen_send_money_home_label) }
                             ?.let { option ->
                                 val index = viewModel.dashboardAdapter.datas.indexOf(option)
-                                option.image = CurrencyUtils.getFlagDrawable(
-                                    context,
+                                context?.let {
+                                    option.image = CurrencyUtils.getFlagDrawable(
+                                    it,
                                     SessionManager.homeCountry2Digit
                                 )
                                 viewModel.dashboardAdapter.update(index)
+                                }
                             }
                     }
                 }
@@ -166,24 +172,28 @@ class SendMoneyLinearDashboardActivity : BaseBindingActivity<ISendMoneyLinearDas
 
             override fun onPermissionDenied() {
                 if (type == cameraPer) {
-                    showToast(
-                        Translator.getString(
-                            context,
-                            Strings.screen_send_money_display_permission_text
+                    context?.let {
+                        showToast(
+                            Translator.getString(
+                                it,
+                                Strings.screen_send_money_display_permission_text
+                            )
                         )
-                    )
+                    }
                 } else
                     openY2YScreen()
             }
 
             override fun onPermissionDeniedBySystem() {
                 if (type == cameraPer) {
-                    showToast(
-                        Translator.getString(
-                            context,
-                            Strings.screen_send_money_display_permission_text
+                    context?.let {
+                        showToast(
+                            Translator.getString(
+                                it,
+                                Strings.screen_send_money_display_permission_text
+                            )
                         )
-                    )
+                    }
                 } else
                     openY2YScreen()
             }
@@ -211,7 +221,7 @@ class SendMoneyLinearDashboardActivity : BaseBindingActivity<ISendMoneyLinearDas
             when (requestCode) {
                 RequestCodes.REQUEST_NOTIFY_BENEFICIARY_LIST, RequestCodes.REQUEST_Y2Y_TRANSFER, RequestCodes.REQUEST_TRANSFER_MONEY -> {
                     if (data?.getBooleanExtra(Constants.MONEY_TRANSFERED, false) == true) {
-                        finish()
+                        activity?.finish()
                     }
                 }
             }
@@ -221,7 +231,7 @@ class SendMoneyLinearDashboardActivity : BaseBindingActivity<ISendMoneyLinearDas
     override fun onToolBarClick(id: Int) {
         when (id) {
             R.id.ivLeftIcon -> {
-                finish()
+                activity?.finish()
             }
             R.id.ivRightIcon -> {
                 launchActivity<SMBeneficiaryParentActivity>(

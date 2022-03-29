@@ -14,7 +14,7 @@ import co.yap.modules.dashboard.more.main.activities.MoreActivity
 import co.yap.modules.dashboard.more.notifications.main.NotificationsActivity
 import co.yap.modules.dashboard.more.yapforyou.activities.YAPForYouActivity
 import co.yap.modules.dashboard.transaction.detail.TransactionDetailsActivity
-import co.yap.modules.dashboard.yapit.sendmoney.landing.SendMoneyLinearDashboardActivity
+import co.yap.modules.dashboard.yapit.sendmoney.landing.SendMoneyLinearDashboardFragment
 import co.yap.modules.dashboard.yapit.topup.cardslisting.TopUpBeneficiariesActivity
 import co.yap.modules.kyc.activities.DocumentsDashboardActivity
 import co.yap.modules.others.fragmentpresenter.activities.FragmentPresenterActivity
@@ -173,7 +173,7 @@ class DeepLinkNavigation private constructor(private val activity: YapDashboardA
                     }
                 }
                 DeepLinkFlow.SEND_MONEY.flowId -> {
-                    activity.launchActivity<SendMoneyLinearDashboardActivity>(type = FeatureSet.SEND_MONEY)
+                    activity.startFragment<SendMoneyLinearDashboardFragment>(fragmentName = SendMoneyLinearDashboardFragment::class.java.name,type = FeatureSet.SEND_MONEY)
                 }
                 DeepLinkFlow.TOP_UP.flowId -> {
                     activity.launchActivity<TopUpBeneficiariesActivity>(requestCode = RequestCodes.REQUEST_SHOW_BENEFICIARY) {
