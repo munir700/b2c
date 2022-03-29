@@ -1,5 +1,6 @@
 package co.yap.modules.document
 
+import android.Manifest
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
@@ -21,8 +22,10 @@ import co.yap.yapcore.databinding.FragmentViewDocumentBinding
 import co.yap.yapcore.enums.PhotoSelectionType
 import co.yap.yapcore.helpers.ExtraKeys
 import co.yap.yapcore.helpers.FileUtils
+import co.yap.yapcore.helpers.confirm
 import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.helpers.glide.getUrl
+import co.yap.yapcore.helpers.permissions.PermissionHelper
 import co.yap.yapcore.helpers.showAlertDialogAndExitApp
 import pl.aprilapps.easyphotopicker.MediaFile
 import co.yap.yapcore.interfaces.OnItemClickListener
@@ -33,6 +36,7 @@ import com.liveperson.infra.utils.picasso.Picasso
 
 class ViewDocumentFragment : BaseBindingImageFragment<IViewDocumentFragment.ViewModel>(),
     IViewDocumentFragment.View {
+    private var permissionHelper: PermissionHelper? = null
 
     override val viewModel: IViewDocumentViewModel
         get() = ViewModelProvider(this).get(IViewDocumentViewModel::class.java)
@@ -43,6 +47,13 @@ class ViewDocumentFragment : BaseBindingImageFragment<IViewDocumentFragment.View
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         addObservers()
+        permissionHelper = PermissionHelper(
+            this,
+            arrayOf(
+                Manifest.permission.CAMERA,
+                Manifest.permission.READ_EXTERNAL_STORAGE
+            ), 600
+        )
         requireActivity().onBackPressedDispatcher.addCallback(object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 onBackPressedWithData()
@@ -110,7 +121,6 @@ class ViewDocumentFragment : BaseBindingImageFragment<IViewDocumentFragment.View
                                         file
                                     ).show()
                                 } ?: close()
-
                             }
                         }
                         else -> {
@@ -138,7 +148,7 @@ class ViewDocumentFragment : BaseBindingImageFragment<IViewDocumentFragment.View
                 if (viewModel.state.isNeedToShowUpdateDialogue.value == true) {
                     uploadAlert()
                 } else {
-                    showDialogueOptions()
+                    askPermission()
                 }
             }
             R.id.ivDelete -> {
@@ -194,7 +204,7 @@ class ViewDocumentFragment : BaseBindingImageFragment<IViewDocumentFragment.View
                 message = getString(R.string.screen_upload_document_display_text_alert_message),
                 leftButtonText = getString(R.string.screen_upload_document_display_text_alert_got_it),
                 callback = {
-                    showDialogueOptions()
+                    askPermission()
                 },
                 titleVisibility = true,
                 closeActivity = false,
@@ -364,6 +374,42 @@ class ViewDocumentFragment : BaseBindingImageFragment<IViewDocumentFragment.View
     override fun onDestroy() {
         super.onDestroy()
         removeObservers()
+    }
+
+    private fun askPermission() {
+        permissionHelper?.request(object : PermissionHelper.PermissionCallback {
+            override fun onPermissionGranted() {
+                showDialogueOptions()
+            }
+
+            override fun onPermissionDenied() {
+                super.onPermissionDenied()
+            }
+
+            override fun onPermissionDeniedBySystem() {
+                confirm(
+                    getString(R.string.permissions_rationale_ask_again),
+                    getString(R.string.title_settings_dialog)
+                ) {
+                    openAppSetting(200)
+
+                }
+            }
+        })
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        permissionHelper?.onRequestPermissionsResult(
+            requestCode,
+            permissions as Array<String>,
+            grantResults
+        )
+
     }
 
 }
