@@ -70,7 +70,12 @@ class EidInfoReviewAmendmentFragment : KYCChildFragment<IEidInfoReviewAmendment.
         super.onActivityCreated(savedInstanceState)
         if (viewModel.parentViewModel?.skipFirstScreen?.value == true) {
             if (!viewModel.state.errorScreenVisited) {
-                initializeUqudoScanner()
+                initializeUqudoScanner(
+                    requireActivity(),
+                    viewModel.uqudoResponse.value?.accessToken
+                )?.apply {
+                    startActivityForResult(this, REQUEST_CODE)
+                }
             }
             viewModel.state.errorScreenVisited = false
             getViewBinding().tbBtnBack.setOnClickListener {
@@ -156,12 +161,22 @@ class EidInfoReviewAmendmentFragment : KYCChildFragment<IEidInfoReviewAmendment.
                 viewModel.eventErrorUnderAge -> showUnderAgeScreen()
                 viewModel.eventErrorFromUsa -> showUSACitizenScreen()
                 viewModel.eventRescan -> {
-                    if (viewModel.state.isExpired.value == true) viewModel.requestAllAPIs(false) else initializeUqudoScanner()
+                    if (viewModel.state.isExpired.value == true) viewModel.requestAllAPIs(false) else initializeUqudoScanner(
+                        requireActivity(),
+                        viewModel.uqudoResponse.value?.accessToken
+                    )?.apply {
+                        startActivityForResult(this, REQUEST_CODE)
+                    }
                 }
                 R.id.tvNoThanks -> {
                     trackEventWithScreenName(FirebaseEvent.RESCAN_ID)
                     Utils.hideKeyboard(getViewBinding().tvNoThanks)
-                    if (viewModel.state.isExpired.value == true) viewModel.requestAllAPIs(false) else initializeUqudoScanner()
+                    if (viewModel.state.isExpired.value == true) viewModel.requestAllAPIs(false) else initializeUqudoScanner(
+                        requireActivity(),
+                        viewModel.uqudoResponse.value?.accessToken
+                    )?.apply {
+                        startActivityForResult(this, REQUEST_CODE)
+                    }
                 }
                 viewModel.eventAlreadyUsedEid -> {
                     viewModel.parentViewModel?.finishKyc?.value =
@@ -351,7 +366,10 @@ class EidInfoReviewAmendmentFragment : KYCChildFragment<IEidInfoReviewAmendment.
             it.showAlertDialogAndExitApp(
                 message = title,
                 callback = {
-                    if (viewModel.state.isExpired.value == true) viewModel.requestAllAPIs(false) else initializeUqudoScanner()
+                    if (viewModel.state.isExpired.value == true) viewModel.requestAllAPIs(false) else initializeUqudoScanner(
+                        requireActivity(),
+                        viewModel.uqudoResponse.value?.accessToken
+                    )
                 },
                 closeActivity = false
             )
@@ -510,7 +528,12 @@ class EidInfoReviewAmendmentFragment : KYCChildFragment<IEidInfoReviewAmendment.
             }
             Status.EMPTY -> {
                 getViewBinding().multiStateView.viewState = MultiStateView.ViewState.EMPTY
-                initializeUqudoScanner()
+                initializeUqudoScanner(
+                    requireActivity(),
+                    viewModel.uqudoResponse.value?.accessToken
+                )?.apply {
+                    startActivityForResult(this, REQUEST_CODE)
+                }
             }
             Status.SUCCESS -> {
                 getViewBinding().multiStateView.viewState = MultiStateView.ViewState.CONTENT
@@ -529,23 +552,23 @@ class EidInfoReviewAmendmentFragment : KYCChildFragment<IEidInfoReviewAmendment.
     }
 
     private val REQUEST_CODE get() = 1011
-
-    private fun initializeUqudoScanner() {
+    private fun initializeUqudoScanner(context: Context, token: String?): Intent? {
+        var uqudoIntent: Intent? = null
         try {
-            val doc = DocumentBuilder(requireActivity().applicationContext)
+            val doc = DocumentBuilder(context)
                 .setDocumentType(DocumentType.UAE_ID).disableHelpPage().enableReading()
-                .enableScanReview(true, true)
+                .enableScanReview(frontSide = true, backSide = true)
                 .build()
-            val uqudoIntent = UqudoBuilder.Enrollment()
-                .setToken(viewModel.uqudoResponse.value?.accessToken ?: "")
+            uqudoIntent = UqudoBuilder.Enrollment()
+                .setToken(token ?: "")
                 .disableSecureWindow()
                 .add(doc)
-                .build(requireActivity().applicationContext)
-            startActivityForResult(uqudoIntent, REQUEST_CODE)
+                .build(context)
         } catch (e: Exception) {
             e.printStackTrace()
             Toast.makeText(requireContext(), e.localizedMessage, Toast.LENGTH_LONG).show()
         }
+        return uqudoIntent
     }
 
     private fun getViewBinding() = getDataBindingView<FragmentEidInfoReviewAmendmentBinding>()
