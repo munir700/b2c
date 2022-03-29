@@ -11,6 +11,7 @@ import co.yap.BR
 import co.yap.R
 import co.yap.databinding.FragmentAddMoneyLandingBinding
 import co.yap.modules.dashboard.more.cdm.CdmMapFragment
+import co.yap.modules.dashboard.yapit.addmoney.easybanktransfer.welcomeScreen.EasyBankTransferWelcomeFragment
 import co.yap.modules.dashboard.yapit.addmoney.main.AddMoneyBaseFragment
 import co.yap.modules.dashboard.yapit.topup.cardslisting.TopUpBeneficiariesActivity
 import co.yap.modules.dashboard.yapit.topup.topupbankdetails.TopUpBankDetailsFragment
@@ -24,7 +25,6 @@ import co.yap.yapcore.firebase.FirebaseEvent
 import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.extentions.dimen
 import co.yap.yapcore.helpers.extentions.launchActivity
-import co.yap.yapcore.helpers.extentions.longToast
 import co.yap.yapcore.helpers.extentions.startFragment
 import co.yap.yapcore.interfaces.OnItemClickListener
 
@@ -75,8 +75,8 @@ class AddMoneyLandingFragment : AddMoneyBaseFragment<IAddMoneyLanding.ViewModel>
     private val observer = Observer<Int> {
         when (it) {
             Constants.ADD_MONEY_INSTANT_BANK_TRANSFER -> {
-                //trackEventWithScreenName(FirebaseEvent.CLICK_TOPUP_CARD)
-                context.longToast("instant bank transfer")
+                //add firebase event
+                startFragment(fragmentName = EasyBankTransferWelcomeFragment::class.java.name)
             }
             Constants.ADD_MONEY_TOP_UP_VIA_CARD -> {
                 trackEventWithScreenName(FirebaseEvent.CLICK_TOPUP_CARD)

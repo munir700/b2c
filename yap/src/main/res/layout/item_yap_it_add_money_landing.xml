@@ -32,7 +32,7 @@
             android:background="@drawable/bg_round_purple_enabled"
             android:contentDescription="@string/empty_string"
             app:layout_constraintEnd_toEndOf="parent"
-            android:padding="@{viewModel.addMoneyOptions.isPadding ? @dimen/margin_small : @dimen/margin_zero_dp}"
+            android:padding="@dimen/margin_small"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:src="@{viewModel.addMoneyOptions.image}"
