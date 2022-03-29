@@ -778,7 +778,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                     if (SessionManager.eidStatus == EIDStatus.NOT_SET &&
                         PartnerBankStatus.ACTIVATED.status != SessionManager.user?.partnerBankStatus
                     ) {
-                        launchActivity<DocumentsDashboardActivity>(requestCode = RequestCodes.REQUEST_KYC_DOCUMENTS) {
+                        launchActivity<DocumentsDashboardActivity>(requestCode = RequestCodes.REQUEST_UPDATE_EMIRATES_ID) {
                             putExtra(
                                 Constants.name,
                                 SessionManager.user?.currentCustomer?.firstName.toString()
@@ -1018,6 +1018,10 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                         }
                     }
                 }
+            }
+
+            RequestCodes.REQUEST_UPDATE_EMIRATES_ID ->{
+                SessionManager.getAccountInfo()
             }
         }
     }
@@ -1274,3 +1278,4 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         }
     }
 }
+
