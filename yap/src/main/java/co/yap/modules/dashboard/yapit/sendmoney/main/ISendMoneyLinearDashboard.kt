@@ -1,19 +1,15 @@
 package co.yap.modules.dashboard.yapit.sendmoney.main
 
 import androidx.databinding.ObservableBoolean
-import co.yap.databinding.ActivitySendMoneyDashboardBinding
-import co.yap.modules.dashboard.yapit.sendmoney.landing.SendMoneyDashboardAdapter
+import co.yap.databinding.ActivitySendMoneyLinearDashboardBinding
+import co.yap.modules.dashboard.yapit.sendmoney.landing.SendMoneyLinearDashboardAdapter
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.widgets.recent_transfers.CoreRecentTransferAdapter
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.helpers.permissions.PermissionHelper
 
-@Deprecated(
-    message = "Deprecating this class in order to support adapter for addmoneyDashboard",
-    replaceWith = ReplaceWith("ISendMoneyLinearDashboard.kt")
-)
-interface ISendMoneyDashboard {
+interface ISendMoneyLinearDashboard {
     interface State : IBase.State {
         var isRecentsVisible: ObservableBoolean
         var isNoRecents: ObservableBoolean
@@ -21,17 +17,17 @@ interface ISendMoneyDashboard {
 
     interface ViewModel : IBase.ViewModel<State> {
         var recentTransfers: ArrayList<Beneficiary>
-        var dashboardAdapter: SendMoneyDashboardAdapter
+        var dashboardAdapter: SendMoneyLinearDashboardAdapter
         var recentsAdapter: CoreRecentTransferAdapter
         val clickEvent: SingleClickEvent
-        fun geSendMoneyOptions(): MutableList<SendMoneyOptions>
+        fun geSendMoneyOptions(): MutableList<SendMoneyLinearOptions>
         fun handlePressOnView(id: Int)
         fun getAllRecentsBeneficiariesParallel()
     }
 
     interface View : IBase.View<ViewModel> {
         var permissionHelper: PermissionHelper?
-        fun getBinding(): ActivitySendMoneyDashboardBinding
+        fun getBinding(): ActivitySendMoneyLinearDashboardBinding
         fun setObservers()
         fun removeObservers()
     }

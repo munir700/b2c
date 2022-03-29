@@ -1275,6 +1275,8 @@ object Strings {
         "screen_send_money_display_home_country_description"
     const val screen_send_money_display_international_transfer_description: String =
         "screen_send_money_display_international_transfer_description"
+    const val screen_send_money_display_permission_text: String =
+            "screen_send_money_display_permission_text"
 
     //     Add Beneficiary
     const val screen_add_beneficiary_display_text_title: String =
