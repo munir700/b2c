@@ -181,7 +181,7 @@ class EidInfoReviewViewModel(application: Application) :
                         fullName = getFullName(),
                         gender = it.gender,
                         nationality = it.digit3CountryCode ?: "",
-                        identityNo = it.identityNo?.replace("-".toRegex(),""),
+                        identityNo = it.identityNo?.replace("-".toRegex(), ""),
                         filePaths = it.filePaths ?: arrayListOf(),
                         countryIsSanctioned = if (fromInformationErrorFragment) fromInformationErrorFragment else null
                     )
@@ -368,12 +368,18 @@ class EidInfoReviewViewModel(application: Application) :
 //                            identity.isoCountryCode2Digit.contains(
 //                                countryName ?: "US"
 //                            )
-                        uqudoResponse.value = uqudoTokenResponse.data.data
-                        isAccessTokenExpired()
+                        uqudoTokenResponse.data.data?.let {
+                            parentViewModel?.uqudoManager?.setUqudoToken(
+                                it
+                            )
+                        }
                     }
                     uqudoTokenResponse is RetroApiResponse.Success -> {
-                        uqudoResponse.value = uqudoTokenResponse.data.data
-                        isAccessTokenExpired()
+                        uqudoTokenResponse.data.data?.let {
+                            parentViewModel?.uqudoManager?.setUqudoToken(
+                                it
+                            )
+                        }
                     }
                     else -> {
                         if (senctionedCountryResponse is RetroApiResponse.Error)
@@ -642,7 +648,7 @@ class EidInfoReviewViewModel(application: Application) :
 
                 override fun onLoadFailed(errorDrawable: Drawable?) {
                     super.onLoadFailed(errorDrawable)
-                    downloadImagewithGlide(imageId) { _,_ -> }
+                    downloadImagewithGlide(imageId) { _, _ -> }
                     showToast("Wait the image is downloading")
 
                 }

@@ -11,7 +11,6 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
@@ -22,12 +21,14 @@ import co.yap.R
 import co.yap.databinding.FragmentEidInfoReviewBinding
 import co.yap.modules.kyc.activities.DocumentsResponse
 import co.yap.modules.kyc.enums.KYCAction
+import co.yap.modules.kyc.uqudo.UqudoScannerManager
 import co.yap.modules.kyc.viewmodels.EidInfoReviewViewModel
 import co.yap.modules.onboarding.interfaces.IEidInfoReview
 import co.yap.widgets.MultiStateView
 import co.yap.widgets.State
 import co.yap.widgets.Status
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.constants.RequestCodes.REQUEST_UQUDO
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.firebase.FirebaseEvent
 import co.yap.yapcore.firebase.trackEventWithScreenName
@@ -36,9 +37,6 @@ import co.yap.yapcore.helpers.Utils.hideKeyboard
 import co.yap.yapcore.helpers.extentions.deleteTempFolder
 import co.yap.yapcore.helpers.showAlertDialogAndExitApp
 import co.yap.yapcore.managers.SessionManager
-import io.uqudo.sdk.core.DocumentBuilder
-import io.uqudo.sdk.core.UqudoBuilder
-import io.uqudo.sdk.core.domain.model.DocumentType
 import java.io.File
 
 class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEidInfoReview.View {
@@ -307,12 +305,15 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         when (requestCode) {
-            REQUEST_CODE -> {
-                viewModel.state.uqudoToken.value = data?.getStringExtra("data")
-                if (viewModel.state.uqudoToken.value.isNullOrBlank().not()) {
-                    viewModel.extractJwt(viewModel.state.uqudoToken.value)
+            REQUEST_UQUDO -> {
+                val uqudoToken = data?.getStringExtra("data")
+                if (uqudoToken.isNullOrBlank().not()) {
+                    UqudoScannerManager.getInstance(requireActivity())
+                        .decodeEncodedUqudoToken(viewModel.state.uqudoToken.value ?: "") {
+                            viewModel.eidStateLiveData.postValue(State.success(""))
+                        }
                 } else {
-                    if (viewModel.state.payLoadObj.value == null)  navigateBack()
+                    if (viewModel.parentViewModel?.uqudoManager?.getPayloadData() == null) navigateBack()
                 }
             }
             else -> viewModel.parentViewModel?.finishKyc?.value = DocumentsResponse(false)
@@ -353,23 +354,10 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
         }
     }
 
-    private val REQUEST_CODE get() = 1011
-
     private fun initializeUqudoScanner() {
-        try {
-            val doc = DocumentBuilder(requireActivity().applicationContext)
-                .setDocumentType(DocumentType.UAE_ID).disableHelpPage().enableReading()
-                .enableScanReview(true, true)
-                .build()
-            val uqudoIntent = UqudoBuilder.Enrollment()
-                .setToken(viewModel.uqudoResponse.value?.accessToken ?: "")
-                .disableSecureWindow()
-                .add(doc)
-                .build(requireActivity().applicationContext)
-            startActivityForResult(uqudoIntent, REQUEST_CODE)
-        } catch (e: Exception) {
-            e.printStackTrace()
-            Toast.makeText(requireContext(), e.localizedMessage, Toast.LENGTH_LONG).show()
+        viewModel.parentViewModel?.uqudoManager?.let { manager ->
+            if (manager.isAccessTokenExpired()) viewModel.requestAllAPIs(false)
+            else manager.initiateUqudoScanning()
         }
     }
 
