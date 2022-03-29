@@ -126,16 +126,12 @@ class SendMoneyLinearDashboardFragment : BaseBindingFragment<ISendMoneyLinearDas
                             ?.let { option ->
                                 val index = viewModel.dashboardAdapter.datas.indexOf(option)
                                 context?.let {
-                                    option.image = CurrencyUtils.getFlagDrawable(
-                                    it,
-                                    SessionManager.homeCountry2Digit
-                                )
-                                viewModel.dashboardAdapter.update(index)
+                                    option.image = SessionManager.homeCountry2Digit
+                                    viewModel.dashboardAdapter.update(index)
                                 }
                             }
                     }
                 }
-
             }
             SendMoneyCategoryType.SendMoneyQRCode.ordinal -> {
                 checkPermission(cameraPer)

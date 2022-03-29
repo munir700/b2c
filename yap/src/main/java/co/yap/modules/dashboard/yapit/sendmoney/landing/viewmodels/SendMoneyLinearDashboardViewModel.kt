@@ -21,6 +21,8 @@ import co.yap.yapcore.Dispatcher
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.helpers.extentions.parseRecentItems
 import co.yap.yapcore.managers.SessionManager
+import com.liveperson.infra.utils.Utils.getResources
+import java.util.*
 
 class SendMoneyLinearDashboardViewModel(application: Application) :
     BaseViewModel<ISendMoneyLinearDashboard.State>(application),
@@ -98,50 +100,16 @@ class SendMoneyLinearDashboardViewModel(application: Application) :
     }
 
     override fun geSendMoneyOptions(): MutableList<SendMoneyLinearOptions> {
-        val list = mutableListOf<SendMoneyLinearOptions>()
-        list.add(
-            SendMoneyLinearOptions(
-                getString(Strings.screen_send_money_display_yap_to_yap_contact_title),
-                R.drawable.ic_iconprofile,
-                type = SendMoneyCategoryType.SendMoneyToYAPContacts,
-                description = getString(Strings.screen_send_money_display_yap_to_yap_contact_description)
+       val list = mutableListOf<SendMoneyLinearOptions>()
+        for(i in 0..4){
+            list.add(SendMoneyLinearOptions(
+                name = getResources().getStringArray(R.array.yap_it_send_money_title)[i],
+                description = getResources().getStringArray(R.array.yap_it_send_money_desc)[i],
+                image = if(i==3) SessionManager.homeCountry2Digit else getResources().getStringArray(R.array.yap_it_send_money_drawable)[i],
+                isFlag = i==2|| i == 3,
+                type = SendMoneyCategoryType.values()[i])
             )
-        )
-        list.add(
-            SendMoneyLinearOptions(
-                getString(Strings.screen_fragment_yap_it_add_money_text_qr_code),
-                R.drawable.ic_qr_code,
-                type = SendMoneyCategoryType.SendMoneyQRCode,
-                description = getString(Strings.screen_send_money_display_qr_code_description)
-            )
-        )
-        list.add(
-            SendMoneyLinearOptions(
-                getString(Strings.screen_send_money_local_bank_label),
-                CurrencyUtils.getFlagDrawable(context, "AE"),
-                type = SendMoneyCategoryType.SendMoneyToLocalBank,
-                description = getString(Strings.screen_send_money_display_local_bank_description)
-            )
-        )
-        if (SessionManager.homeCountry2Digit != "AE")
-            list.add(
-                SendMoneyLinearOptions(
-                    getString(Strings.screen_send_money_home_label),
-                    CurrencyUtils.getFlagDrawable(
-                        context,
-                        SessionManager.homeCountry2Digit
-                    ), type = SendMoneyCategoryType.SendMoneyToHomeCountry,
-                    description = getString(Strings.screen_send_money_display_home_country_description)
-                )
-            )
-        list.add(
-            SendMoneyLinearOptions(
-                getString(Strings.screen_send_money_international_label),
-                R.drawable.ic_international_transfer,
-                type = SendMoneyCategoryType.SendMoneyToInternational,
-                description = getString(Strings.screen_send_money_display_international_transfer_description)
-            )
-        )
+        }
         return list
     }
 }

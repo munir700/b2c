@@ -26,25 +26,18 @@
         android:paddingEnd="@dimen/margin_small"
         android:paddingBottom="@dimen/margin_normal">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/clImage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/imgIcon"
+            android:layout_width="@dimen/_40sdp"
+            android:layout_height="@dimen/_40sdp"
+            android:background="@drawable/bg_round_purple_enabled"
+            android:padding="@dimen/margin_small"
+            app:isFlag="@{viewModel.item.isFlag}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <co.yap.widgets.CoreCircleView
-                android:id="@+id/imgIcon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/margin_small"
-                app:iconBgTint="@{R.color.disabledPurple}"
-                app:iconMain="@{viewModel.item.image}"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:src="@drawable/ic_notification" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            app:layout_constraintTop_toTopOf="parent"
+            app:resName="@{viewModel.item.image}"
+            app:shapeAppearanceOverlay="@style/roundedImageView" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvTitle"
@@ -57,7 +50,7 @@
             android:text="@{viewModel.item.name}"
             app:layout_constraintBottom_toTopOf="@+id/tvDescription"
             app:layout_constraintEnd_toStartOf="@+id/ivArrow"
-            app:layout_constraintStart_toEndOf="@+id/clImage"
+            app:layout_constraintStart_toEndOf="@+id/imgIcon"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_chainStyle="packed"
             tools:text="YAP 2 YAP" />
