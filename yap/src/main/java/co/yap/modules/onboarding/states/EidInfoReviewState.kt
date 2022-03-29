@@ -2,6 +2,7 @@ package co.yap.modules.onboarding.states
 
 import androidx.databinding.Bindable
 import androidx.databinding.ObservableBoolean
+import androidx.lifecycle.MutableLiveData
 import co.yap.modules.onboarding.interfaces.IEidInfoReview
 import co.yap.yapcore.BaseState
 import com.digitify.identityscanner.BR
@@ -114,7 +115,7 @@ class EidInfoReviewState : BaseState(), IEidInfoReview.State {
         valid = firstName.isNotBlank()
     }
 
-    override var isDateOfBirthValid: ObservableBoolean = ObservableBoolean()
-    override var AgeLimit: Int? = 0
+    override var isDateOfBirthValid: ObservableBoolean = ObservableBoolean(false)
+    override var AgeLimit: MutableLiveData<Int>? = MutableLiveData()
     override var isCountryUS: Boolean = false
 }
