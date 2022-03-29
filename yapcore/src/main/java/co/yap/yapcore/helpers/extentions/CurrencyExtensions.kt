@@ -189,3 +189,9 @@ fun getDecimalFromValue(amount: String): Int {
         2
     }
 }
+
+fun String?.toCurrency(
+    currency: String? = SessionManager.getDefaultCurrency()
+): String {
+    return "$currency $this"
+}
