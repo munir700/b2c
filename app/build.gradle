@@ -62,8 +62,8 @@ android {
         }
 
         stg {
-            versionCode 396
-            versionName "2.1.5"
+            versionCode 397
+            versionName "2.1.6"
             applicationIdSuffix ".stg"
             resValue "string", "app_name", "YAP Stage"
             resValue "string", "google_maps_key", versionProps.getProperty("map_key_other")
@@ -126,12 +126,6 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation ('io.uqudo.sdk:digitify:1.12.1') {
-        exclude group: 'androidx.appcompat', module: 'appcompat'
-        exclude group: 'androidx.fragment'
-        exclude group: 'androidx.activity'
-        exclude group: 'androidx.navigation'
-    }
     project.testDependencies.each {
         add(it.configuration, it.dependency)
     }
