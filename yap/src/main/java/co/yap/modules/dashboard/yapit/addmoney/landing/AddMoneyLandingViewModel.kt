@@ -6,6 +6,7 @@ import co.yap.modules.dashboard.yapit.addmoney.main.AddMoneyBaseViewModel
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
+import com.liveperson.infra.utils.Utils.getResources
 
 class AddMoneyLandingViewModel(application: Application) :
     AddMoneyBaseViewModel<IAddMoneyLanding.State>(application),
@@ -31,63 +32,23 @@ class AddMoneyLandingViewModel(application: Application) :
 
     override fun getAddMoneyOptions(): MutableList<AddMoneyLandingOptions> {
         val list = mutableListOf<AddMoneyLandingOptions>()
-        list.add(
-            AddMoneyLandingOptions(
-                id = Constants.ADD_MONEY_INSTANT_BANK_TRANSFER,
-                name = getString(Strings.screen_fragment_yap_it_add_money_instant_bank_transfer_title),
-                image = R.drawable.ic_instant_bank_transfer,
-                isPadding = true,
-                description = getString(Strings.screen_fragment_yap_it_add_money_instant_bank_transfer_description)
+        for (i in 0..4) {
+            list.add(
+                AddMoneyLandingOptions(
+                    id = when (i) {
+                        0 -> Constants.ADD_MONEY_INSTANT_BANK_TRANSFER
+                        1 -> Constants.ADD_MONEY_BANK_TRANSFER
+                        2 -> Constants.ADD_MONEY_QR_CODE
+                        3 -> Constants.ADD_MONEY_TOP_UP_VIA_CARD
+                        4 -> Constants.ADD_MONEY_CASH_OR_CHEQUE
+                        else -> 0
+                    },
+                    name = getResources().getStringArray(R.array.yap_it_add_money_title)[i],
+                    description = getResources().getStringArray(R.array.yap_it_add_money_desc)[i],
+                    image = getResources().getStringArray(R.array.yap_it_add_money_drawable)[i]
+                )
             )
-        )
-        list.add(
-            AddMoneyLandingOptions(
-                id = Constants.ADD_MONEY_BANK_TRANSFER,
-                name = getString(Strings.screen_fragment_yap_it_add_money_text_bank_transfer),
-                image = R.drawable.ic_bank_transfer,
-                isPadding = true,
-                description = getString(Strings.screen_fragment_yap_it_add_money_text_bank_transfer_description)
-            )
-        )
-        list.add(
-            AddMoneyLandingOptions(
-                Constants.ADD_MONEY_QR_CODE,
-                getString(Strings.screen_fragment_yap_it_add_money_text_qr_code),
-                R.drawable.ic_qr_code,
-                description = getString(Strings.screen_fragment_yap_it_add_money_text_qr_code_description)
-            )
-        )
-        list.add(
-            AddMoneyLandingOptions(
-                id = Constants.ADD_MONEY_TOP_UP_VIA_CARD,
-                name = getString(Strings.screen_fragment_yap_it_add_money_text_top_via_card),
-                image = R.drawable.ic_credit_debit,
-                isPadding = true,
-                description = getString(Strings.screen_fragment_yap_it_add_money_text_top_via_card_description)
-            )
-        )
-        list.add(
-            AddMoneyLandingOptions(
-                Constants.ADD_MONEY_CASH_OR_CHEQUE,
-                getString(Strings.screen_fragment_yap_it_add_money_text_cash_or_cheque),
-                R.drawable.ic_cash,
-                description = getString(Strings.screen_fragment_yap_it_add_money_text_cash_or_cheque_description)
-            )
-        )
-        /*  list.add(
-              AddMoneyLandingOptions(
-                  Constants.ADD_MONEY_GOOGLE_PAY,
-                  getString(Strings.screen_fragment_yap_it_add_money_text_google_pay),
-                  R.drawable.flag_ad
-              )
-          )
-          list.add(
-              AddMoneyLandingOptions(
-                  Constants.ADD_MONEY_SAMSUNG_PAY,
-                  getString(Strings.screen_fragment_yap_it_add_money_text_samsung_pay),
-                  R.drawable.flag_ae
-              )
-          )*/
+        }
         return list
     }
 }

@@ -30,10 +30,11 @@
             android:layout_height="@dimen/_40sdp"
             android:layout_marginBottom="@dimen/margin_small"
             android:background="@drawable/bg_round_purple_enabled"
-            android:padding="@{viewModel.item.isPadding ? @dimen/margin_small : @dimen/margin_zero_dp}"
+            android:padding="@dimen/margin_small"
+            app:isFlag="@{false}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:src="@{viewModel.item.image}"
+            app:resName="@{viewModel.item.image}"
             tools:src="@drawable/ic_notification" />
 
         <androidx.appcompat.widget.AppCompatTextView
