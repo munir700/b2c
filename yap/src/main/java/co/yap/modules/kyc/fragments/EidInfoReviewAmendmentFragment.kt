@@ -452,6 +452,7 @@ class EidInfoReviewAmendmentFragment : KYCChildFragment<IEidInfoReviewAmendment.
                 viewModel.state.uqudoToken.value = data?.getStringExtra("data")
                 if (viewModel.state.uqudoToken.value.isNullOrBlank().not()) {
                     viewModel.extractJwt(viewModel.state.uqudoToken.value)
+
                 } else {
                     if (viewModel.state.payLoadObj.value == null) requireActivity().finish()
                 }

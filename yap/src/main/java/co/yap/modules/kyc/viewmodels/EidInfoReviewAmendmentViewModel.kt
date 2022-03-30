@@ -11,6 +11,7 @@ import androidx.annotation.RequiresApi
 import androidx.lifecycle.MutableLiveData
 import co.yap.R
 import co.yap.countryutils.country.Country
+import co.yap.modules.kyc.enums.Gender
 import co.yap.modules.onboarding.interfaces.IEidInfoReviewAmendment
 import co.yap.modules.onboarding.states.EidInfoReviewAmendmentState
 import co.yap.networking.customers.CustomersRepository
@@ -39,6 +40,7 @@ import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.DateUtils.getAge
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.saveEidTemp
+import co.yap.yapcore.helpers.extentions.toast
 import co.yap.yapcore.helpers.validation.IValidator
 import co.yap.yapcore.helpers.validation.Validator
 import co.yap.yapcore.leanplum.KYCEvents
@@ -52,6 +54,7 @@ import com.bumptech.glide.request.transition.Transition
 import com.digitify.identityscanner.docscanner.models.IdentityScannerResult
 import com.google.gson.Gson
 import kotlinx.coroutines.delay
+import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -83,9 +86,6 @@ class EidInfoReviewAmendmentViewModel(application: Application) :
     override fun onCreate() {
         super.onCreate()
         getAllCountries()
-        if (isFromAmendment()) {
-            getKYCDataFromServer()
-        }
         validator?.setValidationListener(this)
         requestAllAPIs(true)
     }
@@ -189,9 +189,9 @@ class EidInfoReviewAmendmentViewModel(application: Application) :
                             Utils.parseCountryList(response.data.data, addOIndex = false)
                         countries =
                             populateNationalitySpinnerData.value as ArrayList<Country>
-                        parentViewModel?.identity?.let {
+                        parentViewModel?.uqudoIdentity?.value?.let {
                             state.nationality.value =
-                                countries.firstOrNull { country -> country.isoCountryCode2Digit == it.isoCountryCode2Digit }
+                                countries.firstOrNull { country -> country.isoCountryCode3Digit == it.digit3CountryCode }
                         }
                     }
 
@@ -235,8 +235,9 @@ class EidInfoReviewAmendmentViewModel(application: Application) :
                             DateUtils.TIME_ZONE_Default
                         )
                     }
-                    state.previousCitizenNumber = response.data.data?.identityNo
+                    state.previousCitizenNumber = getFormattedCitizenNumber(response.data.data?.identityNo)
                     delay(500)
+                    eidStateLiveData.postValue(State.success(""))
                     validator?.toValidate()
                 }
                 is RetroApiResponse.Error -> {
@@ -488,9 +489,7 @@ class EidInfoReviewAmendmentViewModel(application: Application) :
                 DateUtils.reformatToLocalString(EXD, DateUtils.DEFAULT_DATE_FORMAT)
             state.expiryDateValid.value = EXD?.let { it1 -> isExpiryDateValid(it1) } ?: false
             state.genderValid = true
-            if (documentFront?.identityNumber?.length != eidLength && !Utils.isValidEID(
-                    documentFront?.identityNumber
-                )
+            if (documentFront?.identityNumber?.length != eidLength && !Utils.isValidEID(documentFront?.identityNumber)
             ) {
                 clickEvent.setValue(eventCitizenNumberIssue)
             } else {
@@ -521,10 +520,14 @@ class EidInfoReviewAmendmentViewModel(application: Application) :
             }
             state.isCountryUS =
                 getCountryCode(documentFront?.nationality ?: "").contains(countryName ?: "US")
+            state.dobCalendar = Calendar.getInstance().apply {
+                time = DOB
+            }
+            state.expiryCalendar = Calendar.getInstance().apply {
+                time = EXD
+            }
             downloadImage {
-                state.viewState.postValue(
-                    it.not()
-                )
+                state.viewState.postValue(it.not())
                 if (it) {
                     parentViewModel?.uqudoIdentity?.value =
                         V2DocumentDTO(
@@ -544,8 +547,14 @@ class EidInfoReviewAmendmentViewModel(application: Application) :
                             nationality = documentFront?.nationality ?: "",
                             identityNo = documentFront?.identityNumber
                         )
+                    state.nationality.value =
+                        countries.firstOrNull { country -> country.isoCountryCode3Digit == parentViewModel?.uqudoIdentity?.value?.digit3CountryCode }
+
                 } else showToast("unable to download EIDs")
             }
+            handleAgeValidation()
+            handleIsUsValidation()
+            validator?.toValidate()
 
         }
     }
@@ -597,6 +606,7 @@ class EidInfoReviewAmendmentViewModel(application: Application) :
     }
 
     fun extractJwt(token: String?) {
+        eidStateLiveData.postValue(State.loading("Fetching Data..."))
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) showToast("Requires SDK 26") else {
             val parts = token?.split("\\.".toRegex())
             parts?.let { parts ->
@@ -614,7 +624,11 @@ class EidInfoReviewAmendmentViewModel(application: Application) :
                     val payLoadObj: UqudoPayLoad = gson.fromJson(payload, UqudoPayLoad::class.java)
                     state.uqudoHeaderObj.postValue(headerObj)
                     state.payLoadObj.postValue(payLoadObj)
-                    eidStateLiveData.postValue(State.success(""))
+                    if (isFromAmendment()) {
+                        getKYCDataFromServer()
+                    } else {
+                        toast(context, "rescan again")
+                    }
                 } catch (e: Exception) {
                     "Error parsing JWT: $e"
                 }
@@ -636,12 +650,12 @@ class EidInfoReviewAmendmentViewModel(application: Application) :
                         firstName = state.firstName,
                         middleName = if (state.middleName.isNotBlank()) state.middleName else null,
                         lastName = if (state.lastName.isNotBlank()) state.lastName else null,
-                        dateExpiry = it.dateExpiry,
-                        dob = it.dob,
                         fullName = getFullName(),
-                        gender = it.gender,
-                        nationality = it.digit3CountryCode ?: "",
-                        identityNo = it.identityNo?.replace("-".toRegex(), ""),
+                        gender = if (state.gender == Gender.Male.name) Gender.Male.mrz else Gender.Female.mrz,
+                        dateExpiry = state.expiryCalendar.time,
+                        dob = state.dobCalendar.time,
+                        nationality = state.nationality.value?.isoCountryCode3Digit ?: "",
+                        identityNo = state.citizenNumber.value?.replace("-".toRegex(), ""),
                         filePaths = it.filePaths ?: arrayListOf(),
                         countryIsSanctioned = if (fromInformationErrorFragment) fromInformationErrorFragment else null,
                         isAmendment = !parentViewModel?.amendmentMap.isNullOrEmpty()
