@@ -5,7 +5,7 @@ import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.networking.models.ApiResponse
 
-open class BaseViewHolder<ITEM : ApiResponse, VM : BaseListItemViewModel<ITEM>>
+open class BaseViewHolder<ITEM :Any, VM : BaseListItemViewModel<ITEM>>
     (view: View, viewModel: VM, private val mDataBinding: ViewDataBinding) :
     RecyclerView.ViewHolder(view) {
     private val mViewModel: VM = viewModel

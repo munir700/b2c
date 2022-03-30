@@ -21,7 +21,6 @@ import co.yap.networking.customers.responsedtos.taxinfoamendment.TaxInfoAmendmen
 import co.yap.networking.household.responsedtos.ValidateParentMobileResponse
 import co.yap.networking.messages.responsedtos.OtpValidationResponse
 import co.yap.networking.models.ApiResponse
-import co.yap.networking.models.BaseListResponse
 import co.yap.networking.models.BaseResponse
 import co.yap.networking.models.BaseListResponse
 import co.yap.networking.models.RetroApiResponse

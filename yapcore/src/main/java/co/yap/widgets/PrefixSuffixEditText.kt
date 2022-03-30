@@ -25,11 +25,12 @@ import androidx.core.graphics.drawable.DrawableCompat
 import co.yap.yapcore.R
 import co.yap.yapcore.helpers.Utils.getDefaultCountryCode
 import co.yap.yapcore.helpers.getCountryCodeForRegion
+import com.google.android.material.textfield.TextInputEditText
 import com.google.i18n.phonenumbers.PhoneNumberUtil
 import java.util.*
 
 
-class PrefixSuffixEditText : AppCompatEditText {
+class PrefixSuffixEditText : TextInputEditText {
     private val DEFAULTCOLOR = Color.parseColor("#9391b1")
     private var mBackgroundColor: Int = 0
     private var clearIconTint: Int = 0

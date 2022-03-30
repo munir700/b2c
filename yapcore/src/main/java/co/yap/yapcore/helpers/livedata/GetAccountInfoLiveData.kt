@@ -25,7 +25,7 @@ class GetAccountInfoLiveData : LiveDataCallAdapter<AccountInfo?>() {
                     user = getCurrentUser()
                     SessionManager.user = user
                     SessionManager.usersList?.value = usersList
-                    SessionManager.setupDataSetForBlockedFeatures()
+                    SessionManager.setupDataSetForBlockedFeatures(SessionManager.card.value)
                     value = user
                 }
 

@@ -19,6 +19,7 @@ import co.yap.widgets.searchwidget.SearchingListener
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.extentions.hideKeyboard
 import co.yap.yapcore.interfaces.OnItemClickListener
 
 class CurrencyPickerFragment : BaseBindingFragment<ICurrencyPicker.ViewModel>(),
@@ -56,8 +57,8 @@ class CurrencyPickerFragment : BaseBindingFragment<ICurrencyPicker.ViewModel>(),
     private fun setListeners() {
         viewModel.currencyAdapter.setItemListener(currencySelectedItemClickListener)
         viewModel.currencyAdapter.allowFullItemClickListener = true
-        viewModel.state.stateLiveData?.observe(this, Observer { handleState(it) })
-        viewModel.currencyAdapter.filterCount.observe(this, Observer {
+        viewModel.state.stateLiveData?.observe(viewLifecycleOwner, Observer { handleState(it) })
+        viewModel.currencyAdapter.filterCount.observe(viewLifecycleOwner, Observer {
             viewModel.state.stateLiveData?.value =
                 if (it == 0) State.empty("") else State.success("")
         })
@@ -81,7 +82,7 @@ class CurrencyPickerFragment : BaseBindingFragment<ICurrencyPicker.ViewModel>(),
     private val currencySelectedItemClickListener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
             setResultData(data as MultiCurrencyWallet)
-            Utils.hideKeyboard(requireView())
+            requireView().hideKeyboard()
         }
     }
 
@@ -93,7 +94,7 @@ class CurrencyPickerFragment : BaseBindingFragment<ICurrencyPicker.ViewModel>(),
     }
 
     override fun onCancel() {
-        Utils.hideKeyboard(requireView())
+        requireView().hideKeyboard()
         activity?.finish()
     }
 

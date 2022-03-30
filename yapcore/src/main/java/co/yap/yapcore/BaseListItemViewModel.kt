@@ -14,7 +14,7 @@ import co.yap.yapcore.dagger.base.viewmodel.DaggerViewModel
  * Created by Muhammad Irfan Arshad
  *
  */
-abstract class BaseListItemViewModel<ITEM : ApiResponse> : DaggerViewModel(), OnItemClickListener {
+abstract class BaseListItemViewModel<ITEM : Any> : DaggerViewModel(), OnItemClickListener {
 
     var onChildViewClickListener: ((view: View, position: Int, data: ITEM?) -> Unit)?=null
     abstract fun setItem(item: ITEM, position: Int)

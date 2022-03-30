@@ -120,8 +120,8 @@ abstract class BaseNavViewModelActivity<VB : ViewDataBinding, S : IBase.State, V
         }
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?) =
-        when (item?.itemId) {
+    override fun onOptionsItemSelected(item: MenuItem) =
+        when (item.itemId) {
             android.R.id.home -> {
                 hideKeyboard()
                 onBackPressed()

@@ -656,17 +656,7 @@
         <attr name="presetRadioCheckedId" format="reference" />
         <attr name="rangeSeekBarId" format="reference" />
     </declare-styleable>
-
-    <declare-styleable name="TextViewRichDrawable">
-        <attr name="compoundDrawableWidth" format="dimension" />
-        <attr name="compoundDrawableHeight" format="dimension" />
-        <attr name="drawableStartVector" format="reference" />
-        <attr name="drawableTopVector" format="reference" />
-        <attr name="drawableEndVector" format="reference" />
-        <attr name="drawableBottomVector" format="reference" />
-        <attr name="rtdrawableTint" format="reference" />
-    </declare-styleable>
-
+    
     <declare-styleable name="squaredImage">
         <attr name="useHeight" format="boolean" />
         <attr name="hwRatio" format="float|reference" />

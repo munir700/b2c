@@ -19,9 +19,9 @@ abstract class LiveDataCallAdapter<T> : LiveData<T>(), CoroutineViewModel {
         viewModelJob.cancel()
     }
 
-    override fun launch(block: suspend () -> Unit) {
+    override fun launch(block: suspend () -> Unit)=
         viewModelScope.launch { block() }
-    }
+
 
     override fun launchBG(block: suspend () -> Unit) = viewModelScope.async {
         block()

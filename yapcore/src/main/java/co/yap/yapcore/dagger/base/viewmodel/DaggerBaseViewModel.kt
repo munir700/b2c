@@ -72,9 +72,9 @@ abstract class DaggerBaseViewModel<S : IBase.State>() : DaggerCoroutineViewModel
         owner?.lifecycle?.removeObserver(this)
     }
 
-    override fun launch(block: suspend () -> Unit) {
+    override fun launch(block: suspend () -> Unit) =
         viewModelScope.launch { block() }
-    }
+
 
     override fun launchBG(block: suspend () -> Unit) = viewModelScope.async {
         block()

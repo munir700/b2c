@@ -70,7 +70,7 @@
             android:singleLine="true"
             android:text="@={viewModel.state.phone}"
             android:textSize="@dimen/text_size_h6"
-            app:errorEnabled="@{false}"
+            app:enableError="@{false}"
             app:isoCountryCode="@{viewModel.state.countryCode}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

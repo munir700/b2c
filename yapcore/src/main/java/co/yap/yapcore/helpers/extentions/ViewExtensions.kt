@@ -2,10 +2,8 @@ package co.yap.yapcore.helpers.extentions
 
 import android.content.Context
 import android.graphics.drawable.BitmapDrawable
-import android.text.TextPaint
 import android.text.style.ClickableSpan
 import android.text.TextPaint
-import android.text.style.ClickableSpan
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View

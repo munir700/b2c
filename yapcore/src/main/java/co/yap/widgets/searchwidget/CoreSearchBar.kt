@@ -12,7 +12,7 @@ import android.widget.TextView
 import androidx.appcompat.widget.LinearLayoutCompat
 import co.yap.yapcore.R
 import co.yap.yapcore.helpers.Utils
-import co.yap.yapcore.helpers.Utils.hideKeyboard
+import co.yap.yapcore.helpers.extentions.hideKeyboard
 import kotlinx.android.synthetic.main.layout_core_searchview.view.*
 
 class CoreSearchBar @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) :
@@ -67,7 +67,7 @@ class CoreSearchBar @JvmOverloads constructor(context: Context, attrs: Attribute
             if (!etSearch.text.toString().trim { it <= ' ' }.equals("", ignoreCase = true)) {
                 searchDataOnSearchKeyPressed()
             }
-            hideKeyboard(v)
+            hideKeyboard()
             return true
         }
         return false

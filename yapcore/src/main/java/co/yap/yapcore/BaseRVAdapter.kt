@@ -16,7 +16,7 @@ import co.yap.yapcore.helpers.extentions.onClick
 import co.yap.yapcore.interfaces.OnItemClickListener
 
 
-abstract class BaseRVAdapter<T : ApiResponse, VM : BaseListItemViewModel<T>, VH : BaseViewHolder<T, VM>>
+abstract class BaseRVAdapter<T:Any, VM : BaseListItemViewModel<T>, VH : BaseViewHolder<T, VM>>
 (
         var datas: MutableList<T>,
         private var navigation: NavController?

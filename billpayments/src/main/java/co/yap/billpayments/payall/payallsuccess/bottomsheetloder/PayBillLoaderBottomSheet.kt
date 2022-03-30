@@ -32,6 +32,10 @@ class PayBillLoaderBottomSheet(val loadingState: MutableLiveData<LoaderStatus>) 
     override val viewModel: PayBillLoderBottomSheetViewModel by viewModels()
     override fun getTheme(): Int = R.style.AppBottomSheetDialogTheme
     var firstVideoPlayed: Boolean = false
+    override var shouldRegisterViewModelLifeCycle: Boolean = false
+    override fun performDataBinding(savedInstanceState: Bundle?) {
+
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,

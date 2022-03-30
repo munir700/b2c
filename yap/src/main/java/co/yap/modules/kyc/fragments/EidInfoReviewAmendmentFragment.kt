@@ -29,6 +29,7 @@ import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.firebase.FirebaseEvent
 import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.*
+import co.yap.yapcore.helpers.extentions.hideKeyboard
 import co.yap.yapcore.helpers.extentions.launchBottomSheet
 import co.yap.yapcore.helpers.extentions.launchSheet
 import co.yap.yapcore.interfaces.OnItemClickListener
@@ -37,7 +38,6 @@ import com.digitify.identityscanner.docscanner.activities.IdentityScannerActivit
 import com.digitify.identityscanner.docscanner.enums.DocumentType
 import com.digitify.identityscanner.docscanner.models.IdentityScannerResult
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog
-import kotlinx.android.synthetic.main.fragment_eid_info_review_amendment.*
 import java.io.File
 import java.util.*
 
@@ -71,7 +71,7 @@ class EidInfoReviewAmendmentFragment : KYCChildFragment<IEidInfoReviewAmendment.
                 openCardScanner()
             }
             viewModel.state.errorScreenVisited = false
-            tbBtnBack.setOnClickListener {
+            getDataBindingView<FragmentEidInfoReviewAmendmentBinding>().tbBtnBack.setOnClickListener {
                 viewModel.parentViewModel?.finishKyc?.value = DocumentsResponse(false)
             }
         }
@@ -80,22 +80,24 @@ class EidInfoReviewAmendmentFragment : KYCChildFragment<IEidInfoReviewAmendment.
     }
 
     private fun addFocusListeners() {
-        tvEidNumber.onFocusChangeListener = this
-        tvFirstName.onFocusChangeListener = this
-        tvMiddleName.onFocusChangeListener = this
-        tvLastName.onFocusChangeListener = this
+        with(getDataBindingView<FragmentEidInfoReviewAmendmentBinding>()) {
+        tvEidNumber.onFocusChangeListener = this@EidInfoReviewAmendmentFragment
+        tvFirstName.onFocusChangeListener = this@EidInfoReviewAmendmentFragment
+        tvMiddleName.onFocusChangeListener = this@EidInfoReviewAmendmentFragment
+        tvLastName.onFocusChangeListener = this@EidInfoReviewAmendmentFragment
+    }
     }
 
     private fun addObservers() {
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
                 R.id.tvEidNumber -> {
-                    disableEndDrawable(tvEidNumber)
-                    manageFocus(tvEidNumber)
+                    disableEndDrawable(getDataBindingView<FragmentEidInfoReviewAmendmentBinding>().tvEidNumber)
+                    manageFocus(getDataBindingView<FragmentEidInfoReviewAmendmentBinding>().tvEidNumber)
                 }
                 R.id.tvFirstName -> {
-                    disableEndDrawable(tvFirstName)
-                    manageFocus(tvFirstName)
+                    disableEndDrawable(getDataBindingView<FragmentEidInfoReviewAmendmentBinding>().tvFirstName)
+                    manageFocus(getDataBindingView<FragmentEidInfoReviewAmendmentBinding>().tvFirstName)
                     trackEventWithScreenName(
                         FirebaseEvent.EDIT_FIELD,
                         bundleOf("field_name" to "first_name")
@@ -103,8 +105,8 @@ class EidInfoReviewAmendmentFragment : KYCChildFragment<IEidInfoReviewAmendment.
                 }
 
                 R.id.tvMiddleName -> {
-                    disableEndDrawable(tvMiddleName)
-                    manageFocus(tvMiddleName)
+                    disableEndDrawable(getDataBindingView<FragmentEidInfoReviewAmendmentBinding>().tvMiddleName)
+                    manageFocus(getDataBindingView<FragmentEidInfoReviewAmendmentBinding>().tvMiddleName)
                     trackEventWithScreenName(
                         FirebaseEvent.EDIT_FIELD,
                         bundleOf("field_name" to "middle_name")
@@ -112,8 +114,8 @@ class EidInfoReviewAmendmentFragment : KYCChildFragment<IEidInfoReviewAmendment.
                 }
 
                 R.id.tvLastName -> {
-                    disableEndDrawable(tvLastName)
-                    manageFocus(tvLastName)
+                    disableEndDrawable(getDataBindingView<FragmentEidInfoReviewAmendmentBinding>().tvLastName)
+                    manageFocus(getDataBindingView<FragmentEidInfoReviewAmendmentBinding>().tvLastName)
                     trackEventWithScreenName(
                         FirebaseEvent.EDIT_FIELD,
                         bundleOf("field_name" to "last_name")
@@ -152,7 +154,7 @@ class EidInfoReviewAmendmentFragment : KYCChildFragment<IEidInfoReviewAmendment.
                 viewModel.eventRescan -> openCardScanner()
                 R.id.tvNoThanks -> {
                     trackEventWithScreenName(FirebaseEvent.RESCAN_ID)
-                    Utils.hideKeyboard(tvNoThanks)
+                    getDataBindingView<FragmentEidInfoReviewAmendmentBinding>().tvNoThanks.hideKeyboard()
                     openCardScanner()
                 }
                 viewModel.eventAlreadyUsedEid -> {
@@ -281,10 +283,10 @@ class EidInfoReviewAmendmentFragment : KYCChildFragment<IEidInfoReviewAmendment.
 
     private fun disableEndDrawable(view: EditTextRichDrawable?) {
         val list = listOf<EditTextRichDrawable>(
-            tvEidNumber,
-            tvFirstName,
-            tvMiddleName,
-            tvLastName
+            getDataBindingView<FragmentEidInfoReviewAmendmentBinding>().tvEidNumber,
+            getDataBindingView<FragmentEidInfoReviewAmendmentBinding>().tvFirstName,
+            getDataBindingView<FragmentEidInfoReviewAmendmentBinding>().tvMiddleName,
+            getDataBindingView<FragmentEidInfoReviewAmendmentBinding>().tvLastName
         )
         list.forEach {
             it.setDrawableEndVectorId(

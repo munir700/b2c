@@ -16,13 +16,16 @@
         <import type="co.yap.yapcore.enums.AccountType" />
 
         <import type="co.yap.translation.Strings" />
+
+        <import type="co.yap.yapcore.helpers.Utils" />
     </data>
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingBottom="@dimen/margin_small">
+        android:paddingBottom="@dimen/margin_small"
+        app:sensitiveViews="@{Utils.getViewsList(ivProfilePic,tvName)}">
 
         <co.yap.widgets.CoreCircularImageView
             android:id="@+id/ivProfilePic"
@@ -36,6 +39,7 @@
             tools:src="@drawable/ic_statement" />
 
         <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvName"
             style="@style/AppFontRegular"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

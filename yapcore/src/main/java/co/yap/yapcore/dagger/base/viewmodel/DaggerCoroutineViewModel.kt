@@ -1,15 +1,13 @@
 package co.yap.yapcore.dagger.base.viewmodel
 
 import android.content.Intent
-import android.os.Bundle
-import androidx.annotation.CallSuper
 import co.yap.yapcore.interfaces.CoroutineViewModel
 import kotlinx.coroutines.*
 import java.io.Closeable
 import kotlin.coroutines.CoroutineContext
 
 
-abstract class DaggerCoroutineViewModel: DaggerViewModel(), CoroutineViewModel {
+abstract class DaggerCoroutineViewModel : DaggerViewModel(), CoroutineViewModel {
 
     private val TAG: String = this.javaClass.simpleName
 
@@ -38,13 +36,15 @@ abstract class DaggerCoroutineViewModel: DaggerViewModel(), CoroutineViewModel {
         viewModelScope.cancel()
         viewModelJob.cancel()
     }
-    override fun launch(block: suspend () -> Unit) {
+
+    override fun launch(block: suspend () -> Unit) =
         viewModelScope.launch { block() }
-    }
+
 
     override fun launchBG(block: suspend () -> Unit) = viewModelScope.async {
         block()
     }
+
     override fun async(block: suspend () -> Unit) = viewModelScope.async { block }
 
     open fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

@@ -82,7 +82,7 @@
                 android:paddingTop="@dimen/margin_normal"
                 android:paddingBottom="@dimen/margin_normal"
                 android:text="@={viewModel.state.phone}"
-                app:errorEnabled="@{false}"
+                app:enableError="@{false}"
                 app:isOptional="@{true}"
                 app:isoCountryCode="@{viewModel.state.countryCode}"
                 app:pse_compoundDrawableHeight="@dimen/_16sdp"

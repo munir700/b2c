@@ -31,9 +31,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:elevation="4dp"
-        app:sensitiveViews="@{Utils.getViewsList(tvIbanNo,tvAccountNo,tvFounder,tvUserName,imgProfile)}"
         android:orientation="horizontal"
-        app:elevation="4dp">
+        app:elevation="4dp"
+        app:sensitiveViews="@{Utils.getViewsList(tvIbanNo,tvAccountNo,tvFounder,tvUserName)}">
 
         <!-- Left Section -->
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -236,8 +236,8 @@
                     <include
                         android:id="@+id/lAnalytics"
                         layout="@layout/layout_item_icon_text"
-                        app:paddingvalue="@{@dimen/margin_three_dp}"
                         app:icon="@{@drawable/ic_analytics}"
+                        app:paddingvalue="@{@dimen/margin_three_dp}"
                         app:tint="@{@color/colorPrimary}"
                         app:title='@{"Analytics"}' />
 
@@ -266,8 +266,8 @@
                 <include
                     android:id="@+id/lRefer"
                     layout="@layout/layout_item_icon_text"
-                    app:paddingvalue="@{@dimen/margin_zero_dp}"
                     app:icon="@{@drawable/ic_gift}"
+                    app:paddingvalue="@{@dimen/margin_zero_dp}"
                     app:tint="@{@color/greyDark}"
                     app:title='@{"Refer a friend"}' />
 
@@ -307,23 +307,23 @@
 
                 <include
                     layout="@layout/layout_item_icon_text"
-                    app:paddingvalue="@{@dimen/margin_zero_dp}"
                     app:icon="@{@drawable/gift}"
+                    app:paddingvalue="@{@dimen/margin_zero_dp}"
                     app:tint="@{@color/greyDark}"
                     app:title='@{"Refer a friend"}' />
 
                 <include
                     layout="@layout/layout_item_icon_text"
                     app:icon="@{@drawable/house}"
-                    app:tint="@{@color/greyDark}"
                     app:paddingvalue="@{@dimen/margin_zero_dp}"
+                    app:tint="@{@color/greyDark}"
                     app:title='@{"Household salary"}' />
 
                 <include
                     layout="@layout/layout_item_icon_text"
                     app:icon="@{@drawable/mode}"
-                    app:tint="@{@color/greyDark}"
                     app:paddingvalue="@{@dimen/margin_zero_dp}"
+                    app:tint="@{@color/greyDark}"
                     app:title='@{"Yap Young"}' />
 
             </LinearLayout>
@@ -360,8 +360,8 @@
                 <include
                     android:id="@+id/lStatements"
                     layout="@layout/layout_item_icon_text"
-                    app:paddingvalue="@{@dimen/_2sdp}"
                     app:icon="@{@drawable/ic_statement_new}"
+                    app:paddingvalue="@{@dimen/_2sdp}"
                     app:tint="@{@color/greyDark}"
                     app:title='@{"Statements"}' />
 
@@ -383,8 +383,8 @@
                 <include
                     android:id="@+id/lManageWidget"
                     layout="@layout/layout_item_icon_text"
-                    app:paddingvalue="@{@dimen/margin_three_dp}"
                     app:icon="@{@drawable/ic_manage_widget}"
+                    app:paddingvalue="@{@dimen/margin_three_dp}"
                     app:tint="@{@color/greyDark}"
                     app:title='@{"Manage widgets"}' />
 
@@ -405,9 +405,9 @@
                 <include
                     android:id="@+id/lScanQR"
                     layout="@layout/layout_item_icon_text"
-                    app:paddingvalue="@{@dimen/margin_three_dp}"
                     app:icon="@{@drawable/ic_qr_code_icon_nav}"
-                    app:title='@{" My QR code"}'  />
+                    app:paddingvalue="@{@dimen/margin_three_dp}"
+                    app:title='@{" My QR code"}' />
 
             </LinearLayout>
 
@@ -437,25 +437,25 @@
                 <include
                     android:id="@+id/lLiveChat"
                     layout="@layout/layout_item_icon_text"
-                    app:paddingvalue="@{@dimen/margin_three_dp}"
                     app:icon="@{@drawable/ic_live_chat}"
+                    app:paddingvalue="@{@dimen/margin_three_dp}"
                     app:tint="@{@color/greyDark}"
                     app:title='@{"Live chat"}' />
 
                 <include
                     android:id="@+id/lyContact"
                     layout="@layout/layout_item_icon_text"
-                    app:paddingvalue="@{@dimen/margin_zero_dp}"
                     android:visibility="gone"
                     app:icon="@{@drawable/phone}"
+                    app:paddingvalue="@{@dimen/margin_zero_dp}"
                     app:tint="@{@color/greyDark}"
                     app:title='@{"Contact us"}' />
 
                 <include
                     android:id="@+id/lSupport"
                     layout="@layout/layout_item_icon_text"
-                    app:paddingvalue="@{@dimen/margin_zero_dp}"
                     app:icon="@{@drawable/ic_support}"
+                    app:paddingvalue="@{@dimen/margin_zero_dp}"
                     app:tint="@{@color/greyDark}"
                     app:title='@{"Help and support"}' />
 

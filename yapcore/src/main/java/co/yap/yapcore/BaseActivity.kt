@@ -22,7 +22,6 @@ import co.yap.yapcore.enums.YAPThemes
 import co.yap.yapcore.firebase.trackScreenViewEvent
 import co.yap.yapcore.helpers.*
 import co.yap.yapcore.helpers.extentions.hideKeyboard
-import co.yap.yapcore.helpers.extentions.preventTakeScreenShot
 import co.yap.yapcore.helpers.extentions.toast
 import com.google.android.material.snackbar.Snackbar
 
