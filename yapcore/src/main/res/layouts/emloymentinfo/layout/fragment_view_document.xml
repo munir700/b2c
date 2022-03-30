@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="co.yap.modules.document.IViewDocumentViewModel" />
+
+        <import type="android.view.View" />
+
+        <import type="co.yap.yapcore.R" />
+
+        <import type="co.yap.translation.Strings" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivCancel"
+            android:layout_width="@dimen/_30sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:layout_marginStart="@dimen/_18sdp"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:onClick="@{(v) -> viewModel.handlePressView(v.id)}"
+            android:src="@drawable/ic_circle_cross_view_doc"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <co.yap.widgets.MultiStateView
+            android:id="@+id/multiStateView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="@dimen/_5sdp"
+            android:layout_marginTop="@dimen/_25sdp"
+            android:layout_marginEnd="@dimen/_5sdp"
+            android:layout_marginBottom="@dimen/margin_extra_small"
+            android:animateLayoutChanges="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_percent=".63"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ivCancel"
+            app:msv_animateViewChanges="true"
+            app:msv_emptyView="@layout/layout_empty_view_no_results"
+            app:msv_errorView="@layout/layout_error_view_for_view_document"
+            app:msv_loadingView="@layout/layout_loading_view_for_view_document"
+            app:msv_viewState="content">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <com.pdfview.PDFView
+                    android:id="@+id/pdfView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:visibility="@{viewModel.state.isPDF ? View.VISIBLE : View.GONE}" />
+
+                <co.yap.modules.imagepreviewer.TouchImageView
+                    android:id="@+id/ivImage"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:visibility="@{viewModel.state.isPDF ? View.GONE : View.VISIBLE}" />
+
+            </FrameLayout>
+
+
+        </co.yap.widgets.MultiStateView>
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivUpdate"
+            android:layout_width="@dimen/_27sdp"
+            android:layout_height="@dimen/_27sdp"
+            android:layout_marginBottom="@dimen/_60sdp"
+            android:onClick="@{(v) -> viewModel.handlePressView(v.id)}"
+            android:visibility="@{viewModel.state.isUpdateAble() ? View.VISIBLE : View.GONE}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:srcCompat="@drawable/ic_share_code" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivDelete"
+            android:layout_width="@dimen/_27sdp"
+            android:layout_height="@dimen/_27sdp"
+            android:layout_marginBottom="@dimen/_60sdp"
+            android:onClick="@{(v) -> viewModel.handlePressView(v.id)}"
+            android:visibility="@{viewModel.state.isDeleteAble() ? View.VISIBLE : View.GONE}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:srcCompat="@drawable/ic_delete_bin" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

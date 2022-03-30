@@ -10,7 +10,7 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.core.net.toUri
 import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
@@ -19,17 +19,20 @@ import co.yap.modules.dashboard.more.main.activities.MoreActivity
 import co.yap.modules.dashboard.more.main.fragments.MoreBaseFragment
 import co.yap.modules.dashboard.more.profile.intefaces.IProfile
 import co.yap.modules.dashboard.more.profile.viewmodels.ProfileSettingsViewModel
+import co.yap.modules.location.kyc_additional_info.employment_info.amendment.EmploymentQuestionnaireAmendmentFragment
 import co.yap.modules.webview.WebViewFragment
 import co.yap.translation.Strings
 import co.yap.widgets.bottomsheet.BottomSheetItem
 import co.yap.yapcore.constants.Constants.KEY_IS_FINGERPRINT_PERMISSION_SHOWN
 import co.yap.yapcore.constants.Constants.KEY_TOUCH_ID_ENABLED
 import co.yap.yapcore.constants.RequestCodes.REQUEST_NOTIFICATION_SETTINGS
+import co.yap.yapcore.enums.AccountStatus
 import co.yap.yapcore.enums.FeatureSet
 import co.yap.yapcore.enums.PhotoSelectionType
 import co.yap.yapcore.firebase.FirebaseEvent
 import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.SharedPreferenceManager
+import co.yap.yapcore.helpers.alert
 import co.yap.yapcore.helpers.biometric.BiometricUtil
 import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.interfaces.OnItemClickListener
@@ -42,7 +45,7 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_profile
     override val viewModel: IProfile.ViewModel
-        get() = ViewModelProviders.of(this).get(ProfileSettingsViewModel::class.java)
+        get() = ViewModelProvider(this).get(ProfileSettingsViewModel::class.java)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -180,6 +183,22 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
                 }
                 R.id.llNotification -> {
                     navigateToNotificationSettings()
+                }
+                R.id.tvEmploymentInformationView -> {
+                    val accountInfo = SessionManager.user
+                    if (accountInfo?.notificationStatuses == AccountStatus.ON_BOARDED.name
+                        || accountInfo?.notificationStatuses == AccountStatus.CAPTURED_EID.name
+                        || accountInfo?.notificationStatuses == AccountStatus.FSS_PROFILE_UPDATED.name
+                        || accountInfo?.notificationStatuses == AccountStatus.CAPTURED_ADDRESS.name
+                        || accountInfo?.notificationStatuses == AccountStatus.BIRTH_INFO_COLLECTED.name
+                        || accountInfo?.notificationStatuses == AccountStatus.FATCA_GENERATED.name
+                    ) {
+                        context?.alert(getString(Strings.screen_profile_settings_display_toast_text_account_not_active))
+                    } else {
+                        startFragment(
+                            fragmentName = EmploymentQuestionnaireAmendmentFragment::class.java.name
+                        )
+                    }
                 }
             }
         })

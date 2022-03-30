@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@drawable/transparent_round">
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/transparent"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/cornor_edges_upload_document"
+                android:orientation="vertical">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvHeadingTitle"
+                    style="@style/ASmall"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:gravity="center"
+                    android:padding="@dimen/_5sdp"
+                    android:text="@string/screen_bill_payment_bill_due_button_pay_all"
+                    android:textColor="@color/upload_dialogue_alert_button_text"
+                    android:textSize="@dimen/_15sdp"
+                    tools:text="@string/screen_view_document_sheet_heading" />
+
+                <View
+                    android:id="@+id/view"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginBottom="@dimen/_10sdp"
+                    android:background="@color/greyLineChoosetakePhotoBottomSheet" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvTakePhoto"
+                    style="@style/ASmall"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:padding="@dimen/_5sdp"
+                    android:text="@string/screen_view_document_sheet_take_photo_heading"
+                    android:textColor="@color/upload_dialogue_alert_button_text"
+                    android:textSize="@dimen/_15sdp"
+                    tools:text="@string/screen_view_document_sheet_take_photo_heading" />
+
+                <View
+                    android:id="@+id/view1"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginBottom="@dimen/_10sdp"
+                    android:background="@color/greyLineChoosetakePhotoBottomSheet" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvbrowseFiles"
+                    style="@style/ASmall"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="@dimen/_10sdp"
+                    android:gravity="center"
+                    android:padding="@dimen/_5sdp"
+                    android:text="@string/screen_view_document_sheet_browse_gallery_heading"
+                    android:textColor="@color/upload_dialogue_alert_button_text"
+                    android:textSize="@dimen/_15sdp"
+                    tools:text="@string/screen_view_document_sheet_browse_gallery_heading" />
+
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnActionCancel"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_46sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_marginBottom="@dimen/_12sdp"
+                android:background="@drawable/cornor_edges_white_cancel_button"
+                android:gravity="center"
+                android:text="@string/common_button_cancel"
+                android:textAllCaps="false"
+                android:textColor="@color/upload_dialogue_alert_button_text"
+                android:textSize="@dimen/_16sdp"
+                android:textStyle="bold" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </androidx.core.widget.NestedScrollView>
+</layout>
