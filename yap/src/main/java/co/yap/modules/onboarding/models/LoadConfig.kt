@@ -66,7 +66,7 @@ class LoadConfig @Inject constructor(@ApplicationContext val appContext: Context
     ): GhanaBuildConfigurations {
         val ghConfigs = GhanaBuildConfigurations(context)
         ghConfigs.configure(
-            flavour = "qa",
+            flavour = YAPApplication.configManager?.flavor ?: "",
             buildType = BuildConfig.BUILD_TYPE,
             versionName = YAPApplication.configManager?.versionName ?: "1.0.0",
             versionCode = YAPApplication.configManager?.versionCode ?: "1",
@@ -80,7 +80,12 @@ class LoadConfig @Inject constructor(@ApplicationContext val appContext: Context
             SharedPreferenceManager.getInstance(context).setReferralInfo(null)
         }
 
-        ghConfigs.setAdjustAppId(getAdjustReferralTrackerId("GH", "qa"))
+        ghConfigs.setAdjustAppId(
+            getAdjustReferralTrackerId(
+                "GH",
+                YAPApplication.configManager?.flavor ?: ""
+            )
+        )
 
         return ghConfigs
     }
