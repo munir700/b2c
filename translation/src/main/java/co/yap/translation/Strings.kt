@@ -13,6 +13,7 @@ object Strings {
     const val common_button_submit: String = "common_button_submit"
     const val common_text_thanks: String = "common_text_thanks"
     const val common_text_hey: String = "common_text_hey"
+    const val common_text_ok: String = "common_text_ok"
 
     const val common_display_text_error_no_internet: String =
         "common_display_text_error_no_internet"
@@ -21,6 +22,7 @@ object Strings {
     const val common_button_cancel: String = "common_button_cancel"
     const val common_button_settings: String = "common_button_settings"
     const val common_button_save: String = "common_button_save"
+    const val common_text_employment_status: String = "common_text_employment_status"
     const val common_button_activate: String = "common_button_activate"
     const val common_button_delete: String = "common_button_delete"
     const val common_text_currency_type: String = "common_text_currency_type"
@@ -498,6 +500,8 @@ object Strings {
         "screen_set_card_pin_success_display_text_title"
     const val screen_set_card_pin_success_display_text_description: String =
         "screen_set_card_pin_success_display_text_description"
+    const val screen_view_document_refresh_text_description: String =
+        "screen_view_document_refresh_text_description"
     const val screen_set_card_pin_success_button_create_pin: String =
         "screen_set_card_pin_success_button_create_pin"
     const val screen_set_card_pin_success_button_create_pin_later: String =
@@ -644,6 +648,8 @@ object Strings {
     // add spare cards Benefit detail Screen
     const val screen_add_spare_card_completion_display_text_complete_transaction_virtual: String =
         "screen_add_spare_card_completion_display_text_complete_transaction_virtual"
+    const val screen_employment_document_updation_completion_display_text_complete: String =
+        "screen_employment_document_updation_completion_display_text_complete"
     const val screen_add_spare_card_completion_display_text_delivery_info: String =
         "screen_add_spare_card_completion_display_text_delivery_info"
     const val screen_add_spare_card_completion_display_text_complete_transaction: String =
@@ -865,6 +871,10 @@ object Strings {
         "screen_profile_settings_display_text_profile"
     const val screen_profile_settings_display_text_personal_detail: String =
         "screen_profile_settings_display_text_personal_detail"
+    const val screen_profile_settings_display_text_employment_information: String =
+        "screen_profile_settings_display_text_employment_information"
+    const val screen_employment_information_display_right_toolbar_text: String =
+        "screen_employment_information_display_right_toolbar_text"
     const val screen_profile_settings_display_text_view: String =
         "screen_profile_settings_display_text_view"
     const val screen_profile_settings_display_text_change: String =
@@ -895,6 +905,8 @@ object Strings {
         "screen_profile_settings_display_text_like_us"
     const val screen_profile_settings_display_text_logout: String =
         "screen_profile_settings_display_text_logout"
+    const val screen_profile_settings_display_toast_text_account_not_active: String =
+        "screen_profile_settings_display_toast_text_account_not_active"
 
 //update photo bottom sheet
 
@@ -2402,6 +2414,11 @@ object Strings {
         "screen_employment_questionnaire_display_text__bottom_sheet_title_segments"
     const val screen_employment_questionnaire_display_text__bottom_sheet_title_self_employment =
         "screen_employment_questionnaire_display_text__bottom_sheet_title_self_employment"
+    const val screen_employment_type_display_text_bottom_sheet_title =
+        "screen_employment_type_display_text_bottom_sheet_title"
+    const val screen_employment_type_display_text_account_blocked =
+        "screen_employment_type_display_text_account_blocked"
+
 
     //Dashboard Widgets and Edit Screen
     const val screen_dashboard_widget_edit_hide_text =
@@ -2643,4 +2660,19 @@ object Strings {
     const val screen_missing_info_confirmation_button_done = "screen_missing_info_confirmation_button_done"
     const val screen_missing_info_confirmation_display_all_set = "screen_missing_info_confirmation_display_all_set"
 
+    const val screen_view_document_refresh_button_text = "screen_view_document_refresh_button_text"
+    const val screen_view_document_file_size_not_fine = "screen_view_document_file_size_not_fine"
+    const val screen_view_document_otp_message_first_part = "screen_view_document_otp_message_first_part"
+    const val screen_view_document_otp_message_second_part = "screen_view_document_otp_message_second_part"
+
+//    Upload document dialogue
+
+    const val screen_upload_document_display_text_alert_title: String =
+        "screen_upload_document_display_text_alert_title"
+    const val screen_upload_document_display_text_alert_message: String =
+        "screen_upload_document_display_text_alert_message"
+    const val screen_upload_document_display_text_alert_got_it: String =
+        "screen_upload_document_display_text_alert_got_it"
+    const val screen_upload_document_item_subtitle: String =
+        "screen_upload_document_item_subtitle"
 }

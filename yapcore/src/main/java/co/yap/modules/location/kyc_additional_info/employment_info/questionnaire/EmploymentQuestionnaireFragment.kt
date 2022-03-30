@@ -66,13 +66,13 @@ class EmploymentQuestionnaireFragment : LocationChildFragment<IEmploymentQuestio
                 viewModel.employmentStatusValue.value
             )
         )
-        val questionItemViewHolders = QuestionItemViewHolders(viewModel)
+        val questionItemViewHolders = QuestionItemViewHolders()
         viewModel.questionsList.forEachIndexed { position, questionUiField ->
             val questionView: View?
             val binding =
                 DataBindingUtil.inflate<ViewDataBinding>(
                     layoutInflater,
-                    questionItemViewHolders.getItemViewType(position),
+                    questionItemViewHolders.getItemViewType(questionUiField.question.questionType),
                     null,
                     false
                 )
@@ -80,7 +80,9 @@ class EmploymentQuestionnaireFragment : LocationChildFragment<IEmploymentQuestio
                 binding,
                 questionUiField,
                 position,
-                listener
+                listener,
+                viewModel.selectedBusinessCountries.get() ?: arrayListOf(),
+                viewModel.parentViewModel?.amendmentMap
             )
             if (questionView != null)
                 getBinding().llQuestions.addView(questionView)
