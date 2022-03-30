@@ -21,7 +21,7 @@
             android:visibility="@{viewModel.state.tootlBarVisibility}"
             app:viewModel="@{viewModel}" />
 
-        <fragment
+        <androidx.fragment.app.FragmentContainerView
             android:id="@+id/main_house_hold_nav_host_fragment"
             android:name="androidx.navigation.fragment.NavHostFragment"
             android:layout_width="match_parent"
