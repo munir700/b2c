@@ -70,11 +70,13 @@ class EidInfoReviewAmendmentFragment : KYCChildFragment<IEidInfoReviewAmendment.
         super.onActivityCreated(savedInstanceState)
         if (viewModel.parentViewModel?.skipFirstScreen?.value == true) {
             if (!viewModel.state.errorScreenVisited) {
-                initializeUqudoScanner(
-                    requireActivity(),
-                    viewModel.uqudoResponse.value?.accessToken
-                )?.apply {
-                    startActivityForResult(this, REQUEST_CODE)
+                viewModel.uqudoResponse.value?.let {
+                    initializeUqudoScanner(
+                        requireActivity(),
+                        viewModel.uqudoResponse.value?.accessToken
+                    )?.apply {
+                        startActivityForResult(this, REQUEST_CODE)
+                    }
                 }
             }
             viewModel.state.errorScreenVisited = false
@@ -258,8 +260,8 @@ class EidInfoReviewAmendmentFragment : KYCChildFragment<IEidInfoReviewAmendment.
         {
             handleState(it)
         })
-        viewModel.state.uqudoToken.observe(viewLifecycleOwner, Observer { token ->
-            if (token.isNullOrEmpty()
+        viewModel.uqudoResponse.observe(viewLifecycleOwner, Observer { response ->
+            if (response.accessToken.isNullOrEmpty()
                     .not() && viewModel.state.isTokenValid.get()
             ) viewModel.eidStateLiveData.postValue(State.empty("")) else viewModel.eidStateLiveData.postValue(
                 State.error("")
@@ -366,10 +368,7 @@ class EidInfoReviewAmendmentFragment : KYCChildFragment<IEidInfoReviewAmendment.
             it.showAlertDialogAndExitApp(
                 message = title,
                 callback = {
-                    if (viewModel.state.isExpired.value == true) viewModel.requestAllAPIs(false) else initializeUqudoScanner(
-                        requireActivity(),
-                        viewModel.uqudoResponse.value?.accessToken
-                    )
+                    if (viewModel.state.isExpired.value == true) viewModel.requestAllAPIs(false) else initializeUqudoScanner(requireActivity(), viewModel.uqudoResponse.value?.accessToken)
                 },
                 closeActivity = false
             )
@@ -454,42 +453,12 @@ class EidInfoReviewAmendmentFragment : KYCChildFragment<IEidInfoReviewAmendment.
                 if (viewModel.state.uqudoToken.value.isNullOrBlank().not()) {
                     viewModel.extractJwt(viewModel.state.uqudoToken.value)
                 } else {
-                    navigateBack()
+                    if (viewModel.state.payLoadObj.value == null) requireActivity().finish()
                 }
             }
             else -> viewModel.parentViewModel?.finishKyc?.value = DocumentsResponse(false)
 
         }
-        /*      if (data == null && viewModel.parentViewModel?.skipFirstScreen?.value == true) {
-        showToast("Uqudo Camera will be integrated here!!")
-       /* if (data == null && viewModel.parentViewModel?.skipFirstScreen?.value == true) {
-
-              }
-              if (requestCode == IdentityScannerActivity.SCAN_EID_CAM && resultCode == Activity.RESULT_OK) {
-                  data?.let {
-                      it.getParcelableExtra<IdentityScannerResult>(IdentityScannerActivity.SCAN_RESULT)
-                          ?.let { it1 ->
-                              viewModel.onEIDScanningComplete(
-                                  it1
-                              )
-                          }
-                  }
-              } else {
-                  viewModel.parentViewModel?.finishKyc?.value = DocumentsResponse(false)
-              }*/
-        }
-        if (requestCode == IdentityScannerActivity.SCAN_EID_CAM && resultCode == Activity.RESULT_OK) {
-            data?.let {
-                it.getParcelableExtra<IdentityScannerResult>(IdentityScannerActivity.SCAN_RESULT)
-                    ?.let { it1 ->
-                        viewModel.onEIDScanningComplete(
-                            it1
-                        )
-                    }
-            }
-        } else {
-            viewModel.parentViewModel?.finishKyc?.value = DocumentsResponse(false)
-        }*/
     }
 
     override fun onDestroy() {
