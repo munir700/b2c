@@ -8,7 +8,6 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 object DateUtils {
-
     const val DEFAULT_DATE_FORMAT: String = "dd/MM/yyyy"
     const val SIMPLE_DATE_FORMAT: String = "yyyy-MM-dd"
     val GMT: TimeZone = TimeZone.getTimeZone("GMT")
@@ -25,10 +24,16 @@ object DateUtils {
     const val LEAN_PLUM_FORMAT = "dd MMMM, yyyy"
     const val FORMAT_TIME_24H = "HH:mm"
     const val FORMAT_TIME_12H = "hh:mm a"
-    const val FXRATE_DATE_TIME_FORMAT = "dd/MM/yyyy HH:mm a"//20/11/2020 10:17
-    const val FORMATE_MONTH_DAY = "MMM dd" // jan 1
-    const val FORMAT_TIME = "hh:mm"
+    const val FXRATE_DATE_TIME_FORMAT = "dd/MM/yyyy HH:mm a"//20/11/2020 10:17 AM
+    const val FORMATE_MONTH_DAY = "MMM dd" // jan 01
+    const val FORMATE_MONTH_COMPLETE = "MMMM" // january
+    const val FORMAT_MONTH_DAY = "MMMM d"
+    const val FORMATE_DATE_MONTH_YEAR = "dd MMM yyyy" // 12 Jan 2012
+    const val FORMAT_DATE_MONTH_YEAR_2 = "dd-MM-yyyy" // 12 Jan 2012
     const val FORMAT_SHORT_MONTH_DAY = "MMM d" //jan 1
+    const val FORMAT_COMPLETE_DATE =
+        "EEE MMM dd HH:mm:ss Z yyyy" //Tue Sep 07 14:42:12 GMT+05:00 2021
+    const val FORMAT_MONTH_YEAR_SHORT = "yyyy-MM"
 
     fun getAge(date: Date): Int {
         val today = Calendar.getInstance()
@@ -44,7 +49,7 @@ object DateUtils {
     fun getAge(day: Int, month: Int, year: Int): Int = getAge(toDate(day, month, year))
 
     fun isDatePassed(date: Date): Boolean = date.before(Date())
-
+    fun isFutureDate(date: Date?): Boolean? = date?.after(Date())
     private fun toDate(day: Int, month: Int, year: Int): Date {
         return if (year.toString().length == 2) {
             normaliseDate(day, month, year)
@@ -333,6 +338,17 @@ object DateUtils {
         return "${startDay.replace("0", "")} - $endDay"
     }
 
+    fun getMonth(
+        currentDate: Date,
+        format: String = FORMATE_MONTH_COMPLETE
+    ): String {
+        val calendar = Calendar.getInstance()
+        calendar.time = currentDate
+        calendar.set(Calendar.MONTH, calendar.get(Calendar.MONTH))
+        return dateToString(calendar.time, format, false)
+
+    }
+
     fun geMonthsBetweenTwoDates(startDate: String, endDate: String): List<Date> {
         val dates = ArrayList<Date>()
         val df1: DateFormat = SimpleDateFormat("yyyy-MM")
@@ -461,6 +477,15 @@ object DateUtils {
         return cal.time
     }
 
+    fun nextYear(date: Date?, year: Int): Date? {
+        val cal = Calendar.getInstance()
+        if (date != null) {
+            cal.time = date
+        }
+        cal.add(Calendar.YEAR, year)
+        return cal.time
+    }
+
     fun befoDay(format: String, timeZone: TimeZone): String? {
         return dateToString(
             nextDay(
@@ -497,6 +522,85 @@ object DateUtils {
             }
         } ?: reformatDate(date, inputFormatter, outFormatter, inputTimeZone, outTimeZone)
     }
+
+    fun getMonthWithYear(
+        currentDate: Date,
+        format: String = FORMAT_MONTH_YEAR_SHORT
+    ): String {
+        val calendar = Calendar.getInstance()
+        calendar.time = currentDate
+        calendar.set(Calendar.MONTH, calendar.get(Calendar.MONTH))
+        calendar.set(Calendar.YEAR, calendar.get(Calendar.YEAR))
+        return dateToString(calendar.time, format, false)
+    }
+
+    fun changeZoneAndFormatDate(date: String, outPutFormat: String): String {
+        return convertServerDateToLocalDate(date)?.let {
+            it.let { convertedDate ->
+                val smsTime: Calendar = Calendar.getInstance()
+                smsTime.timeInMillis = convertedDate.time
+                return android.text.format.DateFormat.format(outPutFormat, smsTime).toString()
+            }
+        } ?: ""
+    }
+
+    fun changeZoneAndFormatDateWithDay(date: String): String {
+        return convertServerDateToLocalDate(date)?.let { it ->
+            val calendar: Calendar = Calendar.getInstance()
+            calendar.time = it
+            return when {
+                isToday(
+                    date,
+                    "yyyy-MM-dd",
+                    TIME_ZONE_Default
+                ) -> {
+                    val dateFormat = SimpleDateFormat("MMMM d")
+                    dateFormat.format(calendar.time)
+                    "Today, " + dateFormat.format(calendar.time)
+                }
+                isYesterday(
+                    date,
+                    "yyyy-MM-dd",
+                    TIME_ZONE_Default
+                ) -> {
+                    val dateFormat = SimpleDateFormat("MMMM d")
+                    "Yesterday, " + dateFormat.format(calendar.time)
+                }
+                else -> {
+                    val dateFormat = SimpleDateFormat("EEEE, MMMM d")
+                    dateFormat.format(calendar.time)
+                }
+            }
+        } ?: ""
+    }
+
+    fun getSuffixFromDate(date: String): String {
+        return convertServerDateToLocalDate(date)?.let { it ->
+            val calendar: Calendar = Calendar.getInstance()
+            calendar.time = it
+            return getDayNumberSuffix(calendar[Calendar.DAY_OF_MONTH]) ?: ""
+        } ?: ""
+    }
+
+    fun getYearFromDate(date: String, isSeparater:Boolean , separater:String): String {
+        return convertServerDateToLocalDate(date)?.let { it ->
+            val calendar: Calendar = Calendar.getInstance()
+            calendar.time = it
+            return if(isSeparater) "$separater ${calendar[Calendar.YEAR]}" else "${calendar[Calendar.YEAR]}"
+        } ?: ""
+    }
+
+    private fun getDayNumberSuffix(day: Int): String? {
+        return if (day in 11..13) {
+            "th"
+        } else when (day % 10) {
+            1 -> "st"
+            2 -> "nd"
+            3 -> "rd"
+            else -> "th"
+        }
+    }
+
 
     fun dayDiff(date1: Date, date2: Date) = (date2.time - date1.time) / 86400000
     fun dayDiffFromCurrent(date: Date): Long {

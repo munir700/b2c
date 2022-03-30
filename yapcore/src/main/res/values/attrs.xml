@@ -80,10 +80,11 @@
             <enum name="medium" value="1" />
             <enum name="large" value="2" />
             <enum name="mini_small" value="3" />
-            <enum name="mini_medium" value="4" />
-            <enum name="mini_large" value="5" />
-            <enum name="mini" value="6" />
-            <enum name="dynamic" value="7" />
+            <enum name="mini_normal" value="4" />
+            <enum name="mini_medium" value="5" />
+            <enum name="mini_large" value="6" />
+            <enum name="mini" value="7" />
+            <enum name="dynamic" value="8" />
         </attr>
     </declare-styleable>
 
@@ -885,4 +886,21 @@
         <attr name="zoom_enabled" format="boolean" />
     </declare-styleable>
 
+    <declare-styleable name="AlphaNumericEditText">
+        <attr name="showDrawableWhenTextIsEmpty" format="boolean" />
+        <attr name="popupContentText" format="string" />
+        <attr name="disableEmoji" format="boolean" />
+    </declare-styleable>
+
+    <declare-styleable name="TextViewRichDrawable">
+        <attr name="compoundDrawableWidth" format="dimension" />
+        <attr name="compoundDrawableHeight" format="dimension" />
+        <attr name="drawableStartVector" format="reference" />
+        <attr name="drawableTopVector" format="reference" />
+        <attr name="drawableEndVector" format="reference" />
+        <attr name="drawableBottomVector" format="reference" />
+        <attr name="rtdrawableTint" format="reference" />
+        <attr name="rtdrawableDisableEmoji" format="boolean" />
+        <attr name="disableSpaces" format="boolean" />
+    </declare-styleable>
 </resources>

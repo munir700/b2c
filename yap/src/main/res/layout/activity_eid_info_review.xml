@@ -14,11 +14,13 @@
             type="co.yap.modules.kyc.viewmodels.EidInfoReviewViewModel" />
 
         <import type="co.yap.yapcore.managers.SessionManager" />
+        <import type="co.yap.yapcore.helpers.Utils" />
     </data>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        app:sensitiveViews="@{Utils.getViewsList(tvExpiryDate,tvGender,tvDOB,tvNationality,tvLastName,tvMiddleName,tvFirstName,tvCitizenNumber,tvDetailsVerify)}"
         android:orientation="vertical">
 
         <FrameLayout
@@ -200,7 +202,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_10sdp"
                     android:layout_marginEnd="@dimen/margin_normal"
-                    android:drawableEnd="@{viewModel.state.dateOfBirthValid ? @drawable/path : @drawable/ic_error}"
+                    android:drawableEnd="@{viewModel.state.isDateOfBirthValid ? @drawable/path : @drawable/ic_error}"
                     android:text="@{viewModel.state.dateOfBirth}"
                     app:layout_constraintTop_toBottomOf="@+id/tvDOBHeading"
                     tools:text="01/01/1979" />
@@ -279,8 +281,8 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:text="@{Strings.screen_b2c_eid_info_review_button_title_rescan_eid}"
-                    tools:text="@string/screen_b2c_eid_info_review_button_title_rescan_eid" />
+                    app:text="@{Strings.screen_b2c_eid_info_review__button_title_rescan_eid}"
+                    tools:text="@string/screen_b2c_eid_info_review__button_title_rescan_eid" />
 
                 <androidx.appcompat.widget.AppCompatEditText
                     android:id="@+id/tvFirstName"
@@ -439,8 +441,8 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvError"
                     app:layout_constraintVertical_bias="0.75"
-                    app:text="@{Strings.screen_b2c_eid_info_review_button_title_confirm}"
-                    tools:text="@string/screen_b2c_eid_info_review_button_title_confirm" />
+                    app:text="@{Strings.common_button_confirm}"
+                    tools:text="@string/common_button_confirm" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>

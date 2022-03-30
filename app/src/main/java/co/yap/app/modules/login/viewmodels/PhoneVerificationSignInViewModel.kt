@@ -8,6 +8,7 @@ import co.yap.R
 import co.yap.app.main.MainChildViewModel
 import co.yap.app.modules.login.interfaces.IPhoneVerificationSignIn
 import co.yap.app.modules.login.states.PhoneVerificationSignInState
+import co.yap.modules.otp.getOtpMessageFromComposer
 import co.yap.networking.authentication.AuthRepository
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.requestdtos.DemographicDataRequest
@@ -22,6 +23,7 @@ import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.Constants.KEY_APP_UUID
 import co.yap.yapcore.constants.Constants.KEY_IS_USER_LOGGED_IN
 import co.yap.yapcore.enums.AlertType
+import co.yap.yapcore.enums.OTPActions
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.getColors
@@ -106,7 +108,11 @@ class PhoneVerificationSignInViewModel(application: Application) :
                     DemographicDataRequest(
                         clientId = parentViewModel?.signingInData?.clientId,
                         clientSecret = parentViewModel?.signingInData?.clientSecret,
-                        deviceId = parentViewModel?.signingInData?.deviceID
+                        deviceId = parentViewModel?.signingInData?.deviceID,
+                        otpMessage = context.getOtpMessageFromComposer(
+                            OTPActions.DEMOGRAPHIC_VALIDATION.name, "There", "%s1",
+                            "%s2", "%s3"
+                        )
                     )
                 )) {
                 is RetroApiResponse.Success -> {
@@ -159,7 +165,7 @@ class PhoneVerificationSignInViewModel(application: Application) :
                     if (response.data.data.isNotEmpty()) {
                         SessionManager.usersList?.value = response.data.data as ArrayList
                         SessionManager.user = SessionManager.getCurrentUser()
-                        SessionManager.setupDataSetForBlockedFeatures()
+                        SessionManager.setupDataSetForBlockedFeatures(SessionManager.card.value)
                         trackEventWithAttributes(SessionManager.user)
                         accountInfo.postValue(SessionManager.user)
                     }

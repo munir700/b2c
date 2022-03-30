@@ -16,6 +16,8 @@ import co.yap.sendmoney.base.SMFeeViewModel
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.TransactionProductCode
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.extentions.getValueWithoutComa
+import co.yap.yapcore.helpers.extentions.parseToDouble
 import co.yap.yapcore.managers.SessionManager
 import kotlinx.coroutines.delay
 
@@ -27,9 +29,6 @@ open class FundActionsViewModel(application: Application) :
     override val state: FundActionsState = FundActionsState(application)
     override val clickEvent: SingleClickEvent = SingleClickEvent()
     override val errorEvent: SingleClickEvent = SingleClickEvent()
-    override val firstDenominationClickEvent: SingleClickEvent = SingleClickEvent()
-    override val secondDenominationClickEvent: SingleClickEvent = SingleClickEvent()
-    override val thirdDenominationClickEvent: SingleClickEvent = SingleClickEvent()
     override var error: String = ""
     override var cardSerialNumber: String = ""
     override var enteredAmount: MutableLiveData<String> = MutableLiveData()
@@ -43,65 +42,6 @@ open class FundActionsViewModel(application: Application) :
     override fun initateVM(topupCard: TopUpCard) {}
     override fun startPooling(showLoader: Boolean) {}
     override fun getTransactionThresholds() {}
-
-
-    override fun denominationFirstAmountClick() {
-        if (state.denominationFirstAmount.contains("+")) {
-            state.denominationAmount = Utils.getFormattedCurrencyWithoutComma(
-                state.denominationFirstAmount.replace(
-                    "+",
-                    ""
-                )
-            )
-        } else if (state.denominationFirstAmount.contains("-")) {
-            state.denominationAmount = Utils.getFormattedCurrencyWithoutComma(
-                state.denominationFirstAmount.replace(
-                    "-",
-                    ""
-                )
-            )
-        }
-        firstDenominationClickEvent.call()
-    }
-
-    override fun denominationSecondAmount() {
-        state.denominationAmount = ""
-        if (state.denominationSecondAmount.contains("+")) {
-            state.denominationAmount = Utils.getFormattedCurrencyWithoutComma(
-                state.denominationSecondAmount.replace(
-                    "+",
-                    ""
-                )
-            )
-        } else if (state.denominationSecondAmount.contains("-")) {
-            state.denominationAmount = Utils.getFormattedCurrencyWithoutComma(
-                state.denominationSecondAmount.replace(
-                    "-",
-                    ""
-                )
-            )
-        }
-        secondDenominationClickEvent.call()
-    }
-
-    override fun denominationThirdAmount() {
-        if (state.denominationThirdAmount.contains("+")) {
-            state.denominationAmount = Utils.getFormattedCurrencyWithoutComma(
-                state.denominationThirdAmount.replace(
-                    "+",
-                    ""
-                )
-            )
-        } else if (state.denominationThirdAmount.contains("-")) {
-            state.denominationAmount = Utils.getFormattedCurrencyWithoutComma(
-                state.denominationThirdAmount.replace(
-                    "-",
-                    ""
-                )
-            )
-        }
-        thirdDenominationClickEvent.call()
-    }
 
     override fun addFunds() {
         launch {
@@ -151,10 +91,20 @@ open class FundActionsViewModel(application: Application) :
 
     override fun getFundTransferLimits(productCode: String) {
         launch {
-            when (val response = transactionsRepository.getFundTransferLimits(productCode)) {
+            when (val response = transactionsRepository.getFundTransferLimits(
+                productCode,
+                SessionManager.user?.uuid
+            )) {
                 is RetroApiResponse.Success -> {
                     state.maxLimit = response.data.data?.maxLimit?.toDouble() ?: 0.00
                     state.minLimit = response.data.data?.minLimit?.toDouble() ?: 0.00
+                    state.maximumAccumulative.set(
+                        response.data.data?.dailyAccumulativeMaxLimit?.toDouble() ?: 0.00
+                    )
+                    val remaining = response.data.data?.remainingAvailableLimit
+                    state.remainingAccumulative.set(
+                        if (remaining?.contains("-") == true) 0.0 else remaining?.toDouble() ?: 0.00
+                    )
                 }
                 is RetroApiResponse.Error -> {
                     state.toast = response.error.message
@@ -183,12 +133,15 @@ open class FundActionsViewModel(application: Application) :
                     val sortedData =
                         response.data.data?.sortedWith(Comparator { s1: FundTransferDenominations, s2: FundTransferDenominations -> s1.amount.toInt() - s2.amount.toInt() })
                     if (sortedData?.size in 1..3) {
-                        state.denominationFirstAmount =
+                        state.denominationFirstAmount.set(
                             fundsType + (sortedData?.get(0)?.amount ?: "")
-                        state.denominationSecondAmount =
+                        )
+                        state.denominationSecondAmount.set(
                             fundsType + (sortedData?.get(1)?.amount ?: "")
-                        state.denominationThirdAmount =
+                        )
+                        state.denominationThirdAmount.set(
                             fundsType + (sortedData?.get(2)?.amount ?: "")
+                        )
                     }
                 }
                 is RetroApiResponse.Error -> {
@@ -208,4 +161,22 @@ open class FundActionsViewModel(application: Application) :
 
     }
 
+    override fun denominationAmountValidator(amount: String, enable: (boolean: Boolean) -> Unit) {
+        state.denominationAmount.set(
+            Utils.getFormattedCurrencyWithoutComma(
+                amount.replace(
+                    if (amount.contains("+")) "+" else "-",
+                    ""
+                )
+            )
+        )
+        if (!enteredAmount.value.equals(state.denominationAmount.get())) {
+            enteredAmount.value = state.denominationAmount.get()
+            enable.invoke(enteredAmount.value?.getValueWithoutComa().parseToDouble() <= state.remainingAccumulative.get()?:0.0)
+        } else {
+            enteredAmount.value = ""
+            enable.invoke(false)
+        }
+
+    }
 }

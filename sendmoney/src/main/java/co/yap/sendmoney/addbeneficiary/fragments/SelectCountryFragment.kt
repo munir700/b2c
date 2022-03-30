@@ -96,7 +96,7 @@ class SelectCountryFragment : SendMoneyBaseFragment<ISelectCountry.ViewModel>(),
                         itemClickListener = itemListener,
                         label = "Select Country",
                         viewType = Constants.VIEW_WITH_FLAG,
-                        countriesList = viewModel.populateSpinnerData.value?.filter { country -> country.isoCountryCode2Digit != "AE" }
+                        countriesList = viewModel.populateSpinnerData.value?.filter { country -> country.isoCountryCode2Digit != "AE" && country.supportedCurrencies?.isNullOrEmpty() == false }
                     )
                 }
             }

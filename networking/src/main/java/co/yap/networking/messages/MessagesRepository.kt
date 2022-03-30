@@ -6,6 +6,7 @@ import co.yap.networking.authentication.AuthRepository
 import co.yap.networking.messages.requestdtos.*
 import co.yap.networking.messages.responsedtos.*
 import co.yap.networking.models.ApiResponse
+import co.yap.networking.models.BaseResponse
 import co.yap.networking.models.RetroApiResponse
 
 object MessagesRepository : BaseRepository(), MessagesApi {
@@ -20,6 +21,7 @@ object MessagesRepository : BaseRepository(), MessagesApi {
     const val URL_VERIFY_FORGOT_PASSCODE_OTP = "/messages/api/otp/action/forgot-password"
     const val URL_HELP_DESK_PHONE = "/messages/api/help-desk"
     const val URL_FAQS = "/messages/api/faqs"
+    const val URL_GET_DOWNTIME = "/messages/api/downtime"
 
     private val API: MessagesRetroService =
         RetroNetwork.createService(MessagesRetroService::class.java)
@@ -38,7 +40,12 @@ object MessagesRepository : BaseRepository(), MessagesApi {
     override suspend fun createOtpGenericWithPhone(
         phone: String,
         createOtpGenericRequest: CreateOtpGenericRequest
-    ): RetroApiResponse<ApiResponse> = AuthRepository.executeSafely(call = { API.createOtpGenericWithPhone(phone,createOtpGenericRequest) })
+    ): RetroApiResponse<ApiResponse> = AuthRepository.executeSafely(call = {
+        API.createOtpGenericWithPhone(
+            phone,
+            createOtpGenericRequest
+        )
+    })
 
 
     override suspend fun verifyOtpGeneric(verifyOtpGenericRequest: VerifyOtpGenericRequest): RetroApiResponse<ValidateDeviceResponse> =
@@ -48,7 +55,12 @@ object MessagesRepository : BaseRepository(), MessagesApi {
         phone: String,
         verifyOtpGenericRequest: VerifyOtpGenericRequest
     ): RetroApiResponse<ValidateDeviceResponse> =
-        AuthRepository.executeSafely(call = { API.verifyOtpGenericWithPhone(phone,verifyOtpGenericRequest) })
+        AuthRepository.executeSafely(call = {
+            API.verifyOtpGenericWithPhone(
+                phone,
+                verifyOtpGenericRequest
+            )
+        })
 
 
     override suspend fun createForgotPasscodeOTP(createForgotPasscodeOtpRequest: CreateForgotPasscodeOtpRequest): RetroApiResponse<CreateForgotPasscodeOtpResponse> =
@@ -70,4 +82,10 @@ object MessagesRepository : BaseRepository(), MessagesApi {
 
     override suspend fun getFaqsUrl(): RetroApiResponse<FaqsResponse> =
         AuthRepository.executeSafely(call = { API.getFaqs() })
+
+    /**
+     *  APi will return @see [DownTime] object if partner bank or processor is down
+     * */
+    override suspend fun getDownTime(): RetroApiResponse<BaseResponse<DownTime>> =
+        AuthRepository.executeSafely(call = { API.getDownTime() })
 }

@@ -144,6 +144,7 @@
 
 -keep class android.support.** { *; }
 -keep interface android.support.** { *; }
+
 -keep class com.google.android.material.internal.CollapsingTextHelper {
     public <methods>;
 }
@@ -152,7 +153,13 @@
                                                                              private <fields>;
                                                                           }
 
+-keepnames class com.google.android.material.textfield.IndicatorViewController
+-keepclassmembers class com.google.android.material.textfield.IndicatorViewController {
+                                                                             private <fields>;
+                                                                          }
 -keepnames class com.google.android.material.textfield.TextInputLayout
+
+
 -keep class * extends android.webkit.WebChromeClient { *; }
 -dontwarn im.delight.android.webview.**
 
@@ -170,12 +177,18 @@
 }
 -keep public class com.android.installreferrer.** { *; }
 -keep class co.yap.yapcore.helpers.validation.** { *; }
+
 #Samsung ProGuard rules start
 -dontwarn com.samsung.android.sdk.samsungpay.**
 -keep class com.samsung.android.sdk.** { *; }
 -keep interface com.samsung.android.sdk.** { *; }
 -keep class co.yap.wallet.samsung.** { *; }
 #Samsung ProGuard rules end
+
+#UXCam ProGuard rules start
+-keep class com.uxcam.** { *; }
+-dontwarn com.uxcam.**
+#UXCam ProGuard rules end
 
 #All Other rule will goes above (Important)
 # Crashlytics 2.+
@@ -185,3 +198,5 @@
 -keepclassmembers class * extends com.google.crypto.tink.shaded.protobuf.GeneratedMessageLite {
   <fields>;
 }
+
+-keep class com.flagsmith.** { *; }

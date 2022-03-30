@@ -12,7 +12,10 @@ import android.view.View
 import android.view.Window
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.annotation.ColorRes
+import androidx.annotation.DrawableRes
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -22,12 +25,16 @@ import co.yap.modules.carddetaildialog.CardDetailsModel
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.networking.cards.responsedtos.CardDetail
 import co.yap.widgets.CoreButton
+import co.yap.widgets.setOnClick
 import co.yap.yapcore.R
+import co.yap.yapcore.databinding.ConfirmAlertDialogBinding
+import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.helpers.extentions.chatSetup
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.extentions.makeCall
 import co.yap.yapcore.helpers.extentions.makeLinks
 import co.yap.yapcore.managers.SessionManager
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator
 
 /**
@@ -111,7 +118,7 @@ fun Context.confirm(
 @JvmOverloads
 fun Fragment.confirm(
     message: String,
-    title: String = "",
+    title: String? = "",
     positiveButton: String? = "Yes",
     negativeButton: String? = "No",
     cancelable: Boolean = true,
@@ -423,6 +430,14 @@ fun Activity.showAlertDialogAndExitApp(
                 this@showAlertDialogAndExitApp.chatSetup()
             })
         )
+    } else {
+        if (message?.contains("live chat") == true) {
+            label.makeLinks(
+                Pair("live chat", View.OnClickListener {
+                    this@showAlertDialogAndExitApp.chatSetup()
+                })
+            )
+        }
     }
 
     builder.setView(dialogLayout)
@@ -431,7 +446,6 @@ fun Activity.showAlertDialogAndExitApp(
 
     alertDialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
     alertDialog.show()
-
 }
 
 
@@ -468,8 +482,50 @@ fun Activity.showReceiptSuccessDialog(
 fun Context.infoDialog(
     title: String = "",
     message: String,
+    buttonType: ArrayList<ButtonType> = arrayListOf(),
+    callback: (view: View) -> Unit = {}
+) {
+    val dialogLayout = Dialog(this)
+    dialogLayout.requestWindowFeature(Window.FEATURE_NO_TITLE)
+    dialogLayout.setCancelable(false)
+    dialogLayout.setContentView(R.layout.dialog_information)
+    val dialogTitle = dialogLayout.findViewById<TextView>(R.id.tvDialogTitle)
+    val messageView = dialogLayout.findViewById<TextView>(R.id.tvMessage)
+    val btnClose = dialogLayout.findViewById<AppCompatTextView>(R.id.btnClose)
+    val btnContinue = dialogLayout.findViewById<CoreButton>(R.id.btnNext)
+    val tbBtnInfo = dialogLayout.findViewById<AppCompatImageView>(R.id.tbBtnInfo)
+    messageView.text = message
+    dialogTitle.text = title
+    btnContinue.visibility = if (buttonType.size == 2) View.VISIBLE else View.GONE
+    btnClose.text = getBackButtonText(buttonType)
+    btnContinue.text = getContinueText(buttonType)
+    tbBtnInfo.setImageResource(if (buttonType.contains(ButtonType.BACK)) R.drawable.ic_exclamation_primary_white else R.drawable.ic_support)
+    btnClose.setOnClickListener {
+        if (buttonType.contains(ButtonType.BACK)) callback.invoke(it)
+        dialogLayout.dismiss()
+    }
+    btnContinue.setOnClickListener {
+        callback.invoke(it)
+        dialogLayout.dismiss()
+    }
+    dialogLayout.window?.setBackgroundDrawableResource(android.R.color.transparent)
+    dialogLayout.show()
+}
+
+fun getContinueText(buttonType: ArrayList<ButtonType>): CharSequence? =
+    if (buttonType.contains(ButtonType.NEXT)) ButtonType.NEXT.type else ButtonType.CONTINUE.type
+
+
+fun getBackButtonText(buttonType: ArrayList<ButtonType>): String =
+    if (buttonType.contains(ButtonType.CLOSE)) ButtonType.CLOSE.type else ButtonType.BACK.type
+
+fun Context.beneficiaryInfoDialog(
+    title: String = "",
+    message: String,
     buttonText: String? = null,
-    callback: () -> Unit = {}
+    callback: (proceed: Boolean) -> Unit = {},
+    icon: Int? = null,
+    coreButtonTitle: String? = null
 ) {
 
     val dialogLayout = Dialog(this)
@@ -478,14 +534,80 @@ fun Context.infoDialog(
     dialogLayout.setContentView(R.layout.dialog_information)
     val dialogTitle = dialogLayout.findViewById<TextView>(R.id.tvDialogTitle)
     val messageView = dialogLayout.findViewById<TextView>(R.id.tvMessage)
+    val tbBtnInfo = dialogLayout.findViewById<AppCompatImageView>(R.id.tbBtnInfo)
     messageView.text = message
     dialogTitle.text = title
+    icon?.let { resource ->
+        tbBtnInfo.setImageResource(resource)
+    }
     val btnClose = dialogLayout.findViewById<AppCompatTextView>(R.id.btnClose)
+    val btnNext = dialogLayout.findViewById<CoreButton>(R.id.btnNext)
     btnClose.text = buttonText
     btnClose.setOnClickListener {
-        callback.invoke()
+        callback.invoke(false)
         dialogLayout.dismiss()
+    }
+    coreButtonTitle?.let { label ->
+        btnNext.visibility = View.VISIBLE
+        btnNext.text = label
+        btnNext.setOnClickListener {
+            callback.invoke(true)
+            dialogLayout.dismiss()
+        }
     }
     dialogLayout.window?.setBackgroundDrawableResource(android.R.color.transparent)
     dialogLayout.show()
+}
+
+fun Context.customAlertDialog(
+    @DrawableRes topIconResId: Int? = null,
+    title: String? = null,
+    @ColorRes titleTextColor: Int = R.color.colorPrimaryDark,
+    message: String? = null,
+    @ColorRes messageTextColor: Int = R.color.greyDark,
+    positiveButton: String? = null,
+    negativeButton: String? = null,
+    @ColorRes positiveButtonTextColor: Int = R.color.white,
+    @ColorRes negativeButtonTextColor: Int = R.color.colorPrimary,
+    cancelable: Boolean = true,
+    positiveCallback: (View) -> Unit = {},
+    negativeCallback: (View) -> Unit = {}
+) {
+    val builder = MaterialAlertDialogBuilder(this, R.style.Yap_App_MaterialAlertDialog_Rounded)
+    val alertDialog = builder.create().apply {
+        val binding =
+            ConfirmAlertDialogBinding.inflate(LayoutInflater.from(this@customAlertDialog))
+        setView(binding.root)
+        if (topIconResId != null) {
+            binding.ivTopIcon.setImageResource(topIconResId)
+        } else binding.ivTopIcon.visibility = View.GONE
+        if (title.isNullOrBlank().not()) {
+            binding.tvDialogTitle.text = title
+            binding.tvDialogTitle.setTextColor(getColor(titleTextColor))
+        } else binding.tvDialogTitle.visibility = View.GONE
+        if (message.isNullOrBlank().not()) {
+            binding.tvMessage.text = message
+            binding.tvMessage.setTextColor(getColor(messageTextColor))
+        } else binding.tvMessage.visibility = View.GONE
+
+        if (positiveButton.isNullOrBlank().not()) {
+            binding.btnNext.text = positiveButton
+            binding.btnNext.setTextColor(getColor(positiveButtonTextColor))
+            binding.btnNext.setOnClick {
+                positiveCallback.invoke(it)
+                dismiss()
+            }
+
+        } else binding.btnNext.visibility = View.GONE
+        if (negativeButton.isNullOrBlank().not()) {
+            binding.btnClose.text = negativeButton
+            binding.btnClose.setTextColor(getColor(negativeButtonTextColor))
+            binding.btnClose.setOnClick {
+                negativeCallback.invoke(it)
+                dismiss()
+            }
+        } else binding.btnClose.visibility = View.GONE
+    }
+    alertDialog.setCancelable(cancelable)
+    alertDialog.show()
 }

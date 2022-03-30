@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="co.yap.translation.Strings" />
+    </data>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/margin_medium">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivTopIcon"
+            android:layout_width="@dimen/_32sdp"
+            android:layout_height="@dimen/_32sdp"
+            android:layout_gravity="center_horizontal"
+            android:padding="@dimen/_4sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_item_selected" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvDialogTitle"
+            style="@style/Large"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_normal"
+            android:gravity="center"
+            android:layout_gravity="center_horizontal"
+            android:lineSpacingExtra="0.5sp"
+            android:text="@string/screen_employment_information_dialog_display_text_heading"
+            android:textColor="@color/colorDarkGrey" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvMessage"
+            style="@style/SmallGrey"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_normal_large"
+            android:gravity="center"
+            android:lineSpacingExtra="3sp"
+            android:layout_marginBottom="@dimen/margin_normal_large"
+            android:text="@string/screen_employment_information_dialog_display_text_subheading"
+            tools:text="@string/screen_employment_information_dialog_display_text_subheading" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnNext"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/enabled_color_selector"
+            android:paddingStart="@dimen/margin_extra_large"
+            android:paddingTop="@dimen/margin_small"
+            android:paddingEnd="@dimen/margin_extra_large"
+            android:textAllCaps="false"
+            android:layout_marginHorizontal="@dimen/margin_large"
+            android:layout_marginBottom="@dimen/margin_normal"
+            android:paddingBottom="@dimen/margin_small"
+            android:text="@string/common_text_edit_now"
+            android:textColor="@color/white"
+            android:visibility="visible"
+            tools:visibility="visible"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/btnClose"
+            style="@style/Regular"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:padding="@dimen/margin_small"
+            android:text="@string/screen_employment_information_dialog_button_text_close"
+            android:textColor="?attr/colorPrimaryAttr"
+            tools:textColor="@color/colorPrimary" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+</layout>

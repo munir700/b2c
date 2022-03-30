@@ -51,7 +51,7 @@ class FrameActivity : BaseBindingActivity<IFrameActivity.ViewModel>(),
         )
 
         viewModel.state.toolbarTitle =
-            if (extras.hasExtra(TOOLBAR_TITLE)) extras.getStringExtra(TOOLBAR_TITLE) else ""
+            if (extras.hasExtra(TOOLBAR_TITLE)) extras.getStringExtra(TOOLBAR_TITLE).toString() else ""
         val fragmentName = extras.getStringExtra(FRAGMENT_CLASS)
         if (fragmentName == null || TextUtils.isEmpty(fragmentName)) {
             finish()
@@ -106,8 +106,8 @@ class FrameActivity : BaseBindingActivity<IFrameActivity.ViewModel>(),
     fun getBinding() = viewDataBinding as ActivityFrameBinding
 
 
-    override fun onOptionsItemSelected(item: MenuItem?) =
-        when (item?.itemId) {
+    override fun onOptionsItemSelected(item: MenuItem) =
+        when (item.itemId) {
             android.R.id.home -> {
                 hideKeyboard()
                 onBackPressed()

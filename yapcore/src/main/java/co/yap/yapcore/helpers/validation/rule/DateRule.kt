@@ -1,13 +1,14 @@
 package co.yap.yapcore.helpers.validation.rule
 
 import android.widget.TextView
+import androidx.annotation.Keep
 import co.yap.yapcore.helpers.validation.util.DateValidator
 import co.yap.yapcore.helpers.validation.util.EditTextHandler.removeError
-import co.yap.yapcore.helpers.validation.util.EditTextHandler.setError
 
 /**
  * Created irfan arshad on 10/6/2020.
  */
+@Keep
 class DateRule(
     view: TextView?,
     value: String?,
@@ -19,7 +20,7 @@ class DateRule(
     errorMessage,
     showErrorMessage
 ) {
-    private val dateValidator: DateValidator
+    private val dateValidator: DateValidator = DateValidator()
     override fun isValid(view: TextView?): Boolean {
         return dateValidator.isValid(view?.text.toString(), value)
     }
@@ -29,10 +30,7 @@ class DateRule(
     }
 
     override fun onValidationFailed(view: TextView?) {
-        setError(view, errorMessage)
+//        setError(view, errorMessage)
     }
 
-    init {
-        dateValidator = DateValidator()
-    }
 }

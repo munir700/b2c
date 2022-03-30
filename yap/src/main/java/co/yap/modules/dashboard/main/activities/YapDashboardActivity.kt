@@ -18,6 +18,7 @@ import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.core.view.GravityCompat
+import androidx.databinding.DataBindingUtil
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -27,7 +28,9 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.viewpager.widget.ViewPager
 import co.yap.BR
 import co.yap.R
+import co.yap.billpayments.dashboard.BillPaymentsHomeActivity
 import co.yap.databinding.ActivityYapDashboardBinding
+import co.yap.databinding.DialogChangeUnverifiedEmailBinding
 import co.yap.modules.dashboard.cards.analytics.main.activities.CardAnalyticsActivity
 import co.yap.modules.dashboard.cards.paymentcarddetail.statments.activities.CardStatementsActivity
 import co.yap.modules.dashboard.home.fragments.YapHomeFragment
@@ -61,14 +64,19 @@ import co.yap.yapcore.enums.FeatureSet
 import co.yap.yapcore.enums.YAPThemes
 import co.yap.yapcore.firebase.FirebaseEvent
 import co.yap.yapcore.firebase.trackEventWithScreenName
+import co.yap.yapcore.flagsmith.ToggleFeature
+import co.yap.yapcore.flagsmith.getFeatureFlagClient
 import co.yap.yapcore.helpers.ExtraKeys
 import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.helpers.livedata.SwitchProfileLiveData
 import co.yap.yapcore.helpers.permissions.PermissionHelper
+import co.yap.yapcore.leanplum.SignInEvents
+import co.yap.yapcore.leanplum.trackEvent
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.SessionManager
 import com.facebook.appevents.AppEventsConstants
 import com.facebook.appevents.AppEventsLogger
+import com.uxcam.UXCam
 import kotlinx.android.synthetic.main.activity_yap_dashboard.*
 import kotlinx.android.synthetic.main.layout_drawer_yap_dashboard.*
 import kotlinx.coroutines.CoroutineScope
@@ -94,15 +102,20 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        logEvent()
         mNavigator = (applicationContext as NavigatorProvider).provideNavigator()
         SessionManager.getCountriesFromServer { _, _ -> }
         setupPager()
         addObservers()
         addListeners()
+        getFeatureFlagClient.hasFeature(ToggleFeature.BILL_PAYMENTS.flag) { hasFlag ->
+            launch {
+//                if (hasFlag) {
+                setupNewYapButtons(hasFlag)
+//                }
+            }
+        }
         setupMultiAccountSideMenu()
-        mNavigator = (this.applicationContext as NavigatorProvider).provideNavigator()
-        setupNewYapButtons()
-        logEvent()
         lifecycleScope.launch {
             delay(100)
             mNavigator?.handleDeepLinkFlow(
@@ -113,61 +126,84 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
     }
 
     private fun logEvent() {
+        trackEvent(SignInEvents.SIGN_IN_DASHBOARD.type)
         val logger: AppEventsLogger = AppEventsLogger.newLogger(this)
         logger.logEvent(AppEventsConstants.EVENT_NAME_ACTIVATED_APP)
     }
 
-    private fun setupNewYapButtons() {
-        actionMenu = FloatingActionMenu.Builder(this)
-            .setStartAngle(0)
-            .setEndAngle(-180).setRadius(dimen(R.dimen._69sdp))
-            .setAnimationHandler(SlideInAnimationHandler())
-            .addSubActionView(
-                getString(Strings.common_send_money),
-                R.drawable.ic_send_money,
-                R.layout.component_yap_menu_sub_button,
-                this, 1
-            )/*.addSubActionView(
+    private fun setupNewYapButtons(hasBillPaymentEnable: Boolean) {
+        val builder = FloatingActionMenu.Builder(this)
+
+        // actionMenu = FloatingActionMenu.Builder(this)
+        builder.setStartAngle(0)
+        builder.setEndAngle(-180)
+        builder.setRadius(dimen(R.dimen._69sdp))
+        builder.setAnimationHandler(SlideInAnimationHandler())
+        builder.addSubActionView(
+            getString(Strings.common_send_money),
+            R.drawable.ic_send_money,
+            R.layout.component_yap_menu_sub_button,
+            this, 1
+        )
+        if (hasBillPaymentEnable) {
+            builder.addSubActionView(
                 getString(Strings.common_pay_bills),
                 R.drawable.ic_bill,
                 R.layout.component_yap_menu_sub_button,
                 this, 2
-            )*/.addSubActionView(
-                getString(Strings.common_add_money),
-                R.drawable.ic_add_sign_white,
-                R.layout.component_yap_menu_sub_button,
-                this, 3
             )
-            .attachTo(getViewBinding().ivYapIt).setAlphaOverlay(getViewBinding().flAlphaOverlay)
-            .setTxtYapIt(getViewBinding().txtYapIt)
-            .setStateChangeListener(object :
-                FloatingActionMenu.MenuStateChangeListener {
-                override fun onMenuOpened(menu: FloatingActionMenu) {
-                    trackEventWithScreenName(FirebaseEvent.CLICK_YAPIT)
-                    overLayButtonVisibility(View.GONE)
-                }
+        }
+        builder.addSubActionView(
+            getString(Strings.common_add_money),
+            R.drawable.ic_add_sign_white,
+            R.layout.component_yap_menu_sub_button,
+            this, 3
+        )
+        builder.attachTo(getViewBinding().btnYapIt).setAlphaOverlay(getViewBinding().flAlphaOverlay)
+        builder.setTxtYapIt(getViewBinding().txtYapIt)
+        builder.setStateChangeListener(object :
+            FloatingActionMenu.MenuStateChangeListener {
+            override fun onMenuOpened(menu: FloatingActionMenu) {
+                trackEventWithScreenName(FirebaseEvent.CLICK_YAPIT)
+                overLayButtonVisibility(View.GONE)
+//                    getFeatureFlagClient.hasFeature(ToggleFeature.BILL_PAYMENTS.flag) { hasFlag ->
+//                        launch {
+//                            if (hasFlag) {
+//                                actionMenu?.subActionItems?.get(1)?.view?.visibility = View.VISIBLE
+//                            } else {
+//                                actionMenu?.subActionItems?.get(1)?.view?.visibility =
+//                                    View.INVISIBLE
+//                            }
+//                        }
+//                    }
+            }
 
-                override fun onMenuClosed(menu: FloatingActionMenu, subActionButtonId: Int) {
-                    lifecycleScope.launch {
-                        delay(300)
-                        overLayButtonVisibility(View.VISIBLE)
+            override fun onMenuClosed(menu: FloatingActionMenu, subActionButtonId: Int) {
+                lifecycleScope.launch {
+                    delay(300)
+                    overLayButtonVisibility(View.VISIBLE)
+                }
+                when (subActionButtonId) {
+                    1 -> {
+                        trackEventWithScreenName(FirebaseEvent.CLICK_ACTIONS_SENDMONEY)
+                        launchActivity<SendMoneyDashboardActivity>(type = FeatureSet.SEND_MONEY)
                     }
-                    when (subActionButtonId) {
-                        1 -> {
-                            trackEventWithScreenName(FirebaseEvent.CLICK_ACTIONS_SENDMONEY)
-                            launchActivity<SendMoneyDashboardActivity>(type = FeatureSet.SEND_MONEY)
-                        }
-                        3 -> {
-                            launchActivity<AddMoneyActivity>(type = FeatureSet.TOP_UP)
-                        }
+
+                    2 -> {
+                        launchActivity<BillPaymentsHomeActivity>(type = FeatureSet.BILL_PAYMENT)
+                    }
+
+                    3 -> {
+                        launchActivity<AddMoneyActivity>(type = FeatureSet.TOP_UP)
                     }
                 }
-            })
-            .build()
+            }
+        })
+        actionMenu = builder.build()
+
     }
 
     private fun setupPager() {
-//        SessionManager.card = MutableLiveData()
         adapter = YapDashboardAdaptor(supportFragmentManager)
         getViewBinding().viewPager.adapter = adapter
 
@@ -265,7 +301,15 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
         val dialog = Dialog(this)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setCancelable(false)
-        dialog.setContentView(R.layout.dialog_change_unverified_email)
+
+        val dialogBinding: DialogChangeUnverifiedEmailBinding = DataBindingUtil.inflate(
+            layoutInflater,
+            R.layout.dialog_change_unverified_email,
+            null,
+            false
+        )
+
+        dialog.setContentView(dialogBinding.root)
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
         val tvUnverifiedDescription = dialog.findViewById<TextView>(R.id.tvUnverifiedDescription)
@@ -325,12 +369,14 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
         }
         dialog.findViewById<TextView>(R.id.btnLater).setOnClickListener {
             dialog.dismiss()
-            viewModel.resendVerificationEmail() {
+            viewModel.resendVerificationEmail {
                 trackEventWithScreenName(FirebaseEvent.MAIL_VERIFICATION_RESEND)
                 viewModel.isUnverifiedScreenNotVisible.value = true
             }
         }
-        dialog.show()
+        // TODO check this crash fix code
+        if (!isFinishing)
+            dialog.show()
     }
 
     fun showHideBottomBar(show: Boolean) {
@@ -367,7 +413,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
 
     override fun onBackPressed() {
         if (actionMenu?.isOpen == true && actionMenu?.isAnimating() == false) {
-            actionMenu?.toggle(getViewBinding().ivYapIt, true)
+            actionMenu?.toggle(getViewBinding().btnYapIt, true)
         } else if (drawerLayout.isDrawerOpen(GravityCompat.END)) closeDrawer()
         else if (getViewBinding().viewPager.currentItem != 0) {
             bottomNav.selectedItemId = R.id.yapHome
@@ -395,17 +441,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
             closeDrawer()
         }
         getViewBinding().includedDrawerLayout.lScanQR.lnAnalytics.setOnClickListener {
-            trackEventWithScreenName(FirebaseEvent.CLICK_REFER_FRIEND)
-            QRCodeFragment { beneficary ->
-                launchActivity<YapToYapDashboardActivity>(
-                    requestCode = RequestCodes.REQUEST_Y2Y_TRANSFER,
-                    type = FeatureSet.Y2Y_TRANSFER
-                ) {
-                    putExtra(Beneficiary::class.java.name, beneficary)
-                    putExtra(ExtraKeys.IS_FROM_QR_CONTACT.name, true)
-                    putExtra(ExtraKeys.Y2Y_BENEFICIARY_POSITION.name, 0)
-                }
-            }.show(this.supportFragmentManager, "")
+            openQRCodeFragment()
             closeDrawer()
         }
         getViewBinding().includedDrawerLayout.lStatements.lnAnalytics.setOnClickListener {
@@ -417,6 +453,11 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
                 }
                 closeDrawer()
             }
+        }
+        getViewBinding().includedDrawerLayout.lManageWidget.lnAnalytics.setOnClickListener {
+            viewModel.isFromSideMenu = true
+            viewModel.isYapHomeFragmentVisible.value = true
+            closeDrawer()
         }
         getViewBinding().includedDrawerLayout.lSupport.lnAnalytics.setOnClickListener {
             startActivity(
@@ -497,10 +538,11 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
     override fun onResume() {
         super.onResume()
         if (bottomNav.selectedItemId == R.id.yapHome) {
-            SessionManager.getAccountInfo() {
+            SessionManager.getAccountInfo {
                 viewModel.populateState()
             }
         }
+        UXCam.occludeSensitiveScreen(false)
     }
 
     override fun onRequestPermissionsResult(
@@ -585,6 +627,20 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
             putExtra(ExtraKeys.IS_FROM_QR_CONTACT.name, fromQR)
             putExtra(ExtraKeys.Y2Y_BENEFICIARY_POSITION.name, position)
         }
+    }
+
+    fun openQRCodeFragment() {
+        trackEventWithScreenName(FirebaseEvent.CLICK_REFER_FRIEND)
+        QRCodeFragment { beneficary ->
+            launchActivity<YapToYapDashboardActivity>(
+                requestCode = RequestCodes.REQUEST_Y2Y_TRANSFER,
+                type = FeatureSet.Y2Y_TRANSFER
+            ) {
+                putExtra(Beneficiary::class.java.name, beneficary)
+                putExtra(ExtraKeys.IS_FROM_QR_CONTACT.name, true)
+                putExtra(ExtraKeys.Y2Y_BENEFICIARY_POSITION.name, 0)
+            }
+        }.show(this.supportFragmentManager, "")
     }
 
     private fun setupMultiAccountSideMenu() {

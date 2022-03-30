@@ -3,16 +3,20 @@ package co.yap.modules.dashboard.home.viewmodels
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import co.yap.app.YAPApplication
+import co.yap.modules.dashboard.home.enums.EnumWidgetTitles
 import co.yap.modules.dashboard.home.filters.models.TransactionFilters
 import co.yap.modules.dashboard.home.interfaces.IYapHome
 import co.yap.modules.dashboard.home.states.YapHomeState
 import co.yap.modules.dashboard.main.viewmodels.YapDashboardChildViewModel
 import co.yap.networking.cards.responsedtos.Card
+import co.yap.networking.customers.CustomersRepository
+import co.yap.networking.customers.models.dashboardwidget.WidgetData
 import co.yap.networking.customers.responsedtos.AccountInfo
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.notification.responsedtos.HomeNotification
 import co.yap.networking.transactions.TransactionsRepository
 import co.yap.networking.transactions.TransactionsRepository.getFailedTransactions
+import co.yap.networking.transactions.responsedtos.categorybar.MonthData
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionsResponse
 import co.yap.networking.transactions.responsedtos.transaction.Transaction
@@ -22,28 +26,36 @@ import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.CardDeliveryStatus
 import co.yap.yapcore.enums.CardStatus
 import co.yap.yapcore.enums.PaymentCardStatus
+import co.yap.yapcore.flagsmith.ToggleFeature
+import co.yap.yapcore.flagsmith.getFeatureFlagClient
+import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.NotificationHelper
 import co.yap.yapcore.helpers.extentions.getFormattedDate
 import co.yap.yapcore.leanplum.UserAttributes
 import co.yap.yapcore.leanplum.trackEventWithAttributes
 import co.yap.yapcore.managers.SessionManager
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
 
 class YapHomeViewModel(application: Application) :
-        YapDashboardChildViewModel<IYapHome.State>(application),
-        IYapHome.ViewModel {
+    YapDashboardChildViewModel<IYapHome.State>(application),
+    IYapHome.ViewModel {
 
     override val clickEvent: SingleClickEvent = SingleClickEvent()
     override val state: YapHomeState = YapHomeState()
     override var txnFilters: TransactionFilters = TransactionFilters()
     private val transactionsRepository: TransactionsRepository = TransactionsRepository
+    private val customerRepository: CustomersRepository = CustomersRepository
     override val transactionsLiveData: MutableLiveData<List<HomeTransactionListData>> =
-            MutableLiveData()
+        MutableLiveData()
     override var isLoadMore: MutableLiveData<Boolean> = MutableLiveData(false)
     override var isLast: MutableLiveData<Boolean> = MutableLiveData(false)
     override var isRefreshing: MutableLiveData<Boolean> = MutableLiveData(false)
-    var sortedCombinedTransactionList: ArrayList<HomeTransactionListData> = arrayListOf()
     override var MAX_CLOSING_BALANCE: Double = 0.0
+    override var monthData: MutableLiveData<List<MonthData>>? = MutableLiveData()
+    override var dashboardWidgetList: MutableLiveData<List<WidgetData>> = MutableLiveData()
+    override var widgetList: List<WidgetData> = ArrayList()
+    var sortedCombinedTransactionList: ArrayList<HomeTransactionListData> = arrayListOf()
     var closingBalanceArray: ArrayList<Double> = arrayListOf()
 
     init {
@@ -73,7 +85,7 @@ class YapHomeViewModel(application: Application) :
                 state.showTxnShimmer.postValue(State.loading(null))
             }
             when (val response =
-                    transactionsRepository.getAccountTransactions(YAPApplication.homeTransactionsRequest)) {
+                transactionsRepository.getAccountTransactions(YAPApplication.homeTransactionsRequest)) {
                 is RetroApiResponse.Success -> {
                     isLast.postValue(response.data.data.last)
                     val transactionModelData = setUpSectionHeader(response)
@@ -88,9 +100,9 @@ class YapHomeViewModel(application: Application) :
                     }
 
                     val unionList =
-                            (sortedCombinedTransactionList.asSequence() + transactionModelData.asSequence())
-                                    .distinct()
-                                    .groupBy { it.date }
+                        (sortedCombinedTransactionList.asSequence() + transactionModelData.asSequence())
+                            .distinct()
+                            .groupBy { it.date }
 
                     for (lists in unionList.entries) {
                         if (lists.value.size > 1) {// sortedCombinedTransactionList.equals(transactionModelData fails in this case
@@ -107,24 +119,24 @@ class YapHomeViewModel(application: Application) :
                             closingBalanceArray.add(closingBalanceOfTheDay)
 
                             var transactionModel = HomeTransactionListData(
-                                    "Type",
-                                    SessionManager.getDefaultCurrency(),
-                                    /* transactionsDay.key!!*/
-                                    transactionList[0].getFormattedDate(),
-                                    transactionList[0].totalAmount.toString(),
-                                    transactionList[0].balanceAfter,
-                                    0.00 /*  "calculate the percentage as per formula from the keys".toDouble()*/,
-                                    transactionList,
-                                    response.data.data.first,
-                                    response.data.data.last,
-                                    response.data.data.number,
-                                    response.data.data.numberOfElements,
-                                    response.data.data.pageable,
-                                    response.data.data.size,
-                                    response.data.data.sort,
-                                    response.data.data.totalElements,
-                                    response.data.data.totalPages,
-                                    transactionList[0].creationDate
+                                "Type",
+                                SessionManager.getDefaultCurrency(),
+                                /* transactionsDay.key!!*/
+                                transactionList[0].getFormattedDate(),
+                                transactionList[0].totalAmount.toString(),
+                                transactionList[0].balanceAfter,
+                                0.00 /*  "calculate the percentage as per formula from the keys".toDouble()*/,
+                                transactionList,
+                                response.data.data.first,
+                                response.data.data.last,
+                                response.data.data.number,
+                                response.data.data.numberOfElements,
+                                response.data.data.pageable,
+                                response.data.data.size,
+                                response.data.data.sort,
+                                response.data.data.totalElements,
+                                response.data.data.totalPages,
+                                transactionList[0].creationDate
                             )
                             var numberstoReplace: Int = 0
                             var replaceNow: Boolean = false
@@ -139,8 +151,8 @@ class YapHomeViewModel(application: Application) :
                             }
                             if (replaceNow) {
                                 sortedCombinedTransactionList.add(
-                                        numberstoReplace,
-                                        transactionModel
+                                    numberstoReplace,
+                                    transactionModel
                                 )
                                 replaceNow = false
                             }
@@ -179,9 +191,9 @@ class YapHomeViewModel(application: Application) :
 //        })
 
         val transactionGroupByDate =
-                (response.data.data.transaction as ArrayList<Transaction>).groupBy { item ->
-                    item.getFormattedDate()
-                }
+            (response.data.data.transaction as ArrayList<Transaction>).groupBy { item ->
+                item.getFormattedDate()
+            }
         val transactionModelData: ArrayList<HomeTransactionListData> = arrayListOf()
         transactionGroupByDate.entries.forEach { mapEntry ->
 
@@ -194,35 +206,47 @@ class YapHomeViewModel(application: Application) :
             closingBalanceArray.add(closingBalanceOfTheDay)
 
             val transactionModel = HomeTransactionListData(
-                    "Type",
-                    SessionManager.getDefaultCurrency(),
-                    mapEntry.key,
-                    contentsList[0].totalAmount.toString(),
-                    contentsList[0].balanceAfter,
-                    0.00 /*  "calculate the percentage as per formula from the keys".toDouble()*/,
-                    contentsList,
-                    response.data.data.first,
-                    response.data.data.last,
-                    response.data.data.number,
-                    response.data.data.numberOfElements,
-                    response.data.data.pageable,
-                    response.data.data.size,
-                    response.data.data.sort,
-                    response.data.data.totalElements,
-                    response.data.data.totalPages,
-                    contentsList[0].creationDate.toString()
+                "Type",
+                SessionManager.getDefaultCurrency(),
+                mapEntry.key,
+                contentsList[0].totalAmount.toString(),
+                contentsList[0].balanceAfter,
+                0.00 /*  "calculate the percentage as per formula from the keys".toDouble()*/,
+                contentsList,
+                response.data.data.first,
+                response.data.data.last,
+                response.data.data.number,
+                response.data.data.numberOfElements,
+                response.data.data.pageable,
+                response.data.data.size,
+                response.data.data.sort,
+                response.data.data.totalElements,
+                response.data.data.totalPages,
+                contentsList[0].creationDate.toString(),
+                monthYear = DateUtils.getMonthWithYear(
+                    SimpleDateFormat(DateUtils.SERVER_DATE_FORMAT).parse(
+                        contentsList[0].creationDate.toString()
+                    )
+                ),
+                dateForBalance = DateUtils.changeZoneAndFormatDateWithDay(contentsList[0].creationDate.toString()),
+                suffixForDay = DateUtils.getSuffixFromDate(contentsList[0].creationDate.toString()),
+                balanceYear = DateUtils.getYearFromDate(
+                    contentsList[0].creationDate.toString(),
+                    true,
+                    ","
+                )
             )
             transactionModelData.add(transactionModel)
             MAX_CLOSING_BALANCE =
-                    closingBalanceArray.max() ?: 0.0
+                closingBalanceArray.max() ?: 0.0
         }
         return transactionModelData
     }
 
     override fun getNotifications(
-            accountInfo: AccountInfo,
-            paymentCard: Card, apiResponse: ((Boolean) -> Unit?)?
-    ) {
+        accountInfo: AccountInfo,
+        paymentCard: Card, apiResponse: ((Boolean) -> Unit?)?
+    ): MutableList<HomeNotification> {
 //        if ((accountInfo.notificationStatuses == AccountStatus.EID_EXPIRED.name
 //                    || accountInfo.notificationStatuses == AccountStatus.EID_RESCAN_REQ.name)
 //        ) {
@@ -295,8 +319,15 @@ class YapHomeViewModel(application: Application) :
 //                )
 //            }
 //        }
-        state.notificationList.value?.addAll(NotificationHelper.getNotifications(accountInfo, paymentCard, context))
+        state.notificationList.value?.addAll(
+            NotificationHelper.getNotifications(
+                accountInfo,
+                paymentCard,
+                context
+            )
+        )
         apiResponse?.invoke(true)
+        return state.notificationList.value ?: mutableListOf()
     }
 
     override fun shouldShowSetPin(paymentCard: Card): Boolean {
@@ -308,27 +339,26 @@ class YapHomeViewModel(application: Application) :
     }
 
     override fun fetchTransactionDetailsForLeanplum(cardStatus: String?) {
-        //getFxRates() {
         launch {
             when (val response = transactionsRepository.getTransDetailForLeanplum()) {
                 is RetroApiResponse.Success -> {
                     response.data.data?.let { resp ->
                         val info: HashMap<String, Any?> = HashMap()
                         info[UserAttributes().primary_card_status] = cardStatus?.let {
-                            if (CardStatus.valueOf(it) == CardStatus.BLOCKED)
+                            if (it.isBlank().not() && CardStatus.valueOf(it) == CardStatus.BLOCKED)
                                 "frozen"
                             else it.toLowerCase()
                         } ?: ""
                         info[UserAttributes().last_transaction_type] =
-                                resp.lastTransactionType ?: ""
+                            resp.lastTransactionType ?: ""
                         info[UserAttributes().last_transaction_time] =
-                                resp.lastTransactionTime ?: ""
+                            resp.lastTransactionTime ?: ""
                         info[UserAttributes().last_pos_txn_category] =
-                                resp.lastPOSTransactionCategory ?: ""
+                            resp.lastPOSTransactionCategory ?: ""
                         info[UserAttributes().total_transaction_count] =
-                                resp.totalTransactionCount ?: ""
+                            resp.totalTransactionCount ?: ""
                         info[UserAttributes().total_transaction_value] =
-                                resp.totalTransactionValue ?: ""
+                            resp.totalTransactionValue ?: ""
 
                         SessionManager.user?.uuid?.let { trackEventWithAttributes(it, info) }
                     }
@@ -358,6 +388,57 @@ class YapHomeViewModel(application: Application) :
                     apiResponse?.invoke(false)
                 }
             }
+        }
+    }
+
+    override fun requestCategoryBarData() {
+        launch {
+            when (val response = transactionsRepository.requestCategoryBarData()) {
+                is RetroApiResponse.Success -> {
+                    try {
+                        this.monthData?.postValue(response.data.categoryBarData.monthData)
+                    } catch (e: Exception) {
+                    }
+                }
+                is RetroApiResponse.Error -> {
+
+                }
+            }
+        }
+    }
+
+    override fun requestDashboardWidget() {
+        launch {
+            when (val response = customerRepository.getDashboardWidget()) {
+                is RetroApiResponse.Success -> {
+                    response.data.data?.let {
+                        getFeatureFlagClient.hasFeature(ToggleFeature.BILL_PAYMENTS.flag) { hasFlag ->
+                            launch {
+                                if (hasFlag) {
+                                    widgetList = it
+                                    dashboardWidgetList.postValue(getFilteredList(it))
+                                } else {
+                                    val updatedList = it.toMutableList()
+                                    val index = updatedList.map { it.name }
+                                        .indexOf(EnumWidgetTitles.BILLS.title)
+                                    updatedList.removeAt(index)
+                                    widgetList = updatedList
+                                    dashboardWidgetList.postValue(getFilteredList(updatedList))
+                                }
+                            }
+                        }
+                    }
+                }
+                is RetroApiResponse.Error -> {
+
+                }
+            }
+        }
+    }
+
+    private fun getFilteredList(widgetList: MutableList<WidgetData>) = widgetList.run {
+        this.filter { it.status == true }.toMutableList().also {
+            it.add(WidgetData(id = -1, name = "Edit"))
         }
     }
 }

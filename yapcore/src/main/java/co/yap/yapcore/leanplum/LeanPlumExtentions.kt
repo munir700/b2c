@@ -21,10 +21,10 @@ import java.text.SimpleDateFormat
 fun Fragment.trackEvent(eventName: String, value: String = "") {
     fireEventWithAttribute(eventName, value)
 }
-
 fun Activity.trackEvent(eventName: String, value: String = "") {
     fireEventWithAttribute(eventName, value)
 }
+
 
 fun ViewModel.trackEvent(eventName: String, value: String = "") {
     fireEventWithAttribute(eventName, value)

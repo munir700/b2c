@@ -19,6 +19,7 @@ import com.liveperson.infra.auth.LPAuthenticationType
 import com.liveperson.infra.callbacks.InitLivePersonCallBack
 import com.liveperson.messaging.sdk.api.LivePerson
 import com.liveperson.messaging.sdk.api.model.ConsumerProfile
+import com.uxcam.UXCam
 
 
 const val BRAND_ID: String = "17038977"
@@ -113,6 +114,7 @@ fun Activity.showConversation(
 ) = LivePerson.showConversation(this, lpAuthParams, convViewParams)
 
 private fun Activity.openChatActivity() {
+    UXCam.occludeSensitiveScreen(true)
     SessionManager.user?.currentCustomer?.let {
         val authParams = LPAuthenticationParams(LPAuthenticationType.AUTH)
         authParams.hostAppJWT = AuthRepository.getJwtToken()

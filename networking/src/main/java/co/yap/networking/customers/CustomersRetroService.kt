@@ -1,21 +1,31 @@
 package co.yap.networking.customers
 
+import co.yap.networking.customers.models.dashboardwidget.UpdateWidgetResponse
+import co.yap.networking.customers.models.dashboardwidget.WidgetData
 import co.yap.networking.customers.requestdtos.*
 import co.yap.networking.customers.responsedtos.*
 import co.yap.networking.customers.responsedtos.additionalinfo.AdditionalInfoResponse
 import co.yap.networking.customers.responsedtos.beneficiary.BankParamsResponse
 import co.yap.networking.customers.responsedtos.beneficiary.RecentBeneficiariesResponse
 import co.yap.networking.customers.responsedtos.beneficiary.TopUpBeneficiariesResponse
+import co.yap.networking.customers.responsedtos.billpayment.*
+import co.yap.networking.customers.responsedtos.birthinfoamendment.BirthInfoAmendmentResponse
 import co.yap.networking.customers.responsedtos.currency.CurrenciesByCodeResponse
 import co.yap.networking.customers.responsedtos.currency.CurrenciesResponse
+import co.yap.networking.customers.responsedtos.documents.ConfigureEIDResponse
+import co.yap.networking.customers.responsedtos.documents.EIDDocumentsResponse
 import co.yap.networking.customers.responsedtos.documents.GetMoreDocumentsResponse
+import co.yap.networking.customers.responsedtos.employment_amendment.EmploymentInfoAmendmentResponse
 import co.yap.networking.customers.responsedtos.employmentinfo.IndustrySegmentsResponse
 import co.yap.networking.customers.responsedtos.sendmoney.*
 import co.yap.networking.customers.responsedtos.tax.TaxInfoResponse
+import co.yap.networking.customers.responsedtos.taxinfoamendment.TaxInfoAmendmentResponse
 import co.yap.networking.household.responsedtos.ValidateParentMobileResponse
 import co.yap.networking.messages.responsedtos.OtpValidationResponse
 import co.yap.networking.models.ApiResponse
 import co.yap.networking.models.BaseListResponse
+import co.yap.networking.models.BaseResponse
+import co.yap.networking.transactions.requestdtos.EditBillerRequest
 import co.yap.networking.notification.responsedtos.HomeNotification
 import co.yap.networking.transactions.responsedtos.transaction.FxRateResponse
 import okhttp3.MultipartBody
@@ -32,7 +42,6 @@ interface CustomersRetroService {
     // In onboarding send verification email to verify uer
     @POST(CustomersRepository.URL_SEND_VERIFICATION_EMAIL)
     suspend fun sendVerificationEmail(@Body sendVerificationEmailRequest: SendVerificationEmailRequest): Response<OtpValidationResponse>
-
 
     // Get user account(s) Info
     @GET(CustomersRepository.URL_ACCOUNT_INFO)
@@ -68,7 +77,8 @@ interface CustomersRetroService {
         @Part("dob") dob: RequestBody,
         @Part("fullName") fullName: RequestBody,
         @Part("gender") gender: RequestBody,
-        @Part("identityNo") identityNo: RequestBody
+        @Part("identityNo") identityNo: RequestBody,
+        @Part("isAmendment") isAmendment: RequestBody
     ): Response<ApiResponse>
 
     // Get Documents
@@ -110,7 +120,10 @@ interface CustomersRetroService {
 
     @Multipart
     @POST(CustomersRepository.URL_DETECT)
-    suspend fun uploadIdCard(@Part fileFront: MultipartBody.Part, @Part fileBack: MultipartBody.Part): Response<KycResponse>
+    suspend fun uploadIdCard(
+        @Part fileFront: MultipartBody.Part,
+        @Part fileBack: MultipartBody.Part
+    ): Response<KycResponse>
 
     @POST(CustomersRepository.URL_Y2Y_BENEFICIARIES)
     suspend fun getY2YBeneficiaries(@Body contacts: List<Contact>): Response<Y2YBeneficiariesResponse>
@@ -235,6 +248,15 @@ interface CustomersRetroService {
     @POST(CustomersRepository.URL_TAX_INFO)
     suspend fun saveTaxInfo(@Body taxInfoRequest: TaxInfoRequest): Response<TaxInfoResponse>
 
+    @GET(CustomersRepository.URL_AMENDMENTS_Birth_INFO)
+    suspend fun getAmendmentsBirthInfo(@Query("accountUuid") accountUuid: String): Response<BaseResponse<BirthInfoAmendmentResponse>>
+
+    @GET(CustomersRepository.URL_AMENDMENTS_TAX_INFO)
+    suspend fun getAmendmentsTaxInfo(@Query("accountUuid") accountUuid: String): Response<BaseResponse<TaxInfoAmendmentResponse>>
+
+    @GET(CustomersRepository.URL_AMENDMENTS_Employment_INFO)
+    suspend fun getAmendmentsEmploymentInfo(@Query("accountUuid") accountUuid: String): Response<BaseResponse<EmploymentInfoAmendmentResponse>>
+
     @GET(CustomersRepository.URL_GET_FAILED_SUBSCRIPTIONS_NOTIFICATIONS)
     suspend fun getSubscriptionsNotifications(): Response<BaseListResponse<HomeNotification>>
 
@@ -307,4 +329,58 @@ interface CustomersRetroService {
 
     @PUT(CustomersRepository.URL_STOP_RANKING_MSG)
     suspend fun stopRankingMsgRequest(): Response<ApiResponse>
+
+    @GET(CustomersRepository.URL_DASHBOARD_WIDGETS)
+    suspend fun getDashboardWidget(): Response<BaseListResponse<WidgetData>>
+
+    @PUT(CustomersRepository.URL_DASHBOARD_WIDGETS_UPDATE)
+    suspend fun updateDashboardWidget(@Body dashboardWidgetBody: List<WidgetData>): Response<UpdateWidgetResponse>
+
+    @POST(CustomersRepository.URL_UPDATE_PROFILE_FSS)
+    suspend fun updateCardName(@Body cardNameRequest: CardNameRequest): Response<ApiResponse>
+
+    @GET(CustomersRepository.URL_BILL_PROVIDERS)
+    suspend fun getBillProviders(): Response<BillProviderResponse>
+
+    @GET(CustomersRepository.URL_BILLER_CATALOGS)
+    suspend fun getBillerCatalogs(@Path("category-id") categoryId: String): Response<BillerCatalogResponse>
+
+    @GET(CustomersRepository.URL_BILLER_INPUTS_DETAILS)
+    suspend fun getBillerInputsDetails(@Path("biller-id") billerId: String): Response<BillerDetailResponse>
+
+    @POST(CustomersRepository.URL_ADD_BILLER)
+    suspend fun addBiller(@Body addBillerInformationRequest: AddBillerInformationRequest): Response<BillAddedResponse>
+
+    @GET(CustomersRepository.URL_GET_ADDED_BILLS)
+    suspend fun getAddedBills(): Response<BillResponse>
+
+    @DELETE(CustomersRepository.URL_DELETE_BILL)
+    suspend fun deleteBill(@Path("id") id: String): Response<ApiResponse>
+
+    @PUT(CustomersRepository.URL_EDIT_BILLER)
+    suspend fun editBiller(@Body editBillerRequest: EditBillerRequest): Response<ApiResponse>
+
+    @GET(CustomersRepository.URL_VALIDATE_EID)
+    suspend fun getEIDConfigurations(): Response<BaseResponse<ConfigureEIDResponse>>
+
+    // Get Missing Info
+    @GET(CustomersRepository.URL_GET_AMENDMENT_FIELDS)
+    suspend fun getMissingInfoList(@Query("accountUuid") accountUuid: String): Response<BaseListResponse<AmendmentFields>>
+
+    //Get Customer KYC Data
+    @GET(CustomersRepository.URL_GET_CUSTOMER_KYC_DOCUMENTS)
+    suspend fun getCustomerKYCData(@Query("accountUuid") accountUuid: String): Response<BaseResponse<EIDDocumentsResponse>>
+
+    //Get Customer Documents Data (Passport)
+    @GET(CustomersRepository.URL_GET_CUSTOMER_DOCUMENTS)
+    suspend fun getCustomerDocuments(@Query("accountUuid") accountUuid: String?): Response<BaseResponse<PassportRequest>>
+
+    @Multipart
+    @POST(CustomersRepository.URL_UPDATE_PASSPORT_AMENDMENT)
+    suspend fun uploadPassportAmendments(
+        @Part files: MultipartBody.Part,
+        @Part("passportNumber") passportNumber: RequestBody,
+        @Part("passportIssueDate") passportIssueDate: RequestBody,
+        @Part("passportExpiryDate") passportExpiryDate: RequestBody
+    ): Response<ApiResponse>
 }

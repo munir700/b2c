@@ -10,6 +10,7 @@
             type="co.yap.modules.dashboard.home.helpers.transaction.ItemHeaderTransactionsViewModel" />
 
         <import type="co.yap.translation.Strings" />
+        <import type="co.yap.yapcore.helpers.Utils" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -17,6 +18,7 @@
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:orientation="vertical"
+        app:sensitiveViews="@{Utils.getViewsList(tvTotalAmount)}"
         android:paddingBottom="@dimen/margin_extra_small">
 
         <TextView
@@ -27,7 +29,9 @@
             android:layout_marginStart="@dimen/margin_normal_large"
             android:layout_marginTop="@dimen/_12sdp"
             tools:text="April 12"
-            android:text="@{viewModel.itemViewModel.date}"
+            app:year="@{viewModel.itemViewModel.balanceYear}"
+            app:superscript="@{viewModel.itemViewModel.suffixForDay}"
+            app:date="@{viewModel.itemViewModel.dateForBalance}"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 

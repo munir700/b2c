@@ -62,7 +62,9 @@ data class Beneficiary(
     @SerializedName("beneficiaryCreationDate")
     var beneficiaryCreationDate: String? = null,
     @SerializedName("countryCode")
-    var countryCode: String? = ""
+    var countryCode: String? = "",
+    @SerializedName("beneficiaryAddress")
+    var beneficiaryAddress: String? = null
 ) : CoreRecentBeneficiaryItem(
     name = "$firstName $lastName",
     profilePictureUrl = beneficiaryPictureUrl,

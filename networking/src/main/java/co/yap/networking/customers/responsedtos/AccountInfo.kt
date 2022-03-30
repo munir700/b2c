@@ -85,5 +85,7 @@ class AccountInfo(
     @SerializedName("additionalDocSubmitionDate")
     var additionalDocSubmitionDate: String? = null,
     @SerializedName("isWaiting")
-    var isWaiting: Boolean = false
-) :ApiResponse(), Parcelable
+    var isWaiting: Boolean = false,
+    @SerializedName("amendmentStatus")
+    var amendmentStatus: String? = null
+) : ApiResponse(), Parcelable

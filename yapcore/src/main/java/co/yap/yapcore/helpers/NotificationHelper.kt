@@ -3,6 +3,7 @@ package co.yap.yapcore.helpers
 import android.content.Context
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.networking.customers.responsedtos.AccountInfo
+import co.yap.networking.customers.responsedtos.AmendmentStatus
 import co.yap.networking.notification.responsedtos.HomeNotification
 import co.yap.networking.notification.responsedtos.NotificationAction
 import co.yap.translation.Strings
@@ -44,6 +45,28 @@ object NotificationHelper {
             trackEventWithAttributes(SessionManager.user, eidExpire = true)
         }
         val list = ArrayList<HomeNotification>()
+        if (accountInfo?.amendmentStatus == AmendmentStatus.SUBMIT_TO_CUSTOMER.name) {
+            list.add(
+                HomeNotification(
+                    id = "1",
+                    title = Translator.getString(
+                        context,
+                        Strings.screen_home_amendment_title
+                    ),
+                    description = Translator.getString(
+                        context,
+                        Strings.screen_home_amendment_desc
+                    ),
+                    action = NotificationAction.AMENDMENT,
+                    imgResId = R.raw.gif_security,
+                    createdAt = getCurrentDateWithFormat(SERVER_DATE_FORMAT, UTC), isRead = true,
+                    btnTitle = "Open " + Translator.getString(
+                        context,
+                        Strings.screen_home_amendment_title
+                    ), fileName = R.drawable.bill
+                )
+            )
+        }
         if (accountInfo?.otpBlocked == true) {
             list.add(
                 HomeNotification(
@@ -58,41 +81,46 @@ object NotificationHelper {
                     btnTitle = "Open " + Translator.getString(
                         context,
                         Strings.screen_help_support_display_text_title
-                    )
+                    ),fileName = R.drawable.bell
                 )
             )
         }
-        if ((accountInfo?.notificationStatuses == AccountStatus.ON_BOARDED.name
-                    || accountInfo?.notificationStatuses == AccountStatus.CAPTURED_EID.name
-                    || accountInfo?.notificationStatuses == AccountStatus.CAPTURED_ADDRESS.name
-                    || accountInfo?.notificationStatuses == AccountStatus.BIRTH_INFO_COLLECTED.name
-                    || accountInfo?.notificationStatuses == AccountStatus.FATCA_GENERATED.name
-                    || accountInfo?.notificationStatuses == AccountStatus.MEETING_SCHEDULED.name)
-            && accountInfo.partnerBankStatus != PartnerBankStatus.ACTIVATED.status
-        ) {
-            list.add(
-                HomeNotification(
-                    id = "2",
-                    title = Translator.getString(
-                        context,
-                        Strings.screen_b2c_kyc_home_display_text_screen_title
-                    ), subTitle = Translator.getString(
-                        context,
-                        Strings.screen_b2c_kyc_home_display_text_screen_title
-                    ),
-                    description = Translator.getString(
-                        context,
-                        Strings.screen_home_complete_verification_desc
-                    ),
-                    action = NotificationAction.COMPLETE_VERIFICATION,
-                    imgResId = R.raw.gif_general_notification,
-                    createdAt = getCurrentDateWithFormat(SERVER_DATE_FORMAT, UTC), isRead = true,
-                    btnTitle = Translator.getString(
-                        context,
-                        Strings.screen_b2c_kyc_home_display_text_screen_title
+        if (isStatusNotSubmittedToCustomer(accountInfo)) {
+            if ((accountInfo?.notificationStatuses == AccountStatus.ON_BOARDED.name
+                        || accountInfo?.notificationStatuses == AccountStatus.CAPTURED_EID.name
+                        || accountInfo?.notificationStatuses == AccountStatus.FSS_PROFILE_UPDATED.name
+                        || accountInfo?.notificationStatuses == AccountStatus.CAPTURED_ADDRESS.name
+                        || accountInfo?.notificationStatuses == AccountStatus.BIRTH_INFO_COLLECTED.name
+                        || accountInfo?.notificationStatuses == AccountStatus.FATCA_GENERATED.name
+                        || accountInfo?.notificationStatuses == AccountStatus.MEETING_SCHEDULED.name)
+                && accountInfo.partnerBankStatus != PartnerBankStatus.ACTIVATED.status
+            ) {
+                list.add(
+                    HomeNotification(
+                        id = "2",
+                        title = Translator.getString(
+                            context,
+                            Strings.screen_b2c_kyc_home_display_text_screen_title
+                        ),
+                        subTitle = Translator.getString(
+                            context,
+                            Strings.screen_b2c_kyc_home_display_text_screen_title
+                        ),
+                        description = Translator.getString(
+                            context,
+                            Strings.screen_home_complete_verification_desc
+                        ),
+                        action = NotificationAction.COMPLETE_VERIFICATION,
+                        imgResId = R.raw.gif_general_notification,
+                        createdAt = getCurrentDateWithFormat(SERVER_DATE_FORMAT, UTC),
+                        isRead = true,
+                        btnTitle = Translator.getString(
+                            context,
+                            Strings.screen_b2c_kyc_home_display_text_screen_title
+                        ), fileName = R.drawable.bill
                     )
                 )
-            )
+            }
         }
 
         if (shouldShowSetPin(paymentCard) && accountInfo?.partnerBankStatus == PartnerBankStatus.ACTIVATED.status) {
@@ -113,11 +141,12 @@ object NotificationHelper {
                     btnTitle = Translator.getString(
                         context,
                         Strings.dashboard_timeline_set_pin_stage_action_title
-                    ) + " now"
+                    ) + " now",
+                    fileName = R.drawable.locknot
                 )
             )
         }
-        if (accountInfo?.getUserAccessRestrictions()
+        if (accountInfo?.getUserAccessRestrictions(paymentCard)
                 ?.contains(UserAccessRestriction.EID_EXPIRED) == true || !accountInfo?.EIDExpiryMessage.isNullOrBlank()
         ) {
             list.add(
@@ -138,11 +167,12 @@ object NotificationHelper {
                     btnTitle = Translator.getString(
                         context,
                         Strings.screen_b2c_eid_info_review_button_title_scan_eid
-                    )
+                    ),
+                    fileName = R.drawable.bill
                 )
             )
         }
-        accountInfo?.getUserAccessRestrictions()?.forEach {
+        accountInfo?.getUserAccessRestrictions(paymentCard)?.forEach {
             accountInfo.getNotificationOfBlockedFeature(it, context)?.let { description ->
                 list.add(
                     HomeNotification(
@@ -155,7 +185,8 @@ object NotificationHelper {
                         btnTitle = Translator.getString(
                             context,
                             Strings.screen_help_support_display_text_call_us
-                        )
+                        ),
+                        fileName = R.drawable.bell
                     )
                 )
             }
@@ -192,7 +223,8 @@ object NotificationHelper {
                 btnTitle = "Open " + Translator.getString(
                     context,
                     Strings.screen_help_support_display_text_title
-                )
+                ),
+                fileName = R.drawable.bell
             )
         )
 
@@ -216,7 +248,8 @@ object NotificationHelper {
                 btnTitle = Translator.getString(
                     context,
                     Strings.screen_b2c_kyc_home_display_text_screen_title
-                )
+                ),
+                fileName = R.drawable.bill
             )
         )
         list.add(
@@ -236,7 +269,8 @@ object NotificationHelper {
                 btnTitle = Translator.getString(
                     context,
                     Strings.dashboard_timeline_set_pin_stage_action_title
-                ) + " now"
+                ) + " now",
+                fileName = R.drawable.locknot
             )
         )
         list.add(
@@ -257,7 +291,8 @@ object NotificationHelper {
                 btnTitle = Translator.getString(
                     context,
                     Strings.screen_b2c_eid_info_review_button_title_scan_eid
-                )
+                ),
+                fileName = R.drawable.bill
             )
         )
 
@@ -267,18 +302,22 @@ object NotificationHelper {
                 description = Translator.getString(
                     context,
                     Strings.iban_or_debit_card_freeze_or_blocked_message
-                ).format(SessionManager.helpPhoneNumber),
+                ),
                 action = NotificationAction.CARD_FEATURES_BLOCKED,
                 imgResId = R.raw.gif_notification_bel,
                 createdAt = getCurrentDateWithFormat(SERVER_DATE_FORMAT, UTC), isRead = true,
                 btnTitle = Translator.getString(
                     context,
                     Strings.screen_help_support_display_text_call_us
-                )
+                ),
+                fileName = R.drawable.bell
             )
         )
 
         return list
     }
+
+    fun isStatusNotSubmittedToCustomer(accountInfo: AccountInfo?): Boolean =
+        accountInfo?.amendmentStatus != AmendmentStatus.SUBMIT_TO_CUSTOMER.name
 
 }

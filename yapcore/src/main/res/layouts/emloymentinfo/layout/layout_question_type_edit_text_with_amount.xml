@@ -14,13 +14,15 @@
         <import type="co.yap.translation.Strings" />
 
         <import type="co.yap.yapcore.helpers.extentions.ParseExtenstionKt" />
+        <import type="co.yap.yapcore.helpers.Utils" />
 
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/clQuestionTypeAmount"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        app:sensitiveViews="@{Utils.getViewsList(etAmount)}">
 
         <LinearLayout
             android:id="@+id/lyTinNumber"
@@ -36,13 +38,14 @@
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvTinNumber"
                 style="@style/SmallGrey"
+                android:layout_marginTop="@dimen/margin_small"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:lineSpacingExtra="2sp"
                 android:text="@{viewModel.questionUiFields.question.questionTitle}"
-                android:textColor="@color/darkSlateBlue"
+                android:textColor="@color/darkSlateBlueFaded"
                 app:layout_constraintStart_toStartOf="parent"
-                tools:text="What is your monthly salary? Don’t worry there is no minimum salary requirement." />
+                tools:text="What is your total monthly income?" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -59,7 +62,7 @@
                     android:layout_gravity="center_vertical"
                     android:lineSpacingExtra="0dp"
                     android:text="AED"
-                    android:textColor="@color/darkSlateBlue"
+                    android:textColor="@color/darkSlateBlueFaded"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -98,7 +101,21 @@
 
             <include
                 layout="@layout/content_input_field_selector"
-                app:isFocus="@{viewModel.questionUiFields.isFocusInput}" />
+                app:isFocus="@{viewModel.questionUiFields.isFocusInput}"
+                app:containsError="@{viewModel.questionUiFields.containsError}"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvError"
+                style="@style/SmallGrey"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/small_text_size"
+                android:layout_marginStart="@dimen/margin_small"
+                android:text="@string/kyc_incorrect_field"
+                android:textColor="@color/red"
+                android:visibility="@{viewModel.questionUiFields.containsError ? View.VISIBLE : View.GONE}"
+                tools:text="@string/kyc_incorrect_field" />
+
 
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

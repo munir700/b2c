@@ -43,14 +43,15 @@ class MerchantAnalyticsFragment : CardAnalyticsBaseFragment<IMerchantAnalytics.V
                 getAdaptor().setList(txnAnalytics)
             })
 
-        /*viewModel.parentViewModel?.selectedItemPositionParent?.observe(
+        viewModel.parentViewModel?.selectedItemPositionParent?.observe(
             this,
             Observer { selectedPosition ->
                 val view = getBinding().recycler.layoutManager?.findViewByPosition(selectedPosition)
                 getBinding().recycler.removeOnScrollListener(onScrollListener)
                 getBinding().recycler.addOnScrollListener(onScrollListener)
                 getBinding().recycler.smoothScrollToPosition(selectedPosition)
-            })*/
+
+            })
     }
 
     private fun initAdaptor() {
@@ -66,7 +67,6 @@ class MerchantAnalyticsFragment : CardAnalyticsBaseFragment<IMerchantAnalytics.V
     }
 
     private fun navigateDetails(pos: Int) {
-        Constants.MERCHANT_TYPE = "merchant-name"
         val selectedItem = getAdaptor().getDataForPosition(pos)
         var category: ArrayList<String> = arrayListOf()
         category.clear()
@@ -84,7 +84,8 @@ class MerchantAnalyticsFragment : CardAnalyticsBaseFragment<IMerchantAnalytics.V
                     totalSpending = selectedItem.totalSpending,
                     logoUrl = selectedItem.logoUrl,
                     totalSpendingInPercentage = selectedItem.totalSpendingInPercentage,
-                    categories = category
+                    categories = category,
+                    analyticType = Constants.MERCHANT_NAME
                 ),
                 Constants.TRANSACTION_POSITION to pos
             )

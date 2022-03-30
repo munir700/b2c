@@ -9,5 +9,6 @@ open class CoreBottomSheetData(
     var sheetImage: Int? = -1,
     var content: String? = "",
     var subTitle: String? = "",
-    var isSelected: Boolean? = false
-) : ApiResponse(), Parcelable
+    var isSelected: Boolean? = false,
+    var subContent : String? = ""
+) : ApiResponse(),Parcelable

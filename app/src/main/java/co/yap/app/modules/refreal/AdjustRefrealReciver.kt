@@ -5,19 +5,28 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import co.yap.app.BuildConfig
+import co.yap.app.YAPApplication
 import co.yap.app.main.MainActivity
 import co.yap.modules.dashboard.main.activities.YapDashboardActivity
 import co.yap.yapcore.adjust.ReferralInfo
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.firebase.getFCMToken
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.managers.SessionManager
 import com.adjust.sdk.Adjust
+import kotlinx.coroutines.launch
 
 class AdjustReferrerReceiver : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (intent.resolveActivity(packageManager)!=null && intent.resolveActivity(packageManager).packageName == BuildConfig.APPLICATION_ID) {
+        lifecycleScope.launch {
+            getFCMToken {
+                Adjust.setPushToken(it, applicationContext)
+            }
+        }
+        if (intent.resolveActivity(packageManager) != null && intent.resolveActivity(packageManager).packageName == BuildConfig.APPLICATION_ID) {
             intent.data?.let { uri ->
                 Adjust.appWillOpenUrl(uri, this)
                 val customerId = uri.getQueryParameter(Constants.REFERRAL_ID)
@@ -87,10 +96,10 @@ class AdjustReferrerReceiver : AppCompatActivity() {
                     launchYapDashboard()
                 } ?: openLogin()
             } ?: run {
-                if (isRunning(this))
-                    finish()
-                else
-                    startLauncherActivity()
+//                if (isRunning(this))
+//                   finish()
+//                else
+                startLauncherActivity()
             }
         }
     }
@@ -114,7 +123,12 @@ class AdjustReferrerReceiver : AppCompatActivity() {
     }
 
     private fun startLauncherActivity() {
-        startActivity(packageManager.getLaunchIntentForPackage(packageName))
-        finish()
+        YAPApplication.AUTO_RESTART_APP = false
+        val i = packageManager.getLaunchIntentForPackage(packageName)
+        i?.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        i?.data = intent.data
+        i?.putExtras(intent)
+        startActivity(i)
+        finishAffinity()
     }
 }

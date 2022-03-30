@@ -16,7 +16,7 @@ import co.yap.yapcore.helpers.validation.util.ViewTagHelper
 object TypeBindings {
     @JvmStatic
     @BindingAdapter(
-        value = ["validateType", "validateTypeMessage", "validateTypeAutoDismiss", "errorEnabled"],
+        value = ["validateType", "validateTypeMessage", "validateTypeAutoDismiss", "enableError"],
         requireAll = false
     )
     fun bindingTypeValidation(
@@ -24,7 +24,7 @@ object TypeBindings {
         fieldTypeText: String,
         errorMessage: String?,
         autoDismiss: Boolean,
-        errorEnabled: Boolean
+        enableError: Boolean
     ) {
         if (autoDismiss) {
             EditTextHandler.disableErrorOnChanged(view)
@@ -41,7 +41,7 @@ object TypeBindings {
             ViewTagHelper.appendValue(
                 R.id.validator_rule,
                 view,
-                fieldType.instantiate(view, handledErrorMessage, errorEnabled)
+                fieldType.instantiate(view, handledErrorMessage, enableError)
             )
         } catch (ignored: Exception) {
             Toast.makeText(view?.context, ignored.toString(), Toast.LENGTH_LONG).show()

@@ -5,7 +5,6 @@ import android.content.Intent
 import android.hardware.fingerprint.FingerprintManager
 import android.os.Bundle
 import android.view.View
-import androidx.annotation.Keep
 import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -19,6 +18,7 @@ import co.yap.app.modules.login.interfaces.IVerifyPasscode
 import co.yap.app.modules.login.viewmodels.VerifyPasscodeViewModel
 import co.yap.household.onboarding.main.OnBoardingHouseHoldActivity
 import co.yap.modules.dashboard.main.activities.YapDashboardActivity
+import co.yap.modules.kyc.amendments.missinginfo.MissingInfoFragment
 import co.yap.modules.onboarding.fragments.WaitingListFragment
 import co.yap.modules.others.helper.Constants.REQUEST_CODE
 import co.yap.modules.otp.GenericOtpFragment
@@ -26,6 +26,7 @@ import co.yap.modules.otp.OtpDataModel
 import co.yap.modules.reachonthetop.ReachedTopQueueFragment
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.networking.customers.responsedtos.AccountInfo
+import co.yap.networking.customers.responsedtos.AmendmentStatus
 import co.yap.translation.Strings
 import co.yap.widgets.NumberKeyboardListener
 import co.yap.yapcore.constants.Constants.KEY_APP_UUID
@@ -38,6 +39,7 @@ import co.yap.yapcore.dagger.base.navigation.host.NAVIGATION_Graph_START_DESTINA
 import co.yap.yapcore.dagger.base.navigation.host.NavHostPresenterActivity
 import co.yap.yapcore.enums.CardDeliveryStatus
 import co.yap.yapcore.enums.OTPActions
+import co.yap.yapcore.enums.VerifyPassCodeEnum
 import co.yap.yapcore.enums.YAPThemes.HOUSEHOLD
 import co.yap.yapcore.firebase.FirebaseEvent
 import co.yap.yapcore.firebase.trackEventWithScreenName
@@ -193,7 +195,8 @@ class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), B
                     otpAction = OTPActions.FORGOT_PASS_CODE.name,
                     mobileNumber = viewModel.mobileNumber,
                     username = name,
-                    emailOtp = !Utils.isUsernameNumeric(name)
+                    emailOtp = !Utils.isUsernameNumeric(name),
+                    otpMessage = viewModel.otpMessage(OTPActions.FORGOT_PASS_CODE.name)
                 )
             ),
             showToolBar = true
@@ -339,6 +342,7 @@ class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), B
     private fun getCardAndTourInfo(accountInfo: AccountInfo?) {
         TourGuideManager.getTourGuides()
         SessionManager.getDebitCard { card ->
+            SessionManager.setupDataSetForBlockedFeatures(card)
             SessionManager.updateCardBalance { }
             shardPrefs?.save(KEY_IS_USER_LOGGED_IN, true)
             if (shardPrefs?.getValueBoolien(
@@ -374,15 +378,26 @@ class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), B
                         clearAllPrevious = true
                     )
                 } else {
-                    if (SessionManager.shouldGoToHousehold()) {
-                        SessionManager.user?.uuid?.let { it1 ->
-                            SwitchProfileLiveData.get(it1, this@VerifyPasscodeFragment)
-                                .observe(this@VerifyPasscodeFragment, switchProfileObserver)
-                        }
+                    activity?.let {
+                        SharedPreferenceManager.getInstance(it.applicationContext)
+                            .getValueString(KEY_APP_UUID)?.apply {
+                                SessionManager.sendFcmTokenToServer(this)
+                            }
+                        if (SessionManager.shouldGoToHousehold()) {
+                            SessionManager.user?.uuid?.let { it1 ->
+                                SwitchProfileLiveData.get(it1, this@VerifyPasscodeFragment)
+                                    .observe(this@VerifyPasscodeFragment, switchProfileObserver)
+                            }
 
-                    } else {
-                        SessionManager.sendFcmTokenToServer(requireContext()) {}
-                        launchActivity<YapDashboardActivity>(clearPrevious = true) { }
+                        }
+                        // launching missing info screen
+                        if (AmendmentStatus.SUBMIT_TO_CUSTOMER.name == accountInfo?.amendmentStatus) {
+                            startFragment(
+                                fragmentName = MissingInfoFragment::class.java.name
+                            )
+                        } else {
+                            launchActivity<YapDashboardActivity>(clearPrevious = true) { }
+                        }
                     }
                 }
             }
@@ -520,10 +535,4 @@ class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), B
         super.onLeftButtonClicked()
         showFingerprintDialog()
     }
-}
-
-@Keep
-enum class VerifyPassCodeEnum {
-    VERIFY,
-    ACCESS_ACCOUNT
 }

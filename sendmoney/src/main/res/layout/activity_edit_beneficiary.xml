@@ -25,7 +25,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        app:sensitiveViews="@{Utils.getViewsList(labelCardType,llBeneficiaryName,etSwiftCode,ivTransferType,tvBeneficiaryName,imgProfile,etAccountNumber,clTransferType,llBankDetail,etAccountNumberRMT,etPhoneNumber,layoutReasonsSpinner,etLastName,etFirstName,etnickName,llCurrencyType,tvCountryName)}">
 
         <co.yap.widgets.CoreToolbar
             android:id="@+id/toolbar"
@@ -38,9 +39,9 @@
             app:leftIconVisibility="@{true}"
             app:onClick="@{editBeneficiaryViewModel::onToolBarClick}"
             app:rightIconVisibility="@{false}"
-            app:titleTranslator="@{editBeneficiaryViewModel.state.needOverView ? Strings.screen_add_beneficiary_display_text_title : Strings.screen_edit_beneficiary_display_text_title}"
+            app:rightTitle="@{editBeneficiaryViewModel.state.rightButtonText}"
             app:rightTitleVisibility="@{editBeneficiaryViewModel.state.needOverView}"
-            app:rightTitle="@{editBeneficiaryViewModel.state.rightButtonText}"/>
+            app:titleTranslator="@{editBeneficiaryViewModel.state.needOverView ? Strings.screen_add_beneficiary_display_text_title : Strings.screen_edit_beneficiary_display_text_title}" />
 
         <ScrollView
             android:layout_width="match_parent"
@@ -51,8 +52,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:paddingEnd="@dimen/margin_normal"
-                android:paddingStart="@dimen/margin_normal">
+                android:paddingStart="@dimen/margin_normal"
+                android:paddingEnd="@dimen/margin_normal">
 
                 <TextView
                     style="@style/Large"
@@ -67,6 +68,7 @@
                     tools:text="@string/screen_beneficiary_overview_display_text_title" />
 
                 <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/llCountryContainer"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_medium"
@@ -99,6 +101,7 @@
                             tools:src="@drawable/flag_ae" />
 
                         <TextView
+                            android:id="@+id/tvCountryName"
                             style="@style/Small"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -112,6 +115,7 @@
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/clTransferType"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1">
@@ -152,6 +156,7 @@
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
                 <LinearLayout
+                    android:id="@+id/llBeneficiaryName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_normal"
@@ -168,6 +173,7 @@
                         app:fullName="@{editBeneficiaryViewModel.state.beneficiary.fullName()}" />
 
                     <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tvBeneficiaryName"
                         style="@style/Small"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -181,6 +187,7 @@
                         android:text="@{editBeneficiaryViewModel.state.beneficiary.fullName()}" />
 
                     <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/ivTransferType"
                         android:layout_width="@dimen/_20sdp"
                         android:layout_height="@dimen/_20sdp"
                         android:layout_gravity="center_vertical"
@@ -218,6 +225,7 @@
                     tools:text="@string/screen_add_beneficiary_detail_display_text_currency" />
 
                 <LinearLayout
+                    android:id="@+id/llCurrencyType"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_small"
@@ -346,34 +354,35 @@
                     android:layout_height="wrap_content"
                     android:visibility='@{(editBeneficiaryViewModel.state.beneficiary.beneficiaryType.equals("RMT") || editBeneficiaryViewModel.state.beneficiary.beneficiaryType.equals("SWIFT")) ? View.VISIBLE : View.GONE }'
                     app:layout_constraintTop_toBottomOf="@+id/tvSelectCountry">
+
                     <androidx.appcompat.widget.AppCompatTextView
-                        style="@style/ASmall"
                         android:id="@+id/bcountries"
-                        android:drawableEnd="@{editBeneficiaryViewModel.state.selectedCountryOfResidence == null ? @drawable/iv_drown_down: @drawable/iv_drown_down}"
+                        style="@style/ASmall"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintRight_toRightOf="parent"
-                        android:gravity="center_vertical"
-                        android:paddingBottom="@dimen/margin_extra_small"
-                        android:paddingTop="@dimen/margin_small"
+                        android:drawableEnd="@{editBeneficiaryViewModel.state.selectedCountryOfResidence == null ? @drawable/iv_drown_down: @drawable/iv_drown_down}"
                         android:drawablePadding="@dimen/_6sdp"
+                        android:gravity="center_vertical"
                         android:onClick="@{(v) -> editBeneficiaryViewModel.handlePressOnConfirm(v.id)}"
+                        android:paddingStart="@dimen/margin_extra_small"
+                        android:paddingTop="@dimen/margin_small"
                         android:paddingEnd="@dimen/margin_extra_small"
+                        android:paddingBottom="@dimen/margin_extra_small"
                         android:text="@{editBeneficiaryViewModel.state.selectedCountryOfResidence == null ? @string/screen_add_beneficiary_display_text_select_country : editBeneficiaryViewModel.state.selectedCountryOfResidence.name}"
                         app:flagOnDrawableStart="@{editBeneficiaryViewModel.state.selectedCountryOfResidence.isoCountryCode2Digit}"
-                        android:paddingStart="@dimen/margin_extra_small"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        tools:text="@string/screen_add_beneficiary_display_text_select_country"
-                        app:showDropDown="@{true}" />
+                        app:showDropDown="@{true}"
+                        tools:text="@string/screen_add_beneficiary_display_text_select_country" />
+
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
+                        android:background="@color/greyLight"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
-                        android:background="@color/greyLight"
-                        app:layout_constraintTop_toBottomOf="@+id/bcountries"
-                        />
+                        app:layout_constraintTop_toBottomOf="@+id/bcountries" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.appcompat.widget.AppCompatTextView
@@ -409,6 +418,80 @@
                     app:pse_space="@dimen/_8sdp"
                     tools:text="322335" />
 
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="@{editBeneficiaryViewModel.state.showAddressField ? View.VISIBLE : View.GONE}"
+                    android:layout_marginTop="@dimen/margin_normal"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvSuccessHeading"
+                    android:layout_marginBottom="@dimen/margin_extra_small"
+                    android:orientation="vertical">
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/Small"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/screen_add_beneficiary_detail_display_text_transfer_nick_name"
+                        app:text="@{Strings.screen_add_beneficiary_detail_display_text_beneficiary_address}"
+                        app:textColor="@{editBeneficiaryViewModel.state.beneficiaryAddress.empty ? true : false}"
+                        tools:text="@string/screen_add_beneficiary_detail_display_text_beneficiary_address" />
+
+                    <co.yap.widgets.DrawableClickEditText
+                        android:id="@+id/etBeneficiaryAddress"
+                        style="@style/Regular"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="@color/greyLight"
+                        android:drawableEnd="@{@drawable/ic_support}"
+                        android:drawableRight="@{@drawable/ic_support}"
+                        android:imeOptions="actionDone"
+                        android:importantForAutofill="no"
+                        android:inputType="textPostalAddress"
+                        android:maxLength="35"
+                        android:singleLine="true"
+                        android:text="@={editBeneficiaryViewModel.state.beneficiaryAddress}"
+                        app:hint="@{Strings.screen_add_beneficiary_detail_input_text_beneficiary_address_hint}"
+                        app:isDrawableShownWhenTextIsEmpty="true"
+                        app:popupContentValue="@string/screen_add_beneficiary_detail_input_text_beneficiary_address_alert_text"
+                        tools:drawableRight="@drawable/ic_support"
+                        tools:hint="@string/screen_add_beneficiary_detail_input_text_beneficiary_address_hint"
+                        />
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/margin_extra_small"
+                        android:orientation="horizontal"
+                        >
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            style="@style/Micro"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:textColor="@color/greyDark"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:text="@{Strings.screen_add_beneficiary_detail_input_text_beneficiary_address_character_limit_helper_text}"
+                            tools:text="@string/screen_add_beneficiary_detail_input_text_beneficiary_address_character_limit_helper_text" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            style="@style/Micro"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            android:text="@{String.valueOf(editBeneficiaryViewModel.state.beneficiaryAddress.length()) + ` / 35`, default = `0`}"
+                            android:textColor="@color/colorDarkGrey"
+                            tools:text="0 / 35" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
                 <androidx.appcompat.widget.AppCompatTextView
                     style="@style/Small"
                     android:layout_width="match_parent"
@@ -580,12 +663,12 @@
                     style="@style/FragmentsBtnStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:btn_size="small"
+                    android:layout_gravity="center_horizontal"
                     android:layout_marginTop="@dimen/_27sdp"
                     android:layout_marginBottom="@dimen/margin_extra_large"
                     android:onClick="@{(v) -> editBeneficiaryViewModel.handlePressOnConfirm(v.id)}"
                     app:btn_enable="true"
-                    android:layout_gravity="center_horizontal"
+                    app:btn_size="small"
                     app:text="@{Strings.screen_beneficiary_overview_button_confirm}"
                     tools:text="@string/screen_beneficiary_overview_button_confirm" />
             </androidx.appcompat.widget.LinearLayoutCompat>

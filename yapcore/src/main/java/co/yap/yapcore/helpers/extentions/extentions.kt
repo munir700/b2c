@@ -1,19 +1,23 @@
 package co.yap.yapcore.helpers.extentions
 
-import android.app.Activity
 import android.content.Context
+import android.content.Context.CONNECTIVITY_SERVICE
 import android.content.Intent
+import android.content.pm.ApplicationInfo
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Typeface
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.net.ConnectivityManager
+import android.net.NetworkCapabilities.NET_CAPABILITY_INTERNET
 import android.os.Parcelable
 import android.text.*
 import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
 import android.text.style.ForegroundColorSpan
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.view.WindowManager
 import android.widget.EditText
 import android.widget.ImageView
@@ -66,21 +70,6 @@ fun Intent.getValue(key: String, type: String): Any? {
         } else null
     } else return null
 }
-
-fun Activity.preventTakeScreenShot(isPrevent: Boolean) {
-    if (isPrevent)
-        window?.addFlags(WindowManager.LayoutParams.FLAG_SECURE)
-    else
-        window?.clearFlags(WindowManager.LayoutParams.FLAG_SECURE)
-}
-
-fun Fragment.preventTakeScreenShot(isPrevent: Boolean) {
-    if (isPrevent)
-        activity?.window?.addFlags(WindowManager.LayoutParams.FLAG_SECURE)
-    else
-        activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_SECURE)
-}
-
 fun ImageView.loadImage(path: String, requestOptions: RequestOptions) {
     Glide.with(this)
         .load(path)
@@ -94,7 +83,6 @@ fun ImageView.loadImage(resourceId: Int, requestOptions: RequestOptions) {
         .apply(requestOptions)
         .into(this)
 }
-
 fun ImageView.loadImage(path: String) {
     Glide.with(this)
         .load(path).centerCrop()
@@ -136,7 +124,6 @@ fun RecyclerView.fixSwipeToRefresh(refreshLayout: SwipeRefreshLayout): RecyclerV
     }
 }
 
-
 class RecyclerViewSwipeToRefresh(private val refreshLayout: SwipeRefreshLayout) :
     RecyclerView.OnScrollListener() {
 
@@ -158,15 +145,9 @@ fun NavigationView?.navViewWidth(percent: Int) {
 }
 
 fun Context?.isNetworkAvailable(): Boolean {
-    return this?.let {
-        val connectivityManager =
-            it.getSystemService(Context.CONNECTIVITY_SERVICE) as? ConnectivityManager
-        connectivityManager?.let {
-            connectivityManager.activeNetworkInfo?.let {
-                return connectivityManager.activeNetworkInfo.isConnected
-            } ?: false
-        } ?: false
-    } ?: false
+    val cm = this?.getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
+    val capabilities = cm.getNetworkCapabilities(cm.activeNetwork)
+    return capabilities?.hasCapability(NET_CAPABILITY_INTERNET) == true
 }
 
 fun TextView.makeLinks(
@@ -267,13 +248,22 @@ fun Context.generateQrCode(resourceKey: String): Drawable? {
     }
     return drawable
 }
-//fun Context?.getJsonDataFromAsset(fileName: String): String? {
-//    val jsonString: String
-//    try {
-//        jsonString = this?.assets?.open(fileName)?.bufferedReader().use { it?.readText() ?: "" }
-//    } catch (ioException: IOException) {
-//        ioException.printStackTrace()
-//        return null
-//    }
-//    return jsonString
-//}
+
+fun <T> isEqual(first: List<T>, second: List<T>): Boolean {
+    if (first.size != second.size) {
+        return false
+    }
+
+    return first.zip(second).all { (x, y) -> x == y }
+}
+
+fun Context?.readManifestPlaceholders(metaDataName: String?): String =
+    this?.let {
+        val ai: ApplicationInfo = it.applicationContext.packageManager.getApplicationInfo(
+            it.applicationContext.packageName,
+            PackageManager.GET_META_DATA
+        )
+        if (metaDataName.isNullOrBlank().not())
+            ai.metaData[metaDataName].toString()
+        else ""
+    } ?: ""

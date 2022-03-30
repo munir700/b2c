@@ -43,6 +43,8 @@ import com.digitify.identityscanner.docscanner.viewmodels.IdentityScannerViewMod
 import com.digitify.identityscanner.utils.GlareDetector
 import com.digitify.identityscanner.utils.ImageUtils
 import com.google.mlkit.vision.common.InputImage
+import com.google.mlkit.vision.face.FaceDetection
+import com.google.mlkit.vision.face.FaceDetectorOptions
 import com.google.mlkit.vision.objects.DetectedObject
 import com.google.mlkit.vision.objects.ObjectDetection
 import com.google.mlkit.vision.objects.defaults.ObjectDetectorOptions
@@ -276,7 +278,9 @@ class YapCameraFragment : BaseFragment(),
 
     override fun onCameraError(exception: CameraException) {
         viewModel?.state?.isCapturing = false
-        showToast(exception.message)
+        exception.message?.let {
+            showToast(it)
+        }
     }
 
     override fun onPictureTaken(result: PictureResult) {

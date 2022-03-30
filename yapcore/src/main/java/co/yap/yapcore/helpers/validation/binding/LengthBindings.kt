@@ -15,7 +15,7 @@ import co.yap.yapcore.helpers.validation.util.ViewTagHelper
  */
 object LengthBindings {
     @BindingAdapter(
-        value = ["validateMinLength", "validateMinLengthMessage", "validateMinLengthAutoDismiss", "errorEnabled"],
+        value = ["validateMinLength", "validateMinLengthMessage", "validateMinLengthAutoDismiss", "enableError"],
         requireAll = false
     )
     @JvmStatic
@@ -24,7 +24,7 @@ object LengthBindings {
         minLength: Int,
         errorMessage: String?,
         autoDismiss: Boolean,
-        errorEnabled: Boolean
+        enableError: Boolean
     ) {
         if (autoDismiss) {
             EditTextHandler.disableErrorOnChanged(view)
@@ -36,12 +36,12 @@ object LengthBindings {
         ViewTagHelper.appendValue(
             R.id.validator_rule,
             view,
-            MinLengthRule(view, minLength, handledErrorMessage, errorEnabled)
+            MinLengthRule(view, minLength, handledErrorMessage, enableError)
         )
     }
 
     @BindingAdapter(
-        value = ["validateMaxLength", "validateMaxLengthMessage", "validateMaxLengthAutoDismiss", "errorEnabled"],
+        value = ["validateMaxLength", "validateMaxLengthMessage", "validateMaxLengthAutoDismiss", "enableError"],
         requireAll = false
     )
     @JvmStatic
@@ -50,7 +50,7 @@ object LengthBindings {
         maxLength: Int,
         errorMessage: String?,
         autoDismiss: Boolean,
-        errorEnabled: Boolean
+        enableError: Boolean
     ) {
         if (autoDismiss) {
             EditTextHandler.disableErrorOnChanged(view)
@@ -62,12 +62,12 @@ object LengthBindings {
         ViewTagHelper.appendValue(
             R.id.validator_rule,
             view,
-            MaxLengthRule(view, maxLength, handledErrorMessage, errorEnabled)
+            MaxLengthRule(view, maxLength, handledErrorMessage, enableError)
         )
     }
 
     @BindingAdapter(
-        value = ["validateEmpty", "validateEmptyMessage", "validateEmptyAutoDismiss", "errorEnabled"],
+        value = ["validateEmpty", "validateEmptyMessage", "validateEmptyAutoDismiss", "enableError"],
         requireAll = false
     )
     @JvmStatic
@@ -76,7 +76,7 @@ object LengthBindings {
         empty: Boolean,
         errorMessage: String?,
         autoDismiss: Boolean,
-        errorEnabled: Boolean
+        enableError: Boolean
     ) {
         if (autoDismiss) {
             EditTextHandler.disableErrorOnChanged(view)
@@ -88,7 +88,7 @@ object LengthBindings {
         ViewTagHelper.appendValue(
             R.id.validator_rule,
             view,
-            EmptyRule(view, empty, handledErrorMessage, errorEnabled)
+            EmptyRule(view, empty, handledErrorMessage, enableError)
         )
     }
 }

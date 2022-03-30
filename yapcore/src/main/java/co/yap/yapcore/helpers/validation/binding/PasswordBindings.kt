@@ -1,8 +1,8 @@
 package co.yap.yapcore.helpers.validation.binding
 
-import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import co.yap.yapcore.R
+import com.google.android.material.textfield.TextInputEditText
 import co.yap.yapcore.helpers.validation.rule.ConfirmMobileNoRule
 import co.yap.yapcore.helpers.validation.util.EditTextHandler
 import co.yap.yapcore.helpers.validation.util.ErrorMessageHelper
@@ -18,8 +18,8 @@ object PasswordBindings {
     )
     @JvmStatic
     fun bindingPassword(
-        view: TextView?,
-        comparableView: TextView?,
+        view: TextInputEditText?,
+        comparableView: TextInputEditText?,
         errorMessage: String?,
         autoDismiss: Boolean,
         errorEnabled: Boolean
@@ -34,6 +34,30 @@ object PasswordBindings {
         ViewTagHelper.appendValue(
             R.id.validator_rule, view,
             ConfirmMobileNoRule(view, comparableView, handledErrorMessage, errorEnabled)
+        )
+    }
+
+    @BindingAdapter(
+        value = ["validateIban", "validateIbanMessage", "validateIbanAutoDismiss"],
+        requireAll = false
+    )
+    @JvmStatic
+    fun bindingIban(
+        view: TextInputEditText?,
+        comparableView: TextInputEditText?,
+        errorMessage: String?,
+        autoDismiss: Boolean
+    ) {
+        if (autoDismiss) {
+            EditTextHandler.disableErrorOnChanged(view)
+        }
+        val handledErrorMessage = ErrorMessageHelper.getStringOrDefault(
+            view,
+            errorMessage, R.string.error_message_not_equal_phone
+        )
+        ViewTagHelper.appendValue(
+            R.id.validator_rule, view,
+            ConfirmMobileNoRule(view, comparableView, handledErrorMessage, false)
         )
     }
 }

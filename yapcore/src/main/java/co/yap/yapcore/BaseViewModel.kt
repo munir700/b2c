@@ -92,9 +92,7 @@ abstract class BaseViewModel<S : IBase.State>(application: Application) :
         owner?.lifecycle?.removeObserver(this)
     }
 
-    override fun launch(block: suspend () -> Unit) {
-        viewModelScope.launch { block() }
-    }
+    override fun launch(block: suspend () -> Unit) = viewModelScope.launch { block() }
 
     override fun launchBG(block: suspend () -> Unit) = viewModelScope.async {
         block()

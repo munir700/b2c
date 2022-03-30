@@ -9,12 +9,15 @@
             name="viewModel"
             type="co.yap.modules.dashboard.home.viewmodels.YapHomeViewModel" />
 
+        <import type="co.yap.yapcore.helpers.Utils" />
+
     </data>
 
     <co.yap.widgets.OnlyVerticalSwipeRefreshLayout
         android:id="@+id/refreshLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        app:sensitiveViews="@{Utils.getViewsList(tvAvailableBalance)}"
         android:enabled="@{viewModel.state.isUserAccountActivated}"
         android:orientation="vertical"
         app:srcCompat="?attr/colorPrimaryAttr">
@@ -33,31 +36,17 @@
                 android:background="@android:color/transparent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <co.yap.widgets.skeletonlayout.SkeletonLayout
-                android:id="@+id/skeletonLayout"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="66dp"
-                android:elevation="10dp"
-                android:gravity="center"
-                app:behavior_animation="@anim/scale_yap_dashboard_home_title"
-                app:behavior_dependTarget="-60dp"
-                app:behavior_dependType="y"
-                app:behavior_dependsOn="@+id/appbar"
-                app:layout_behavior="@string/animation_view_behavior">
 
-                <TextView
-                    android:id="@+id/tvAvailableBalance"
-                    style="@style/ALarge"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="@={viewModel.state.availableBalance}"
-                    android:textAlignment="center"
-                    android:textSize="@dimen/text_size_h7"
-                    tools:text="50,174.78" />
-            </co.yap.widgets.skeletonlayout.SkeletonLayout>
+            <TextView
+                android:id="@+id/tvAvailableBalance"
+                style="@style/ALarge"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@={viewModel.state.availableBalance}"
+                android:textAlignment="center"
+                android:textSize="@dimen/text_size_h7"
+                tools:text="50,174.78" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"

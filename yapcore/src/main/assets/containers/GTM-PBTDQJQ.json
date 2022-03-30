@@ -1,0 +1,730 @@
+{
+    "exportFormatVersion": 2,
+    "exportTime": "2022-02-23 09:48:26",
+    "containerVersion": {
+        "path": "accounts/6002113473/containers/32562136/versions/5",
+        "accountId": "6002113473",
+        "containerId": "32562136",
+        "containerVersionId": "5",
+        "name": "Kyc_end_nbm",
+        "container": {
+            "path": "accounts/6002113473/containers/32562136",
+            "accountId": "6002113473",
+            "containerId": "32562136",
+            "name": "android.app",
+            "publicId": "GTM-PBTDQJQ",
+            "usageContext": [
+                "ANDROID_SDK_5"
+            ],
+            "fingerprint": "1600942830763",
+            "tagManagerUrl": "https://tagmanager.google.com/#/container/accounts/6002113473/containers/32562136/workspaces?apiLink=container"
+        },
+        "tag": [
+            {
+                "accountId": "6002113473",
+                "containerId": "32562136",
+                "tagId": "10",
+                "name": "Event - Adjust - ONB - 01 First Open",
+                "type": "adj",
+                "parameter": [
+                    {
+                        "type": "TEMPLATE",
+                        "key": "eventToken",
+                        "value": "ege27u"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "appToken",
+                        "value": "am0wjeshw5xc"
+                    },
+                    {
+                        "type": "BOOLEAN",
+                        "key": "unique",
+                        "value": "true"
+                    },
+                    {
+                        "type": "BOOLEAN",
+                        "key": "sandbox",
+                        "value": "false"
+                    },
+                    {
+                        "type": "BOOLEAN",
+                        "key": "revenueEvent",
+                        "value": "false"
+                    }
+                ],
+                "fingerprint": "1604164738089",
+                "firingTriggerId": [
+                    "4"
+                ],
+                "tagFiringOption": "ONCE_PER_EVENT",
+                "consentSettings": {
+                    "consentStatus": "NOT_SET"
+                }
+            },
+            {
+                "accountId": "6002113473",
+                "containerId": "32562136",
+                "tagId": "11",
+                "name": "Event - Adjust - ONB - 02 Verification Code",
+                "type": "adj",
+                "parameter": [
+                    {
+                        "type": "TEMPLATE",
+                        "key": "eventToken",
+                        "value": "xgv46x"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "appToken",
+                        "value": "am0wjeshw5xc"
+                    },
+                    {
+                        "type": "BOOLEAN",
+                        "key": "unique",
+                        "value": "true"
+                    },
+                    {
+                        "type": "BOOLEAN",
+                        "key": "sandbox",
+                        "value": "false"
+                    },
+                    {
+                        "type": "BOOLEAN",
+                        "key": "revenueEvent",
+                        "value": "false"
+                    }
+                ],
+                "fingerprint": "1604164766824",
+                "firingTriggerId": [
+                    "5"
+                ],
+                "tagFiringOption": "ONCE_PER_EVENT",
+                "consentSettings": {
+                    "consentStatus": "NOT_SET"
+                }
+            },
+            {
+                "accountId": "6002113473",
+                "containerId": "32562136",
+                "tagId": "12",
+                "name": "Event - Adjust - ONB - 03 Verification Process",
+                "type": "adj",
+                "parameter": [
+                    {
+                        "type": "TEMPLATE",
+                        "key": "eventToken",
+                        "value": "m7r3fv"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "appToken",
+                        "value": "am0wjeshw5xc"
+                    },
+                    {
+                        "type": "BOOLEAN",
+                        "key": "unique",
+                        "value": "true"
+                    },
+                    {
+                        "type": "BOOLEAN",
+                        "key": "sandbox",
+                        "value": "false"
+                    },
+                    {
+                        "type": "BOOLEAN",
+                        "key": "revenueEvent",
+                        "value": "false"
+                    }
+                ],
+                "fingerprint": "1604164797769",
+                "firingTriggerId": [
+                    "6"
+                ],
+                "tagFiringOption": "ONCE_PER_EVENT",
+                "consentSettings": {
+                    "consentStatus": "NOT_SET"
+                }
+            },
+            {
+                "accountId": "6002113473",
+                "containerId": "32562136",
+                "tagId": "13",
+                "name": "Event - Adjust - ONB - 04 Success ID",
+                "type": "adj",
+                "parameter": [
+                    {
+                        "type": "TEMPLATE",
+                        "key": "eventToken",
+                        "value": "771n9w"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "appToken",
+                        "value": "am0wjeshw5xc"
+                    },
+                    {
+                        "type": "BOOLEAN",
+                        "key": "unique",
+                        "value": "true"
+                    },
+                    {
+                        "type": "BOOLEAN",
+                        "key": "sandbox",
+                        "value": "false"
+                    },
+                    {
+                        "type": "BOOLEAN",
+                        "key": "revenueEvent",
+                        "value": "false"
+                    }
+                ],
+                "fingerprint": "1604164828207",
+                "firingTriggerId": [
+                    "7"
+                ],
+                "tagFiringOption": "ONCE_PER_EVENT",
+                "consentSettings": {
+                    "consentStatus": "NOT_SET"
+                }
+            },
+            {
+                "accountId": "6002113473",
+                "containerId": "32562136",
+                "tagId": "14",
+                "name": "Event - Adjust - ONB - 05 Meeting",
+                "type": "adj",
+                "parameter": [
+                    {
+                        "type": "TEMPLATE",
+                        "key": "eventToken",
+                        "value": "90wilp"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "appToken",
+                        "value": "am0wjeshw5xc"
+                    },
+                    {
+                        "type": "BOOLEAN",
+                        "key": "unique",
+                        "value": "true"
+                    },
+                    {
+                        "type": "BOOLEAN",
+                        "key": "sandbox",
+                        "value": "false"
+                    },
+                    {
+                        "type": "BOOLEAN",
+                        "key": "revenueEvent",
+                        "value": "false"
+                    }
+                ],
+                "fingerprint": "1604164856932",
+                "firingTriggerId": [
+                    "8"
+                ],
+                "tagFiringOption": "ONCE_PER_EVENT",
+                "consentSettings": {
+                    "consentStatus": "NOT_SET"
+                }
+            },
+            {
+                "accountId": "6002113473",
+                "containerId": "32562136",
+                "tagId": "15",
+                "name": "Event - Adjust - ONB - 06 Sign In Card",
+                "type": "adj",
+                "parameter": [
+                    {
+                        "type": "TEMPLATE",
+                        "key": "eventToken",
+                        "value": "p06o5v"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "appToken",
+                        "value": "am0wjeshw5xc"
+                    },
+                    {
+                        "type": "BOOLEAN",
+                        "key": "unique",
+                        "value": "true"
+                    },
+                    {
+                        "type": "BOOLEAN",
+                        "key": "sandbox",
+                        "value": "false"
+                    },
+                    {
+                        "type": "BOOLEAN",
+                        "key": "revenueEvent",
+                        "value": "false"
+                    }
+                ],
+                "fingerprint": "1604164890156",
+                "firingTriggerId": [
+                    "9"
+                ],
+                "tagFiringOption": "ONCE_PER_EVENT",
+                "consentSettings": {
+                    "consentStatus": "NOT_SET"
+                }
+            },
+            {
+                "accountId": "6002113473",
+                "containerId": "32562136",
+                "tagId": "16",
+                "name": "Copy of Event - Adjust - ONB - 01 First Open",
+                "type": "adj",
+                "parameter": [
+                    {
+                        "type": "TEMPLATE",
+                        "key": "eventToken",
+                        "value": "5rzkxy"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "appToken",
+                        "value": "xty7lf6skgsg"
+                    },
+                    {
+                        "type": "BOOLEAN",
+                        "key": "unique",
+                        "value": "true"
+                    },
+                    {
+                        "type": "BOOLEAN",
+                        "key": "sandbox",
+                        "value": "false"
+                    },
+                    {
+                        "type": "BOOLEAN",
+                        "key": "revenueEvent",
+                        "value": "false"
+                    }
+                ],
+                "fingerprint": "1619946238570",
+                "firingTriggerId": [
+                    "4"
+                ],
+                "tagFiringOption": "ONCE_PER_EVENT",
+                "consentSettings": {
+                    "consentStatus": "NOT_SET"
+                }
+            },
+            {
+                "accountId": "6002113473",
+                "containerId": "32562136",
+                "tagId": "17",
+                "name": "Copy of Event - Adjust - ONB - 02 Verification Code",
+                "type": "adj",
+                "parameter": [
+                    {
+                        "type": "TEMPLATE",
+                        "key": "eventToken",
+                        "value": "dsdp8w"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "appToken",
+                        "value": "xty7lf6skgsg"
+                    },
+                    {
+                        "type": "BOOLEAN",
+                        "key": "unique",
+                        "value": "true"
+                    },
+                    {
+                        "type": "BOOLEAN",
+                        "key": "sandbox",
+                        "value": "false"
+                    },
+                    {
+                        "type": "BOOLEAN",
+                        "key": "revenueEvent",
+                        "value": "false"
+                    }
+                ],
+                "fingerprint": "1619946434425",
+                "firingTriggerId": [
+                    "5"
+                ],
+                "tagFiringOption": "ONCE_PER_EVENT",
+                "consentSettings": {
+                    "consentStatus": "NOT_SET"
+                }
+            },
+            {
+                "accountId": "6002113473",
+                "containerId": "32562136",
+                "tagId": "18",
+                "name": "Copy of Event - Adjust - ONB - 03 Verification Process",
+                "type": "adj",
+                "parameter": [
+                    {
+                        "type": "TEMPLATE",
+                        "key": "eventToken",
+                        "value": "q1wask"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "appToken",
+                        "value": "xty7lf6skgsg"
+                    },
+                    {
+                        "type": "BOOLEAN",
+                        "key": "unique",
+                        "value": "true"
+                    },
+                    {
+                        "type": "BOOLEAN",
+                        "key": "sandbox",
+                        "value": "false"
+                    },
+                    {
+                        "type": "BOOLEAN",
+                        "key": "revenueEvent",
+                        "value": "false"
+                    }
+                ],
+                "fingerprint": "1619946542233",
+                "firingTriggerId": [
+                    "6"
+                ],
+                "tagFiringOption": "ONCE_PER_EVENT",
+                "consentSettings": {
+                    "consentStatus": "NOT_SET"
+                }
+            },
+            {
+                "accountId": "6002113473",
+                "containerId": "32562136",
+                "tagId": "19",
+                "name": "Copy of Event - Adjust - ONB - 05 Meeting",
+                "type": "adj",
+                "parameter": [
+                    {
+                        "type": "TEMPLATE",
+                        "key": "eventToken",
+                        "value": "416ujo"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "appToken",
+                        "value": "xty7lf6skgsg"
+                    },
+                    {
+                        "type": "BOOLEAN",
+                        "key": "unique",
+                        "value": "true"
+                    },
+                    {
+                        "type": "BOOLEAN",
+                        "key": "sandbox",
+                        "value": "false"
+                    },
+                    {
+                        "type": "BOOLEAN",
+                        "key": "revenueEvent",
+                        "value": "false"
+                    }
+                ],
+                "fingerprint": "1619946617391",
+                "firingTriggerId": [
+                    "8"
+                ],
+                "tagFiringOption": "ONCE_PER_EVENT",
+                "consentSettings": {
+                    "consentStatus": "NOT_SET"
+                }
+            },
+            {
+                "accountId": "6002113473",
+                "containerId": "32562136",
+                "tagId": "20",
+                "name": "Copy of Event - Adjust - ONB - 06 Sign In Card",
+                "type": "adj",
+                "parameter": [
+                    {
+                        "type": "TEMPLATE",
+                        "key": "eventToken",
+                        "value": "h9mhbs"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "appToken",
+                        "value": "xty7lf6skgsg"
+                    },
+                    {
+                        "type": "BOOLEAN",
+                        "key": "unique",
+                        "value": "true"
+                    },
+                    {
+                        "type": "BOOLEAN",
+                        "key": "sandbox",
+                        "value": "false"
+                    },
+                    {
+                        "type": "BOOLEAN",
+                        "key": "revenueEvent",
+                        "value": "false"
+                    }
+                ],
+                "fingerprint": "1619946727878",
+                "firingTriggerId": [
+                    "9"
+                ],
+                "tagFiringOption": "ONCE_PER_EVENT",
+                "consentSettings": {
+                    "consentStatus": "NOT_SET"
+                }
+            },
+            {
+                "accountId": "6002113473",
+                "containerId": "32562136",
+                "tagId": "22",
+                "name": "kyc_end_nbm",
+                "type": "img",
+                "parameter": [
+                    {
+                        "type": "BOOLEAN",
+                        "key": "useCacheBuster",
+                        "value": "true"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "url",
+                        "value": "https://nextbm-51-adswizz.attribution.adswizz.com/fire?pixelId=7aab6c96-2d9e-44b4-920d-8635d7127f4e&type=sitevisit&subtype=InfoRequest&aw_0_req.gdpr=true&redirectURL=aHR0cHM6Ly9waXhlbC50YXBhZC5jb20vaWRzeW5jL2V4L3JlY2VpdmU_cGFydG5lcl9pZD0yOTk0JjwjaWYgcmVxdWVzdC5saXN0ZW5lcklkP21hdGNoZXMoJ1swLTlhLWZdezh9LVswLTlhLWZdezR9LVswLTlhLWZdezR9LVswLTlhLWZdezR9LVswLTlhLWZdezEyfScpPnBhcnRuZXJfdHlwZWRfZGlkPSU3QiUyMkhBUkRXQVJFX0FORFJPSURfQURfSUQlMjIlM0ElMjIke3JlcXVlc3QubGlzdGVuZXJJZH0lMjIlN0Q8I2Vsc2VpZiByZXF1ZXN0Lmxpc3RlbmVySWQ_bWF0Y2hlcygnWzAtOUEtRl17OH0tWzAtOUEtRl17NH0tWzAtOUEtRl17NH0tWzAtOUEtRl17NH0tWzAtOUEtRl17MTJ9Jyk-cGFydG5lcl90eXBlZF9kaWQ9JTdCJTIySEFSRFdBUkVfSURGQSUyMiUzQSUyMiR7cmVxdWVzdC5saXN0ZW5lcklkfSUyMiU3RDwjZWxzZT5wYXJ0bmVyX2RldmljZV9pZD0ke3JlcXVlc3QubGlzdGVuZXJJZCF9PC8jaWY-Cg"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "cacheBusterQueryParam",
+                        "value": "gtmcb"
+                    }
+                ],
+                "fingerprint": "1645609588491",
+                "firingTriggerId": [
+                    "21"
+                ],
+                "tagFiringOption": "ONCE_PER_EVENT",
+                "consentSettings": {
+                    "consentStatus": "NOT_SET"
+                }
+            }
+        ],
+        "trigger": [
+            {
+                "accountId": "6002113473",
+                "containerId": "32562136",
+                "triggerId": "4",
+                "name": "Event - 01 First Open",
+                "type": "ALWAYS",
+                "filter": [
+                    {
+                        "type": "CONTAINS",
+                        "parameter": [
+                            {
+                                "type": "TEMPLATE",
+                                "key": "arg0",
+                                "value": "{{Event Name}}"
+                            },
+                            {
+                                "type": "TEMPLATE",
+                                "key": "arg1",
+                                "value": "first_open"
+                            }
+                        ]
+                    }
+                ],
+                "fingerprint": "1605089986382"
+            },
+            {
+                "accountId": "6002113473",
+                "containerId": "32562136",
+                "triggerId": "5",
+                "name": "Event - 02 Verification Code",
+                "type": "ALWAYS",
+                "filter": [
+                    {
+                        "type": "CONTAINS",
+                        "parameter": [
+                            {
+                                "type": "TEMPLATE",
+                                "key": "arg0",
+                                "value": "{{Event Name}}"
+                            },
+                            {
+                                "type": "TEMPLATE",
+                                "key": "arg1",
+                                "value": "verifynumber"
+                            }
+                        ]
+                    }
+                ],
+                "fingerprint": "1604164339047"
+            },
+            {
+                "accountId": "6002113473",
+                "containerId": "32562136",
+                "triggerId": "6",
+                "name": "Event - 03 Verification Process",
+                "type": "ALWAYS",
+                "filter": [
+                    {
+                        "type": "CONTAINS",
+                        "parameter": [
+                            {
+                                "type": "TEMPLATE",
+                                "key": "arg0",
+                                "value": "{{Event Name}}"
+                            },
+                            {
+                                "type": "TEMPLATE",
+                                "key": "arg1",
+                                "value": "scanid"
+                            }
+                        ]
+                    }
+                ],
+                "fingerprint": "1604164371756"
+            },
+            {
+                "accountId": "6002113473",
+                "containerId": "32562136",
+                "triggerId": "7",
+                "name": "Event - 04 Success ID",
+                "type": "ALWAYS",
+                "filter": [
+                    {
+                        "type": "CONTAINS",
+                        "parameter": [
+                            {
+                                "type": "TEMPLATE",
+                                "key": "arg0",
+                                "value": "{{Event Name}}"
+                            },
+                            {
+                                "type": "TEMPLATE",
+                                "key": "arg1",
+                                "value": "confirmid"
+                            }
+                        ]
+                    }
+                ],
+                "fingerprint": "1604164477596"
+            },
+            {
+                "accountId": "6002113473",
+                "containerId": "32562136",
+                "triggerId": "8",
+                "name": "Event - 05 Meeting",
+                "type": "ALWAYS",
+                "filter": [
+                    {
+                        "type": "CONTAINS",
+                        "parameter": [
+                            {
+                                "type": "TEMPLATE",
+                                "key": "arg0",
+                                "value": "{{Event Name}}"
+                            },
+                            {
+                                "type": "TEMPLATE",
+                                "key": "arg1",
+                                "value": "deliverystarted"
+                            }
+                        ]
+                    }
+                ],
+                "fingerprint": "1604164501717"
+            },
+            {
+                "accountId": "6002113473",
+                "containerId": "32562136",
+                "triggerId": "9",
+                "name": "Event - 06 Sign In Card",
+                "type": "ALWAYS",
+                "filter": [
+                    {
+                        "type": "CONTAINS",
+                        "parameter": [
+                            {
+                                "type": "TEMPLATE",
+                                "key": "arg0",
+                                "value": "{{Event Name}}"
+                            },
+                            {
+                                "type": "TEMPLATE",
+                                "key": "arg1",
+                                "value": "deliveryconfirmed"
+                            }
+                        ]
+                    }
+                ],
+                "fingerprint": "1604164526437"
+            },
+            {
+                "accountId": "6002113473",
+                "containerId": "32562136",
+                "triggerId": "21",
+                "name": "kyc_end",
+                "type": "ALWAYS",
+                "filter": [
+                    {
+                        "type": "CONTAINS",
+                        "parameter": [
+                            {
+                                "type": "TEMPLATE",
+                                "key": "arg0",
+                                "value": "{{Event Name}}"
+                            },
+                            {
+                                "type": "TEMPLATE",
+                                "key": "arg1",
+                                "value": "kyc_end"
+                            }
+                        ]
+                    }
+                ],
+                "fingerprint": "1645609398507"
+            }
+        ],
+        "builtInVariable": [
+            {
+                "accountId": "6002113473",
+                "containerId": "32562136",
+                "type": "APP_ID",
+                "name": "App ID"
+            },
+            {
+                "accountId": "6002113473",
+                "containerId": "32562136",
+                "type": "APP_NAME",
+                "name": "App Name"
+            },
+            {
+                "accountId": "6002113473",
+                "containerId": "32562136",
+                "type": "APP_VERSION_CODE",
+                "name": "App Version Code"
+            },
+            {
+                "accountId": "6002113473",
+                "containerId": "32562136",
+                "type": "APP_VERSION_NAME",
+                "name": "App Version Name"
+            },
+            {
+                "accountId": "6002113473",
+                "containerId": "32562136",
+                "type": "EVENT_NAME",
+                "name": "Event Name"
+            }
+        ],
+        "fingerprint": "1645609669842",
+        "tagManagerUrl": "https://tagmanager.google.com/#/versions/accounts/6002113473/containers/32562136/versions/5?apiLink=version"
+    }
+}

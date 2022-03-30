@@ -29,8 +29,8 @@ fun Application.initializeAdjustSdk(configManager: BuildConfigManager?) {
         when (configurations.flavor) {
             ProductFlavour.PROD.flavour -> {
                 Adjust.setEnabled(true)
-                config.setAppSecret(1, 325677892, 77945854, 746350982, 870707894)
-
+                config.setAppSecret(3, 1746894148, 2040383572, 1770588342, 2016748378)
+//                config.setAppSecret(1, 325677892, 77945854, 746350982, 870707894) // Old Signature
                 config.setDefaultTracker("6hpplis")
                 config.setEventBufferingEnabled(true)
                 config.setPreinstallTrackingEnabled(true)
@@ -38,6 +38,9 @@ fun Application.initializeAdjustSdk(configManager: BuildConfigManager?) {
 
             }
             ProductFlavour.PREPROD.flavour -> {
+                Adjust.setEnabled(true)
+                config.setEventBufferingEnabled(true)
+                config.setPreinstallTrackingEnabled(true)
                 config.setAppSecret(1, 82588340, 60633897, 806753301, 962146915)
             }
             ProductFlavour.STG.flavour -> {
@@ -69,36 +72,36 @@ fun Application.initializeAdjustSdk(configManager: BuildConfigManager?) {
         }
 
         Adjust.onCreate(config)
-        Adjust.addSessionPartnerParameter("account_id", SessionManager.user?.currentCustomer?.customerId)
+//        Adjust.addSessionPartnerParameter("account_id", SessionManager.user?.currentCustomer?.customerId)
         registerActivityLifecycleCallbacks(AdjustLifecycleCallbacks())
         config.setOnAttributionChangedListener { }
     }
 }
 
 private class AdjustLifecycleCallbacks : Application.ActivityLifecycleCallbacks {
-    override fun onActivityResumed(activity: Activity?) {
+    override fun onActivityResumed(activity: Activity) {
         Adjust.onResume()
     }
 
-    override fun onActivityStarted(activity: Activity?) {
+    override fun onActivityStarted(activity: Activity) {
     }
 
-    override fun onActivityDestroyed(activity: Activity?) {
-
-    }
-
-    override fun onActivitySaveInstanceState(activity: Activity?, outState: Bundle?) {
+    override fun onActivityDestroyed(activity: Activity) {
 
     }
 
-    override fun onActivityStopped(activity: Activity?) {
+    override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) {
 
     }
 
-    override fun onActivityCreated(activity: Activity?, savedInstanceState: Bundle?) {
+    override fun onActivityStopped(activity: Activity) {
+
     }
 
-    override fun onActivityPaused(activity: Activity?) {
+    override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
+    }
+
+    override fun onActivityPaused(activity: Activity) {
         Adjust.onPause()
     }
 }

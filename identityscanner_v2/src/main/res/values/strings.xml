@@ -55,6 +55,7 @@
     <string name="scan_front_eid">Scan Front Side of Emirates ID</string>
     <string name="scan_back_eid">Scan Back Side of Emirates ID</string>
     <string name="scan_passport">Scan Passport</string>
+    <string name="passport">Passport</string>
     <string name="review_doc_title">Review</string>
     <string name="review_scan_results_title">Review Information</string>
     <string name="invalid_file">Could not open file. File does not exist.</string>
@@ -94,6 +95,7 @@
     <string name="identity_scanner_sdk_screen_scanner_mrz_error">We couldn\’t capture the bar code correctly. Please rescan the back of your card.</string>
     <string name="identity_scanner_sdk_screen_scanner_object_detection_error">Your card is not in the correct position. Please lay it on a flat surface and rescan your card.</string>
     <string name="identity_scanner_sdk_screen_scanner_overlay_instruction_title">Place your card within the frame and take a photo.</string>
+    <string name="identity_scanner_sdk_screen_scanner_face_detection_error">We weren\’t able to capture your picture clearly. Please rescan the front of your card.</string>
     <!-- Error Messages End -->
 
 

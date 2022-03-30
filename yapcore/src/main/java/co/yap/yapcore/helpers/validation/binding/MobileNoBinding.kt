@@ -5,6 +5,7 @@ import androidx.databinding.BindingAdapter
 import co.yap.widgets.PrefixSuffixEditText
 import co.yap.yapcore.R
 import co.yap.yapcore.helpers.validation.rule.ConfirmMobileNoRule
+import com.google.android.material.textfield.TextInputEditText
 import co.yap.yapcore.helpers.validation.rule.MobileNoRule
 import co.yap.yapcore.helpers.validation.util.EditTextHandler
 import co.yap.yapcore.helpers.validation.util.ErrorMessageHelper
@@ -13,19 +14,20 @@ import co.yap.yapcore.helpers.validation.util.ViewTagHelper
 object MobileNoBinding {
     @JvmStatic
     @BindingAdapter(
-        value = ["isoCountryCode", "validateMobileMessage", "validateMobileAutoDismiss", "errorEnabled", "isOptional"],
+        value = ["isoCountryCode", "validateMobileMessage", "validateMobileAutoDismiss", "enableError", "isOptional"],
         requireAll = false
     )
     fun bindPhone(
-        view: PrefixSuffixEditText?,
+        view: TextInputEditText?,
         countryCode: String?,
         errorMessage: String?,
-        autoDismiss: Boolean, errorEnabled: Boolean, isOptional: Boolean = false
+        autoDismiss: Boolean, enableError: Boolean, isOptional: Boolean = false
     ) {
         if (autoDismiss) {
             EditTextHandler.disableErrorOnChanged(view)
         }
-        countryCode?.let { view?.prefix = it }
+        //countryCode?.let { view?.getPr = it }
+//        countryCode?.let { view?.prefix = it }
         val handledErrorMessage: String = ErrorMessageHelper.getStringOrDefault(
             view,
             errorMessage, R.string.error_message_first_name_validation
@@ -37,7 +39,7 @@ object MobileNoBinding {
                 view,
                 countryCode?.replace("+", ""),
                 handledErrorMessage,
-                errorEnabled,
+                enableError,
                 isOptional
             )
         )
@@ -50,7 +52,7 @@ object MobileNoBinding {
     @JvmStatic
     fun bindingPassword(
         view: PrefixSuffixEditText?,
-        comparableView: TextView?,
+        comparableView: PrefixSuffixEditText?,
         countryCode: String?,
         errorMessage: String?,
         autoDismiss: Boolean

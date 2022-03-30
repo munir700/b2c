@@ -5,7 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import co.yap.BR
 import co.yap.R
 import co.yap.modules.kyc.interfaces.IDocumentsDashboard
@@ -22,13 +22,14 @@ import co.yap.yapcore.helpers.extentions.getValue
 import co.yap.yapcore.interfaces.BackPressImpl
 import co.yap.yapcore.interfaces.IBaseNavigator
 import kotlinx.android.synthetic.main.activity_documents_dashboard.*
+import kotlinx.android.synthetic.main.layout_kyc_progress_toolbar.view.*
 import java.io.File
 
 class DocumentsDashboardActivity : BaseBindingActivity<IDocumentsDashboard.ViewModel>(), INavigator,
     IFragmentHolder {
 
     override val viewModel: IDocumentsDashboard.ViewModel
-        get() = ViewModelProviders.of(this).get(DocumentsDashboardViewModel::class.java)
+        get() = ViewModelProvider(this).get(DocumentsDashboardViewModel::class.java)
 
     override val navigator: IBaseNavigator
         get() = DefaultNavigator(this, R.id.kyc_host_fragment)
@@ -41,12 +42,14 @@ class DocumentsDashboardActivity : BaseBindingActivity<IDocumentsDashboard.ViewM
         super.onCreate(savedInstanceState)
         //this should be only first time
         viewModel.name.value = intent.getValue(Constants.name, ExtraType.STRING.name) as? String
+        viewModel.amendmentMap =
+            intent.getSerializableExtra(Constants.KYC_AMENDMENT_MAP) as? HashMap<String?, List<String>?>
         viewModel.skipFirstScreen.value =
             intent.getValue(Constants.data, ExtraType.BOOLEAN.name) as? Boolean
-        viewModel.gotoInformationErrorFragment?.value = intent?.getBooleanExtra("GO_ERROR", false)
+        viewModel.showProgressBar.value = intent?.getBooleanExtra("GO_ERROR", true)
         viewModel.document =
             intent.getParcelableExtra("document") as? GetMoreDocumentsResponse.Data.CustomerDocument.DocumentInformation
-        if (viewModel.gotoInformationErrorFragment?.value == true) {
+        if (intent?.getBooleanExtra("PersonalDetails", false) == true) {
             progressBar.visibility = View.GONE
         }
         addObserver()
@@ -64,13 +67,30 @@ class DocumentsDashboardActivity : BaseBindingActivity<IDocumentsDashboard.ViewM
                 status = it.status
             )
         })
+        viewModel.showProgressBar.observe(this, Observer { showProgress ->
+            if (showProgress) {
+                progressBar.progressLay.visibility = View.VISIBLE
+                progressBar.btnBack.visibility = View.GONE
+            } else {
+                progressBar.progressLay.visibility = View.GONE
+                progressBar.btnBack.visibility = View.VISIBLE
+            }
+        })
+        viewModel.hideProgressToolbar.observe(this, toolbarObserver)
     }
 
     private val clickEventObserver = Observer<Int> {
         when (it) {
-            R.id.tbBtnBack -> {
+            R.id.tbBtnBack, R.id.btnBack -> {
                 onBackPressed()
             }
+        }
+    }
+
+    private val toolbarObserver = Observer<Boolean> {
+        if (it) {
+            progressBar.progressLay.visibility = View.GONE
+            progressBar.btnBack.visibility = View.GONE
         }
     }
 

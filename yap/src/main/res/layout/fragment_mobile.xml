@@ -10,6 +10,7 @@
             type="co.yap.modules.onboarding.viewmodels.MobileViewModel" />
 
         <import type="co.yap.translation.Strings" />
+        <import type="co.yap.yapcore.helpers.Utils" />
 
     </data>
 
@@ -18,6 +19,7 @@
         android:layout_height="match_parent"
         android:layout_gravity="center_vertical"
         android:background="@color/white"
+        app:sensitiveViews="@{Utils.getViewsList(viewPhoneNumber)}"
         android:paddingLeft="@dimen/margin_medium"
         android:paddingRight="@dimen/margin_medium">
 

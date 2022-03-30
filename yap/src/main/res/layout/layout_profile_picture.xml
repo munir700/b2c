@@ -23,6 +23,7 @@
         android:background="?attr/colorYapItBgAttr"
         android:paddingTop="@dimen/margin_medium_large"
         android:paddingBottom="@dimen/margin_large"
+        app:sensitiveViews="@{Utils.getViewsList(ivProfilePic)}"
         android:gravity="center|center_vertical">
 
 

@@ -9,7 +9,7 @@ interface CoroutineViewModel {
     val viewModelJob: Job
     val viewModelScope: CoroutineScope
     fun cancelAllJobs()
-    fun launch(block: suspend () -> Unit)
+    fun launch(block: suspend () -> Unit): Job?
+    fun launchBG(block: suspend () -> Unit) :Any
     fun async(block: suspend () -> Unit): Any
-    fun launchBG(block: suspend () -> Unit): Any
 }

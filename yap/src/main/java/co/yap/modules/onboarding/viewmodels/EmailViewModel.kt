@@ -206,7 +206,7 @@ class EmailViewModel(application: Application) :
                         delay(500)
                         SessionManager.usersList?.value = response.data.data as ArrayList
                         SessionManager.user = accountInfo
-                        SessionManager.setupDataSetForBlockedFeatures()
+                        SessionManager.setupDataSetForBlockedFeatures(SessionManager.card.value)
                         state.valid = true
                         state.isWaiting = accountInfo.isWaiting
                         state.loading = false

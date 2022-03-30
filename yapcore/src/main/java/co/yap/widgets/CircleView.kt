@@ -7,6 +7,7 @@ import android.util.AttributeSet
 import android.view.View
 import android.view.ViewOutlineProvider
 import co.yap.yapcore.R
+import co.yap.yapcore.helpers.extentions.dimen
 import kotlin.math.min
 
 class CircleView(context: Context, attrs: AttributeSet? = null) : View(context, attrs) {
@@ -174,11 +175,13 @@ class CircleView(context: Context, attrs: AttributeSet? = null) : View(context, 
             )
         }
 
-        // Draw Border
+        // Draw outer border
+        paintBorder.strokeWidth = 2f
+        paintBorder.style = Paint.Style.STROKE
         canvas.drawCircle(
             circleCenterWithBorder,
             circleCenterWithBorder,
-            circleCenterWithBorder - margeWithShadowRadius,
+            circleCenterWithBorder - margeWithShadowRadius - context.dimen(R.dimen._1sdp),
             paintBorder
         )
         // Draw Circle background
@@ -194,8 +197,7 @@ class CircleView(context: Context, attrs: AttributeSet? = null) : View(context, 
         val usableWidth = width - (paddingLeft + paddingRight)
         val usableHeight = height - (paddingTop + paddingBottom)
         heightCircle = min(usableWidth, usableHeight)
-
-        circleCenter = (heightCircle - borderWidth * 2).toInt() / 2
+        circleCenter = ((heightCircle - borderWidth * 2).toInt() / 2)-context.dimen(R.dimen._3sdp)
         manageCircleColor()
         manageBorderColor()
         manageElevation()
@@ -234,11 +236,32 @@ class CircleView(context: Context, attrs: AttributeSet? = null) : View(context, 
     }
 
     private fun manageBorderColor() {
-        val borderColor = if (borderWidth == 0f) circleColor else this.borderColor
+        /*val borderColor = if (borderWidth == 0f) circleColor else this.borderColor
         paintBorder.shader = createLinearGradient(
             borderColorStart ?: borderColor,
             borderColorEnd ?: borderColor, borderColorDirection
-        )
+        )*/
+        if (borderColorStart == null && borderColorEnd == null) {
+            paintBorder.shader = createLinearGradient(
+                Color.GRAY,
+                Color.GRAY, circleColorDirection
+            )
+        } else if (borderColorStart != null && borderColorEnd != null) {
+            paintBorder.shader = createLinearGradient(
+                borderColorStart ?: Color.GRAY,
+                borderColorEnd ?: Color.GRAY, circleColorDirection
+            )
+        } else if (borderColorStart == null) {
+            paintBorder.shader = createLinearGradient(
+                borderColorEnd ?: Color.GRAY,
+                borderColorEnd ?: Color.GRAY, circleColorDirection
+            )
+        } else if (borderColorEnd == null) {
+            paintBorder.shader = createLinearGradient(
+                borderColorStart ?: Color.GRAY,
+                borderColorStart ?: Color.GRAY, circleColorDirection
+            )
+        }
     }
 
     private fun createLinearGradient(

@@ -50,6 +50,7 @@ import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasActivityInjector
 import dagger.android.support.DaggerApplication
+import com.uxcam.UXCam
 import timber.log.Timber
 import java.util.*
 import javax.inject.Inject
@@ -105,7 +106,9 @@ class AAPApplication : HouseHoldApplication(), NavigatorProvider, HasActivityInj
             sslPin2 = originalSign.sslPin2,
             sslPin3 = originalSign.sslPin3,
             sslHost = originalSign.sslHost,
-            spayServiceId = originalSign.spayServiceId
+            spayServiceId = originalSign.spayServiceId,
+            flagSmithAPIKey = originalSign.flagSmithAPIKey,
+            uxCamKey = originalSign.uxCamKey
         )
         initAllModules()
         SecurityHelper(this, originalSign, object : SignatureValidator {
@@ -123,6 +126,7 @@ class AAPApplication : HouseHoldApplication(), NavigatorProvider, HasActivityInj
         LivePersonChat.getInstance(applicationContext).registerToLivePersonEvents()
         initializeAdjustSdk(configManager)
         initFacebook()
+        initUxCam(configManager)
     }
 
     private fun initNetworkLayer() {
@@ -193,12 +197,6 @@ class AAPApplication : HouseHoldApplication(), NavigatorProvider, HasActivityInj
     override fun provideNavigator(): ActivityNavigator {
         return object : ActivityNavigator {
             override fun startEIDNotAcceptedActivity(activity: FragmentActivity) {
-                /*activity.startActivity(
-                    Intent(
-                        activity,
-                        InvalidEIDActivity::class.java
-                    )
-                )*/
 
 //                activity.startActivity(
 //                    Intent(
@@ -286,5 +284,11 @@ class AAPApplication : HouseHoldApplication(), NavigatorProvider, HasActivityInj
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
         LocaleManager.setLocale(this)
+    }
+
+    private fun initUxCam(configManager: BuildConfigManager?) {
+        if(!BuildConfig.DEBUG){
+            UXCam.startWithKey(configManager?.uxCamKey)
+        }
     }
 }

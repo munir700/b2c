@@ -5,6 +5,7 @@ import android.text.TextWatcher
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.annotation.Keep
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.MutableLiveData
 import co.yap.yapcore.R
@@ -17,6 +18,7 @@ import java.util.*
 /**
  * Created irfan arshad on 10/6/2020.
  */
+@Keep
 class Validator(val target: ViewDataBinding?) {
     private val disabledViews: MutableSet<View>
     private var validationListener: ValidationListener? = null
@@ -25,13 +27,14 @@ class Validator(val target: ViewDataBinding?) {
     private var msgValidationMode =
         VALIDATION_WITHOUT_ERROR_MESSAGES
 
-    var targetViewBinding:ViewDataBinding?=target
-    set(value) {
-        field = value
-        value?.let {
-            if (msgValidationMode == VALIDATION_WITHOUT_ERROR_MESSAGES) applyTextWatcherOnAllViews()
+    var targetViewBinding: ViewDataBinding? = target
+        set(value) {
+            field = value
+            value?.let {
+                if (msgValidationMode == VALIDATION_WITHOUT_ERROR_MESSAGES) applyTextWatcherOnAllViews()
+            }
         }
-    }
+
     @JvmField
     var isValidate =
         MutableLiveData(false)
@@ -50,8 +53,19 @@ class Validator(val target: ViewDataBinding?) {
             before: Int,
             count: Int
         ) {
-            if (msgValidationMode == VALIDATION_WITHOUT_ERROR_MESSAGES) isValidate.value =
-                validate()
+            if (msgValidationMode == VALIDATION_WITHOUT_ERROR_MESSAGES) {
+                isValidate.value =
+                    when (validate()) {
+                        true -> {
+                            validationListener?.onValidationSuccess(this@Validator)
+                            true
+                        }
+                        false -> {
+                            validationListener?.onValidationError(this@Validator)
+                            false
+                        }
+                    }
+            }
         }
 
         override fun afterTextChanged(s: Editable) {}
@@ -84,9 +98,9 @@ class Validator(val target: ViewDataBinding?) {
     fun toValidate() {
         requireNotNull(validationListener) { "Validation listener should not be null." }
         if (validate()) {
-            validationListener?.onValidationSuccess()
+            validationListener?.onValidationSuccess(this)
         } else {
-            validationListener?.onValidationError()
+            validationListener?.onValidationError(this)
         }
     }
 
@@ -163,7 +177,7 @@ class Validator(val target: ViewDataBinding?) {
 
     private fun getViewsWithValidation(): List<View> {
         targetViewBinding?.let {
-            return if(it.root is ViewGroup)
+            return if (it.root is ViewGroup)
                 getViewsByTag((it.root as ViewGroup), R.id.validator_rule)
             else
                 listOf(it.root)
@@ -188,8 +202,13 @@ class Validator(val target: ViewDataBinding?) {
     }
 
     interface ValidationListener {
-        fun onValidationSuccess()
-        fun onValidationError()
+        fun onValidationSuccess(validator: Validator) {
+            validator.isValidate.value = true
+        }
+
+        fun onValidationError(validator: Validator) {
+            validator.isValidate.value = false
+        }
     }
 
     companion object {

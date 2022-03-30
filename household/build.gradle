@@ -5,7 +5,7 @@ dependencies {
     }
     //shared dependencies to all modules
     project.commonDependencies.each {
-        add(it.configuration, it.dependency)
+        add(it.configuration, it.dependency, it.options)
     }
     // app specific dependencies
     project.yapDependencies.each {
@@ -14,5 +14,11 @@ dependencies {
     // app specific dependencies
     project.householdDependencies.each {
         add(it.configuration, it.dependency)
+    }
+
+    if (JavaVersion.current().ordinal() >= JavaVersion.VERSION_1_9.ordinal()) {
+        project.kaptBindingDependencies.each {
+            add(it.configuration, it.dependency)
+        }
     }
 }

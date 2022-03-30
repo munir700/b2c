@@ -3,20 +3,31 @@ package co.yap.networking.customers
 import co.yap.networking.BaseRepository
 import co.yap.networking.CookiesManager
 import co.yap.networking.RetroNetwork
+import co.yap.networking.customers.models.dashboardwidget.WidgetData
+import co.yap.networking.customers.models.dashboardwidget.UpdateWidgetResponse
 import co.yap.networking.customers.requestdtos.*
 import co.yap.networking.customers.responsedtos.*
 import co.yap.networking.customers.responsedtos.additionalinfo.AdditionalInfoResponse
 import co.yap.networking.customers.responsedtos.beneficiary.BankParamsResponse
+import co.yap.networking.customers.responsedtos.billpayment.*
+import co.yap.networking.customers.responsedtos.birthinfoamendment.BirthInfoAmendmentResponse
 import co.yap.networking.customers.responsedtos.currency.CurrenciesByCodeResponse
 import co.yap.networking.customers.responsedtos.currency.CurrenciesResponse
+import co.yap.networking.customers.responsedtos.documents.ConfigureEIDResponse
+import co.yap.networking.customers.responsedtos.documents.EIDDocumentsResponse
 import co.yap.networking.customers.responsedtos.documents.GetMoreDocumentsResponse
+import co.yap.networking.customers.responsedtos.employment_amendment.EmploymentInfoAmendmentResponse
 import co.yap.networking.customers.responsedtos.employmentinfo.IndustrySegmentsResponse
 import co.yap.networking.customers.responsedtos.sendmoney.*
 import co.yap.networking.customers.responsedtos.tax.TaxInfoResponse
+import co.yap.networking.customers.responsedtos.taxinfoamendment.TaxInfoAmendmentResponse
 import co.yap.networking.household.responsedtos.ValidateParentMobileResponse
 import co.yap.networking.messages.responsedtos.OtpValidationResponse
 import co.yap.networking.models.ApiResponse
+import co.yap.networking.models.BaseListResponse
+import co.yap.networking.models.BaseResponse
 import co.yap.networking.models.RetroApiResponse
+import co.yap.networking.transactions.requestdtos.EditBillerRequest
 import co.yap.networking.transactions.TransactionsRepository
 import co.yap.networking.transactions.responsedtos.transaction.FxRateResponse
 import okhttp3.MediaType
@@ -99,6 +110,9 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     const val URL_SUB_ACCOUNT_INVITATION = "customers/api/accept-reject-subaccountinvitation/"
     const val URL_BIRTH_INFO = "customers/api/customer-birth-info"
     const val URL_TAX_INFO = "customers/api/tax-information"
+    const val URL_AMENDMENTS_Birth_INFO = "customers/api/customer-birth-info"
+    const val URL_AMENDMENTS_TAX_INFO = "customers/api/tax-information"
+    const val URL_AMENDMENTS_Employment_INFO = "customers/api/employment-information"
     const val URL_CITIES = "customers/api/cities"
     const val URL_TAX_REASONS = "customers/api/tin-reasons"
     const val URL_GET_QR_CONTACT = "customers/api/customers-info"
@@ -133,7 +147,22 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     const val URL_GET_INDUSTRY_SEGMENTS = "customers/api/industry-sub-segments"
     const val URL_SAVE_EMPLOYMENT_INFO = "customers/api/employment-information"
     const val URL_STOP_RANKING_MSG = "customers/api/stop-display"
-
+    const val URL_DASHBOARD_WIDGETS = "customers/api/getWidgets"
+    const val URL_DASHBOARD_WIDGETS_UPDATE = "customers/api/updateWidgets"
+    const val URL_UPDATE_PROFILE_FSS = "customers/api/update-profile-on-fss"
+    const val URL_VALIDATE_EID = "customers/api/sanction-countries-configuration"
+    const val URL_BILL_PROVIDERS = "customers/api/billpayment/biller-categories"
+    const val URL_BILLER_CATALOGS = "customers/api/billpayment/biller-catalogs/{category-id}"
+    const val URL_BILLER_INPUTS_DETAILS = "customers/api/billpayment/biller-details/{biller-id}"
+    const val URL_ADD_BILLER = "customers/api/billpayment/add-biller"
+    const val URL_GET_ADDED_BILLS = "customers/api/billpayment/all-added-billers"
+    const val URL_DELETE_BILL = "customers/api/billpayment/delete-biller/{id}"
+    const val URL_EDIT_BILLER = "/customers/api/billpayment/edit-biller"
+    const val URL_GET_AMENDMENT_FIELDS = "customers/api/amendment-fields"
+    const val URL_GET_CUSTOMER_KYC_DOCUMENTS = "customers/api/v2/documents"
+    const val URL_UPDATE_PASSPORT_AMENDMENT = "customers/api/kyc-amendments/passport"
+    const val URL_GET_CUSTOMER_DOCUMENTS =
+        "customers/api/eida-data"
     private val api: CustomersRetroService =
         RetroNetwork.createService(CustomersRetroService::class.java)
 
@@ -150,7 +179,6 @@ object CustomersRepository : BaseRepository(), CustomersApi {
 
     override suspend fun sendVerificationEmail(verificationEmailRequest: SendVerificationEmailRequest): RetroApiResponse<OtpValidationResponse> =
         executeSafely(call = { api.sendVerificationEmail(verificationEmailRequest) })
-
 
     override suspend fun getAccountInfo(): RetroApiResponse<AccountInfoResponse> =
         executeSafely(call = { api.getAccountInfo() })
@@ -214,6 +242,10 @@ object CustomersRepository : BaseRepository(), CustomersApi {
                     identityNo = RequestBody.create(
                         MediaType.parse("multipart/form-dataList"),
                         identityNo
+                    ),
+                    isAmendment = RequestBody.create(
+                        MediaType.parse("multipart/form-dataList"),
+                        if (isAmendment) "true" else "false"
                     )
                 )
             })
@@ -231,13 +263,11 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     ): RetroApiResponse<ApiResponse> =
         executeSafely(call = { api.validatePhoneNumber(countryCode, mobileNumber) })
 
-
     override suspend fun changeMobileNumber(
         countryCode: String,
         mobileNumber: String
     ): RetroApiResponse<ApiResponse> =
         executeSafely(call = { api.changeMobileNumber(countryCode, mobileNumber) })
-
 
     override suspend fun validateEmail(email: String): RetroApiResponse<ApiResponse> =
         executeSafely(call = { api.validateEmail(email) })
@@ -248,7 +278,10 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     override suspend fun changeUnverifiedEmail(newEmail: String): RetroApiResponse<ApiResponse> =
         executeSafely(call = { api.changeUnverifiedEmail(newEmail) })
 
-    override suspend fun detectCardData(fileFront: MultipartBody.Part, fileBack: MultipartBody.Part) =
+    override suspend fun detectCardData(
+        fileFront: MultipartBody.Part,
+        fileBack: MultipartBody.Part
+    ) =
         executeSafely(call = { api.uploadIdCard(fileFront, fileBack) })
 
     override suspend fun getY2YBeneficiaries(contacts: List<Contact>) =
@@ -368,6 +401,35 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     override suspend fun saveTaxInfo(taxInfoRequest: TaxInfoRequest): RetroApiResponse<TaxInfoResponse> =
         executeSafely(call = { api.saveTaxInfo(taxInfoRequest) })
 
+    override suspend fun getAmendmentsBirthInfo(accountUuid: String): RetroApiResponse<BaseResponse<BirthInfoAmendmentResponse>> =
+        executeSafely(call = { api.getAmendmentsBirthInfo(accountUuid) })
+
+    override suspend fun getAmendmentsTaxInfo(accountUuid: String): RetroApiResponse<BaseResponse<TaxInfoAmendmentResponse>> =
+        executeSafely(call = { api.getAmendmentsTaxInfo(accountUuid) })
+
+    override suspend fun getAmendmentsEmploymentInfo(accountUuid: String): RetroApiResponse<BaseResponse<EmploymentInfoAmendmentResponse>> {
+        return executeSafely(call = { api.getAmendmentsEmploymentInfo(accountUuid) })
+        /*val empRes = EmploymentInfoAmendmentResponse(
+            businessCountries = listOf("AF", "AX"),
+            companyName = "Apple",
+            employmentStatus = "Self-Employed",
+            expectedMonthlyCredit = "900.0",
+            industrySubSegmentCode = "USED CARS",
+            monthlySalary = "1000.0"
+        )
+        /*val empOtherRes = EmploymentInfoAmendmentResponse(
+            employmentStatus = "OTHER",
+            employmentType = "RETIRED",
+            expectedMonthlyCredit = "300.0",
+            monthlySalary = "1000.0",
+            sponsor = "Microsoft"
+        )*/
+        val response = BaseResponse<EmploymentInfoAmendmentResponse>()
+        response.data = empRes
+        //response.data = empOtherRes
+        return RetroApiResponse.Success(200, response)*/
+    }
+
     override suspend fun getAllCurrenciesConfigs(): RetroApiResponse<CurrenciesResponse> =
         executeSafely(call = { api.getAllCurrencies() })
 
@@ -476,4 +538,93 @@ object CustomersRepository : BaseRepository(), CustomersApi {
         executeSafely(call = {
             api.stopRankingMsgRequest()
         })
+
+    override suspend fun getDashboardWidget(): RetroApiResponse<BaseListResponse<WidgetData>> =
+        executeSafely(call = {
+            api.getDashboardWidget()
+        })
+
+    override suspend fun updateDashboardWidget(list: List<WidgetData>): RetroApiResponse<UpdateWidgetResponse> =
+        executeSafely(call = {
+            api.updateDashboardWidget(list)
+        })
+
+    override suspend fun updateCardName(cardNameRequest: CardNameRequest): RetroApiResponse<ApiResponse> =
+        executeSafely(call = {
+            api.updateCardName(cardNameRequest)
+        })
+
+    override suspend fun getBillProviders(): RetroApiResponse<BillProviderResponse> =
+        executeSafely(call = {
+            api.getBillProviders()
+        })
+
+    override suspend fun getBillerCatalogs(categoryId: String): RetroApiResponse<BillerCatalogResponse> =
+        executeSafely(call = { api.getBillerCatalogs(categoryId) })
+
+    override suspend fun getBillerInputDetails(billerId: String): RetroApiResponse<BillerDetailResponse> =
+        executeSafely(call = { api.getBillerInputsDetails(billerId) })
+
+    override suspend fun addBiller(billerInformation: AddBillerInformationRequest): RetroApiResponse<BillAddedResponse> =
+        executeSafely(call = { api.addBiller(billerInformation) })
+
+    override suspend fun getAddedBills(): RetroApiResponse<BillResponse> =
+        executeSafely(call = { api.getAddedBills() })
+
+    override suspend fun deleteBill(id: String): RetroApiResponse<ApiResponse> =
+        executeSafely(call = { api.deleteBill(id) })
+
+    override suspend fun editBiller(editBillerRequest: EditBillerRequest): RetroApiResponse<ApiResponse> =
+        executeSafely(call = {
+            api.editBiller(editBillerRequest)
+        })
+
+    override suspend fun getEIDConfigurations(): RetroApiResponse<BaseResponse<ConfigureEIDResponse>> =
+        executeSafely(call = {
+            api.getEIDConfigurations()
+        })
+
+    override suspend fun getMissingInfoList(accountUuid: String): RetroApiResponse<BaseListResponse<AmendmentFields>> {
+        return executeSafely(call = { api.getMissingInfoList(accountUuid) })
+    }
+
+    override suspend fun getCustomerKYCData(accountUuid: String): RetroApiResponse<BaseResponse<EIDDocumentsResponse>> {
+        return executeSafely(call = { api.getCustomerKYCData(accountUuid) })
+    }
+
+    override suspend fun uploadPassportAmendments(request: PassportRequest): RetroApiResponse<ApiResponse> =
+        request.run {
+            val reqFile: RequestBody =
+                RequestBody.create(
+                    MediaType.parse(
+                        request.contentType
+                            ?: "image/" + request.files?.extension
+                    ),
+                    request.files ?: File(request.files?.name ?: "")
+                )
+            val body =
+                MultipartBody.Part.createFormData(
+                    "files",
+                    request.files?.name,
+                    reqFile
+                )
+            executeSafely(call = {
+                api.uploadPassportAmendments(
+                    files = body,
+                    passportNumber = RequestBody.create(
+                        MediaType.parse("multipart/form-dataList"), passportNumber ?: ""
+                    ),
+                    passportExpiryDate = RequestBody.create(
+                        MediaType.parse("multipart/form-dataList"), passportExpiryDate ?: ""
+                    ),
+                    passportIssueDate = RequestBody.create(
+                        MediaType.parse("multipart/form-dataList"), passportIssueDate ?: ""
+                    )
+                )
+            })
+        }
+
+    override suspend fun getCustomerDocuments(accountUuid: String?) =
+        executeSafely(call = { api.getCustomerDocuments(accountUuid) })
+
 }

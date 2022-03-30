@@ -35,6 +35,9 @@ abstract class TypeRule(
         Email(
             EmailTypeRule::class.java, R.string.error_message_email_validation
         ),
+        MobileEmail(
+            MobileEmailRule::class.java, R.string.error_message_phone_email_validation
+        ),
         Url(
             UrlTypeRule::class.java, R.string.error_message_url_validation
         ),
@@ -58,7 +61,7 @@ abstract class TypeRule(
             this.errorMessageId = errorMessageId
         }
 
-        constructor() {}
+        constructor()
 
         @Throws(
             NoSuchMethodException::class,

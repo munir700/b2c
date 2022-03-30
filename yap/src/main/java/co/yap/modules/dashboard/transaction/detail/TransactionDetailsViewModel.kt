@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Canvas
+import android.graphics.Paint
 import android.view.View
 import android.widget.ImageView
 import androidx.appcompat.widget.AppCompatTextView
@@ -60,7 +61,7 @@ class TransactionDetailsViewModel(application: Application) :
         )
     override var totalPurchase: ObservableField<TotalPurchases> = ObservableField()
     override var responseReciept: MutableLiveData<ArrayList<String>> = MutableLiveData()
-    override var itemsComposer: TransactionDetailComposer = TransactionDetailComposer()
+    override var itemsComposer: TransactionDetailComposer = TransactionDetailComposer(application)
     override var gMap: GoogleMap? = null
         set(value) {
             field = value
@@ -97,15 +98,7 @@ class TransactionDetailsViewModel(application: Application) :
 
     override fun setMerchantImage(view: CoreCircularImageView) {
         transaction.get()?.let { txns ->
-            if (txns.productCode != TransactionProductCode.ATM_DEPOSIT.pCode && txns.productCode != TransactionProductCode.ATM_WITHDRAWL.pCode) {
-                txns.merchantLogo?.let { logo ->
-                    view.loadImage(logo)
-                    if (txns.productCode == TransactionProductCode.ECOM.pCode || txns.productCode == TransactionProductCode.POS_PURCHASE.pCode)
-                        view.setBackgroundColor(context.getColor(R.color.white))
-                } ?: txns.setTransactionImage(view)
-            } else {
-                txns.setTransactionImage(view)
-            }
+            view.setCircularDrawable(txns, txns.merchantLogo, context)
         }
     }
 
@@ -304,7 +297,7 @@ class TransactionDetailsViewModel(application: Application) :
                     tvTotalAmountValue.setTextColor(
                         context.resources.getColor(co.yap.yapcore.R.color.colorSecondaryMagenta)
                     )
-                    tvCurrency.visibility = View.INVISIBLE
+                    tvTotalAmountValue.paintFlags = tvTotalAmountValue.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
                 } else {
                     tvTotalAmountValue.text =
                         if (transaction.txnType.equals(TxnType.DEBIT.type))
@@ -339,7 +332,7 @@ class TransactionDetailsViewModel(application: Application) :
         )
         val cameraPosition: CameraPosition = CameraPosition.Builder()
             .target(location)
-            .zoom(10f).build()
+            .zoom(15f).build()
         gMap?.animateCamera(
             CameraUpdateFactory.newCameraPosition(cameraPosition)
         )

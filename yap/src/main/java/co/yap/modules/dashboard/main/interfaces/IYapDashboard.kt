@@ -3,6 +3,7 @@ package co.yap.modules.dashboard.main.interfaces
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import co.yap.networking.authentication.AuthRepository
+import co.yap.networking.cards.responsedtos.Card
 import co.yap.modules.sidemenu.ProfilePictureAdapter
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
@@ -21,10 +22,13 @@ interface IYapDashboard {
         var userNameImage: ObservableField<String>
         var appVersion: ObservableField<String>
         var isFounder: ObservableField<Boolean>
+        var manageWidgetVisibility : ObservableField<Boolean>
+
     }
 
     interface ViewModel : IBase.ViewModel<State> {
         val clickEvent: SingleClickEvent
+        val isFromSideMenu : Boolean
         fun handlePressOnNavigationItem(id: Int)
         fun copyAccountInfoToClipboard()
         fun getAccountInfo(): String

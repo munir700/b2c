@@ -19,13 +19,17 @@
 
         <import type="co.yap.yapcore.helpers.extentions.CurrencyExtensionsKt" />
 
-        <import type="co.yap.yapcore.managers.SessionManager" />
+        <import type="co.yap.yapcore.helpers.Utils" />
 
         <variable
             name="constant"
-            type="co.yap.yapcore.constants.Constants" />
+            type="co.yap.yapcore.constants.Constants"/>
 
+        <import type="co.yap.yapcore.managers.SessionManager" />
 
+        <import type="co.yap.yapcore.constants.Constants" />
+
+        <import type="android.view.View" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -34,6 +38,7 @@
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:orientation="vertical"
+        app:sensitiveViews="@{Utils.getViewsList(tvTransactionAmount,tvTransactionName,ivItemTransaction)}"
         android:paddingStart="@dimen/margin_medium"
         android:paddingTop="@dimen/margin_normal"
         android:paddingEnd="@dimen/margin_medium">
@@ -45,14 +50,25 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/ivItemAnalyticTransaction"
+                android:layout_width="@dimen/_35sdp"
+                android:layout_height="@dimen/_35sdp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="@dimen/_12sdp"
+                android:padding="@{viewModel.analyticsType.equals(`merchant-category-id`)?@dimen/margin_small:@dimen/margin_zero_dp}"
+                android:visibility="@{viewModel.analyticsType.equals(Constants.TOTAL_PURCHASE)?View.GONE:View.VISIBLE}"
+                tools:src="@drawable/ic_access_alarm" />
+
             <co.yap.widgets.CoreCircularImageView
                 android:id="@+id/ivItemTransaction"
                 android:layout_width="@dimen/_35sdp"
                 android:layout_height="@dimen/_35sdp"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="@dimen/_12sdp"
-                android:padding="@{constant.INSTANCE.MERCHANT_TYPE.equals(`merchant-name`)?@dimen/margin_zero_dp:@dimen/margin_small}"
-                app:cropImage="@{constant.INSTANCE.MERCHANT_TYPE.equals(`merchant-name`)}"
+                android:padding="@{viewModel.analyticsType.equals(`merchant-category-id`)?@dimen/margin_small:@dimen/margin_zero_dp}"
+                android:visibility="@{viewModel.analyticsType.equals(Constants.TOTAL_PURCHASE)?View.VISIBLE:View.GONE}"
+                app:cropImage="@{viewModel.analyticsType != `merchant-category-id`}"
                 tools:src="@drawable/ic_access_alarm" />
         </FrameLayout>
 
@@ -65,7 +81,6 @@
             android:layout_marginTop="@dimen/_2sdp"
             android:layout_marginEnd="@dimen/margin_normal"
             android:singleLine="true"
-            android:text="@{viewModel.item.title}"
             android:textColor="@color/colorMidnightExpress"
             app:layout_constraintEnd_toStartOf="@+id/tvTransactionAmount"
             app:layout_constraintStart_toEndOf="@+id/flImageLayout"
@@ -78,7 +93,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_2sdp"
-            android:text="@{viewModel.item.txnType.equals(TxnType.DEBIT.type) ? `- `+TransactionExtentionsKt.getFormattedTransactionAmountAnalytics(viewModel.item) : `+ `+TransactionExtentionsKt.getFormattedTransactionAmountAnalytics(viewModel.item)}"
+            android:text="@{TransactionExtentionsKt.getFormattedTransactionAmount(viewModel.item)}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="+100" />

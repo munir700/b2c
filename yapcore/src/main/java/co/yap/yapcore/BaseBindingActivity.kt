@@ -121,4 +121,5 @@ abstract class BaseBindingActivity<V : IBase.ViewModel<*>> : BaseActivity<V>() {
     override fun attachBaseContext(base: Context) {
         super.attachBaseContext(LocaleManager.setLocale(base))
     }
+    fun <VB : ViewDataBinding> getDataBindingView() = viewDataBinding as VB
 }

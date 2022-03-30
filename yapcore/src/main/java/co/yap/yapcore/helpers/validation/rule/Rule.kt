@@ -1,10 +1,12 @@
 package co.yap.yapcore.helpers.validation.rule
 
 import android.view.View
+import androidx.annotation.Keep
 
 /**
  * Created irfan arshad on 10/6/2020.
  */
+@Keep
 abstract class Rule<ViewType : View?, ValueType>(
     var view: ViewType,
     var value: ValueType,

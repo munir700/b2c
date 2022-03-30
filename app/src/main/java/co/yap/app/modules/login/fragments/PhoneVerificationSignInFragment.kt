@@ -19,9 +19,11 @@ import co.yap.app.modules.login.viewmodels.PhoneVerificationSignInViewModel
 import co.yap.household.onboarding.main.OnBoardingHouseHoldActivity
 import co.yap.modules.autoreadsms.MySMSBroadcastReceiver
 import co.yap.modules.dashboard.main.activities.YapDashboardActivity
+import co.yap.modules.kyc.amendments.missinginfo.MissingInfoFragment
 import co.yap.modules.onboarding.fragments.WaitingListFragment
 import co.yap.modules.reachonthetop.ReachedTopQueueFragment
 import co.yap.networking.customers.responsedtos.AccountInfo
+import co.yap.networking.customers.responsedtos.AmendmentStatus
 import co.yap.yapcore.constants.Constants.SMS_CONSENT_REQUEST
 import co.yap.yapcore.dagger.base.navigation.host.NAVIGATION_Graph_ID
 import co.yap.yapcore.dagger.base.navigation.host.NAVIGATION_Graph_START_DESTINATION_ID
@@ -134,6 +136,7 @@ class PhoneVerificationSignInFragment :
             trackEventWithScreenName(FirebaseEvent.SIGN_IN_PIN)
             TourGuideManager.getTourGuides()
             SessionManager.getDebitCard { card ->
+                SessionManager.setupDataSetForBlockedFeatures(card)
                 SessionManager.updateCardBalance { }
                 if (SessionManager.shouldGoToHousehold()) {
                     SessionManager.user?.uuid?.let { it1 ->
@@ -153,12 +156,15 @@ class PhoneVerificationSignInFragment :
                             )
                         ) {
                             if (accountInfo.otpBlocked == true || SessionManager.user?.freezeInitiator != null)
-                                startFragment(
-                                    fragmentName = OtpBlockedInfoFragment::class.java.name,
-                                    clearAllPrevious = true
-                                )
+                                startFragment(fragmentName = OtpBlockedInfoFragment::class.java.name)
                             else {
-                                SessionManager.sendFcmTokenToServer(requireContext()) {}
+                                activity?.let {
+                                    SharedPreferenceManager.getInstance(it.applicationContext)
+                                        .getValueString(co.yap.yapcore.constants.Constants.KEY_APP_UUID)
+                                        ?.apply {
+                                            SessionManager.sendFcmTokenToServer(this)
+                                        }
+                                }
                                 if (!this.isWaiting) {
                                     if (this.iban.isNullOrBlank()) {
                                         startFragment(
@@ -167,7 +173,7 @@ class PhoneVerificationSignInFragment :
                                         )
 
                                     } else {
-                                        launchActivity<YapDashboardActivity>(clearPrevious = true)
+                                        moveNext(this.amendmentStatus)
                                     }
                                 } else {
                                     startFragment(
@@ -187,12 +193,15 @@ class PhoneVerificationSignInFragment :
 
                     } else {
                         if (accountInfo.otpBlocked == true || SessionManager.user?.freezeInitiator != null) {
-                            startFragment(
-                                fragmentName = OtpBlockedInfoFragment::class.java.name,
-                                clearAllPrevious = true
-                            )
+                            startFragment(fragmentName = OtpBlockedInfoFragment::class.java.name)
                         } else {
-                            SessionManager.sendFcmTokenToServer(requireContext()) {}
+                            activity?.let {
+                                SharedPreferenceManager.getInstance(it.applicationContext)
+                                    .getValueString(co.yap.yapcore.constants.Constants.KEY_APP_UUID)
+                                    ?.apply {
+                                        SessionManager.sendFcmTokenToServer(this)
+                                    }
+                            }
                             if (!this.isWaiting) {
                                 if (this.iban.isNullOrBlank()) {
                                     startFragment(
@@ -201,8 +210,7 @@ class PhoneVerificationSignInFragment :
                                     )
 
                                 } else {
-                                    trackEvent(SignInEvents.SIGN_IN.type)
-                                    launchActivity<YapDashboardActivity>(clearPrevious = true)
+                                    moveNext(this.amendmentStatus)
                                 }
                             } else {
                                 startFragment(
@@ -259,6 +267,18 @@ class PhoneVerificationSignInFragment :
                     putExtra(NAVIGATION_Graph_START_DESTINATION_ID, R.id.householdDashboardFragment)
                 }
             }
+        }
+    }
+
+    private fun moveNext(amendmentStatus: String?) {
+        // launching missing info screen
+        if (AmendmentStatus.SUBMIT_TO_CUSTOMER.name == amendmentStatus) {
+            startFragment(
+                fragmentName = MissingInfoFragment::class.java.name
+            )
+        } else {
+            trackEvent(SignInEvents.SIGN_IN.type)
+            launchActivity<YapDashboardActivity>(clearPrevious = true)
         }
     }
 

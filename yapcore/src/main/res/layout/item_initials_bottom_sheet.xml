@@ -13,11 +13,13 @@
         <import type="co.yap.translation.Strings" />
 
         <import type="android.view.View" />
+        <import type="co.yap.yapcore.helpers.Utils" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:sensitiveViews="@{Utils.getViewsList(ivSignedUpUser,ivSignedUpUser2,tvName)}"
         android:padding="@dimen/margin_small">
 
         <co.yap.widgets.CoreCircularImageView
@@ -47,6 +49,19 @@
             app:layout_constraintStart_toEndOf="@+id/ivSignedUpUser"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Sufyan Shabbir" />
+
+        <co.yap.widgets.CoreCircularImageView
+            android:id="@+id/ivSignedUpUser2"
+            android:layout_width="@dimen/_40sdp"
+            android:layout_height="@dimen/_40sdp"
+            android:contentDescription="@string/empty_string"
+            app:fullName="@{viewModel.itemBottomSheet.content}"
+            app:imageUrl="@{``}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:position="@{viewModel.position}"
+            tools:src="@drawable/ic_store_b2b" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

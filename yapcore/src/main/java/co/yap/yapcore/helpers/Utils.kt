@@ -9,6 +9,7 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.res.Resources
+import android.graphics.Color
 import android.icu.util.TimeZone
 import android.os.Build
 import android.telephony.TelephonyManager
@@ -420,8 +421,7 @@ object Utils {
             str.setSpan(
                 fcs,
                 separated[0].length,
-                separated[0].length + currencyType.length + (amount.toFormattedCurrency()?.length
-                    ?: 0) + 1,
+                separated[0].length + currencyType.length + amount.toFormattedCurrency().length + 1,
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
             )
             str
@@ -778,7 +778,8 @@ object Utils {
                     currency = getDefaultCurrency(
                         it.currencyList?.filter { curr -> curr.active == true }
                     ),
-                    ibanMandatory = it.ibanMandatory
+                    ibanMandatory = it.ibanMandatory,
+                    addressMandatory = it.addressMandatory
                 )
             })
             return@let countries
@@ -887,23 +888,27 @@ object Utils {
         }
         return str
     }
-
-    fun setLightStatusBar(activity: Activity, color: Int) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            var flags =
-                activity.window.decorView.systemUiVisibility // get current flag
-            flags =
-                flags or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR // add LIGHT_STATUS_BAR to flag
-            activity.window.decorView.systemUiVisibility = flags
-            activity.window.statusBarColor = color
+    fun categoryColorValidation(categoryColor : String):Int{
+        var categoryColorCode:Int = -1
+        return if (categoryColor.isEmpty()) { Color.parseColor("#2d2d2d")
+        } else {
+            categoryColorCode = if (categoryColor.startsWith("#", true))
+            Color.parseColor(categoryColor)
+            else
+                Color.parseColor( "#${categoryColor}")
+            categoryColorCode
         }
     }
 
-    fun hideKeyboard(view: View?) {
-        view?.let { v ->
-            val imm =
-                view.context.getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
-            imm?.hideSoftInputFromWindow(v.windowToken, 0)
-        }
+    @JvmStatic
+    fun getViewsList(vararg views: View) = listOf(*views)
+
+    fun setLightStatusBar(activity: Activity, color: Int) {
+        var flags =
+            activity.window.decorView.systemUiVisibility // get current flag
+        flags =
+            flags or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR // add LIGHT_STATUS_BAR to flag
+        activity.window.decorView.systemUiVisibility = flags
+        activity.window.statusBarColor = color
     }
 }

@@ -12,7 +12,7 @@
         <import type="co.yap.translation.Strings" />
 
         <import type="co.yap.R" />
-
+        <import type="co.yap.yapcore.helpers.Utils" />
 
     </data>
 
@@ -21,6 +21,7 @@
         android:id="@+id/clMain"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        app:sensitiveViews="@{Utils.getViewsList(etAmount,tvAvailableBalanceGuide,tvFeeDescription)}"
         android:background="@color/white">
 
         <co.yap.widgets.CoreToolbar
@@ -119,9 +120,9 @@
                             android:layout_weight="3"
                             android:background="@drawable/bg_round_denominations"
                             android:gravity="center"
-                            android:onClick="@{(v)->viewModel.denominationFirstAmountClick()}"
                             android:paddingLeft="@dimen/margin_small"
                             android:paddingRight="@dimen/margin_small"
+                            android:onClick="@{(v)-> viewModel.buttonClickEvent(v.id)}"
                             android:text="@{viewModel.state.denominationFirstAmount}"
                             android:textColor="?attr/colorPrimaryAttr"
                             tools:text="+100" />
@@ -135,10 +136,10 @@
                             android:layout_weight="3"
                             android:background="@drawable/bg_round_denominations"
                             android:gravity="center"
-                            android:onClick="@{(v)->viewModel.denominationSecondAmount()}"
                             android:paddingLeft="@dimen/margin_small"
                             android:paddingRight="@dimen/margin_small"
                             android:text="@{viewModel.state.denominationSecondAmount}"
+                            android:onClick="@{(v)-> viewModel.buttonClickEvent(v.id)}"
                             android:textColor="?attr/colorPrimaryAttr"
                             tools:text="+500" />
 
@@ -151,11 +152,11 @@
                             android:layout_weight="3"
                             android:background="@drawable/bg_round_denominations"
                             android:gravity="center"
-                            android:onClick="@{(v)->viewModel.denominationThirdAmount()}"
                             android:paddingLeft="@dimen/margin_small"
                             android:paddingRight="@dimen/margin_small"
                             android:text="@{viewModel.state.denominationThirdAmount}"
                             android:textColor="?attr/colorPrimaryAttr"
+                            android:onClick="@{(v)-> viewModel.buttonClickEvent(v.id)}"
                             tools:text="+1000" />
                     </LinearLayout>
 

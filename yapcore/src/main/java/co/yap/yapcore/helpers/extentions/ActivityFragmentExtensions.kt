@@ -7,6 +7,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
+import android.view.View
 import androidx.annotation.AnimRes
 import androidx.annotation.IdRes
 import androidx.appcompat.app.AppCompatActivity
@@ -17,10 +18,13 @@ import androidx.lifecycle.ViewModelProviders
 import co.yap.modules.frame.FrameActivity
 import co.yap.modules.frame.FrameDialogActivity
 import co.yap.networking.coreitems.CoreBottomSheetData
+import co.yap.translation.Strings
+import co.yap.translation.Translator
 import co.yap.widgets.bottomsheet.BottomSheet
 import co.yap.widgets.bottomsheet.BottomSheetConfiguration
 import co.yap.widgets.bottomsheet.BottomSheetItem
 import co.yap.widgets.bottomsheet.CoreBottomSheet
+import co.yap.widgets.bottomsheet.*
 import co.yap.widgets.bottomsheet.bottomsheet_with_initials.CoreInitialsBottomSheet
 import co.yap.widgets.guidedtour.TourSetup
 import co.yap.widgets.guidedtour.models.GuidedTourViewDetail
@@ -215,10 +219,23 @@ inline fun <reified T : Any> Context.intent(body: Intent.() -> Unit): Intent {
 }
 
 fun showBlockedFeatureAlert(context: Activity, type: FeatureSet) {
-    val blockedMessage = SessionManager.user?.getBlockedMessage(
-        key = FeatureProvisioning.getUserAccessRestriction(type),
-        context = context
-    )
+    val blockedMessage=
+    when (type) {
+        FeatureSet.PAY_BILL_PAYMENT, FeatureSet.EDIT_BILL_PAYMENT, FeatureSet.ADD_BILL_PAYMENT -> {
+            Translator.getString(
+                context,
+                Strings.common_display_text_feature_blocked_bill_payment_error
+            )
+        }
+        else -> {
+         SessionManager.user?.getBlockedMessage(
+                key = FeatureProvisioning.getUserAccessRestriction(type),
+                context = context
+            )
+        }
+
+    }
+
     context.showAlertDialogAndExitApp(
         message = blockedMessage,
         isOtpBlocked = blockedMessage?.contains(SessionManager.helpPhoneNumber) ?: false,
@@ -513,15 +530,19 @@ fun Fragment.launchBottomSheetSegment(
     itemClickListener: OnItemClickListener?,
     configuration: BottomSheetConfiguration,
     viewType: Int,
-    listData: MutableList<CoreBottomSheetData>
+    listData: MutableList<CoreBottomSheetData>,
+    isIAnimationComplete: IAnimationComplete? = null,
+    buttonClick: View.OnClickListener? = null
 ) {
     fragmentManager.let {
         val coreBottomSheet =
             CoreBottomSheet(
-                itemClickListener,
+                buttonClickListener = buttonClick,
+                mListener = itemClickListener,
                 bottomSheetItems = listData,
                 viewType = viewType,
-                configuration = configuration
+                configuration = configuration,
+                iAnimationComplete = isIAnimationComplete
             )
         it?.let { it1 -> coreBottomSheet.show(it1, "") }
     }

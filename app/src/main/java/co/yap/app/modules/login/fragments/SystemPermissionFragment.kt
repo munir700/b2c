@@ -9,7 +9,7 @@ import android.view.View
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import co.yap.app.BR
 import co.yap.app.R
@@ -18,8 +18,10 @@ import co.yap.app.modules.login.interfaces.ISystemPermission
 import co.yap.app.modules.login.viewmodels.SystemPermissionViewModel
 import co.yap.household.onboarding.main.OnBoardingHouseHoldActivity
 import co.yap.modules.dashboard.main.activities.YapDashboardActivity
+import co.yap.modules.kyc.amendments.missinginfo.MissingInfoFragment
 import co.yap.modules.webview.WebViewFragment
 import co.yap.networking.customers.responsedtos.AccountInfo
+import co.yap.networking.customers.responsedtos.AmendmentStatus
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.constants.RequestCodes.REQUEST_NOTIFICATION_SETTINGS
 import co.yap.yapcore.dagger.base.navigation.host.NAVIGATION_Graph_ID
@@ -41,7 +43,7 @@ class SystemPermissionFragment : BaseBindingFragment<ISystemPermission.ViewModel
     override fun getLayoutId(): Int = R.layout.fragment_biometric_permission
 
     override val viewModel: ISystemPermission.ViewModel
-        get() = ViewModelProviders.of(this).get(SystemPermissionViewModel::class.java)
+        get() = ViewModelProvider(this).get(SystemPermissionViewModel::class.java)
 
     private fun getScreenType(): String {
         return arguments?.let { SystemPermissionFragmentArgs.fromBundle(it).screenType } as String
@@ -97,7 +99,6 @@ class SystemPermissionFragment : BaseBindingFragment<ISystemPermission.ViewModel
                     navigateToDashboard()
                     viewModel.getNotificationScreenValues(isGranted)
                 }
-
             }
         }
     }
@@ -133,7 +134,12 @@ class SystemPermissionFragment : BaseBindingFragment<ISystemPermission.ViewModel
                         .observe(this@SystemPermissionFragment, switchProfileObserver)
                 }
             } else {
-                launchActivity<YapDashboardActivity>(clearPrevious = true)
+                if (AmendmentStatus.SUBMIT_TO_CUSTOMER.name == SessionManager.user?.amendmentStatus) {
+                    startFragment(
+                        fragmentName = MissingInfoFragment::class.java.name
+                    )
+                } else
+                    launchActivity<YapDashboardActivity>(clearPrevious = true)
             }
         }
     }

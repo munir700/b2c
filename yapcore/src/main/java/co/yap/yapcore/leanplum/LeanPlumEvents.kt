@@ -75,7 +75,8 @@ enum class MoreB2CEvents(val type: String) {
 
 @Keep
 enum class SignInEvents(val type: String) {
-    SIGN_IN("sign_in")
+    SIGN_IN("sign_in"),
+    SIGN_IN_DASHBOARD("sign_in_to_dashboard")
 }
 
 @Keep

@@ -75,7 +75,7 @@ data class Transaction(
     @SerializedName("merchantCode")
     val merchantCode: String? = null,
     @SerializedName("merchantLogo")
-    val merchantLogo: String? = null,
+    var merchantLogo: String? = null,
     @SerializedName("merchantName")
     val merchantName: String? = null,
     @SerializedName("otherBankBranchName")
@@ -191,7 +191,7 @@ data class TapixCategory(
     @SerializedName("category")
     var categoryName: String? = "General",
     @SerializedName("categoryIcon")
-    val categoryIcon: String? = null,
+    var categoryIcon: String? = null,
     @SerializedName("analyticIcon")
     val analyticIcon: String? = null,
     @Transient
@@ -202,3 +202,4 @@ data class TapixCategory(
     val isGeneral: Boolean get() = categoryName.equals("General")
     val description: String get() = if (isGeneral) "Check back later to see the category updated " else "Tap to change category"
 }
+

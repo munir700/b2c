@@ -21,6 +21,7 @@ import co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.interfaces.IAdd
 import co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.viewmodels.AddFundsViewModel
 import co.yap.modules.otp.GenericOtpFragment
 import co.yap.modules.otp.OtpDataModel
+import co.yap.modules.otp.getOtpMessageFromComposer
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.translation.Strings
 import co.yap.translation.Translator
@@ -295,7 +296,16 @@ class AddFundsActivity : BaseBindingActivity<IAddFunds.ViewModel>(), IAddFunds.V
                     OTPActions.TOP_UP_SUPPLEMENTARY.name,
                     SessionManager.user?.currentCustomer?.getFormattedPhoneNumber(this)
                         ?: "",
-                    amount = viewModel.state.amount
+                    amount = viewModel.state.amount,
+                    otpMessage = this.getOtpMessageFromComposer(
+                        OTPActions.TOP_UP_SUPPLEMENTARY.name,
+                        SessionManager.user?.currentCustomer?.firstName,
+                        viewModel.state.amount + SessionManager.getDefaultCurrency(),
+                        SessionManager.card.value?.maskedCardNo?.takeLast(4),
+                        "%s1",
+                        "%s2",
+                        SessionManager.helpPhoneNumber
+                    )
                 )
             ),
             showToolBar = true
@@ -310,18 +320,9 @@ class AddFundsActivity : BaseBindingActivity<IAddFunds.ViewModel>(), IAddFunds.V
     }
 
     private fun setUpSuccessData() {
-        viewModel.state.topUpSuccessMsg.set(
-            resources.getText(
-                getString(Strings.screen_success_funds_transaction_display_text_top_up), this.color(
-                    R.color.colorPrimaryDark,
-                    viewModel.state.amount.toFormattedCurrency()
-                )
-            )
-        )
-
         viewModel.state.debitCardUpdatedBalance.set(
             resources.getText(
-                getString(Strings.screen_success_funds_transaction_display_text_primary_balance),
+                getString(Strings.screen_success_funds_transaction_display_text_primary_balance_amount),
                 this.color(
                     R.color.colorPrimaryDark,
                     SessionManager.cardBalance.value?.availableBalance.toString()
@@ -329,10 +330,10 @@ class AddFundsActivity : BaseBindingActivity<IAddFunds.ViewModel>(), IAddFunds.V
                 )
             )
         )
-
         viewModel.state.spareCardUpdatedBalance.set(
             resources.getText(
-                getString(Strings.screen_success_funds_transaction_display_text_success_updated_prepaid_card_balance),
+                getString(Strings.screen_success_funds_transaction_display_primary_balance_and_name),
+                viewModel.state.card.get()?.cardName.toString(),
                 this.color(
                     R.color.colorPrimaryDark,
                     (viewModel.state.card.get()?.availableBalance.parseToDouble() + viewModel.state.amount.parseToDouble()).toString()
@@ -340,6 +341,11 @@ class AddFundsActivity : BaseBindingActivity<IAddFunds.ViewModel>(), IAddFunds.V
                 )
             )
         )
+
+        viewModel.state.topUpSuccessAmount.set(viewModel.state.amount.toFormattedCurrency())
+
+        viewModel.state.leftIconVisibility.set(false)
+
     }
 
     private fun performSuccessOperations() {
@@ -347,14 +353,11 @@ class AddFundsActivity : BaseBindingActivity<IAddFunds.ViewModel>(), IAddFunds.V
             getBinding().etAmount.visibility = View.GONE
             getBinding().btnAction.text =
                 getString(Strings.screen_success_funds_transaction_display_text_button)
-            YoYo.with(Techniques.FadeOut)
-                .duration(300)
-                .repeat(0)
-                .playOn(getBinding().toolbar.getChildAt(0))
+            getBinding().clBottomNew.visibility = View.VISIBLE
             getBinding().clBottom.children.forEach { it.alpha = 0f }
             getBinding().btnAction.alpha = 0f
             getBinding().cardInfoLayout.clRightData.children.forEach { it.alpha = 0f }
-            Handler(Looper.getMainLooper()).postDelayed({ runAnimations() }, 1500)
+            Handler(Looper.getMainLooper()).postDelayed({ runAnimations() }, 2000)
             runCardAnimation()
         }
     }
@@ -363,12 +366,14 @@ class AddFundsActivity : BaseBindingActivity<IAddFunds.ViewModel>(), IAddFunds.V
     private fun runAnimations() {
         AnimationUtils.runSequentially(
             AnimationUtils.runTogether(
-                AnimationUtils.jumpInAnimation(tvCardNameSuccess),
-                AnimationUtils.jumpInAnimation(tvCardNumberSuccess).apply { startDelay = 100 },
-                AnimationUtils.jumpInAnimation(tvTopUp).apply { startDelay = 200 },
-                AnimationUtils.jumpInAnimation(tvPrimaryCardBalance).apply { startDelay = 300 },
-                AnimationUtils.jumpInAnimation(tvNewSpareCardBalance).apply { startDelay = 400 },
-                AnimationUtils.jumpInAnimation(btnAction).apply { startDelay = 600 }
+                AnimationUtils.jumpInAnimation(getBinding().tvCardName),
+                AnimationUtils.jumpInAnimation(tvCardNameSuccess).apply { startDelay = 100 },
+                AnimationUtils.jumpInAnimation(tvCardNumberSuccess).apply { startDelay = 200 },
+                AnimationUtils.jumpInAnimation(tvTopUp).apply { startDelay = 300 },
+                AnimationUtils.jumpInAnimation(tvTopUpAmount).apply { startDelay = 400 },
+                AnimationUtils.jumpInAnimation(tvPrimaryCardBalance).apply { startDelay = 500 },
+                AnimationUtils.jumpInAnimation(tvNewSpareCardBalance).apply { startDelay = 600 },
+                AnimationUtils.jumpInAnimation(btnAction).apply { startDelay = 800 }
 
             )
         ).apply {
@@ -428,8 +433,6 @@ class AddFundsActivity : BaseBindingActivity<IAddFunds.ViewModel>(), IAddFunds.V
         viewModel.clickEvent.removeObserver(clickObserver)
     }
 
-    private fun getBinding(): ActivityAddFundsBinding {
-        return (viewDataBinding as ActivityAddFundsBinding)
-    }
+    private fun getBinding(): ActivityAddFundsBinding = viewDataBinding as ActivityAddFundsBinding
 
 }

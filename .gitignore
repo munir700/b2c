@@ -52,4 +52,5 @@ app/~/tmp/full-r8-config.txt
 wallet/src/main/res/raw/pepk_public_certificate.pem
 wallet/src/main/res/raw/tav_private_key.pem
 *.apk
-*.json
+/fastlane/report.xml
+wallet/src/main/res/raw/tav_private_key_apple.pem

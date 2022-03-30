@@ -12,6 +12,7 @@
         <import type="co.yap.yapcore.managers.SessionManager" />
 
         <import type="co.yap.translation.Strings" />
+        <import type="co.yap.yapcore.helpers.Utils" />
 
         <variable
             name="purchaseViewModel"
@@ -20,7 +21,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        app:sensitiveViews="@{Utils.getViewsList(tpTitle)}">
 
         <androidx.constraintlayout.helper.widget.Flow
             android:id="@+id/flowTop"
@@ -53,17 +55,16 @@
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/ivTotalPurchase"
-            android:layout_width="@dimen/_26sdp"
-            android:layout_height="@dimen/_26sdp"
-            android:tint="@color/colorPrimary"
+            android:layout_width="@dimen/_22sdp"
+            android:layout_height="@dimen/_22sdp"
+            android:clickable="true"
+            android:onClick="@{(v)->purchaseViewModel.handlePressOnView(v.id)}"
             android:scaleType="fitXY"
-            android:alpha="0.3"
-            android:clickable="false"
             app:layout_constraintBottom_toBottomOf="@+id/tpTitle"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/tpTitle"
-            app:srcCompat="@drawable/ic_chevron_right" />
-<!--        android:onClick="@{(v)->purchaseViewModel.handlePressOnView(v.id)}"-->
+            app:srcCompat="@drawable/ic_chevron_right"
+            app:tint="@color/colorPrimary"/>
 
         <View
             android:id="@+id/space"

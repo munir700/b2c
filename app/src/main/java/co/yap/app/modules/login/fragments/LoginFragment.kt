@@ -6,7 +6,7 @@ import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.WindowManager
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import co.yap.app.BR
@@ -34,16 +34,12 @@ class LoginFragment : MainChildFragment<ILogin.ViewModel>(), ILogin.View {
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_log_in
 
-    private val sharedPreferenceManager: SharedPreferenceManager by lazy {
-        SharedPreferenceManager.getInstance(requireContext())
-    }
-
     override val viewModel: LoginViewModel
-        get() = ViewModelProviders.of(this).get(LoginViewModel::class.java)
+        get() = ViewModelProvider(this).get(LoginViewModel::class.java)
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        viewModel.isAccountBlocked.observe(this, accountBlockedObserver)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        viewModel.isAccountBlocked.observe(viewLifecycleOwner, accountBlockedObserver)
         val sharedPreferenceManager = SharedPreferenceManager.getInstance(requireContext())
         if (sharedPreferenceManager.getValueBoolien(
                 KEY_IS_USER_LOGGED_IN,
@@ -53,18 +49,10 @@ class LoginFragment : MainChildFragment<ILogin.ViewModel>(), ILogin.View {
             val action =
                 LoginFragmentDirections.actionLoginFragmentToVerifyPasscodeFragment("")
             NavHostFragment.findNavController(this).navigate(action)
-        }
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        if (!SharedPreferenceManager.getInstance(requireContext()).getValueBoolien(
-                KEY_IS_USER_LOGGED_IN,
-                false
-            )
-        ) {
+        } else {
             etEmailField.requestKeyboard()
         }
+
         SessionManager.isRemembered.value =
             sharedPreferenceManager.getValueBoolien(KEY_IS_REMEMBER, true)
         SessionManager.isRemembered.value?.let {
@@ -93,12 +81,8 @@ class LoginFragment : MainChildFragment<ILogin.ViewModel>(), ILogin.View {
         })
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        viewModel.isAccountBlocked.removeObservers(this)
-    }
-
     override fun onDestroyView() {
+        viewModel.isAccountBlocked.removeObservers(this)
         viewModel.signInButtonPressEvent.removeObservers(this)
         viewModel.signUpButtonPressEvent.removeObservers(this)
         viewModel.state.emailError.removeObservers(this)
@@ -132,6 +116,4 @@ class LoginFragment : MainChildFragment<ILogin.ViewModel>(), ILogin.View {
     private val signUpButtonObserver = Observer<Boolean> {
         findNavController().navigate(R.id.action_loginFragment_to_accountSelectionFragment)
     }
-
-    private fun getBindings(): FragmentLogInBinding = viewDataBinding as FragmentLogInBinding
 }

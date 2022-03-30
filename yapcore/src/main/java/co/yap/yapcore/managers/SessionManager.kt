@@ -55,7 +55,7 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
     var cardBalance: MutableLiveData<CardBalance> = MutableLiveData()
     var card: MutableLiveData<Card?> = MutableLiveData()
     var eidStatus: EIDStatus = EIDStatus.NOT_SET
-    var helpPhoneNumber: String = ""
+    var helpPhoneNumber: String = "+971600551214"
     var onAccountInfoSuccess: MutableLiveData<Boolean> = MutableLiveData()
     private val currencies: MutableLiveData<ArrayList<CurrencyData>> = MutableLiveData()
     private val countries: MutableLiveData<ArrayList<Country>> = MutableLiveData()
@@ -66,12 +66,12 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
     val homeCountry2Digit: String
         get() {
             return if (user?.currentCustomer?.homeCountry?.count() == 3) countries.value?.find { it.isoCountryCode3Digit == user?.currentCustomer?.homeCountry }?.isoCountryCode2Digit
-                    ?: "AE"
+                ?: "AE"
             else
                 user?.currentCustomer?.homeCountry ?: "AE"
         }
     private val viewModelBGScope =
-            BaseViewModel.CloseableCoroutineScope(Job() + Dispatchers.IO)
+        BaseViewModel.CloseableCoroutineScope(Job() + Dispatchers.IO)
 
     fun getCurrenciesFromServer(response: (success: Boolean, currencies: ArrayList<CurrencyData>) -> Unit) {
         // feature disable for later enabling as RAK permit.
@@ -94,10 +94,10 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
             when (val apiResponse = customerRepository.getCountries()) {
                 is RetroApiResponse.Success -> {
                     countries.postValue(
-                            Utils.parseCountryList(
-                                    apiResponse.data.data,
-                                    addOIndex = false
-                            )
+                        Utils.parseCountryList(
+                            apiResponse.data.data,
+                            addOIndex = false
+                        )
                     )
                     response.invoke(true, countries.value ?: arrayListOf())
                 }
@@ -135,7 +135,7 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
 //                    usersList?.value = response.data.data as ArrayList
                     user = getCurrentUser()
                     isFounder.postValue(user?.currentCustomer?.founder)
-                    setupDataSetForBlockedFeatures()
+                    setupDataSetForBlockedFeatures(card = card.value)
                     onAccountInfoSuccess.postValue(true)
                     success.invoke()
                 }
@@ -147,15 +147,15 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
         }
     }
 
-    fun setupDataSetForBlockedFeatures() {
-        user?.getUserAccessRestrictions {
+    fun setupDataSetForBlockedFeatures(card: Card?) {
+        user?.getUserAccessRestrictions(card = card) {
             val featuresList = arrayListOf<FeatureSet>()
             it.forEach { userAccessRestriction ->
                 featuresList.addAll(user.getBlockedFeaturesList(userAccessRestriction))
             }
             FeatureProvisioning.configure(
-                    featuresList,
-                    it
+                featuresList,
+                it
             )
         }
     }
@@ -308,10 +308,7 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
 
     fun getDefaultCurrency() = DEFAULT_CURRENCY
 
-    fun sendFcmTokenToServer(context: Context, success: () -> Unit = {}) {
-        val sharedPreferenceManager = SharedPreferenceManager.getInstance(context)
-        val deviceId: String? = sharedPreferenceManager.getValueString(Constants.KEY_APP_UUID)
-
+    fun sendFcmTokenToServer(deviceId:String? , success: () -> Unit = {}) {
         getFCMToken() {
             it?.let { token ->
                 GlobalScope.launch {

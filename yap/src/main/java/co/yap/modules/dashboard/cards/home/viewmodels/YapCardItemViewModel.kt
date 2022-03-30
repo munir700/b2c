@@ -86,7 +86,7 @@ class YapCardItemViewModel(
                 SamsungPayStatus.ERROR_SPAY_APP_NEED_TO_UPDATE -> {
                     if (context is Activity)
                         context.confirm(
-                            message = "A new version of Damsung Pay is available. Update the app to add a card to Samsung Pay app",
+                            message = "A new version of Samsung Pay is available. Update the app to add a card to Samsung Pay app",
                             title = "Update Samsung Pay",
                             positiveButton = "Continue"
                         ) {
@@ -112,6 +112,9 @@ class YapCardItemViewModel(
                         true
                 }
                 CardStatus.BLOCKED, CardStatus.HOTLISTED, CardStatus.INACTIVE, CardStatus.EXPIRED -> {
+                    false
+                }
+                else->{
                     false
                 }
             }

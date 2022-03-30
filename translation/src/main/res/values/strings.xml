@@ -1,6 +1,8 @@
 <resources>
 
     <!-- Common -->
+    <string name="permissions_rationale_ask_again">This app may not work correctly without the requested permissions. Open the app settings screen to modify app permissions.</string>
+    <string name="title_settings_dialog">Permissions Required</string>
     <string name="rationale_camera">This app needs access to your camera so you can take pictures.</string>
     <string name="common_display_text_retry">Retry</string>
     <string name="common_empty_string"> </string>
@@ -19,10 +21,12 @@
     <string name="common_text_hey">Hey</string>
     <string name="common_button_activate">Activate</string>
     <string name="common_text_currency_type">AED</string>
+    <string name="common_text_edit_now">Edit now</string>
     <string name="common_amount_hint">0.00</string>
     <string name="common_percentage_hint">0</string>
     <string name="common_display_text_nothing_to_report">Start using your account to see all your transactions here</string>
     <string name="common_button_logout">Logout</string>
+    <string name="common_button_unavailable">Unavailable</string>
     <string name="error_view_text">No results found\ntab to retry</string>
     <string name="empty_view_text">No results found</string>
     <string name="common_text_fee">Fee: %1s</string>
@@ -32,9 +36,9 @@
     <string name="common_display_text_daily_limit_error_multiple_transactions">You have exceeded your daily transaction limit</string>
     <string name="common_display_text_available_balance_error">Uh oh! You’ll need to have a minimum balance of %1s plus the fee stated to proceed with this payment. </string>
     <string name="common_display_text_min_max_limit_error_transaction">Your entered amount should be between %1s and %2s</string>
+    <string name="common_display_text_accumulative_limit_error_transaction">Your maximum accumulative limit is %1s and your remaining accumulative limit is %2s</string>
     <string name="common_display_text_daily_limit_error">Sorry, you\'ve reached your daily limit. Let\'s try again tomorrow.</string>
     <string name="sm_display_text_min_max_limit_error_transaction">Your entered amount should be between %1s and %2s</string>
-
     <!--Validation Error Messages start-->
     <string name="error_message_date_validation">Invalid data format</string>
     <string name="error_message_id_validation">The value should be between 13 and 15 characters.</string>
@@ -63,6 +67,7 @@
         required format.
     </string>
     <!--Validation Error Messages End-->
+    <string name="error_message_phone_email_validation">Invalid Email or Phone format</string>
     <string name="common_display_text_on_hold_limit_error">You have exceeded your limit for held on transactions, please enter an amount less than %1s</string>
     <string name="common_display_text_cooling_period_limit_consumed_error">You have consumed the limit for the amount you can send at this time. To send money, please wait for %1s from the time you added %2s.</string>
     <string name="common_display_text_cooling_period_limit_error">You can only send up to %1s at this time. To transfer bigger amounts, please wait for %2s from the time you added %3s.</string>
@@ -72,6 +77,7 @@
     <string name="common_permission_rejected_error">Can\'t proceed without permissions</string>
     <string name="common_saved_image_to_gallery">Your image has been saved to your gallery.</string>
     <string name="common_display_text_feature_blocked_error">Sorry, this feature isn\'t available to you at this time. Please use live chat or call us on %1s to get access.</string>
+    <string name="common_display_text_feature_blocked_bill_payment_error">Unfortunately, this feature isn’t currently available to you. Please get in touch via live chat for help &amp; support</string>
     <string name="common_display_text_show_recent_transfer">Show Recent transfers</string>
     <string name="common_display_text_search_hint">Search</string>
     <string name="common_display_text_no_results">No results</string>
@@ -79,6 +85,9 @@
     <string name="common_yap_share_content">Hey! I\'ve started using the UAE\'s newest banking app – YAP. Transform how you manage your money and join me in the banking revolution.\n\nDownload YAP here:\n\n%1$s</string>
     <string name="common_display_text_percentage">%</string>
     <string name="common_display_one_variables">%1s</string>
+    <string name="common_display_text_available_balance_error_without_fee">Uh oh! You’ll need to have a minimum balance of %1s to proceed with this payment. </string>
+    <string name="common_display_text_back">Back</string>
+
 
     <!-- Home Screen -->
     <string name="screen_home_display_text_tag_line">The Personalized Banking App</string>
@@ -159,11 +168,16 @@
     <string name="screen_onboarding_congratulations_display_text_iban">Here\'s your IBAN</string>
     <string name="screen_onboarding_congratulations_display_text_meeting_note">Make sure you have your Emirates ID at hand before we proceed</string>
     <string name="screen_onboarding_congratulations_button_complete_verification">Complete verification</string>
-    <string name="screen_onboarding_congratulations_display_text_delay_detail_text">
-Due to all the excitement of our official launch, we are gradually activating as many accounts as possible to keep the app running smoothly. In the meantime, until your account is ready to be fully activated you’ll be placed in a queue.
-
-</string>
+    <string name="screen_onboarding_congratulations_display_text_delay_detail_text">Due to all the excitement of our official launch, we are gradually activating as many accounts as possible to keep the app running smoothly. In the meantime, until your account is ready to be fully activated you’ll be placed in a queue.</string>
     <string name="screen_onboarding_congratulations_button_queue_up">Queue up!</string>
+
+    <!--    OnBoarding confirm card name screen-->
+    <string name="screen_onboarding_confirm_card_name_display_text_title">What name would you like on your card?</string>
+    <string name="screen_onboarding_confirm_card_name_display_text_sub_title">Please keep this as close to your real name.</string>
+    <string name="screen_onboarding_confirm_card_name_display_sub_text">Is it?</string>
+    <string name="screen_onboarding_confirm_card_name_display_name_length_text">We can only print 26 characters on the card, so if you have a long name, we suggest you use initials where possible.</string>
+    <string name="screen_onboarding_confirm_card_name_edit_full_name_text">I’d like to edit my name</string>
+    <string name="screen_onboarding_confirm_card_name_btn_name_fine_text">This is fine!</string>
 
     <!-- System permission screen -->
     <string name="screen_system_permission_text_title">Use Touch ID to log in to your account?</string>
@@ -207,12 +221,12 @@ Due to all the excitement of our official launch, we are gradually activating as
     <string name="screen_kyc_information_error_display_text_title_from_usa">Looks like you\'re from the %1$s</string>
     <!--    <string name="screen_kyc_information_error_display_text_title_from_usa">Looks like you\'re from the United States</string>-->
     <string name="screen_kyc_information_error_display_text_explanation_from_usa">Sorry, we\'re unable to activate your YAP account at this time. We\'re working on it and we will let you know once resolved.</string>
-    <string name="screen_kyc_information_error_display_text_title_under_age">Looks like you\'re under 21!</string>
+    <string name="screen_kyc_information_error_display_text_title_under_age">Looks like you\'re under %1$s!</string>
     <string name="screen_kyc_information_error_display_text_title_sanctioned_country">We\'re sorry :(</string>
     <string name="screen_kyc_information_error_text_description_sanctioned_country">Unfortunately, we\'re unable to proceed with creating your account at this time. However, we appreciate your interest in getting a YAP account.</string>
     <string name="screen_kyc_information_error_display_text_title_from_us">Looks like you\'re from the United States</string>
     <string name="screen_kyc_information_error_text_description_from_us">We\'re sorry, we aren\'t able to create bank accounts for US Citizens at this point. Stay tuned though, we\'ll announce it everywhere if this changes!</string>
-    <string name="screen_kyc_information_error_display_text_explanation_under_age">And while that\'s great, this YAP account is only for adults. Don\'t worry though, you can speak to your parents about getting you started with YAP Young or wait till you\'re 18 :)</string>
+    <string name="screen_kyc_information_error_display_text_explanation_under_age">Unfortunately, YAP is only available to users over the age of %1$s. But don’t worry! We’re working on bringing something special to our younger audiences soon 😉</string>
     <string name="screen_kyc_information_error_display_text_title_expired_card">YAP works best with a valid Emirates ID</string>
     <string name="screen_kyc_information_error_display_text_explanation_expired_card">Once you\'ve renewed or received your Emirates ID, re-scan it via our dashboard to continue opening your account with YAP.</string>
     <string name="screen_kyc_information_error_button_go_to_dashboard">Go to dashboard</string>
@@ -237,8 +251,8 @@ Due to all the excitement of our official launch, we are gradually activating as
 
 
     <!-- Eid details review screen -->
+    <string name="screen_b2c_eid_info_review_amendment_display_text_title">Confirm your details</string>
     <string name="screen_b2c_eid_info_review_display_text_title">Almost there!</string>
-    <string name="screen_b2c_eid_info_review_display_text_sub_title">Thanks %1$s! Verify your details so we can send you your YAP card</string>
     <string name="screen_b2c_eid_info_review_display_text_emirates_id_heading">Emirates ID</string>
     <string name="screen_b2c_eid_info_review_display_text_emirates_id_sub_heading">Pending confirmation</string>
     <string name="screen_b2c_eid_info_review_display_text_name_heading">Name</string>
@@ -249,8 +263,8 @@ Due to all the excitement of our official launch, we are gradually activating as
     <string name="screen_b2c_eid_info_review_display_text_gender_female">Female</string>
     <string name="screen_b2c_eid_info_review_display_text_gender_unknown"> </string>
     <string name="screen_b2c_eid_info_review_display_text_expiry_date_heading">Expiry date</string>
-    <string name="screen_b2c_eid_info_review_button_title_confirm">Confirm</string>
-    <string name="screen_b2c_eid_info_review_button_title_rescan_eid">Re-scan Emirates ID</string>
+    <string name="screen_b2c_eid_info_review__button_title_rescan_eid">Re-scan Emirates ID</string>
+    <string name="screen_b2c_eid_info_review_amendment_button_title_rescan_eid">Re-scan your ID</string>
     <string name="screen_b2c_eid_info_review_display_text_error_under_age">Hey there, looks like you\'re under 21</string>
     <string name="screen_b2c_eid_info_review_button_not_under_age">No, I\'m over 21</string>
     <string name="screen_b2c_eid_info_review_display_text_error_expired_eid">Looks like your Emirates ID is expired</string>
@@ -263,8 +277,12 @@ Due to all the excitement of our official launch, we are gradually activating as
     <string name="screen_b2c_eid_info_review_display_text_first_name_heading">First name</string>
     <string name="screen_b2c_eid_info_review_display_text_middle_name_heading">Middle name (if applicable)</string>
     <string name="screen_b2c_eid_info_review_display_text_last_name_heading">Last name</string>
-
     <string name="screen_b2c_eid_info_review_display_text_edit_sub_title">Thanks %1$s! Verify your details are exactly as per your Emirates Id. You can edit the name fields incase we got it wrong!</string>
+    <string name="screen_b2c_eid_info_review_amendment_display_text_edit_sub_title">Verify your details are exactly as per your ID.</string>
+    <string name="screen_b2c_eid_info_review_display_text_eid_number">Emirates ID number</string>
+    <string name="screen_b2c_eid_info_review_display_text_select_gender">Select your Gender</string>
+
+    <string name="screen_b2c_passport_number_text">Passport number</string>
 
 
     <!--    <string name="screen_b2c_eid_info_review_display_text_error_from_usa">Looks like you\'re from United States</string>-->
@@ -367,7 +385,12 @@ Due to all the excitement of our official launch, we are gradually activating as
     <string name="screen_cards_display_text_tour_add_card_heading">Add card</string>
     <string name="screen_cards_display_text_tour_add_card_description">Click here to add a new card to your account. You can create a spare virtual card or upgrade to Prime or Metal!</string>
     <string name="screen_cards_display_text_tour_add_card_btn_text">OK</string>
-
+    <string name="screen_cards_display_text_card_balance">Card balance</string>
+    <string name="screen_cards_display_text_bottom_sheet_card_number">Card number</string>
+    <string name="screen_cards_display_text_bottom_sheet_expiry_date">Expiry date</string>
+    <string name="screen_cards_display_text_bottom_sheet_cvv">CVV</string>
+    <string name="screen_cards_display_text_bottom_sheet_heading">%1s details</string>
+    <string name="screen_cards_display_text_copy">Copy</string>
 
     <!-- Spare Card Landing Screen -->
 
@@ -377,6 +400,7 @@ Due to all the excitement of our official launch, we are gradually activating as
     <string name="screen_spare_card_landing_display_text_virtual_card">Virtual card</string>
     <string name="screen_spare_card_landing_display_text_physical_card">Physical card</string>
     <string name="screen_spare_card_landing_display_tool_bar_title">Add a virtual card</string>
+    <string name="screen_spare_card_landing_display_text_description">Subscribe to a virtual card for AED %1$s/year and create a customizable card and shop online safely and securely.</string>
 
     <!-- Spare Card Benefit Screen -->
     <string name="screen_spare_card_benefit_display_text_title">Spare card benefits</string>
@@ -404,6 +428,9 @@ Due to all the excitement of our official launch, we are gradually activating as
     <string name="screen_add_virtual_spare_card_edit_name_label">Name your virtual card</string>
     <string name="screen_add_virtual_spare_card_edit_name_hint">Card\'s name</string>
     <string name="screen_add_virtual_spare_card_tool_bar_title">Customize your virtual card</string>
+    <string name="screen_add_virtual_spare_card_tool_bar_title_choose_colour">Choose a card color</string>
+    <string name="screen_add_virtual_spare_card_tool_bar_title_choose_name">Name your card</string>
+    <string name="screen_add_virtual_spare_card_card_name">Card name</string>
 
 
     <!-- Add Spare card location -->
@@ -433,6 +460,10 @@ Due to all the excitement of our official launch, we are gradually activating as
     <string name="screen_success_funds_transaction_display_text_button">Back to card</string>
     <string name="screen_add_funds_display_text_error_card_balance_limit_reached">Your virtual card can only hold up to %1$s.</string>
     <string name="screen_add_funds_display_text_error_card_balance_limit">Your virtual card can only hold up to %1$s. Please enter an amount up to %2$s to proceed.</string>
+    <string name="screen_success_funds_transaction_display_text_top_up_with_balance">You have topped up with </string>
+    <string name="screen_success_funds_transaction_display_primary_balance_and_name">Your %1$s card balance is %2$s</string>
+    <string name="screen_success_funds_transaction_display_text_primary_balance_amount">Now, your primary card balance is %1s</string>
+
 
     <!--    Remove funds Screen-->
 
@@ -444,7 +475,7 @@ Due to all the excitement of our official launch, we are gradually activating as
     <string name="screen_remove_funds_display_text_available_balance_error">You can only move an amount less than or equal to your current balance of %1$s %2$s</string>
 
     <!--    Success remove funds Screen-->
-    <string name="screen_success_remove_funds_transaction_display_text_moved_success">You have moved %1$s \nto your main debit card </string>
+    <string name="screen_success_remove_funds_transaction_display_text_moved_success">You have moved \n%1$s \nto your main debit card </string>
 
     <!--    Set Limits Screen-->
     <string name="screen_set_limits_display_text_title">Set limits</string>
@@ -518,6 +549,14 @@ Due to all the excitement of our official launch, we are gradually activating as
     <string name="screen_more_detail_display_text_tour_yap_for_you_heading">YAP for you</string>
     <string name="screen_more_detail_display_text_tour_yap_for_you_description">A fun way to track your progress on YAP, complete missions and explore all the different aspects of the YAP app and account.</string>
     <string name="screen_more_detail_display_text_tour_yap_for_you_btn_text">Finish</string>
+    <string name="screen_more_detail_display_text_bank">Bank</string>
+    <string name="screen_more_detail_display_text_account">Account</string>
+    <string name="screen_more_detail_display_text_copied_to_clipboard">Copied to clipboard</string>
+    <string name="screen_more_atm_cdm">ATM &amp; CDM</string>
+    <string name="screen_more_invite_a_friend">Invite a friend</string>
+    <string name="screen_more_help_and_support">Help and support</string>
+    <string name="screen_more_subscription">Subscriptions</string>
+    <string name="screen_more_gifts">Gifts</string>
 
 
     <!--   Profile Settings screen-->
@@ -675,6 +714,7 @@ Due to all the excitement of our official launch, we are gradually activating as
     <string name="screen_y2y_funds_transfer_display_text_balance">Your available balance is</string>
     <string name="screen_yap_to_yap_transfer_display_text_button">Confirm</string>
     <string name="screen_y2y_funds_transfer_display_text_limit_error">That\'s over your daily limit. Please enter an amount lower than AED</string>
+    <string name="screen_y2y_funds_transfer_display_text_remarks_placeholder">Leave a message (optional)</string>
 
     <!--    Y2Y funds Transfer success screen-->
     <string name="screen_y2y_funds_transfer_success_display_text_title">Transfer successful</string>
@@ -775,11 +815,15 @@ Due to all the excitement of our official launch, we are gradually activating as
     <string name="screen_add_beneficiary_detail_input_text_nick_name_hint">Add nickname</string>
     <string name="screen_add_beneficiary_detail_input_text_first_name_hint">Add first name</string>
     <string name="screen_add_beneficiary_detail_input_text_last_name_hint">Add last name</string>
+    <string name="screen_add_beneficiary_detail_input_text_beneficiary_address_hint">Add the full address</string>
+    <string name="screen_add_beneficiary_detail_input_text_beneficiary_address_character_limit_helper_text">Number of characters</string>
+    <string name="screen_add_beneficiary_detail_input_text_beneficiary_address_alert_text">The address must include a street name, city, province and postal code. </string>
 
     <string name="screen_add_beneficiary_detail_display_text_transfer_nick_name">Nickname</string>
     <string name="screen_add_beneficiary_detail_display_text_transfer_first_name">First name</string>
     <string name="screen_add_beneficiary_detail_display_text_transfer_last_name">Last name</string>
     <string name="screen_add_beneficiary_detail_display_text_transfer_phone">Phone number (optional)</string>
+    <string name="screen_add_beneficiary_detail_display_text_beneficiary_address">Beneficiary address</string>
     <string name="screen_add_beneficiary_detail_button_confirm">Confirm</string>
     <string name="screen_sdd_beneficiary_display_confirm_iban">Confirm IBAN</string>
     <string name="screen_add_beneficiary_display_help_content">Your IBAN is a sequence of 23 characters and can be found in the top right menu on your dashboard</string>
@@ -834,6 +878,8 @@ Due to all the excitement of our official launch, we are gradually activating as
     <string name="screen_crash_transfer_success_button_text_back">Back to dashboard</string>
     <string name="screen_cash_transfer_display_text_available_balance">Your available balance is %1s</string>
     <string name="screen_cash_transfer_display_text_required_topup_balance">Your available balance is %1s.\n Top up to proceed with this purchase.</string>
+    <string name="screen_topup_bank_error_display_no_accumulative_balance">Hi there! You have exceeded the amount you can top-up your YAP card for today. Please try again tomorrow</string>
+    <string name="screen_topup_bank_error_display_less_accumulative_balance">Hi there! the top-up amount requested exceeds your daily limit. Please try again with a lesser amount</string>
 
     <!-- International Funds Transfer -->
 
@@ -889,7 +935,7 @@ Due to all the excitement of our official launch, we are gradually activating as
     <!--    Topup bank detail screen-->
     <string name="screen_add_topup_bank_account_name_label_text">Account name</string>
     <string name="screen_add_topup_bank_iban_label_text">IBAN</string>
-    <string name="screen_add_topup_bank_bic_label_text">Swift/BIC</string>
+    <string name="screen_add_topup_bank_bic_label_text">SWIFT/BIC</string>
     <string name="screen_add_topup_bank_account_number_label_text">Account number</string>
     <string name="screen_add_topup_bank_address_label_text">Bank &amp; Address</string>
     <string name="screen_add_topup_bank_core_btn_label_text">Share</string>
@@ -908,6 +954,8 @@ Due to all the excitement of our official launch, we are gradually activating as
     <string name="screen_card_analytics_display_tab_title_merchant">Merchant</string>
     <string name="screen_card_analytics_display_month_average_text">Monthly average is %1s</string>
     <string name="screen_card_analytics_tool_bar_title">Analytics</string>
+    <string name="screen_card_analytics_total_spent">Total spent</string>
+    <string name="screen_card_analytics_ntry">Nothing to report yet</string>
 
     <!--    Edit -->
 
@@ -1107,6 +1155,7 @@ Due to all the excitement of our official launch, we are gradually activating as
     <string name="screen_notification_listing_display_text_toolbar_title">Notifications</string>
     <string name="screen_notification_listing_display_text_delete_alert_title">Delete</string>
     <string name="screen_notification_listing_display_text_delete_message">Are you sure you want to delete beneficiary?</string>
+    <string name="screen_dashboard_notification_tap_to_open">Tap to open</string>
 
     <!-- Notification settings screen-->
     <string name="screen_notification_settings_display_text_toolbar_title">Notification settings</string>
@@ -1134,7 +1183,7 @@ Due to all the excitement of our official launch, we are gradually activating as
     <string name="screen_invite_friend_display_text_referal_reward">Sharing is sweet, and it’s even better when you do it with friends. Send this special link to your special people so they change the way they bank too!</string>
     <string name="screen_invite_friend_display_text_referal_code">Share your referral link</string>
     <string name="screen_invite_friend_button_share">Share</string>
-    <string name="screen_invite_friend_display_text_share_url">Hey! I just joined the UAE\'s newest banking app – YAP. Transform the way you bank and reserve your place in the queue to be one of the first to join me in the banking revolution.\n\n%1s</string>
+    <string name="screen_invite_friend_display_text_share_url">Connect with me on YAP! An innovative digital banking app that gives you total control of your finances.\n\n%1s</string>
 
     <!--  Household dashboard bottom bar  -->
 
@@ -1379,11 +1428,15 @@ Due to all the excitement of our official launch, we are gradually activating as
     <string name="screen_young_create_passcode_top_label">Create a 4-digit PIN for %1s\'s card</string>
     <!-- Blocked Screen-->
 
-    <string name="screen_otp_blocked_display_text_details_card_blocked">Some of your card\'s feature may not work at this time. This is because  your card or account may have been blocked temporarily.\n\nGet in touch by calling our agents at %1s or message us via the Live Chat so we can unblock your account right away!</string>
-    <string name="iban_or_debit_card_freeze_or_blocked_message">Some of your card\'s features are temporarily disabled. Get in touch with us at %1s for assistance.</string>
+    <string name="screen_otp_blocked_display_text_details_card_blocked">Some of your account features may not work. This is due to a temporary block that has been put on your card or account.\n\nPlease get in touch via live chat for help &amp; support.</string>
+    <string name="screen_otp_blocked_display_title_card_blocked">We’re sorry, %1s</string>
+<!--    <string name="iban_or_debit_card_freeze_or_blocked_message">Some of your card\'s features are temporarily disabled. Get in touch with us at %1s for assistance.</string>-->
+    <string name="iban_or_debit_card_freeze_or_blocked_message">Sorry, some of your account features are temporarily unavailable. Please get in touch via <b>live chat</b> for help &amp; support</string>
 
     <!--  Yap home fragment screen-->
     <string name="screen_fragment_yap_home_add_money">Add money</string>
+    <string name="screen_fragment_yap_home_balance_on_date">Balance on %1s</string>
+    <string name="screen_fragment_yap_home_todays_balance">Today’s balance</string>
 
     <!-- Change Card Pin screen-->
     <string name="screen_change_card_pin_text_heading">Change PIN</string>
@@ -1521,6 +1574,8 @@ Due to all the excitement of our official launch, we are gradually activating as
     <string name="screen_home_complete_verification_title">Complete Verification</string>
     <string name="screen_home_set_pin_title">Set PIN</string>
     <string name="screen_home_help_and_support_desc">Some features may appear blocked for you as you made too many incorrect OTP attempts. Call or chat with us now to get full access.</string>
+    <string name="screen_home_amendment_title">Missing information</string>
+    <string name="screen_home_amendment_desc">Looks like some of your information in your application wasn’t right.</string>
     <string name="screen_home_complete_verification_desc">Complete verification to activate your account.</string>
     <string name="screen_home_set_pin_desc">This 4-digit code is yours to keep. Please don\'t share it with anyone</string>
     <string name="screen_home_renewed_id_title">Renew ID</string>
@@ -1592,7 +1647,7 @@ Due to all the excitement of our official launch, we are gradually activating as
     <!-- YFY Better Together -->
     <string name="screen_yfy_invite_a_friend_description">Once you\'re set, head over to the top right menu on your dashboard (or via More on the bottom navigation menu) to start inviting your friends to join YAP.\n\n The more the merrier!</string>
     <string name="screen_yfy_invite_a_friend_button_label">Invite a friend</string>
-    <string name="screen_yfy_send_money_outside_yap_description">Feeling generous? Send money to someone who isn\'t on your YAP contacts by adding them as a beneficiary in a few simple steps.\n\n Use the YAP It button and choose either bank transfer or cash pickup, so you can send money to even those who don\'t have a bank account! </string>
+    <string name="screen_yfy_send_money_outside_yap_description">Feeling generous? Send money to someone who isn\'t on your YAP contacts by adding them as a beneficiary in a few simple steps.</string>
     <string name="screen_yfy_send_money_to_someone_description">Send money to someone instantly within your YAP network. Tap on the YAP It button on your dashboard, select a friend from the list and enter the desired amount.\n\n Yes, It\'s that simple!</string>
     <string name="screen_yfy_split_bills_description">Split bills (not friendships) the next time you go out with your friends.\n\nTo split a bill, simply swipe left on the transaction you want to split, send out reminders to your friends and settle up effortlessly.\n\n Psst… you can also send reminders!</string>
 
@@ -1631,14 +1686,16 @@ Due to all the excitement of our official launch, we are gradually activating as
     <string name="screen_employment_information_selection_display_text_employment_status">What is your employment status?</string>
     <string name="screen_employment_information_selection_display_text_we_only_ask_this_for_administrative_purpose">We only ask you this questions for administrative purpose. It does not impact your ability to sign up to a YAP account. </string>
     <string name="screen_employment_information_selection_display_button_text_next">Next</string>
-    <string name="screen_employment_information_dialog_display_text_heading">Why do we ask you about your monthly salary?</string>
-    <string name="screen_employment_information_dialog_display_text_subheading">There is no minimum salary requirement to sign up to YAP. We only ask this question for compliance purposes to safeguard your account.</string>
+    <string name="screen_employment_information_dialog_display_text_heading">Why do we ask about your total monthly income?</string>
+    <string name="screen_employment_information_dialog_display_text_subheading">There is no minimum monthly income requirement to sign up to YAP. We only ask this question for compliance purposes to safeguard your account</string>
     <string name="screen_employment_information_dialog_button_text_close">Close</string>
     <string name="screen_employment_information_cash_dialog_display_text_heading">For those people who still use cash, how much cash will you add to YAP per month?</string>
     <string name="screen_employment_information_cash_dialog_display_text_subheading">We are asking about CASH only that would be deposited in a bank machine.  We only ask this question for compliance purposes to safeguard your account.</string>
 
     <!--    Employee information screen-->
     <string name="screen_employee_information_display_bottom_sheet_text_heading">Add all the countries your company does business with:</string>
+    <string name="screen_employee_information_additional_information_dialog_title">Additional documents \nwill be required.</string>
+    <string name="screen_employee_information_additional_information_dialog_text">Since you\’re self-employed we will need to ask you to provide additional documentation after you receive your YAP card.</string>
 
     <!-- KYC Employment Information Questionnaire screen -->
     <string name="screen_employment_questionnaire_display_text_heading">Employment Information</string>
@@ -1646,12 +1703,201 @@ Due to all the excitement of our official launch, we are gradually activating as
     <string name="screen_employment_questionnaire_display_text_user_information">We only ask you these questions for administrative purpose. It does not impact your ability to sign up to a YAP account.</string>
     <string name="screen_employment_questionnaire_display_text__bottom_sheet_title_describe_you">Select which statement describes your situation best:</string>
     <string name="screen_employment_questionnaire_display_text__bottom_sheet_title_segments">Select industry segment:</string>
-    ERROR_INVALID_CARDINPUT
+    <string name="screen_employment_questionnaire_display_text__bottom_sheet_title_self_employment">Select which statement describes your self-employment status:</string>
+<!--    ERROR_INVALID_CARDINPUT-->
     <!--    Samsung Pay start-->
     <string name="screen_cards_display_text_error_spay_internal">Your request wasn\'t approved by the card issuer. Try another card or contact your card issuer for more information</string>
     <string name="screen_cards_display_text_error_invalid_card_input">The card info you have entered is invalid.</string>
     <string name="screen_cards_display_text_error_framework_internal">The error occurred in payment framework while processing the request. Please contact support for more information.</string>
     <string name="screen_cards_display_text_error_user_canceled">You have cancelled before completing the requested operation.</string>
     <!--    Samsung Pay end-->
+
+    <!--Dashboard Widgets and Edit Screen-->
+    <string name="screen_dashboard_widget_edit_hide_text">Hide widgets from dashboard</string>
+    <string name="screen_edit_widget_heading_text">Edit dashboard widgets</string>
+    <string name="screen_edit_widget_hidden_text">Hidden</string>
+    <string name="screen_edit_widget_active_text">Active</string>
+    <string name="screen_edit_widget_swipe_to_hide">Swipe to hide</string>
+    <string name="screen_dashboard_widget_edit_hide_bottom_sheet_title">Widgets are Hidden</string>
+    <string name="screen_dashboard_widget_edit_hide_bottom_sheet_button_title">Hide Widgets</string>
+    <string name="screen_dashboard_widget_edit_hide_bottom_sheet_content">You have chosen to hide the quick link widgets from your dashboard. To turn these back on, go to the dashboard menu in the top right and click on Quick Access Widgets.</string>
+
+    <!--    Edit Card Name -->
+    <string name="screen_edit_card_name_text_heading">Type your full name</string>
+    <string name="screen_edit_card_name_display_heading">What name would you like on your card?</string>
+    <string name="screen_edit_card_name_display_subheading">What name would you like on your card?</string>
+    <string name="screen_edit_card_name_count_text">%1s\/26</string>
+    <string name="screen_edit_card_name_display_description">We can only print 26 characters on the card, so if you have a long name, we suggest you use initials where possible.</string>
+
+    <!--    Bill Payment-->
+    <string name="screen_bill_payment_text_title">Pay bills</string>
+    <string name="screen_bill_payment_sub_heading_set_up_or_make_a_bill_payment">Set up or make a bill payment</string>
+    <string name="screen_bill_payment_button_description_my_bills">My bills</string>
+    <string name="screen_bill_payment_button_description_analytics">Analytics</string>
+    <string name="screen_bill_payment_button_description_add_a_bill">Add a bill</string>
+    <string name="screen_bill_payment_bill_due_section_title">Bill payments due</string>
+    <string name="screen_bill_payment_bill_due_button_pay_all">Pay All</string>
+    <string name="screen_bill_payment_bill_total_due_label">Total due</string>
+    <string name="screen_bill_payment_due_bills_swipe_button_title">Pay Now</string>
+    <string name="screen_bill_payment_add_bill_error_dialog_title">Looks like you entered an unavailable number</string>
+    <string name="screen_bill_payment_add_bill_error_dialog_text">Please double check and try again</string>
+    <string name="screen_bill_payment_add_bill_error_dialog_n_button_text">No, I\'ll do it later</string>
+    <string name="screen_bill_payment_add_bill_service_error_dialog_title">%1s services are down at the moment</string>
+    <string name="screen_bill_payment_add_bill_service_error_dialog_text">We are unable to add this bill, please try again in a few hours</string>
+    <string name="screen_bill_payment_add_bill_service_error_dialog_button_text">Got it</string>
+    <string name="screen_bill_payment_add_bill_error_unavailable">Unavailable, check back later.</string>
+
+
+    <!--    Biller Screen-->
+    <string name="screen_bill_payment_sub_heading_which_bank_is_your_card_issued_by">Which bank is your card issued by?</string>
+    <string name="screen_bill_payment_sub_heading_choose_from_the_list_below">Choose%1sfrom the list below</string>
+    <string name="screen_bill_payment_text_title_add_a_credit_card">Add a credit card</string>
+    <string name="screen_bill_payment_text_title_add_a_provider">Add a %1s provider</string>
+
+    <!--    My Bills Screen-->
+    <string name="screen_my_bills_toolbar_text_title">My Bills</string>
+    <string name="screen_my_bills_text_title_you_have_n_bills_registered">You have %1s bills registered</string>
+    <string name="screen_my_bills_text_title_you_have_one_bill_registered">You have 1 bill registered</string>
+    <string name="screen_my_bills_btn_text_pay">Pay %1s %2s</string>
+    <string name="screen_my_bills_text_title_on_selection">Select the bill you want to pay</string>
+    <string name="screen_my_bills_text_title_bottom_sheet">Sort by</string>
+    <string name="screen_my_bills_text_title_no_bills">You have no bills registered yet</string>
+
+
+    <!--    Add Bill Screen-->
+    <string name="screen_add_bill_toolbar_title">Add a Bill Provider</string>
+    <string name="screen_add_bill_description_text">Find bill providers by choosing any category below and set up one-time or recurring payments</string>
+
+    <!-- Bill Detail Screen -->
+    <string name="screen_bill_detail_success_dialog_title">%1s Bill has been added successfully</string>
+    <string name="screen_bill_detail_success_dialog_button_text">Yes, pay now</string>
+    <string name="screen_bill_detail_success_dialog_button_description">Pay your %1s bill now?</string>
+    <string name="screen_bill_detail_success_dialog_button_text_do_it_later">No, I\'ll do it later</string>
+    <string name="screen_bill_detail_field_label">Enter nickname</string>
+
+
+    <!-- Add Biller Detail Screen-->
+    <string name="screen_biller_detail_title_text_credit_card">Enter your credit card details</string>
+    <string name="screen_biller_detail_title_text_enter_you_account_details">Enter your account details</string>
+
+    <!-- Bill Account Detail Screen -->
+    <string name="screen_bill_account_detail_toolbar_title">Account details</string>
+    <string name="screen_bill_account_detail_text_bill_status_paid">This bill is paid</string>
+    <string name="screen_bill_account_detail_text_bill_status_over_due">This bill is over due</string>
+    <string name="screen_bill_account_detail_text_bill_status_due">This bill is due</string>
+    <string name="screen_bill_account_detail_text_last_payment">Last payment</string>
+    <string name="screen_bill_account_detail_text_total_payment">Total payment</string>
+    <string name="screen_bill_account_detail_text_highest_month">Highest month</string>
+    <string name="screen_bill_account_detail_text_lowest_month">Lowest month</string>
+    <string name="screen_bill_account_detail_button_text">Pay Now</string>
+    <string name="screen_bill_payment_prepaid_bills_airtime_button_title">Airtime</string>
+    <string name="screen_bill_payment_prepaid_bills_data_button_title">Data</string>
+    <string name="screen_bill_account_detail_text_no_bills_paid_yet">No bills paid yet</string>
+
+    <!-- Edit Bill Screen-->
+    <string name="screen_edit_bill_title_text">Edit your account details</string>
+    <string name="screen_edit_bill_button_text">Edit</string>
+    <string name="screen_edit_bill_bottom_button_text">Delete this bill</string>
+    <string name="screen_edit_bill_dialog_title">Are you sure you want to delete this bill?</string>
+    <string name="screen_edit_bill_dialog_description">You will loose all the data stored of past bill payments.</string>
+    <string name="screen_edit_bill_switch_text_this_an_auto_payment">This an auto-payment.</string>
+    <string name="screen_edit_bill_switch_text_bill_reminder">Set up a bill reminder</string>
+    <string name="screen_edit_bill_field_label">Enter nickname</string>
+
+
+    <!--Pay Bill-->
+    <string name="screen_pay_bill_text_title">Pay bill</string>
+    <string name="screen_pay_bill_input_text_note_hint">Type a note here (Optional)</string>
+    <string name="screen_pay_bill_pay_button_text">Pay bill</string>
+    <string name="screen_pay_bill_auto_payment_day_text">Day</string>
+    <string name="screen_pay_bill_auto_payment_day_week">Week</string>
+    <string name="screen_pay_bill_auto_payment_day_month">Month</string>
+    <string name="screen_pay_bill_select_week_day_text">Select day in week</string>
+    <string name="screen_pay_bill_select_month_day_text">Select day in month</string>
+    <string name="screen_pay_bill_selection_text">Make this an auto-payment</string>
+    <string name="screen_pay_bill_selection_remind_text">Remind me in advance by</string>
+    <string name="screen_pay_bill_payment_type_text">Pay every</string>
+    <string name="screen_pay_bill_payment_every_day_text">Day</string>
+    <string name="screen_pay_bill_payment_every_week_text">Week</string>
+    <string name="screen_pay_bill_payment_every_month_text">Month</string>
+    <string name="screen_pay_bill_payment_reminder_every_days_text">3 days</string>
+    <string name="screen_pay_bill_payment_reminder_every_week_text">1 week</string>
+    <string name="screen_pay_bill_payment_reminder_every_weeks_text">2 weeks</string>
+    <string name="screen_pay_all_bill_in_progress_title_text">Paying your bills...</string>
+
+    <!--Pay Bill Success-->
+    <string name="screen_pay_bill_success_toolbar_title">Transfer successful!</string>
+    <string name="screen_pay_bill_success_you_have_paid">You have paid</string>
+    <string name="screen_pay_bill_success_button_text">Back to bill payments</string>
+    <string name="screen_pay_bill_success_button_back_to_dashboard_text">Back to dashboard</string>
+
+    <!--Single Decline Screen-->
+    <string name="screen_single_decline_top_message">Sorry, we were unable to process your bill payment this time. Please try again later.</string>
+    <string name="screen_single_decline_toolbar_text_decline">Transfer declined</string>
+    <string name="screen_single_decline_toolbar_text_dont_worry">Don’t worry you were not charged anything \nTotal amount attempted to pay.</string>
+    <string name="screen_single_decline_toolbar_text_total_amount_attempted_to_pay">Total amount attempted to pay</string>
+    <string name="screen_single_decline_button_text_back_to_bill_payments">Back to bill payments</string>
+
+    <!-- Pay All Screen-->
+    <string name="screen_pay_all_success_toolbar_title">Transfer successful!</string>
+    <string name="screen_pay_all_success_toolbar_title_transfer_status">Transfer status</string>
+    <string name="screen_pay_all_success_toolbar_title_transfer_unsuccessful">Transfer unsuccessful</string>
+    <string name="screen_pay_all_success_title_all_paid">Your bills are all paid!</string>
+    <string name="screen_pay_all_success_title_partial_paid">Some of your bills did not go through.</string>
+    <string name="screen_pay_all_success_title_all_decline">Sorry, we were unable to process your bill payment this time. Please try again later.</string>
+    <string name="screen_pay_all_success_text_paid_status">Total paid</string>
+    <string name="screen_pay_all_success_text_decline_status">Total amount attempted to pay</string>
+    <string name="screen_pay_all_success_button_text">Back to bill payments</string>
+
+
+    <!-- Pay All Screen-->
+    <string name="screen_pay_all_toolbar_title">Pay all bills</string>
+    <string name="screen_pay_all_text_total_payment_for">Total Payment of</string>
+    <string name="screen_pay_all_text_button">Pay bills</string>
+
+    <!-- Bill Category Screen-->
+    <string name="screen_bill_category_title_coming_soon">Coming soon</string>
+
+    <!-- OTP Message Composition -->
+    <string-array name="screen_otp_messages">
+        <item>SWIFT;Hi %1$s! Your OTP to send %2$s to %3$s is %4$s. This code expires in %5$s minutes. Please do not share this code with anyone else. If this was not you, please contact our support team immediately at %6$s</item>
+        <item>UAEFTS;Hi %1$s! Your OTP to send %2$s to %3$s is %4$s. This code expires in %5$s minutes. Please do not share this code with anyone else. If this was not you, please contact our support team immediately at %6$s</item>
+        <item>RMT;Hi %1$s! Your OTP to send %2$s to %3$s is %4$s. This code expires in %5$s minutes. Please do not share this code with anyone else. If this was not you, please contact our support team immediately at %6$s</item>
+        <item>CASHPAYOUT;Hi %1$s! Your OTP to send %2$s to %3$s is %4$s. This code expires in %5$s minutes. Please do not share this code with anyone else. If this was not you, please contact our support team immediately at %6$s</item>
+        <item>DOMESTIC_TRANSFER;Hi %1$s! Your OTP to send %2$s to %3$s is %4$s. This code expires in %5$s minutes. Please do not share this code with anyone else. If this was not you, please contact our support team immediately at %6$s</item>
+        <item>Y2Y;Hi %1$s! Your OTP to send %2$s to %3$s is %4$s. This code expires in %5$s minutes. Please do not share this code with anyone else. If this was not you, please contact our support team immediately at %6$s</item>
+        <item>TOP_UP_SUPPLEMENTARY;Hi %1$s! Your OTP to top up your YAP card with %2$s from your card ending in %3$s is %4$s. This code expires in %5$s minutes. Please do not share this code with anyone else. If this was not you, please contact our support team immediately at %6$s</item>
+        <item>SWIFT_BENEFICIARY;Hi %1$s! Your OTP to add %2$s as Outside UAE Beneficiary to YAP is %3$s. This code expires in %4$s minutes. Please do not share this code with anyone else. If this was not you, please contact our support team immediately at %5$s</item>
+        <item>RMT_BENEFICIARY;Hi %1$s! Your OTP to add %2$s as Outside UAE Beneficiary to YAP is %3$s. This code expires in %4$s minutes. Please do not share this code with anyone else. If this was not you, please contact our support team immediately at %5$s</item>
+        <item>DOMESTIC_BENEFICIARY;Hi %1$s! Your OTP to add %2$s as a local beneficiary to YAP is %3$s. This code expires in %4$s minutes. Please do not share this code with anyone else. If this was not you, please contact our support team immediately at %5$s</item>
+
+        <item>FORGOT_PASS_CODE;Hi %1$s! Your OTP to change your passcode for YAP is %2$s. This code expires in %3$s minutes. Please do not share this code with anyone else. Need help? Contact our customer support team at %4$s</item>
+        <item>FORGOT_CARD_PIN;Hi %1$s! Your OTP to reset your YAP card PIN is  %2$s. This code expires in  %3$s minutes. Please do not share this code with anyone else. Need help? Contact our customer support team at  %4$s</item>
+        <item>CHANGE_MOBILE_NO;Hi %1$s! Your OTP to change your mobile number for YAP is %2$s. This code expires in %3$s minutes. Please do not share this code with anyone else. Need help? Contact our customer support team at %4$s</item>
+        <item>SIGN_UP_NUMBER;Hey there! Your OTP to verify your number for YAP is %1$s. This code expires in %2$s minutes. Please do not share this code with anyone else. Need help? Contact our customer support team at  %3$s</item>
+        <item>DEMOGRAPHIC_VALIDATION;Hi %1$s! Your OTP to sign into YAP is %2$s. This code expires in %3$s minutes. Please do not share this code with anyone else. Need help? Contact our customer support team at %4$s</item>
+        <item>CHANGE_EMAIL;Hi %1$s! Your OTP to change your email for YAP is %2$s. This code expires in %3$s minutes. Please do not share this code with anyone else. Need help? Contact our customer support team at %4$s</item>
+    </string-array>
+
+    <!-- KYC Amendments/ Missing Info Screen start -->
+    <string name="screen_missing_info_button_get_started">Get started</string>
+    <string name="screen_missing_info_title">Hey %1s,</string>
+    <string name="screen_missing_info_description">Looks like there are some errors with the details you provided during onboarding. Please review the below list and make the updates where applicable to get your YAP account activated.</string>
+    <string name="screen_missing_info_review_required">Review required for:</string>
+    <!-- KYC Amendments/ Missing Info Screen End -->
+
+    <!-- KYC Amendments/ Missing Info Confirmation Screen start -->
+    <string name="screen_missing_info_confirmation_button_done">Done</string>
+    <string name="screen_missing_info_confirmation_display_all_set_title">You\’re all set!</string>
+    <string name="screen_missing_info_confirmation_display_step_step_completed_title">Step completed</string>
+    <string name="screen_missing_info_confirmation_display_all_set_description">Thanks for re-submitting your information.</string>
+    <string name="screen_missing_info_confirmation_display_step_step_completed_description">Please proceed to the next step to complete onboarding.</string>
+    <!-- KYC Amendments/ Missing Info Confirmation Screen end -->
+
+    <!-- KYC Amendments Start -->
+    <string name="kyc_incorrect_field">Looks like this is incorrect</string>
+    <string name="eid_info_review_screen_select_nationality">Please select your Nationality</string>
+    <!-- KYC Amendments End -->
+
 
 </resources>

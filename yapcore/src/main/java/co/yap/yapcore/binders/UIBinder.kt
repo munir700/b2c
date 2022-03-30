@@ -5,16 +5,16 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Paint
 import android.graphics.PorterDuff
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Build
 import android.provider.ContactsContract
-import android.text.Spannable
-import android.text.SpannableString
-import android.text.SpannableStringBuilder
-import android.text.TextWatcher
+import android.text.*
 import android.text.style.ForegroundColorSpan
+import android.text.style.RelativeSizeSpan
+import android.text.style.SuperscriptSpan
 import android.text.style.UnderlineSpan
 import android.view.LayoutInflater
 import android.view.MotionEvent
@@ -44,6 +44,11 @@ import androidx.viewpager.widget.ViewPager
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.networking.customers.responsedtos.beneficiary.TopUpCard
 import co.yap.translation.Translator
+import co.yap.widgets.CoreButton
+import co.yap.widgets.CoreDialerPad
+import co.yap.widgets.CorePaymentCard
+import co.yap.widgets.MaskTextWatcher
+import co.yap.widgets.edittext.EditTextRichDrawable
 import co.yap.widgets.*
 import co.yap.widgets.otptextview.OTPListener
 import co.yap.widgets.otptextview.OtpTextView
@@ -72,6 +77,7 @@ import com.google.android.material.chip.ChipGroup
 import com.google.android.material.textfield.TextInputLayout
 import com.yarolegovich.discretescrollview.DiscreteScrollView
 import com.yarolegovich.discretescrollview.transform.ScaleTransformer
+import com.uxcam.UXCam
 import java.text.SimpleDateFormat
 
 object UIBinder {
@@ -178,9 +184,8 @@ object UIBinder {
     fun setCardDetailLayoutVisibility(linearLayout: LinearLayout, card: Card) {
         when (card.status) {
             CardStatus.ACTIVE.name -> {
-                if (card.cardType == CardType.DEBIT.type) {
-                    if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus && !card.pinCreated)
-                        linearLayout.visibility = GONE
+                if (card.cardType == CardType.DEBIT.type && PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus) {
+                        linearLayout.visibility = if(card.pinCreated) VISIBLE else GONE
                 } else {
                     linearLayout.visibility = VISIBLE
                 }
@@ -219,13 +224,13 @@ object UIBinder {
             when (CardStatus.valueOf(card.status)) {
                 CardStatus.ACTIVE -> {
                     if (card.cardType == CardType.DEBIT.type) {
+                        imageView.visibility = VISIBLE
                         if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus && !card.pinCreated) {
-                            imageView.visibility = VISIBLE
                             imageView.setImageResource(R.drawable.ic_status_ontheway)
                         } else
-                            imageView.visibility = GONE
+                            imageView.setImageResource(R.drawable.iconsinformative)
                     } else
-                        imageView.visibility = GONE
+                        imageView.setImageResource(R.drawable.iconsinformative)
                 }
                 CardStatus.BLOCKED -> {
                     imageView.visibility = VISIBLE
@@ -243,7 +248,6 @@ object UIBinder {
                     imageView.visibility = VISIBLE
                     imageView.setImageResource(R.drawable.ic_status_expired)
                 }
-
             }
     }
 
@@ -385,7 +389,7 @@ object UIBinder {
     @BindingAdapter("src")
     @JvmStatic
     fun setImageResId(view: ImageView, resId: Int) {
-        if (resId != -1)
+        if (resId >0)
             view.setImageResource(resId)
     }
 
@@ -1068,6 +1072,42 @@ object UIBinder {
             drawables[3]
         )
     }
+// TODO refactor this binding adapter
+    @BindingAdapter(requireAll = false, value = ["flagOnStartDrawable"])
+    @JvmStatic
+    fun setFlagOnDrawableStart(
+        editText: EditTextRichDrawable,
+        iso2DigitCode: String?
+    ) {
+        val drawables: Array<Drawable> =
+            editText.compoundDrawables
+        val drawableDropDown: Drawable? =
+            editText.context.getDrawable(
+                R.drawable.iv_drown_down
+            )
+        var drawable: Drawable? = null
+        iso2DigitCode?.let {
+            try {
+                drawable =
+                    editText.context.getDrawable(
+                        CurrencyUtils.getFlagDrawable(
+                            editText.context,
+                            it
+                        )
+                    )
+            } catch (ex: Exception) {
+                ex.printStackTrace()
+            }
+        }
+        drawable?.setBounds(0, 0, 70, 70)
+        drawableDropDown?.setBounds(0, 0, 123, 123)
+        editText.setCompoundDrawables(
+            if (!iso2DigitCode.isNullOrEmpty()) drawable else null,
+            drawables[1],
+            drawables[2],
+            drawables[3]
+        )
+    }
 
     @BindingAdapter("previewImageSrc")
     @JvmStatic
@@ -1170,6 +1210,85 @@ object UIBinder {
                 )
             }
         }
+    }
 
+    @BindingAdapter("strikeThroughText")
+    @JvmStatic
+    fun AppCompatTextView.strikeThroughText(isStrikeThrough: Boolean) {
+        this.paintFlags =
+            if (isStrikeThrough) this.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG else 0
+    }
+
+    // Card Balance visibility
+    @BindingAdapter("cardStatus")
+    @JvmStatic
+    fun setCardStatus(constraintLayout: ConstraintLayout, card: Card) {
+        if (CardStatus.valueOf(card.status).name.isNotEmpty()) {
+           constraintLayout.visibility = when (CardStatus.valueOf(card.status)) {
+                CardStatus.ACTIVE -> {
+                        if (card.cardType == CardType.DEBIT.type && PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus
+                            && !card.pinCreated)
+                            GONE else VISIBLE
+                }
+                CardStatus.BLOCKED, CardStatus.INACTIVE, CardStatus.HOTLISTED -> {
+                     GONE
+                }
+               else -> GONE
+           }
+        }
+    }
+
+    @BindingAdapter("paddingImage")
+    @JvmStatic
+    fun setPaddingImage(imageView: AppCompatImageView, padding: Float) {
+            imageView.setPadding(padding.toInt(), padding.toInt(), padding.toInt(), padding.toInt())
+    }
+
+    @BindingAdapter(requireAll = true, value = ["year", "date", "superscript"])
+    @JvmStatic
+    fun setDateWithSuperScript(textView: TextView,year:String,strText:String, superscriptText:String){
+        val spannableStringBuilder = SpannableStringBuilder(superscriptText)
+        val spannableStringBuilderPreText = SpannableStringBuilder(strText)
+        val superscriptSpan = SuperscriptSpan()
+        spannableStringBuilder.setSpan(
+            superscriptSpan,
+            superscriptText.indexOf(superscriptText),
+            superscriptText.indexOf(superscriptText) +
+                    superscriptText.length,
+            Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+        val relativeSizeSpan = RelativeSizeSpan(.5f)
+        spannableStringBuilder.setSpan(
+            relativeSizeSpan,
+            superscriptText.indexOf(superscriptText),
+            superscriptText.indexOf(superscriptText) + superscriptText.length,
+            Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+        textView.text = spannableStringBuilderPreText.append(spannableStringBuilder).append(year)
+    }
+
+    /*
+    Binding adapter for hiding sensitive views using UXCam
+
+    This adapter is called on the outermost layout of any layout file
+
+    UXCam hides these sensitive views in the session recording
+     */
+
+    /**
+     * Binding adapter for hiding sensitive views using UXCam
+     *
+     * This adapter is called on the outermost layout of any layout file
+     * UXCam hides these sensitive views in the session recording
+     *
+     * @param rootView : View on which this adapter is called
+     * @param views : List of sensitive views that needs to be hidden in UXCam Session
+     */
+    @BindingAdapter("sensitiveViews")
+    @JvmStatic
+    fun hideSensitiveViews(rootView: View, views: List<View>) {
+        views.forEach {
+            UXCam.occludeSensitiveView(it)
+        }
     }
 }

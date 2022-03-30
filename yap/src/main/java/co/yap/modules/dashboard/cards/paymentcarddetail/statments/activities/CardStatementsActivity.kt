@@ -34,7 +34,7 @@ class CardStatementsActivity : BaseBindingActivity<ICardStatments.ViewModel>(),
         } else if (intent.hasExtra(ACCOUNT_UUID)) {
             viewModel.getHouseHoldAccountStatements(intent.getStringExtra(ACCOUNT_UUID))
         } else {
-            viewModel.loadStatements(viewModel.card?.cardSerialNumber ?: "")
+            viewModel.card?.cardSerialNumber?.let { viewModel.loadStatements(it) }
             viewModel.state.statementType.set("EMAIL_ME_CARD")
         }
         viewModel.adapter.set(CardStatementsAdaptor(mutableListOf()))

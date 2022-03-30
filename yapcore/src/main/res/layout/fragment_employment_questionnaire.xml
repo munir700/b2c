@@ -10,6 +10,8 @@
             type="co.yap.modules.location.kyc_additional_info.employment_info.questionnaire.EmploymentQuestionnaireViewModel" />
 
         <import type="co.yap.translation.Strings" />
+        <import type="android.view.View" />
+        <import type="co.yap.yapcore.enums.EmploymentStatus"/>
 
     </data>
 
@@ -85,6 +87,7 @@
                 android:lineSpacingExtra="2sp"
                 android:paddingStart="@dimen/margin_normal"
                 android:paddingEnd="@dimen/margin_normal"
+                android:visibility="@{viewModel.employmentStatus == EmploymentStatus.OTHER?View.GONE : View.VISIBLE}"
                 android:text="@string/screen_tax_info_display_text_trs_conditions_disclaimer"
                 android:textColor="@color/darkBlue"
                 android:textColorLink="?attr/colorPrimaryAttr"
@@ -107,7 +110,7 @@
                 android:gravity="bottom"
                 android:onClick="@{(v) -> viewModel.handleOnPressView(v.id)}"
                 app:btn_size="small"
-                app:enableCoreButton="@{viewModel.state.valid}"
+                app:enableCoreButton="@{viewModel.validator.isValidate}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

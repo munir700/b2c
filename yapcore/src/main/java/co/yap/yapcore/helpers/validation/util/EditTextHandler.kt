@@ -29,7 +29,7 @@ object EditTextHandler {
         }
     }
 
-    private fun getTextInputLayout(textView: TextView?): TextInputLayout? {
+     fun getTextInputLayout(textView: TextView?): TextInputLayout? {
         var textInputLayout: TextInputLayout? = null
         var parent = textView?.parent
         while (parent is View) {

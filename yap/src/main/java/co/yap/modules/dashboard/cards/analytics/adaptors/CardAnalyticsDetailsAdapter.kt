@@ -25,7 +25,7 @@ class CardAnalyticsDetailsAdapter(mValue: MutableList<ApiResponse>, navigation: 
         mDataBinding
     )
 
-    override fun getViewModel(viewType:Int) = CardAnalyticsDetailsItemVM()
+    override fun getViewModel( viewType: Int) = CardAnalyticsDetailsItemVM()
     override fun getVariableId() = BR.cardAnalyticsDetailsItemViewModel
 
     class ViewHolder(

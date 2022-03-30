@@ -14,7 +14,7 @@ import java.util.Locale;
  * @version $Revision: 1649191 $
  * @since Validator 1.3.0
  */
-public abstract class AbstractFormatValidator implements Serializable {
+abstract class AbstractFormatValidator implements Serializable {
 
     private static final long serialVersionUID = -4690687565200568258L;
 

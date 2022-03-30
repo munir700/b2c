@@ -17,6 +17,8 @@ object Constants {
     const val IS_TOPUP_SKIP: String = "isTopUpSkip"
     const val FORGOT_PASSCODE_FROM_CHANGE_PASSCODE: String = "forgotPasscodeFromChangePasscodeFlow"
     const val FORGOT_CARD_PIN_FLOW: String = "FORGOT_CARD_PIN_FLOW"
+    const val VERIFY_PASSCODE_FROM = "Verify-Passcode-From"
+
 
     const val LONGITUDE = "longitude"
     const val LATITUDE = "latitude"
@@ -44,6 +46,9 @@ object Constants {
     const val MORE_LOCATE_ATM: Int = 2
     const val MORE_INVITE_FRIEND: Int = 3
     const val MORE_HELP_SUPPORT: Int = 4
+    const val MORE_YAP_FOR_YOU: Int = 14
+    const val MORE_GIFTS: Int = 15
+    const val MORE_SUBSCRIPTION: Int = 16
     const val EVENT_CREATE_CARD_PIN: Int = 13
 
     //Add Note flow constants
@@ -139,12 +144,16 @@ object Constants {
     const val data = "payLoad"
     const val result = "result"
     const val skipped = "skipped"
+    const val status = "status"
     val FRAGMENT_CLASS = "fragment_class"
     val SHOW_TOOLBAR = "_show_toolbar"
     val EXTRA = "_bundle_extras"
     const val INDEX = "index"
     const val OVERVIEW_BENEFICIARY = "overview_beneficiary"
     const val IS_IBAN_NEEDED = "is_iban_need"
+    const val SHOW_ADDRESS_IN_BENEFICIARY = "SHOW_ADDRESS_IN_BENEFICIARY"
+    const val KYC_AMENDMENT_MAP = "kyc_amendment_map"
+    const val KYC_AMENDMENT_SUCCESS = "kyc_amendment_success"
 
     // SharedPreference  Keys
 
@@ -188,7 +197,9 @@ object Constants {
     //Analytics
     const val TRANSACTION_DETAIL = "TxnAnalytics_Model"
     const val TRANSACTION_POSITION = "Transaction_Item_Position"
-    var MERCHANT_TYPE: String = "merchant-name"
+    const val MERCHANT_NAME: String = "merchant-name"
+    const val MERCHANT_CATEGORY_ID: String = "merchant-category-id"
+    const val TOTAL_PURCHASE: String = "total-purchases"
 
     //ATM/CDM
     const val LOCATION_TYPE = "ATM_OR_CDM"
@@ -201,6 +212,9 @@ object Constants {
     const val VIEW_WITH_FLAG = 2
     const val VIEW_FIXED_HEIGHT = 3
     const val VIEW_ITEM_WITHOUT_SEPARATOR = 4
+    const val VIEW_CARD_DETAIL_ITEM = 5
+    const val VIEW_ITEM_CARD_SUCCESSS = 6
+    const val VIEW_ITEM_ACCOUNT_DETAIL = 7
 
     //Yap Store
     const val ITEM_STORE_CARD_PLANS = 0
@@ -218,4 +232,22 @@ object Constants {
     const val FEEDBACK_TITLE = "FEEDBACK_TITLE"
     const val TRANSACTION_COUNT = "TRANSACTION_COUNT"
     const val TOTAL_TRANSACTION = "TOTAL_TRANSACTION"
+
+    //category bar status
+    const val EXPAND_MODE = 0
+    const val COLLAPSE_MODE = 1
+    const val DEFAULT_MODE = 2
+
+    //Widget bar
+    const val WIDGET_HIDDEN_STATUS = "WIDGET_HIDDEN_STATUS"
+    const val WIDGET_LIST = "WIDGET_LIST"
+    const val CARD_STATUS = "ACTIVE"
+
+    //KYC Details
+    const val KYC_FIRST_NAME = "KYC_FIRST_NAME"
+    const val KYC_LAST_NAME = "KYC_LAST_NAME"
+    const val KYC_MIDDLE_NAME = "KYC_MIDDLE_NAME"
+    const val NATIONALITY = "NATIONALITY"
+    // KYC Amendments
+    const val CONFIRMATION_DESCRIPTION = "CONFIRMATION_DESCRIPTION"
 }

@@ -87,13 +87,6 @@ class EidInfoReviewState : BaseState(), IEidInfoReview.State {
         }
 
     @get:Bindable
-    override var dateOfBirthValid: Boolean = false
-        set(value) {
-            field = value
-            notifyPropertyChanged(BR.dateOfBirthValid)
-        }
-
-    @get:Bindable
     override var genderValid: Boolean = false
         set(value) {
             field = value
@@ -121,4 +114,7 @@ class EidInfoReviewState : BaseState(), IEidInfoReview.State {
         valid = firstName.isNotBlank()
     }
 
+    override var isDateOfBirthValid: ObservableBoolean = ObservableBoolean()
+    override var AgeLimit: Int? = 0
+    override var isCountryUS: Boolean = false
 }

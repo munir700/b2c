@@ -2,13 +2,15 @@ package co.yap.yapcore.helpers.validation.rule
 
 import android.util.Patterns
 import android.widget.TextView
+import androidx.annotation.Keep
+import co.yap.yapcore.R
+import co.yap.yapcore.helpers.validation.util.EditTextHandler
 import co.yap.yapcore.helpers.validation.util.EditTextHandler.removeError
-import co.yap.yapcore.helpers.validation.util.EditTextHandler.setError
 
 /**
  * Created irfan arshad on 10/6/2020.
  */
-
+@Keep
 class EmailTypeRule(
     view: TextView?,
     errorMessage: String?,
@@ -26,11 +28,24 @@ class EmailTypeRule(
 
     protected override fun onValidationSucceeded(view: TextView?) {
         super.onValidationSucceeded(view)
-        removeError(view)
+        if (errorEnabled) {
+            view?.apply {
+                EditTextHandler.getTextInputLayout(view)
+                    ?.apply { setEndIconDrawable(R.drawable.path) }
+            }
+            removeError(view)
+        }
     }
 
     protected override fun onValidationFailed(view: TextView?) {
         super.onValidationFailed(view)
-        if (errorEnabled) setError(view, errorMessage)
+        if (errorEnabled) {
+            view?.apply {
+                EditTextHandler.getTextInputLayout(view)?.apply {
+                    endIconDrawable = null
+                }
+            }
+        }
+       // if (errorEnabled) setError(view, errorMessage)
     }
 }

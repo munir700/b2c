@@ -37,6 +37,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:sensitiveViews="@{Utils.getViewsList(rvTransactionDetail,tvNoteDetails,tvTotalAmountValue,tvTransactionHeading,flImageLayout)}"
             android:background="@color/white">
 
             <co.yap.widgets.CoreToolbar
@@ -64,10 +65,12 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/toolbar" />
-
             <!--android:visibility="@{viewModel.state.transactionData.isMApVisible()?View.VISIBLE : View.GONE}"/>
-            this visibility check not handled here because fragmant dont support binding expression alternate solution is to handle it by adding additional one parent layout
-            -->
+
+                        this visibility check not handled here because fragmant dont support binding expression alternate solution is to handle it by adding additional one parent layout
+
+                        -->
+
             <fragment
                 android:id="@+id/map"
                 android:name="com.google.android.gms.maps.SupportMapFragment"
@@ -112,6 +115,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/margin_normal_large"
+                android:paddingBottom="@dimen/margin_normal"
                 app:layout_constraintBottom_toBottomOf="@+id/vLine"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/flImageLayout"
@@ -140,7 +144,9 @@
                     style="@style/AMicroGrey"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:ellipsize="end"
                     android:lineSpacingExtra="2dp"
+                    android:maxLines="1"
                     android:text="@{viewModel.state.transactionData.locationValue}"
                     android:visibility="@{viewModel.state.transactionData.locationValue.empty || viewModel.state.transactionData.locationValue == null ? View.GONE : View.VISIBLE}"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -160,7 +166,7 @@
                     android:maxLines="1"
                     android:text="@{viewModel.transaction != null?viewModel.state.transactionData.transferType : null}"
                     android:textColor="@{TransactionExtentionsKt.isTransactionRejected(viewModel.transaction)==true || TransactionExtentionsKt.isTransactionInProgress(viewModel.transaction)==true ? @color/colorPrimaryDark : @color/greyDark}"
-                    android:visibility="@{viewModel.transaction != null? ((viewModel.state.transactionData.isAtmTransaction|| viewModel.state.transactionData.isYTYTransfer) ?View.VISIBLE : View.GONE) : View.VISIBLE}"
+                    android:visibility="@{viewModel.transaction != null? viewModel.state.transactionData.isAtmTransaction?View.VISIBLE : View.GONE : View.VISIBLE}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/tvTotalAmountValue"
                     app:layout_constraintStart_toStartOf="@+id/tvTransactionHeading"
@@ -195,6 +201,7 @@
                     android:maxLines="1"
                     android:text="@{viewModel.state.transactionData.categoryTitle}"
                     android:textColor="@color/colorSecondaryOrange"
+                    android:visibility="@{viewModel.state.transactionData.showCategory?View.GONE :View.VISIBLE}"
                     app:alpha="@{viewModel.state.isTransactionInProcessOrRejected ? 0.5f : 1f}"
                     app:layout_constraintBottom_toBottomOf="@+id/ivCategoryIcon"
                     app:layout_constraintEnd_toStartOf="@+id/tvCurrency"
@@ -207,9 +214,11 @@
                     style="@style/Large"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:text="@{viewModel.transaction.txnType.equals(TxnType.DEBIT.type) ? `- `+CurrencyExtensionsKt.toFormattedCurrency(viewModel.state.transactionData.totalAmount.toString(),false,SessionManager.INSTANCE.defaultCurrency,true) : `+ `+CurrencyExtensionsKt.toFormattedCurrency(viewModel.state.transactionData.totalAmount.toString(),false,SessionManager.INSTANCE.defaultCurrency,true)}"
                     android:textColor="@{viewModel.state.isTransactionInProcessOrRejected ? @color/colorFaded: @color/colorPrimaryDark}"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
+
                     tools:text="2500" />
 
                 <androidx.appcompat.widget.AppCompatTextView
@@ -228,19 +237,31 @@
                 layout="@layout/layout_transaction_categary"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_normal_large"
+                android:layout_marginTop="@dimen/margin_small"
                 android:layout_marginEnd="@dimen/margin_medium"
                 android:visibility="@{viewModel.state.transactionData.showCategory?View.VISIBLE :View.GONE}"
                 app:categoryViewModel="@{viewModel}"
                 app:layout_constraintTop_toBottomOf="@+id/clAmount" />
 
+            <View
+                android:id="@+id/vLine"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_marginStart="@dimen/margin_medium"
+                android:layout_marginTop="@dimen/margin_small"
+                android:background="@color/divider"
+                app:layout_constraintEnd_toEndOf="@+id/clAmount"
+                app:layout_constraintStart_toStartOf="@+id/clAmount"
+                app:layout_constraintTop_toBottomOf="@id/layoutCategory" />
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/clNoteParent"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@{viewModel.state.transactionData.showCategory?@dimen/margin_medium :@dimen/margin_normal}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/layoutCategory"
+                app:layout_constraintTop_toBottomOf="@+id/vLine"
                 tools:visibility="visible">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -248,7 +269,6 @@
                     android:layout_width="@dimen/_35sdp"
                     android:layout_height="@dimen/_35sdp"
                     android:layout_marginStart="@dimen/margin_medium"
-                    android:layout_marginTop="@dimen/margin_normal_large"
                     android:background="@drawable/bg_round_purple_enabled"
                     android:onClick="@{(v)-> viewModel.handlePressOnView(v.id)}"
                     android:visibility="visible"
@@ -313,6 +333,7 @@
                 layout="@layout/layout_transaction_receipt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_normal_large"
                 android:visibility="@{viewModel.state.receiptVisibility ? View.VISIBLE : View.GONE }"
                 app:layout_constraintTop_toBottomOf="@id/clNoteParent"
                 app:receiptViewModel="@{viewModel}" />
@@ -350,7 +371,7 @@
                 android:layout_marginStart="@dimen/margin_medium"
                 android:layout_marginTop="@dimen/margin_normal"
                 android:text="Payment details"
-                android:visibility="gone"
+                android:visibility="visible"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"

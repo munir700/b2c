@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import co.yap.app.main.MainChildViewModel
 import co.yap.app.modules.login.interfaces.IVerifyPasscode
 import co.yap.app.modules.login.states.VerifyPasscodeState
+import co.yap.modules.otp.getOtpMessageFromComposer
 import co.yap.networking.authentication.AuthRepository
 import co.yap.networking.authentication.requestdtos.LoginRequest
 import co.yap.networking.customers.CustomersRepository
@@ -19,7 +20,8 @@ import co.yap.networking.models.ApiError
 import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleLiveEvent
-import co.yap.yapcore.enums.AlertType
+import co.yap.yapcore.enums.OTPActions
+import co.yap.yapcore.enums.VerifyPassCodeEnum
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.leanplum.trackEventWithAttributes
@@ -124,7 +126,7 @@ class VerifyPasscodeViewModel(application: Application) :
                 )
             )) {
                 is RetroApiResponse.Success -> {
-                    if (!response.data.accessToken.isNullOrEmpty()) {
+                    if (!response.data.accessToken.isNullOrBlank()) {
                         authRepository.setJwtToken(response.data.accessToken)
                         validateDeviceResult.postValue(true)
                     } else {
@@ -167,7 +169,6 @@ class VerifyPasscodeViewModel(application: Application) :
                        // SessionManager.user = response.data.data[0]
                         SessionManager.usersList?.value = response.data.data as ArrayList
                         SessionManager.user = getCurrentUser()
-                        SessionManager.setupDataSetForBlockedFeatures()
                         trackEventWithAttributes(SessionManager.user)
                         accountInfo.postValue(SessionManager.user)
                         state.loading = false
@@ -188,7 +189,8 @@ class VerifyPasscodeViewModel(application: Application) :
                     DemographicDataRequest(
                         clientId = state.username,
                         clientSecret = state.passcode,
-                        deviceId = state.deviceId
+                        deviceId = state.deviceId,
+                        otpMessage = otpMessage(OTPActions.DEMOGRAPHIC_VALIDATION.name)
                     )
                 )) {
                 is RetroApiResponse.Success -> {
@@ -210,7 +212,8 @@ class VerifyPasscodeViewModel(application: Application) :
             when (val response = messagesRepository.createForgotPasscodeOTP(
                 CreateForgotPasscodeOtpRequest(
                     Utils.verifyUsername(username),
-                    !Utils.isUsernameNumeric(username)
+                    !Utils.isUsernameNumeric(username),
+                    otpMessage = otpMessage(OTPActions.FORGOT_PASS_CODE.name)
                 )
             )) {
                 is RetroApiResponse.Success -> {
@@ -249,4 +252,12 @@ class VerifyPasscodeViewModel(application: Application) :
     override fun handlePressOnPressView(id: Int) {
         onClickEvent.value = id
     }
+
+    override fun otpMessage(otpAction : String): String = context.getOtpMessageFromComposer(
+            otpAction,
+            if (state.verifyPassCodeEnum == VerifyPassCodeEnum.ACCESS_ACCOUNT.name) "There" else SessionManager.user?.currentCustomer?.firstName,
+            "%s1",
+            "%s2",
+          if (state.verifyPassCodeEnum == VerifyPassCodeEnum.ACCESS_ACCOUNT.name) "%s3" else SessionManager.helpPhoneNumber
+        )
 }

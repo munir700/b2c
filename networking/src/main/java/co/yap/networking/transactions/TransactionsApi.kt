@@ -6,6 +6,12 @@ import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.notification.responsedtos.HomeNotification
 import co.yap.networking.transactions.requestdtos.*
 import co.yap.networking.transactions.responsedtos.*
+import co.yap.networking.transactions.responsedtos.categorybar.CategoryBarResponse
+import co.yap.networking.transactions.responsedtos.billpayment.BillAccountHistoryResponse
+import co.yap.networking.transactions.responsedtos.billpayment.BillLineChartHistory
+import co.yap.networking.transactions.responsedtos.billpayments.BPAnalyticsDetailsDTO
+import co.yap.networking.transactions.responsedtos.billpayments.BPAnalyticsResponseDTO
+import co.yap.networking.transactions.responsedtos.payallbills.PayAllBillsResponse
 import co.yap.networking.transactions.responsedtos.purposepayment.PaymentPurposeResponseDTO
 import co.yap.networking.transactions.responsedtos.topuptransactionsession.Check3DEnrollmentSessionResponse
 import co.yap.networking.transactions.responsedtos.topuptransactionsession.CreateTransactionSessionResponseDTO
@@ -20,7 +26,7 @@ import java.util.*
 interface TransactionsApi {
     suspend fun addFunds(addFundsRequest: AddFundsRequest): RetroApiResponse<AddRemoveFundsResponse>
     suspend fun removeFunds(removeFundsResponse: RemoveFundsRequest): RetroApiResponse<AddRemoveFundsResponse>
-    suspend fun getFundTransferLimits(productCode: String?): RetroApiResponse<FundTransferLimitsResponse>
+    suspend fun getFundTransferLimits(productCode: String?,accountUuuid : String?): RetroApiResponse<FundTransferLimitsResponse>
     suspend fun getFundTransferDenominations(productCode: String): RetroApiResponse<FundTransferDenominationsResponse>
     suspend fun getCardFee(cardType: String): RetroApiResponse<RemittanceFeeResponse>
     suspend fun getDebitCardFee(): RetroApiResponse<RemittanceFeeResponse>
@@ -91,6 +97,7 @@ interface TransactionsApi {
     ): RetroApiResponse<AnalyticsDetailResponseDTO>
 
     suspend fun getAllTransactionReceipts(transactionId: String): RetroApiResponse<TransactionReceiptResponse>
+
     suspend fun addTransactionReceipt(
         transactionId: String,
         transactionReceipt: MultipartBody.Part
@@ -103,6 +110,7 @@ interface TransactionsApi {
     ): RetroApiResponse<ApiResponse>
 
     suspend fun getTransDetailForLeanplum(): RetroApiResponse<TransactionDataResponseForLeanplum>
+
     suspend fun getTotalPurchases(
         totalPurchaseRequest: TotalPurchaseRequest
     ): RetroApiResponse<TotalPurchasesResponse>
@@ -117,6 +125,21 @@ interface TransactionsApi {
         sendEmailRequestModel: SendEmailRequest
     ): RetroApiResponse<ApiResponse>
 
+    suspend fun getTotalPurchasesList(totalPurchaseRequest: TotalPurchaseRequest): RetroApiResponse<TotalPurchasesTransactionResponse>
+
+    suspend fun requestCategoryBarData(): RetroApiResponse<CategoryBarResponse>
+
+    //Pay bill from bill payment
+    suspend fun payBill(payBillRequest: PayBillRequest): RetroApiResponse<ApiResponse>
+    suspend fun fetchCustomerBillHistory(customerBillUuid: String): RetroApiResponse<BillAccountHistoryResponse>
+    suspend fun getBPAnalytics(date: String?): RetroApiResponse<BPAnalyticsResponseDTO>
+    suspend fun getBPLineChartHistory(customerBillUuid: String): RetroApiResponse<BaseListResponse<BillLineChartHistory>>
+    suspend fun getBPCategoryHistory(
+        month: String?,
+        categoryId: String?
+    ): RetroApiResponse<BPAnalyticsDetailsDTO>
+
+    suspend fun payAllBills(payAllBillsRequest: ArrayList<PayAllRequest>): RetroApiResponse<PayAllBillsResponse>
 
     //    House Hold API calls fees/subscriptions
     suspend fun getPrepaidUserSubscriptionsPlans(

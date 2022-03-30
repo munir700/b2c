@@ -333,21 +333,29 @@ class EasyMoneyEditText : AppCompatEditText {
                         if (valStr.contains(".")) {
                             if (valStr.indexOf(".") == valStr.length - 1) {
                                 // decimal has been currently put
-                                val front = getDecoratedStringFromNumber(
-                                    valStr.substring(
-                                        0,
-                                        valStr.length - 1
-                                    ).toLong()
-                                )
-                                textToDisplay = "$front."
-                                setText(textToDisplay)
+                                if (valStr.startsWith(".")) {
+                                    textToDisplay = valStr
+                                    setText(textToDisplay)
+                                }else {
+                                    val front = getDecoratedStringFromNumber(
+                                        valStr.substring(
+                                            0,
+                                            valStr.length - 1
+                                        ).toLong()
+                                    )
+                                    textToDisplay = "$front."
+                                    setText(textToDisplay)
+                                }
                             } else {
                                 val nums =
                                     getValueString().split("\\.".toRegex()).toTypedArray()
                                 if (nums[1].length <= decimalDigits) {
-                                    val front =
-                                        getDecoratedStringFromNumber(nums[0].toLong())
-                                    textToDisplay = front + "." + nums[1]
+                                    if (nums[0].isEmpty().not()) {
+                                        val front = getDecoratedStringFromNumber(nums[0].toLong())
+                                        textToDisplay = front + "." + nums[1]
+                                    } else {
+                                        textToDisplay = "." + nums[1]
+                                    }
                                     setText(textToDisplay)
                                 } else {
                                     val front =
@@ -378,7 +386,6 @@ class EasyMoneyEditText : AppCompatEditText {
         super.onAttachedToWindow()
         setEditTextDimension()
     }
-
 
     private fun setEditTextDimension() {
         val dimensions = Utils.getDimensionsByPercentage(context, 50, 8)

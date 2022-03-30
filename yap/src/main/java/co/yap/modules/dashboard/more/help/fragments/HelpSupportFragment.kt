@@ -5,6 +5,7 @@ import android.view.View
 import androidx.annotation.Nullable
 import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
@@ -21,6 +22,7 @@ import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.managers.SessionManager
 import com.liveperson.infra.CampaignInfo
+import com.uxcam.UXCam
 
 class HelpSupportFragment : MoreBaseFragment<IHelpSupport.ViewModel>(), IHelpSupport.View {
 
@@ -33,7 +35,7 @@ class HelpSupportFragment : MoreBaseFragment<IHelpSupport.ViewModel>(), IHelpSup
     private val appInstallId = SessionManager.user?.uuid
 
     override val viewModel: IHelpSupport.ViewModel
-        get() = ViewModelProviders.of(this).get(HelpSupportViewModel::class.java)
+        get() = ViewModelProvider(this).get(HelpSupportViewModel::class.java)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -78,14 +80,7 @@ class HelpSupportFragment : MoreBaseFragment<IHelpSupport.ViewModel>(), IHelpSup
             }
             R.id.lyCall -> {
                 trackEventWithScreenName(FirebaseEvent.CLICK_CALL)
-                requireContext().makeCall(viewModel.state.contactPhone.get())
-//                viewModel.state.contactPhone.get()?.let { num ->
-//                    confirm(message = bold(num),
-//                        positiveButton = "Call",
-//                        negativeButton = "Cancel",
-//                        callback = { requireContext().makeCall(num) },
-//                        negativeCallback = {})
-//                }
+                requireContext().openDialer(viewModel.state.contactPhone.get() ?: "")
             }
 
         }
@@ -121,6 +116,11 @@ class HelpSupportFragment : MoreBaseFragment<IHelpSupport.ViewModel>(), IHelpSup
         super.onResume()
         if (activity is YapDashboardActivity)
             (activity as YapDashboardActivity).showHideBottomBar(false)
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        UXCam.occludeSensitiveScreen(false)
     }
 
     override fun onStop() {

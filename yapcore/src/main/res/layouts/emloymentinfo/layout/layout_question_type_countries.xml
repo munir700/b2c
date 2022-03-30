@@ -43,7 +43,7 @@
                 android:layout_marginBottom="@dimen/_3sdp"
                 android:lineSpacingExtra="@dimen/_2sdp"
                 android:text="@{viewModel.questionUiFields.question.questionTitle}"
-                android:textColor="@color/darkSlateBlue"
+                android:textColor="@color/darkSlateBlueFaded"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/spinner_reasons"
                 tools:text="Add all the countries your company does business with" />
@@ -76,7 +76,21 @@
 
             <include
                 layout="@layout/content_input_field_selector"
+                app:containsError="@{viewModel.questionUiFields.containsError}"
                 app:isFocus="@{viewModel.questionUiFields.isFocusInput}" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvError"
+                style="@style/SmallGrey"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_small"
+                android:text="@string/kyc_incorrect_field"
+                android:textColor="@color/red"
+                android:textSize="@dimen/small_text_size"
+                android:visibility="@{viewModel.questionUiFields.containsError ? View.VISIBLE : View.GONE}"
+                tools:text="@string/kyc_incorrect_field" />
+
 
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -3,6 +3,7 @@ package co.yap.yapcore.helpers.validation.rule
 import android.view.View
 import android.widget.TextView
 import androidx.annotation.Keep
+import co.yap.yapcore.R
 import co.yap.yapcore.helpers.validation.util.EditTextHandler
 
 /**
@@ -23,15 +24,24 @@ class FirstNameRule(view: TextView, errorMessage: String, errorEnabled: Boolean)
 
     override fun onValidationSucceeded(view: TextView?) {
         super.onValidationSucceeded(view)
-        view?.let { EditTextHandler.removeError(it) }
-
+        if (errorEnabled) {
+            view?.apply {
+                EditTextHandler.getTextInputLayout(view)
+                    ?.apply { setEndIconDrawable(R.drawable.path) }
+            }
+//            view?.let { EditTextHandler.removeError(it) }
+        }
     }
 
     override fun onValidationFailed(view: TextView?) {
         super.onValidationFailed(view)
-        view?.let {
-            if (errorEnabled)
-                EditTextHandler.setError(it, errorMessage)
+        if (errorEnabled) {
+            view?.apply {
+                EditTextHandler.getTextInputLayout(view)?.apply {
+                    endIconDrawable = null
+                }
+            }
         }
+//        EditTextHandler.setError(it, errorMessage)
     }
 }

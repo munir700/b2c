@@ -45,7 +45,6 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
     ITransactionDetails.View, OnMapReadyCallback {
 
     override fun getBindingVariable(): Int = BR.viewModel
-
     override fun getLayoutId(): Int = R.layout.activity_transaction_details
     override val viewModel: ITransactionDetails.ViewModel
         get() = ViewModelProviders.of(this).get(TransactionDetailsViewModel::class.java)
@@ -53,7 +52,6 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setObservers()
-        //setContentDataColor(viewModel.transaction.get())
         viewModel.setContentDataColor(
             viewModel.transaction.get(),
             getBindings().tvTotalAmountValue,
@@ -61,7 +59,9 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
         )
         viewModel.state.transactionData.get()?.isMApVisible?.let { showMAp ->
             if (showMAp) initMap()
-            viewModel.setMapVisibility(getBindings().ivMap, map, showMAp)
+            viewModel.setMapVisibility(
+                getBindings().ivMap, map, showMAp
+            )
         }
     }
 
@@ -146,6 +146,7 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
                     data?.getValue(Constants.UPDATED_CATEGORY, "PARCEABLE") as TapixCategory
                 viewModel.state.updatedCategory.set(category)
                 viewModel.state.categoryDescription.set(viewModel.state.updatedCategory.get()?.description)
+                viewModel.state.isCategoryUpdated.set(true)
                 makeToast(this, "category updated sucessfully", LENGTH_SHORT)
             }
         }
@@ -215,14 +216,6 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
         )
     }
 
-    /*private fun setContentDataColor(transaction: Transaction?) {
-        //strike-thru textview
-        transaction?.let {
-            getBindings().tvTotalAmountValue.paintFlags =
-                if (transaction.isTransactionRejected() || transaction.status == TransactionStatus.FAILED.name) getBindings().tvTotalAmountValue.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG else 0
-        }
-    }*/
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK) {
@@ -243,9 +236,9 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
                             DateUtils.getCurrentDateWithFormat(DateUtils.FORMAT_LONG_OUTPUT)
                     }
                     viewModel.state.transactionNoteDate = "Note added  ${
-                    DateUtils.getCurrentDateWithFormat(
-                        DateUtils.FORMAT_LONG_OUTPUT
-                    )
+                        DateUtils.getCurrentDateWithFormat(
+                            DateUtils.FORMAT_LONG_OUTPUT
+                        )
                     }"
                 }
 
@@ -295,7 +288,11 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
                     ExtraKeys.TRANSACTION_OBJECT_CHILD_POSITION.name, -1
                 )
             )
-
+            intent.putExtra(ExtraKeys.IS_CATEGORY_UPDATED.name, viewModel.state.isCategoryUpdated.get())
+            if(viewModel.state.isCategoryUpdated.get()==true){
+                intent.putExtra(ExtraKeys.UPDATED_CATEGORY_ICON.name,viewModel.state.updatedCategory.get()?.categoryIcon )
+                intent.putExtra(ExtraKeys.UPDATED_CATEGORY_NAME.name,viewModel.state.updatedCategory.get()?.categoryName )
+            }
             setResult(Activity.RESULT_OK, intent)
         }
         finish()
@@ -334,5 +331,4 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
         viewModel.gMap = googleMap
         viewModel.setMap()
     }
-
 }

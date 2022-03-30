@@ -1,11 +1,11 @@
 package co.yap.modules.dashboard.cards.addpaymentcard.spare.main.fragments
 
-
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import co.yap.BR
 import co.yap.R
@@ -17,13 +17,12 @@ import co.yap.modules.dashboard.cards.addpaymentcard.spare.main.interfaces.ISpar
 import co.yap.modules.dashboard.cards.addpaymentcard.spare.main.viewmodels.SpareCardLandingViewModel
 import co.yap.yapcore.constants.Constants.KEY_AVAILABLE_BALANCE
 import co.yap.yapcore.helpers.SharedPreferenceManager
-import co.yap.yapcore.helpers.extentions.dimen
 import kotlinx.android.synthetic.main.fragment_spare_card_landing.*
 
 
 class SpareCardLandingFragment : AddPaymentChildFragment<ISpareCards.ViewModel>(), ISpareCards.View,
     SpareCardsLandingAdapter.OnItemClickedListener {
-
+    val args: SpareCardLandingFragmentArgs? by navArgs()
     override fun onItemClick(benefitsModel: BenefitsModel) {}
 
     override fun getBindingVariable(): Int = BR.viewModel
@@ -35,38 +34,19 @@ class SpareCardLandingFragment : AddPaymentChildFragment<ISpareCards.ViewModel>(
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel.getVirtualCardFee()
-        viewModel.parentViewModel?.getVirtualCardDesigns {
-            if (!viewModel.parentViewModel?.virtualCardDesignsList.isNullOrEmpty()) {
-                addSpareCard.enableButton(true)
-                viewModel.parentViewModel?.selectedVirtualCard =
-                    viewModel.parentViewModel?.virtualCardDesignsList?.firstOrNull()
-                viewModel.state.cardImageUrl =
-                    viewModel.parentViewModel?.virtualCardDesignsList?.firstOrNull()?.frontSideDesignImage
-                        ?: ""
-            } else {
-                addSpareCard.enableButton(false)
-            }
-        }
+        setDefaultStates()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setCardDimens()
         addBenefitRecyclerView()
         SharedPreferenceManager.getInstance(requireActivity()).removeValue(KEY_AVAILABLE_BALANCE)
 
         ViewModelProviders.of(requireActivity())
             .get(AddPaymentCardViewModel::class.java).state.tootlBarTitle =
             "Add a virtual spare card"
-
+        playCardAnimation()
         setObservers()
-    }
-
-    private fun setCardDimens() {
-        val params = linearLayout2.layoutParams
-        params.width = linearLayout2.context.dimen(R.dimen._204sdp)
-        params.height = linearLayout2.context.dimen(R.dimen._225sdp)
-        linearLayout2.layoutParams = params
     }
 
     private fun gotoAddSpareVirtualCardConfirmScreen() {
@@ -97,8 +77,28 @@ class SpareCardLandingFragment : AddPaymentChildFragment<ISpareCards.ViewModel>(
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
                 R.id.addSpareCard -> {
-                    //gotoAddSpareVirtualCardConfirmScreen()
-                    gotoAddVirtualCardScreen()
+                    args?.let { arg ->
+                        if (arg.landedFrom.isNotEmpty()) {
+                            when (arg.landedFrom) {
+                                "AddVirtualCardFragment" -> navigateToNext(
+                                    SpareCardLandingFragmentDirections.actionSpareCardLandingFragmentToAddVirtualCardFragment()
+                                )
+                                "AddVirtualCardNameFragment" -> navigateToNext(
+                                    SpareCardLandingFragmentDirections.actionSpareCardLandingFragmentToAddVirtualCardNameFragment()
+                                )
+                                "AddSpareCardFragment" -> navigateToNext(
+                                    SpareCardLandingFragmentDirections.actionSpareCardLandingFragmentToAddSpareCardFragment(
+                                        cardType = "",
+                                        isFromBlockCard = false
+                                    )
+                                )
+                            }
+                        } else {
+                            navigateToNext(SpareCardLandingFragmentDirections.actionSpareCardLandingFragmentToAddVirtualCardFragment())
+                        }
+                    }
+                        ?: navigateToNext(SpareCardLandingFragmentDirections.actionSpareCardLandingFragmentToAddVirtualCardFragment())
+                    //gotoAddVirtualCardScreen()
                 }
                 R.id.llAddVirtualCard -> {
                     gotoAddSpareVirtualCardConfirmScreen()
@@ -117,7 +117,9 @@ class SpareCardLandingFragment : AddPaymentChildFragment<ISpareCards.ViewModel>(
                         )
                     findNavController().navigate(action)
                 }
-
+                R.id.ivCross -> {
+                    activity?.onBackPressed()
+                }
             }
         })
         viewModel.errorEvent.observe(this, Observer {
@@ -132,10 +134,28 @@ class SpareCardLandingFragment : AddPaymentChildFragment<ISpareCards.ViewModel>(
         })
     }
 
-    private fun gotoAddVirtualCardScreen() {
-        val action =
-            SpareCardLandingFragmentDirections.actionSpareCardLandingFragmentToAddVirtualCardFragment()
-        navigate(action)
+    private fun setDefaultStates() {
+        args?.let { arg ->
+            if (arg.landedFrom.isEmpty()) {
+                viewModel.parentViewModel?.getVirtualCardDesigns {
+                    if (!viewModel.parentViewModel?.virtualCardDesignsList.isNullOrEmpty()) {
+                        addSpareCard.enableButton(true)
+                        viewModel.parentViewModel?.selectedVirtualCard =
+                            viewModel.parentViewModel?.virtualCardDesignsList?.firstOrNull()
+                        viewModel.state.cardImageUrl =
+                            viewModel.parentViewModel?.virtualCardDesignsList?.firstOrNull()?.frontSideDesignImage
+                                ?: ""
+                    } else {
+                        addSpareCard.enableButton(false)
+                    }
+                }
+            }
+        }
+    }
+
+    private fun playCardAnimation() {
+        lav_cards.progress = 0f
+        lav_cards.playAnimation()
     }
 
     override fun removeObservers() {
@@ -143,13 +163,9 @@ class SpareCardLandingFragment : AddPaymentChildFragment<ISpareCards.ViewModel>(
         viewModel.errorEvent.removeObservers(this)
     }
 
-    override fun onPause() {
+    override fun onDestroyView() {
         removeObservers()
-        super.onPause()
-    }
-
-    override fun onDestroy() {
-        removeObservers()
-        super.onDestroy()
+        super.onDestroyView()
     }
 }
+

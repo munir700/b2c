@@ -3,6 +3,7 @@ package co.yap.modules.location.kyc_additional_info.employment_info.questionnair
 import android.app.Application
 import android.view.View
 import androidx.databinding.ObservableField
+import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.countryutils.country.Country
 import co.yap.countryutils.country.filterSelectedIsoCodes
@@ -15,6 +16,7 @@ import co.yap.modules.location.viewmodels.LocationChildViewModel
 import co.yap.networking.coreitems.CoreBottomSheetData
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.requestdtos.EmploymentInfoRequest
+import co.yap.networking.customers.responsedtos.employment_amendment.EmploymentInfoAmendmentResponse
 import co.yap.networking.customers.responsedtos.employmentinfo.IndustrySegment
 import co.yap.networking.customers.responsedtos.employmentinfo.IndustrySegmentsResponse
 import co.yap.networking.customers.responsedtos.sendmoney.CountryModel
@@ -30,13 +32,18 @@ import co.yap.yapcore.helpers.StringUtils
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.getJsonDataFromAsset
 import co.yap.yapcore.helpers.extentions.parseToDouble
+import co.yap.yapcore.helpers.validation.IValidator
+import co.yap.yapcore.helpers.validation.Validator
 import co.yap.yapcore.interfaces.OnItemClickListener
+import co.yap.yapcore.managers.SessionManager
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
+import kotlinx.coroutines.delay
 
 class EmploymentQuestionnaireViewModel(application: Application) :
     LocationChildViewModel<IEmploymentQuestionnaire.State>(application),
-    IEmploymentQuestionnaire.ViewModel, IRepositoryHolder<CustomersRepository> {
+    IEmploymentQuestionnaire.ViewModel, IRepositoryHolder<CustomersRepository>, IValidator,
+    Validator.ValidationListener {
     override val repository: CustomersRepository = CustomersRepository
     override var clickEvent: SingleClickEvent = SingleClickEvent()
     override val state: IEmploymentQuestionnaire.State = EmploymentQuestionnaireState()
@@ -46,9 +53,22 @@ class EmploymentQuestionnaireViewModel(application: Application) :
     override val selectedBusinessCountries: ObservableField<ArrayList<String>> =
         ObservableField(arrayListOf())
     override var questionsList: ArrayList<QuestionUiFields> = arrayListOf()
+    override var employmentStatusValue: MutableLiveData<EmploymentInfoAmendmentResponse> =
+        MutableLiveData()
+    override var validator: Validator? = Validator(null)
+    override var businessCountriesLiveData: MutableLiveData<ArrayList<String>> =
+        MutableLiveData()
 
     override fun handleOnPressView(id: Int) {
         clickEvent.setValue(id)
+    }
+
+    override fun onCreate() {
+        super.onCreate()
+        validator?.setValidationListener(this)
+        if (hasAmendmentMap()) {
+            getAmendmentsEmploymentInfo()
+        }
     }
 
     override fun onResume() {
@@ -59,17 +79,27 @@ class EmploymentQuestionnaireViewModel(application: Application) :
         }
     }
 
-    override fun isDataRequiredFromApi(forStatus: EmploymentStatus) {
+    override fun isDataRequiredFromApi(
+        forStatus: EmploymentStatus, businessCountries: ArrayList<String>?,
+        segmentCode: String?
+    ) {
         when (forStatus) {
-            EmploymentStatus.SELF_EMPLOYED, EmploymentStatus.SALARIED_AND_SELF_EMPLOYED -> getCountriesAndSegments()
+            EmploymentStatus.SELF_EMPLOYED, EmploymentStatus.SALARIED_AND_SELF_EMPLOYED -> getCountriesAndSegments(
+                businessCountries,
+                segmentCode
+            )
             else -> {
             }
         }
     }
 
-    override fun questionnaires(forStatus: EmploymentStatus): ArrayList<QuestionUiFields> {
-        val questionnairesComposer: ComplianceQuestionsItemsComposer = KYCComplianceComposer()
-        return questionnairesComposer.compose(forStatus)
+    override fun questionnaires(
+        forStatus: EmploymentStatus,
+        defaultValue: EmploymentInfoAmendmentResponse?
+    ): ArrayList<QuestionUiFields> {
+        val questionnairesComposer: ComplianceQuestionsItemsComposer =
+            KYCComplianceComposer()
+        return questionnairesComposer.compose(forStatus, defaultValue)
     }
 
     override fun employmentTypes(): MutableList<EmploymentType> {
@@ -80,10 +110,18 @@ class EmploymentQuestionnaireViewModel(application: Application) :
             ), object : TypeToken<List<EmploymentType>>() {}.type
         )
     }
+    override fun selfEmploymentTypes(): MutableList<EmploymentType> {
+        val gson = GsonBuilder().create()
+        return gson.fromJson<MutableList<EmploymentType>>(
+            context.getJsonDataFromAsset(
+                "jsons/self_employment_type.json"
+            ), object : TypeToken<List<EmploymentType>>() {}.type
+        )
+    }
 
     override fun parseEmploymentTypes(employmentTypes: MutableList<EmploymentType>): MutableList<CoreBottomSheetData> {
         employmentTypes.forEach {
-            it.subTitle = it.employmentType
+            it.subTitle = it.employmentType.trim()
         }
         return employmentTypes.toMutableList()
     }
@@ -155,6 +193,12 @@ class EmploymentQuestionnaireViewModel(application: Application) :
         val objQuestion = getDataForPosition(position)
         objQuestion.question.multipleAnswers.get()?.clear()
         objQuestion.question.multipleAnswers.get()?.addAll(countries)
+        // Only adding previous answers when its empty
+        if (hasAmendmentMap() && objQuestion.question.multiplePreviousAnswers.get()
+                ?.isEmpty() == true
+        ) {
+            objQuestion.question.multiplePreviousAnswers.get()?.addAll(countries)
+        }
         questionsList[position] = objQuestion
         selectedBusinessCountries.get()?.clear()
         selectedBusinessCountries.get()?.addAll(countries)
@@ -165,7 +209,7 @@ class EmploymentQuestionnaireViewModel(application: Application) :
             View.GONE else rvCountries.visibility = View.VISIBLE
 
         rvCountries.smoothScrollToPosition(rvCountries.adapter?.itemCount ?: 0)
-
+        validateForm()
     }
 
     val employmentTypeItemClickListener = object : OnItemClickListener {
@@ -178,7 +222,7 @@ class EmploymentQuestionnaireViewModel(application: Application) :
             }
             objQuestion.question.answer.set(answerValue)
             questionsList[selectedQuestionItemPosition] = objQuestion
-            validate()
+            validateForm()
         }
     }
 
@@ -186,11 +230,114 @@ class EmploymentQuestionnaireViewModel(application: Application) :
         override fun onItemClick(view: View, data: Any, pos: Int) {
             selectedQuestionItemPosition = pos
             when (view.id) {
-                R.id.etAmount, R.id.etQuestionEditText -> validate()
+                R.id.etAmount, R.id.etQuestionEditText -> validateForm()
             }
         }
     }
 
+    override fun validateForm() {
+        launch {
+            delay(500)
+            validator?.toValidate()
+            validate()
+        }
+    }
+
+    private fun validate() {
+        var isValid = false
+        questionsList.forEach {
+            isValid = when (it.question.questionType) {
+                QuestionType.COUNTRIES_FIELD -> {
+                    var hasCountryError = true
+                    if (it.question.multiplePreviousAnswers.get()
+                            ?.isNotEmpty() == true && hasKeyInAmendmentMap(it.question.tag)
+                    ) {
+                        it.question.multiplePreviousAnswers.get()?.let { previousAnswersList ->
+                            if (previousAnswersList.size == it.question.multipleAnswers.get()?.size) {
+                                previousAnswersList.forEach { country ->
+                                    if (it.question.multipleAnswers.get()
+                                            ?.firstOrNull { it == country } == null
+                                    ) {
+                                        hasCountryError = false
+                                        return@let
+                                    }
+                                }
+                            } else {
+                                hasCountryError = false
+                                it.containsError.set(false)
+                            }
+                        }
+                    } else {
+                        hasCountryError = false
+                        it.containsError.set(false)
+                    }
+                    if (hasCountryError) {
+                        it.containsError.set(true)
+                        false
+                    } else it.question.multipleAnswers.get()
+                        ?.isNotEmpty() == true
+                }
+                QuestionType.EDIT_TEXT_FIELD -> {
+                    StringUtils.checkSpecialCharacters(it.question.answer.get() ?: "")
+                }
+                else -> it.question.answer.get().isNullOrBlank().not()
+            }
+            if (!isValid) {
+                 validator?.isValidate?.value = isValid
+                return@validate
+            }
+        }
+
+        val depositQuestion =
+            questionsList.firstOrNull { it.key == EmploymentQuestionIdentifier.DEPOSIT_AMOUNT }
+        val depositAmount =
+            depositQuestion?.getAnswer()
+        if (depositQuestion != null && hasKeyInAmendmentMap(depositQuestion.question.tag)) {
+            val previousDepositAmount =
+                questionsList.firstOrNull { it.key == EmploymentQuestionIdentifier.DEPOSIT_AMOUNT }
+                    ?.question?.previousValue
+            if (depositAmount?.isNotBlank() == true && depositAmount == previousDepositAmount?.get()) {
+                questionsList.firstOrNull { it.key == EmploymentQuestionIdentifier.DEPOSIT_AMOUNT }
+                    ?.containsError?.set(true)
+            } else {
+                questionsList.firstOrNull { it.key == EmploymentQuestionIdentifier.DEPOSIT_AMOUNT }
+                    ?.containsError?.set(false)
+            }
+        }
+
+        val salaryQuestion =
+            questionsList.firstOrNull { it.key == EmploymentQuestionIdentifier.SALARY_AMOUNT }
+        val salaryAmount = salaryQuestion?.getAnswer()
+        if (salaryQuestion != null && hasKeyInAmendmentMap(salaryQuestion.question.tag)) {
+            val previousSalary =
+                questionsList.firstOrNull { it.key == EmploymentQuestionIdentifier.SALARY_AMOUNT }?.question?.previousValue
+            if (salaryAmount?.isNotBlank() == true && salaryAmount == previousSalary?.get()) {
+                questionsList.firstOrNull { it.key == EmploymentQuestionIdentifier.SALARY_AMOUNT }
+                    ?.containsError?.set(true)
+            } else {
+                questionsList.firstOrNull { it.key == EmploymentQuestionIdentifier.SALARY_AMOUNT }
+                    ?.containsError?.set(false)
+            }
+        }
+
+       validator?.isValidate?.value =
+            isValid && salaryAmount.parseToDouble() >= depositAmount.parseToDouble()
+    }
+
+    override fun hasKeyInAmendmentMap(key: String?): Boolean {
+        if (key != null && parentViewModel?.amendmentMap != null) {
+            parentViewModel?.amendmentMap?.let { it ->
+                it.values.toList().forEach { it ->
+                    it?.forEach {
+                        if (key == it) {
+                            return true
+                        }
+                    }
+                }
+            }
+        }
+        return false
+    }
 
     private fun fetchParallelAPIResponses(
         responses: (RetroApiResponse<CountryModel>, RetroApiResponse<IndustrySegmentsResponse>) -> Unit
@@ -210,49 +357,10 @@ class EmploymentQuestionnaireViewModel(application: Application) :
         }
     }
 
-    fun validate() {
-        var isValid = false
-        questionsList.forEach {
-            isValid = when (it.question.questionType) {
-                QuestionType.COUNTRIES_FIELD -> {
-                    it.question.multipleAnswers.get()
-                        ?.isNotEmpty() == true
-                }
-                QuestionType.EDIT_TEXT_FIELD -> {
-                    StringUtils.checkSpecialCharacters(it.question.answer.get() ?: "")
-                }
-                QuestionType.EDIT_TEXT_FIELD_WITH_AMOUNT -> {
-                    if (employmentStatus == EmploymentStatus.OTHER) {
-                        !it.question.answer.get().isNullOrBlank()
-                    } else {
-
-                        val salaryAmount =
-                            questionsList.firstOrNull { it.key == EmploymentQuestionIdentifier.SALARY_AMOUNT }
-                                ?.getAnswer()
-                        val depositAmount =
-                            questionsList.firstOrNull { it.key == EmploymentQuestionIdentifier.DEPOSIT_AMOUNT }
-                                ?.getAnswer()
-
-                        !it.question.answer.get().isNullOrBlank()
-                                && salaryAmount?.parseToDouble() ?: 0.0 > 0 &&
-                                salaryAmount.parseToDouble() > depositAmount.parseToDouble()
-                    }
-                }
-                else -> {
-                    !it.question.answer.get().isNullOrBlank()
-                }
-            }
-
-            if (!isValid) {
-                state.valid.set(isValid)
-                return
-            }
-        }
-        state.valid.set(isValid)
-    }
-
-
-    override fun getCountriesAndSegments() {
+    override fun getCountriesAndSegments(
+        businessCountries: ArrayList<String>?,
+        segmentCode: String?
+    ) {
         fetchParallelAPIResponses { countriesResponse, segmentsResponse ->
             launch(Dispatcher.Main) {
                 when (countriesResponse) {
@@ -261,6 +369,17 @@ class EmploymentQuestionnaireViewModel(application: Application) :
                             countriesResponse.data.data,
                             addOIndex = false
                         ) as ArrayList<Country>
+                        val businessCountriesList: ArrayList<String> = ArrayList()
+                        if (isFromAmendment() && businessCountries != null) {
+                            for (i in 0 until businessCountries.size) {
+                                val businessCountry = parentViewModel?.countries?.filter {
+                                    it.isoCountryCode2Digit.equals(businessCountries[i])
+                                }?.get(0)?.getName() ?: ""
+                                businessCountriesList.add(businessCountry)
+                            }
+                            selectedQuestionItemPosition = 3
+                            businessCountriesLiveData.value = businessCountriesList
+                        }
                     }
                     is RetroApiResponse.Error -> {
                         showDialogWithCancel(countriesResponse.error.message)
@@ -271,6 +390,16 @@ class EmploymentQuestionnaireViewModel(application: Application) :
                     is RetroApiResponse.Success -> {
                         industrySegmentsList.clear()
                         industrySegmentsList.addAll(segmentsResponse.data.segments)
+
+                        if (isFromAmendment() && segmentCode.isNullOrBlank().not()) {
+                            val industrySegment = industrySegmentsList.first {
+                                it.segmentCode == segmentCode
+                            }
+                            val objQuestion = getDataForPosition(2)
+                            objQuestion.question.answer.set(industrySegment.segment)
+                            objQuestion.question.previousValue.set(industrySegment.segment)
+                            validateForm()
+                        }
                     }
                     is RetroApiResponse.Error -> {
                         showDialogWithCancel(segmentsResponse.error.message)
@@ -312,38 +441,52 @@ class EmploymentQuestionnaireViewModel(application: Application) :
                     employmentStatus = status.name,
                     employerName = getDataForPosition(0).getAnswer(),
                     monthlySalary = getDataForPosition(1).getAnswer(),
-                    expectedMonthlyCredit = getDataForPosition(2).getAnswer()
+                    expectedMonthlyCredit = getDataForPosition(2).getAnswer(),
+                    isAmendment = isFromAmendment()
                 )
             }
-            EmploymentStatus.SALARIED_AND_SELF_EMPLOYED,EmploymentStatus.SELF_EMPLOYED -> {
+            EmploymentStatus.SALARIED_AND_SELF_EMPLOYED, EmploymentStatus.SELF_EMPLOYED -> {
                 EmploymentInfoRequest(
                     employmentStatus = status.name,
                     companyName = getDataForPosition(0).getAnswer(),
+                    typeOfSelfEmployment= selfEmploymentTypes().find {
+                        it.employmentType == getDataForPosition(
+                            1
+                        ).getAnswer().trim()
+                    }?.employmentTypeCode,
                     industrySegmentCodes = listOf(
                         industrySegmentsList.first {
                             it.segment == getDataForPosition(
-                                1
+                                2
                             ).getAnswer()
                         }.segmentCode ?: ""
                     ),
                     businessCountries = parentViewModel?.countries?.filterSelectedIsoCodes(
-                        getDataForPosition(2).question.multipleAnswers.get() ?: arrayListOf()
+                        getDataForPosition(3).question.multipleAnswers.get() ?: arrayListOf()
                     ),
-                    monthlySalary = getDataForPosition(3).getAnswer(),
-                    expectedMonthlyCredit = getDataForPosition(4).getAnswer()
+                    monthlySalary = getDataForPosition(4).getAnswer(),
+                    expectedMonthlyCredit = getDataForPosition(5).getAnswer(),
+                    isAmendment = isFromAmendment()
                 )
             }
             EmploymentStatus.OTHER -> {
                 EmploymentInfoRequest(
                     employmentStatus = status.name,
-                    employmentType = employmentTypes().first {
+                    employmentType = employmentTypes().find {
                         it.employmentType == getDataForPosition(
                             0
-                        ).getAnswer()
-                    }.employmentTypeCode,
+                        ).getAnswer().trim()
+                    }?.employmentTypeCode,
                     sponsorName = getDataForPosition(1).getAnswer(),
-                    monthlySalary = getDataForPosition(2).getAnswer(),
-                    expectedMonthlyCredit = getDataForPosition(3).getAnswer()
+                    monthlySalary = getDataForPosition(3).getAnswer(),
+                    expectedMonthlyCredit = getDataForPosition(4).getAnswer(),
+                    employmentTypeValue = employmentTypes().find {
+                        it.employmentType == getDataForPosition(
+                            0
+                        ).getAnswer().trim()
+                    }?.employmentType,
+                    isAmendment = isFromAmendment()
+
                 )
             }
             EmploymentStatus.NONE -> TODO()
@@ -353,4 +496,61 @@ class EmploymentQuestionnaireViewModel(application: Application) :
     override fun getDataForPosition(position: Int): QuestionUiFields {
         return questionsList[position]
     }
+
+    override fun hasAmendmentMap() = parentViewModel?.amendmentMap?.isNullOrEmpty() == false
+
+    override fun getAmendmentsEmploymentInfo() {
+        launch {
+            state.loading = true
+            when (val response =
+                repository.getAmendmentsEmploymentInfo(SessionManager.user?.uuid ?: "")) {
+                is RetroApiResponse.Success -> {
+                    state.loading = false
+                    response.data.data?.let { res ->
+                        if (employmentStatus == EmploymentStatus.NONE)
+                            employmentStatus = EmploymentStatus.valueOf(res.employmentStatus ?: "")
+                        employmentStatusValue.value = res
+
+                        if (employmentStatus == EmploymentStatus.SALARIED_AND_SELF_EMPLOYED ||
+                            employmentStatus == EmploymentStatus.SELF_EMPLOYED
+                        ) {
+                            isDataRequiredFromApi(
+                                employmentStatus,
+                                res.businessCountries,
+                                res.industrySubSegmentCode?.get(0) ?: ""
+                            )
+                        } else if (employmentStatus == EmploymentStatus.OTHER) {
+                            selectedQuestionItemPosition = 0
+                            val objQuestion = getDataForPosition(selectedQuestionItemPosition)
+                            objQuestion.question.answer.set(res.employmentTypeValue?:"")
+                            questionsList[selectedQuestionItemPosition] = objQuestion
+                            if (objQuestion.question.questionType == QuestionType.DROP_DOWN_FIELD)
+                                objQuestion.question.previousValue.set(objQuestion.question.answer.get())
+                            validateForm()
+                        } else {
+                            isDataRequiredFromApi(employmentStatus)
+                        }
+                    }
+                }
+                is RetroApiResponse.Error -> {
+                    state.loading = false
+                    state.toast = response.error.message
+                }
+            }
+        }
+    }
+
+    override fun onValidationSuccess(validator: Validator) {
+        super.onValidationSuccess(validator)
+       // state.ruleValid = true
+      //  validate()
+    }
+
+    override fun onValidationError(validator: Validator) {
+        super.onValidationError(validator)
+       // state.ruleValid = false
+    }
+
+    //check if Amendment exist or not
+    override fun isFromAmendment() = parentViewModel?.amendmentMap?.isNullOrEmpty() == false
 }

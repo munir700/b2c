@@ -6,6 +6,7 @@
     <data>
 
         <import type="co.yap.translation.Strings" />
+        <import type="co.yap.yapcore.helpers.Utils" />
 
         <variable
             name="viewModel"
@@ -15,6 +16,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        app:sensitiveViews="@{Utils.getViewsList(etBankREquiredFieldCode,etSwiftCode,etAccountIbanNumber,llBankDetail,viewPhoneNumber,etLastName,etFirstName,etnickName,tvCountryName)}"
         android:fillViewport="true">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -66,6 +68,7 @@
                             tools:text="@string/screen_add_beneficiary_detail_display_text_country" />
 
                         <LinearLayout
+                            android:id="@+id/llCountry"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal">
@@ -80,6 +83,7 @@
                                 app:src="@{viewModel.state.flagDrawableResId}" />
 
                             <TextView
+                                android:id="@+id/tvCountryName"
                                 style="@style/Small"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -92,6 +96,7 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/llTransferType"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight=".5"
@@ -109,6 +114,7 @@
 
 
                         <TextView
+                            android:id="@+id/tvTransferType"
                             style="@style/Small"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"

@@ -1,15 +1,17 @@
 package co.yap.yapcore.helpers.validation.rule
 
 import android.widget.TextView
+import androidx.annotation.Keep
 import co.yap.yapcore.R
 import co.yap.yapcore.helpers.extentions.getDrawable
 import co.yap.yapcore.helpers.extentions.isEmpty
+import com.google.android.material.textfield.TextInputEditText
 import co.yap.yapcore.helpers.validation.util.EditTextHandler.removeError
-import co.yap.yapcore.helpers.validation.util.EditTextHandler.setError
 
 /**
  * Created irfan arshad on 10/6/2020.
  */
+@Keep
 class ConfirmMobileNoRule(
     view: TextView?,
     value: TextView?,

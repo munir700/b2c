@@ -2,7 +2,7 @@ package co.yap.networking.transactions.requestdtos
 
 import com.google.gson.annotations.SerializedName
 
-const val REQUEST_PAGE_SIZE = 200
+const val REQUEST_PAGE_SIZE = 250
 
 data class HomeTransactionsRequest(
     @SerializedName("number")

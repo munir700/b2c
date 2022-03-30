@@ -13,5 +13,4 @@ open class BaseViewHolder<ITEM : ApiResponse, VM : BaseListItemViewModel<ITEM>>
         mViewModel.setItem(item, position)
         mDataBinding.executePendingBindings()
     }
-
 }

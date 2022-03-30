@@ -64,7 +64,7 @@ class CardPlansFragment : CardPlansBaseFragment<ICardPlans.ViewModel>(), ICardPl
         when (id) {
             R.id.ivShare -> requireContext().share(
                 getString(
-                    Strings.common_yap_share_content,
+                    Strings.screen_invite_friend_display_text_share_url,
                     Utils.getAdjustURL()
                 ), title = "Share"
             )

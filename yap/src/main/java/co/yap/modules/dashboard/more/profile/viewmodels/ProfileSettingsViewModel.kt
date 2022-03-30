@@ -38,6 +38,7 @@ import okhttp3.RequestBody
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.HashSet
 
 class ProfileSettingsViewModel(application: Application) :
     MoreBaseViewModel<IProfile.State>(application), IProfile.ViewModel,
@@ -169,6 +170,9 @@ class ProfileSettingsViewModel(application: Application) :
                             eidExpireDate = getFormattedDate(data.data?.dateExpiry ?: "")
                         )
                     } else {
+                        val a:Set<Int> = setOf(1,2,9,1,2,31,4,1,5,7)
+                        val b =a.toList()
+
                         SessionManager.eidStatus =
                             EIDStatus.NOT_SET
                         state.isShowErrorIcon.set(true)

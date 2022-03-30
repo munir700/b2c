@@ -8,6 +8,7 @@
         <import type="co.yap.translation.Strings" />
 
         <import type="android.view.View" />
+        <import type="co.yap.yapcore.helpers.Utils" />
 
         <variable
             name="viewModel"
@@ -19,6 +20,7 @@
         android:id="@+id/rootContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        app:sensitiveViews="@{Utils.getViewsList(tvIban,tvTitle)}"
         android:layout_marginStart="@dimen/_8sdp"
         android:layout_marginEnd="@dimen/_8sdp"
         android:background="@color/white">
