@@ -352,7 +352,6 @@ class EidInfoReviewAmendmentViewModel(application: Application) :
     override fun requestAllAPIs(callAll: Boolean) {
         requestAllEIDConfigurations(callAll) { senctionedCountryResponse, configurationEIDResponse, uqudoTokenResponse ->
             launch(Dispatcher.Main) {
-                state.viewState.postValue(false)
                 when {
                     senctionedCountryResponse is RetroApiResponse.Success && configurationEIDResponse is RetroApiResponse.Success && uqudoTokenResponse is RetroApiResponse.Success -> {
                         sectionedCountries = senctionedCountryResponse.data
@@ -365,8 +364,10 @@ class EidInfoReviewAmendmentViewModel(application: Application) :
                             }
                         })
                         handleIsUsValidation()
-                        state.uqudoToken.value = uqudoTokenResponse.data.data?.accessToken ?: ""
-
+                        uqudoResponse.value = uqudoTokenResponse.data.data
+                    }
+                    uqudoTokenResponse is RetroApiResponse.Success -> {
+                        uqudoResponse.value = uqudoTokenResponse.data.data
                     }
                     else -> {
                         if (senctionedCountryResponse is RetroApiResponse.Error)
@@ -387,7 +388,6 @@ class EidInfoReviewAmendmentViewModel(application: Application) :
         ) -> Unit
     ) {
         launch(Dispatcher.Background) {
-            state.viewState.postValue(false)
             when (callAll) {
                 true -> {
                     val senctionedCountriesList = launchAsync {
@@ -641,7 +641,7 @@ class EidInfoReviewAmendmentViewModel(application: Application) :
                         fullName = getFullName(),
                         gender = it.gender,
                         nationality = it.digit3CountryCode ?: "",
-                        identityNo = it.identityNo?.replace("-".toRegex(),""),
+                        identityNo = it.identityNo?.replace("-".toRegex(), ""),
                         filePaths = it.filePaths ?: arrayListOf(),
                         countryIsSanctioned = if (fromInformationErrorFragment) fromInformationErrorFragment else null,
                         isAmendment = !parentViewModel?.amendmentMap.isNullOrEmpty()

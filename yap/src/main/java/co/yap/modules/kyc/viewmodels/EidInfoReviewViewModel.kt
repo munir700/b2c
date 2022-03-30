@@ -158,14 +158,14 @@ class EidInfoReviewViewModel(application: Application) :
 
     override fun onEIDScanningComplete(result: IdentityScannerResult) {
         //   uploadDocuments(result)
-
     }
 
 
     fun performUqudoUploadDocumentsRequest(
         fromInformationErrorFragment: Boolean,
         success: (message: String) -> Unit
-    ) {
+    )
+    {
         parentViewModel?.uqudoIdentity?.value?.let {
             if (it.dateExpiry == null) {
                 clickEvent.setValue(eventEidExpiryDateIssue)
@@ -181,8 +181,8 @@ class EidInfoReviewViewModel(application: Application) :
                         fullName = getFullName(),
                         gender = it.gender,
                         nationality = it.digit3CountryCode ?: "",
-                        identityNo = it.identityNo?.replace("-".toRegex(),""),
-                        filePaths = it.filePaths ?: arrayListOf(),
+                        identityNo = it.identityNo?.replace("-".toRegex(), ""),
+                        filePaths = it.filePaths,
                         countryIsSanctioned = if (fromInformationErrorFragment) fromInformationErrorFragment else null
                     )
 
@@ -642,7 +642,7 @@ class EidInfoReviewViewModel(application: Application) :
 
                 override fun onLoadFailed(errorDrawable: Drawable?) {
                     super.onLoadFailed(errorDrawable)
-                    downloadImagewithGlide(imageId) { _,_ -> }
+                    downloadImagewithGlide(imageId) { _, _ -> }
                     showToast("Wait the image is downloading")
 
                 }
