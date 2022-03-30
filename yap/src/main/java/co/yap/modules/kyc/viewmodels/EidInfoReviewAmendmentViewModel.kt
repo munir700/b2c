@@ -98,9 +98,9 @@ class EidInfoReviewAmendmentViewModel(application: Application) :
     }
 
     private fun handlePressOnConfirmBtn() {
-        parentViewModel?.uqudoIdentity?.value?.let {
+        parentViewModel?.uqudoIdentity?.value?.let { jj ->
             when {
-                TextUtils.isEmpty(it.fullName) || TextUtils.isEmpty(it.nationality) -> {
+                TextUtils.isEmpty(getFullName()) || TextUtils.isEmpty(state.nationality.value?.getName()) -> {
                     clickEvent.setValue(eventErrorInvalidEid)
                 }
                 state.expiryDateValid.value?.not() == true -> {
@@ -129,14 +129,14 @@ class EidInfoReviewAmendmentViewModel(application: Application) :
                         title = getString(Strings.screen_kyc_information_error_display_text_title_from_us),
                         body = getString(Strings.screen_kyc_information_error_text_description_from_us)
                     )
-                    sanctionedCountry = it.nationality
-                    sanctionedNationality = it.nationality
+                    sanctionedCountry = state.nationality.value?.getName() ?: ""
+                    sanctionedNationality = state.nationality.value?.getName() ?: ""
                     clickEvent.setValue(eventErrorFromUsa)
                     trackEvent(KYCEvents.KYC_US_CITIIZEN.type)
                     trackEventWithScreenName(FirebaseEvent.KYC_US)
                 }
                 sectionedCountries?.let { sc ->
-                    it.digit3CountryCode?.let { digit3Code ->
+                    state.nationality.value?.isoCountryCode3Digit?.let { digit3Code ->
                         digit3Code.equals(sc.data.find { country ->
                             country.isoCountryCode3Digit.equals(
                                 digit3Code,
@@ -149,13 +149,13 @@ class EidInfoReviewAmendmentViewModel(application: Application) :
                         title = getString(Strings.screen_kyc_information_error_display_text_title_sanctioned_country),
                         body = getString(Strings.screen_kyc_information_error_text_description_sanctioned_country)
                     )
-                    sanctionedCountry = it.nationality
-                    sanctionedNationality = it.nationality
+                    sanctionedCountry = state.nationality.value?.getName() ?: ""
+                    sanctionedNationality = state.nationality.value?.getName() ?: ""
                     clickEvent.setValue(eventErrorFromUsa)
                     trackEvent(KYCEvents.KYC_PROHIBITED_CITIIZEN.type)
                     trackEventWithScreenName(FirebaseEvent.KYC_SANCTIONED)
                 }
-                parentViewModel?.document != null && it.identityNo != parentViewModel?.document?.identityNo -> {
+                parentViewModel?.document != null && state.citizenNumber.value ?: "" != parentViewModel?.document?.identityNo -> {
                     state.toast =
                         "Your EID doesn't match with the current EID.^${AlertType.DIALOG.name}"
                 }

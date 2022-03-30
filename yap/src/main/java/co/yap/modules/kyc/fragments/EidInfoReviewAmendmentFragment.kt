@@ -68,7 +68,6 @@ class EidInfoReviewAmendmentFragment : KYCChildFragment<IEidInfoReviewAmendment.
         viewModel.parentViewModel?.payLoadObj?.value?.let { identity ->
             viewModel.populateUqudoState(identity = identity)
             viewModel.eidStateLiveData.postValue(State.ideal(""))
-
         } ?: viewModel.requestAllAPIs(true)
 
     }
