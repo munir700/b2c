@@ -6,8 +6,9 @@ import androidx.lifecycle.ViewModelProvider
 import co.yap.BR
 import co.yap.R
 import co.yap.databinding.FragmentEasyBankTransferWelcomeBinding
+import co.yap.modules.dashboard.yapit.addmoney.easybanktransfer.banklist.BankListFragment
 import co.yap.modules.dashboard.yapit.addmoney.main.AddMoneyBaseFragment
-import co.yap.yapcore.helpers.extentions.toast
+import co.yap.yapcore.helpers.extentions.startFragment
 
 class EasyBankTransferWelcomeFragment : AddMoneyBaseFragment<IEasyBankTransferWelcome.ViewModel>(),
     IEasyBankTransferWelcome.View {
@@ -34,7 +35,7 @@ class EasyBankTransferWelcomeFragment : AddMoneyBaseFragment<IEasyBankTransferWe
     private val observer = Observer<Int> {
         when (it) {
             R.id.btnLinkAccount -> {
-                toast("link an account")
+                startFragment(fragmentName = BankListFragment::class.java.name)
             }
         }
     }

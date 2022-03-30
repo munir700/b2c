@@ -41,6 +41,9 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.target.Target
 import com.bumptech.glide.request.transition.Transition
+import com.google.android.material.imageview.ShapeableImageView
+import com.google.android.material.shape.CornerFamily
+import com.liveperson.infra.configuration.Configuration.getDimension
 import com.liveperson.infra.utils.Utils.getResources
 import kotlin.math.roundToInt
 
@@ -302,6 +305,50 @@ object ImageBinding {
             imageUrl,
             fullName,
             bgColor,
+            initialTextSize,
+            initialTextColor,
+            imageSize
+        )
+    }
+
+    @JvmStatic
+    @BindingAdapter(
+        value = ["imageUrl", "fullName", "bgColor", "initialTextSize", "initialTextColor", "imageSize"],
+        requireAll = true
+    )
+    fun setImageViewResource(
+        imageView: ShapeableImageView, imageUrl: String?,
+        fullName: String?,
+        bgColor: String, initialTextSize: Int,
+        initialTextColor: Int,
+        imageSize: Int
+    ) {
+        imageUrl?.let {
+            if (imageUrl.isNullOrEmpty().not()) {
+                setImage1(imageView, it)
+                imageView.shapeAppearanceModel =
+                    imageView.shapeAppearanceModel
+                        .toBuilder()
+                        .setTopLeftCorner(CornerFamily.ROUNDED, imageView.context.resources.getDimension(R.dimen.margin_normal_large))
+                        .setTopRightCorner(CornerFamily.ROUNDED, imageView.context.resources.getDimension(R.dimen.margin_normal_large))
+
+                        .build()
+            } else {
+                loadAvatar(
+                    imageView, false,
+                    imageUrl,
+                    fullName,
+                    R.color.colorPrimaryDark,
+                    initialTextSize,
+                    initialTextColor,
+                    imageSize
+                )
+            }
+        } ?: loadAvatar(
+            imageView, false,
+            imageUrl,
+            fullName,
+            R.color.colorPrimaryDark,
             initialTextSize,
             initialTextColor,
             imageSize

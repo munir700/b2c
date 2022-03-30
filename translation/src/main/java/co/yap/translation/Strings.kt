@@ -1276,7 +1276,7 @@ object Strings {
     const val screen_send_money_display_international_transfer_description: String =
         "screen_send_money_display_international_transfer_description"
     const val screen_send_money_display_permission_text: String =
-            "screen_send_money_display_permission_text"
+        "screen_send_money_display_permission_text"
 
     //     Add Beneficiary
     const val screen_add_beneficiary_display_text_title: String =
@@ -2670,7 +2670,7 @@ object Strings {
     const val screen_missing_info_confirmation_display_all_set =
         "screen_missing_info_confirmation_display_all_set"
 
-    //Lean -Adding an Account- Welcome Screen
+    //Lean -Easy Bank Transfer- Welcome Screen
     const val screen_lean_welcome_screen_title =
         "screen_lean_welcome_screen_title"
     const val screen_lean_welcome_screen_welcome_to_open_banking =
@@ -2680,4 +2680,11 @@ object Strings {
     const val screen_lean_welcome_screen_link_an_account =
         "screen_lean_welcome_screen_link_an_account"
 
+    //Lean -Easy Bank Transfer- Bank List
+    const val screen_lean_bank_list_add_an_account =
+        "screen_lean_bank_list_add_an_account"
+    const val screen_lean_bank_list_select_a_bank =
+        "screen_lean_bank_list_select_a_bank"
+    const val screen_lean_bank_list_choose_bank =
+        "screen_lean_bank_list_choose_bank"
 }
