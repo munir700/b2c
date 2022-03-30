@@ -54,7 +54,6 @@ import com.bumptech.glide.request.transition.Transition
 import com.digitify.identityscanner.docscanner.models.IdentityScannerResult
 import com.google.gson.Gson
 import kotlinx.coroutines.delay
-import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -137,15 +136,14 @@ class EidInfoReviewAmendmentViewModel(application: Application) :
                     trackEventWithScreenName(FirebaseEvent.KYC_US)
                 }
                 sectionedCountries?.let { sc ->
-                    it.digit3CountryCode.equals(
-                        sc.data.find { country ->
+                    it.digit3CountryCode?.let { digit3Code ->
+                        digit3Code.equals(sc.data.find { country ->
                             country.isoCountryCode3Digit.equals(
-                                it.digit3CountryCode,
+                                digit3Code,
                                 true
                             )
-                        }?.isoCountryCode3Digit,
-                        true
-                    )
+                        }?.isoCountryCode3Digit, true)
+                    } ?: true
                 } ?: true -> {
                     updateLabels(
                         title = getString(Strings.screen_kyc_information_error_display_text_title_sanctioned_country),
@@ -235,7 +233,8 @@ class EidInfoReviewAmendmentViewModel(application: Application) :
                             DateUtils.TIME_ZONE_Default
                         )
                     }
-                    state.previousCitizenNumber = getFormattedCitizenNumber(response.data.data?.identityNo)
+                    state.previousCitizenNumber =
+                        getFormattedCitizenNumber(response.data.data?.identityNo)
                     delay(500)
                     eidStateLiveData.postValue(State.success(""))
                     validator?.toValidate()
@@ -489,7 +488,9 @@ class EidInfoReviewAmendmentViewModel(application: Application) :
                 DateUtils.reformatToLocalString(EXD, DateUtils.DEFAULT_DATE_FORMAT)
             state.expiryDateValid.value = EXD?.let { it1 -> isExpiryDateValid(it1) } ?: false
             state.genderValid = true
-            if (documentFront?.identityNumber?.length != eidLength && !Utils.isValidEID(documentFront?.identityNumber)
+            if (documentFront?.identityNumber?.length != eidLength && !Utils.isValidEID(
+                    documentFront?.identityNumber
+                )
             ) {
                 clickEvent.setValue(eventCitizenNumberIssue)
             } else {

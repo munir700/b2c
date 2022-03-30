@@ -57,15 +57,16 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
                 viewModel.parentViewModel?.finishKyc?.value = DocumentsResponse(false)
             }
         }
-        addObservers()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.state.payLoadObj.value?.let { identity ->
+        addObservers()
+        viewModel.parentViewModel?.payLoadObj?.value?.let { identity ->
             viewModel.populateUqudoState(identity = identity)
-        }
+            viewModel.eidStateLiveData.postValue(State.ideal(""))
 
+        } ?: viewModel.requestAllAPIs(true)
     }
 
     private fun addObservers() {
@@ -109,6 +110,8 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
                 viewModel.eventErrorUnderAge -> showUnderAgeScreen()
                 viewModel.eventErrorFromUsa -> showUSACitizenScreen()
                 viewModel.eventRescan -> {
+                    viewModel.state.BackImage.value = ""
+                    viewModel.state.frontImage.value = ""
                     if (viewModel.state.isExpired.value == true) viewModel.requestAllAPIs(false) else initializeUqudoScanner(
                         requireActivity(),
                         viewModel.uqudoResponse.value?.accessToken
@@ -192,11 +195,13 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
             handleState(it)
         })
         viewModel.uqudoResponse.observe(viewLifecycleOwner, Observer { response ->
-            if (response.accessToken.isNullOrEmpty()
-                    .not() && viewModel.state.isTokenValid.get()
-            ) viewModel.eidStateLiveData.postValue(State.empty("")) else viewModel.eidStateLiveData.postValue(
-                State.error("")
-            )
+            if (viewModel.parentViewModel?.payLoadObj?.value == null) {
+                if (response.accessToken.isNullOrEmpty()
+                        .not() && viewModel.state.isTokenValid.get()
+                ) viewModel.eidStateLiveData.postValue(State.empty("")) else viewModel.eidStateLiveData.postValue(
+                    State.error("")
+                )
+            }
         })
 
     }
@@ -278,11 +283,6 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
 
     }
 
-    override fun onDestroyView() {
-        viewModel.clickEvent.removeObservers(this)
-        super.onDestroyView()
-    }
-
     override fun showUnderAgeScreen() {
         val action =
             EidInfoReviewFragmentDirections.actionEidInfoReviewFragmentToInformationErrorFragment(
@@ -339,6 +339,13 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
         super.onDestroy()
     }
 
+    override fun onDestroyView() {
+        viewModel.clickEvent.removeObservers(this)
+        viewModel.eidStateLiveData.removeObservers(this)
+        viewModel.uqudoResponse.removeObservers(this)
+        super.onDestroyView()
+    }
+
     private fun handleState(state: State?) {
         when (state?.status) {
             Status.LOADING -> {
@@ -355,13 +362,17 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
             }
             Status.SUCCESS -> {
                 getViewBinding().multiStateView.viewState = MultiStateView.ViewState.CONTENT
-                viewModel.state.payLoadObj.value?.let { identity ->
+                viewModel.state?.payLoadObj?.value?.let { identity ->
+                    viewModel.parentViewModel?.payLoadObj?.value = identity
                     viewModel.populateUqudoState(identity = identity)
                 }
             }
             Status.ERROR -> {
                 getViewBinding().multiStateView.viewState = MultiStateView.ViewState.ERROR
                 invalidCitizenNumber(state.message ?: "Sorry, that didn’t work. Please try again")
+            }
+            Status.IDEAL -> {
+                //do nothing
             }
             else -> {
                 throw IllegalStateException("State is not handled " + state?.status)
@@ -391,4 +402,5 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
     }
 
     private fun getViewBinding() = getDataBindingView<FragmentEidInfoReviewBinding>()
+
 }

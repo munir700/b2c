@@ -112,4 +112,5 @@ class EidInfoReviewState : BaseState(), IEidInfoReview.State {
     override var isExpired: MutableLiveData<Boolean> = MutableLiveData()
     override var frontImage: MutableLiveData<String> = MutableLiveData()
     override var BackImage: MutableLiveData<String> = MutableLiveData()
+    override var showMiddleName: MutableLiveData<Boolean> = MutableLiveData()
 }
