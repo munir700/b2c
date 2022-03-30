@@ -34,5 +34,5 @@ object RequestCodes {
     const val REQUEST_PAY_BILL: Int = 10030
     const val REQUEST_PAY_BILL_ALL: Int = 10031
     const val REQUEST_PAYMENT_CARD_DETAIL : Int = 10032
-    const val REQUEST_UPDATE_EMIRATES_ID = 100033
+    const val REQUEST_UPDATE_EMIRATES_ID = 10033
 }
