@@ -505,6 +505,14 @@
         <item name="bottomSheetStyle">@style/AppModalStyle</item>
     </style>
 
+    <style name="AppBottomSheetTakePhotoTheme" parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/AppModalTakePhotoStyle</item>
+    </style>
+
+    <style name="AppModalTakePhotoStyle" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@drawable/transparent_round</item>
+    </style>
+
     <style name="AppModalStyle" parent="Widget.Design.BottomSheet.Modal">
         <item name="android:background">@drawable/bg_round_top_corners</item>
     </style>
