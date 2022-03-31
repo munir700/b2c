@@ -1,9 +1,11 @@
 package co.yap.networking.customers.responsedtos.employment_amendment
 
+import android.net.Uri
 import android.os.Parcelable
 import co.yap.networking.models.ApiResponse
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
+import java.io.File
 
 @Parcelize
 data class EmploymentInfoAmendmentResponse(
@@ -30,5 +32,39 @@ data class EmploymentInfoAmendmentResponse(
     @SerializedName("typeOfSelfEmployment")
     val typeOfSelfEmployment: String? = null,
     @SerializedName("employmentTypeValue")
-    val employmentTypeValue: String? = null
+    val employmentTypeValue: String? = null,
+    @SerializedName("documents")
+    val documents: List<Document>? = null
 ) : ApiResponse(), Parcelable
+
+@Parcelize
+data class Document(
+    @SerializedName("documentType")
+    val documentType: String? = null,
+    @SerializedName("fileURL")
+    var fileURL: String? = null,
+    @SerializedName("contentType")
+    val contentType: String? = null,
+    @SerializedName("title")
+    var title: String? = null,
+    @SerializedName("description")
+    var description: String = "",
+    @SerializedName("extension")
+    var extension: String = "",
+    @SerializedName("fileForUpdate")
+    var fileForUpdate: File? = null,
+    @SerializedName("isMandatory")
+    val isMandatory: Boolean = false
+) : Parcelable
+
+enum class DocumentTypes {
+    PROOF_OF_INCOME,
+    COMPANY_DOCUMENTATION,
+    VISA
+}
+
+enum class EmploymentFieldType {
+    EMPLOYMENT_TYPE,
+    EMPLOYER_NAME,
+    SALARY
+}

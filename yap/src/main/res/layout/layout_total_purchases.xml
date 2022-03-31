@@ -30,7 +30,6 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             app:constraint_referenced_ids="tpTopLine,space,tpBaseLine,flow2,vBlank"
-            app:flow_verticalGap="@dimen/margin_medium"
             app:layout_constraintTop_toTopOf="parent" />
 
         <View

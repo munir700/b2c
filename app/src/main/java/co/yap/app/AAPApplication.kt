@@ -36,6 +36,7 @@ import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.leanplum.Leanplum
 import com.leanplum.LeanplumActivityHelper
 import com.uxcam.UXCam
+import io.uqudo.sdk.core.UqudoSDK
 import timber.log.Timber
 import java.util.*
 
@@ -57,6 +58,7 @@ class AAPApplication : YAPApplication(), NavigatorProvider {
     override fun onCreate() {
         super.onCreate()
         initFireBase()
+        UqudoSDK.init(applicationContext)
         val originalSign =
             signatureKeysFromJNI(
                 AppSignature::class.java.canonicalName?.replace(".", "/") ?: "",

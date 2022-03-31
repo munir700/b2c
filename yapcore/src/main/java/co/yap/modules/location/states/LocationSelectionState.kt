@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory
 import androidx.databinding.Bindable
 import androidx.databinding.ObservableField
 import androidx.databinding.library.baseAdapters.BR
+import androidx.lifecycle.MutableLiveData
 import co.yap.modules.location.interfaces.ILocationSelection
 import co.yap.yapcore.BaseState
 import co.yap.yapcore.R
@@ -35,6 +36,8 @@ class LocationSelectionState(application: Application) : BaseState(), ILocationS
     override var valid: ObservableField<Boolean> = ObservableField(false)
     override var isUnNamed: ObservableField<Boolean> = ObservableField(false)
     override var isOnBoarding: ObservableField<Boolean> = ObservableField(false)
+/*    override var latitude: MutableLiveData<Double> = MutableLiveData()
+    override var longitude: MutableLiveData<Double> = MutableLiveData()*/
 
     @get:Bindable
     override var toolbarVisibility: Boolean = false

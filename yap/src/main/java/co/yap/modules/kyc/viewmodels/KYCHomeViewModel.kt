@@ -1,7 +1,6 @@
 package co.yap.modules.kyc.viewmodels
 
 import android.app.Application
-import co.yap.BuildConfig
 import co.yap.modules.kyc.enums.DocScanStatus
 import co.yap.modules.kyc.interfaces.IKYCHome
 import co.yap.modules.kyc.states.KYCHomeState
@@ -14,7 +13,6 @@ import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.DateUtils.isFutureDate
 import co.yap.yapcore.helpers.DateUtils.nextYear
-import co.yap.yapcore.helpers.extentions.dummyEID
 import co.yap.yapcore.leanplum.KYCEvents
 import co.yap.yapcore.leanplum.getFormattedDate
 import co.yap.yapcore.leanplum.trackEvent
