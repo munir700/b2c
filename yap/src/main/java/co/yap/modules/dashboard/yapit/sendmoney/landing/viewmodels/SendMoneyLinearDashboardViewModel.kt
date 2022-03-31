@@ -3,11 +3,11 @@ package co.yap.modules.dashboard.yapit.sendmoney.landing.viewmodels
 import android.app.Application
 import co.yap.R
 import co.yap.countryutils.country.utils.CurrencyUtils
-import co.yap.modules.dashboard.yapit.sendmoney.landing.SendMoneyDashboardAdapter
-import co.yap.modules.dashboard.yapit.sendmoney.main.ISendMoneyDashboard
-import co.yap.modules.dashboard.yapit.sendmoney.main.SendMoneyDashboardState
-import co.yap.modules.dashboard.yapit.sendmoney.main.SendMoneyOptions
-import co.yap.modules.dashboard.yapit.sendmoney.main.SendMoneyType
+import co.yap.modules.dashboard.yapit.sendmoney.landing.SendMoneyLinearDashboardAdapter
+import co.yap.modules.dashboard.yapit.sendmoney.main.ISendMoneyLinearDashboard
+import co.yap.modules.dashboard.yapit.sendmoney.main.SendMoneyCategoryType
+import co.yap.modules.dashboard.yapit.sendmoney.main.SendMoneyLinearDashboardState
+import co.yap.modules.dashboard.yapit.sendmoney.main.SendMoneyLinearOptions
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.responsedtos.beneficiary.RecentBeneficiariesResponse
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
@@ -21,22 +21,20 @@ import co.yap.yapcore.Dispatcher
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.helpers.extentions.parseRecentItems
 import co.yap.yapcore.managers.SessionManager
+import com.liveperson.infra.utils.Utils.getResources
+import java.util.*
 
-@Deprecated(
-    message = "Deprecating this class as we want to use change recyclerview content with new" +
-            "implementation", replaceWith = ReplaceWith("SendMoneyLinearDashboardViewModel.kt")
-)
-class SendMoneyDashboardViewModel(application: Application) :
-    BaseViewModel<ISendMoneyDashboard.State>(application),
-    ISendMoneyDashboard.ViewModel, IRepositoryHolder<CustomersRepository> {
-    override val state: SendMoneyDashboardState = SendMoneyDashboardState()
+class SendMoneyLinearDashboardViewModel(application: Application) :
+    BaseViewModel<ISendMoneyLinearDashboard.State>(application),
+    ISendMoneyLinearDashboard.ViewModel, IRepositoryHolder<CustomersRepository> {
+    override val state: SendMoneyLinearDashboardState = SendMoneyLinearDashboardState()
     override val clickEvent: SingleClickEvent = SingleClickEvent()
     override val repository: CustomersRepository = CustomersRepository
     override var recentTransfers: ArrayList<Beneficiary> = arrayListOf()
-    override var dashboardAdapter: SendMoneyDashboardAdapter = SendMoneyDashboardAdapter(
-        context,
-        mutableListOf()
-    )
+    override var dashboardAdapter: SendMoneyLinearDashboardAdapter =
+        SendMoneyLinearDashboardAdapter(
+            mutableListOf(), null
+        )
     override var recentsAdapter: CoreRecentTransferAdapter = CoreRecentTransferAdapter(
         context,
         mutableListOf()
@@ -86,7 +84,6 @@ class SendMoneyDashboardViewModel(application: Application) :
                 recentsAdapter.setList(jointList)
             }
         }
-
     }
 
     private fun fetchRecentsApis(
@@ -102,53 +99,17 @@ class SendMoneyDashboardViewModel(application: Application) :
         }
     }
 
-    override fun geSendMoneyOptions(): MutableList<SendMoneyOptions> {
-        val list = mutableListOf<SendMoneyOptions>()
-        list.add(
-            SendMoneyOptions(
-                getString(Strings.screen_y2y_display_button_yap_contacts),
-                R.drawable.ic_iconprofile,
-                false,
-                null, SendMoneyType.sendMoneyToYAPContacts
+    override fun geSendMoneyOptions(): MutableList<SendMoneyLinearOptions> {
+       val list = mutableListOf<SendMoneyLinearOptions>()
+        for(i in 0..4){
+            list.add(SendMoneyLinearOptions(
+                name = getResources().getStringArray(R.array.yap_it_send_money_title)[i],
+                description = getResources().getStringArray(R.array.yap_it_send_money_desc)[i],
+                image = if(i==3) SessionManager.homeCountry2Digit else getResources().getStringArray(R.array.yap_it_send_money_drawable)[i],
+                isFlag = i==2|| i == 3,
+                type = SendMoneyCategoryType.values()[i])
             )
-        )
-        list.add(
-            SendMoneyOptions(
-                getString(Strings.screen_send_money_local_bank_label),
-                R.drawable.ic_bankicon,
-                true,
-                CurrencyUtils.getFlagDrawable(context, "AE"), SendMoneyType.sendMoneyToLocalBank
-            )
-        )
-        list.add(
-            SendMoneyOptions(
-                getString(Strings.screen_send_money_international_label),
-                R.drawable.ic_bankicon,
-                true,
-                null, SendMoneyType.sendMoneyToInternational
-            )
-        )
-        if (SessionManager.homeCountry2Digit != "AE")
-            list.add(
-                SendMoneyOptions(
-                    getString(Strings.screen_send_money_home_label),
-                    R.drawable.ic_houseicon,
-                    true,
-                    CurrencyUtils.getFlagDrawable(
-                        context,
-                        SessionManager.homeCountry2Digit
-                    ), SendMoneyType.sendMoneyToHomeCountry
-                )
-            )
-
-        list.add(
-            SendMoneyOptions(
-                getString(Strings.screen_fragment_yap_it_add_money_text_qr_code),
-                R.drawable.ic_qr_code,
-                false,
-                null, SendMoneyType.sendMoneyQRCode
-            )
-        )
+        }
         return list
     }
 }

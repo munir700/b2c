@@ -42,7 +42,7 @@ import co.yap.modules.dashboard.more.main.activities.MoreActivity
 import co.yap.modules.dashboard.store.fragments.YapStoreFragment
 import co.yap.modules.dashboard.unverifiedemail.UnVerifiedEmailActivity
 import co.yap.modules.dashboard.yapit.addmoney.main.AddMoneyActivity
-import co.yap.modules.dashboard.yapit.sendmoney.landing.SendMoneyDashboardActivity
+import co.yap.modules.dashboard.yapit.sendmoney.landing.SendMoneyLinearDashboardFragment
 import co.yap.modules.dummy.ActivityNavigator
 import co.yap.modules.dummy.NavigatorProvider
 import co.yap.modules.others.fragmentpresenter.activities.FragmentPresenterActivity
@@ -179,7 +179,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
                 when (subActionButtonId) {
                     1 -> {
                         trackEventWithScreenName(FirebaseEvent.CLICK_ACTIONS_SENDMONEY)
-                        launchActivity<SendMoneyDashboardActivity>(type = FeatureSet.SEND_MONEY)
+                        startFragment<SendMoneyLinearDashboardFragment>(fragmentName = SendMoneyLinearDashboardFragment::class.java.name,bundle = bundleOf() ,type = FeatureSet.SEND_MONEY)
                     }
 
                     2 -> {

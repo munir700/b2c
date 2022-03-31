@@ -1263,7 +1263,20 @@ object Strings {
         "screen_send_money_home_label"
     const val screen_send_show_recent: String =
         "screen_send_show_recent"
-
+    const val screen_send_money_display_yap_to_yap_contact_title: String =
+        "screen_send_money_display_yap_to_yap_contact_title"
+    const val screen_send_money_display_yap_to_yap_contact_description: String =
+        "screen_send_money_display_yap_to_yap_contact_description"
+    const val screen_send_money_display_qr_code_description: String =
+        "screen_send_money_display_qr_code_description"
+    const val screen_send_money_display_local_bank_description: String =
+        "screen_send_money_display_local_bank_description"
+    const val screen_send_money_display_home_country_description: String =
+        "screen_send_money_display_home_country_description"
+    const val screen_send_money_display_international_transfer_description: String =
+        "screen_send_money_display_international_transfer_description"
+    const val screen_send_money_display_permission_text: String =
+            "screen_send_money_display_permission_text"
 
     //     Add Beneficiary
     const val screen_add_beneficiary_display_text_title: String =

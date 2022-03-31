@@ -4,4 +4,30 @@
     <string name="yap_to_yap">YAP to YAP</string>
     <string name="top_up">Top up</string>
     <string name="send_money">Send money</string>
+
+   <!-- YAP It Send Money-->
+    <string-array name="yap_it_send_money_title">
+        <item>YAP 2 YAP</item>
+        <item>QR code</item>
+        <item>Local Bank</item>
+        <item>Home Country</item>
+        <item>International transfer</item>
+    </string-array>
+
+    <string-array name="yap_it_send_money_desc">
+        <item>Send money instantly to a \nYAP use</item>
+        <item>Scan a YAP QR code and pay</item>
+        <item>Send money to a local UAE \nbank account</item>
+        <item>Send money back home</item>
+        <item>Send money to a global bank</item>
+    </string-array>
+
+    <string-array name="yap_it_send_money_drawable">
+        <item>yap_to_yap</item>
+        <item>qr_code</item>
+        <item>AE</item>
+        <item>0</item>
+        <item>international_transfer</item>
+
+    </string-array>
 </resources>
