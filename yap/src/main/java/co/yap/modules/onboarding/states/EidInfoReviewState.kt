@@ -2,18 +2,16 @@ package co.yap.modules.onboarding.states
 
 import androidx.databinding.Bindable
 import androidx.databinding.ObservableBoolean
+import androidx.lifecycle.MutableLiveData
 import co.yap.modules.onboarding.interfaces.IEidInfoReview
+import co.yap.networking.customers.responsedtos.UqudoHeader
+import co.yap.networking.customers.responsedtos.UqudoPayLoad
 import co.yap.yapcore.BaseState
 import com.digitify.identityscanner.BR
 
 class EidInfoReviewState : BaseState(), IEidInfoReview.State {
 
-    @get:Bindable
-    override var citizenNumber: String = ""
-        set(value) {
-            field = value
-            notifyPropertyChanged(BR.citizenNumber)
-        }
+    override var citizenNumber: MutableLiveData<String> = MutableLiveData()
 
     @get:Bindable
     override var caption: String = ""
@@ -65,12 +63,7 @@ class EidInfoReviewState : BaseState(), IEidInfoReview.State {
             notifyPropertyChanged(BR.gender)
         }
 
-    @get:Bindable
-    override var expiryDate: String = ""
-        set(value) {
-            field = value
-            notifyPropertyChanged(BR.expiryDate)
-        }
+    override var expiryDate: MutableLiveData<String> = MutableLiveData()
 
     @get:Bindable
     override var fullNameValid: Boolean = false
@@ -93,12 +86,7 @@ class EidInfoReviewState : BaseState(), IEidInfoReview.State {
             notifyPropertyChanged(BR.genderValid)
         }
 
-    @get:Bindable
-    override var expiryDateValid: Boolean = false
-        set(value) {
-            field = value
-            notifyPropertyChanged(BR.expiryDateValid)
-        }
+    override var expiryDateValid: MutableLiveData<Boolean> = MutableLiveData()
 
     @get:Bindable
     override var valid: Boolean = true
@@ -117,4 +105,12 @@ class EidInfoReviewState : BaseState(), IEidInfoReview.State {
     override var isDateOfBirthValid: ObservableBoolean = ObservableBoolean()
     override var AgeLimit: Int? = 0
     override var isCountryUS: Boolean = false
+    override var isTokenValid: ObservableBoolean = ObservableBoolean(true)
+    override var uqudoToken: MutableLiveData<String> = MutableLiveData()
+    override var payLoadObj: MutableLiveData<UqudoPayLoad> = MutableLiveData()
+    override var uqudoHeaderObj: MutableLiveData<UqudoHeader> = MutableLiveData()
+    override var isExpired: MutableLiveData<Boolean> = MutableLiveData()
+    override var frontImage: MutableLiveData<String> = MutableLiveData()
+    override var BackImage: MutableLiveData<String> = MutableLiveData()
+    override var showMiddleName: MutableLiveData<Boolean> = MutableLiveData()
 }

@@ -38,7 +38,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_back"
-                tools:srcCompat="@drawable/ic_back"/>
+                tools:srcCompat="@drawable/ic_back" />
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/tbBtnCheck"

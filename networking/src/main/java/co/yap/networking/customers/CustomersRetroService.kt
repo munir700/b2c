@@ -15,6 +15,8 @@ import co.yap.networking.customers.responsedtos.currency.CurrenciesResponse
 import co.yap.networking.customers.responsedtos.documents.ConfigureEIDResponse
 import co.yap.networking.customers.responsedtos.documents.EIDDocumentsResponse
 import co.yap.networking.customers.responsedtos.documents.GetMoreDocumentsResponse
+import co.yap.networking.customers.responsedtos.employment_amendment.DocumentResponse
+import co.yap.networking.customers.responsedtos.documents.UqudoTokenResponse
 import co.yap.networking.customers.responsedtos.employment_amendment.EmploymentInfoAmendmentResponse
 import co.yap.networking.customers.responsedtos.employmentinfo.IndustrySegmentsResponse
 import co.yap.networking.customers.responsedtos.sendmoney.*
@@ -77,6 +79,23 @@ interface CustomersRetroService {
         @Part("gender") gender: RequestBody,
         @Part("identityNo") identityNo: RequestBody,
         @Part("isAmendment") isAmendment: RequestBody
+    ): Response<ApiResponse>
+
+    @Multipart
+    @POST(CustomersRepository.URL_SAVE_EMPLOYMENT_INFO_WITH_DOCUMENTS)
+    suspend fun submitEmploymentInfoWithDocument(
+        @Part files: List<MultipartBody.Part>,
+        @Part documentTypes: List<MultipartBody.Part>?,
+        @Part businessCountries: List<MultipartBody.Part>?,
+        @Part("companyName") companyName: RequestBody?,
+        @Part("employerName") employerName: RequestBody?,
+        @Part("employmentStatus") employmentStatus: RequestBody?,
+        @Part("employmentType") employmentType: RequestBody?,
+        @Part("expectedMonthlyCredit") expectedMonthlyCredit: RequestBody?,
+        @Part industrySubSegmentCodes: List<MultipartBody.Part>?,
+        @Part("monthlySalary") monthlySalary: RequestBody?,
+        @Part("sponsorName") sponsorName: RequestBody?,
+        @Part("typeOfSelfEmployment") typeOfSelfEmployment: RequestBody?
     ): Response<ApiResponse>
 
     // Get Documents
@@ -375,4 +394,15 @@ interface CustomersRetroService {
         @Part("passportIssueDate") passportIssueDate: RequestBody,
         @Part("passportExpiryDate") passportExpiryDate: RequestBody
     ): Response<ApiResponse>
+
+    @GET(CustomersRepository.URL_GET_EMPLOYMENT_INFORMATION)
+    suspend fun getEmploymentInfo(): Response<BaseResponse<EmploymentInfoAmendmentResponse>>
+
+    @GET(CustomersRepository.URL_GET_ALL_DOCUMENT_FOR_EMPLOYMENT)
+    suspend fun getAllDocumentsForEmploymentAmendment(): Response<BaseListResponse<DocumentResponse>>
+
+    //Get Uqudo Token
+    @GET(CustomersRepository.URL_GET_UQUDO_AUTH_TOKEN)
+    suspend fun getUqudoAuthToken(): Response<BaseResponse<UqudoTokenResponse>>
+
 }

@@ -334,6 +334,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_normal_large"
+
                 android:visibility="@{viewModel.state.receiptVisibility ? View.VISIBLE : View.GONE }"
                 app:layout_constraintTop_toBottomOf="@id/clNoteParent"
                 app:receiptViewModel="@{viewModel}" />
@@ -357,7 +358,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_medium"
-                android:layout_marginTop="@dimen/margin_large"
+                android:layout_marginTop="@dimen/margin_extra_small"
                 android:layout_marginEnd="@dimen/margin_normal_large"
                 android:visibility="@{viewModel.state.showTotalPurchases?View.VISIBLE : View.GONE}"
                 app:layout_constraintTop_toBottomOf="@+id/layoutRating"

@@ -2,7 +2,7 @@
 // apply from: 'shared/build.gradle'
 
 buildscript {
-    ext.kotlin_version = '1.5.32'
+    ext.kotlin_version = '1.6.10'
     ext.navigationVersion = "2.1.0-alpha05"
 
     repositories {
@@ -14,7 +14,7 @@ buildscript {
     }
     dependencies {
 
-        classpath 'io.fabric.tools:gradle:1.31.2'
+//        classpath 'io.fabric.tools:gradle:1.31.2'
         classpath 'com.google.firebase:firebase-crashlytics-gradle:2.3.0'
         classpath 'com.google.gms:google-services:4.3.4'  // Google Services plugin
         classpath 'com.android.tools.build:gradle:4.2.2'
@@ -36,6 +36,12 @@ allprojects {
         maven { url 'https://jitpack.io' }
         maven { url "http://pay.cards/maven" }
         maven {url 'https://sdk.uxcam.com/android/'}
+        maven {
+            credentials {
+                username "digitify"
+                password "EKyTWcXk2rs9vZKviksfG6Hh"
+            }
+            url 'https://rm.dev.uqudo.io/repository/digitify'}
     }
 }
 
