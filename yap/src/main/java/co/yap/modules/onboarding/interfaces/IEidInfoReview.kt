@@ -43,6 +43,7 @@ interface IEidInfoReview {
         var isExpired: MutableLiveData<Boolean>
         var frontImage: MutableLiveData<String>
         var BackImage: MutableLiveData<String>
+        var showMiddleName: MutableLiveData<Boolean>
     }
 
     interface View : IBase.View<ViewModel> {

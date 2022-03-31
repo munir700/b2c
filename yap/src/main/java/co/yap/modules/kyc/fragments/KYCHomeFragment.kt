@@ -1,6 +1,5 @@
 package co.yap.modules.kyc.fragments
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.databinding.Observable
 import androidx.databinding.library.baseAdapters.BR
@@ -62,7 +61,16 @@ class KYCHomeFragment : KYCChildFragment<IKYCHome.ViewModel>(), IKYCHome.View {
     private fun shouldSkipScreen() {
         viewModel.parentViewModel?.skipFirstScreen?.value?.let {
             if (it) {
-                findNavController().navigate(if (viewModel.isFromAmendment()) R.id.action_KYCHomeFragment_to_eidInfoReviewAmendmentFragment else R.id.action_KYCHomeFragment_to_eidInfoReviewFragment)
+                if (viewModel.parentViewModel?.uqudoIdentity?.value?.isAmendment == true) {
+                    requireActivity().finish()
+                } else {
+                    if (viewModel.isFromAmendment()) {
+                        navigateWithPopup(
+                            R.id.action_KYCHomeFragment_to_eidInfoReviewAmendmentFragment,
+                            R.id.KYCHomeFragment
+                        )
+                    } else findNavController().navigate(R.id.action_KYCHomeFragment_to_eidInfoReviewFragment)
+                }
             } else if (requireActivity().intent?.getBooleanExtra("GO_ERROR", false) == true) {
                 navigateToInformationErrorFragment()
             } else {

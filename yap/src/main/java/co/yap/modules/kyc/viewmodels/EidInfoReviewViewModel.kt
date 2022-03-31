@@ -67,11 +67,6 @@ class EidInfoReviewViewModel(application: Application) :
     private val eidLength = 15
     override var eidStateLiveData: MutableLiveData<State> = MutableLiveData()
 
-    override fun onCreate() {
-        super.onCreate()
-        requestAllAPIs(true)
-    }
-
     override fun handlePressOnView(id: Int) {
         if (id == R.id.btnTouchId)
             handlePressOnConfirmBtn()
@@ -119,15 +114,14 @@ class EidInfoReviewViewModel(application: Application) :
                     trackEventWithScreenName(FirebaseEvent.KYC_US)
                 }
                 sectionedCountries?.let { sc ->
-                    it.digit3CountryCode.equals(
-                        sc.data.find { country ->
+                    it.digit3CountryCode?.let { digit3Code ->
+                        digit3Code.equals(sc.data.find { country ->
                             country.isoCountryCode3Digit.equals(
-                                it.digit3CountryCode,
+                                digit3Code,
                                 true
                             )
-                        }?.isoCountryCode3Digit,
-                        true
-                    )
+                        }?.isoCountryCode3Digit, true)
+                    } ?: true
                 } ?: true -> {
                     updateLabels(
                         title = getString(Strings.screen_kyc_information_error_display_text_title_sanctioned_country),
@@ -158,7 +152,6 @@ class EidInfoReviewViewModel(application: Application) :
 
     override fun onEIDScanningComplete(result: IdentityScannerResult) {
         //   uploadDocuments(result)
-
     }
 
 
@@ -182,7 +175,7 @@ class EidInfoReviewViewModel(application: Application) :
                         gender = it.gender,
                         nationality = it.digit3CountryCode ?: "",
                         identityNo = it.identityNo?.replace("-".toRegex(), ""),
-                        filePaths = it.filePaths ?: arrayListOf(),
+                        filePaths = it.filePaths,
                         countryIsSanctioned = if (fromInformationErrorFragment) fromInformationErrorFragment else null
                     )
 
@@ -261,7 +254,7 @@ class EidInfoReviewViewModel(application: Application) :
     }
 
     private fun splitLastNames(lastNames: String) {
-        val parts = lastNames.trim().split(" ")
+        val parts = lastNames.trim().split(" ".toRegex())
         state.firstName = parts[0]
 
         when {
@@ -469,8 +462,7 @@ class EidInfoReviewViewModel(application: Application) :
             }
             state.fullNameValid = state.firstName.isNotBlank()
             state.nationality = documentFront?.nationality ?: ""
-            state.nationalityValid =
-                state.nationality.isNotBlank() && !state.isCountryUS
+            state.nationalityValid = state.nationality.isNotBlank() && !state.isCountryUS
             var DOB: Date = getDateFormatyyMMddToyyyyMMdd(documentBack?.dateOfBirth)
             var EXD: Date = getDateFormatyyMMddToyyyyMMdd(documentBack?.dateOfExpiry)
             state.dateOfBirth =
@@ -512,7 +504,7 @@ class EidInfoReviewViewModel(application: Application) :
             }
             state.isCountryUS =
                 getCountryCode(documentFront?.nationality ?: "").contains(countryName ?: "US")
-            downloadImage {
+            if (state.BackImage.value.isNullOrBlank() && state.frontImage.value.isNullOrBlank()) downloadImage {
                 state.viewState.postValue(
                     it.not()
                 )
