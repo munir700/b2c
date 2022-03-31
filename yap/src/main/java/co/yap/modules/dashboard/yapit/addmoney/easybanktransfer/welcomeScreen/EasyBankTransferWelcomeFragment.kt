@@ -21,6 +21,7 @@ class EasyBankTransferWelcomeFragment : AddMoneyBaseFragment<IEasyBankTransferWe
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setObservers()
+        viewModel.setDataFormat()
     }
 
     override fun setObservers() {

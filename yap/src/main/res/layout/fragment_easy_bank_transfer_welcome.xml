@@ -65,7 +65,7 @@
             app:layout_constraintEnd_toEndOf="@id/tvWelcomeText"
             app:layout_constraintStart_toStartOf="@id/tvWelcomeText"
             app:layout_constraintTop_toBottomOf="@+id/tvWelcomeText"
-            app:text="@{Strings.screen_lean_welcome_screen_connect_one_of_your_existing_bank}"
+            android:text="@{viewModel.state.welcomeText}"
             tools:text="@string/screen_lean_welcome_screen_connect_one_of_your_existing_bank" />
         <!--need to customize this for drawable start-->
         <co.yap.widgets.CoreButton
