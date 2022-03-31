@@ -26,6 +26,7 @@ import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.firebase.FirebaseEvent
 import co.yap.yapcore.firebase.trackEventWithScreenName
+import co.yap.yapcore.helpers.DateUtils.getAge
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.Utils.hideKeyboard
 import co.yap.yapcore.helpers.showAlertDialogAndExitApp
@@ -57,9 +58,18 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.requestAllAPIs()
-        viewModel.parentViewModel?.identity?.let {
-            viewModel.populateState(it)
+        with(viewModel) {
+            requestAllAPIs()
+            parentViewModel?.identity?.let {
+                populateState(it)
+            }
+            state.AgeLimit?.observe(viewLifecycleOwner, Observer { limit ->
+                parentViewModel?.identity?.dateOfBirth?.let { dateOfBirth ->
+                    state.isDateOfBirthValid.set(
+                        getAge(dateOfBirth) >= limit
+                    )
+                }
+            })
         }
     }
     private fun addObservers() {

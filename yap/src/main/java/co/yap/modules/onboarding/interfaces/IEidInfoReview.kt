@@ -31,7 +31,7 @@ interface IEidInfoReview {
         var isShowMiddleName: ObservableBoolean
         var isShowLastName: ObservableBoolean
         var isDateOfBirthValid: ObservableBoolean
-        var AgeLimit: Int?
+        var AgeLimit: MutableLiveData<Int>?
         var isCountryUS: Boolean
     }
 

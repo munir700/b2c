@@ -80,10 +80,10 @@ class EidInfoReviewViewModel(application: Application) :
                 !state.isDateOfBirthValid.get() -> {
                     updateLabels(
                         title = getString(Strings.screen_kyc_information_error_display_text_title_under_age).format(
-                            state.AgeLimit ?: 18
+                            state.AgeLimit?.value ?: 18
                         ),
                         body = getString(Strings.screen_kyc_information_error_display_text_explanation_under_age).format(
-                            state.AgeLimit ?: 18
+                            state.AgeLimit?.value ?: 18
                         )
                     )
                     clickEvent.setValue(eventErrorUnderAge)
@@ -386,13 +386,6 @@ class EidInfoReviewViewModel(application: Application) :
                     }
                 }
             }
-            // If Age Limit available in case of Re-Scan, set Age validity again.
-            state.AgeLimit?.let { limit ->
-                state.isDateOfBirthValid.set(
-                    getAge(identity.dateOfBirth) >= limit
-                )
-            }
-//            state.isDateOfBirthValid.set(getAge(identity.dateOfBirth) >= configureEIDResponse.value?.ageLimit ?: 18)
             val countryName = configureEIDResponse.value?.country2DigitIsoCode?.let { str ->
                 str.split(",").map { it -> it.trim() }.find {
                     it.equals("US")
@@ -467,7 +460,7 @@ class EidInfoReviewViewModel(application: Application) :
                         sectionedCountries = senctionedCountryResponse.data
                         configureEIDResponse.value = configurationEIDResponse.data.data
 //                        state.isDateOfBirthValid.set(getAge(identity.dateOfBirth) >= configureEIDResponse.value?.ageLimit ?: 18)
-                        state.AgeLimit = configureEIDResponse.value?.ageLimit
+                        state.AgeLimit?.value = configureEIDResponse.value?.ageLimit
                         val countryName =
                             configureEIDResponse.value?.country2DigitIsoCode?.let { str ->
                                 str.split(",").map { it -> it.trim() }.find {
