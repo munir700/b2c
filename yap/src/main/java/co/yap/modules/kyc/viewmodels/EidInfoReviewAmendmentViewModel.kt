@@ -86,7 +86,6 @@ class EidInfoReviewAmendmentViewModel(application: Application) :
         super.onCreate()
         getAllCountries()
         validator?.setValidationListener(this)
-        requestAllAPIs(true)
     }
 
     override fun handlePressOnView(id: Int) {
@@ -499,8 +498,8 @@ class EidInfoReviewAmendmentViewModel(application: Application) :
             }
             state.gender = documentBack?.sex.run {
                 when {
-                    this == co.yap.modules.kyc.enums.Gender.Male.mrz -> getString(Strings.screen_b2c_eid_info_review_display_text_gender_male)
-                    this == co.yap.modules.kyc.enums.Gender.Female.mrz -> getString(Strings.screen_b2c_eid_info_review_display_text_gender_female)
+                    this == Gender.Male.mrz -> getString(Strings.screen_b2c_eid_info_review_display_text_gender_male)
+                    this == Gender.Female.mrz -> getString(Strings.screen_b2c_eid_info_review_display_text_gender_female)
                     else -> {
                         state.genderValid = false
                         ""
@@ -527,31 +526,35 @@ class EidInfoReviewAmendmentViewModel(application: Application) :
             state.expiryCalendar = Calendar.getInstance().apply {
                 time = EXD
             }
-            downloadImage {
-                state.viewState.postValue(it.not())
-                if (it) {
-                    parentViewModel?.uqudoIdentity?.value =
-                        V2DocumentDTO(
-                            filePaths = arrayListOf(
-                                state.frontImage.value ?: "",
-                                state.BackImage.value ?: ""
-                            ),
-                            documentType = "EMIRATES_ID",
-                            firstName = state.firstName,
-                            middleName = if (state.middleName.isNotBlank()) state.middleName else null,
-                            lastName = if (state.lastName.isNotBlank()) state.lastName else null,
-                            dateExpiry = EXD,
-                            dob = DOB,
-                            fullName = documentFront?.fullName ?: "",
-                            gender = documentBack?.sex.toString(),
-                            digit3CountryCode = documentBack?.nationality ?: "UAE",
-                            nationality = documentFront?.nationality ?: "",
-                            identityNo = documentFront?.identityNumber
-                        )
-                    state.nationality.value =
-                        countries.firstOrNull { country -> country.isoCountryCode3Digit == parentViewModel?.uqudoIdentity?.value?.digit3CountryCode }
+            if (parentViewModel?.uqudoIdentity?.value?.filePaths?.size?:0 < 2) {
+                downloadImage {
+                    state.viewState.postValue(it.not())
+                    if (it) {
+                        parentViewModel?.uqudoIdentity?.value =
+                            V2DocumentDTO(
+                                filePaths = arrayListOf(
+                                    state.frontImage.value ?: "",
+                                    state.BackImage.value ?: ""
+                                ),
+                                documentType = "EMIRATES_ID",
+                                firstName = state.firstName,
+                                middleName = if (state.middleName.isNotBlank()) state.middleName else null,
+                                lastName = if (state.lastName.isNotBlank()) state.lastName else null,
+                                dateExpiry = EXD,
+                                dob = DOB,
+                                fullName = documentFront?.fullName ?: "",
+                                gender = documentBack?.sex.toString(),
+                                digit3CountryCode = documentBack?.nationality ?: "UAE",
+                                nationality = documentFront?.nationality ?: "",
+                                identityNo = documentFront?.identityNumber,
+                                isAmendment = true
+                            )
+                        state.nationality.value =
+                            countries.firstOrNull { country -> country.isoCountryCode3Digit == parentViewModel?.uqudoIdentity?.value?.digit3CountryCode }
 
-                } else showToast("unable to download EIDs")
+                    } else showToast("unable to download EIDs")
+
+                }
             }
             handleAgeValidation()
             handleIsUsValidation()

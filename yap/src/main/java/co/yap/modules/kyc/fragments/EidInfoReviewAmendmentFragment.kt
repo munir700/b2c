@@ -31,6 +31,7 @@ import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.firebase.FirebaseEvent
 import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.*
+import co.yap.yapcore.helpers.DateUtils.SERVER_DATE_FULL_FORMAT
 import co.yap.yapcore.helpers.extentions.deleteTempFolder
 import co.yap.yapcore.helpers.extentions.launchBottomSheet
 import co.yap.yapcore.helpers.extentions.launchSheet
@@ -53,44 +54,41 @@ class EidInfoReviewAmendmentFragment : KYCChildFragment<IEidInfoReviewAmendment.
     override val viewModel: EidInfoReviewAmendmentViewModel
         get() = ViewModelProvider(this).get(EidInfoReviewAmendmentViewModel::class.java)
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         getViewBinding().lifecycleOwner = this
         viewModel.validator?.targetViewBinding = getViewBinding()
         viewModel.validator?.toValidate()
+        addObservers()
         // TODO use MaskTextWatcher to mask the eid number
         getViewBinding().tvEidNumber.filters =
             arrayOf(
                 InputFilter.LengthFilter(resources.getInteger(R.integer.eid_length)),
                 EidFilter(intArrayOf(3, 8, 16), '-')
             )
-        addObservers()
+
         viewModel.parentViewModel?.payLoadObj?.value?.let { identity ->
             viewModel.populateUqudoState(identity = identity)
             viewModel.eidStateLiveData.postValue(State.ideal(""))
         } ?: viewModel.requestAllAPIs(true)
-
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        if (viewModel.parentViewModel?.skipFirstScreen?.value == true) {
-            if (!viewModel.state.errorScreenVisited) {
-                viewModel.uqudoResponse.value?.let {
-                    initializeUqudoScanner(
-                        requireActivity(),
-                        viewModel.uqudoResponse.value?.accessToken
-                    )?.apply {
-                        startActivityForResult(this, REQUEST_CODE)
-                    }
-                }
-            }
-            viewModel.state.errorScreenVisited = false
-            getViewBinding().tbBtnBack.setOnClickListener {
-                viewModel.parentViewModel?.finishKyc?.value = DocumentsResponse(false)
-            }
+    /* override fun onActivityCreated(savedInstanceState: Bundle?) {
+         super.onActivityCreated(savedInstanceState)
+         if (viewModel.parentViewModel?.skipFirstScreen?.value == true) {
+             viewModel.state.errorScreenVisited = false
+             getViewBinding().tbBtnBack.setOnClickListener {
+                 viewModel.parentViewModel?.finishKyc?.value = DocumentsResponse(false)
+             }
+         }
+     }*/
+
+    override fun onBackPressed(): Boolean {
+        if (viewModel.state.errorScreenVisited) {
+            requireActivity().finish()
         }
-        addFocusListeners()
+        return super.onBackPressed()
     }
 
     private fun addFocusListeners() {
@@ -105,6 +103,13 @@ class EidInfoReviewAmendmentFragment : KYCChildFragment<IEidInfoReviewAmendment.
     }
 
     private fun addObservers() {
+        if (viewModel.parentViewModel?.skipFirstScreen?.value == true) {
+            viewModel.state.errorScreenVisited = false
+            getViewBinding().tbBtnBack.setOnClickListener {
+                viewModel.parentViewModel?.finishKyc?.value = DocumentsResponse(false)
+            }
+        }
+        addFocusListeners()
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
                 R.id.tvEidNumber -> {
@@ -505,6 +510,9 @@ class EidInfoReviewAmendmentFragment : KYCChildFragment<IEidInfoReviewAmendment.
 
     private fun handleState(state: State?) {
         when (state?.status) {
+            Status.IDEAL -> {
+                //do nothing
+            }
             Status.LOADING -> {
                 getViewBinding().multiStateView.viewState = MultiStateView.ViewState.LOADING
             }
