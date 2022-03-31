@@ -64,6 +64,12 @@ class EidInfoReviewAmendmentFragment : KYCChildFragment<IEidInfoReviewAmendment.
                 InputFilter.LengthFilter(resources.getInteger(R.integer.eid_length)),
                 EidFilter(intArrayOf(3, 8, 16), '-')
             )
+        addObservers()
+        viewModel.parentViewModel?.payLoadObj?.value?.let { identity ->
+            viewModel.populateUqudoState(identity = identity)
+            viewModel.eidStateLiveData.postValue(State.ideal(""))
+        } ?: viewModel.requestAllAPIs(true)
+
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -85,7 +91,6 @@ class EidInfoReviewAmendmentFragment : KYCChildFragment<IEidInfoReviewAmendment.
             }
         }
         addFocusListeners()
-        addObservers()
     }
 
     private fun addFocusListeners() {
@@ -261,11 +266,13 @@ class EidInfoReviewAmendmentFragment : KYCChildFragment<IEidInfoReviewAmendment.
             handleState(it)
         })
         viewModel.uqudoResponse.observe(viewLifecycleOwner, Observer { response ->
-            if (response.accessToken.isNullOrEmpty()
-                    .not() && viewModel.state.isTokenValid.get()
-            ) viewModel.eidStateLiveData.postValue(State.empty("")) else viewModel.eidStateLiveData.postValue(
-                State.error("")
-            )
+            if (viewModel.parentViewModel?.payLoadObj?.value == null) {
+                if (response.accessToken.isNullOrEmpty()
+                        .not() && viewModel.state.isTokenValid.get()
+                ) viewModel.eidStateLiveData.postValue(State.empty("")) else viewModel.eidStateLiveData.postValue(
+                    State.error("")
+                )
+            }
         })
     }
 
@@ -368,7 +375,10 @@ class EidInfoReviewAmendmentFragment : KYCChildFragment<IEidInfoReviewAmendment.
             it.showAlertDialogAndExitApp(
                 message = title,
                 callback = {
-                    if (viewModel.state.isExpired.value == true) viewModel.requestAllAPIs(false) else initializeUqudoScanner(requireActivity(), viewModel.uqudoResponse.value?.accessToken)
+                    if (viewModel.state.isExpired.value == true) viewModel.requestAllAPIs(false) else initializeUqudoScanner(
+                        requireActivity(),
+                        viewModel.uqudoResponse.value?.accessToken
+                    )
                 },
                 closeActivity = false
             )
@@ -406,6 +416,8 @@ class EidInfoReviewAmendmentFragment : KYCChildFragment<IEidInfoReviewAmendment.
 
     override fun onDestroyView() {
         viewModel.clickEvent.removeObservers(this)
+        viewModel.eidStateLiveData.removeObservers(this)
+        viewModel.uqudoResponse.removeObservers(this)
         super.onDestroyView()
     }
 
@@ -452,6 +464,7 @@ class EidInfoReviewAmendmentFragment : KYCChildFragment<IEidInfoReviewAmendment.
                 viewModel.state.uqudoToken.value = data?.getStringExtra("data")
                 if (viewModel.state.uqudoToken.value.isNullOrBlank().not()) {
                     viewModel.extractJwt(viewModel.state.uqudoToken.value)
+
                 } else {
                     if (viewModel.state.payLoadObj.value == null) requireActivity().finish()
                 }
@@ -507,6 +520,7 @@ class EidInfoReviewAmendmentFragment : KYCChildFragment<IEidInfoReviewAmendment.
             Status.SUCCESS -> {
                 getViewBinding().multiStateView.viewState = MultiStateView.ViewState.CONTENT
                 viewModel.state.payLoadObj.value?.let { identity ->
+                    viewModel.parentViewModel?.payLoadObj?.value = identity
                     viewModel.populateUqudoState(identity = identity)
                 }
             }

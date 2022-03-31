@@ -85,7 +85,7 @@
                     android:layout_marginEnd="@dimen/margin_medium"
                     android:background="@drawable/edit_selector"
                     android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
-                    android:visibility="@{viewModel.state.middleName.trim().equals(``) ? View.VISIBLE : View.VISIBLE}"
+                    android:visibility="@{viewModel.state.isShowMiddleName? View.VISIBLE : View.VISIBLE}"
                     app:layout_constraintBottom_toBottomOf="@+id/tvMiddleName"
                     app:layout_constraintLeft_toRightOf="@+id/tvMiddleName"
                     app:layout_constraintRight_toRightOf="parent"

@@ -38,6 +38,8 @@ interface IDocumentsDashboard {
         var accountStatus: MutableLiveData<String>
         var hideProgressToolbar: MutableLiveData<Boolean>
         var uqudoIdentity: MutableLiveData<V2DocumentDTO>
+        var payLoadObj: MutableLiveData<UqudoPayLoad>
+
     }
 
     interface View : IBase.View<ViewModel>

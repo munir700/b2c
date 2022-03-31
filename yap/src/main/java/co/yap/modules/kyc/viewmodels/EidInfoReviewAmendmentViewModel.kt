@@ -11,6 +11,7 @@ import androidx.annotation.RequiresApi
 import androidx.lifecycle.MutableLiveData
 import co.yap.R
 import co.yap.countryutils.country.Country
+import co.yap.modules.kyc.enums.Gender
 import co.yap.modules.onboarding.interfaces.IEidInfoReviewAmendment
 import co.yap.modules.onboarding.states.EidInfoReviewAmendmentState
 import co.yap.networking.customers.CustomersRepository
@@ -39,6 +40,7 @@ import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.DateUtils.getAge
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.saveEidTemp
+import co.yap.yapcore.helpers.extentions.toast
 import co.yap.yapcore.helpers.validation.IValidator
 import co.yap.yapcore.helpers.validation.Validator
 import co.yap.yapcore.leanplum.KYCEvents
@@ -83,9 +85,6 @@ class EidInfoReviewAmendmentViewModel(application: Application) :
     override fun onCreate() {
         super.onCreate()
         getAllCountries()
-        if (isFromAmendment()) {
-            getKYCDataFromServer()
-        }
         validator?.setValidationListener(this)
         requestAllAPIs(true)
     }
@@ -99,9 +98,9 @@ class EidInfoReviewAmendmentViewModel(application: Application) :
     }
 
     private fun handlePressOnConfirmBtn() {
-        parentViewModel?.uqudoIdentity?.value?.let {
+        parentViewModel?.uqudoIdentity?.value?.let { jj ->
             when {
-                TextUtils.isEmpty(it.fullName) || TextUtils.isEmpty(it.nationality) -> {
+                TextUtils.isEmpty(getFullName()) || TextUtils.isEmpty(state.nationality.value?.getName()) -> {
                     clickEvent.setValue(eventErrorInvalidEid)
                 }
                 state.expiryDateValid.value?.not() == true -> {
@@ -130,34 +129,33 @@ class EidInfoReviewAmendmentViewModel(application: Application) :
                         title = getString(Strings.screen_kyc_information_error_display_text_title_from_us),
                         body = getString(Strings.screen_kyc_information_error_text_description_from_us)
                     )
-                    sanctionedCountry = it.nationality
-                    sanctionedNationality = it.nationality
+                    sanctionedCountry = state.nationality.value?.getName() ?: ""
+                    sanctionedNationality = state.nationality.value?.getName() ?: ""
                     clickEvent.setValue(eventErrorFromUsa)
                     trackEvent(KYCEvents.KYC_US_CITIIZEN.type)
                     trackEventWithScreenName(FirebaseEvent.KYC_US)
                 }
                 sectionedCountries?.let { sc ->
-                    it.digit3CountryCode.equals(
-                        sc.data.find { country ->
+                    state.nationality.value?.isoCountryCode3Digit?.let { digit3Code ->
+                        digit3Code.equals(sc.data.find { country ->
                             country.isoCountryCode3Digit.equals(
-                                it.digit3CountryCode,
+                                digit3Code,
                                 true
                             )
-                        }?.isoCountryCode3Digit,
-                        true
-                    )
+                        }?.isoCountryCode3Digit, true)
+                    } ?: true
                 } ?: true -> {
                     updateLabels(
                         title = getString(Strings.screen_kyc_information_error_display_text_title_sanctioned_country),
                         body = getString(Strings.screen_kyc_information_error_text_description_sanctioned_country)
                     )
-                    sanctionedCountry = it.nationality
-                    sanctionedNationality = it.nationality
+                    sanctionedCountry = state.nationality.value?.getName() ?: ""
+                    sanctionedNationality = state.nationality.value?.getName() ?: ""
                     clickEvent.setValue(eventErrorFromUsa)
                     trackEvent(KYCEvents.KYC_PROHIBITED_CITIIZEN.type)
                     trackEventWithScreenName(FirebaseEvent.KYC_SANCTIONED)
                 }
-                parentViewModel?.document != null && it.identityNo != parentViewModel?.document?.identityNo -> {
+                parentViewModel?.document != null && state.citizenNumber.value ?: "" != parentViewModel?.document?.identityNo -> {
                     state.toast =
                         "Your EID doesn't match with the current EID.^${AlertType.DIALOG.name}"
                 }
@@ -189,9 +187,9 @@ class EidInfoReviewAmendmentViewModel(application: Application) :
                             Utils.parseCountryList(response.data.data, addOIndex = false)
                         countries =
                             populateNationalitySpinnerData.value as ArrayList<Country>
-                        parentViewModel?.identity?.let {
+                        parentViewModel?.uqudoIdentity?.value?.let {
                             state.nationality.value =
-                                countries.firstOrNull { country -> country.isoCountryCode2Digit == it.isoCountryCode2Digit }
+                                countries.firstOrNull { country -> country.isoCountryCode3Digit == it.digit3CountryCode }
                         }
                     }
 
@@ -235,8 +233,10 @@ class EidInfoReviewAmendmentViewModel(application: Application) :
                             DateUtils.TIME_ZONE_Default
                         )
                     }
-                    state.previousCitizenNumber = response.data.data?.identityNo
+                    state.previousCitizenNumber =
+                        getFormattedCitizenNumber(response.data.data?.identityNo)
                     delay(500)
+                    eidStateLiveData.postValue(State.success(""))
                     validator?.toValidate()
                 }
                 is RetroApiResponse.Error -> {
@@ -521,10 +521,14 @@ class EidInfoReviewAmendmentViewModel(application: Application) :
             }
             state.isCountryUS =
                 getCountryCode(documentFront?.nationality ?: "").contains(countryName ?: "US")
+            state.dobCalendar = Calendar.getInstance().apply {
+                time = DOB
+            }
+            state.expiryCalendar = Calendar.getInstance().apply {
+                time = EXD
+            }
             downloadImage {
-                state.viewState.postValue(
-                    it.not()
-                )
+                state.viewState.postValue(it.not())
                 if (it) {
                     parentViewModel?.uqudoIdentity?.value =
                         V2DocumentDTO(
@@ -544,8 +548,14 @@ class EidInfoReviewAmendmentViewModel(application: Application) :
                             nationality = documentFront?.nationality ?: "",
                             identityNo = documentFront?.identityNumber
                         )
+                    state.nationality.value =
+                        countries.firstOrNull { country -> country.isoCountryCode3Digit == parentViewModel?.uqudoIdentity?.value?.digit3CountryCode }
+
                 } else showToast("unable to download EIDs")
             }
+            handleAgeValidation()
+            handleIsUsValidation()
+            validator?.toValidate()
 
         }
     }
@@ -597,6 +607,7 @@ class EidInfoReviewAmendmentViewModel(application: Application) :
     }
 
     fun extractJwt(token: String?) {
+        eidStateLiveData.postValue(State.loading("Fetching Data..."))
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) showToast("Requires SDK 26") else {
             val parts = token?.split("\\.".toRegex())
             parts?.let { parts ->
@@ -614,7 +625,11 @@ class EidInfoReviewAmendmentViewModel(application: Application) :
                     val payLoadObj: UqudoPayLoad = gson.fromJson(payload, UqudoPayLoad::class.java)
                     state.uqudoHeaderObj.postValue(headerObj)
                     state.payLoadObj.postValue(payLoadObj)
-                    eidStateLiveData.postValue(State.success(""))
+                    if (isFromAmendment()) {
+                        getKYCDataFromServer()
+                    } else {
+                        toast(context, "rescan again")
+                    }
                 } catch (e: Exception) {
                     "Error parsing JWT: $e"
                 }
@@ -636,12 +651,12 @@ class EidInfoReviewAmendmentViewModel(application: Application) :
                         firstName = state.firstName,
                         middleName = if (state.middleName.isNotBlank()) state.middleName else null,
                         lastName = if (state.lastName.isNotBlank()) state.lastName else null,
-                        dateExpiry = it.dateExpiry,
-                        dob = it.dob,
                         fullName = getFullName(),
-                        gender = it.gender,
-                        nationality = it.digit3CountryCode ?: "",
-                        identityNo = it.identityNo?.replace("-".toRegex(), ""),
+                        gender = if (state.gender == Gender.Male.name) Gender.Male.mrz else Gender.Female.mrz,
+                        dateExpiry = state.expiryCalendar.time,
+                        dob = state.dobCalendar.time,
+                        nationality = state.nationality.value?.isoCountryCode3Digit ?: "",
+                        identityNo = state.citizenNumber.value?.replace("-".toRegex(), ""),
                         filePaths = it.filePaths ?: arrayListOf(),
                         countryIsSanctioned = if (fromInformationErrorFragment) fromInformationErrorFragment else null,
                         isAmendment = !parentViewModel?.amendmentMap.isNullOrEmpty()
