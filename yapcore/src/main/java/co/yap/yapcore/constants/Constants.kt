@@ -187,6 +187,7 @@ object Constants {
     const val ADD_MONEY_BANK_TRANSFER: Int = 4
     const val ADD_MONEY_CASH_OR_CHEQUE: Int = 5
     const val ADD_MONEY_QR_CODE: Int = 6
+    const val ADD_MONEY_INSTANT_BANK_TRANSFER: Int = 7
 
     //Analytics
     const val TRANSACTION_DETAIL = "TxnAnalytics_Model"

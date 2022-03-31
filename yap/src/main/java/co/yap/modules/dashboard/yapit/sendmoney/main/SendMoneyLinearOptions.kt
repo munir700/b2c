@@ -8,11 +8,12 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 data class SendMoneyLinearOptions(
     var name: String,
-    var image: Int,
+    var image: String,
     var type: SendMoneyCategoryType = SendMoneyCategoryType.None,
-    var description: String
+    var description: String,
+    var isFlag : Boolean
 ) : Parcelable
 
 enum class SendMoneyCategoryType {
-    SendMoneyToYAPContacts, SendMoneyToLocalBank, SendMoneyToHomeCountry, SendMoneyQRCode, SendMoneyToInternational, None
+    SendMoneyToYAPContacts,SendMoneyQRCode, SendMoneyToLocalBank, SendMoneyToHomeCountry,  SendMoneyToInternational, None
 }

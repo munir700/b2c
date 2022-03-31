@@ -7,13 +7,11 @@
 
         <variable
             name="viewModel"
-            type="co.yap.modules.dashboard.yapit.sendmoney.landing.viewmodels.SendMoneyLinearDashboardItemViewModel" />
+            type="co.yap.modules.dashboard.yapit.addmoney.landing.AddMoneyLinearDashboardItemViewModel" />
 
         <import type="co.yap.translation.Strings" />
 
         <import type="android.view.View" />
-
-        <import type="co.yap.R" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -21,29 +19,30 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/round_edges_gery"
-        android:paddingStart="@dimen/margin_small"
+        android:paddingStart="@dimen/margin_normal"
         android:paddingTop="@dimen/margin_normal"
-        android:paddingEnd="@dimen/margin_small"
+        android:paddingEnd="@dimen/margin_normal"
         android:paddingBottom="@dimen/margin_normal">
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/imgIcon"
             android:layout_width="@dimen/_40sdp"
             android:layout_height="@dimen/_40sdp"
+            android:layout_marginBottom="@dimen/margin_small"
             android:background="@drawable/bg_round_purple_enabled"
             android:padding="@dimen/margin_small"
-            app:isFlag="@{viewModel.item.isFlag}"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:isFlag="@{false}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:resName="@{viewModel.item.image}"/>
+            app:resName="@{viewModel.item.image}"
+            tools:src="@drawable/ic_notification" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvTitle"
             style="@style/LabelTextStylInActive"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_small"
+            android:layout_marginStart="@dimen/margin_normal"
             android:gravity="start"
             android:lineSpacingExtra="0dp"
             android:text="@{viewModel.item.name}"
@@ -65,8 +64,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/tvTitle"
             app:layout_constraintStart_toStartOf="@id/tvTitle"
-            app:layout_constraintTop_toBottomOf="@+id/tvTitle"
-            tools:text="Send money instantly to a YAP user" />
+            app:layout_constraintTop_toBottomOf="@+id/tvTitle" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/ivArrow"

@@ -19,6 +19,7 @@ import androidx.core.graphics.ColorUtils
 import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory
 import androidx.databinding.BindingAdapter
 import androidx.vectordrawable.graphics.drawable.Animatable2Compat
+import co.yap.countryutils.country.utils.CurrencyUtils
 import co.yap.widgets.CoreCircularImageView
 import co.yap.widgets.PrefixSuffixEditText
 import co.yap.widgets.TextDrawable
@@ -374,7 +375,8 @@ object ImageBinding {
     @BindingAdapter("app:setFlagDrawable")
     fun setIsoCountryDrawable(imageView: ImageView, isoCountryCode: String?) {
         isoCountryCode?.let {
-            val resId = getResId(imageView.context,
+            val resId = getResId(
+                imageView.context,
                 "flag_${getDrawableName(it)}"
             )
             if (resId > 0) {
@@ -747,5 +749,18 @@ object ImageBinding {
             imageView,
             Utils.getBackgroundColorForAnalytics(imageView.context, position = position)
         )
+    }
+
+    @JvmStatic
+    @BindingAdapter(value = ["resName", "isFlag"], requireAll = true)
+    fun setDrawableWithName(imageView: ImageView, resourceName: String, isFlag: Boolean) {
+        if (isFlag) imageView.setImageResource(CurrencyUtils.getFlagDrawable(imageView.context, resourceName))
+        else
+            imageView.setImageResource(
+                getResId(
+                    imageView.context,
+                    "ic_${getDrawableName(resourceName)}"
+                )
+            )
     }
 }
