@@ -1736,16 +1736,13 @@
     <string name="screen_view_document_sheet_heading">Choose from Library</string>
     <string name="screen_view_document_sheet_take_photo_heading">Take a Photo</string>
     <string name="screen_view_document_sheet_browse_gallery_heading">Browse Files</string>
-
     <string name="screen_view_document_refresh_button_text">Refresh</string>
-
     <string name="screen_view_document_file_size_not_fine">Your file size is too big. Please upload a file less than 25MB to proceed</string>
+
     <!--Lean -Adding an Account- Welcome Screen-->
     <string name="screen_lean_welcome_screen_title">Easy bank transfer</string>
     <string name="screen_lean_welcome_screen_welcome_to_open_banking">Welcome to open banking</string>
     <string name="screen_lean_welcome_screen_connect_one_of_your_existing_bank">Connect one of your existing bank accounts to YAP and use it to top-up instantly with zero fees!</string>
     <string name="screen_lean_welcome_screen_link_an_account">Link an account</string>
-
-
 
 </resources>

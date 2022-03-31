@@ -2686,6 +2686,20 @@ object Strings {
         "screen_missing_info_confirmation_button_done"
     const val screen_missing_info_confirmation_display_all_set =
         "screen_missing_info_confirmation_display_all_set"
+    const val screen_view_document_refresh_button_text = "screen_view_document_refresh_button_text"
+    const val screen_view_document_file_size_not_fine = "screen_view_document_file_size_not_fine"
+    const val screen_view_document_otp_message_first_part = "screen_view_document_otp_message_first_part"
+    const val screen_view_document_otp_message_second_part = "screen_view_document_otp_message_second_part"
+
+    //    Upload document dialogue
+    const val screen_upload_document_display_text_alert_title: String =
+        "screen_upload_document_display_text_alert_title"
+    const val screen_upload_document_display_text_alert_message: String =
+        "screen_upload_document_display_text_alert_message"
+    const val screen_upload_document_display_text_alert_got_it: String =
+        "screen_upload_document_display_text_alert_got_it"
+    const val screen_upload_document_item_subtitle: String =
+        "screen_upload_document_item_subtitle"
 
     //Lean -Adding an Account- Welcome Screen
     const val screen_lean_welcome_screen_title =
@@ -2697,19 +2711,4 @@ object Strings {
     const val screen_lean_welcome_screen_link_an_account =
         "screen_lean_welcome_screen_link_an_account"
 
-    const val screen_view_document_refresh_button_text = "screen_view_document_refresh_button_text"
-    const val screen_view_document_file_size_not_fine = "screen_view_document_file_size_not_fine"
-    const val screen_view_document_otp_message_first_part = "screen_view_document_otp_message_first_part"
-    const val screen_view_document_otp_message_second_part = "screen_view_document_otp_message_second_part"
-
-//    Upload document dialogue
-
-    const val screen_upload_document_display_text_alert_title: String =
-        "screen_upload_document_display_text_alert_title"
-    const val screen_upload_document_display_text_alert_message: String =
-        "screen_upload_document_display_text_alert_message"
-    const val screen_upload_document_display_text_alert_got_it: String =
-        "screen_upload_document_display_text_alert_got_it"
-    const val screen_upload_document_item_subtitle: String =
-        "screen_upload_document_item_subtitle"
 }
