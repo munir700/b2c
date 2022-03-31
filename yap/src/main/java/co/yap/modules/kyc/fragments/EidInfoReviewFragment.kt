@@ -10,8 +10,6 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
-import androidx.annotation.RequiresApi
 import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -23,6 +21,7 @@ import co.yap.modules.kyc.activities.DocumentsResponse
 import co.yap.modules.kyc.enums.KYCAction
 import co.yap.modules.kyc.uqudo.UqudoScannerManager
 import co.yap.modules.kyc.viewmodels.EidInfoReviewViewModel
+import co.yap.modules.onboarding.enums.EidInfoEvents
 import co.yap.modules.onboarding.interfaces.IEidInfoReview
 import co.yap.widgets.MultiStateView
 import co.yap.widgets.State
@@ -65,7 +64,6 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
         viewModel.parentViewModel?.payLoadObj?.value?.let { identity ->
             viewModel.populateUqudoState(identity = identity)
             viewModel.eidStateLiveData.postValue(State.ideal(""))
-
         } ?: viewModel.requestAllAPIs(true)
     }
 
@@ -105,36 +103,26 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
                     )
                 }
 
-                viewModel.eventErrorInvalidEid -> showInvalidEidScreen()
-                viewModel.eventErrorExpiredEid -> showExpiredEidScreen()
-                viewModel.eventErrorUnderAge -> showUnderAgeScreen()
-                viewModel.eventErrorFromUsa -> showUSACitizenScreen()
-                viewModel.eventRescan -> {
+                EidInfoEvents.EVENT_ERROR_INVALID_EID.eventId -> showInvalidEidScreen()
+                EidInfoEvents.EVENT_ERROR_EXPIRED_EID.eventId -> showExpiredEidScreen()
+                EidInfoEvents.EVENT_ERROE_UNDERAGE.eventId -> showUnderAgeScreen()
+                EidInfoEvents.EVENT_ERROR_FROM_USA.eventId -> showUSACitizenScreen()
+                EidInfoEvents.EVENT_RESCAN.eventId -> {
                     viewModel.state.BackImage.value = ""
                     viewModel.state.frontImage.value = ""
-                    if (viewModel.state.isExpired.value == true) viewModel.requestAllAPIs(false) else initializeUqudoScanner(
-                        requireActivity(),
-                        viewModel.uqudoResponse.value?.accessToken
-                    )?.apply {
-                        startActivityForResult(this, REQUEST_CODE)
-                    }
+                    initializeUqudoScanner()
                 }
                 R.id.tvNoThanks -> {
                     trackEventWithScreenName(FirebaseEvent.RESCAN_ID)
                     hideKeyboard(getViewBinding().tvNoThanks)
-                    if (viewModel.state.isExpired.value == true) viewModel.requestAllAPIs(false) else initializeUqudoScanner(
-                        requireActivity(),
-                        viewModel.uqudoResponse.value?.accessToken
-                    )?.apply {
-                        startActivityForResult(this, REQUEST_CODE)
-                    }
+                    initializeUqudoScanner()
                 }
-                viewModel.eventAlreadyUsedEid -> {
+                EidInfoEvents.EVENT_ALREADY_USED_EID.eventId -> {
                     viewModel.parentViewModel?.finishKyc?.value =
                         DocumentsResponse(false, KYCAction.ACTION_EID_FAILED.name)
                 }
 
-                viewModel.eventNextWithError -> {
+                EidInfoEvents.EVENT_NEXT_WITH_ERROR.eventId -> {
                     viewModel.performUqudoUploadDocumentsRequest(true) {
                         if (it.equals("success", true)) {
                             val action =
@@ -148,11 +136,11 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
                     }
 
                 }
-                viewModel.eventFinish -> {
+                EidInfoEvents.EVENT_FINISH.eventId -> {
                     viewModel.parentViewModel?.finishKyc?.value =
                         DocumentsResponse(false, KYCAction.ACTION_EID_FAILED.name)
                 }
-                viewModel.eventNext -> {
+                EidInfoEvents.EVENT_NEXT.eventId -> {
                     trackEventWithScreenName(FirebaseEvent.CONFIRM_ID)
                     requireContext().deleteTempFolder()
                     SessionManager.getAccountInfo()
@@ -169,7 +157,7 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
 
                         })
                 }
-                viewModel.eventEidUpdate -> {
+                EidInfoEvents.EVENT_EID_UPDATE.eventId -> {
                     SessionManager.getAccountInfo()
                     SessionManager.onAccountInfoSuccess.observe(
                         viewLifecycleOwner,
@@ -185,7 +173,7 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
 
                         })
                 }
-                viewModel.eventCitizenNumberIssue, viewModel.eventEidExpiryDateIssue -> invalidCitizenNumber(
+                EidInfoEvents.EVENT_CITIZEN_NUMBER_ISSUE.eventId, EidInfoEvents.EVENT_EID_EXPIRY_DATE_ISSUE.eventId -> invalidCitizenNumber(
                     "Sorry, that didn’t work. Please try again"
                 )
             }
@@ -194,15 +182,17 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
         {
             handleState(it)
         })
-        viewModel.uqudoResponse.observe(viewLifecycleOwner, Observer { response ->
-            if (viewModel.parentViewModel?.payLoadObj?.value == null) {
-                if (response.accessToken.isNullOrEmpty()
-                        .not() && viewModel.state.isTokenValid.get()
-                ) viewModel.eidStateLiveData.postValue(State.empty("")) else viewModel.eidStateLiveData.postValue(
-                    State.error("")
-                )
-            }
-        })
+        viewModel.parentViewModel?.uqudoManager?.getUqudoAccessToken()
+            ?.observe(viewLifecycleOwner, Observer { response ->
+                if (viewModel.parentViewModel?.payLoadObj?.value == null) {
+                    if (response.accessToken.isNullOrEmpty()
+                            .not()
+                    ) viewModel.eidStateLiveData.postValue(State.empty(""))
+                    else viewModel.eidStateLiveData.postValue(
+                        State.error("")
+                    )
+                }
+            })
 
     }
 
@@ -230,12 +220,7 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
             it.showAlertDialogAndExitApp(
                 message = title,
                 callback = {
-                    if (viewModel.state.isExpired.value == true) viewModel.requestAllAPIs(false) else initializeUqudoScanner(
-                        requireActivity(),
-                        viewModel.uqudoResponse.value?.accessToken
-                    )?.apply {
-                        startActivityForResult(this, REQUEST_CODE)
-                    }
+                    initializeUqudoScanner()
                 },
                 closeActivity = false
             )
@@ -318,14 +303,14 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         when (requestCode) {
-            REQUEST_CODE -> {
-                viewModel.state.uqudoToken.value = data?.getStringExtra("data")
-                if (viewModel.state.uqudoToken.value.isNullOrBlank().not()) {
+            REQUEST_UQUDO -> {
+                val uqudoJWT = data?.getStringExtra("data")
+                if (uqudoJWT.isNullOrBlank().not()) {
+                    viewModel.state.uqudoToken.value = uqudoJWT
                     UqudoScannerManager.getInstance(requireActivity())
-                        .decodeEncodedUqudoToken(viewModel.state.uqudoToken.value ?: "") {
+                        .decodeEncodedUqudoToken(uqudoJWT ?: "") {
                             viewModel.eidStateLiveData.postValue(State.success(""))
                         }
-                    viewModel.extractJwt(viewModel.state.uqudoToken.value)
                 } else {
                     if (viewModel.parentViewModel?.uqudoManager?.getPayloadData() == null) navigateBack()
                 }
@@ -346,7 +331,7 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
     override fun onDestroyView() {
         viewModel.clickEvent.removeObservers(this)
         viewModel.eidStateLiveData.removeObservers(this)
-        viewModel.uqudoResponse.removeObservers(this)
+        viewModel.parentViewModel?.uqudoManager?.getUqudoAccessToken()?.removeObservers(this)
         super.onDestroyView()
     }
 
@@ -357,12 +342,7 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
             }
             Status.EMPTY -> {
                 getViewBinding().multiStateView.viewState = MultiStateView.ViewState.EMPTY
-                initializeUqudoScanner(
-                    requireActivity(),
-                    viewModel.uqudoResponse.value?.accessToken
-                )?.apply {
-                    startActivityForResult(this, REQUEST_CODE)
-                }
+                initializeUqudoScanner()
             }
             Status.SUCCESS -> {
                 getViewBinding().multiStateView.viewState = MultiStateView.ViewState.CONTENT
@@ -384,27 +364,13 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
         }
     }
 
-    private val REQUEST_CODE get() = 1011
 
     private fun initializeUqudoScanner() {
-        viewModel.parentViewModel?.uqudoManager?.let { manager ->
-            if (manager.isAccessTokenExpired()) viewModel.requestAllAPIs(false)
-            else manager.initiateUqudoScanning()
-        }
-        try {
-            val doc = DocumentBuilder(requireActivity().applicationContext)
-                .setDocumentType(DocumentType.UAE_ID).disableHelpPage().enableReading()
-                .enableScanReview(true, true)
-                .build()
-            val uqudoIntent = UqudoBuilder.Enrollment()
-                .setToken(viewModel.uqudoResponse.value?.accessToken ?: "")
-                .disableSecureWindow()
-                .add(doc)
-                .build(requireActivity().applicationContext)
-            startActivityForResult(uqudoIntent, REQUEST_CODE)
-        } catch (e: Exception) {
-            e.printStackTrace()
-            Toast.makeText(requireContext(), e.localizedMessage, Toast.LENGTH_LONG).show()
+        with(viewModel.parentViewModel?.uqudoManager) {
+            if (this?.isAccessTokenExpired() == true) viewModel.requestAllAPIs(false)
+            else this?.initiateUqudoScanning().apply {
+                startActivityForResult(this, REQUEST_UQUDO)
+            }
         }
     }
 

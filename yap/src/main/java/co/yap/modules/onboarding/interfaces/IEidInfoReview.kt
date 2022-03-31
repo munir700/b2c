@@ -11,8 +11,6 @@ import co.yap.networking.models.BaseResponse
 import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
-import com.digitify.identityscanner.docscanner.models.Identity
-import com.digitify.identityscanner.docscanner.models.IdentityScannerResult
 
 interface IEidInfoReview {
 
@@ -55,24 +53,12 @@ interface IEidInfoReview {
     }
 
     interface ViewModel : IBase.ViewModel<State> {
-        val eventRescan: Int get() = 1
-        val eventErrorUnderAge: Int get() = 2
-        val eventErrorExpiredEid: Int get() = 3
-        val eventErrorFromUsa: Int get() = 4
-        val eventNextWithError: Int get() = 5
-        val eventNext: Int get() = 6
-        val eventFinish: Int get() = 7
-        val eventErrorInvalidEid: Int get() = 8
-        val eventAlreadyUsedEid: Int get() = 1041
-        val eventEidUpdate: Int get() = 9
-        val eventCitizenNumberIssue: Int get() = 10
-        val eventEidExpiryDateIssue: Int get() = 11
+
         var eidStateLiveData: MutableLiveData<co.yap.widgets.State>
         var configureEIDResponse: MutableLiveData<ConfigureEIDResponse>
         val clickEvent: SingleClickEvent
         fun handlePressOnView(id: Int)
         fun updateLabels(title: String, body: String)
-        fun onEIDScanningComplete(result: IdentityScannerResult)
         var sanctionedCountry: String
         var sanctionedNationality: String
         var errorTitle: String

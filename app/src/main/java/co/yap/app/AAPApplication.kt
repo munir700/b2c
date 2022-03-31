@@ -58,7 +58,7 @@ class AAPApplication : YAPApplication(), NavigatorProvider {
     override fun onCreate() {
         super.onCreate()
         initFireBase()
-        UqudoSDK.init(applicationContext)
+       // UqudoSDK.init(applicationContext)
         val originalSign =
             signatureKeysFromJNI(
                 AppSignature::class.java.canonicalName?.replace(".", "/") ?: "",

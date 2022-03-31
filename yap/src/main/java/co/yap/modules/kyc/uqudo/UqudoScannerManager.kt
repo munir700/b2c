@@ -1,6 +1,7 @@
 package co.yap.modules.kyc.uqudo
 
 import android.app.Activity
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.os.Build
@@ -11,7 +12,7 @@ import co.yap.networking.customers.responsedtos.UqudoHeader
 import co.yap.networking.customers.responsedtos.UqudoPayLoad
 import co.yap.networking.customers.responsedtos.V2DocumentDTO
 import co.yap.networking.customers.responsedtos.documents.UqudoTokenResponse
-import co.yap.yapcore.constants.RequestCodes.REQUEST_UQUDO
+import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.SingletonHolder
 import co.yap.yapcore.helpers.extentions.saveEidTemp
 import com.bumptech.glide.Glide
@@ -57,27 +58,28 @@ class UqudoScannerManager private constructor(val context: Activity) : IUqudoMan
     override fun initializeUqudo() = UqudoSDK.init(context.applicationContext)
     fun setUqudoToken(uqudoTokenResponse: UqudoTokenResponse) {
         uqudoAccessToken.value = uqudoTokenResponse
-
     }
 
-    override fun initiateUqudoScanning() {
+    fun getUqudoAccessToken() = uqudoAccessToken
+    override fun initiateUqudoScanning(): Intent? {
+        var uqudoIntent: Intent? = null
         uqudoAccessToken.value?.accessToken?.let { token ->
             try {
                 val doc = DocumentBuilder(context.applicationContext)
                     .setDocumentType(DocumentType.UAE_ID).disableHelpPage().enableReading()
                     .enableScanReview(frontSide = true, backSide = true)
                     .build()
-                val uqudoIntent = UqudoBuilder.Enrollment()
+                uqudoIntent = UqudoBuilder.Enrollment()
                     .setToken(token)
                     .disableSecureWindow()
                     .add(doc)
                     .build(context.applicationContext)
-                context.startActivityForResult(uqudoIntent, REQUEST_UQUDO)
             } catch (e: Exception) {
                 e.printStackTrace()
                 Toast.makeText(context, e.localizedMessage, Toast.LENGTH_LONG).show()
             }
         }
+        return uqudoIntent
     }
 
     override fun decodeEncodedUqudoToken(encodedToken: String, sucess: () -> Unit) {
@@ -123,9 +125,9 @@ class UqudoScannerManager private constructor(val context: Activity) : IUqudoMan
         val defaultDateString = formatter.format(Date(timeInSec * 1000))
         val defaultDate = formatter.parse(defaultDateString)
         val date = Calendar.getInstance().time
-        val CurrentDateString = formatter.format(date)
-        val CurrentDate = formatter.parse(CurrentDateString)
-        val diff: Long = defaultDate.time - CurrentDate.time
+        val currentDateString = formatter.format(date)
+        val currentDate = formatter.parse(currentDateString)
+        val diff: Long = defaultDate.time - currentDate.time
         val seconds = diff / 1000
         return (seconds < timeInSec)
     }
@@ -232,4 +234,13 @@ class UqudoScannerManager private constructor(val context: Activity) : IUqudoMan
     override fun getFrontImagePath(): String? = imagePaths[FRONT_IMAGE_RESOURCE_PATH]
 
     override fun getBackImagePath(): String? = imagePaths[BACK_IMAGE_RESOURCE_PATH]
+
+    fun isExpiryDateValid(expirationDate: Date): Boolean {
+        return if (expirationDate == null) {
+            false.also { it }
+        } else !DateUtils.isDatePassed(expirationDate).also {
+            it
+        }
+    }
+
 }
