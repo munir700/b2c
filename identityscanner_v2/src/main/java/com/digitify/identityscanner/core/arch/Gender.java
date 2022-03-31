@@ -16,12 +16,16 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
+
 package com.digitify.identityscanner.core.arch;
 
 /**
  * MRZ sex.
  * @author Martin Vysny
  */
+import kotlin.Deprecated;
+import kotlin.DeprecationLevel;
+@Deprecated(message = "We are using Uqudo SDK instead of Identity Scanner", level = DeprecationLevel.WARNING)
 public enum Gender {
 
     Male('M'),

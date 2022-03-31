@@ -43,8 +43,6 @@ import com.digitify.identityscanner.docscanner.viewmodels.IdentityScannerViewMod
 import com.digitify.identityscanner.utils.GlareDetector
 import com.digitify.identityscanner.utils.ImageUtils
 import com.google.mlkit.vision.common.InputImage
-import com.google.mlkit.vision.face.FaceDetection
-import com.google.mlkit.vision.face.FaceDetectorOptions
 import com.google.mlkit.vision.objects.DetectedObject
 import com.google.mlkit.vision.objects.ObjectDetection
 import com.google.mlkit.vision.objects.defaults.ObjectDetectorOptions
@@ -54,7 +52,15 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.io.File
 import java.io.IOException
+import java.lang.Deprecated
 
+/**
+ * This scanner is replaced with new 3rd party SDK that is Uqudo
+ * Due to increase in failed KYC complaints YAP team has decided to replace the identity scanner with a new
+ * 3rd party sdk
+ */
+@SuppressWarnings("DeprecatedIsStillUsed")
+@Deprecated
 class YapCameraFragment : BaseFragment(),
     ICamera.View, CameraListener {
     private var overlay: Overlay? = null

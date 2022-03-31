@@ -15,6 +15,7 @@ import co.yap.networking.customers.responsedtos.currency.CurrenciesResponse
 import co.yap.networking.customers.responsedtos.documents.ConfigureEIDResponse
 import co.yap.networking.customers.responsedtos.documents.EIDDocumentsResponse
 import co.yap.networking.customers.responsedtos.documents.GetMoreDocumentsResponse
+import co.yap.networking.customers.responsedtos.documents.UqudoTokenResponse
 import co.yap.networking.customers.responsedtos.employment_amendment.EmploymentInfoAmendmentResponse
 import co.yap.networking.customers.responsedtos.employmentinfo.IndustrySegmentsResponse
 import co.yap.networking.customers.responsedtos.sendmoney.*
@@ -375,4 +376,9 @@ interface CustomersRetroService {
         @Part("passportIssueDate") passportIssueDate: RequestBody,
         @Part("passportExpiryDate") passportExpiryDate: RequestBody
     ): Response<ApiResponse>
+
+    //Get Uqudo Token
+    @GET(CustomersRepository.URL_GET_UQUDO_AUTH_TOKEN)
+    suspend fun getUqudoAuthToken(): Response<BaseResponse<UqudoTokenResponse>>
+
 }

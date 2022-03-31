@@ -45,7 +45,16 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_back" />
         </FrameLayout>
-
+        <co.yap.widgets.MultiStateView
+            android:id="@+id/multiStateView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            app:msv_animateViewChanges="true"
+            app:msv_emptyView="@layout/layout_empty_view_no_results"
+            app:msv_errorView="@layout/layout_error_view"
+            app:msv_loadingView="@layout/layout_loading_view"
+            app:msv_viewState="loading">
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -76,7 +85,7 @@
                     android:layout_marginEnd="@dimen/margin_medium"
                     android:background="@drawable/edit_selector"
                     android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
-                    android:visibility="@{viewModel.state.middleName.trim().equals(``) ? View.VISIBLE : View.VISIBLE}"
+                    android:visibility="@{viewModel.state.isShowMiddleName? View.VISIBLE : View.VISIBLE}"
                     app:layout_constraintBottom_toBottomOf="@+id/tvMiddleName"
                     app:layout_constraintLeft_toRightOf="@+id/tvMiddleName"
                     app:layout_constraintRight_toRightOf="parent"
@@ -445,5 +454,6 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
+        </co.yap.widgets.MultiStateView>
     </LinearLayout>
 </layout>
