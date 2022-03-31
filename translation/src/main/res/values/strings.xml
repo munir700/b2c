@@ -19,6 +19,7 @@
     <string name="common_button_submit">Submit</string>
     <string name="common_text_thanks">Thanks</string>
     <string name="common_text_hey">Hey</string>
+    <string name="common_text_ok">OK</string>
     <string name="common_button_activate">Activate</string>
     <string name="common_text_currency_type">AED</string>
     <string name="common_text_edit_now">Edit now</string>
@@ -26,6 +27,7 @@
     <string name="common_percentage_hint">0</string>
     <string name="common_display_text_nothing_to_report">Start using your account to see all your transactions here</string>
     <string name="common_button_logout">Logout</string>
+    <string name="common_text_employment_status">Employment status</string>
     <string name="common_button_unavailable">Unavailable</string>
     <string name="error_view_text">No results found\ntab to retry</string>
     <string name="empty_view_text">No results found</string>
@@ -341,6 +343,7 @@
     <string name="screen_forgot_passcode_otp_display_text_sub_heading">Enter the OTP sent to your registered mobile number %1$s</string>
     <string name="screen_verify_passcode_text_account_locked">Sorry, that’s too many incorrect attempts. Click on Forgot passcode to set a new one.</string>
 
+    <string name="screen_view_document_refresh_text_description">Having trouble viewing the document? Please refresh and try again.</string>
 
     <!-- Forgot posscode success screen -->
     <string name="screen_passcode_success_display_text_heading">Success!</string>
@@ -409,6 +412,7 @@
     <!-- Add Spare card -->
     <string name="screen_add_spare_card_completion_display_text_complete_transaction">Transaction completed!\nYou now have a physical spare card</string>
     <string name="screen_add_spare_card_completion_display_text_complete_transaction_virtual">Transaction completed!\nYou now have a virtual spare card</string>
+    <string name="screen_employment_document_updation_completion_display_text_complete">Changes have been saved</string>
     <string name="screen_add_spare_card_completion_button_done">Done</string>
     <string name="screen_add_spare_card_completion_display_text_delivery_info">Our delivery agent will be in touch to confirm the delivery date and time. Please keep your Emirates ID at hand.</string>
     <string name="screen_add_spare_card_display_text_available_balance">Your available balance is  </string>
@@ -563,6 +567,8 @@
     <string name="screen_profile_settings_display_text_title">Settings</string>
     <string name="screen_profile_settings_display_text_profile">Profile</string>
     <string name="screen_profile_settings_display_text_personal_detail">Personal details</string>
+    <string name="screen_profile_settings_display_text_employment_information">Employment information</string>
+    <string name="screen_employment_information_display_right_toolbar_text">Edit</string>
     <string name="screen_profile_settings_display_text_view">View</string>
     <string name="screen_profile_settings_display_text_security">Security</string>
     <string name="screen_profile_settings_display_text_privacy">Privacy</string>
@@ -578,6 +584,7 @@
     <string name="screen_profile_settings_display_text_follow_us">Follow us</string>
     <string name="screen_profile_settings_display_text_like_us">Like us</string>
     <string name="screen_profile_settings_display_text_logout">Log out</string>
+    <string name="screen_profile_settings_display_toast_text_account_not_active">Please complete your application to access this section</string>
 
     <!-- update profile photo Bottom Sheet -->
 
@@ -611,6 +618,17 @@
     <string name="screen_profile_settings_logout_display_text_alert_message">Are you sure you want to log out?</string>
     <string name="screen_profile_settings_logout_display_text_alert_cancel">CANCEL</string>
     <string name="screen_profile_settings_logout_display_text_alert_logout">LOG OUT</string>
+
+    <!-- Upload document dialogue -->
+
+    <string name="screen_upload_document_display_text_alert_title">Just so you know!</string>
+    <string name="screen_upload_document_display_text_alert_message">Once you upload a new document, it will replace the previous one.</string>
+    <string name="screen_upload_document_display_text_alert_got_it">Got it</string>
+    <string name="screen_upload_document_item_subtitle">View your uploaded document</string>
+
+    <!-- Upload document bottom sheet -->
+    <string name="choose_from_library_display_text_title">Choose from Library</string>
+
 
     <!--   Help & Support-->
     <string name="screen_help_support_display_text_title">Help &amp; Support</string>
@@ -1236,7 +1254,7 @@
 
     <string name="screen_otp_blocked_display_text_details_card_blocked">Some of your account features may not work. This is due to a temporary block that has been put on your card or account.\n\nPlease get in touch via live chat for help &amp; support.</string>
     <string name="screen_otp_blocked_display_title_card_blocked">We’re sorry, %1s</string>
-<!--    <string name="iban_or_debit_card_freeze_or_blocked_message">Some of your card\'s features are temporarily disabled. Get in touch with us at %1s for assistance.</string>-->
+    <!--    <string name="iban_or_debit_card_freeze_or_blocked_message">Some of your card\'s features are temporarily disabled. Get in touch with us at %1s for assistance.</string>-->
     <string name="iban_or_debit_card_freeze_or_blocked_message">Sorry, some of your account features are temporarily unavailable. Please get in touch via <b>live chat</b> for help &amp; support</string>
 
     <!--  Yap home fragment screen-->
@@ -1515,7 +1533,10 @@
     <string name="screen_employment_questionnaire_display_text__bottom_sheet_title_describe_you">Select which statement describes your situation best:</string>
     <string name="screen_employment_questionnaire_display_text__bottom_sheet_title_segments">Select industry segment:</string>
     <string name="screen_employment_questionnaire_display_text__bottom_sheet_title_self_employment">Select which statement describes your self-employment status:</string>
-<!--    ERROR_INVALID_CARDINPUT-->
+    <!--    ERROR_INVALID_CARDINPUT-->
+    <string name="screen_employment_type_display_text_bottom_sheet_title">Select employment status:</string>
+    <string name="screen_employment_type_display_text_account_blocked">This account is in process to be activated</string>
+    <!--    ERROR_INVALID_CARDINPUT-->
     <!--    Samsung Pay start-->
     <string name="screen_cards_display_text_error_spay_internal">Your request wasn\'t approved by the card issuer. Try another card or contact your card issuer for more information</string>
     <string name="screen_cards_display_text_error_invalid_card_input">The card info you have entered is invalid.</string>
@@ -1688,6 +1709,7 @@
         <item>SIGN_UP_NUMBER;Hey there! Your OTP to verify your number for YAP is %1$s. This code expires in %2$s minutes. Please do not share this code with anyone else. Need help? Contact our customer support team at  %3$s</item>
         <item>DEMOGRAPHIC_VALIDATION;Hi %1$s! Your OTP to sign into YAP is %2$s. This code expires in %3$s minutes. Please do not share this code with anyone else. Need help? Contact our customer support team at %4$s</item>
         <item>CHANGE_EMAIL;Hi %1$s! Your OTP to change your email for YAP is %2$s. This code expires in %3$s minutes. Please do not share this code with anyone else. Need help? Contact our customer support team at %4$s</item>
+        <item>EMPLOYMENT_AMENDMENT;Hi %1$s! your OTP for your employment information update is %2$s. Please do not share your OTP with anyone. For help, contact our customer support team on %3$s</item>
     </string-array>
 
     <!-- KYC Amendments/ Missing Info Screen start -->
@@ -1710,6 +1732,14 @@
     <string name="eid_info_review_screen_select_nationality">Please select your Nationality</string>
     <!-- KYC Amendments End -->
 
+    <!--    upload document bottom sheet-->
+    <string name="screen_view_document_sheet_heading">Choose from Library</string>
+    <string name="screen_view_document_sheet_take_photo_heading">Take a Photo</string>
+    <string name="screen_view_document_sheet_browse_gallery_heading">Browse Files</string>
+
+    <string name="screen_view_document_refresh_button_text">Refresh</string>
+
+    <string name="screen_view_document_file_size_not_fine">Your file size is too big. Please upload a file less than 25MB to proceed</string>
     <!--Lean -Adding an Account- Welcome Screen-->
     <string name="screen_lean_welcome_screen_title">Easy bank transfer</string>
     <string name="screen_lean_welcome_screen_welcome_to_open_banking">Welcome to open banking</string>

@@ -3,7 +3,7 @@ package co.yap.modules.location.kyc_additional_info.employment_info.questionnair
 import android.view.View
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.databinding.ViewDataBinding
-import co.yap.modules.location.kyc_additional_info.employment_info.questionnaire.EmploymentQuestionnaireViewModel
+import androidx.lifecycle.MutableLiveData
 import co.yap.modules.location.kyc_additional_info.employment_info.questionnaire.enums.QuestionType
 import co.yap.modules.location.kyc_additional_info.employment_info.questionnaire.models.QuestionUiFields
 import co.yap.yapcore.R
@@ -12,7 +12,7 @@ import co.yap.yapcore.helpers.extentions.afterTextChanged
 import co.yap.yapcore.helpers.extentions.hideKeyboard
 import co.yap.yapcore.interfaces.OnItemClickListener
 
-class QuestionItemViewHolders constructor(private val viewModel: EmploymentQuestionnaireViewModel) {
+class QuestionItemViewHolders {
     private fun getLayoutId(forType: QuestionType): Int {
         return when (forType) {
             QuestionType.EDIT_TEXT_FIELD -> R.layout.layout_question_type_edit_text
@@ -27,15 +27,18 @@ class QuestionItemViewHolders constructor(private val viewModel: EmploymentQuest
         binding: LayoutQuestionTypeEditTextBinding,
         questionUiFields: QuestionUiFields,
         position: Int,
-        onItemClickListener: OnItemClickListener?
+        onItemClickListener: OnItemClickListener?,
+        amendmentMap: HashMap<String?, List<String>?>?,
+        isEditable: MutableLiveData<Boolean> = MutableLiveData(true)
     ): View {
         binding.viewModel =
             QuestionnaireItemViewModel(
                 questionUiFields,
                 position,
                 onItemClickListener,
-                viewModel.parentViewModel?.amendmentMap,
-                questionUiFields.question.tag
+                amendmentMap,
+                questionUiFields.question.tag,
+                isEditable
             )
         binding.etQuestionEditText.afterTextChanged {
             onItemClickListener?.onItemClick(
@@ -52,15 +55,18 @@ class QuestionItemViewHolders constructor(private val viewModel: EmploymentQuest
         binding: LayoutQuestionTypeEditTextWithAmountBinding,
         questionUiFields: QuestionUiFields,
         position: Int,
-        onItemClickListener: OnItemClickListener?
+        onItemClickListener: OnItemClickListener?,
+        amendmentMap: HashMap<String?, List<String>?>?,
+        isEditable: MutableLiveData<Boolean> = MutableLiveData(true)
     ): View {
         binding.viewModel =
             QuestionnaireItemViewModel(
                 questionUiFields,
                 position,
                 onItemClickListener,
-                viewModel.parentViewModel?.amendmentMap,
-                questionUiFields.question.tag
+                amendmentMap,
+                questionUiFields.question.tag,
+                isEditable
             )
         binding.ivSupport.setOnClickListener {
             binding.etAmount.hideKeyboard()
@@ -80,15 +86,18 @@ class QuestionItemViewHolders constructor(private val viewModel: EmploymentQuest
     fun questionTypeDropDownItemViewHolder(
         binding: LayoutQuestionTypeDropDownBinding, questionUiFields: QuestionUiFields,
         position: Int,
-        onItemClickListener: OnItemClickListener?
+        onItemClickListener: OnItemClickListener?,
+        amendmentMap: HashMap<String?, List<String>?>?,
+        isEditable: MutableLiveData<Boolean> = MutableLiveData(true)
     ): View {
         binding.viewModel =
             QuestionnaireItemViewModel(
                 questionUiFields,
                 position,
                 onItemClickListener,
-                viewModel.parentViewModel?.amendmentMap,
-                questionUiFields.question.tag
+                amendmentMap,
+                questionUiFields.question.tag,
+                isEditable
             )
         return binding.root
     }
@@ -96,23 +105,25 @@ class QuestionItemViewHolders constructor(private val viewModel: EmploymentQuest
     fun questionTypeCountriesItemViewHolder(
         binding: LayoutQuestionTypeCountriesBinding, questionUiFields: QuestionUiFields,
         position: Int,
-        onItemClickListener: OnItemClickListener?
+        onItemClickListener: OnItemClickListener?,
+        countries: ArrayList<String>,
+        amendmentMap: HashMap<String?, List<String>?>?,
+        isEditable: MutableLiveData<Boolean> = MutableLiveData(true)
     ): View {
         val businessAdapter: BusinessCountriesAdapter by lazy {
             BusinessCountriesAdapter(arrayListOf())
         }
 
-        businessAdapter.setList(
-            viewModel.selectedBusinessCountries.get() ?: arrayListOf()
-        )
+        businessAdapter.setList(countries)
         binding.businessCountriesAdapter = businessAdapter
         binding.viewModel =
             QuestionnaireItemViewModel(
                 questionUiFields,
                 position,
                 onItemClickListener,
-                viewModel.parentViewModel?.amendmentMap,
-                questionUiFields.question.tag
+                amendmentMap,
+                questionUiFields.question.tag,
+                isEditable
             )
         return binding.root
     }
@@ -120,14 +131,15 @@ class QuestionItemViewHolders constructor(private val viewModel: EmploymentQuest
     fun questionTypeDisplayTextItemViewHolder(
         binding: LayoutQuestionTypeDisplayTextBinding, questionUiFields: QuestionUiFields,
         position: Int,
-        onItemClickListener: OnItemClickListener?
+        onItemClickListener: OnItemClickListener?,
+        amendmentMap: HashMap<String?, List<String>?>?
     ): View {
         binding.viewModel =
             QuestionnaireItemViewModel(
                 questionUiFields,
                 position,
                 onItemClickListener,
-                viewModel.parentViewModel?.amendmentMap,
+                amendmentMap,
                 questionUiFields.question.tag
             )
         return binding.root
@@ -141,15 +153,18 @@ class QuestionItemViewHolders constructor(private val viewModel: EmploymentQuest
 
     fun getLayoutIdForViewType(viewType: Int): Int = viewType
 
-    fun getItemViewType(position: Int): Int {
-        return getLayoutId(viewModel.questionsList[position].question.questionType)
+    fun getItemViewType(forType: QuestionType): Int {
+        return getLayoutId(forType)
     }
 
     fun getViewFromBinding(
         binding: ViewDataBinding,
         questionUiField: QuestionUiFields,
         position: Int,
-        onItemClickListener: OnItemClickListener?
+        onItemClickListener: OnItemClickListener?,
+        countries: ArrayList<String>,
+        amendmentMap: HashMap<String?, List<String>?>?,
+        isEditable: MutableLiveData<Boolean> = MutableLiveData(true)
     ): View? {
         return when (binding) {
             is LayoutQuestionTypeEditTextBinding -> {
@@ -157,7 +172,9 @@ class QuestionItemViewHolders constructor(private val viewModel: EmploymentQuest
                     binding,
                     questionUiField,
                     position,
-                    onItemClickListener
+                    onItemClickListener,
+                    amendmentMap,
+                    isEditable
                 )
             }
             is LayoutQuestionTypeEditTextWithAmountBinding -> {
@@ -165,7 +182,9 @@ class QuestionItemViewHolders constructor(private val viewModel: EmploymentQuest
                     binding,
                     questionUiField,
                     position,
-                    onItemClickListener
+                    onItemClickListener,
+                    amendmentMap,
+                    isEditable
                 )
             }
             is LayoutQuestionTypeDropDownBinding -> {
@@ -173,7 +192,9 @@ class QuestionItemViewHolders constructor(private val viewModel: EmploymentQuest
                     binding,
                     questionUiField,
                     position,
-                    onItemClickListener
+                    onItemClickListener,
+                    amendmentMap,
+                    isEditable
                 )
             }
             is LayoutQuestionTypeCountriesBinding -> {
@@ -181,7 +202,10 @@ class QuestionItemViewHolders constructor(private val viewModel: EmploymentQuest
                     binding,
                     questionUiField,
                     position,
-                    onItemClickListener
+                    onItemClickListener,
+                    countries,
+                    amendmentMap,
+                    isEditable
                 )
             }
             is LayoutQuestionTypeDisplayTextBinding -> {
@@ -189,7 +213,8 @@ class QuestionItemViewHolders constructor(private val viewModel: EmploymentQuest
                     binding,
                     questionUiField,
                     position,
-                    onItemClickListener
+                    onItemClickListener,
+                    amendmentMap
                 )
             }
             else -> null
