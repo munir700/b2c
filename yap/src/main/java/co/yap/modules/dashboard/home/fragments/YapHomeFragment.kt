@@ -796,7 +796,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                     }
                 } else {
                     launchActivity<DocumentsDashboardActivity>(
-                        requestCode = RequestCodes.REQUEST_KYC_DOCUMENTS,
+                        requestCode = RequestCodes.REQUEST_UPDATE_EMIRATES_ID,
                         type = FeatureSet.UPDATE_EID
                     ) {
                         putExtra(
@@ -811,6 +811,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                             )
                         )
                     }
+                    SessionManager.eidStatus = EIDStatus.EXPIRED
                 }
             }
             NotificationAction.HELP_AND_SUPPORT -> {
@@ -1018,6 +1019,10 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                         }
                     }
                 }
+            }
+
+            RequestCodes.REQUEST_UPDATE_EMIRATES_ID -> {
+                SessionManager.getAccountInfo()
             }
         }
     }
@@ -1274,3 +1279,4 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         }
     }
 }
+

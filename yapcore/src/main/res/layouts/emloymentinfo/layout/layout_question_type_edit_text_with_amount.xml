@@ -51,7 +51,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_3sdp"
-
                 android:orientation="horizontal">
 
                 <androidx.appcompat.widget.AppCompatTextView
@@ -73,6 +72,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:background="@null"
+                    android:enabled="@{viewModel.isEditable()}"
                     android:hint="@{viewModel.questionUiFields.question.placeholder}"
                     android:inputType="numberDecimal"
                     android:maxLength="@{15}"
@@ -96,6 +96,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
+                    android:enabled="@{viewModel.isEditable()}"
                     app:srcCompat="@drawable/ic_support" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
