@@ -31,6 +31,7 @@ class DocumentsDashboardViewModel(application: Application) :
     override var finishKyc: MutableLiveData<DocumentsResponse> = MutableLiveData()
     override var accountStatus: MutableLiveData<String> = MutableLiveData()
     override var payLoadObj: MutableLiveData<UqudoPayLoad> = MutableLiveData()
+    override var comingFrom: MutableLiveData<String> = MutableLiveData()
 
     override var document: GetMoreDocumentsResponse.Data.CustomerDocument.DocumentInformation? =
         null
