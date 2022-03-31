@@ -24,6 +24,7 @@ import co.yap.yapcore.firebase.FirebaseEvent
 import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.extentions.dimen
 import co.yap.yapcore.helpers.extentions.launchActivity
+import co.yap.yapcore.helpers.extentions.longToast
 import co.yap.yapcore.helpers.extentions.startFragment
 import co.yap.yapcore.interfaces.OnItemClickListener
 
@@ -57,11 +58,10 @@ class AddMoneyLandingFragment : AddMoneyBaseFragment<IAddMoneyLanding.ViewModel>
     private fun setupRecycleView() {
         getBinding().recyclerOptions.addItemDecoration(
             SpaceGridItemDecoration(
-                dimen(R.dimen.margin_normal_large), 2, true
+                dimen(R.dimen.margin_normal_large), 1, true
             )
         )
-        viewModel.landingAdapter.allowFullItemClickListener = true
-        viewModel.landingAdapter.setItemListener(listener)
+        viewModel.landingAdapter.onItemClickListener = listener
     }
 
     private val listener = object : OnItemClickListener {
@@ -74,6 +74,10 @@ class AddMoneyLandingFragment : AddMoneyBaseFragment<IAddMoneyLanding.ViewModel>
 
     private val observer = Observer<Int> {
         when (it) {
+            Constants.ADD_MONEY_INSTANT_BANK_TRANSFER -> {
+                //trackEventWithScreenName(FirebaseEvent.CLICK_TOPUP_CARD)
+                context.longToast("instant bank transfer")
+            }
             Constants.ADD_MONEY_TOP_UP_VIA_CARD -> {
                 trackEventWithScreenName(FirebaseEvent.CLICK_TOPUP_CARD)
                 launchActivity<TopUpBeneficiariesActivity>(requestCode = RequestCodes.REQUEST_SHOW_BENEFICIARY) {
