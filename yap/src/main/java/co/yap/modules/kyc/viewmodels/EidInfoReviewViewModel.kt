@@ -13,7 +13,6 @@ import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.requestdtos.UploadDocumentsRequest
 import co.yap.networking.customers.responsedtos.EidData
 import co.yap.networking.customers.responsedtos.SectionedCountriesResponseDTO
-import co.yap.networking.customers.responsedtos.UqudoPayLoad
 import co.yap.networking.customers.responsedtos.documents.ConfigureEIDResponse
 import co.yap.networking.customers.responsedtos.documents.UqudoTokenResponse
 import co.yap.networking.interfaces.IRepositoryHolder
@@ -373,8 +372,8 @@ class EidInfoReviewViewModel(application: Application) :
             state.fullNameValid = state.firstName.isNotBlank()
             state.nationality = documentFront?.nationality ?: ""
             state.nationalityValid = state.nationality.isNotBlank() && !state.isCountryUS
-            var DOB = parentViewModel?.uqudoManager?.DOB
-            var EXD = parentViewModel?.uqudoManager?.EXD
+            var DOB = parentViewModel?.uqudoManager?.getExpiryDate()
+            var EXD = parentViewModel?.uqudoManager?.getDateOfBirth()
             state.dateOfBirth =
                 DateUtils.reformatToLocalString(DOB, DateUtils.DEFAULT_DATE_FORMAT)
             state.expiryDate.value =
