@@ -48,15 +48,17 @@ class UqudoScannerManager private constructor(val context: Activity) : IUqudoMan
     private val DATE_INPUT_FORMAT = "yyMMdd"
     private val DATE_OUTPUT_FORMAT = "yyyy-mm-dd"
 
-    val documentBack = getPayloadData()?.documents?.get(0)?.scan?.back
-    val documentFront = getPayloadData()?.documents?.get(0)?.scan?.front
-    var DOB: Date = getFormatDateFromUqudo(documentBack?.dateOfBirth)
-    var EXD: Date = getFormatDateFromUqudo(documentBack?.dateOfExpiry)
+    fun fetchDocumentBackDate() = getPayloadData()?.documents?.get(0)?.scan?.back
+    fun fetchDocumentFrontDate() = getPayloadData()?.documents?.get(0)?.scan?.front
+    fun getDateOfBirth(): Date = getFormatDateFromUqudo(fetchDocumentBackDate()?.dateOfBirth)
+    fun getExpiryDate(): Date = getFormatDateFromUqudo(fetchDocumentBackDate()?.dateOfExpiry)
+    var tokenInitiatedTime: MutableLiveData<Date> = MutableLiveData()
 
     companion object : SingletonHolder<UqudoScannerManager, Activity>(::UqudoScannerManager)
 
     override fun initializeUqudo() = UqudoSDK.init(context.applicationContext)
     fun setUqudoToken(uqudoTokenResponse: UqudoTokenResponse) {
+        tokenInitiatedTime.value = Calendar.getInstance().time
         uqudoAccessToken.value = uqudoTokenResponse
     }
 
@@ -121,15 +123,19 @@ class UqudoScannerManager private constructor(val context: Activity) : IUqudoMan
 
     override fun isAccessTokenExpired(): Boolean {
         val timeInSec = uqudoAccessToken.value?.expiresIn?.toInt()?.toLong() ?: 0
-        val formatter = SimpleDateFormat(TIME_FORMAT, Locale.getDefault())
-        val defaultDateString = formatter.format(Date(timeInSec * 1000))
-        val defaultDate = formatter.parse(defaultDateString)
-        val date = Calendar.getInstance().time
-        val currentDateString = formatter.format(date)
-        val currentDate = formatter.parse(currentDateString)
-        val diff: Long = defaultDate.time - currentDate.time
-        val seconds = diff / 1000
-        return (seconds < timeInSec)
+        var seconds: Long = 0
+        tokenInitiatedTime.value?.let {
+            val formatter = SimpleDateFormat(TIME_FORMAT, Locale.getDefault())
+            val defaultDateString = formatter.format(it)
+            val defaultDate = formatter.parse(defaultDateString)
+            val date = Calendar.getInstance().time
+            val currentDateString = formatter.format(date)
+            val currentDate = formatter.parse(currentDateString)
+            val diff: Long =   currentDate.time - defaultDate.time
+            seconds = (diff / 1000)
+        }
+
+        return (timeInSec <= seconds)
     }
 
     override fun downloadImage(
@@ -218,13 +224,13 @@ class UqudoScannerManager private constructor(val context: Activity) : IUqudoMan
             firstName = "",
             middleName = "",
             lastName = "",
-            dateExpiry = EXD,
-            dob = DOB,
-            fullName = documentFront?.fullName ?: "",
-            gender = documentBack?.sex.toString(),
-            digit3CountryCode = documentBack?.nationality ?: "UAE",
-            nationality = documentFront?.nationality ?: "",
-            identityNo = documentFront?.identityNumber
+            dateExpiry = getExpiryDate(),
+            dob = getDateOfBirth(),
+            fullName = fetchDocumentFrontDate()?.fullName ?: "",
+            gender = fetchDocumentBackDate()?.sex.toString(),
+            digit3CountryCode = fetchDocumentBackDate()?.nationality ?: "UAE",
+            nationality = fetchDocumentFrontDate()?.nationality ?: "",
+            identityNo = fetchDocumentFrontDate()?.identityNumber
         )
     }
 

@@ -11,6 +11,7 @@ import co.yap.modules.onboarding.interfaces.IEidInfoReview
 import co.yap.modules.onboarding.states.EidInfoReviewState
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.requestdtos.UploadDocumentsRequest
+import co.yap.networking.customers.responsedtos.EidData
 import co.yap.networking.customers.responsedtos.SectionedCountriesResponseDTO
 import co.yap.networking.customers.responsedtos.UqudoPayLoad
 import co.yap.networking.customers.responsedtos.documents.ConfigureEIDResponse
@@ -362,10 +363,10 @@ class EidInfoReviewViewModel(application: Application) :
     }
 
 
-    override fun populateUqudoState(identity: UqudoPayLoad?) {
+    override fun populateUqudoState(identity: EidData?) {
         identity?.let {
-            val documentBack = it.data?.documents?.get(0)?.scan?.back
-            val documentFront = it.data?.documents?.get(0)?.scan?.front
+            val documentBack = it.documents?.get(0)?.scan?.back
+            val documentFront = it.documents?.get(0)?.scan?.front
             documentFront?.fullName?.let { it1 ->
                 splitLastNames(it1)
             }

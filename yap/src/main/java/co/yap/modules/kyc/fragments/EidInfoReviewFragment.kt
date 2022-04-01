@@ -23,6 +23,7 @@ import co.yap.modules.kyc.uqudo.UqudoScannerManager
 import co.yap.modules.kyc.viewmodels.EidInfoReviewViewModel
 import co.yap.modules.onboarding.enums.EidInfoEvents
 import co.yap.modules.onboarding.interfaces.IEidInfoReview
+import co.yap.networking.customers.responsedtos.UqudoPayLoad
 import co.yap.widgets.MultiStateView
 import co.yap.widgets.State
 import co.yap.widgets.Status
@@ -47,7 +48,6 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
     override val viewModel: EidInfoReviewViewModel
         get() = ViewModelProvider(this).get(EidInfoReviewViewModel::class.java)
 
-    //    @RequiresApi(Build.VERSION_CODES.O)
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         getViewBinding().lifecycleOwner = this
@@ -61,7 +61,7 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         addObservers()
-        viewModel.parentViewModel?.payLoadObj?.value?.let { identity ->
+        viewModel.parentViewModel?.uqudoManager?.getPayloadData()?.let { identity ->
             viewModel.populateUqudoState(identity = identity)
             viewModel.eidStateLiveData.postValue(State.ideal(""))
         } ?: viewModel.requestAllAPIs(true)
@@ -184,7 +184,7 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
         })
         viewModel.parentViewModel?.uqudoManager?.getUqudoAccessToken()
             ?.observe(viewLifecycleOwner, Observer { response ->
-                if (viewModel.parentViewModel?.payLoadObj?.value == null) {
+                if (viewModel.parentViewModel?.uqudoManager?.getPayloadData() == null) {
                     if (response.accessToken.isNullOrEmpty()
                             .not()
                     ) viewModel.eidStateLiveData.postValue(State.empty(""))
@@ -312,7 +312,7 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
                             viewModel.eidStateLiveData.postValue(State.success(""))
                         }
                 } else {
-                    if (viewModel.parentViewModel?.uqudoManager?.getPayloadData()  == null && viewModel.parentViewModel?.comingFrom?.value.isNullOrBlank()
+                    if (viewModel.parentViewModel?.uqudoManager?.getPayloadData() == null && viewModel.parentViewModel?.comingFrom?.value.isNullOrBlank()
                             .not()
                     ) navigateBack() else requireActivity().finish()
                 }
@@ -348,8 +348,8 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
             }
             Status.SUCCESS -> {
                 getViewBinding().multiStateView.viewState = MultiStateView.ViewState.CONTENT
-                viewModel.state?.payLoadObj?.value?.let { identity ->
-                    viewModel.parentViewModel?.payLoadObj?.value = identity
+                viewModel.parentViewModel?.uqudoManager?.getPayloadData()?.let { identity ->
+                    viewModel.parentViewModel?.payLoadObj?.value = UqudoPayLoad(data = identity)
                     viewModel.populateUqudoState(identity = identity)
                 }
             }

@@ -2,6 +2,7 @@ package co.yap.modules.onboarding.interfaces
 
 import androidx.databinding.ObservableBoolean
 import androidx.lifecycle.MutableLiveData
+import co.yap.networking.customers.responsedtos.EidData
 import co.yap.networking.customers.responsedtos.SectionedCountriesResponseDTO
 import co.yap.networking.customers.responsedtos.UqudoHeader
 import co.yap.networking.customers.responsedtos.UqudoPayLoad
@@ -74,7 +75,7 @@ interface IEidInfoReview {
         )
 
         var uqudoResponse: MutableLiveData<UqudoTokenResponse>
-        fun populateUqudoState(identity: UqudoPayLoad?)
+        fun populateUqudoState(identity: EidData?)
 
     }
 }
