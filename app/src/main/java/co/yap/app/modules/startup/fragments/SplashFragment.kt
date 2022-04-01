@@ -6,8 +6,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import co.yap.app.BR
 import co.yap.app.BuildConfig
@@ -39,9 +39,7 @@ class SplashFragment : MainChildFragment<ISplash.ViewModel>(), ISplash.View {
     private lateinit var pkIntent: Intent
     private lateinit var ghIntent: Intent
 
-
-    override val viewModel: SplashViewModel
-        get() = ViewModelProviders.of(this).get(SplashViewModel::class.java)
+    override val viewModel: SplashViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
