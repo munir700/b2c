@@ -414,7 +414,7 @@ class EidInfoReviewViewModel(application: Application) :
             }
             state.isCountryUS =
                 getCountryCode(documentFront?.nationality ?: "").contains(countryName ?: "US")
-            if (state.BackImage.value.isNullOrBlank() && state.frontImage.value.isNullOrBlank()) parentViewModel?.uqudoManager?.downloadImage {
+            if (parentViewModel?.uqudoIdentity?.value == null) parentViewModel?.uqudoManager?.downloadImage {
                 state.viewState.postValue(
                     it.not()
                 )
