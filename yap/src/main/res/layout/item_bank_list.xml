@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
@@ -34,14 +33,16 @@
             android:layout_height="@dimen/_40sdp"
             android:layout_marginBottom="@dimen/margin_small"
             android:contentDescription="@string/empty_string"
-            app:bgColor="@{viewModel.item.backgroundColor}"
+            app:bgColor="@{viewModel.item.mainColor}"
             app:fullName="@{viewModel.item.name}"
             app:imageSize="@{R.dimen._64sdp}"
             app:imageUrl="@{viewModel.item.logo}"
             app:initialTextColor="@{R.color.white}"
-            app:initialTextSize="@{R.dimen.text_size_h4}"
+            app:initialTextSize="@{R.dimen.margin_btn_side_xxl}"
+            app:isUrlRound="@{false}"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent"
+            app:shapeAppearanceOverlay="@style/circleImageView" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvBankName"
