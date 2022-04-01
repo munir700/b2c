@@ -38,7 +38,7 @@
             app:imageSize="@{R.dimen._64sdp}"
             app:imageUrl="@{viewModel.item.logo}"
             app:initialTextColor="@{R.color.white}"
-            app:initialTextSize="@{R.dimen.margin_btn_side_xxl}"
+            app:initialTextSize="@{R.dimen.text_size_h4}"
             app:isUrlRound="@{false}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
