@@ -22,6 +22,7 @@
     <color name="greyDark">#9391b1</color>
     <color name="greyDarkOpacity16">#299391B1</color>
     <color name="greyLight">#dae0f0</color>
+    <color name="greyLineChoosetakePhotoBottomSheet">#3C3C435C</color>
     <color name="greySoft">#5cdae0f0</color>
     <color name="darkSlateBlueFaded">#802F2067</color>
     <color name="darkBlue">#9890b9</color>
@@ -90,7 +91,7 @@
     <color name="master_card_gradient_bottom_color">#4bdcd8</color>
     <color name="master_card_gradient_top_color">#1caaa1</color>
     <color name="purple">#7c4dff</color>
-    <color name="light_grey">#D8D7D7</color>
+    <color name="light_grey">#F2F2F2</color>
     <color name="transparent_grey">#77000000</color>
     <color name="purpleLightCard">#f1edff</color>
     <color name="kyc_success_text_color">#1a1423</color>
@@ -167,4 +168,19 @@
     <color name="teal_green">#44d389</color>
     <color name="colorPurple">#712ce2</color>
     <color name="primary_purple_diffused">#EDE6FF</color>
+
+    <color name="dialogue_alert_button_text">#007AFF</color>
+    <color name="dialogue_alert_details_text">#000000</color>
+    <color name="dialogue_alert_bg">#F2F2F2</color>
+    <color name="dialogue_divider">#3C3C435C</color>
+
+
+    <!--    upload document dialogue-->
+
+    <color name="upload_dialogue_alert_button_text">#007AFF</color>
+    <color name="upload_dialogue_alert_details_text">#000000</color>
+    <color name="upload_dialogue_alert_bg">#F2F2F2</color>
+    <color name="take_photo_bg">#F5F5F5</color>
+
+
 </resources>

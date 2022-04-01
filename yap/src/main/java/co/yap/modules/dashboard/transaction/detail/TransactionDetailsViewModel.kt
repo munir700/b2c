@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Canvas
+import android.graphics.Paint
 import android.view.View
 import android.widget.ImageView
 import androidx.appcompat.widget.AppCompatTextView
@@ -296,7 +297,7 @@ class TransactionDetailsViewModel(application: Application) :
                     tvTotalAmountValue.setTextColor(
                         context.resources.getColor(co.yap.yapcore.R.color.colorSecondaryMagenta)
                     )
-                    tvCurrency.visibility = View.INVISIBLE
+                    tvTotalAmountValue.paintFlags = tvTotalAmountValue.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
                 } else {
                     tvTotalAmountValue.text =
                         if (transaction.txnType.equals(TxnType.DEBIT.type))
