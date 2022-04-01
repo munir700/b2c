@@ -64,6 +64,7 @@ class NotificationDetailsFragment : BaseBindingFragment<INotificationDetails.Vie
                                     Constants.name,
                                     SessionManager.user?.currentCustomer?.firstName.toString()
                                 )
+                                putExtra("from", NotificationDetailsFragment::class.java.name)
                                 putExtra(Constants.data, false)
                             }
                         }
@@ -96,6 +97,11 @@ class NotificationDetailsFragment : BaseBindingFragment<INotificationDetails.Vie
                                                 identityNo = SessionManager.user?.currentCustomer?.identityNo
                                             )
                                         )
+                                        putExtra(
+                                            "from",
+                                            NotificationDetailsFragment::class.java.name
+                                        )
+
                                     }
                                 } else {
                                     showBlockedFeatureAlert(
@@ -119,6 +125,7 @@ class NotificationDetailsFragment : BaseBindingFragment<INotificationDetails.Vie
                                             identityNo = SessionManager.user?.currentCustomer?.identityNo
                                         )
                                     )
+                                    putExtra("from", NotificationDetailsFragment::class.java.name)
                                 }
                             }
                         }
@@ -135,7 +142,8 @@ class NotificationDetailsFragment : BaseBindingFragment<INotificationDetails.Vie
                         }
                         NotificationAction.AMENDMENT -> {
                             startFragment(
-                                fragmentName = MissingInfoFragment::class.java.name, clearAllPrevious = true
+                                fragmentName = MissingInfoFragment::class.java.name,
+                                clearAllPrevious = true
                             )
                         }
                     }

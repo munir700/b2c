@@ -51,6 +51,7 @@ class DocumentsDashboardActivity : BaseBindingActivity<IDocumentsDashboard.ViewM
         viewModel.skipFirstScreen.value =
             intent.getValue(Constants.data, ExtraType.BOOLEAN.name) as? Boolean
         viewModel.showProgressBar.value = intent?.getBooleanExtra("GO_ERROR", true)
+        viewModel.comingFrom.value = intent?.getStringExtra("from")
         viewModel.document =
             intent.getParcelableExtra("document") as? GetMoreDocumentsResponse.Data.CustomerDocument.DocumentInformation
         if (intent?.getBooleanExtra("PersonalDetails", false) == true) {

@@ -312,7 +312,9 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
                             viewModel.eidStateLiveData.postValue(State.success(""))
                         }
                 } else {
-                    if (viewModel.parentViewModel?.uqudoManager?.getPayloadData() == null) navigateBack()
+                    if (viewModel.parentViewModel?.uqudoManager?.getPayloadData()  == null && viewModel.parentViewModel?.comingFrom?.value.isNullOrBlank()
+                            .not()
+                    ) navigateBack() else requireActivity().finish()
                 }
             }
             else -> viewModel.parentViewModel?.finishKyc?.value = DocumentsResponse(false)

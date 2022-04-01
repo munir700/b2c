@@ -41,6 +41,7 @@ interface IDocumentsDashboard {
         var uqudoIdentity: MutableLiveData<V2DocumentDTO>
         var uqudoManager : UqudoScannerManager?
         var payLoadObj: MutableLiveData<UqudoPayLoad>
+        var comingFrom: MutableLiveData<String>
 
     }
 
