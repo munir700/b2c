@@ -12,6 +12,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.os.bundleOf
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -48,7 +49,6 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
     override val viewModel: EidInfoReviewViewModel
         get() = ViewModelProvider(this).get(EidInfoReviewViewModel::class.java)
 
-    //    @RequiresApi(Build.VERSION_CODES.O)
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         getViewBinding().lifecycleOwner = this
@@ -64,8 +64,6 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
         addObservers()
         viewModel.parentViewModel?.payLoadObj?.value?.let { identity ->
             viewModel.populateUqudoState(identity = identity)
-            viewModel.eidStateLiveData.postValue(State.ideal(""))
-
         } ?: viewModel.requestAllAPIs(true)
     }
 
@@ -402,6 +400,7 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
         }
         return uqudoIntent
     }
+
 
     private fun getViewBinding() = getDataBindingView<FragmentEidInfoReviewBinding>()
 

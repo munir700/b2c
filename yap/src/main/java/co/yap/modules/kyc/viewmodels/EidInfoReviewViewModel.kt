@@ -499,7 +499,7 @@ class EidInfoReviewViewModel(application: Application) :
             }
             state.isCountryUS =
                 getCountryCode(documentFront?.nationality ?: "").contains(countryName ?: "US")
-            if (state.BackImage.value.isNullOrBlank() && state.frontImage.value.isNullOrBlank()) downloadImage {
+            if (parentViewModel?.uqudoIdentity?.value == null) downloadImage {
                 state.viewState.postValue(
                     it.not()
                 )
@@ -557,13 +557,6 @@ class EidInfoReviewViewModel(application: Application) :
     fun isAccessTokenExpired() {
         state.isExpired.value = false
         val timeInSec = uqudoResponse.value?.expiresIn?.toInt()?.toLong() ?: 0
-        /* for improvement
-         val formatter = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
-         val defaultDateString = formatter.format(Date(timeInSec * 1000))
-         val defaultDate = formatter.parse(defaultDateString)
-         val date = Calendar.getInstance().time
-         val CurrentDateString = formatter.format(date)
-         val CurrentDate = formatter.parse(CurrentDateString)*/
         object : CountDownTimer((timeInSec * 1000 + 1000), 1000) {
             override fun onTick(millisUntilFinished: Long) {
                 var seconds = (millisUntilFinished / 1000).toInt()

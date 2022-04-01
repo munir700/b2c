@@ -1,14 +1,14 @@
 package co.yap.modules.kyc.fragments
 
 import android.os.Bundle
+import android.view.View
 import androidx.databinding.Observable
 import androidx.databinding.library.baseAdapters.BR
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import co.yap.R
-import co.yap.modules.dashboard.home.fragments.YapHomeFragment
-import co.yap.modules.dashboard.more.notifications.details.NotificationDetailsFragment
 import co.yap.modules.kyc.activities.DocumentsResponse
 import co.yap.modules.kyc.enums.DocScanStatus
 import co.yap.modules.kyc.interfaces.IKYCHome
@@ -17,6 +17,7 @@ import co.yap.translation.Strings
 import co.yap.yapcore.enums.AccountStatus
 import co.yap.yapcore.firebase.FirebaseEvent
 import co.yap.yapcore.firebase.trackEventWithScreenName
+import co.yap.yapcore.managers.SessionManager
 import java.io.File
 
 class KYCHomeFragment : KYCChildFragment<IKYCHome.ViewModel>(), IKYCHome.View {
@@ -36,7 +37,9 @@ class KYCHomeFragment : KYCChildFragment<IKYCHome.ViewModel>(), IKYCHome.View {
         addObservers()
     }
 
+
     private fun addObservers() {
+        viewModel.parentViewModel?.accountStatus?.value = SessionManager.user?.notificationStatuses
         viewModel.state.addOnPropertyChangedCallback(stateObserver)
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
@@ -71,8 +74,13 @@ class KYCHomeFragment : KYCChildFragment<IKYCHome.ViewModel>(), IKYCHome.View {
                             R.id.action_KYCHomeFragment_to_eidInfoReviewAmendmentFragment,
                             R.id.KYCHomeFragment
                         )
-                    } else if (viewModel.parentViewModel?.comingFrom?.value.isNullOrBlank().not()) findNavController().navigate(R.id.action_KYCHomeFragment_to_eidInfoReviewFragment)
-                    else navigateWithPopup(R.id.action_KYCHomeFragment_to_eidInfoReviewFragment, R.id.KYCHomeFragment)
+                    } else if (viewModel.parentViewModel?.comingFrom?.value.isNullOrBlank().not()) {
+                        viewModel.parentViewModel?.payLoadObj = MutableLiveData()
+                        findNavController().navigate(R.id.action_KYCHomeFragment_to_eidInfoReviewFragment)
+                    } else navigateWithPopup(
+                        R.id.action_KYCHomeFragment_to_eidInfoReviewFragment,
+                        R.id.KYCHomeFragment
+                    )
                 }
             } else if (requireActivity().intent?.getBooleanExtra("GO_ERROR", false) == true) {
                 navigateToInformationErrorFragment()
