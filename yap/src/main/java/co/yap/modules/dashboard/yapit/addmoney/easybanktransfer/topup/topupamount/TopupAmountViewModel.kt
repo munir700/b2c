@@ -1,0 +1,33 @@
+package co.yap.modules.dashboard.yapit.addmoney.easybanktransfer.topup.topupamount
+
+import android.app.Application
+import android.content.res.Resources
+import android.util.Log
+import co.yap.R
+import co.yap.modules.dashboard.yapit.addmoney.main.AddMoneyBaseViewModel
+import co.yap.translation.Strings
+import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.helpers.extentions.toFormattedCurrency
+import co.yap.yapcore.helpers.spannables.color
+import co.yap.yapcore.helpers.spannables.getText
+
+
+class TopupAmountViewModel(application: Application) :
+    AddMoneyBaseViewModel<ITopupAmount.State>(application),
+    ITopupAmount.ViewModel  {
+    override val clickEvent: SingleClickEvent = SingleClickEvent()
+    override val state: ITopupAmount.State = TopupAmountState()
+
+    override fun handlePressOnView(id: Int) {
+        clickEvent.setValue(id)
+    }
+
+    fun setAvailableBalance(resources: Resources) {
+        state.availableBalance.value = resources.getText(
+            getString(Strings.common_display_text_available_balance),
+            context.color(  R.color.colorPrimaryDark,
+                "2000".toFormattedCurrency()
+            )).toString()
+    }
+
+}

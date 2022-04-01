@@ -1721,5 +1721,8 @@
     <string name="screen_lean_bank_list_select_a_bank">Select a bank</string>
     <string name="screen_lean_bank_list_choose_bank">Choose which bank to connect with YAP</string>
 
+    <!--Lean -Easy bank Transfer -Topup Amount -->
+    <string name="screen_lean_topup_amount_toolbar_title">Top up via bank account</string>
+    <string name="screen_lean_topup_text_enter_amount_to_topup">Enter the amount to top up</string>
 
 </resources>
