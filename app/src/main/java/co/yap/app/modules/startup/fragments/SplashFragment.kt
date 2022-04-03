@@ -19,12 +19,16 @@ import co.yap.modules.onboarding.models.CountryCode
 import co.yap.modules.onboarding.models.LoadConfig
 import co.yap.yapcore.animations.animators.ScaleAnimator
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.constants.Constants.KEY_COUNTRY_CODE
 import co.yap.yapcore.constants.Constants.KEY_IMAGE_LOADING_TIME
 import co.yap.yapcore.constants.Constants.KEY_IS_FIRST_TIME_USER
+import co.yap.yapcore.constants.Constants.KEY_MOBILE_NO
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.alert
+import co.yap.yapcore.helpers.countryCodeForRegion
 import co.yap.yapcore.helpers.extentions.openPlayStore
+import co.yap.yapcore.managers.SessionManager
 import com.yap.ghana.ui.auth.main.GhAuthenticationActivity
 import com.yap.yappakistan.ui.auth.main.AuthenticationActivity
 import kotlinx.android.synthetic.main.fragment_splash.*
@@ -58,7 +62,7 @@ class SplashFragment : MainChildFragment<ISplash.ViewModel>(), ISplash.View {
             }
         })
         viewModel.splashComplete.observe(this, Observer {
-            if (it) viewModel.getAppUpdate()
+            if (it) viewModel.getAppConfigurations()
         })
         SharedPreferenceManager.getInstance(requireContext()).save(
             KEY_IMAGE_LOADING_TIME,
@@ -127,14 +131,25 @@ class SplashFragment : MainChildFragment<ISplash.ViewModel>(), ISplash.View {
                     false
                 )
             ) {
-                sharedPreferenceManager.getValueString(
-                    Constants.KEY_COUNTRY_CODE, CountryCode.UAE.countryCode ?: ""
-                )?.let {
+                val savedCountryCode = sharedPreferenceManager.getValueString(KEY_COUNTRY_CODE)
+                val countryCode = savedCountryCode?.run {
+                    viewModel.countriesList.find {
+                        it.isoCountryCode2Digit?.countryCodeForRegion() == this
+                    }?.isoCountryCode2Digit?.countryCodeForRegion()
+                }
+
+                countryCode?.let {
                     if (it != CountryCode.UAE.countryCode) {
                         launchPkGhana(
                             it
                         )
+                    } else {
+                        //sharedPreferenceManager.save(Constants.KEY_IS_USER_LOGGED_IN, false)
                     }
+                }?:run{
+                   // sharedPreferenceManager.save(Constants.KEY_IS_USER_LOGGED_IN, false)
+                    sharedPreferenceManager.save(KEY_MOBILE_NO,  "")
+                    sharedPreferenceManager.save(KEY_COUNTRY_CODE,  "")
                 }
             }
             launch {
@@ -153,7 +168,7 @@ class SplashFragment : MainChildFragment<ISplash.ViewModel>(), ISplash.View {
             )
         ) {
             sharedPreferenceManager.getValueString(
-                Constants.KEY_COUNTRY_CODE, CountryCode.UAE.countryCode ?: ""
+                KEY_COUNTRY_CODE, CountryCode.UAE.countryCode ?: ""
             )?.let {
                 if (it != CountryCode.UAE.countryCode) {
                     val mobileNo = sharedPreferenceManager.getValueString(Constants.KEY_MOBILE_NO)

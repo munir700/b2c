@@ -96,13 +96,17 @@ fun FragmentActivity.launchMultiSelectionBottomSheet(
 }
 
 fun FragmentActivity.launchBottomSheetForMutlipleCountries(
+    countriesList: ArrayList<co.yap.networking.customers.responsedtos.sendmoney.Country>,
     itemClickListener: OnItemClickListener? = null
 ) {
     this.supportFragmentManager.let {
         val coreBottomSheet =
             CoreBottomSheet(
                 itemClickListener,
-                bottomSheetItems = getBottomSheetDataList(this.fromSuperAppCountries()),
+                bottomSheetItems = getBottomSheetDataList(
+                    countriesList
+
+                ),
                 viewType = Constants.VIEW_ITEM_WITH_FLAG_AND_CODE,
                 configuration = BottomSheetConfiguration(
                     heading = "Select Country",
@@ -115,17 +119,29 @@ fun FragmentActivity.launchBottomSheetForMutlipleCountries(
     }
 }
 
-fun Context.getBottomSheetDataList(countries: ArrayList<Country>): MutableList<CoreBottomSheetData> {
+fun Context.getBottomSheetDataList(countries: ArrayList<co.yap.networking.customers.responsedtos.sendmoney.Country>): MutableList<CoreBottomSheetData> {
+    val list: ArrayList<CoreBottomSheetData> = arrayListOf()
     countries.forEach {
-        it.subTitle = it.getName()
-        it.sheetImage = CurrencyUtils.getFlagDrawable(
-            this,
-            it.isoCountryCode2Digit.toString()
+        list.add(
+            CoreBottomSheetData(
+                subTitle = it.name,
+                sheetImage = CurrencyUtils.getFlagDrawable(
+                    this,
+                    it.isoCountryCode2Digit.toString()
+                ),
+                content = getCountryCodeForRegion(it.isoCountryCode2Digit ?: "PK"),
+                key = it.isoCountryCode2Digit
+            )
         )
-        it.content = getCountryCodeForRegion(it.isoCountryCode2Digit ?: "PK")
-        it.key = it.isoCountryCode2Digit
+//        it.subTitle = it.getName()
+//        it.sheetImage = CurrencyUtils.getFlagDrawable(
+//            this,
+//            it.isoCountryCode2Digit.toString()
+//        )
+//        it.content = getCountryCodeForRegion(it.isoCountryCode2Digit ?: "PK")
+//        it.key = it.isoCountryCode2Digit
     }
-    return countries.toMutableList()
+    return list.toMutableList()
 }
 
 fun Context.getDropDownIconByName(countryName: String): Int {
@@ -144,16 +160,16 @@ fun Context.getDropDownIconByName(countryName: String): Int {
     return 0
 }
 
-fun Context.fromSuperAppCountries(): ArrayList<Country> {
-    val gson = Gson()
-    val parser = JsonParser()
-    val byteArray =
-        Base64.decode(resources.getString(R.string.country_encoded_base64), Base64.DEFAULT)
-    val data = parser.parse(String(byteArray)).asJsonArray
-    val jsonString = gson.toJson(data)
-    val sType = object : TypeToken<ArrayList<Country>>() {}.type
-    return gson.fromJson(jsonString, sType)
-}
+//fun Context.fromSuperAppCountries(): ArrayList<Country> {
+//    val gson = Gson()
+//    val parser = JsonParser()
+//    val byteArray =
+//        Base64.decode(resources.getString(R.string.country_encoded_base64), Base64.DEFAULT)
+//    val data = parser.parse(String(byteArray)).asJsonArray
+//    val jsonString = gson.toJson(data)
+//    val sType = object : TypeToken<ArrayList<Country>>() {}.type
+//    return gson.fromJson(jsonString, sType)
+//}
 
 @SuppressLint("ClickableViewAccessibility")
 fun TextInputEditText.setTouchListener(
@@ -179,10 +195,10 @@ fun TextInputLayout.requestFocusForField() {
     )
 }
 
-fun TextInputLayout.requestDefaultFocus() {
-    this.requestFocus()
-    this.boxStrokeColor = resources.getColor(R.color.textInputBackgroundColor)
-    (this.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).toggleSoftInput(
-        InputMethodManager.SHOW_IMPLICIT, InputMethodManager.HIDE_IMPLICIT_ONLY
-    )
-}
+//fun TextInputLayout.requestDefaultFocus() {
+//    this.requestFocus()
+//    this.boxStrokeColor = resources.getColor(R.color.textInputBackgroundColor)
+//    (this.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).toggleSoftInput(
+//        InputMethodManager.SHOW_IMPLICIT, InputMethodManager.HIDE_IMPLICIT_ONLY
+//    )
+//}

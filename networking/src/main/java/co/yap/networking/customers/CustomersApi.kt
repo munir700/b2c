@@ -13,7 +13,6 @@ import co.yap.networking.customers.responsedtos.currency.CurrenciesByCodeRespons
 import co.yap.networking.customers.responsedtos.currency.CurrenciesResponse
 import co.yap.networking.customers.responsedtos.documents.ConfigureEIDResponse
 import co.yap.networking.customers.responsedtos.documents.EIDDocumentsResponse
-import co.yap.networking.customers.responsedtos.employment_amendment.Document
 import co.yap.networking.customers.responsedtos.employment_amendment.DocumentResponse
 import co.yap.networking.customers.responsedtos.employment_amendment.EmploymentInfoAmendmentResponse
 import co.yap.networking.customers.responsedtos.employmentinfo.IndustrySegmentsResponse
@@ -29,7 +28,7 @@ import co.yap.networking.transactions.requestdtos.EditBillerRequest
 import co.yap.networking.transactions.responsedtos.transaction.FxRateResponse
 import okhttp3.MultipartBody
 import retrofit2.http.Body
-import java.util.ArrayList
+import java.util.*
 
 interface CustomersApi {
     suspend fun signUp(signUpRequest: SignUpRequest): RetroApiResponse<SignUpResponse>
@@ -128,7 +127,12 @@ interface CustomersApi {
     suspend fun getTourGuides(): RetroApiResponse<TourGuideResponse>
     suspend fun getAdditionalInfoRequired(): RetroApiResponse<AdditionalInfoResponse>
     suspend fun uploadAdditionalDocuments(uploadAdditionalInfo: UploadAdditionalInfo): RetroApiResponse<ApiResponse>
-    suspend fun saveEmploymentInfoWithDocument(employmentInfoRequest: EmploymentInfoRequest, files: ArrayList<MultipartBody.Part>, documentTypeList:ArrayList<String>): RetroApiResponse<ApiResponse>
+    suspend fun saveEmploymentInfoWithDocument(
+        employmentInfoRequest: EmploymentInfoRequest,
+        files: ArrayList<MultipartBody.Part>,
+        documentTypeList: ArrayList<String>
+    ): RetroApiResponse<ApiResponse>
+
     suspend fun uploadAdditionalQuestion(uploadAdditionalInfo: UploadAdditionalInfo): RetroApiResponse<ApiResponse>
     suspend fun sendInviteFriend(sendInviteFriendRequest: SendInviteFriendRequest): RetroApiResponse<ApiResponse>
     suspend fun submitAdditionalInfo(uploadAdditionalInfo: UploadAdditionalInfo): RetroApiResponse<ApiResponse>
@@ -159,4 +163,5 @@ interface CustomersApi {
     suspend fun getEIDConfigurations(): RetroApiResponse<BaseResponse<ConfigureEIDResponse>>
     suspend fun getEmploymentInfo(): RetroApiResponse<BaseResponse<EmploymentInfoAmendmentResponse>>
     suspend fun getAllDocumentsForEmploymentAmendment(): RetroApiResponse<BaseListResponse<DocumentResponse>>
+    suspend fun getAppCountries(): RetroApiResponse<BaseListResponse<Country>>
 }

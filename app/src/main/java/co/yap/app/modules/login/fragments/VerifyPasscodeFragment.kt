@@ -211,9 +211,7 @@ class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), B
                     "mobile",
                     ExtraType.STRING.name
                 ) as? String) ?: ""
-
                 token?.let {
-
                     val action =
                         VerifyPasscodeFragmentDirections.actionVerifyPasscodeFragmentToForgotPasscodeNavigation(
                             viewModel.mobileNumber,

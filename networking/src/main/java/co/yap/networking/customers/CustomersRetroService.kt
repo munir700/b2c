@@ -399,4 +399,7 @@ interface CustomersRetroService {
 
     @GET(CustomersRepository.URL_GET_ALL_DOCUMENT_FOR_EMPLOYMENT)
     suspend fun getAllDocumentsForEmploymentAmendment(): Response<BaseListResponse<DocumentResponse>>
+
+    @GET(CustomersRepository.URL_GET_SIGN_UP_COUNTRIES)
+    suspend fun getAppCountries(): Response<BaseListResponse<Country>>
 }

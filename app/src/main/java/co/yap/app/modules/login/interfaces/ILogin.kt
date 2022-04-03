@@ -3,8 +3,8 @@ package co.yap.app.modules.login.interfaces
 import android.graphics.drawable.Drawable
 import android.widget.TextView
 import androidx.databinding.ObservableBoolean
-import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
+import co.yap.networking.customers.responsedtos.sendmoney.Country
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 
@@ -17,6 +17,8 @@ interface ILogin {
         fun onEditorActionListener(): TextView.OnEditorActionListener
         var clickEvent: SingleClickEvent
         fun handlePressOnView(id: Int)
+        val countriesList: MutableLiveData<ArrayList<Country>>
+        val countries: ArrayList<Country>
     }
 
     interface State : IBase.State {

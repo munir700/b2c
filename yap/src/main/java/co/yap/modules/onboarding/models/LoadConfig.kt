@@ -8,6 +8,7 @@ import co.yap.yapcore.adjust.ReferralInfo
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.Constants.REFERRAL_COUNTRY_ISO_CODE
 import co.yap.yapcore.helpers.SharedPreferenceManager
+import co.yap.yapcore.managers.SessionManager
 import com.yap.core.analytics.AnalyticsEvent
 import com.yap.core.enums.ProductFlavour
 import com.yap.ghana.configs.GhanaBuildConfigurations
@@ -93,10 +94,14 @@ class LoadConfig @Inject constructor(@ApplicationContext val appContext: Context
     private fun handleGhanaAppEvent(event: GhanaAppEvent, context: Context) {
         when (event) {
             GhanaAppEvent.IS_LOGGED_IN -> {
+                SessionManager.tempLoginState.postValue(true)
                 SharedPreferenceManager.getInstance(context)
                     .save(Constants.KEY_IS_USER_LOGGED_IN, true)
             }
             GhanaAppEvent.LOGOUT -> {
+                SessionManager.getAppCountries(context){_,_->
+                    SessionManager.tempLoginState.postValue(false)
+                }
                 SharedPreferenceManager.getInstance(context)
                     .save(Constants.KEY_IS_USER_LOGGED_IN, false)
             }
@@ -107,10 +112,15 @@ class LoadConfig @Inject constructor(@ApplicationContext val appContext: Context
     private fun handlePkAppEvent(event: PkAppEvent, context: Context) {
         when (event) {
             PkAppEvent.IS_LOGGED_IN -> {
+                SessionManager.tempLoginState.postValue(true)
                 SharedPreferenceManager.getInstance(context)
                     .save(Constants.KEY_IS_USER_LOGGED_IN, true)
             }
             PkAppEvent.LOGOUT -> {
+                SessionManager.getAppCountries(context){_,_->
+                    SessionManager.tempLoginState.postValue(false)
+                }
+
                 SharedPreferenceManager.getInstance(context)
                     .save(Constants.KEY_IS_USER_LOGGED_IN, false)
             }

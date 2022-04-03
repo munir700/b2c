@@ -10,6 +10,7 @@ import co.yap.modules.onboarding.models.LoadConfig
 import co.yap.modules.onboarding.models.UserVerifierProvider
 import co.yap.modules.onboarding.states.MobileState
 import co.yap.modules.otp.getOtpMessageFromComposer
+import co.yap.networking.customers.responsedtos.sendmoney.Country
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.messages.MessagesRepository
 import co.yap.networking.messages.requestdtos.CreateOtpOnboardingRequest
@@ -32,6 +33,7 @@ class MobileViewModel(application: Application) :
     override val state: MobileState = MobileState(application, this)
     override val nextButtonPressEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
     override var clickEvent: SingleClickEvent = SingleClickEvent()
+    override val countriesList: MutableLiveData<ArrayList<Country>?> = MutableLiveData()
     override fun handlePressOnView(id: Int) {
         clickEvent.setValue(id)
     }

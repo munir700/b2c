@@ -12,6 +12,7 @@ import co.yap.modules.onboarding.models.LoadConfig
 import co.yap.modules.onboarding.models.UserVerifierProvider
 import co.yap.networking.authentication.AuthRepository
 import co.yap.networking.customers.CustomersRepository
+import co.yap.networking.customers.responsedtos.sendmoney.Country
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.ApiError
 import co.yap.networking.models.RetroApiResponse
@@ -22,6 +23,7 @@ import co.yap.yapcore.helpers.getCountryCodeForRegion
 import co.yap.yapcore.helpers.isValidPhoneNumber
 import co.yap.yapcore.helpers.validation.IValidator
 import co.yap.yapcore.helpers.validation.Validator
+import kotlin.collections.ArrayList
 
 class LoginViewModel(application: Application) :
     MainChildViewModel<ILogin.State>(application),
@@ -33,6 +35,8 @@ class LoginViewModel(application: Application) :
     private val customersRepository: CustomersRepository = CustomersRepository
     override var isAccountBlocked: MutableLiveData<Boolean> = MutableLiveData(false)
     override var clickEvent: SingleClickEvent = SingleClickEvent()
+    override val countriesList: MutableLiveData<ArrayList<Country>> = MutableLiveData()
+    override val countries: ArrayList<Country> = arrayListOf()
     override fun handlePressOnView(id: Int) {
         clickEvent.setValue(id)
     }

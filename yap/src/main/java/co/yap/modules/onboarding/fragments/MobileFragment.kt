@@ -29,14 +29,6 @@ class MobileFragment : OnboardingChildFragment<IMobile.ViewModel>() {
     override val viewModel: MobileViewModel
         get() = ViewModelProvider(this).get(MobileViewModel::class.java)
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        /* viewModel.nextButtonPressEvent.observe(this, Observer {
-             navigate(R.id.phoneVerificationFragment)
-         })*/
-        // viewModel.getCcp(etMobileNumber)
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         getDataBindingView<FragmentMobileBinding>().lifecycleOwner = this
@@ -73,6 +65,14 @@ class MobileFragment : OnboardingChildFragment<IMobile.ViewModel>() {
                 }
             }
         })
+        viewModel.countriesList.observe(viewLifecycleOwner, Observer {
+            it?.let { list ->
+                requireActivity().launchBottomSheetForMutlipleCountries(
+                    list,
+                    selectCountryItemClickListener
+                )
+            }
+        })
 
     }
 
@@ -98,6 +98,7 @@ class MobileFragment : OnboardingChildFragment<IMobile.ViewModel>() {
 
     override fun onDestroyView() {
         viewModel.clickEvent.removeObserver(clickListenerHandler)
+        viewModel.countriesList.removeObservers(viewLifecycleOwner)
         //  viewModel.nextButtonPressEvent.removeObservers(this)
         super.onDestroyView()
     }
@@ -123,8 +124,11 @@ class MobileFragment : OnboardingChildFragment<IMobile.ViewModel>() {
     private fun setTouchListener() {
         getDataBindingView<FragmentMobileBinding>().etMobileNumber.setTouchListener {
             getDataBindingView<FragmentMobileBinding>().tlPhoneNumber.hideKeyboard()
-            requireActivity().launchBottomSheetForMutlipleCountries(selectCountryItemClickListener)
-
+            val list = SharedPreferenceManager.getInstance(requireContext())
+                .getValueString(Constants.KEY_COUNTRIES_LIST)?.jsonToList()
+            if (list.isNullOrEmpty().not()) {
+                viewModel.countriesList.value = list
+            }
         }
     }
 }

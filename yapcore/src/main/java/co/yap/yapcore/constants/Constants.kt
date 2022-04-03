@@ -155,6 +155,7 @@ object Constants {
     const val KEY_USERNAME: String = "USEERNAME"
     const val KEY_MOBILE_NO: String = "mobile_no"
     const val KEY_COUNTRY_CODE: String = "country_code"
+    const val KEY_COUNTRIES_LIST: String = "country_list"
     const val KEY_TOUCH_ID_ENABLED: String = "TOUCH_ID_ENABLED"
     const val KEY_IS_USER_LOGGED_IN: String = "KEY_IS_USER_LOGGED_IN"
     const val KEY_IS_FIRST_TIME_USER: String = "KEY_IS_FIRST_TIME_USER"

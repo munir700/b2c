@@ -20,19 +20,23 @@ import co.yap.modules.onboarding.models.CountryCode
 import co.yap.networking.coreitems.CoreBottomSheetData
 import co.yap.widgets.keyboardvisibilityevent.KeyboardVisibilityEvent
 import co.yap.widgets.keyboardvisibilityevent.KeyboardVisibilityEventListener
+import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.Constants.KEY_COUNTRY_CODE
 import co.yap.yapcore.constants.Constants.KEY_IS_REMEMBER
 import co.yap.yapcore.constants.Constants.KEY_IS_USER_LOGGED_IN
 import co.yap.yapcore.constants.Constants.KEY_MOBILE_NO
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.countryCodeForRegion
 import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.helpers.getCountryCodeForRegion
 import co.yap.yapcore.interfaces.OnItemClickListener
+import co.yap.yapcore.managers.SessionManager
 import co.yap.yapcore.managers.saveUserDetails
 import com.yap.ghana.ui.auth.main.GhAuthenticationActivity
 import com.yap.yappakistan.ui.auth.main.AuthenticationActivity
 import kotlinx.android.synthetic.main.fragment_log_in.*
+import kotlinx.coroutines.delay
 
 
 class LoginFragment : MainChildFragment<ILogin.ViewModel>(), ILogin.View {
@@ -70,29 +74,33 @@ class LoginFragment : MainChildFragment<ILogin.ViewModel>(), ILogin.View {
                 KEY_COUNTRY_CODE, CountryCode.UAE.countryCode ?: ""
             )?.let {
                 if (it == CountryCode.UAE.countryCode) {
+                    SessionManager.tempLoginState.value = true
                     val action =
                         LoginFragmentDirections.actionLoginFragmentToVerifyPasscodeFragment("")
                     NavHostFragment.findNavController(this).navigate(action)
                 }
             }
-        } else {
-            getDataBindingView<FragmentLogInBinding>().tlPhoneNumber.requestFocusForField()
-            // etEmailField.requestKeyboard()
         }
 
-//        SessionManager.isRemembered.value =
-//            sharedPreferenceManager.getValueBoolien(
-//                KEY_IS_REMEMBER,
-//                getDataBindingView<FragmentLogInBinding>().swRemember.isChecked
-//            )
         sharedPreferenceManager.getValueBoolien(KEY_IS_REMEMBER, true).apply {
             viewModel.state.isRemember.set(this)
-            sharedPreferenceManager.getValueString(
+
+            val list = SharedPreferenceManager.getInstance(requireContext())
+                .getValueString(Constants.KEY_COUNTRIES_LIST)?.jsonToList()
+            val countryCode = sharedPreferenceManager.getValueString(
                 KEY_COUNTRY_CODE, CountryCode.UAE.countryCode ?: ""
-            )?.let {
+            )?.run {
+                list?.find { it.isoCountryCode2Digit?.countryCodeForRegion() == this }
+                    ?.isoCountryCode2Digit?.countryCodeForRegion()
+                    ?: CountryCode.UAE.countryCode
+            }
+//            sharedPreferenceManager.getValueString(
+//                KEY_COUNTRY_CODE, CountryCode.UAE.countryCode ?: ""
+//            )
+            countryCode?.let {
                 viewModel.state.countryCode.value =
                     if (it.isBlank()) CountryCode.UAE.countryCode else it
-                viewModel.state.countryCode.value?.replace("+", "")
+//                viewModel.state.countryCode.value?.replace("+", "")
                 getDataBindingView<FragmentLogInBinding>().tlPhoneNumber.setStartIconDrawable(
                     requireContext().getDropDownIconByName(
                         getCountryCodeForRegion(
@@ -107,9 +115,13 @@ class LoginFragment : MainChildFragment<ILogin.ViewModel>(), ILogin.View {
                         viewModel.state.mobile.value = it
                         getDataBindingView<FragmentLogInBinding>().etMobileNumber.setText(viewModel.state.mobile.value)
                         if (getDataBindingView<FragmentLogInBinding>().etMobileNumber.length() > 1)
-                            getDataBindingView<FragmentLogInBinding>().etMobileNumber.setSelection(
-                                getDataBindingView<FragmentLogInBinding>().etMobileNumber.length()
-                            )
+                            launch {
+                                delay(2)
+                                getDataBindingView<FragmentLogInBinding>().etMobileNumber.setSelection(
+                                    getDataBindingView<FragmentLogInBinding>().etMobileNumber.length())
+                            }
+
+
                     }
             }
         }
@@ -118,12 +130,25 @@ class LoginFragment : MainChildFragment<ILogin.ViewModel>(), ILogin.View {
     private fun setObservers() {
         viewModel.clickEvent.observe(viewLifecycleOwner, clickListenerHandler)
         viewModel.isAccountBlocked.observe(viewLifecycleOwner, accountBlockedObserver)
-        /*   viewModel.state.emailError.observe(viewLifecycleOwner, Observer {
-               if (!it.isNullOrBlank()) {
-                   etEmailField.settingUIForError(it)
-                   etEmailField.settingErrorColor(R.color.error)
-               }
-           })*/
+        SessionManager.tempLoginState.observe(viewLifecycleOwner, Observer {
+            if (!it) {
+                val sharedPreferenceManager = SharedPreferenceManager.getInstance(requireContext())
+                val list = sharedPreferenceManager
+                    .getValueString(Constants.KEY_COUNTRIES_LIST)?.jsonToList()
+                val savedCountryCode = sharedPreferenceManager
+                    .getValueString(KEY_COUNTRY_CODE)
+                val countryCode = savedCountryCode?.run {
+                    list?.find {
+                        it.isoCountryCode2Digit?.countryCodeForRegion() == this
+                    }?.isoCountryCode2Digit?.countryCodeForRegion()
+                }
+                if (countryCode.isNullOrBlank()) {
+                    sharedPreferenceManager.save(KEY_MOBILE_NO, "")
+                    sharedPreferenceManager.save(KEY_COUNTRY_CODE, "")
+                }
+                initiatePreference()
+            }
+        })
         KeyboardVisibilityEvent.setEventListener(requireActivity(), viewLifecycleOwner, object :
             KeyboardVisibilityEventListener {
             override fun onVisibilityChanged(isOpen: Boolean) {
@@ -144,6 +169,12 @@ class LoginFragment : MainChildFragment<ILogin.ViewModel>(), ILogin.View {
                 getDataBindingView<FragmentLogInBinding>().swRemember.isChecked
             )
             launchPkGhana(it, mobileNo)
+        })
+        viewModel.countriesList.observe(viewLifecycleOwner, Observer {
+            requireActivity().launchBottomSheetForMutlipleCountries(
+                it,
+                selectCountryItemClickListener
+            )
         })
     }
 
@@ -244,9 +275,19 @@ class LoginFragment : MainChildFragment<ILogin.ViewModel>(), ILogin.View {
     private fun setTouchListener() {
         getDataBindingView<FragmentLogInBinding>().etMobileNumber.setTouchListener {
             getDataBindingView<FragmentLogInBinding>().tlPhoneNumber.hideKeyboard()
-            requireActivity().launchBottomSheetForMutlipleCountries(
-                selectCountryItemClickListener
-            )
+            val list = SharedPreferenceManager.getInstance(requireContext())
+                .getValueString(Constants.KEY_COUNTRIES_LIST)?.jsonToList()
+            if (list.isNullOrEmpty().not()) {
+                viewModel.countriesList.value = list
+            } else {
+                SessionManager.getAppCountries(requireContext().applicationContext) { result, msg ->
+                    result?.let {
+                        viewModel.countriesList.postValue(result)
+                    } ?: run {
+                        msg?.let { toast(msg) }
+                    }
+                }
+            }
         }
     }
 
@@ -254,7 +295,9 @@ class LoginFragment : MainChildFragment<ILogin.ViewModel>(), ILogin.View {
     private fun removeObserver() {
         viewModel.isAccountBlocked.removeObservers(this)
         viewModel.state.emailError.removeObservers(this)
+        //viewModel.countriesList.removeObservers(this)
         viewModel.clickEvent.removeObserver(clickListenerHandler)
+//        SessionManager.isLogin.removeObservers(viewLifecycleOwner)
     }
 
     override fun onDestroyView() {

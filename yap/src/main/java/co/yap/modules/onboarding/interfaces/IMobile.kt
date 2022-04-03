@@ -8,6 +8,7 @@ import androidx.databinding.ObservableField
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import co.yap.modules.onboarding.models.UserVerifierProvider
+import co.yap.networking.customers.responsedtos.sendmoney.Country
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.SingleLiveEvent
@@ -25,7 +26,7 @@ interface IMobile {
         fun handlePressOnView(id: Int)
         fun createOtp(success: (success : Boolean) -> Unit)
         fun verifyUser(countryCode: String, mobileNumber: String)
-
+        val countriesList:MutableLiveData<ArrayList<Country>?>
         val userVerified: MutableLiveData<String>
          val userVerifier: UserVerifierProvider
     }
