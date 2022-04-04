@@ -9,6 +9,7 @@ import co.yap.R
 import co.yap.databinding.FragmentTopupAmountBinding
 import co.yap.modules.dashboard.yapit.addmoney.main.AddMoneyBaseFragment
 
+/////adjust resize need to be added when required activity is created
 class TopupAmountFragment: AddMoneyBaseFragment<ITopupAmount.ViewModel>(),
     ITopupAmount.View {
     override val viewModel: TopupAmountViewModel by viewModels()
@@ -18,7 +19,7 @@ class TopupAmountFragment: AddMoneyBaseFragment<ITopupAmount.ViewModel>(),
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewDataBinding.lifecycleOwner = this
-        viewModel.setAvailableBalance(resources)
+        viewModel.setAvailableBalance()
     }
 
     override fun setObservers() {

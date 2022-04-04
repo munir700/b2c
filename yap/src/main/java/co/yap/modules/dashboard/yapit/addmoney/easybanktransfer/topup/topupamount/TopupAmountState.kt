@@ -10,6 +10,6 @@ class TopupAmountState:BaseState(),ITopupAmount.State {
     override val denominationSecondAmount: String = "+500"
     override val denominationThirdAmount: String = "+1000"
     override val valid: MutableLiveData<Boolean> = MutableLiveData(false)
-    override val availableBalance: MutableLiveData<String> = MutableLiveData("")
+    override val availableBalance: MutableLiveData<CharSequence> = MutableLiveData()
 
 }
