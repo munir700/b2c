@@ -6,8 +6,6 @@ import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import co.yap.countryutils.country.Country
 import co.yap.modules.onboarding.interfaces.IEidInfoReviewAmendment
-import co.yap.networking.customers.responsedtos.UqudoHeader
-import co.yap.networking.customers.responsedtos.UqudoPayLoad
 import co.yap.yapcore.BaseState
 import com.digitify.identityscanner.BR
 import java.util.*
@@ -164,11 +162,5 @@ class EidInfoReviewAmendmentState : BaseState(), IEidInfoReviewAmendment.State {
     override var isCountryUS: Boolean = false
     override var countryName: ObservableField<String> = ObservableField()
     override var errorScreenVisited: Boolean = false
-    override var isTokenValid: ObservableBoolean = ObservableBoolean(true)
     override var uqudoToken: MutableLiveData<String> = MutableLiveData()
-    override var payLoadObj: MutableLiveData<UqudoPayLoad> = MutableLiveData()
-    override var uqudoHeaderObj: MutableLiveData<UqudoHeader> = MutableLiveData()
-    override var isExpired: MutableLiveData<Boolean> = MutableLiveData()
-    override var frontImage: MutableLiveData<String> = MutableLiveData()
-    override var BackImage: MutableLiveData<String> = MutableLiveData()
 }

@@ -44,17 +44,19 @@ class UqudoScannerManager private constructor(val context: Activity) : IUqudoMan
     private var uqudoScannedToken: MutableLiveData<String> = MutableLiveData()
     private var imagePaths: HashMap<Int, String> = hashMapOf()
     private var uqudoHeader: MutableLiveData<UqudoHeader> = MutableLiveData()
+    private var tokenInitiatedTime: MutableLiveData<Date> = MutableLiveData()
     private val TIME_FORMAT = "yyyy-MM-dd HH:mm:ss"
     private val DATE_INPUT_FORMAT = "yyMMdd"
+
     private val DATE_OUTPUT_FORMAT = "yyyy-mm-dd"
+
+    companion object : SingletonHolder<UqudoScannerManager, Activity>(::UqudoScannerManager)
 
     fun fetchDocumentBackDate() = getPayloadData()?.documents?.get(0)?.scan?.back
     fun fetchDocumentFrontDate() = getPayloadData()?.documents?.get(0)?.scan?.front
     fun getDateOfBirth(): Date = getFormatDateFromUqudo(fetchDocumentBackDate()?.dateOfBirth)
-    fun getExpiryDate(): Date = getFormatDateFromUqudo(fetchDocumentBackDate()?.dateOfExpiry)
-    var tokenInitiatedTime: MutableLiveData<Date> = MutableLiveData()
 
-    companion object : SingletonHolder<UqudoScannerManager, Activity>(::UqudoScannerManager)
+    fun getExpiryDate(): Date = getFormatDateFromUqudo(fetchDocumentBackDate()?.dateOfExpiry)
 
     override fun initializeUqudo() = UqudoSDK.init(context.applicationContext)
     fun setUqudoToken(uqudoTokenResponse: UqudoTokenResponse) {

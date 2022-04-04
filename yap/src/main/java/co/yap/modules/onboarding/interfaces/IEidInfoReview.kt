@@ -4,8 +4,6 @@ import androidx.databinding.ObservableBoolean
 import androidx.lifecycle.MutableLiveData
 import co.yap.networking.customers.responsedtos.EidData
 import co.yap.networking.customers.responsedtos.SectionedCountriesResponseDTO
-import co.yap.networking.customers.responsedtos.UqudoHeader
-import co.yap.networking.customers.responsedtos.UqudoPayLoad
 import co.yap.networking.customers.responsedtos.documents.ConfigureEIDResponse
 import co.yap.networking.customers.responsedtos.documents.UqudoTokenResponse
 import co.yap.networking.models.BaseResponse
@@ -35,13 +33,7 @@ interface IEidInfoReview {
         var isDateOfBirthValid: ObservableBoolean
         var AgeLimit: Int?
         var isCountryUS: Boolean
-        var isTokenValid: ObservableBoolean
         var uqudoToken: MutableLiveData<String>
-        var payLoadObj: MutableLiveData<UqudoPayLoad>
-        var uqudoHeaderObj: MutableLiveData<UqudoHeader>
-        var isExpired: MutableLiveData<Boolean>
-        var frontImage: MutableLiveData<String>
-        var BackImage: MutableLiveData<String>
         var showMiddleName: MutableLiveData<Boolean>
     }
 
@@ -50,7 +42,6 @@ interface IEidInfoReview {
         fun showExpiredEidScreen()
         fun showInvalidEidScreen()
         fun showUSACitizenScreen()
-        //   fun openCardScanner()
     }
 
     interface ViewModel : IBase.ViewModel<State> {

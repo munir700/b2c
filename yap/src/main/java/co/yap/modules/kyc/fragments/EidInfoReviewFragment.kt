@@ -11,7 +11,6 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.os.bundleOf
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -20,7 +19,6 @@ import co.yap.R
 import co.yap.databinding.FragmentEidInfoReviewBinding
 import co.yap.modules.kyc.activities.DocumentsResponse
 import co.yap.modules.kyc.enums.KYCAction
-import co.yap.modules.kyc.uqudo.UqudoScannerManager
 import co.yap.modules.kyc.viewmodels.EidInfoReviewViewModel
 import co.yap.modules.onboarding.enums.EidInfoEvents
 import co.yap.modules.onboarding.interfaces.IEidInfoReview
@@ -108,8 +106,6 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
                 EidInfoEvents.EVENT_ERROE_UNDERAGE.eventId -> showUnderAgeScreen()
                 EidInfoEvents.EVENT_ERROR_FROM_USA.eventId -> showUSACitizenScreen()
                 EidInfoEvents.EVENT_RESCAN.eventId -> {
-                    viewModel.state.BackImage.value = ""
-                    viewModel.state.frontImage.value = ""
                     initializeUqudoScanner()
                 }
                 R.id.tvNoThanks -> {
@@ -185,8 +181,7 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
         viewModel.parentViewModel?.uqudoManager?.getUqudoAccessToken()
             ?.observe(viewLifecycleOwner, Observer { response ->
                 if (viewModel.parentViewModel?.uqudoManager?.getPayloadData() == null) {
-                    if (response.accessToken.isNullOrEmpty()
-                            .not()
+                    if (response.accessToken.isNullOrEmpty().not()
                     ) viewModel.eidStateLiveData.postValue(State.empty(""))
                     else viewModel.eidStateLiveData.postValue(State.error(""))
                 }
@@ -305,10 +300,11 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
                 val uqudoJWT = data?.getStringExtra("data")
                 if (uqudoJWT.isNullOrBlank().not()) {
                     viewModel.state.uqudoToken.value = uqudoJWT
-                    UqudoScannerManager.getInstance(requireActivity())
-                        .decodeEncodedUqudoToken(uqudoJWT ?: "") {
-                            viewModel.eidStateLiveData.postValue(State.success(""))
-                        }
+                    viewModel.parentViewModel?.uqudoManager?.decodeEncodedUqudoToken(
+                        uqudoJWT ?: ""
+                    ) {
+                        viewModel.eidStateLiveData.postValue(State.success(""))
+                    }
                 } else {
                     if (viewModel.parentViewModel?.uqudoManager?.getPayloadData() == null && viewModel.parentViewModel?.comingFrom?.value.isNullOrBlank()
                             .not()
@@ -347,7 +343,6 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
             Status.SUCCESS -> {
                 getViewBinding().multiStateView.viewState = MultiStateView.ViewState.CONTENT
                 viewModel.parentViewModel?.uqudoManager?.getPayloadData()?.let { identity ->
-                    viewModel.parentViewModel?.payLoadObj?.value = UqudoPayLoad(data = identity)
                     viewModel.populateUqudoState(identity = identity)
                 }
             }
@@ -363,7 +358,6 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
             }
         }
     }
-
 
     private fun initializeUqudoScanner() {
         with(viewModel.parentViewModel?.uqudoManager) {

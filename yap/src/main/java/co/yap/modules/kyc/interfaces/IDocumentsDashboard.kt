@@ -40,7 +40,6 @@ interface IDocumentsDashboard {
         var hideProgressToolbar: MutableLiveData<Boolean>
         var uqudoIdentity: MutableLiveData<V2DocumentDTO>
         var uqudoManager : UqudoScannerManager?
-        var payLoadObj: MutableLiveData<UqudoPayLoad>
         var comingFrom: MutableLiveData<String>
 
     }

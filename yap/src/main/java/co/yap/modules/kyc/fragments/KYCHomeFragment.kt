@@ -65,7 +65,7 @@ class KYCHomeFragment : KYCChildFragment<IKYCHome.ViewModel>(), IKYCHome.View {
     private fun shouldSkipScreen() {
         viewModel.parentViewModel?.skipFirstScreen?.value?.let {
             if (it) {
-                if (viewModel.parentViewModel?.uqudoIdentity?.value?.isAmendment == true) {
+                if (viewModel.parentViewModel?.uqudoManager?.getUqudoIdentity()?.isAmendment == true) {
                     requireActivity().finish()
                 } else {
                     if (viewModel.parentViewModel?.comingFrom?.value.isNullOrBlank().not()) {

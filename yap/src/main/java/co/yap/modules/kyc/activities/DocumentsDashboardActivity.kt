@@ -87,14 +87,7 @@ class DocumentsDashboardActivity : BaseBindingActivity<IDocumentsDashboard.ViewM
     private val clickEventObserver = Observer<Int> {
         when (it) {
             R.id.tbBtnBack, R.id.btnBack -> {
-                val myFragment: EidInfoReviewAmendmentFragment? =
-                    supportFragmentManager.findFragmentById(R.id.eidInfoReviewAmendmentFragment) as EidInfoReviewAmendmentFragment?
-                if ((myFragment != null && myFragment.isVisible) && viewModel.uqudoIdentity.value?.isAmendment == true) {
-                    finish()
-                }
-                else{
-                    onBackPressed()
-                }
+                onBackPressed()
             }
         }
     }

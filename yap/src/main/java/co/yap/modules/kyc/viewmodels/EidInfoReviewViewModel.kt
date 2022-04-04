@@ -142,7 +142,7 @@ class EidInfoReviewViewModel(application: Application) :
         success: (message: String) -> Unit
     ) {
         parentViewModel?.uqudoManager?.getUqudoIdentity()?.let {
-            if (it.dateExpiry.toString().isNullOrBlank()) {
+            if (it.dateExpiry.toString().isBlank()) {
                 clickEvent.setValue(EidInfoEvents.EVENT_EID_EXPIRY_DATE_ISSUE.eventId)
             } else {
                 launch {
@@ -357,8 +357,8 @@ class EidInfoReviewViewModel(application: Application) :
 
     override fun populateUqudoState(identity: EidData?) {
         identity?.let {
-            val documentBack = it.documents?.get(0)?.scan?.back
-            val documentFront = it.documents?.get(0)?.scan?.front
+            val documentBack = it.documents[0].scan?.back
+            val documentFront = it.documents[0].scan?.front
             documentFront?.fullName?.let { it1 ->
                 splitLastNames(it1)
             }
