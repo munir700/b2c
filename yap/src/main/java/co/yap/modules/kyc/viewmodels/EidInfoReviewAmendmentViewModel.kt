@@ -90,7 +90,7 @@ class EidInfoReviewAmendmentViewModel(application: Application) :
     }
 
     private fun handlePressOnConfirmBtn() {
-        parentViewModel?.uqudoIdentity?.value?.let { jj ->
+        parentViewModel?.uqudoManager?.getUqudoIdentity()?.let { identity ->
             when {
                 TextUtils.isEmpty(getFullName()) || TextUtils.isEmpty(state.nationality.value?.getName()) -> {
                     clickEvent.setValue(EidInfoEvents.EVENT_ERROR_INVALID_EID.eventId)
