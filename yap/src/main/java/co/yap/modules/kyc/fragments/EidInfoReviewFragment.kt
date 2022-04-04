@@ -31,6 +31,7 @@ import co.yap.yapcore.constants.RequestCodes.REQUEST_UQUDO
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.firebase.FirebaseEvent
 import co.yap.yapcore.firebase.trackEventWithScreenName
+import co.yap.yapcore.helpers.DateUtils.getAge
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.Utils.hideKeyboard
 import co.yap.yapcore.helpers.extentions.deleteTempFolder
@@ -64,8 +65,14 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
             viewModel.populateUqudoState(identity = identity)
         } ?: viewModel.requestAllAPIs(true)
     }
-
     private fun addObservers() {
+        viewModel.state.AgeLimit?.observe(viewLifecycleOwner, Observer { limit ->
+            parentViewModel?.identity?.dateOfBirth?.let { dateOfBirth ->
+                state.isDateOfBirthValid.set(
+                    getAge(dateOfBirth) >= limit
+                )
+            }
+        })
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
                 R.id.ivEditFirstName, R.id.tvFirstName -> {
