@@ -21,9 +21,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/round_edges_gery"
-        android:paddingStart="@dimen/margin_small"
+        android:paddingStart="@dimen/margin_normal"
         android:paddingTop="@dimen/margin_normal"
-        android:paddingEnd="@dimen/margin_small"
+        android:paddingEnd="@dimen/margin_normal"
         android:paddingBottom="@dimen/margin_normal">
 
         <androidx.appcompat.widget.AppCompatImageView
@@ -43,7 +43,7 @@
             style="@style/LabelTextStylInActive"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_small"
+            android:layout_marginStart="@dimen/margin_normal"
             android:gravity="start"
             android:lineSpacingExtra="0dp"
             android:text="@{viewModel.item.name}"
