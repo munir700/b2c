@@ -63,13 +63,13 @@ class KYCHomeFragment : KYCChildFragment<IKYCHome.ViewModel>(), IKYCHome.View {
     }
 
     private fun shouldSkipScreen() {
+        viewModel.parentViewModel?.uqudoManager?.resetData()
         viewModel.parentViewModel?.skipFirstScreen?.value?.let {
             if (it) {
                 if (viewModel.parentViewModel?.uqudoManager?.getUqudoIdentity()?.isAmendment == true) {
                     requireActivity().finish()
                 } else {
                     if (viewModel.parentViewModel?.comingFrom?.value.isNullOrBlank().not()) {
-                        viewModel.parentViewModel?.uqudoManager?.resetData()
                         findNavController().navigate(R.id.action_KYCHomeFragment_to_eidInfoReviewFragment)
                     } else {
                         navigateWithPopup(

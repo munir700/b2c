@@ -406,11 +406,15 @@ class EidInfoReviewViewModel(application: Application) :
             }
             state.isCountryUS =
                 getCountryCode(documentFront?.nationality ?: "").contains(countryName ?: "US")
-            if (parentViewModel?.uqudoIdentity?.value == null) parentViewModel?.uqudoManager?.downloadImage {
+            if (parentViewModel?.uqudoManager?.getFrontImagePath()
+                    .isNullOrBlank() && parentViewModel?.uqudoManager?.getBackImagePath()
+                    .isNullOrBlank()
+            ) parentViewModel?.uqudoManager?.downloadImage { it ->
                 state.viewState.postValue(
                     it.not()
                 )
                 if (it) {
+
                     parentViewModel?.uqudoIdentity?.value =
                         parentViewModel?.uqudoManager?.getUqudoIdentity()
                 } else showToast("unable to download EIDs")

@@ -144,6 +144,7 @@ class UqudoScannerManager private constructor(val context: Activity) : IUqudoMan
         success: (success: Boolean) -> Unit
     ) {
         uqudoPayloadData.value?.let { payload ->
+            imagePaths.clear()
             downloadImagewithGlide(
                 payload.data?.documents?.get(0)?.scan?.frontImageId ?: ""
             )
@@ -182,7 +183,7 @@ class UqudoScannerManager private constructor(val context: Activity) : IUqudoMan
                 )
                 .build()
         )
-        Glide.with(context)
+        Glide.with(context.applicationContext)
             .asBitmap()
             .load(url)
             .error(url).into(object : CustomTarget<Bitmap>() {
