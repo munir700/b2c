@@ -188,9 +188,7 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
                     if (response.accessToken.isNullOrEmpty()
                             .not()
                     ) viewModel.eidStateLiveData.postValue(State.empty(""))
-                    else viewModel.eidStateLiveData.postValue(
-                        State.error("")
-                    )
+                    else viewModel.eidStateLiveData.postValue(State.error(""))
                 }
             })
 

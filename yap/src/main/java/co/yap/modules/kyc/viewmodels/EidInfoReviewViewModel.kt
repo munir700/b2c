@@ -65,7 +65,7 @@ class EidInfoReviewViewModel(application: Application) :
     private fun handlePressOnConfirmBtn() {
         parentViewModel?.uqudoManager?.getUqudoIdentity()?.let {
             when {
-                TextUtils.isEmpty(it?.fullName) || TextUtils.isEmpty(it.nationality) -> {
+                TextUtils.isEmpty(it.fullName) || TextUtils.isEmpty(it.nationality) -> {
                     clickEvent.setValue(EidInfoEvents.EVENT_ERROR_INVALID_EID.eventId)
                 }
                 state.expiryDateValid.value?.not() == true -> {
@@ -268,13 +268,6 @@ class EidInfoReviewViewModel(application: Application) :
         }
     }
 
-
-    private fun hasValidPart(value: String?, start: Int, end: Int): Boolean {
-        return value?.let {
-            return (end in start..it.length)
-        } ?: false
-    }
-
     override fun requestAllAPIs(callAll: Boolean) {
         requestAllEIDConfigurations(callAll) { senctionedCountryResponse, configurationEIDResponse, uqudoTokenResponse ->
             launch(Dispatcher.Main) {
@@ -372,12 +365,12 @@ class EidInfoReviewViewModel(application: Application) :
             state.fullNameValid = state.firstName.isNotBlank()
             state.nationality = documentFront?.nationality ?: ""
             state.nationalityValid = state.nationality.isNotBlank() && !state.isCountryUS
-            var DOB = parentViewModel?.uqudoManager?.getExpiryDate()
-            var EXD = parentViewModel?.uqudoManager?.getDateOfBirth()
+            var EXD = parentViewModel?.uqudoManager?.getExpiryDate()
+            var DOB = parentViewModel?.uqudoManager?.getDateOfBirth()
             state.dateOfBirth =
                 DateUtils.reformatToLocalString(DOB, DateUtils.DEFAULT_DATE_FORMAT)
             state.expiryDate.value =
-                DateUtils.reformatToLocalString(DOB, DateUtils.DEFAULT_DATE_FORMAT)
+                DateUtils.reformatToLocalString(EXD, DateUtils.DEFAULT_DATE_FORMAT)
             state.expiryDateValid.value =
                 EXD?.let { it1 -> parentViewModel?.uqudoManager?.isExpiryDateValid(it1) } ?: false
             state.genderValid = true

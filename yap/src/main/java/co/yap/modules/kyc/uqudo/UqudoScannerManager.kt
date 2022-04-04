@@ -131,7 +131,7 @@ class UqudoScannerManager private constructor(val context: Activity) : IUqudoMan
             val date = Calendar.getInstance().time
             val currentDateString = formatter.format(date)
             val currentDate = formatter.parse(currentDateString)
-            val diff: Long =   currentDate.time - defaultDate.time
+            val diff: Long = currentDate.time - defaultDate.time
             seconds = (diff / 1000)
         }
 
@@ -242,11 +242,17 @@ class UqudoScannerManager private constructor(val context: Activity) : IUqudoMan
     override fun getBackImagePath(): String? = imagePaths[BACK_IMAGE_RESOURCE_PATH]
 
     fun isExpiryDateValid(expirationDate: Date): Boolean {
-        return if (expirationDate == null) {
-            false.also { it }
-        } else !DateUtils.isDatePassed(expirationDate).also {
+        return !DateUtils.isDatePassed(expirationDate).also {
             it
         }
+    }
+
+    fun resetData() {
+        uqudoPayloadData = MutableLiveData()
+        uqudoAccessToken = MutableLiveData()
+        uqudoScannedToken = MutableLiveData()
+        uqudoHeader = MutableLiveData()
+        tokenInitiatedTime = MutableLiveData()
     }
 
 }

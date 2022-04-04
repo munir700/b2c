@@ -1,10 +1,8 @@
 package co.yap.modules.kyc.fragments
 
 import android.os.Bundle
-import android.view.View
 import androidx.databinding.Observable
 import androidx.databinding.library.baseAdapters.BR
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -44,7 +42,8 @@ class KYCHomeFragment : KYCChildFragment<IKYCHome.ViewModel>(), IKYCHome.View {
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
                 R.id.cvCard -> {
-                    navigate(if (viewModel.isFromAmendment()) R.id.action_KYCHomeFragment_to_eidInfoReviewAmendmentFragment else R.id.action_KYCHomeFragment_to_eidInfoReviewFragment)
+                    viewModel.parentViewModel?.uqudoManager?.resetData()
+                    navigate(viewModel.navigateTo(viewModel.isFromAmendment()))
                 }
                 R.id.btnNext -> {
                     if (viewModel.parentViewModel?.accountStatus?.value == AccountStatus.CAPTURED_EID.name) {
@@ -69,18 +68,15 @@ class KYCHomeFragment : KYCChildFragment<IKYCHome.ViewModel>(), IKYCHome.View {
                 if (viewModel.parentViewModel?.uqudoIdentity?.value?.isAmendment == true) {
                     requireActivity().finish()
                 } else {
-                    if (viewModel.isFromAmendment()) {
+                    if (viewModel.parentViewModel?.comingFrom?.value.isNullOrBlank().not()) {
+                        viewModel.parentViewModel?.uqudoManager?.resetData()
+                        findNavController().navigate(R.id.action_KYCHomeFragment_to_eidInfoReviewFragment)
+                    } else {
                         navigateWithPopup(
-                            R.id.action_KYCHomeFragment_to_eidInfoReviewAmendmentFragment,
+                            viewModel.navigateTo(viewModel.isFromAmendment()),
                             R.id.KYCHomeFragment
                         )
-                    } else if (viewModel.parentViewModel?.comingFrom?.value.isNullOrBlank().not()) {
-                        viewModel.parentViewModel?.payLoadObj = MutableLiveData()
-                        findNavController().navigate(R.id.action_KYCHomeFragment_to_eidInfoReviewFragment)
-                    } else navigateWithPopup(
-                        R.id.action_KYCHomeFragment_to_eidInfoReviewFragment,
-                        R.id.KYCHomeFragment
-                    )
+                    }
                 }
             } else if (requireActivity().intent?.getBooleanExtra("GO_ERROR", false) == true) {
                 navigateToInformationErrorFragment()
