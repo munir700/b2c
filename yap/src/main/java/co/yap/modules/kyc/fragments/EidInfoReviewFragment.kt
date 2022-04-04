@@ -22,7 +22,6 @@ import co.yap.modules.kyc.enums.KYCAction
 import co.yap.modules.kyc.viewmodels.EidInfoReviewViewModel
 import co.yap.modules.onboarding.enums.EidInfoEvents
 import co.yap.modules.onboarding.interfaces.IEidInfoReview
-import co.yap.networking.customers.responsedtos.UqudoPayLoad
 import co.yap.widgets.MultiStateView
 import co.yap.widgets.State
 import co.yap.widgets.Status
@@ -65,135 +64,141 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
             viewModel.populateUqudoState(identity = identity)
         } ?: viewModel.requestAllAPIs(true)
     }
+
     private fun addObservers() {
-        viewModel.state.AgeLimit?.observe(viewLifecycleOwner, Observer { limit ->
-            parentViewModel?.identity?.dateOfBirth?.let { dateOfBirth ->
-                state.isDateOfBirthValid.set(
-                    getAge(dateOfBirth) >= limit
-                )
-            }
-        })
-        viewModel.clickEvent.observe(this, Observer {
-            when (it) {
-                R.id.ivEditFirstName, R.id.tvFirstName -> {
-                    getViewBinding().ivEditFirstName.isEnabled = false
-                    getViewBinding().ivEditMiddleName.isEnabled = true
-                    getViewBinding().ivEditLastName.isEnabled = true
-                    manageFocus(getViewBinding().tvFirstName, getViewBinding().ivEditFirstName)
-                    trackEventWithScreenName(
-                        FirebaseEvent.EDIT_FIELD,
-                        bundleOf("field_name" to "first_name")
-                    )
-                }
-
-                R.id.ivEditMiddleName, R.id.tvMiddleName -> {
-                    getViewBinding().ivEditMiddleName.isEnabled = false
-                    getViewBinding().ivEditFirstName.isEnabled = true
-                    getViewBinding().ivEditLastName.isEnabled = true
-                    manageFocus(getViewBinding().tvMiddleName, getViewBinding().ivEditMiddleName)
-                    trackEventWithScreenName(
-                        FirebaseEvent.EDIT_FIELD,
-                        bundleOf("field_name" to "middle_name")
-                    )
-                }
-
-                R.id.ivEditLastName, R.id.tvLastName -> {
-                    getViewBinding().ivEditLastName.isEnabled = false
-                    getViewBinding().ivEditMiddleName.isEnabled = true
-                    getViewBinding().ivEditFirstName.isEnabled = true
-                    manageFocus(getViewBinding().tvLastName, getViewBinding().ivEditLastName)
-                    trackEventWithScreenName(
-                        FirebaseEvent.EDIT_FIELD,
-                        bundleOf("field_name" to "last_name")
-                    )
-                }
-
-                EidInfoEvents.EVENT_ERROR_INVALID_EID.eventId -> showInvalidEidScreen()
-                EidInfoEvents.EVENT_ERROR_EXPIRED_EID.eventId -> showExpiredEidScreen()
-                EidInfoEvents.EVENT_ERROE_UNDERAGE.eventId -> showUnderAgeScreen()
-                EidInfoEvents.EVENT_ERROR_FROM_USA.eventId -> showUSACitizenScreen()
-                EidInfoEvents.EVENT_RESCAN.eventId -> {
-                    initializeUqudoScanner()
-                }
-                R.id.tvNoThanks -> {
-                    trackEventWithScreenName(FirebaseEvent.RESCAN_ID)
-                    hideKeyboard(getViewBinding().tvNoThanks)
-                    initializeUqudoScanner()
-                }
-                EidInfoEvents.EVENT_ALREADY_USED_EID.eventId -> {
-                    viewModel.parentViewModel?.finishKyc?.value =
-                        DocumentsResponse(false, KYCAction.ACTION_EID_FAILED.name)
-                }
-
-                EidInfoEvents.EVENT_NEXT_WITH_ERROR.eventId -> {
-                    viewModel.performUqudoUploadDocumentsRequest(true) {
-                        if (it.equals("success", true)) {
-                            val action =
-                                EidInfoReviewFragmentDirections.actionEidInfoReviewFragmentToInformationErrorFragment(
-                                    viewModel.errorTitle, viewModel.errorBody
-                                )
-                            findNavController().navigate(action)
-                        } else {
-                            viewModel.state.toast = "${it}^${AlertType.DIALOG.name}"
-                        }
+        with(viewModel) {
+            clickEvent.observe(viewLifecycleOwner, Observer {
+                when (it) {
+                    R.id.ivEditFirstName, R.id.tvFirstName -> {
+                        getViewBinding().ivEditFirstName.isEnabled = false
+                        getViewBinding().ivEditMiddleName.isEnabled = true
+                        getViewBinding().ivEditLastName.isEnabled = true
+                        manageFocus(getViewBinding().tvFirstName, getViewBinding().ivEditFirstName)
+                        trackEventWithScreenName(
+                            FirebaseEvent.EDIT_FIELD,
+                            bundleOf("field_name" to "first_name")
+                        )
                     }
 
-                }
-                EidInfoEvents.EVENT_FINISH.eventId -> {
-                    viewModel.parentViewModel?.finishKyc?.value =
-                        DocumentsResponse(false, KYCAction.ACTION_EID_FAILED.name)
-                }
-                EidInfoEvents.EVENT_NEXT.eventId -> {
-                    trackEventWithScreenName(FirebaseEvent.CONFIRM_ID)
-                    requireContext().deleteTempFolder()
-                    SessionManager.getAccountInfo()
-                    SessionManager.onAccountInfoSuccess.observe(
-                        viewLifecycleOwner,
-                        Observer { isSuccess ->
-                            if (isSuccess) {
-                                navigateToConfirmNameFragment()
+                    R.id.ivEditMiddleName, R.id.tvMiddleName -> {
+                        getViewBinding().ivEditMiddleName.isEnabled = false
+                        getViewBinding().ivEditFirstName.isEnabled = true
+                        getViewBinding().ivEditLastName.isEnabled = true
+                        manageFocus(
+                            getViewBinding().tvMiddleName,
+                            getViewBinding().ivEditMiddleName
+                        )
+                        trackEventWithScreenName(
+                            FirebaseEvent.EDIT_FIELD,
+                            bundleOf("field_name" to "middle_name")
+                        )
+                    }
+
+                    R.id.ivEditLastName, R.id.tvLastName -> {
+                        getViewBinding().ivEditLastName.isEnabled = false
+                        getViewBinding().ivEditMiddleName.isEnabled = true
+                        getViewBinding().ivEditFirstName.isEnabled = true
+                        manageFocus(getViewBinding().tvLastName, getViewBinding().ivEditLastName)
+                        trackEventWithScreenName(
+                            FirebaseEvent.EDIT_FIELD,
+                            bundleOf("field_name" to "last_name")
+                        )
+                    }
+
+                    EidInfoEvents.EVENT_ERROR_INVALID_EID.eventId -> showInvalidEidScreen()
+                    EidInfoEvents.EVENT_ERROR_EXPIRED_EID.eventId -> showExpiredEidScreen()
+                    EidInfoEvents.EVENT_ERROE_UNDERAGE.eventId -> showUnderAgeScreen()
+                    EidInfoEvents.EVENT_ERROR_FROM_USA.eventId -> showUSACitizenScreen()
+                    EidInfoEvents.EVENT_RESCAN.eventId -> {
+                        initializeUqudoScanner()
+                    }
+                    R.id.tvNoThanks -> {
+                        trackEventWithScreenName(FirebaseEvent.RESCAN_ID)
+                        hideKeyboard(getViewBinding().tvNoThanks)
+                        initializeUqudoScanner()
+                    }
+                    EidInfoEvents.EVENT_ALREADY_USED_EID.eventId -> {
+                        parentViewModel?.finishKyc?.value =
+                            DocumentsResponse(false, KYCAction.ACTION_EID_FAILED.name)
+                    }
+
+                    EidInfoEvents.EVENT_NEXT_WITH_ERROR.eventId -> {
+                        viewModel.performUqudoUploadDocumentsRequest(true) {
+                            if (it.equals("success", true)) {
+                                val action =
+                                    EidInfoReviewFragmentDirections.actionEidInfoReviewFragmentToInformationErrorFragment(
+                                        errorTitle, errorBody
+                                    )
+                                findNavController().navigate(action)
                             } else {
-                                showToast("Accounts info failed")
-                                navigateToConfirmNameFragment()
-
+                                state.toast = "${it}^${AlertType.DIALOG.name}"
                             }
+                        }
 
-                        })
-                }
-                EidInfoEvents.EVENT_EID_UPDATE.eventId -> {
-                    SessionManager.getAccountInfo()
-                    SessionManager.onAccountInfoSuccess.observe(
-                        viewLifecycleOwner,
-                        Observer { isSuccess ->
-                            if (isSuccess) {
-                                viewModel.parentViewModel?.finishKyc?.value =
-                                    DocumentsResponse(false, KYCAction.ACTION_EID_UPDATE.name)
-                            } else {
-                                showToast("Accounts info failed")
-                                viewModel.parentViewModel?.finishKyc?.value =
-                                    DocumentsResponse(false, KYCAction.ACTION_EID_UPDATE.name)
-                            }
+                    }
+                    EidInfoEvents.EVENT_FINISH.eventId -> {
+                        parentViewModel?.finishKyc?.value =
+                            DocumentsResponse(false, KYCAction.ACTION_EID_FAILED.name)
+                    }
+                    EidInfoEvents.EVENT_NEXT.eventId -> {
+                        trackEventWithScreenName(FirebaseEvent.CONFIRM_ID)
+                        requireContext().deleteTempFolder()
+                        SessionManager.getAccountInfo()
+                        SessionManager.onAccountInfoSuccess.observe(
+                            viewLifecycleOwner,
+                            Observer { isSuccess ->
+                                if (isSuccess) {
+                                    navigateToConfirmNameFragment()
+                                } else {
+                                    showToast("Accounts info failed")
+                                    navigateToConfirmNameFragment()
 
-                        })
-                }
-                EidInfoEvents.EVENT_CITIZEN_NUMBER_ISSUE.eventId, EidInfoEvents.EVENT_EID_EXPIRY_DATE_ISSUE.eventId -> invalidCitizenNumber(
-                    "Sorry, that didn’t work. Please try again"
-                )
-            }
-        })
-        viewModel.eidStateLiveData.observe(viewLifecycleOwner, Observer
-        {
-            handleState(it)
-        })
-        viewModel.parentViewModel?.uqudoManager?.getUqudoAccessToken()
-            ?.observe(viewLifecycleOwner, Observer { response ->
-                if (viewModel.parentViewModel?.uqudoManager?.getPayloadData() == null) {
-                    if (response.accessToken.isNullOrEmpty().not()
-                    ) viewModel.eidStateLiveData.postValue(State.empty(""))
-                    else viewModel.eidStateLiveData.postValue(State.error(""))
+                                }
+
+                            })
+                    }
+                    EidInfoEvents.EVENT_EID_UPDATE.eventId -> {
+                        SessionManager.getAccountInfo()
+                        SessionManager.onAccountInfoSuccess.observe(
+                            viewLifecycleOwner,
+                            Observer { isSuccess ->
+                                if (isSuccess) {
+                                    parentViewModel?.finishKyc?.value =
+                                        DocumentsResponse(false, KYCAction.ACTION_EID_UPDATE.name)
+                                } else {
+                                    showToast("Accounts info failed")
+                                    parentViewModel?.finishKyc?.value =
+                                        DocumentsResponse(false, KYCAction.ACTION_EID_UPDATE.name)
+                                }
+
+                            })
+                    }
+                    EidInfoEvents.EVENT_CITIZEN_NUMBER_ISSUE.eventId, EidInfoEvents.EVENT_EID_EXPIRY_DATE_ISSUE.eventId -> invalidCitizenNumber(
+                        "Sorry, that didn’t work. Please try again"
+                    )
                 }
             })
+            eidStateLiveData.observe(viewLifecycleOwner, Observer
+            {
+                handleState(it)
+            })
+            parentViewModel?.uqudoManager?.getUqudoAccessToken()
+                ?.observe(viewLifecycleOwner, Observer { response ->
+                    if (parentViewModel?.uqudoManager?.getPayloadData() == null) {
+                        if (response.accessToken.isNullOrEmpty().not()
+                        ) eidStateLiveData.postValue(State.empty(""))
+                        else eidStateLiveData.postValue(State.error(""))
+                    }
+                })
 
+            state.AgeLimit?.observe(viewLifecycleOwner, Observer { limit ->
+                parentViewModel?.uqudoManager?.getDateOfBirth()?.let { dateOfBirth ->
+                    state.isDateOfBirthValid.set(
+                        getAge(dateOfBirth) >= limit
+                    )
+                }
+            })
+        }
     }
 
     private fun navigateToConfirmNameFragment() {
@@ -332,9 +337,13 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
     }
 
     override fun onDestroyView() {
-        viewModel.clickEvent.removeObservers(this)
-        viewModel.eidStateLiveData.removeObservers(this)
-        viewModel.parentViewModel?.uqudoManager?.getUqudoAccessToken()?.removeObservers(this)
+        with(viewModel) {
+            clickEvent.removeObservers(viewLifecycleOwner)
+            eidStateLiveData.removeObservers(viewLifecycleOwner)
+            parentViewModel?.uqudoManager?.getUqudoAccessToken()
+                ?.removeObservers(viewLifecycleOwner)
+            state.AgeLimit?.removeObservers(viewLifecycleOwner)
+        }
         super.onDestroyView()
     }
 

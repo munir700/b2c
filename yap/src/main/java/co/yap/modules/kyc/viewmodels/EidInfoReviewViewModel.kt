@@ -394,7 +394,7 @@ class EidInfoReviewViewModel(application: Application) :
                 }
             }
             // If Age Limit available in case of Re-Scan, set Age validity again.
-            state.AgeLimit?.let { limit ->
+            state.AgeLimit?.value?.let { limit ->
                 state.isDateOfBirthValid.set(
                     DOB?.let { it1 -> getAge(it1) } ?: 18 >= limit
                 )
