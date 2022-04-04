@@ -1,6 +1,7 @@
 package co.yap.modules.kyc.viewmodels
 
 import android.app.Application
+import co.yap.R
 import co.yap.modules.kyc.enums.DocScanStatus
 import co.yap.modules.kyc.interfaces.IKYCHome
 import co.yap.modules.kyc.states.KYCHomeState
@@ -21,7 +22,6 @@ import co.yap.yapcore.managers.SessionManager
 import com.digitify.identityscanner.core.arch.Gender
 import com.digitify.identityscanner.docscanner.models.Identity
 import com.digitify.identityscanner.docscanner.models.IdentityScannerResult
-import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -176,4 +176,7 @@ class KYCHomeViewModel(application: Application) : KYCChildViewModel<IKYCHome.St
     }
 
     override fun isFromAmendment() = parentViewModel?.amendmentMap?.isNullOrEmpty() == false
+
+    override fun navigateTo(fromAmendment: Boolean) =
+        if (fromAmendment) R.id.action_KYCHomeFragment_to_eidInfoReviewAmendmentFragment else R.id.action_KYCHomeFragment_to_eidInfoReviewFragment
 }

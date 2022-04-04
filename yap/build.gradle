@@ -2,11 +2,8 @@ apply plugin: 'kotlin-android-extensions'
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation('io.uqudo.sdk:digitify:1.12.1') {
-//        exclude group: 'androidx.appcompat', module: 'appcompat'
-        //      exclude group: 'androidx.fragment'
         exclude group: 'androidx.activity', module: 'activity'
         exclude group: 'androidx.navigation'
-//        exclude group: 'com.google.dagger'
     }
     // Test dependencies
     project.testDependencies.each {

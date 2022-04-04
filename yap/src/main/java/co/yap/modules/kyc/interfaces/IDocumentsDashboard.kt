@@ -3,6 +3,7 @@ package co.yap.modules.kyc.interfaces
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import co.yap.modules.kyc.activities.DocumentsResponse
+import co.yap.modules.kyc.uqudo.UqudoScannerManager
 import co.yap.networking.customers.responsedtos.UqudoPayLoad
 import co.yap.networking.customers.responsedtos.V2DocumentDTO
 import co.yap.networking.customers.responsedtos.documents.GetMoreDocumentsResponse
@@ -38,7 +39,7 @@ interface IDocumentsDashboard {
         var accountStatus: MutableLiveData<String>
         var hideProgressToolbar: MutableLiveData<Boolean>
         var uqudoIdentity: MutableLiveData<V2DocumentDTO>
-        var payLoadObj: MutableLiveData<UqudoPayLoad>
+        var uqudoManager : UqudoScannerManager?
         var comingFrom: MutableLiveData<String>
 
     }

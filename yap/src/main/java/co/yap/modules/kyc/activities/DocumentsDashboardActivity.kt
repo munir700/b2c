@@ -10,6 +10,7 @@ import co.yap.BR
 import co.yap.R
 import co.yap.modules.kyc.fragments.EidInfoReviewAmendmentFragment
 import co.yap.modules.kyc.interfaces.IDocumentsDashboard
+import co.yap.modules.kyc.uqudo.UqudoScannerManager
 import co.yap.modules.kyc.viewmodels.DocumentsDashboardViewModel
 import co.yap.networking.customers.responsedtos.documents.GetMoreDocumentsResponse
 import co.yap.yapcore.BaseBindingActivity
@@ -42,6 +43,8 @@ class DocumentsDashboardActivity : BaseBindingActivity<IDocumentsDashboard.ViewM
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         //this should be only first time
+        viewModel.uqudoManager = UqudoScannerManager.getInstance(this)
+        viewModel.uqudoManager?.initializeUqudo()
         viewModel.name.value = intent.getValue(Constants.name, ExtraType.STRING.name) as? String
         viewModel.amendmentMap =
             intent.getSerializableExtra(Constants.KYC_AMENDMENT_MAP) as? HashMap<String?, List<String>?>
@@ -84,14 +87,7 @@ class DocumentsDashboardActivity : BaseBindingActivity<IDocumentsDashboard.ViewM
     private val clickEventObserver = Observer<Int> {
         when (it) {
             R.id.tbBtnBack, R.id.btnBack -> {
-                val myFragment: EidInfoReviewAmendmentFragment? =
-                    supportFragmentManager.findFragmentById(R.id.eidInfoReviewAmendmentFragment) as EidInfoReviewAmendmentFragment?
-                if ((myFragment != null && myFragment.isVisible) && viewModel.uqudoIdentity.value?.isAmendment == true) {
-                    finish()
-                }
-                else{
-                    onBackPressed()
-                }
+                onBackPressed()
             }
         }
     }

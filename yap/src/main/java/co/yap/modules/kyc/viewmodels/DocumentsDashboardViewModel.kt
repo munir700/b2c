@@ -6,6 +6,7 @@ import co.yap.modules.kyc.activities.DocumentsResponse
 import co.yap.modules.kyc.interfaces.IDocumentsDashboard
 import co.yap.modules.kyc.states.DocumentsDashboardState
 import co.yap.networking.customers.responsedtos.UqudoPayLoad
+import co.yap.modules.kyc.uqudo.UqudoScannerManager
 import co.yap.networking.customers.responsedtos.V2DocumentDTO
 import co.yap.networking.customers.responsedtos.documents.GetMoreDocumentsResponse
 import co.yap.yapcore.BaseViewModel
@@ -30,13 +31,13 @@ class DocumentsDashboardViewModel(application: Application) :
     override var showProgressBar: MutableLiveData<Boolean> = MutableLiveData()
     override var finishKyc: MutableLiveData<DocumentsResponse> = MutableLiveData()
     override var accountStatus: MutableLiveData<String> = MutableLiveData()
-    override var payLoadObj: MutableLiveData<UqudoPayLoad> = MutableLiveData()
     override var comingFrom: MutableLiveData<String> = MutableLiveData()
 
     override var document: GetMoreDocumentsResponse.Data.CustomerDocument.DocumentInformation? =
         null
     override var hideProgressToolbar = MutableLiveData(false)
     override var uqudoIdentity: MutableLiveData<V2DocumentDTO> = MutableLiveData()
+    override var uqudoManager: UqudoScannerManager? = null
 
     override fun onCreate() {
         super.onCreate()
