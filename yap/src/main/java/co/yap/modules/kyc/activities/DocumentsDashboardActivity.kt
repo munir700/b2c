@@ -8,6 +8,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import co.yap.BR
 import co.yap.R
+import co.yap.modules.kyc.fragments.EidInfoReviewAmendmentFragment
 import co.yap.modules.kyc.interfaces.IDocumentsDashboard
 import co.yap.modules.kyc.viewmodels.DocumentsDashboardViewModel
 import co.yap.networking.customers.responsedtos.documents.GetMoreDocumentsResponse
@@ -82,7 +83,14 @@ class DocumentsDashboardActivity : BaseBindingActivity<IDocumentsDashboard.ViewM
     private val clickEventObserver = Observer<Int> {
         when (it) {
             R.id.tbBtnBack, R.id.btnBack -> {
-                onBackPressed()
+                val myFragment: EidInfoReviewAmendmentFragment? =
+                    supportFragmentManager.findFragmentById(R.id.eidInfoReviewAmendmentFragment) as EidInfoReviewAmendmentFragment?
+                if ((myFragment != null && myFragment.isVisible) && viewModel.uqudoIdentity.value?.isAmendment == true) {
+                    finish()
+                }
+                else{
+                    onBackPressed()
+                }
             }
         }
     }

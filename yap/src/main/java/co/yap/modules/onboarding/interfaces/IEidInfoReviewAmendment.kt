@@ -5,7 +5,10 @@ import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import co.yap.countryutils.country.Country
 import co.yap.networking.customers.responsedtos.SectionedCountriesResponseDTO
+import co.yap.networking.customers.responsedtos.UqudoHeader
+import co.yap.networking.customers.responsedtos.UqudoPayLoad
 import co.yap.networking.customers.responsedtos.documents.ConfigureEIDResponse
+import co.yap.networking.customers.responsedtos.documents.UqudoTokenResponse
 import co.yap.networking.models.BaseResponse
 import co.yap.networking.models.RetroApiResponse
 import co.yap.widgets.bottomsheet.BottomSheetItem
@@ -24,7 +27,7 @@ interface IEidInfoReviewAmendment {
         var dateOfBirth: MutableLiveData<String>
         var gender: String
         var expiryDate: String
-        var citizenNumber: String
+        var citizenNumber: MutableLiveData<String>
         var caption: String
         var fullNameValid: Boolean
         var citizenNumberValid: Boolean
@@ -32,7 +35,7 @@ interface IEidInfoReviewAmendment {
 
         //        var dateOfBirthValid: Boolean
         var genderValid: Boolean
-        var expiryDateValid: Boolean
+        var expiryDateValid: MutableLiveData<Boolean>
         var valid: Boolean
         var isShowMiddleName: ObservableBoolean
         var isShowLastName: ObservableBoolean
@@ -52,7 +55,14 @@ interface IEidInfoReviewAmendment {
         var ageLimit: Int?
         var isCountryUS: Boolean
         var countryName: ObservableField<String>
-        var errorScreenVisited : Boolean
+        var errorScreenVisited: Boolean
+        var isTokenValid: ObservableBoolean
+        var uqudoToken: MutableLiveData<String>
+        var payLoadObj: MutableLiveData<UqudoPayLoad>
+        var uqudoHeaderObj: MutableLiveData<UqudoHeader>
+        var isExpired: MutableLiveData<Boolean>
+        var frontImage: MutableLiveData<String>
+        var BackImage: MutableLiveData<String>
     }
 
     interface View : IBase.View<ViewModel> {
@@ -60,7 +70,7 @@ interface IEidInfoReviewAmendment {
         fun showExpiredEidScreen()
         fun showInvalidEidScreen()
         fun showUSACitizenScreen()
-        fun openCardScanner()
+        //  fun openCardScanner()
     }
 
     interface ViewModel : IBase.ViewModel<State> {
@@ -85,8 +95,6 @@ interface IEidInfoReviewAmendment {
         var sanctionedNationality: String
         var errorTitle: String
         var errorBody: String
-        fun requestAllAPIs()
-        fun requestAllEIDConfigurations(responses: (RetroApiResponse<SectionedCountriesResponseDTO>?, RetroApiResponse<BaseResponse<ConfigureEIDResponse>>?) -> Unit)
         val drawableClickListener: OnDrawableClickListener
         fun getGenderOptions(): ArrayList<BottomSheetItem>
         var countries: ArrayList<Country>
@@ -96,5 +104,18 @@ interface IEidInfoReviewAmendment {
         fun isFromAmendment(): Boolean
         fun handleAgeValidation()
         fun handleIsUsValidation()
+        fun requestAllAPIs(callAll: Boolean)
+        fun requestAllEIDConfigurations(
+            callAll: Boolean,
+            responses: (
+                RetroApiResponse<SectionedCountriesResponseDTO>?,
+                RetroApiResponse<BaseResponse<ConfigureEIDResponse>>?,
+                RetroApiResponse<BaseResponse<UqudoTokenResponse>>?
+            ) -> Unit
+        )
+
+        var uqudoResponse: MutableLiveData<UqudoTokenResponse>
+        fun populateUqudoState(identity: UqudoPayLoad?)
+
     }
 }

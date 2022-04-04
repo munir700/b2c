@@ -34,8 +34,8 @@ android {
 
     productFlavors {
         live {
-            versionCode 110
-            versionName "1.8.0"
+            versionCode 112
+            versionName "1.8.2"
             applicationId "com.yap.banking"
             resValue "string", "app_name", "YAP"
             // It binds with SHA1- SHA 256 and package bundle
@@ -62,8 +62,8 @@ android {
         }
 
         stg {
-            versionCode 379
-            versionName "3.9.9"
+            versionCode 401
+            versionName "2.2.0"
             applicationIdSuffix ".stg"
             resValue "string", "app_name", "YAP Stage"
             resValue "string", "google_maps_key", versionProps.getProperty("map_key_other")
@@ -122,10 +122,20 @@ android {
             }
         }
     }
+    packagingOptions {
+        exclude 'META-INF/*'
+    }
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation('io.uqudo.sdk:digitify:1.12.1') {
+        exclude group: 'androidx.appcompat', module: 'appcompat'
+        exclude group: 'androidx.fragment'
+        exclude group: 'androidx.activity'
+        exclude group: 'androidx.navigation'
+        exclude group: 'com.google.dagger'
+    }
     project.testDependencies.each {
         add(it.configuration, it.dependency)
     }
