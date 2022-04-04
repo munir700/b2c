@@ -26,6 +26,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
+import co.yap.modules.dashboard.home.fragments.YapHomeFragment
 import co.yap.modules.kyc.activities.DocumentsDashboardActivity
 import co.yap.modules.location.activities.LocationSelectionActivity
 import co.yap.modules.onboarding.interfaces.ICongratulations
@@ -124,6 +125,9 @@ class CongratulationsFragment : OnboardingChildFragment<ICongratulations.ViewMod
                     launchActivity<DocumentsDashboardActivity>(requestCode = RequestCodes.REQUEST_KYC_DOCUMENTS) {
                         putExtra(Constants.name, viewModel.state.nameList[0] ?: "")
                         putExtra(Constants.data, false)
+                        putExtra("from", CongratulationsFragment::class.java.name)
+
+
                     }
 
                 } else {

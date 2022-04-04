@@ -187,8 +187,8 @@ class AddBeneficiaryInternationlTransferFragment :
 
     private fun startOtpFragment() {
         startFragmentForResult<GenericOtpFragment>(
-            GenericOtpFragment::class.java.name,
-            bundleOf(
+            fragmentName = GenericOtpFragment::class.java.name,
+            bundle = bundleOf(
                 OtpDataModel::class.java.name to OtpDataModel(
                     OTPActions.CASHPAYOUT_BENEFICIARY.name,//action,
                     SessionManager.user?.currentCustomer?.getFormattedPhoneNumber(requireContext())

@@ -13,6 +13,7 @@ import co.yap.yapcore.*
 import co.yap.yapcore.constants.Constants.EXTRA
 import co.yap.yapcore.constants.Constants.FRAGMENT_CLASS
 import co.yap.yapcore.constants.Constants.SHOW_TOOLBAR
+import co.yap.yapcore.constants.Constants.TOOLBAR_BACK_ICON
 import co.yap.yapcore.constants.Constants.TOOLBAR_TITLE
 import co.yap.yapcore.databinding.ActivityFrameBinding
 import co.yap.yapcore.helpers.extentions.createFragmentInstance
@@ -48,7 +49,8 @@ class FrameActivity : BaseBindingActivity<IFrameActivity.ViewModel>(),
         )
 
         viewModel.state.toolbarTitle =
-            if (extras.hasExtra(TOOLBAR_TITLE)) extras.getStringExtra(TOOLBAR_TITLE).toString() else ""
+            if (extras.hasExtra(TOOLBAR_TITLE)) extras.getStringExtra(TOOLBAR_TITLE)
+                .toString() else ""
         val fragmentName = extras.getStringExtra(FRAGMENT_CLASS)
         if (fragmentName == null || TextUtils.isEmpty(fragmentName)) {
             finish()
@@ -76,15 +78,16 @@ class FrameActivity : BaseBindingActivity<IFrameActivity.ViewModel>(),
         grantResults: IntArray
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        fragment.onRequestPermissionsResult(requestCode,permissions,grantResults)
+        fragment.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
+
     override fun onBackPressed() {
         super.onBackPressed()
         fragment.onBackPressed()
     }
 
     private fun setupToolbar(visibility: Boolean) {
-        getBinding().toolbar?.let {
+        getDataBindingView<ActivityFrameBinding>().toolbar.let {
             toolbar?.title = ""
             toolbar?.visibility = (if (visibility) View.VISIBLE else View.GONE)
             setSupportActionBar(toolbar)
@@ -92,16 +95,21 @@ class FrameActivity : BaseBindingActivity<IFrameActivity.ViewModel>(),
                 setDisplayHomeAsUpEnabled(true)
                 setHomeButtonEnabled(true)
                 setDisplayShowCustomEnabled(true)
-                setHomeAsUpIndicator(R.drawable.ic_back_arrow_left)
+                if (intent.hasExtra(TOOLBAR_BACK_ICON)) {
+                    val resId: Int = intent.getIntExtra(TOOLBAR_BACK_ICON, 0)
+                    setHomeAsUpIndicator(
+                        if (resId > 0
+                        ) resId else R.drawable.ic_back_arrow_left
+                    )
+                } else {
+                    setHomeAsUpIndicator(R.drawable.ic_back_arrow_left)
+                }
                 if (visibility) show() else hide()
 
             }
         }
 
     }
-
-    fun getBinding() = viewDataBinding as ActivityFrameBinding
-
 
     override fun onOptionsItemSelected(item: MenuItem) =
         when (item.itemId) {

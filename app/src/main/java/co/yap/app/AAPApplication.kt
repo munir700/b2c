@@ -86,7 +86,8 @@ class AAPApplication : YAPApplication(), NavigatorProvider {
             sslHost = originalSign.sslHost,
             spayServiceId = originalSign.spayServiceId,
             flagSmithAPIKey = originalSign.flagSmithAPIKey,
-            uxCamKey = originalSign.uxCamKey
+            uxCamKey = originalSign.uxCamKey,
+            checkoutKey = originalSign.checkoutKey
         )
         initAllModules()
         SecurityHelper(this, originalSign, object : SignatureValidator {

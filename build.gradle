@@ -2,7 +2,7 @@
 // apply from: 'shared/build.gradle'
 
 buildscript {
-    ext.kotlin_version = '1.3.72'
+    ext.kotlin_version = '1.5.32'
     ext.navigationVersion = "2.1.0-alpha05"
 
     repositories {
@@ -36,6 +36,12 @@ allprojects {
         maven { url 'https://jitpack.io' }
         maven { url "http://pay.cards/maven" }
         maven {url 'https://sdk.uxcam.com/android/'}
+        maven {
+            credentials {
+                username "digitify"
+                password "EKyTWcXk2rs9vZKviksfG6Hh"
+            }
+            url 'https://rm.dev.uqudo.io/repository/digitify'}
     }
 }
 

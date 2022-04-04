@@ -15,6 +15,7 @@ import co.yap.app.databinding.FragmentLogInBinding
 import co.yap.app.main.MainChildFragment
 import co.yap.app.modules.login.interfaces.ILogin
 import co.yap.app.modules.login.viewmodels.LoginViewModel
+import co.yap.databinding.FragmentNotificationsHomeV2Binding
 import co.yap.widgets.keyboardvisibilityevent.KeyboardVisibilityEvent
 import co.yap.widgets.keyboardvisibilityevent.KeyboardVisibilityEventListener
 import co.yap.yapcore.constants.Constants.KEY_IS_REMEMBER
@@ -22,7 +23,6 @@ import co.yap.yapcore.constants.Constants.KEY_IS_USER_LOGGED_IN
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.extentions.scrollToBottomWithoutFocusChange
 import co.yap.yapcore.managers.SessionManager
-import kotlinx.android.synthetic.main.fragment_log_in.*
 
 
 class LoginFragment : MainChildFragment<ILogin.ViewModel>(), ILogin.View {
@@ -46,14 +46,14 @@ class LoginFragment : MainChildFragment<ILogin.ViewModel>(), ILogin.View {
                 LoginFragmentDirections.actionLoginFragmentToVerifyPasscodeFragment("")
             NavHostFragment.findNavController(this).navigate(action)
         } else {
-            etEmailField.requestKeyboard()
+            getDataBindingView<FragmentLogInBinding>().etEmailField.requestKeyboard()
         }
 
         SessionManager.isRemembered.value =
             sharedPreferenceManager.getValueBoolien(KEY_IS_REMEMBER, true)
         SessionManager.isRemembered.value?.let {
-            etEmailField.editText.setText(if (it) sharedPreferenceManager.getDecryptedUserName() else "")
-            if (etEmailField.editText.length() > 1) etEmailField.editText.setSelection(etEmailField.editText.length())
+            getDataBindingView<FragmentLogInBinding>().etEmailField.editText.setText(if (it) sharedPreferenceManager.getDecryptedUserName() else "")
+            if (getDataBindingView<FragmentLogInBinding>().etEmailField.editText.length() > 1) getDataBindingView<FragmentLogInBinding>().etEmailField.editText.setSelection(getDataBindingView<FragmentLogInBinding>().etEmailField.editText.length())
         }
         requireActivity().window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
         requireActivity().window.clearFlags(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
@@ -61,17 +61,17 @@ class LoginFragment : MainChildFragment<ILogin.ViewModel>(), ILogin.View {
         viewModel.signUpButtonPressEvent.observe(this, signUpButtonObserver)
         viewModel.state.emailError.observe(viewLifecycleOwner, Observer {
             if (!it.isNullOrBlank()) {
-                etEmailField.settingUIForError(it)
-                etEmailField.settingErrorColor(R.color.error)
+                getDataBindingView<FragmentLogInBinding>().etEmailField.settingUIForError(it)
+                getDataBindingView<FragmentLogInBinding>().etEmailField.settingErrorColor(R.color.error)
             }
         })
         KeyboardVisibilityEvent.setEventListener(requireActivity(), viewLifecycleOwner, object :
             KeyboardVisibilityEventListener {
             override fun onVisibilityChanged(isOpen: Boolean) {
-                clSignUp?.post {
+                getDataBindingView<FragmentLogInBinding>().clSignUp.post {
                     if (isOpen)
-                        scrollView?.scrollToBottomWithoutFocusChange()
-                    clSignUp?.visibility = if (isOpen) GONE else VISIBLE
+                        getDataBindingView<FragmentLogInBinding>().scrollView.scrollToBottomWithoutFocusChange()
+                    getDataBindingView<FragmentLogInBinding>().clSignUp.visibility = if (isOpen) GONE else VISIBLE
                 }
             }
         })

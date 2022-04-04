@@ -12,6 +12,7 @@ import co.yap.BR
 import co.yap.R
 import co.yap.app.YAPApplication
 import co.yap.databinding.ActivityTopupCardsBinding
+import co.yap.modules.dashboard.yapit.topup.addcard.AddTopUpCardFragment
 import co.yap.modules.dashboard.yapit.topup.addtopupcard.activities.AddTopUpCardActivityV2
 import co.yap.modules.dashboard.yapit.topup.carddetail.TopupCardDetailActivity
 import co.yap.modules.dashboard.yapit.topup.topupamount.activities.TopUpCardActivity
@@ -31,6 +32,7 @@ import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.extentions.ExtraType
 import co.yap.yapcore.helpers.extentions.getValue
 import co.yap.yapcore.helpers.extentions.launchActivity
+import co.yap.yapcore.helpers.extentions.startFragmentForResult
 import co.yap.yapcore.interfaces.OnItemClickListener
 import com.yarolegovich.discretescrollview.DiscreteScrollView
 import com.yarolegovich.discretescrollview.transform.Pivot
@@ -325,6 +327,8 @@ class TopUpBeneficiariesActivity : BaseBindingActivity<ITopUpBeneficiaries.ViewM
     }
 
     private fun addCardProcess() {
+//        startFragmentForResult<AddTopUpCardFragment>(
+//            fragmentName = AddTopUpCardFragment::class.java.name)
         getUrl()?.let {
             trackEventWithScreenName(FirebaseEvent.CLICK_ADD_CARD)
             launchActivity<AddTopUpCardActivityV2>(requestCode = EVENT_ADD_TOPUP_CARD) {

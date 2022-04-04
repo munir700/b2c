@@ -2,10 +2,11 @@ package co.yap.networking.models
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
+
 
 @Parcelize
-class BaseResponse<T : ApiResponse> : ApiResponse(), Parcelable {
+class BaseResponse<T> : ApiResponse(), Parcelable {
     @SerializedName("data")
     var data: T? = null
 }

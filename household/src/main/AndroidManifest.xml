@@ -4,10 +4,10 @@
     package="co.yap.household">
 
     <application
-        tools:remove="android:debuggable"
         android:allowBackup="false"
-        tools:replace="android:allowBackup"
-        android:supportsRtl="false">
+        android:supportsRtl="false"
+        tools:remove="android:debuggable"
+        tools:replace="android:allowBackup">
 
         <activity
             android:name=".onboard.onboarding.main.OnBoardingHouseHoldActivity"
@@ -20,25 +20,31 @@
 
         <activity
             android:name=".onboard.cardselection.HouseHoldCardsSelectionActivity"
+            android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/AppThemeHouseHold.NoActionBar"
             android:windowSoftInputMode="adjustResize" />
         <activity
             android:name="co.yap.household.onboard.otherscreens.KycSuccessActivity"
+            android:exported="false"
             android:screenOrientation="portrait" />
         <activity
             android:name=".dashboard.main.activities.HouseholdDashboardActivity"
+            android:exported="false"
             android:screenOrientation="portrait" />
 
         <activity
             android:name=".onboard.otherscreens.InvalidEIDActivity"
+            android:exported="false"
             android:screenOrientation="portrait" />
 
         <activity
             android:name=".onboard.otherscreens.HouseHoldSuccessActivity"
+            android:exported="false"
             android:screenOrientation="portrait" />
         <activity
             android:name=".onboard.otherscreens.ExistingHouseholdActivity"
+            android:exported="false"
             android:screenOrientation="portrait" />
     </application>
 

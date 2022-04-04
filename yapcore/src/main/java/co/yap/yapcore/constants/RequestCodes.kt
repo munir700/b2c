@@ -33,7 +33,7 @@ object RequestCodes {
     const val REQUEST_BILL_DETAIL: Int = 10029
     const val REQUEST_PAY_BILL: Int = 10030
     const val REQUEST_PAY_BILL_ALL: Int = 10031
-    const val REQUEST_PAYMENT_CARD_DETAIL : Int = 10032
-    const val REQUEST_VIEW_DOCUMENT : Int = 10033
-
+    const val REQUEST_PAYMENT_CARD_DETAIL: Int = 10032
+    const val REQUEST_UQUDO: Int = 10033
+    const val REQUEST_VIEW_DOCUMENT : Int = 10034
 }

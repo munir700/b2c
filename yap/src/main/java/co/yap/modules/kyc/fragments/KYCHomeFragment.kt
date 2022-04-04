@@ -1,14 +1,11 @@
 package co.yap.modules.kyc.fragments
 
-import android.app.Activity
-import android.content.Intent
 import android.os.Bundle
 import androidx.databinding.Observable
 import androidx.databinding.library.baseAdapters.BR
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import co.yap.BuildConfig
 import co.yap.R
 import co.yap.modules.kyc.activities.DocumentsResponse
 import co.yap.modules.kyc.enums.DocScanStatus
@@ -18,12 +15,7 @@ import co.yap.translation.Strings
 import co.yap.yapcore.enums.AccountStatus
 import co.yap.yapcore.firebase.FirebaseEvent
 import co.yap.yapcore.firebase.trackEventWithScreenName
-import co.yap.yapcore.helpers.extentions.dummyEID
-import com.digitify.identityscanner.docscanner.activities.IdentityScannerActivity
-import com.digitify.identityscanner.docscanner.enums.DocumentPageType
-import com.digitify.identityscanner.docscanner.enums.DocumentType
-import com.digitify.identityscanner.docscanner.models.DocumentImage
-import com.digitify.identityscanner.docscanner.models.IdentityScannerResult
+import co.yap.yapcore.managers.SessionManager
 import java.io.File
 
 class KYCHomeFragment : KYCChildFragment<IKYCHome.ViewModel>(), IKYCHome.View {
@@ -43,18 +35,23 @@ class KYCHomeFragment : KYCChildFragment<IKYCHome.ViewModel>(), IKYCHome.View {
         addObservers()
     }
 
+
     private fun addObservers() {
+        viewModel.parentViewModel?.accountStatus?.value = SessionManager.user?.notificationStatuses
         viewModel.state.addOnPropertyChangedCallback(stateObserver)
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
-                R.id.cvCard -> openCardScanner()
+                R.id.cvCard -> {
+                    viewModel.parentViewModel?.uqudoManager?.resetData()
+                    navigate(viewModel.navigateTo(viewModel.isFromAmendment()))
+                }
                 R.id.btnNext -> {
                     if (viewModel.parentViewModel?.accountStatus?.value == AccountStatus.CAPTURED_EID.name) {
-                        viewModel.parentViewModel?.finishKyc?.value = DocumentsResponse(true)
-                    } else {
                         viewModel.requestDocumentsInformation {
                             navigate(R.id.action_KYCHomeFragment_to_confirmCardNameFragment)
                         }
+                    } else {
+                        viewModel.parentViewModel?.finishKyc?.value = DocumentsResponse(true)
                     }
                 }
                 R.id.tvSkip -> {
@@ -68,7 +65,19 @@ class KYCHomeFragment : KYCChildFragment<IKYCHome.ViewModel>(), IKYCHome.View {
     private fun shouldSkipScreen() {
         viewModel.parentViewModel?.skipFirstScreen?.value?.let {
             if (it) {
-                findNavController().navigate(if (viewModel.isFromAmendment()) R.id.action_KYCHomeFragment_to_eidInfoReviewAmendmentFragment else R.id.action_KYCHomeFragment_to_eidInfoReviewFragment)
+                if (viewModel.parentViewModel?.uqudoManager?.getUqudoIdentity()?.isAmendment == true) {
+                    requireActivity().finish()
+                } else {
+                    if (viewModel.parentViewModel?.comingFrom?.value.isNullOrBlank().not()) {
+                        viewModel.parentViewModel?.uqudoManager?.resetData()
+                        findNavController().navigate(R.id.action_KYCHomeFragment_to_eidInfoReviewFragment)
+                    } else {
+                        navigateWithPopup(
+                            viewModel.navigateTo(viewModel.isFromAmendment()),
+                            R.id.KYCHomeFragment
+                        )
+                    }
+                }
             } else if (requireActivity().intent?.getBooleanExtra("GO_ERROR", false) == true) {
                 navigateToInformationErrorFragment()
             } else {
@@ -93,7 +102,8 @@ class KYCHomeFragment : KYCChildFragment<IKYCHome.ViewModel>(), IKYCHome.View {
             when (propertyId) {
                 BR.eidScanStatus -> {
                     if (viewModel.state.eidScanStatus === DocScanStatus.SCAN_COMPLETED) {
-                        findNavController().navigate(if (viewModel.isFromAmendment()) R.id.action_KYCHomeFragment_to_eidInfoReviewAmendmentFragment else R.id.action_KYCHomeFragment_to_eidInfoReviewFragment)
+                        //TODO Uqudo Review FLOW WILL BE Handled here
+                        //  findNavController().navigate(if (viewModel.isFromAmendment()) R.id.action_KYCHomeFragment_to_eidInfoReviewAmendmentFragment else R.id.action_KYCHomeFragment_to_eidInfoReviewFragment)
                     }
                 }
             }
@@ -104,54 +114,6 @@ class KYCHomeFragment : KYCChildFragment<IKYCHome.ViewModel>(), IKYCHome.View {
         viewModel.clickEvent.removeObservers(this)
         viewModel.state.removeOnPropertyChangedCallback(stateObserver)
         super.onDestroyView()
-    }
-
-    private fun openCardScanner() {
-        if (BuildConfig.DEBUG) {
-            val identityScannerResult = IdentityScannerResult()
-            identityScannerResult.document.type = DocumentType.EID
-            val fileFront = requireContext().dummyEID("FRONT")
-            identityScannerResult.document.files.add(
-                DocumentImage(
-                    fileFront?.absolutePath,
-                    DocumentPageType.FRONT
-                )
-            )
-            val fileBack =
-                requireContext().dummyEID("BACK")
-            identityScannerResult.document.files.add(
-                DocumentImage(
-                    fileBack?.absolutePath,
-                    DocumentPageType.BACK
-                )
-            )
-            viewModel.onEIDScanningComplete(
-                identityScannerResult
-            )
-        } else {
-            startActivityForResult(
-                IdentityScannerActivity.getLaunchIntent(
-                    requireContext(),
-                    DocumentType.EID,
-                    IdentityScannerActivity.SCAN_FROM_CAMERA
-                ),
-                IdentityScannerActivity.SCAN_EID_CAM
-            )
-        }
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == IdentityScannerActivity.SCAN_EID_CAM && resultCode == Activity.RESULT_OK) {
-            data?.let {
-                it.getParcelableExtra<IdentityScannerResult>(IdentityScannerActivity.SCAN_RESULT)
-                    ?.let { it1 ->
-                        viewModel.onEIDScanningComplete(
-                            it1
-                        )
-                    }
-            }
-        }
     }
 
     override fun onDestroy() {

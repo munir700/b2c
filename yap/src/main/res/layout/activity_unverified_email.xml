@@ -24,7 +24,7 @@
             app:layout_constraintBottom_toTopOf="@+id/unverified_email_nav_host_fragment"
              app:viewModel="@{viewModel}"/>
 
-        <fragment
+        <androidx.fragment.app.FragmentContainerView
             android:id="@+id/unverified_email_nav_host_fragment"
             android:name="androidx.navigation.fragment.NavHostFragment"
             android:layout_width="match_parent"
