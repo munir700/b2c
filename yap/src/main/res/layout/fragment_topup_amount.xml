@@ -4,14 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
             name="viewModel"
             type="co.yap.modules.dashboard.yapit.addmoney.easybanktransfer.topup.topupamount.TopupAmountViewModel" />
 
         <import type="co.yap.translation.Strings" />
         <import type="co.yap.yapcore.R" />
-
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -32,7 +30,7 @@
             app:tint="@color/colorPrimaryDark"
             app:titleTranslator="@{Strings.screen_lean_topup_amount_toolbar_title}" />
 
-<!--           To be changed when topup model class is available-->
+<!--        To be changed when topup model class is available-->
 <!--        app:bgColor="@{viewModel.item.backgroundColor}"-->
 <!--        app:fullName="@{viewModel.item.name}"-->
 <!--        app:imageSize="@{R.dimen._64sdp}"-->
@@ -51,8 +49,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/toolbarAddAccount" />
 
-        <!--           To be changed when topup model class is available-->
-<!--        android:text="@{viewModel.topupModel.bankAccountType}"-->
+        <!--To be changed when topup model class is available-->
+        <!--android:text="@{viewModel.topupModel.bankAccountType}"-->
         <TextView
             android:id="@+id/tvCurrentAccount"
             style="@style/ALarge"
@@ -77,8 +75,8 @@
             app:text="@{Strings.screen_lean_topup_text_enter_amount_to_topup}"
             tools:text="@string/screen_lean_topup_text_enter_amount_to_topup" />
 
-        <!--           To be changed when topup model class is available-->
-<!--        android:text="@{viewModel.topupModel.currencyType}"-->
+        <!-- To be changed when topup model class is available-->
+        <!-- android:text="@{viewModel.topupModel.currencyType}"-->
         <TextView
             android:id="@+id/tvCurrency"
             style="@style/AMicroGrey"
