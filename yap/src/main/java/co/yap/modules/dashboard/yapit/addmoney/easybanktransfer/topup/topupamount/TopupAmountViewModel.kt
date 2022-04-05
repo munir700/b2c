@@ -10,10 +10,9 @@ import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.helpers.spannables.color
 import co.yap.yapcore.helpers.spannables.getText
 
-
 class TopupAmountViewModel(application: Application) :
     AddMoneyBaseViewModel<ITopupAmount.State>(application),
-    ITopupAmount.ViewModel  {
+    ITopupAmount.ViewModel {
     override val clickEvent: SingleClickEvent = SingleClickEvent()
     override val state: ITopupAmount.State = TopupAmountState()
 
@@ -41,11 +40,13 @@ class TopupAmountViewModel(application: Application) :
     }
 
     fun setAvailableBalance() {
+        //Hard coded currency used, to be replaced by the model currency fetched from api
         state.availableBalance.value = context.resources.getText(
             getString(Strings.common_display_text_available_balance),
-            context.color(  R.color.colorPrimaryDark,
-                "2000".toFormattedCurrency()         ////Hard coded currency used,
-            ))                                       ///to be replaced by the model currency fetched from api
+            context.color(
+                R.color.colorPrimaryDark,
+                "2000".toFormattedCurrency()
+            )
+        )
     }
-
 }

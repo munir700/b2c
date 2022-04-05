@@ -3,7 +3,7 @@ package co.yap.modules.dashboard.yapit.addmoney.easybanktransfer.topup.topupamou
 import androidx.lifecycle.MutableLiveData
 import co.yap.yapcore.BaseState
 
-class TopupAmountState:BaseState(),ITopupAmount.State {
+class TopupAmountState : BaseState(), ITopupAmount.State {
     override val denominationFirstAmount: String = "+100"
     override val denominationSecondAmount: String = "+500"
     override val denominationThirdAmount: String = "+1000"
