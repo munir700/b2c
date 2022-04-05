@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<shield>
+    <config>
+        <checkDebugger                      v="0"/>
+        <exitOnDebugger                     v="0"/>
+        <!-- <exitOnDebuggerURL                  v=""/> -->
+
+        <blockJavaDebugger                  v="0"/>
+
+        <checkEmulator                      v="1"/>
+        <exitOnEmulator                     v="1"/>
+        <!-- <exitOnEmulatorURL                  v=""/> -->
+
+        <checkRooting                       v="1"/>
+        <exitOnRooting                      v="1"/>
+        <checkRootingDeepScan               v="0"/>
+        <exitOnRootingHeuristicsThreshold   v="0"/>
+        <!-- <exitOnRootingURL                   v=""/> -->
+
+        <checkHookingFrameworks             v="1"/>
+        <exitOnHookingFrameworks            v="1"/>
+        <!-- <exitOnHookingFrameworksURL         v=""/> -->
+
+        <checkRepackaging                   v="1"/>
+        <exitOnRepackaging                  v="1"/>
+        <queryAllPackagesPermission         v="1" />
+        <!-- <exitOnRepackagingURL               v=""/> -->
+
+
+        <!-- Stage -->
+         <applicationSignerCertificate       v="MIICzzCCAbegAwIBAgIEOFmQUDANBgkqhkiG9w0BAQsFADAXMRUwEwYDVQQKEwxZYXAgSG9sZGluZ3MwIBcNMjAwMjEwMTM0OTUzWhgPMjEyMDAxMTcxMzQ5NTNaMBcxFTATBgNVBAoTDFlhcCBIb2xkaW5nczCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAJ19XKa0vZH5BX5nwID/tNdckdgBbMXrve8LcdCXhZiVfZ2vD19kG/LuzQCgyrA/QfHH7AhNXIhoM+3GJ01KSVpkf3cdjh5v0IDk3JvURniRpyygNPnNQ2OdKPCnbOA6TDSH4pUWzeTp+t+8Ys6bevP1lXpitt/MYfncOfWfSYwjrZTwXQ8oYw2icVsKAn6a6Dg8IDLcKU+ngn/rzoqWw9FxD5IKX5r6CuvkdscV65mguqLjs56pdYdwzQXHyvija8+g6U0WwJbs56LqLXCKRfaZ7APm3BgOEueQIaSiLxCYUD+L74DuTPImIGwh+ishxDDo30XuC6mwOpd6+tFgBlcCAwEAAaMhMB8wHQYDVR0OBBYEFIj6SkXZxF6pnGAHIJj2xYbksUzNMA0GCSqGSIb3DQEBCwUAA4IBAQBj1nN585Qi/i0D9NERk1hauT2A5mICXvH3RoyIVTUJRbJTseFdZOxuXmmRuRH6K540CbcWyTLQ6BMCJZ+zJnQ4p3fFsLAQEZS8KU9+wiVbeatTQ5Egvr/mcSUTxt0AYN4jbXghNF5plJhA+Jsk5DhlXB160FtCkRCESsDM0xCSV+pG8lLu/CARxFDx8BjCgMC/M8s9jtWstI92zlbQbDr5Hcsb0Ndgkg2dNmy94X/Ra+klqRf6C3bVPhhilrP11pStuW4btY+FAHs10ezzM7IflTl3H20KoTuaNC7+deEWLbfOIo/jrb6E6n8qkCojbIu3hlWlxwe4QzpLv+T4MYc5"/>
+        
+    
+        <blockScreenshots                   v="0"/>
+
+        <checkTrustedKeyboard               v="1"/>
+        <exitOnUntrustedKeyboard            v="0"/>
+        <!-- <exitOnUntrustedKeyboardURL         v=""/> -->
+        <!-- <addTrustedKeyboardSigner           v=""/> -->
+
+        <secureTextFieldKeyboard            v="in-app"/>
+
+        <checkTrustedScreenreaders          v="1"/>
+        <blockUntrustedScreenreaders        v="0"/>
+        <exitOnUntrustedScreenreaders       v="0"/>
+        <!-- <exitOnUntrustedScreenreadersURL    v=""/> -->
+
+        <!-- ClockBack and QueryBack -->
+        <addTrustedScreenreaderSigner       v="dc152407a9a13ef757f0d38d0e379bb1da255c8cb82b3f975bec9f6a5ae08e00"/>
+        <!-- TalkBack -->
+        <addTrustedScreenreaderSigner       v="df37f8d8023ce4776089cca07a8b4cf9adc36a80fc5b5075393450f1fb20caa8"/>
+        <!-- Samsung Voice Assistant: com.samsung.android.app.talkback -->
+        <addTrustedScreenreaderSigner       v="da09c54e4ba07e365cf90f0c1d90fbb11b2353fb5142aa4eb3e3c1dc9fe48983"/>
+        
+        <checkNativeCodeHooks               v="1"/>
+        <exitOnNativeCodeHooks              v="1"/>
+        <!-- <exitOnNativeCodeHooksURL           v=""/> -->
+
+        <checkAdbStatus                     v="0"/>
+
+        <checkDeveloperOptions              v="0"/>
+        
+        <checkUntrustedInstaller            v="1"/>
+
+        <!-- Google Play -->
+        <addTrustedInstallerSigner       v="3c66420dc7a9e3714f531cae00ccd779e20dfb1c9c40113bf66416f41e366501"/>
+        <!-- Samsung Galaxy App Store -->
+        <addTrustedInstallerSigner       v="d614a59f97cb719e47a01d101b76a9e4950d28e0a6919b651eec2de5056d4b05"/>
+        <!-- Huawei App Gallery -->
+        <!-- <addTrustedInstallerSigner       v="167638c1e015f1fef536a6370f43007b25e164b02afa6fd2f4b1295aee46322f"/> -->
+        <!-- Xiaomi Market -->
+        <!-- <addTrustedInstallerSigner       v="97191af2edf26865b2a529b23a1cda40dc455a56a572ab7c0d4b0ff38106a0db"/> -->
+        <!-- LG SmartWorld Store -->
+        <!-- <addTrustedInstallerSigner       v="b67fedd52cbc309ce7bfbba7440bca88bb926a242b17b69374fcd065f0ae57c2"/> -->
+
+        <!-- <addTrustedApplicationSigner       v=""/> -->
+
+        <checkScreenMirroring               v="0" />
+        <blockScreenMirroring               v="0" />
+    </config>
+</shield>
