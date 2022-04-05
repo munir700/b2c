@@ -1,7 +1,6 @@
 package co.yap.modules.dashboard.yapit.addmoney.main
 
 import android.os.Bundle
-import android.view.View
 import androidx.lifecycle.ViewModelProviders
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.IBase

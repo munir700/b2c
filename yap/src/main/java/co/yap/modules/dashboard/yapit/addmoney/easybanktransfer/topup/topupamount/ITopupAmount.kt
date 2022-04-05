@@ -12,7 +12,8 @@ interface ITopupAmount {
 
     interface ViewModel : IBase.ViewModel<State> {
         val clickEvent: SingleClickEvent
-        fun handlePressOnView(id: Int)
+        fun denominationAmountValidator(amount: String)
+        fun handleClickEvent(id:Int)
     }
 
     interface State : IBase.State {
@@ -20,6 +21,7 @@ interface ITopupAmount {
         val denominationSecondAmount: String
         val denominationThirdAmount: String
         val valid: MutableLiveData<Boolean>
+        val enteredTopUpAmount: MutableLiveData<String>
         val availableBalance: MutableLiveData<CharSequence>
     }
 }
