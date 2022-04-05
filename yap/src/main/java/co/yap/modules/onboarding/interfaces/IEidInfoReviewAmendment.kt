@@ -56,7 +56,6 @@ interface IEidInfoReviewAmendment {
         var isCountryUS: Boolean
         var countryName: ObservableField<String>
         var errorScreenVisited: Boolean
-        var uqudoToken: MutableLiveData<String>
     }
 
     interface View : IBase.View<ViewModel> {

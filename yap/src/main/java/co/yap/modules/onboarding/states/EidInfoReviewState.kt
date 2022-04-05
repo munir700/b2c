@@ -103,6 +103,5 @@ class EidInfoReviewState : BaseState(), IEidInfoReview.State {
     override var isDateOfBirthValid: ObservableBoolean = ObservableBoolean(false)
     override var AgeLimit: MutableLiveData<Int>? = MutableLiveData()
     override var isCountryUS: Boolean = false
-    override var uqudoToken: MutableLiveData<String> = MutableLiveData()
     override var showMiddleName: MutableLiveData<Boolean> = MutableLiveData()
 }

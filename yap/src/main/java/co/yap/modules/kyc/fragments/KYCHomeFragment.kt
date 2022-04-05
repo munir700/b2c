@@ -16,7 +16,6 @@ import co.yap.yapcore.enums.AccountStatus
 import co.yap.yapcore.firebase.FirebaseEvent
 import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.managers.SessionManager
-import java.io.File
 
 class KYCHomeFragment : KYCChildFragment<IKYCHome.ViewModel>(), IKYCHome.View {
 
@@ -117,9 +116,7 @@ class KYCHomeFragment : KYCChildFragment<IKYCHome.ViewModel>(), IKYCHome.View {
     }
 
     override fun onDestroy() {
-        viewModel.parentViewModel?.paths?.forEach { filePath ->
-            File(filePath).deleteRecursively()
-        }
+        viewModel.parentViewModel?.uqudoManager?.deleteEidImages()
         super.onDestroy()
     }
 

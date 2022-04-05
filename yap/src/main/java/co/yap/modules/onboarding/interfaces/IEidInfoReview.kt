@@ -2,6 +2,7 @@ package co.yap.modules.onboarding.interfaces
 
 import androidx.databinding.ObservableBoolean
 import androidx.lifecycle.MutableLiveData
+import androidx.navigation.NavDirections
 import co.yap.networking.customers.responsedtos.EidData
 import co.yap.networking.customers.responsedtos.SectionedCountriesResponseDTO
 import co.yap.networking.customers.responsedtos.documents.ConfigureEIDResponse
@@ -33,15 +34,11 @@ interface IEidInfoReview {
         var isDateOfBirthValid: ObservableBoolean
         var AgeLimit: MutableLiveData<Int>?
         var isCountryUS: Boolean
-        var uqudoToken: MutableLiveData<String>
         var showMiddleName: MutableLiveData<Boolean>
     }
 
     interface View : IBase.View<ViewModel> {
-        fun showUnderAgeScreen()
-        fun showExpiredEidScreen()
-        fun showInvalidEidScreen()
-        fun showUSACitizenScreen()
+        fun showErrorScreen(actionId: NavDirections)
     }
 
     interface ViewModel : IBase.ViewModel<State> {
@@ -56,17 +53,12 @@ interface IEidInfoReview {
         var errorTitle: String
         var errorBody: String
         fun requestAllAPIs(callAll: Boolean)
-        fun requestAllEIDConfigurations(
-            callAll: Boolean,
-            responses: (
-                RetroApiResponse<SectionedCountriesResponseDTO>?,
-                RetroApiResponse<BaseResponse<ConfigureEIDResponse>>?,
-                RetroApiResponse<BaseResponse<UqudoTokenResponse>>?
-            ) -> Unit
-        )
-
         var uqudoResponse: MutableLiveData<UqudoTokenResponse>
         fun populateUqudoState(identity: EidData?)
-
+        fun navigateToConfirmNameFragment(navigate: () -> Unit)
+        fun performUqudoUploadDocumentsRequest(
+            fromInformationErrorFragment: Boolean,
+            success: (message: String) -> Unit
+        )
     }
 }

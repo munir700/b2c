@@ -260,8 +260,10 @@ class UqudoScannerManager private constructor(val context: Activity) : IUqudoMan
     }
 
     override fun deleteEidImages() {
-        getUqudoIdentity()?.filePaths?.forEach { filePath ->
-            File(filePath).deleteRecursively()
+        getUqudoIdentity()?.filePaths?.let {
+            it.forEach { filePath ->
+                File(filePath).deleteRecursively()
+            }
         }
     }
 }

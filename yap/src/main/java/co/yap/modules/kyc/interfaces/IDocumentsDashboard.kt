@@ -23,9 +23,6 @@ interface IDocumentsDashboard {
     }
 
     interface ViewModel : IBase.ViewModel<State> {
-        var identity: Identity?
-        var paths: ArrayList<String>
-
         // Will be used for KYC Amendment
         var amendmentMap: HashMap<String?, List<String>?>?
         var name: MutableLiveData<String>
@@ -38,6 +35,7 @@ interface IDocumentsDashboard {
         var showProgressBar: MutableLiveData<Boolean>
         var accountStatus: MutableLiveData<String>
         var hideProgressToolbar: MutableLiveData<Boolean>
+        //Uqudo Attributes
         var uqudoIdentity: MutableLiveData<V2DocumentDTO>
         var uqudoManager : UqudoScannerManager?
         var comingFrom: MutableLiveData<String>

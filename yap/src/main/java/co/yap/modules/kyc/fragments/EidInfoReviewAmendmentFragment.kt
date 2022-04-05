@@ -40,7 +40,6 @@ import co.yap.yapcore.helpers.extentions.launchSheet
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.SessionManager
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog
-import java.io.File
 import java.util.*
 
 
@@ -198,18 +197,16 @@ class EidInfoReviewAmendmentFragment : KYCChildFragment<IEidInfoReviewAmendment.
         }
     }
 
-    private fun invalidCitizenNumber(title: String) {
+    private fun invalidCitizenNumber(title: String, rescan: Boolean = false) {
         activity?.let {
             it.showAlertDialogAndExitApp(
                 message = title,
                 callback = {
-                    requireActivity().finish()
+                    if (rescan.not()) requireActivity().finish() else initializeUqudoScanner()
                 },
                 closeActivity = false
             )
-            viewModel.parentViewModel?.paths?.forEach { filePath ->
-                File(filePath).deleteRecursively()
-            }
+            viewModel.parentViewModel?.uqudoManager?.deleteEidImages()
         }
     }
 
@@ -255,7 +252,6 @@ class EidInfoReviewAmendmentFragment : KYCChildFragment<IEidInfoReviewAmendment.
             REQUEST_UQUDO -> {
                 val uqudoJWT = data?.getStringExtra("data")
                 if (uqudoJWT.isNullOrBlank().not()) {
-                    viewModel.state.uqudoToken.value = uqudoJWT
                     viewModel.parentViewModel?.uqudoManager?.decodeEncodedUqudoToken(
                         uqudoJWT ?: ""
                     ) {
@@ -271,9 +267,7 @@ class EidInfoReviewAmendmentFragment : KYCChildFragment<IEidInfoReviewAmendment.
     }
 
     override fun onDestroy() {
-        viewModel.parentViewModel?.paths?.forEach { filePath ->
-            File(filePath).deleteRecursively()
-        }
+        viewModel.parentViewModel?.uqudoManager?.deleteEidImages()
         super.onDestroy()
     }
 
@@ -449,12 +443,10 @@ class EidInfoReviewAmendmentFragment : KYCChildFragment<IEidInfoReviewAmendment.
                 EidInfoEvents.EVENT_NEXT_WITH_ERROR.eventId -> {
                     performUqudoUploadDocumentsRequest(true) {
                         if (it.equals("success", true)) {
-                            state.errorScreenVisited = true
-                            val action =
+                            showErrorScreen(
                                 EidInfoReviewFragmentDirections.actionEidInfoReviewFragmentToInformationErrorFragment(
                                     errorTitle, errorBody
-                                )
-                            findNavController().navigate(action)
+                                ))
                         } else {
                             state.toast = "${it}^${AlertType.DIALOG.name}"
                         }
@@ -506,7 +498,7 @@ class EidInfoReviewAmendmentFragment : KYCChildFragment<IEidInfoReviewAmendment.
                         })
                 }
                 EidInfoEvents.EVENT_CITIZEN_NUMBER_ISSUE.eventId, EidInfoEvents.EVENT_EID_EXPIRY_DATE_ISSUE.eventId -> invalidCitizenNumber(
-                    "Sorry, that didn’t work. Please try again"
+                    "Sorry, that didn’t work. Please try again", true
                 )
             }
         }

@@ -63,9 +63,8 @@ class DocumentsDashboardActivity : BaseBindingActivity<IDocumentsDashboard.ViewM
     private fun addObserver() {
         viewModel.clickEvent.observe(this, clickEventObserver)
         viewModel.finishKyc.observe(this, Observer {
-            viewModel.paths.forEach { filePath ->
-                File(filePath).deleteRecursively()
-            }
+            viewModel.uqudoManager?.deleteEidImages()
+
             goToDashBoard(
                 success = it.success,
                 skippedPress = !it.success,
@@ -104,15 +103,11 @@ class DocumentsDashboardActivity : BaseBindingActivity<IDocumentsDashboard.ViewM
         val fragment = supportFragmentManager.findFragmentById(R.id.kyc_host_fragment)
         viewModel.skipFirstScreen.value?.let {
             if (it) {
-                viewModel.paths.forEach { filePath ->
-                    File(filePath).deleteRecursively()
-                }
+                viewModel.uqudoManager?.deleteEidImages()
                 super.onBackPressed()
             } else {
                 if (!BackPressImpl(fragment).onBackPressed()) {
-                    viewModel.paths.forEach { filePath ->
-                        File(filePath).deleteRecursively()
-                    }
+                    viewModel.uqudoManager?.deleteEidImages()
                 }
                 super.onBackPressed()
             }
@@ -120,9 +115,7 @@ class DocumentsDashboardActivity : BaseBindingActivity<IDocumentsDashboard.ViewM
     }
 
     override fun onDestroy() {
-        viewModel.paths.forEach { filePath ->
-            File(filePath).deleteRecursively()
-        }
+        viewModel.uqudoManager?.deleteEidImages()
         context.deleteTempFolder()
         super.onDestroy()
     }

@@ -22,12 +22,14 @@ import co.yap.translation.Strings
 import co.yap.widgets.State
 import co.yap.yapcore.Dispatcher
 import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.EIDStatus
 import co.yap.yapcore.firebase.FirebaseEvent
 import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.DateUtils.getAge
+import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.leanplum.KYCEvents
 import co.yap.yapcore.leanplum.trackEvent
@@ -137,7 +139,7 @@ class EidInfoReviewViewModel(application: Application) :
         errorBody = body
     }
 
-    fun performUqudoUploadDocumentsRequest(
+    override fun performUqudoUploadDocumentsRequest(
         fromInformationErrorFragment: Boolean,
         success: (message: String) -> Unit
     ) {
@@ -311,7 +313,7 @@ class EidInfoReviewViewModel(application: Application) :
 
     }
 
-    override fun requestAllEIDConfigurations(
+    private fun requestAllEIDConfigurations(
         callAll: Boolean,
         responses: (
             RetroApiResponse<SectionedCountriesResponseDTO>?,
@@ -372,7 +374,8 @@ class EidInfoReviewViewModel(application: Application) :
             state.expiryDate.value =
                 DateUtils.reformatToLocalString(expiryDate, DateUtils.DEFAULT_DATE_FORMAT)
             state.expiryDateValid.value =
-                expiryDate?.let { it1 -> parentViewModel?.uqudoManager?.isExpiryDateValid(it1) } ?: false
+                expiryDate?.let { it1 -> parentViewModel?.uqudoManager?.isExpiryDateValid(it1) }
+                    ?: false
             state.genderValid = true
             if (documentFront?.identityNumber?.length != eidLength && !Utils.isValidEID(
                     documentFront?.identityNumber
@@ -414,11 +417,27 @@ class EidInfoReviewViewModel(application: Application) :
                 if (downloaded)
                     parentViewModel?.uqudoIdentity?.value =
                         parentViewModel?.uqudoManager?.getUqudoIdentity()
-                 else showToast("unable to download EIDs")
+                else showToast("unable to download EIDs")
             }
         }
     }
 
-    fun getCountryCode(countryName: String): String =
+    private fun getCountryCode(countryName: String): String =
         Locale.getISOCountries().find { Locale("", it).displayCountry == countryName } ?: ""
+
+    override fun navigateToConfirmNameFragment(navigate: () -> Unit) {
+        parentViewModel?.state?.let { parentState ->
+            parentState.middleName.set(state.middleName)
+            parentState.firstName.set(state.firstName)
+            parentState.lastName.set(state.lastName)
+            parentState.nationality.set(state.nationality)
+            SharedPreferenceManager.getInstance(context)
+                .save(Constants.KYC_FIRST_NAME, parentState.firstName.get() ?: "")
+            SharedPreferenceManager.getInstance(context)
+                .save(Constants.KYC_LAST_NAME, parentState.lastName.get() ?: "")
+            SharedPreferenceManager.getInstance(context)
+                .save(Constants.KYC_MIDDLE_NAME, parentState.middleName.get() ?: "")
+            navigate.invoke()
+        }
+    }
 }
