@@ -11,6 +11,7 @@ import co.yap.BR
 import co.yap.R
 import co.yap.databinding.FragmentAddMoneyLandingBinding
 import co.yap.modules.dashboard.more.cdm.CdmMapFragment
+import co.yap.modules.dashboard.yapit.addmoney.easybanktransfer.topup.topupamount.TopupAmountFragment
 import co.yap.modules.dashboard.yapit.addmoney.easybanktransfer.welcomeScreen.EasyBankTransferWelcomeFragment
 import co.yap.modules.dashboard.yapit.addmoney.main.AddMoneyBaseFragment
 import co.yap.modules.dashboard.yapit.topup.cardslisting.TopUpBeneficiariesActivity
@@ -76,7 +77,7 @@ class AddMoneyLandingFragment : AddMoneyBaseFragment<IAddMoneyLanding.ViewModel>
         when (it) {
             Constants.ADD_MONEY_INSTANT_BANK_TRANSFER -> {
                 //add firebase event
-                startFragment(fragmentName = EasyBankTransferWelcomeFragment::class.java.name)
+                startFragment(fragmentName = TopupAmountFragment::class.java.name)
             }
             Constants.ADD_MONEY_TOP_UP_VIA_CARD -> {
                 trackEventWithScreenName(FirebaseEvent.CLICK_TOPUP_CARD)

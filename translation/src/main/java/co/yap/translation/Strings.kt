@@ -2718,4 +2718,10 @@ object Strings {
         "screen_lean_bank_list_select_a_bank"
     const val screen_lean_bank_list_choose_bank =
         "screen_lean_bank_list_choose_bank"
+
+    //Lean -Easy Bank Transfer-Topup amount
+    const val screen_lean_topup_amount_toolbar_title =
+        "screen_lean_topup_amount_toolbar_title"
+    const val screen_lean_topup_text_enter_amount_to_topup=
+        "screen_lean_topup_text_enter_amount_to_topup"
 }
