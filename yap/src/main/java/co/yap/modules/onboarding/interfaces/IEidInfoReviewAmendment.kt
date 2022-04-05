@@ -3,6 +3,7 @@ package co.yap.modules.onboarding.interfaces
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
+import androidx.navigation.NavDirections
 import co.yap.countryutils.country.Country
 import co.yap.networking.customers.responsedtos.EidData
 import co.yap.networking.customers.responsedtos.SectionedCountriesResponseDTO
@@ -59,11 +60,7 @@ interface IEidInfoReviewAmendment {
     }
 
     interface View : IBase.View<ViewModel> {
-        fun showUnderAgeScreen()
-        fun showExpiredEidScreen()
-        fun showInvalidEidScreen()
-        fun showUSACitizenScreen()
-        //  fun openCardScanner()
+        fun showErrorScreen(actionId: NavDirections)
     }
 
     interface ViewModel : IBase.ViewModel<State> {

@@ -25,6 +25,7 @@ import io.uqudo.sdk.core.DocumentBuilder
 import io.uqudo.sdk.core.UqudoBuilder
 import io.uqudo.sdk.core.UqudoSDK
 import io.uqudo.sdk.core.domain.model.DocumentType
+import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -250,7 +251,7 @@ class UqudoScannerManager private constructor(val context: Activity) : IUqudoMan
         }
     }
 
-    fun resetData() {
+    override fun resetData() {
         uqudoPayloadData = MutableLiveData()
         uqudoAccessToken = MutableLiveData()
         uqudoScannedToken = MutableLiveData()
@@ -258,4 +259,9 @@ class UqudoScannerManager private constructor(val context: Activity) : IUqudoMan
         tokenInitiatedTime = MutableLiveData()
     }
 
+    override fun deleteEidImages() {
+        getUqudoIdentity()?.filePaths?.forEach { filePath ->
+            File(filePath).deleteRecursively()
+        }
+    }
 }

@@ -225,7 +225,7 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
             it.showAlertDialogAndExitApp(
                 message = title,
                 callback = {
-                    initializeUqudoScanner()
+                    requireActivity().finish()
                 },
                 closeActivity = false
             )
@@ -330,9 +330,7 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
 
 
     override fun onDestroy() {
-        viewModel.parentViewModel?.paths?.forEach { filePath ->
-            File(filePath).deleteRecursively()
-        }
+        viewModel.parentViewModel?.uqudoManager?.deleteEidImages()
         super.onDestroy()
     }
 
@@ -365,7 +363,6 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
             Status.ERROR -> {
                 getViewBinding().multiStateView.viewState = MultiStateView.ViewState.ERROR
                 invalidCitizenNumber(state.message ?: "Sorry, that didn’t work. Please try again")
-                requireActivity().finish()
             }
             Status.IDEAL -> {
                 //do nothing
