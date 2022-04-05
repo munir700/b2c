@@ -365,14 +365,14 @@ class EidInfoReviewViewModel(application: Application) :
             state.fullNameValid = state.firstName.isNotBlank()
             state.nationality = documentFront?.nationality ?: ""
             state.nationalityValid = state.nationality.isNotBlank() && !state.isCountryUS
-            var EXD = parentViewModel?.uqudoManager?.getExpiryDate()
-            var DOB = parentViewModel?.uqudoManager?.getDateOfBirth()
+            val expiryDate = parentViewModel?.uqudoManager?.getExpiryDate()
+            val birthDate = parentViewModel?.uqudoManager?.getDateOfBirth()
             state.dateOfBirth =
-                DateUtils.reformatToLocalString(DOB, DateUtils.DEFAULT_DATE_FORMAT)
+                DateUtils.reformatToLocalString(birthDate, DateUtils.DEFAULT_DATE_FORMAT)
             state.expiryDate.value =
-                DateUtils.reformatToLocalString(EXD, DateUtils.DEFAULT_DATE_FORMAT)
+                DateUtils.reformatToLocalString(expiryDate, DateUtils.DEFAULT_DATE_FORMAT)
             state.expiryDateValid.value =
-                EXD?.let { it1 -> parentViewModel?.uqudoManager?.isExpiryDateValid(it1) } ?: false
+                expiryDate?.let { it1 -> parentViewModel?.uqudoManager?.isExpiryDateValid(it1) } ?: false
             state.genderValid = true
             if (documentFront?.identityNumber?.length != eidLength && !Utils.isValidEID(
                     documentFront?.identityNumber
@@ -396,12 +396,12 @@ class EidInfoReviewViewModel(application: Application) :
             // If Age Limit available in case of Re-Scan, set Age validity again.
             state.AgeLimit?.value?.let { limit ->
                 state.isDateOfBirthValid.set(
-                    DOB?.let { it1 -> getAge(it1) } ?: 18 >= limit
+                    birthDate?.let { it1 -> getAge(it1) } ?: 18 >= limit
                 )
             }
             val countryName = configureEIDResponse.value?.country2DigitIsoCode?.let { str ->
-                str.split(",").map { it -> it.trim() }.find {
-                    it.equals("US")
+                str.split(",").map { it -> it.trim() }.find { code ->
+                    code == "US"
                 }
             }
             state.isCountryUS =
@@ -409,15 +409,12 @@ class EidInfoReviewViewModel(application: Application) :
             if (parentViewModel?.uqudoManager?.getFrontImagePath()
                     .isNullOrBlank() && parentViewModel?.uqudoManager?.getBackImagePath()
                     .isNullOrBlank()
-            ) parentViewModel?.uqudoManager?.downloadImage { it ->
-                state.viewState.postValue(
-                    it.not()
-                )
-                if (it) {
-
+            ) parentViewModel?.uqudoManager?.downloadImage { downloaded ->
+                state.viewState.postValue(downloaded.not())
+                if (downloaded)
                     parentViewModel?.uqudoIdentity?.value =
                         parentViewModel?.uqudoManager?.getUqudoIdentity()
-                } else showToast("unable to download EIDs")
+                 else showToast("unable to download EIDs")
             }
         }
     }

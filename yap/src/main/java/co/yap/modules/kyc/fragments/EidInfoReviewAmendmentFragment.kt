@@ -517,6 +517,7 @@ class EidInfoReviewAmendmentFragment : KYCChildFragment<IEidInfoReviewAmendment.
             Status.ERROR -> {
                 getViewBinding().multiStateView.viewState = MultiStateView.ViewState.ERROR
                 invalidCitizenNumber(state.message ?: "Sorry, that didn’t work. Please try again")
+                requireActivity().finish()
             }
             else -> {
                 throw IllegalStateException("State is not handled " + state?.status)
