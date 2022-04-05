@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import co.yap.R
 import co.yap.modules.dashboard.yapit.addmoney.main.AddMoneyBaseViewModel
 import co.yap.networking.leanteach.LeanTechRepository
+import co.yap.networking.leanteach.responsedtos.LeanOnBoardModel
 import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
@@ -16,7 +17,7 @@ class EasyBankTransferWelcomeViewModel(application: Application) :
     AddMoneyBaseViewModel<IEasyBankTransferWelcome.State>(application),
     IEasyBankTransferWelcome.ViewModel {
 
-    override val customerId: MutableLiveData<String> = MutableLiveData()
+    override val leanOnBoardModel: MutableLiveData<LeanOnBoardModel> = MutableLiveData()
     override val clickEvent: SingleClickEvent = SingleClickEvent()
     override val state: IEasyBankTransferWelcome.State = EasyBankTransferWelcomeState()
     private val leanTechRepository: LeanTechRepository = LeanTechRepository
@@ -46,7 +47,7 @@ class EasyBankTransferWelcomeViewModel(application: Application) :
             state.loading = true
             when (val response = leanTechRepository.onBoardUser()) {
                 is RetroApiResponse.Success -> {
-                    customerId.postValue(response.data.data?.customerId)
+                    leanOnBoardModel.postValue(response.data.data)
                     state.loading = false
                 }
                 is RetroApiResponse.Error -> {

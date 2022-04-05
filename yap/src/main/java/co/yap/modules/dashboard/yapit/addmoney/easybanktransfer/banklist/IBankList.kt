@@ -2,6 +2,7 @@ package co.yap.modules.dashboard.yapit.addmoney.easybanktransfer.banklist
 
 import androidx.lifecycle.MutableLiveData
 import co.yap.databinding.FragmentEasyBankTransferBankListBinding
+import co.yap.networking.leanteach.responsedtos.LeanOnBoardModel
 import co.yap.networking.leanteach.responsedtos.banklistmodels.BankListMainModel
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
@@ -17,6 +18,7 @@ interface IBankList {
         val clickEvent: SingleClickEvent
         val bankList: MutableLiveData<MutableList<BankListMainModel>>
         val bankListAdapter: BankListAdapter
+        var leanOnBoardModel: LeanOnBoardModel
         fun handlePressOnView(id: Int)
         fun getBankList()
     }
