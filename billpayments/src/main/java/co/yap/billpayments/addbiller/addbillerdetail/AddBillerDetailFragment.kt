@@ -10,6 +10,7 @@ import androidx.lifecycle.Observer
 import co.yap.billpayments.BR
 import co.yap.billpayments.R
 import co.yap.billpayments.addbiller.base.AddBillBaseFragment
+import co.yap.billpayments.databinding.FragmentBillerDetailBinding
 import co.yap.networking.customers.responsedtos.billpayment.ViewBillModel
 import co.yap.translation.Strings
 import co.yap.yapcore.enums.FeatureSet
@@ -18,9 +19,9 @@ import co.yap.yapcore.helpers.customAlertDialog
 import co.yap.yapcore.helpers.extentions.afterTextChanged
 import co.yap.yapcore.helpers.extentions.showBlockedFeatureAlert
 import co.yap.yapcore.managers.FeatureProvisioning
-import kotlinx.android.synthetic.main.fragment_biller_detail.*
 
-class AddBillerDetailFragment : AddBillBaseFragment<IAddBillerDetail.ViewModel>(),
+class AddBillerDetailFragment :
+    AddBillBaseFragment<FragmentBillerDetailBinding, IAddBillerDetail.ViewModel>(),
     IAddBillerDetail.View {
     override fun getBindingVariable(): Int = BR.viewModel
 
@@ -30,8 +31,10 @@ class AddBillerDetailFragment : AddBillBaseFragment<IAddBillerDetail.ViewModel>(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setObservers()
-        etNickName.afterTextChanged {
-            viewModel.listener.onItemClick(etNickName, it, -1)
+        viewDataBinding.etNickName.apply {
+            afterTextChanged {
+                viewModel.listener.onItemClick(this, it, -1)
+            }
         }
     }
 

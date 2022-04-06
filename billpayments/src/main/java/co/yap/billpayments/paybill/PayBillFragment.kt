@@ -26,7 +26,7 @@ import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.FeatureProvisioning
 import com.google.android.material.tabs.TabLayout
 
-class PayBillFragment : PayBillMainBaseFragment<IPayBill.ViewModel>(),
+class PayBillFragment : PayBillMainBaseFragment<FragmentPayBillBinding, IPayBill.ViewModel>(),
     IPayBill.View, CompoundButton.OnCheckedChangeListener {
 
     override fun getBindingVariable(): Int = BR.viewModel
@@ -54,8 +54,8 @@ class PayBillFragment : PayBillMainBaseFragment<IPayBill.ViewModel>(),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        getViewBinding().swAutoPayment.setOnCheckedChangeListener(this)
-        getViewBinding().swBillReminder.setOnCheckedChangeListener(this)
+        viewDataBinding.swAutoPayment.setOnCheckedChangeListener(this)
+        viewDataBinding.swBillReminder.setOnCheckedChangeListener(this)
         viewModel.editBillerError.observe(viewLifecycleOwner, editBillerError)
         initTabLayout()
         setEditTextWatcher()
@@ -67,19 +67,24 @@ class PayBillFragment : PayBillMainBaseFragment<IPayBill.ViewModel>(),
         viewModel.parentViewModel?.billModel?.value?.let {
             if (it.billerInfo?.skuInfos?.first()?.isPrepaid == false) {
                 viewModel.setMinMaxLimitForPostPaid(it)
-                getViewBinding().etAmount.setText(it.totalAmountDue ?: "0.00")
-                if (it.billerInfo?.skuInfos?.first()?.isExcessPayment == false && it.billerInfo?.skuInfos?.first()?.isPartialPayment == false) {
-                    getViewBinding().etAmount.isClickable = false
-                    getViewBinding().etAmount.isEnabled = false
-                    getViewBinding().etAmount.isFocusable = false
-                    getViewBinding().etAmount.isFocusableInTouchMode = false
+                with(viewDataBinding) {
+                    etAmount.setText(it.totalAmountDue ?: "0.00")
+                    if (it.billerInfo?.skuInfos?.first()?.isExcessPayment == false && it.billerInfo?.skuInfos?.first()?.isPartialPayment == false) {
+                        viewDataBinding.etAmount.apply {
+                            isClickable = false
+                            isEnabled = false
+                            isFocusable = false
+                            isFocusableInTouchMode = false
+                        }
+                    }
                 }
+
             }
         }
     }
 
     private fun setErrorBorder() {
-        getViewBinding().etAmount.background =
+        viewDataBinding.etAmount.background =
             this.resources.getDrawable(
                 if (viewModel.state.isError.get()) co.yap.yapcore.R.drawable.bg_funds_error else co.yap.yapcore.R.drawable.bg_funds,
                 null
@@ -87,7 +92,7 @@ class PayBillFragment : PayBillMainBaseFragment<IPayBill.ViewModel>(),
     }
 
     private fun setEditTextWatcher() {
-        getViewBinding().etAmount.afterTextChanged {
+        viewDataBinding.etAmount.afterTextChanged {
             if (it.isNotBlank()) {
                 viewModel.state.amount = it
                 if (viewModel.parentViewModel?.isPrepaid() == false) {
@@ -104,7 +109,7 @@ class PayBillFragment : PayBillMainBaseFragment<IPayBill.ViewModel>(),
     }
 
     private fun initTabLayout() {
-        getViewBinding().iAutoPayment.tabLayout.addOnTabSelectedListener(object :
+        viewDataBinding.iAutoPayment.tabLayout.addOnTabSelectedListener(object :
             TabLayout.OnTabSelectedListener {
             override fun onTabReselected(tab: TabLayout.Tab?) {
             }
@@ -243,10 +248,6 @@ class PayBillFragment : PayBillMainBaseFragment<IPayBill.ViewModel>(),
                 viewModel.state.isBillReminderOn.set(isChecked)
             }
         }
-    }
-
-    override fun getViewBinding(): FragmentPayBillBinding {
-        return viewDataBinding as FragmentPayBillBinding
     }
 
     override fun removeObservers() {
