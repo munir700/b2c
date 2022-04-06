@@ -1,18 +1,21 @@
 package co.yap.billpayments.paybill.base
 
 import android.os.Bundle
-import androidx.lifecycle.ViewModelProviders
-import co.yap.billpayments.dashboard.BillPaymentsViewModel
+import androidx.databinding.ViewDataBinding
+import androidx.lifecycle.ViewModelProvider
 import co.yap.billpayments.paybill.main.PayBillMainViewModel
-import co.yap.yapcore.BaseBindingFragment
+import co.yap.yapcore.BaseBindingFragmentV2
 import co.yap.yapcore.IBase
 
-abstract class PayBillMainBaseFragment<V : IBase.ViewModel<*>> : BaseBindingFragment<V>() {
+abstract class PayBillMainBaseFragment<VB : ViewDataBinding, V : IBase.ViewModel<*>> :
+    BaseBindingFragmentV2<VB, V>() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (viewModel is PayBillMainBaseViewModel<*> && activity != null) {
-            (viewModel as PayBillMainBaseViewModel<*>).parentViewModel =
-                ViewModelProviders.of(activity!!).get(PayBillMainViewModel::class.java)
+        activity?.let { owner ->
+            if (viewModel is PayBillMainBaseViewModel<*>) {
+                (viewModel as PayBillMainBaseViewModel<*>).parentViewModel =
+                    ViewModelProvider(owner).get(PayBillMainViewModel::class.java)
+            }
         }
     }
 }
