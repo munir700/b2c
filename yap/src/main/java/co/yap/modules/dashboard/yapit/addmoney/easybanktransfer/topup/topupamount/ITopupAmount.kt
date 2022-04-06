@@ -16,9 +16,7 @@ interface ITopupAmount {
     }
 
     interface State : IBase.State {
-        val denominationFirstAmount: String
-        val denominationSecondAmount: String
-        val denominationThirdAmount: String
+        val denominationChipList:MutableLiveData<List<String>>
         val valid: MutableLiveData<Boolean>
         val availableBalance: MutableLiveData<CharSequence>
     }

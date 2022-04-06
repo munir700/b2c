@@ -5,7 +5,9 @@ import android.view.View
 import androidx.fragment.app.viewModels
 import co.yap.BR
 import co.yap.R
+import co.yap.databinding.FragmentTopupAmountBinding
 import co.yap.modules.dashboard.yapit.addmoney.main.AddMoneyBaseFragment
+import co.yap.yapcore.helpers.extentions.generateChipViews
 
 //adjust resize need to be added when required activity is created
 class TopupAmountFragment : AddMoneyBaseFragment<ITopupAmount.ViewModel>(),
@@ -18,8 +20,18 @@ class TopupAmountFragment : AddMoneyBaseFragment<ITopupAmount.ViewModel>(),
         super.onViewCreated(view, savedInstanceState)
         viewDataBinding.lifecycleOwner = this
         viewModel.setAvailableBalance()
+        generateChipViews(viewModel.state.denominationChipList.value!!)
     }
 
     override fun setObservers() {}
     override fun removeObservers() {}
+
+    private fun generateChipViews(selectedList: List<String>) {
+        getBinding().cgDenominations.generateChipViews(
+            R.layout.item_denominations_chip,
+            selectedList
+        )
+    }
+
+    private fun getBinding() = viewDataBinding as FragmentTopupAmountBinding
 }
