@@ -12,11 +12,9 @@ import co.yap.app.modules.login.interfaces.IOtpBlockedInfo
 import co.yap.app.modules.login.viewmodels.OtpBlockedInfoViewModel
 import co.yap.modules.dashboard.main.activities.YapDashboardActivity
 import co.yap.translation.Strings
-import co.yap.yapcore.BaseBindingFragment
-import co.yap.yapcore.enums.CardStatus
+import co.yap.yapcore.BaseBindingFragmentV2
 import co.yap.yapcore.enums.FeatureSet
 import co.yap.yapcore.helpers.extentions.chatSetup
-import co.yap.yapcore.helpers.extentions.getBlockedFeaturesList
 import co.yap.yapcore.helpers.extentions.makeCall
 import co.yap.yapcore.helpers.extentions.makeLinks
 import co.yap.yapcore.helpers.spannables.getText
@@ -24,7 +22,8 @@ import co.yap.yapcore.managers.FeatureProvisioning.getFeatureProvisioning
 import co.yap.yapcore.managers.SessionManager
 import com.uxcam.UXCam
 
-class OtpBlockedInfoFragment : BaseBindingFragment<IOtpBlockedInfo.ViewModel>(),
+class OtpBlockedInfoFragment :
+    BaseBindingFragmentV2<FragmentOtpBlockedInfoBinding, IOtpBlockedInfo.ViewModel>(),
     IOtpBlockedInfo.View {
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_otp_blocked_info
@@ -58,7 +57,7 @@ class OtpBlockedInfoFragment : BaseBindingFragment<IOtpBlockedInfo.ViewModel>(),
             getDataBindingView<FragmentOtpBlockedInfoBinding>().tvSubTitle.text =
                 getString(Strings.screen_otp_blocked_display_text_details_card_blocked)
 
-            getBinding().tvSubTitle.makeLinks(
+            viewDataBinding.tvSubTitle.makeLinks(
                 Pair("live chat", View.OnClickListener {
                     requireActivity().chatSetup()
                 })
@@ -68,11 +67,11 @@ class OtpBlockedInfoFragment : BaseBindingFragment<IOtpBlockedInfo.ViewModel>(),
                 R.string.screen_otp_blocked_display_text_heading,
                 viewModel.state.userFirstName.get()
             )
-            getBinding().tvSubTitle.text = resources.getText(
+            viewDataBinding.tvSubTitle.text = resources.getText(
                 getString(Strings.screen_otp_blocked_display_text_details),
                 viewModel.state.helpPhoneNo.get() ?: ""
             )
-            getBinding().tvSubTitle.makeLinks(
+            viewDataBinding.tvSubTitle.makeLinks(
                 Pair(viewModel.state.helpPhoneNo.get() ?: "", View.OnClickListener {
                     requireContext().makeCall(viewModel.state.helpPhoneNo.get())
                 }),
@@ -90,10 +89,6 @@ class OtpBlockedInfoFragment : BaseBindingFragment<IOtpBlockedInfo.ViewModel>(),
                 activity?.finish()
             }
         }
-    }
-
-    private fun getBinding(): FragmentOtpBlockedInfoBinding {
-        return (viewDataBinding as FragmentOtpBlockedInfoBinding)
     }
 
     override fun removeObservers() {

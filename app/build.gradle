@@ -55,8 +55,8 @@ android {
         }
 
         Preprod {
-            versionCode 133
-            versionName "2.3.3"
+            versionCode 139
+            versionName "2.3.9"
             applicationId "com.yap.banking.preprod"
             resValue "string", "app_name", "YAP Preprod"
             // It binds with SHA1- SHA 256 and package bundle
@@ -69,7 +69,7 @@ android {
         }
 
         stg {
-            versionCode 405
+            versionCode 406
             versionName "4.0.1"
             applicationIdSuffix ".stg"
             resValue "string", "app_name", "YAP Stage"
@@ -174,6 +174,6 @@ dependencies {
         }
     }
 
-    implementation "com.google.dagger:hilt-android:2.29-alpha"
-    kapt "com.google.dagger:hilt-android-compiler:2.29-alpha"
+    implementation "com.google.dagger:hilt-android:2.38.1"
+    kapt "com.google.dagger:hilt-android-compiler:2.38.1"
 }

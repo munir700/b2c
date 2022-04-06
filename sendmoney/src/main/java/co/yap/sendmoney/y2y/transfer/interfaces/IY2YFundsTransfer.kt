@@ -12,7 +12,6 @@ import co.yap.yapcore.SingleClickEvent
 class IY2YFundsTransfer {
     interface View : IBase.View<ViewModel> {
         fun setObservers()
-        fun getBinding(): ViewDataBinding
     }
 
     interface ViewModel : IBase.ViewModel<State> {

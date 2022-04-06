@@ -20,8 +20,12 @@ class InformationErrorViewModel(application: Application) :
 
     override fun onResume() {
         super.onResume()
-        parentViewModel?.identity?.let {
-            if (it.nationality.equals("USA", true) || it.isoCountryCode2Digit.equals("US", true))
+        parentViewModel?.uqudoIdentity?.value?.let {
+            if (it.nationality.contains(
+                    "United States",
+                    true
+                ) || it.digit3CountryCode?.contains("US") == true
+            )
                 state.isUSACitizen.set(true)
         }
     }

@@ -39,7 +39,7 @@ import kotlinx.android.synthetic.main.fragment_log_in.*
 import kotlinx.coroutines.delay
 
 
-class LoginFragment : MainChildFragment<ILogin.ViewModel>(), ILogin.View {
+class LoginFragment : MainChildFragment<FragmentLogInBinding,ILogin.ViewModel>(), ILogin.View {
 
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_log_in
@@ -152,10 +152,11 @@ class LoginFragment : MainChildFragment<ILogin.ViewModel>(), ILogin.View {
         KeyboardVisibilityEvent.setEventListener(requireActivity(), viewLifecycleOwner, object :
             KeyboardVisibilityEventListener {
             override fun onVisibilityChanged(isOpen: Boolean) {
-                clSignUp?.post {
+                viewDataBinding.clSignUp.post {
                     if (isOpen)
-                        scrollView?.scrollToBottomWithoutFocusChange()
-                    clSignUp?.visibility = if (isOpen) GONE else VISIBLE
+                        viewDataBinding.scrollView.scrollToBottomWithoutFocusChange()
+                    viewDataBinding.clSignUp.visibility =
+                        if (isOpen) GONE else VISIBLE
                 }
             }
         })

@@ -12,6 +12,7 @@ import androidx.navigation.fragment.findNavController
 import co.yap.app.BR
 import co.yap.app.BuildConfig
 import co.yap.app.R
+import co.yap.app.databinding.FragmentSplashBinding
 import co.yap.app.main.MainChildFragment
 import co.yap.app.modules.startup.interfaces.ISplash
 import co.yap.app.modules.startup.viewmodels.SplashViewModel
@@ -34,7 +35,7 @@ import com.yap.yappakistan.ui.auth.main.AuthenticationActivity
 import kotlinx.android.synthetic.main.fragment_splash.*
 import kotlinx.coroutines.delay
 
-class SplashFragment : MainChildFragment<ISplash.ViewModel>(), ISplash.View {
+class SplashFragment : MainChildFragment<FragmentSplashBinding,ISplash.ViewModel>(), ISplash.View {
     private var animatorSet: AnimatorSet? = null
 
     override fun getBindingVariable() = BR.viewModel

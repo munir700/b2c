@@ -193,8 +193,8 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
 
     private fun startOtpFragment() {
         startFragmentForResult<GenericOtpFragment>(
-            GenericOtpFragment::class.java.name,
-            bundleOf(
+            fragmentName = GenericOtpFragment::class.java.name,
+            bundle = bundleOf(
                 OtpDataModel::class.java.name to OtpDataModel(
                     viewModel.parentViewModel?.transferData?.value?.otpAction,//action,
                     SessionManager.user?.currentCustomer?.getFormattedPhoneNumber(requireContext())

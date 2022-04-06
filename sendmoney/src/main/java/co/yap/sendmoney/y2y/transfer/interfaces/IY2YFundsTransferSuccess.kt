@@ -6,7 +6,6 @@ import co.yap.yapcore.SingleClickEvent
 
 interface IY2YFundsTransferSuccess {
     interface View : IBase.View<ViewModel>{
-        fun getBinding(): ViewDataBinding
     }
     interface ViewModel : IBase.ViewModel<State> {
         fun handlePressOnDashboardButton(id: Int)

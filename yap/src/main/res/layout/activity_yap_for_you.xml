@@ -34,7 +34,7 @@
             app:onClick="@{viewModel::onToolBarClick}"
             app:titleString="@{viewModel.state.toolbarTitle}" />
 
-        <fragment
+        <androidx.fragment.app.FragmentContainerView
             android:id="@+id/yap_for_you_nav_host_fragment"
             android:name="androidx.navigation.fragment.NavHostFragment"
             android:layout_width="match_parent"

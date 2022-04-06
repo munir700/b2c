@@ -1,5 +1,10 @@
+apply plugin: 'kotlin-android-extensions'
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation('io.uqudo.sdk:digitify:1.12.1') {
+        exclude group: 'androidx.activity', module: 'activity'
+        exclude group: 'androidx.navigation'
+    }
     implementation ('com.digitify:yappakistan:0.2.3'){
         exclude group: 'com.squareup.okhttp3', module: 'okhttp'
     }

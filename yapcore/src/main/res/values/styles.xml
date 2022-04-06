@@ -779,8 +779,27 @@
         <item name="android:fontFamily">@font/roboto_regular</item>
         <item name="fontFamily">@font/roboto_regular</item>
         <item name="font">@font/roboto_regular</item>
-
     </style>
-
-
+    <style name="uq_scan_camera_ui_description">
+        <item name="android:textColor">@color/greySoftSelected</item>
+        <item name="font">@font/roboto_regular</item>
+        <item name="android:fontFamily">@font/roboto_regular</item>
+        <item name="fontFamily">@font/roboto_regular</item>
+        <item name="android:textSize">@dimen/text_size_h4</item>
+    </style>
+    <style name="uq_scan_camera_ui_bottom_info">
+        <item name="android:textColor">@color/greySoftSelected</item>
+        <item name="font">@font/roboto_regular</item>
+        <item name="android:fontFamily">@font/roboto_regular</item>
+        <item name="fontFamily">@font/roboto_regular</item>
+        <item name="android:textSize">@dimen/text_size_h3</item>
+        <item name="backgroundTint">@color/disabledTickColor</item>
+    </style>
+    <style name="uq_scan_review_title_style">
+        <item name="android:textColor">@color/greySoftSelected</item>
+        <item name="font">@font/roboto_regular</item>
+        <item name="android:fontFamily">@font/roboto_regular</item>
+        <item name="fontFamily">@font/roboto_regular</item>
+        <item name="android:textSize">@dimen/text_size_h3</item>
+    </style>
 </resources>
