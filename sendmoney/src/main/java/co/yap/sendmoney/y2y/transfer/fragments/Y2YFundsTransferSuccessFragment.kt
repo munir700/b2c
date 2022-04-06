@@ -5,7 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
 import co.yap.sendmoney.BR
 import co.yap.sendmoney.R
@@ -18,7 +18,8 @@ import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.managers.SessionManager
 
-class Y2YFundsTransferSuccessFragment : Y2YBaseFragment<IY2YFundsTransferSuccess.ViewModel>(),
+class Y2YFundsTransferSuccessFragment :
+    Y2YBaseFragment<FragmentY2yFundsTransferSuccessBinding, IY2YFundsTransferSuccess.ViewModel>(),
     IY2YFundsTransferSuccess.View {
     private val args: Y2YFundsTransferSuccessFragmentArgs by navArgs()
     override fun getBindingVariable(): Int = BR.viewModel
@@ -26,7 +27,7 @@ class Y2YFundsTransferSuccessFragment : Y2YBaseFragment<IY2YFundsTransferSuccess
     override fun getLayoutId(): Int = R.layout.fragment_y2y_funds_transfer_success
 
     override val viewModel: IY2YFundsTransferSuccess.ViewModel
-        get() = ViewModelProviders.of(this).get(Y2YFundsTransferSuccessViewModel::class.java)
+        get() = ViewModelProvider(this).get(Y2YFundsTransferSuccessViewModel::class.java)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,15 +49,15 @@ class Y2YFundsTransferSuccessFragment : Y2YBaseFragment<IY2YFundsTransferSuccess
             args.amount.toFormattedCurrency(showCurrency = true, currency = args.currencyType)
         viewModel.state.imageUrl = args.imagePath
 
-        getBinding().lyUserImage.tvNameInitials.background = Utils.getContactBackground(
-            getBinding().lyUserImage.tvNameInitials.context,
+        viewDataBinding.lyUserImage.tvNameInitials.background = Utils.getContactBackground(
+            viewDataBinding.lyUserImage.tvNameInitials.context,
             args.position
         )
 
 
-        getBinding().lyUserImage.tvNameInitials.setTextColor(
+        viewDataBinding.lyUserImage.tvNameInitials.setTextColor(
             Utils.getContactColors(
-                getBinding().lyUserImage.tvNameInitials.context, args.position
+                viewDataBinding.lyUserImage.tvNameInitials.context, args.position
             )
         )
     }
@@ -67,15 +68,11 @@ class Y2YFundsTransferSuccessFragment : Y2YBaseFragment<IY2YFundsTransferSuccess
         activity?.setResult(Activity.RESULT_OK, intent)
         activity?.finish()
     }
-  
+
     override fun onDestroy() {
         viewModel.clickEvent.removeObservers(this)
         super.onDestroy()
 
-    }
-
-    override fun getBinding(): FragmentY2yFundsTransferSuccessBinding {
-        return viewDataBinding as FragmentY2yFundsTransferSuccessBinding
     }
 
     override fun onBackPressed(): Boolean {

@@ -6,7 +6,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.navigation.fragment.navArgs
 import co.yap.modules.otp.GenericOtpFragment
@@ -38,14 +38,14 @@ import co.yap.yapcore.leanplum.trackEvent
 import co.yap.yapcore.managers.SessionManager
 
 
-class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2YFundsTransfer.View {
+class Y2YTransferFragment : Y2YBaseFragment<FragmentY2yFundsTransferBinding,IY2YFundsTransfer.ViewModel>(), IY2YFundsTransfer.View {
     val args: Y2YTransferFragmentArgs by navArgs()
 
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_y2y_funds_transfer
 
     override val viewModel: Y2YFundsTransferViewModel
-        get() = ViewModelProviders.of(this).get(Y2YFundsTransferViewModel::class.java)
+        get() = ViewModelProvider(this).get(Y2YFundsTransferViewModel::class.java)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -84,7 +84,7 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
     }
 
     private fun setEditTextWatcher() {
-        getBinding().lyY2Y.etAmount.afterTextChanged {
+        viewDataBinding.lyY2Y.etAmount.afterTextChanged {
             viewModel.state.amount = it
             if (viewModel.state.amount.isNotEmpty() && viewModel.state.amount.parseToDouble() > 0.0) {
                 checkOnTextChangeValidation()
@@ -96,7 +96,7 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
             viewModel.updateFees(it)
         }
 
-        getBinding().lyQrY2Y.etAmountQR.afterTextChanged {
+        viewDataBinding.lyQrY2Y.etAmountQR.afterTextChanged {
             viewModel.state.amount = it
             if (viewModel.state.amount.isNotEmpty() && viewModel.state.amount.parseToDouble() > 0.0) {
                 checkOnTextChangeValidation()
@@ -276,7 +276,7 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
     private fun isOtpRequired(): Boolean {
         viewModel.transactionThreshold.value?.let {
             it.totalDebitAmountY2Y?.let { totalY2YConsumedAmount ->
-                viewModel.state.amount?.toDoubleOrNull()?.let { enteredAmount ->
+                viewModel.state.amount.toDoubleOrNull()?.let { enteredAmount ->
                     val remainingOtpLimit = it.otpLimitY2Y?.minus(totalY2YConsumedAmount)
                     return enteredAmount > (remainingOtpLimit ?: 0.0)
                 } ?: return false
@@ -300,7 +300,7 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
             Y2YTransferFragmentDirections.actionY2YTransferFragmentToY2YFundsTransferSuccessFragment(
                 viewModel.state.fullName, viewModel.state.imageUrl,
                 SessionManager.getDefaultCurrency(),
-                viewModel.state.amount ?: "", args.position
+                viewModel.state.amount, args.position
             )
         navigate(action)
     }
@@ -309,10 +309,6 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
         viewModel.clickEvent.removeObservers(this)
         cancelAllSnackBar()
         super.onDestroy()
-    }
-
-    override fun getBinding(): FragmentY2yFundsTransferBinding {
-        return viewDataBinding as FragmentY2yFundsTransferBinding
     }
 
     override fun onBackPressed(): Boolean {
