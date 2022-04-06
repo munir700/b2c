@@ -1,12 +1,15 @@
 package co.yap.modules.dashboard.yapit.addmoney.easybanktransfer.topup.topupamount
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import co.yap.BR
 import co.yap.R
+import co.yap.databinding.FragmentTopupAmountBinding
 import co.yap.modules.dashboard.yapit.addmoney.main.AddMoneyBaseFragment
+import co.yap.yapcore.helpers.extentions.generateChipViews
+import com.google.android.material.chip.Chip
 
 //adjust resize need to be added when required activity is created
 class TopupAmountFragment : AddMoneyBaseFragment<ITopupAmount.ViewModel>(),
@@ -18,37 +21,41 @@ class TopupAmountFragment : AddMoneyBaseFragment<ITopupAmount.ViewModel>(),
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewDataBinding.lifecycleOwner = this
-        setObservers()
         viewModel.setAvailableBalance()
+        generateChipViews(viewModel.state.denominationChipList.value!!)
+        setObservers()
     }
 
     override fun setObservers() {
         observeClickEvent()
         observeEnteredAmount()
+        setDenominationsChipListener()
+    }
+
+    private fun setDenominationsChipListener() {
+        for (index in 0 until getBinding().cgDenominations.childCount) {
+            val chip: Chip = getBinding().cgDenominations.getChildAt(index) as Chip
+            chip.setOnCheckedChangeListener { view, isChecked ->
+                Log.i("T", "setDenominationsChipListener: $isChecked")
+                viewModel.denominationAmountValidator(view.text.toString())
+            }
+        }
     }
 
     private fun observeEnteredAmount() {
-        viewModel.state.enteredTopUpAmount.observe(viewLifecycleOwner, Observer {
-
-        })
+        viewModel.state.enteredTopUpAmount.observe(viewLifecycleOwner) {topUpAmount->
+            //deal with topUpAmount
+        }
     }
 
     private fun observeClickEvent(){
-        viewModel.clickEvent.observe(this, Observer {id->
-            when(id){
-                R.id.tvDominationFirstAmount->{
-                    viewModel.denominationAmountValidator(viewModel.state.denominationFirstAmount)
-                }
-
-                R.id.tvDominationSecondAmount->{
-                    viewModel.denominationAmountValidator(viewModel.state.denominationSecondAmount)
-                }
-
-                R.id.tvDominationThirdAmount->{
-                    viewModel.denominationAmountValidator(viewModel.state.denominationThirdAmount)
+        viewModel.clickEvent.observe(this) { id ->
+            when (id) {
+                R.id.btnAction -> {
+                    //navigate screen
                 }
             }
-        })
+        }
     }
 
     override fun onDestroyView() {
@@ -68,4 +75,14 @@ class TopupAmountFragment : AddMoneyBaseFragment<ITopupAmount.ViewModel>(),
             }
         }
     }
+    
+    private fun generateChipViews(selectedList: List<String>) {
+        getBinding().cgDenominations.generateChipViews(
+            R.layout.item_denominations_chip,
+            selectedList
+        )
+    }
+
+    private fun getBinding() = viewDataBinding as FragmentTopupAmountBinding
+
 }

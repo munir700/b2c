@@ -101,16 +101,19 @@
             app:layout_constraintTop_toBottomOf="@+id/tvCurrency"
             tools:text="1234567891" />
 
-        <include
-            android:id="@+id/incTopUpDenominations"
-            layout="@layout/view_topup_denominations"
-            android:layout_width="match_parent"
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/cgDenominations"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_large"
+            android:layout_marginTop="@dimen/margin_medium"
+            android:orientation="horizontal"
+            android:theme="@style/Theme.MaterialComponents.Light"
             app:layout_constraintEnd_toEndOf="parent"
+            app:singleLine="true"
+            app:singleSelection="true"
+            app:selectionRequired="true"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/etAmount"
-            app:viewModel="@{viewModel}" />
+            app:layout_constraintTop_toBottomOf="@+id/etAmount" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvAvailableBalanceGuide"
@@ -121,7 +124,7 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginTop="@dimen/margin_large"
-            app:layout_constraintTop_toBottomOf="@+id/incTopUpDenominations"
+            app:layout_constraintTop_toBottomOf="@+id/cgDenominations"
             android:text="@{viewModel.state.availableBalance}"
             tools:text="Your available balance is AED 2022" />
 

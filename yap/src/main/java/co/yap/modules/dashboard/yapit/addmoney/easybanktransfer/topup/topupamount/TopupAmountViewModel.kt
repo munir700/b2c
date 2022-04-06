@@ -7,6 +7,7 @@ import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
+import co.yap.yapcore.helpers.extentions.toast
 import co.yap.yapcore.helpers.spannables.color
 import co.yap.yapcore.helpers.spannables.getText
 
@@ -34,7 +35,7 @@ class TopupAmountViewModel(application: Application) :
            // state.valid.value = state.enteredTopUpAmount.value?.getValueWithoutComa().parseToDouble() <= state.remainingAccumulative.get()?:0.0*/
         } else {
             state.enteredTopUpAmount.value = ""
-            state.valid.value = true
+            state.valid.value = false
         }
     }
 
