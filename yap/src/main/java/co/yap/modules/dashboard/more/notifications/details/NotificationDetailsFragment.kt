@@ -5,9 +5,10 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import co.yap.BR
 import co.yap.R
+import co.yap.databinding.FragmentNotificationDetailsBinding
 import co.yap.modules.kyc.activities.DocumentsDashboardActivity
 import co.yap.modules.kyc.amendments.missinginfo.MissingInfoFragment
 import co.yap.modules.location.activities.LocationSelectionActivity
@@ -17,7 +18,7 @@ import co.yap.networking.cards.responsedtos.Address
 import co.yap.networking.customers.responsedtos.documents.GetMoreDocumentsResponse
 import co.yap.networking.notification.responsedtos.NotificationAction
 import co.yap.translation.Strings
-import co.yap.yapcore.BaseBindingFragment
+import co.yap.yapcore.BaseBindingFragmentV2
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.enums.EIDStatus
@@ -30,14 +31,15 @@ import co.yap.yapcore.helpers.extentions.showBlockedFeatureAlert
 import co.yap.yapcore.helpers.extentions.startFragment
 import co.yap.yapcore.managers.SessionManager
 
-class NotificationDetailsFragment : BaseBindingFragment<INotificationDetails.ViewModel>(),
+class NotificationDetailsFragment :
+    BaseBindingFragmentV2<FragmentNotificationDetailsBinding, INotificationDetails.ViewModel>(),
     INotificationDetails.View {
     override fun getBindingVariable() = BR.viewModel
 
     override fun getLayoutId() = R.layout.fragment_notification_details
 
     override val viewModel: NotificationDetailsViewModel
-        get() = ViewModelProviders.of(this).get(NotificationDetailsViewModel::class.java)
+        get() = ViewModelProvider(this).get(NotificationDetailsViewModel::class.java)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -64,6 +66,7 @@ class NotificationDetailsFragment : BaseBindingFragment<INotificationDetails.Vie
                                     Constants.name,
                                     SessionManager.user?.currentCustomer?.firstName.toString()
                                 )
+                                putExtra("from", NotificationDetailsFragment::class.java.name)
                                 putExtra(Constants.data, false)
                             }
                         }
@@ -96,6 +99,11 @@ class NotificationDetailsFragment : BaseBindingFragment<INotificationDetails.Vie
                                                 identityNo = SessionManager.user?.currentCustomer?.identityNo
                                             )
                                         )
+                                        putExtra(
+                                            "from",
+                                            NotificationDetailsFragment::class.java.name
+                                        )
+
                                     }
                                 } else {
                                     showBlockedFeatureAlert(
@@ -119,6 +127,7 @@ class NotificationDetailsFragment : BaseBindingFragment<INotificationDetails.Vie
                                             identityNo = SessionManager.user?.currentCustomer?.identityNo
                                         )
                                     )
+                                    putExtra("from", NotificationDetailsFragment::class.java.name)
                                 }
                             }
                         }
@@ -135,7 +144,8 @@ class NotificationDetailsFragment : BaseBindingFragment<INotificationDetails.Vie
                         }
                         NotificationAction.AMENDMENT -> {
                             startFragment(
-                                fragmentName = MissingInfoFragment::class.java.name, clearAllPrevious = true
+                                fragmentName = MissingInfoFragment::class.java.name,
+                                clearAllPrevious = true
                             )
                         }
                     }

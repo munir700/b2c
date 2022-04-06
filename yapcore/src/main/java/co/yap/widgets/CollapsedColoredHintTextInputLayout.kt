@@ -15,7 +15,7 @@ import java.lang.reflect.InvocationTargetException
 import java.lang.reflect.Method
 
 @Keep
-class CollapsedColoredHintTextInputLayout : TextInputLayout {
+open class CollapsedColoredHintTextInputLayout : TextInputLayout {
     private var collapseHintMethod: Method? = null
     private var hintTextColorNormal = 0
     private var hintTextColorSelected = 0
@@ -42,7 +42,7 @@ class CollapsedColoredHintTextInputLayout : TextInputLayout {
         initializeCustomAttrs(context, attrs)
     }
 
-    fun init() {
+    private fun init() {
         initForHint()
         isHintAnimationEnabled = false
         try {

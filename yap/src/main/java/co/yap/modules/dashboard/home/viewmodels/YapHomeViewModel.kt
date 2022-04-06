@@ -236,7 +236,7 @@ class YapHomeViewModel(application: Application) :
             )
             transactionModelData.add(transactionModel)
             MAX_CLOSING_BALANCE =
-                closingBalanceArray.max() ?: 0.0
+                closingBalanceArray.maxOrNull() ?: 0.0
         }
         return transactionModelData
     }

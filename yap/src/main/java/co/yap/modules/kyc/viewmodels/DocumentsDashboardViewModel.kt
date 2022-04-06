@@ -5,21 +5,20 @@ import androidx.lifecycle.MutableLiveData
 import co.yap.modules.kyc.activities.DocumentsResponse
 import co.yap.modules.kyc.interfaces.IDocumentsDashboard
 import co.yap.modules.kyc.states.DocumentsDashboardState
+import co.yap.modules.kyc.uqudo.UqudoScannerManager
+import co.yap.networking.customers.responsedtos.V2DocumentDTO
 import co.yap.networking.customers.responsedtos.documents.GetMoreDocumentsResponse
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.managers.SessionManager
-import com.digitify.identityscanner.docscanner.models.Identity
 
 class DocumentsDashboardViewModel(application: Application) :
     BaseViewModel<IDocumentsDashboard.State>(application),
     IDocumentsDashboard.ViewModel {
 
     override val state: DocumentsDashboardState = DocumentsDashboardState()
-    override var identity: Identity? = null
-    override var paths: ArrayList<String> = arrayListOf()
     override var amendmentMap: HashMap<String?, List<String>?>? = null
     override var name: MutableLiveData<String> = MutableLiveData("")
     override var skipFirstScreen: MutableLiveData<Boolean> = MutableLiveData(false)
@@ -28,10 +27,13 @@ class DocumentsDashboardViewModel(application: Application) :
     override var showProgressBar: MutableLiveData<Boolean> = MutableLiveData()
     override var finishKyc: MutableLiveData<DocumentsResponse> = MutableLiveData()
     override var accountStatus: MutableLiveData<String> = MutableLiveData()
+    override var comingFrom: MutableLiveData<String> = MutableLiveData()
 
     override var document: GetMoreDocumentsResponse.Data.CustomerDocument.DocumentInformation? =
         null
     override var hideProgressToolbar = MutableLiveData(false)
+    override var uqudoIdentity: MutableLiveData<V2DocumentDTO> = MutableLiveData()
+    override var uqudoManager: UqudoScannerManager? = null
 
     override fun onCreate() {
         super.onCreate()

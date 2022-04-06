@@ -75,8 +75,8 @@ class CurrentPasscodeFragment : ChangePasscodeBaseFragment<IPassCode.ViewModel>(
 
     private fun startOtpFragment(name: String) {
         startFragmentForResult<GenericOtpFragment>(
-            GenericOtpFragment::class.java.name,
-            bundleOf(
+            fragmentName = GenericOtpFragment::class.java.name,
+           bundle =  bundleOf(
                 OtpDataModel::class.java.name to OtpDataModel(
                     otpAction = OTPActions.FORGOT_PASS_CODE.name,
                     mobileNumber = viewModel.mobileNumber,
