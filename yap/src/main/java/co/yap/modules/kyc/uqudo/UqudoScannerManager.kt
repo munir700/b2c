@@ -6,6 +6,7 @@ import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.os.Build
 import android.widget.Toast
+import androidx.annotation.Keep
 import androidx.lifecycle.MutableLiveData
 import co.yap.networking.customers.responsedtos.EidData
 import co.yap.networking.customers.responsedtos.UqudoHeader
@@ -46,18 +47,21 @@ class UqudoScannerManager private constructor(val context: Activity) : IUqudoMan
     private var imagePaths: HashMap<Int, String> = hashMapOf()
     private var uqudoHeader: MutableLiveData<UqudoHeader> = MutableLiveData()
     private var tokenInitiatedTime: MutableLiveData<Date> = MutableLiveData()
+    private var dateOfBirth: MutableLiveData<Date> = MutableLiveData()
+    private var dateOfExpiry: MutableLiveData<Date> = MutableLiveData()
     private val TIME_FORMAT = "yyyy-MM-dd HH:mm:ss"
     private val DATE_INPUT_FORMAT = "yyMMdd"
-
     private val DATE_OUTPUT_FORMAT = "yyyy-mm-dd"
 
     companion object : SingletonHolder<UqudoScannerManager, Activity>(::UqudoScannerManager)
 
     fun fetchDocumentBackDate() = getPayloadData()?.documents?.get(0)?.scan?.back
     fun fetchDocumentFrontDate() = getPayloadData()?.documents?.get(0)?.scan?.front
-    fun getDateOfBirth(): Date = getFormatDateFromUqudo(fetchDocumentBackDate()?.dateOfBirth)
+    fun getDateOfBirth(): Date =
+        getFormatDateFromUqudo(fetchDocumentBackDate()?.dateOfBirth, UqudoFlags.DATE_OF_BIRTH)
 
-    fun getExpiryDate(): Date = getFormatDateFromUqudo(fetchDocumentBackDate()?.dateOfExpiry)
+    fun getExpiryDate(): Date =
+        getFormatDateFromUqudo(fetchDocumentBackDate()?.dateOfExpiry, UqudoFlags.EXPIRY_DATE)
 
     override fun initializeUqudo() = UqudoSDK.init(context.applicationContext)
     fun setUqudoToken(uqudoTokenResponse: UqudoTokenResponse) {
@@ -205,16 +209,15 @@ class UqudoScannerManager private constructor(val context: Activity) : IUqudoMan
             })
     }
 
-    override fun getFormatDateFromUqudo(string: String?): Date {
+    override fun getFormatDateFromUqudo(string: String?, flag: UqudoFlags): Date {
         val inputSDF = SimpleDateFormat(DATE_INPUT_FORMAT)
-        val outputSDF = SimpleDateFormat(DATE_OUTPUT_FORMAT, Locale.getDefault())
         var date: Date? = null
         try {
             date = inputSDF.parse(string)
             inputSDF.applyPattern(DATE_OUTPUT_FORMAT)
-            val newDate = outputSDF.format(date)
-            val dateRes: Date = outputSDF.parse(newDate)
-            return dateRes
+            if (flag == UqudoFlags.EXPIRY_DATE) dateOfExpiry.value = date else dateOfBirth.value =
+                date
+            return date
         } catch (e: java.lang.Exception) {
             e.printStackTrace()
         }
@@ -228,8 +231,8 @@ class UqudoScannerManager private constructor(val context: Activity) : IUqudoMan
             firstName = "",
             middleName = "",
             lastName = "",
-            dateExpiry = getExpiryDate(),
-            dob = getDateOfBirth(),
+            dateExpiry = dateOfExpiry.value ?: Date(),
+            dob = dateOfBirth.value ?: Date(),
             fullName = fetchDocumentFrontDate()?.fullName ?: "",
             gender = fetchDocumentBackDate()?.sex.toString(),
             digit3CountryCode = fetchDocumentBackDate()?.nationality ?: "UAE",
@@ -266,4 +269,9 @@ class UqudoScannerManager private constructor(val context: Activity) : IUqudoMan
             }
         }
     }
+}
+
+@Keep
+enum class UqudoFlags {
+    EXPIRY_DATE, DATE_OF_BIRTH, NONE
 }
