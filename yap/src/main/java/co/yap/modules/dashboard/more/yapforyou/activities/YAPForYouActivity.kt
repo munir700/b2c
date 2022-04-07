@@ -5,6 +5,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
+import co.yap.databinding.ActivityYapForYouBinding
 import co.yap.modules.dashboard.more.yapforyou.interfaces.IYapForYouMain
 import co.yap.modules.dashboard.more.yapforyou.viewmodels.YapForYouMainViewModel
 import co.yap.yapcore.BaseBindingActivity
@@ -14,7 +15,7 @@ import co.yap.yapcore.defaults.INavigator
 import co.yap.yapcore.interfaces.BackPressImpl
 import co.yap.yapcore.interfaces.IBaseNavigator
 
-class YAPForYouActivity : BaseBindingActivity<IYapForYouMain.ViewModel>(), INavigator,
+class YAPForYouActivity : BaseBindingActivity<ActivityYapForYouBinding,IYapForYouMain.ViewModel>(), INavigator,
     IFragmentHolder {
 
     override fun getBindingVariable(): Int = BR.viewModel

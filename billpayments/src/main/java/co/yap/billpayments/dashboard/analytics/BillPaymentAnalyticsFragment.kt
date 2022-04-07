@@ -20,7 +20,8 @@ import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.interfaces.OnItemClickListener
 import java.util.*
 
-class BillPaymentAnalyticsFragment : BillDashboardBaseFragment<IBillPaymentAnalytics.ViewModel>(),
+class BillPaymentAnalyticsFragment :
+    BillDashboardBaseFragment<FragmentBillPaymentsAnalyticsBinding, IBillPaymentAnalytics.ViewModel>(),
     IBillPaymentAnalytics.View, OnChartValueSelectedListener {
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_bill_payments_analytics
@@ -69,7 +70,7 @@ class BillPaymentAnalyticsFragment : BillDashboardBaseFragment<IBillPaymentAnaly
     private fun setupPieChart(list: List<BPAnalyticsModel>?) {
         val entries = viewModel.getEntries(list)
         val colors = viewModel.getPieChartColors(list)
-        getBinding().chart1.initPieChart(
+        viewDataBinding.chart1.initPieChart(
             entries = entries,
             graphColors = colors,
             shouldHighlightFirstIndex = false,
@@ -93,13 +94,8 @@ class BillPaymentAnalyticsFragment : BillDashboardBaseFragment<IBillPaymentAnaly
     }
 
     private val clickListener = Observer<Int> {
-        when (it) {
 
-        }
     }
-
-    override fun getBinding(): FragmentBillPaymentsAnalyticsBinding =
-        viewDataBinding as FragmentBillPaymentsAnalyticsBinding
 
     override fun removeObservers() {
         viewModel.clickEvent.removeObservers(this)

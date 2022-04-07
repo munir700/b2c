@@ -9,12 +9,13 @@ import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.R
+import co.yap.databinding.ActivityTopupCardDetailBinding
 import co.yap.networking.customers.responsedtos.beneficiary.TopUpCard
 import co.yap.yapcore.BR
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.helpers.DateUtils
 
-class TopupCardDetailActivity : BaseBindingActivity<ITopUpCardDetail.ViewModel>() {
+class TopupCardDetailActivity : BaseBindingActivity<ActivityTopupCardDetailBinding,ITopUpCardDetail.ViewModel>() {
 
     companion object {
         const val key = "card"

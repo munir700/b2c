@@ -8,6 +8,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import co.yap.BR
 import co.yap.R
+import co.yap.databinding.ActivityDocumentsDashboardBinding
 import co.yap.modules.kyc.fragments.EidInfoReviewAmendmentFragment
 import co.yap.modules.kyc.interfaces.IDocumentsDashboard
 import co.yap.modules.kyc.uqudo.UqudoScannerManager
@@ -27,7 +28,7 @@ import kotlinx.android.synthetic.main.activity_documents_dashboard.*
 import kotlinx.android.synthetic.main.layout_kyc_progress_toolbar.view.*
 import java.io.File
 
-class DocumentsDashboardActivity : BaseBindingActivity<IDocumentsDashboard.ViewModel>(), INavigator,
+class DocumentsDashboardActivity : BaseBindingActivity<ActivityDocumentsDashboardBinding,IDocumentsDashboard.ViewModel>(), INavigator,
     IFragmentHolder {
 
     override val viewModel: IDocumentsDashboard.ViewModel

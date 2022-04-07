@@ -12,7 +12,7 @@ import co.yap.app.modules.login.interfaces.IOtpBlockedInfo
 import co.yap.app.modules.login.viewmodels.OtpBlockedInfoViewModel
 import co.yap.modules.dashboard.main.activities.YapDashboardActivity
 import co.yap.translation.Strings
-import co.yap.yapcore.BaseBindingFragmentV2
+import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.enums.FeatureSet
 import co.yap.yapcore.helpers.extentions.chatSetup
 import co.yap.yapcore.helpers.extentions.makeCall
@@ -23,7 +23,7 @@ import co.yap.yapcore.managers.SessionManager
 import com.uxcam.UXCam
 
 class OtpBlockedInfoFragment :
-    BaseBindingFragmentV2<FragmentOtpBlockedInfoBinding, IOtpBlockedInfo.ViewModel>(),
+    BaseBindingFragment<FragmentOtpBlockedInfoBinding, IOtpBlockedInfo.ViewModel>(),
     IOtpBlockedInfo.View {
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_otp_blocked_info

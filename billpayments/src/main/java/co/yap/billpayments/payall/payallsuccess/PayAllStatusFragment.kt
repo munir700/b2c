@@ -4,17 +4,19 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import co.yap.billpayments.BR
 import co.yap.billpayments.R
+import co.yap.billpayments.databinding.FragmentPayAllStatusBinding
 import co.yap.billpayments.payall.base.PayAllBaseFragment
 
-class PayAllStatusFragment : PayAllBaseFragment<IPayAllStatus.ViewModel>(),
+class PayAllStatusFragment :
+    PayAllBaseFragment<FragmentPayAllStatusBinding, IPayAllStatus.ViewModel>(),
     IPayAllStatus.View {
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_pay_all_status
     override val viewModel: IPayAllStatus.ViewModel
-        get() = ViewModelProviders.of(this).get(PayAllStatusViewModel::class.java)
+        get() = ViewModelProvider(this).get(PayAllStatusViewModel::class.java)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

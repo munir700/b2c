@@ -11,6 +11,7 @@ import android.webkit.WebView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.R
+import co.yap.databinding.ActivityAddTopUpCardV2Binding
 import co.yap.modules.dashboard.yapit.topup.addtopupcard.AddTopUpCardDialog
 import co.yap.modules.dashboard.yapit.topup.addtopupcard.interfaces.IAddTopUpCard
 import co.yap.modules.dashboard.yapit.topup.addtopupcard.viewmodels.AddTopUpCardViewModel
@@ -23,7 +24,7 @@ import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.extentions.toast
 import kotlinx.android.synthetic.main.activity_add_top_up_card_v2.*
 
-class AddTopUpCardActivityV2 : BaseBindingActivity<IAddTopUpCard.ViewModel>(), IAddTopUpCard.View,
+class AddTopUpCardActivityV2 : BaseBindingActivity<ActivityAddTopUpCardV2Binding,IAddTopUpCard.ViewModel>(), IAddTopUpCard.View,
     AdvancedWebView.Listener, MultiStateView.OnReloadListener {
     override fun getBindingVariable(): Int = BR.viewModel
 

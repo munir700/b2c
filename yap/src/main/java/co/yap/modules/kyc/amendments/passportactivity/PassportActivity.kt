@@ -16,7 +16,7 @@ import co.yap.yapcore.defaults.DefaultNavigator
 import co.yap.yapcore.defaults.INavigator
 import co.yap.yapcore.interfaces.IBaseNavigator
 
-class PassportActivity : BaseBindingActivity<IPassport.ViewModel>(), IPassport.View,
+class PassportActivity : BaseBindingActivity<ActivityPassportBinding,IPassport.ViewModel>(), IPassport.View,
     INavigator, IFragmentHolder {
     override val viewModel: IPassport.ViewModel
         get() = ViewModelProvider(this).get(PassportVM::class.java)

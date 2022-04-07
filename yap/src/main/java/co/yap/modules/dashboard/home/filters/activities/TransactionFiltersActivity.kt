@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
 import co.yap.app.YAPApplication
+import co.yap.databinding.ActivityTransactionFiltersBinding
 import co.yap.modules.dashboard.home.filters.interfaces.ITransactionFilters
 import co.yap.modules.dashboard.home.filters.models.TransactionFilters
 import co.yap.modules.dashboard.home.filters.viewmodels.TransactionFiltersViewModel
@@ -27,7 +28,7 @@ import com.jaygoo.widget.OnRangeChangedListener
 import com.jaygoo.widget.RangeSeekBar
 import kotlinx.android.synthetic.main.activity_transaction_filters.*
 
-class TransactionFiltersActivity : BaseBindingActivity<ITransactionFilters.ViewModel>(),
+class TransactionFiltersActivity : BaseBindingActivity<ActivityTransactionFiltersBinding,ITransactionFilters.ViewModel>(),
     ITransactionFilters.View {
     override fun getBindingVariable(): Int = BR.viewModel
 

@@ -29,7 +29,7 @@ import co.yap.yapcore.helpers.extentions.getValue
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
-class HouseHoldCardsSelectionActivity : BaseBindingActivity<IHouseHoldCardsSelection.ViewModel>(),
+class HouseHoldCardsSelectionActivity : BaseBindingActivity<FragmentHouseHoldCardSelectionBinding,IHouseHoldCardsSelection.ViewModel>(),
     IHouseHoldCardsSelection.View {
 
     companion object {

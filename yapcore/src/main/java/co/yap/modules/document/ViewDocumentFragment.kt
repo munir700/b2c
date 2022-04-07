@@ -34,7 +34,7 @@ import com.liveperson.infra.utils.picasso.MemoryPolicy
 import com.liveperson.infra.utils.picasso.NetworkPolicy
 import com.liveperson.infra.utils.picasso.Picasso
 
-class ViewDocumentFragment : BaseBindingImageFragment<IViewDocumentFragment.ViewModel>(),
+class ViewDocumentFragment : BaseBindingImageFragment<FragmentViewDocumentBinding , IViewDocumentFragment.ViewModel>(),
     IViewDocumentFragment.View {
     private var permissionHelper: PermissionHelper? = null
 

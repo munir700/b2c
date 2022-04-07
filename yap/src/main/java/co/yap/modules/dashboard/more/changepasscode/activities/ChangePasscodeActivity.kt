@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.R
+import co.yap.databinding.ActivityChangePasscodeBinding
 import co.yap.modules.dashboard.more.changepasscode.interfaces.IChangePassCode
 import co.yap.modules.dashboard.more.changepasscode.models.PassCodeData
 import co.yap.modules.dashboard.more.changepasscode.viewmodels.ChangePassCodeViewModel
@@ -14,7 +15,7 @@ import co.yap.yapcore.defaults.DefaultNavigator
 import co.yap.yapcore.defaults.INavigator
 import co.yap.yapcore.interfaces.IBaseNavigator
 
-class ChangePasscodeActivity : BaseBindingActivity<IChangePassCode.ViewModel>(), IFragmentHolder,
+class ChangePasscodeActivity : BaseBindingActivity<ActivityChangePasscodeBinding,IChangePassCode.ViewModel>(), IFragmentHolder,
     INavigator, IChangePassCode.View {
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.activity_change_passcode

@@ -20,7 +20,7 @@ import co.yap.yapcore.interfaces.BackPressImpl
 import co.yap.yapcore.interfaces.IBaseNavigator
 import com.google.android.material.snackbar.Snackbar
 
-class PayBillMainActivity : BaseBindingActivity<IPayBillMain.ViewModel>(), IPayBillMain.View,
+class PayBillMainActivity : BaseBindingActivity<ActivityPayBillMainBinding,IPayBillMain.ViewModel>(), IPayBillMain.View,
     IFragmentHolder, INavigator {
     override fun getBindingVariable(): Int = BR.viewModel
 

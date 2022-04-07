@@ -7,6 +7,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
+import co.yap.databinding.FragmentCdmMapBinding
 import co.yap.widgets.MultiStateView
 import co.yap.widgets.State
 import co.yap.widgets.Status
@@ -20,7 +21,7 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import kotlinx.android.synthetic.main.fragment_cdm_map.*
 
-class CdmMapFragment : LocationCheckFragment<ICdmMap.ViewModel>(), ICdmMap.View,
+class CdmMapFragment : LocationCheckFragment<FragmentCdmMapBinding , ICdmMap.ViewModel>(), ICdmMap.View,
     OnMapReadyCallback {
     private var mMap: GoogleMap? = null
 

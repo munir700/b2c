@@ -13,6 +13,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.household.BR
 import co.yap.household.R
+import co.yap.household.databinding.FragmentNewUserSuccessBinding
 import co.yap.household.onboard.cardselection.HouseHoldCardsSelectionActivity
 import co.yap.household.onboard.onboarding.interfaces.INewUserSuccess
 import co.yap.household.onboard.onboarding.viewmodels.NewUserSuccessViewModel
@@ -30,7 +31,7 @@ import kotlinx.android.synthetic.main.fragment_new_user_success.*
 import kotlinx.coroutines.delay
 
 class NewUserSuccessFragment :
-    OnboardingChildFragment<INewUserSuccess.ViewModel>() {
+    OnboardingChildFragment<FragmentNewUserSuccessBinding,INewUserSuccess.ViewModel>() {
 
     private val windowSize: Rect = Rect() // to hold the size of the visible window
 

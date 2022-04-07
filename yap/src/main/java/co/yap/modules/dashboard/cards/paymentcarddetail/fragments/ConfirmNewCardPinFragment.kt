@@ -26,7 +26,8 @@ import co.yap.yapcore.helpers.extentions.getValue
 import co.yap.yapcore.helpers.extentions.startFragmentForResult
 import co.yap.yapcore.managers.SessionManager
 
-class ConfirmNewCardPinFragment : BaseBindingFragment<IPin.ViewModel>(), IPin.View {
+class ConfirmNewCardPinFragment : BaseBindingFragment<FragmentPinBinding, IPin.ViewModel>(),
+    IPin.View {
     private val args: ConfirmNewCardPinFragmentArgs by navArgs()
 
     override val viewModel: IPin.ViewModel

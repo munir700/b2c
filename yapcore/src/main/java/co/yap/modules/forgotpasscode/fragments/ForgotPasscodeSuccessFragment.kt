@@ -10,7 +10,7 @@ import co.yap.modules.forgotpasscode.interfaces.IForgotPasscodeSuccess
 import co.yap.modules.forgotpasscode.viewmodels.ForgotPasscodeSuccessViewModel
 import co.yap.translation.Strings
 import co.yap.yapcore.BR
-import co.yap.yapcore.BaseBindingFragmentV2
+import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.R
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.Constants.KEY_IS_USER_LOGGED_IN
@@ -18,7 +18,7 @@ import co.yap.yapcore.databinding.FragmentForgotPasscodeSuccessBinding
 import co.yap.yapcore.helpers.SharedPreferenceManager
 
 
-class ForgotPasscodeSuccessFragment : BaseBindingFragmentV2<FragmentForgotPasscodeSuccessBinding,IForgotPasscodeSuccess.ViewModel>() {
+class ForgotPasscodeSuccessFragment : BaseBindingFragment<FragmentForgotPasscodeSuccessBinding,IForgotPasscodeSuccess.ViewModel>() {
     val args: ForgotPasscodeSuccessFragmentArgs by navArgs()
 
     override fun getBindingVariable(): Int = BR.viewModel

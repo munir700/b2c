@@ -5,6 +5,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
+import co.yap.databinding.ActivityReorderCardBinding
 import co.yap.modules.dashboard.cards.reordercard.interfaces.IReorderCard
 import co.yap.modules.dashboard.cards.reordercard.viewmodels.ReorderCardViewModel
 import co.yap.networking.cards.responsedtos.Card
@@ -14,7 +15,7 @@ import co.yap.yapcore.defaults.DefaultNavigator
 import co.yap.yapcore.defaults.INavigator
 import co.yap.yapcore.interfaces.IBaseNavigator
 
-class ReorderCardActivity : BaseBindingActivity<IReorderCard.ViewModel>(),
+class ReorderCardActivity : BaseBindingActivity<ActivityReorderCardBinding,IReorderCard.ViewModel>(),
     INavigator,
     IFragmentHolder {
 

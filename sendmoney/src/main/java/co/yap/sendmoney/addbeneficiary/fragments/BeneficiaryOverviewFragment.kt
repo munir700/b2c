@@ -18,7 +18,7 @@ import co.yap.translation.Translator
 import co.yap.yapcore.helpers.Utils
 import kotlinx.android.synthetic.main.fragment_beneficiary_overview.*
 
-class BeneficiaryOverviewFragment : SendMoneyBaseFragment<IBeneficiaryOverview.ViewModel>(),
+class BeneficiaryOverviewFragment : SendMoneyBaseFragment<FragmentBeneficiaryOverviewBinding, IBeneficiaryOverview.ViewModel>(),
     IBeneficiaryOverview.View {
 
     var isFromAddBeneficiary: Boolean = false

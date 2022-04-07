@@ -21,6 +21,7 @@ import co.yap.yapcore.BR
 import co.yap.yapcore.R
 import co.yap.yapcore.adjust.AdjustEvents
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.databinding.FragmentCardOnTheWayBinding
 import co.yap.yapcore.firebase.FirebaseEvent
 import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.AnimationUtils
@@ -32,7 +33,7 @@ import com.google.android.exoplayer2.source.TrackGroupArray
 import com.google.android.exoplayer2.trackselection.TrackSelectionArray
 import kotlinx.android.synthetic.main.fragment_card_on_the_way.*
 
-class CardOnTheWayFragment : LocationChildFragment<ICardOnTheWay.ViewModel>(),
+class CardOnTheWayFragment : LocationChildFragment<FragmentCardOnTheWayBinding , ICardOnTheWay.ViewModel>(),
     ICardOnTheWay.View {
 
     private val windowSize: Rect = Rect()

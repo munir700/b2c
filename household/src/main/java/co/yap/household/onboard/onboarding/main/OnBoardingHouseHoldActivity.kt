@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.NavHostFragment
 import co.yap.household.BR
 import co.yap.household.R
+import co.yap.household.databinding.ActivityMainHouseHoldBinding
 import co.yap.household.onboard.onboarding.main.interfaces.IOnboarding
 import co.yap.household.onboard.onboarding.main.viewmodels.OnboardingHouseHoldViewModel
 import co.yap.yapcore.BaseBindingActivity
@@ -17,7 +18,7 @@ import co.yap.yapcore.defaults.INavigator
 import co.yap.yapcore.interfaces.BackPressImpl
 import co.yap.yapcore.interfaces.IBaseNavigator
 
-class OnBoardingHouseHoldActivity : BaseBindingActivity<IOnboarding.ViewModel>(), INavigator,
+class OnBoardingHouseHoldActivity : BaseBindingActivity<ActivityMainHouseHoldBinding,IOnboarding.ViewModel>(), INavigator,
     IFragmentHolder {
 
     companion object {

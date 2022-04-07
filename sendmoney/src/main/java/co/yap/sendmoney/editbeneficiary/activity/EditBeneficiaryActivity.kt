@@ -41,7 +41,7 @@ import co.yap.yapcore.managers.SessionManager
 import kotlinx.android.synthetic.main.activity_edit_beneficiary.*
 
 
-class EditBeneficiaryActivity : BaseBindingActivity<IEditBeneficiary.ViewModel>(),
+class EditBeneficiaryActivity : BaseBindingActivity<ActivityEditBeneficiaryBinding, IEditBeneficiary.ViewModel>(),
     IEditBeneficiary.View {
 
     override fun getBindingVariable() = BR.editBeneficiaryViewModel

@@ -8,6 +8,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
+import co.yap.databinding.FragmentReachedQueueTopBinding
 import co.yap.modules.dashboard.main.activities.YapDashboardActivity
 import co.yap.modules.kyc.activities.DocumentsDashboardActivity
 import co.yap.modules.location.activities.LocationSelectionActivity
@@ -34,7 +35,8 @@ import com.google.android.exoplayer2.source.TrackGroupArray
 import com.google.android.exoplayer2.trackselection.TrackSelectionArray
 import kotlinx.android.synthetic.main.fragment_reached_queue_top.*
 
-class ReachedTopQueueFragment : BaseBindingFragment<IReachedQueueTop.ViewModel>(),
+class ReachedTopQueueFragment :
+    BaseBindingFragment<FragmentReachedQueueTopBinding, IReachedQueueTop.ViewModel>(),
     IReachedQueueTop.View {
     override fun getBindingVariable(): Int = BR.viewModel
 
@@ -166,8 +168,8 @@ class ReachedTopQueueFragment : BaseBindingFragment<IReachedQueueTop.ViewModel>(
         activity?.let {
             SharedPreferenceManager.getInstance(it.applicationContext)
                 .getValueString(Constants.KEY_APP_UUID)?.apply {
-                SessionManager.sendFcmTokenToServer(this)
-            }
+                    SessionManager.sendFcmTokenToServer(this)
+                }
         }
         startActivity(Intent(requireContext(), YapDashboardActivity::class.java))
         activity?.finishAffinity()

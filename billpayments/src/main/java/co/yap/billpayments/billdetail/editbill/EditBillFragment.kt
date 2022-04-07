@@ -5,8 +5,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.CompoundButton
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import co.yap.billpayments.BR
 import co.yap.billpayments.R
 import co.yap.billpayments.billdetail.base.BillDetailBaseFragment
@@ -27,29 +27,30 @@ import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.FeatureProvisioning
 import com.google.android.material.tabs.TabLayout
 
-class EditBillFragment : BillDetailBaseFragment<IEditBill.ViewModel>(),
+class EditBillFragment : BillDetailBaseFragment<FragmentEditBillBinding, IEditBill.ViewModel>(),
     IEditBill.View, CompoundButton.OnCheckedChangeListener {
     override fun getBindingVariable(): Int = BR.viewModel
 
     override fun getLayoutId(): Int = R.layout.fragment_edit_bill
     var alertDialog: android.app.AlertDialog? = null
 
-    override val viewModel: EditBillViewModel
-        get() = ViewModelProviders.of(this).get(EditBillViewModel::class.java)
+    override val viewModel: EditBillViewModel by viewModels()
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        getViewBinding().swAutoPayment.setOnCheckedChangeListener(this)
-        getViewBinding().swBillReminder.setOnCheckedChangeListener(this)
-        getViewBinding().etNickName.afterTextChanged { viewModel.validation() }
+        with(viewDataBinding) {
+            swAutoPayment.setOnCheckedChangeListener(this@EditBillFragment)
+            swBillReminder.setOnCheckedChangeListener(this@EditBillFragment)
+            etNickName.afterTextChanged { this@EditBillFragment.viewModel.validation() }
+        }
         setObservers()
         initTabLayout()
         initReminderTabLayout()
     }
 
     private fun initTabLayout() {
-        getViewBinding().iAutoPayment.tabLayout.addOnTabSelectedListener(object :
+        viewDataBinding.iAutoPayment.tabLayout.addOnTabSelectedListener(object :
             TabLayout.OnTabSelectedListener {
             override fun onTabReselected(tab: TabLayout.Tab?) {
             }
@@ -87,7 +88,7 @@ class EditBillFragment : BillDetailBaseFragment<IEditBill.ViewModel>(),
     }
 
     private fun initReminderTabLayout() {
-        getViewBinding().iBillReminder.tabLayout.addOnTabSelectedListener(object :
+        viewDataBinding.iBillReminder.tabLayout.addOnTabSelectedListener(object :
             TabLayout.OnTabSelectedListener {
             override fun onTabReselected(tab: TabLayout.Tab?) {
             }
@@ -249,10 +250,6 @@ class EditBillFragment : BillDetailBaseFragment<IEditBill.ViewModel>(),
         viewModel.clickEvent.removeObservers(this)
     }
 
-    override fun getViewBinding(): FragmentEditBillBinding {
-        return viewDataBinding as FragmentEditBillBinding
-    }
-
     override fun onDestroy() {
         super.onDestroy()
         removeObservers()
@@ -278,7 +275,7 @@ class EditBillFragment : BillDetailBaseFragment<IEditBill.ViewModel>(),
             viewModel.parentViewModel?.selectedBill?.reminderFrequency
                 ?: ReminderType.ThreeDays().rdays
         )
-        getViewBinding().iBillReminder.tabLayout.getTabAt(index)?.select()
+        viewDataBinding.iBillReminder.tabLayout.getTabAt(index)?.select()
     }
 
     fun updateTabsReminderSelection(totalDays: Int): Int {

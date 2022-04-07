@@ -34,10 +34,9 @@ import com.google.gson.Gson
 import com.nikhilpanju.recyclerviewenhanced.RecyclerTouchListener
 import com.yarolegovich.discretescrollview.transform.Pivot
 import com.yarolegovich.discretescrollview.transform.ScaleTransformer
-import kotlinx.android.synthetic.main.fragment_bill_dashboard.*
-import kotlinx.android.synthetic.main.layout_item_bill_due.*
 
-class BillDashboardFragment : BillDashboardBaseFragment<IBillDashboard.ViewModel>(),
+class BillDashboardFragment :
+    BillDashboardBaseFragment<FragmentBillDashboardBinding, IBillDashboard.ViewModel>(),
     IBillDashboard.View {
     private var onTouchListener: RecyclerTouchListener? = null
     override fun getBindingVariable(): Int = BR.viewModel
@@ -59,17 +58,19 @@ class BillDashboardFragment : BillDashboardBaseFragment<IBillDashboard.ViewModel
 
     private fun initNotificationRecyclerView() {
         viewModel.notificationAdapter.setItemListener(notificationClickEvent)
-        getBindings().lbillPaymentDue.rvNotificationList.setSlideOnFling(false)
-        getBindings().lbillPaymentDue.rvNotificationList.setOverScrollEnabled(true)
-        getBindings().lbillPaymentDue.rvNotificationList.smoothScrollToPosition(0)
-        getBindings().lbillPaymentDue.rvNotificationList.setItemTransitionTimeMillis(150)
-        getBindings().lbillPaymentDue.rvNotificationList.setItemTransformer(
-            ScaleTransformer.Builder()
-                .setMaxScale(1.05f)
-                .setMinScale(1f)
-                .setPivotX(Pivot.X.CENTER) // CENTER is a default one
-                .build()
-        )
+        viewDataBinding.lbillPaymentDue.rvNotificationList.apply {
+            setSlideOnFling(false)
+            setOverScrollEnabled(true)
+            smoothScrollToPosition(0)
+            setItemTransitionTimeMillis(150)
+            setItemTransformer(
+                ScaleTransformer.Builder()
+                    .setMaxScale(1.05f)
+                    .setMinScale(1f)
+                    .setPivotX(Pivot.X.CENTER) // CENTER is a default one
+                    .build()
+            )
+        }
     }
 
     override fun setObservers() {
@@ -89,7 +90,7 @@ class BillDashboardFragment : BillDashboardBaseFragment<IBillDashboard.ViewModel
             when (view.id) {
                 R.id.ivCross -> {
                     viewModel.notificationAdapter.removeItemAt(pos)
-                    getBindings().lbillPaymentDue.llNotification.visibility =
+                    viewDataBinding.lbillPaymentDue.llNotification.visibility =
                         if (viewModel.notificationAdapter.getDataList()
                                 .isNullOrEmpty()
                         ) View.GONE else View.VISIBLE
@@ -147,7 +148,10 @@ class BillDashboardFragment : BillDashboardBaseFragment<IBillDashboard.ViewModel
 
     private fun onCategorySelection(billCategory: BillProviderModel?) {
         if (!billCategory?.categoryType.equals("CREDIT_CARD")) {
-            launchActivity<AddBillActivity>(requestCode = RequestCodes.REQUEST_ADD_BILL ,type = FeatureSet.ADD_BILL_PAYMENT ) {
+            launchActivity<AddBillActivity>(
+                requestCode = RequestCodes.REQUEST_ADD_BILL,
+                type = FeatureSet.ADD_BILL_PAYMENT
+            ) {
                 putExtra(
                     ExtraKeys.BILL_PROVIDER.name,
                     billCategory
@@ -179,19 +183,17 @@ class BillDashboardFragment : BillDashboardBaseFragment<IBillDashboard.ViewModel
             onTouchListener =
                 RecyclerTouchListener(
                     requireActivity(),
-                    getBindings().lbillPaymentDue.rvAllDueBills
+                    viewDataBinding.lbillPaymentDue.rvAllDueBills
                 )
                     .setClickable(
                         object : RecyclerTouchListener.OnRowClickListener {
                             override fun onRowClicked(position: Int) {
                                 viewModel.clickEvent.setPayload(
                                     SingleClickEvent.AdaptorPayLoadHolder(
-                                        foregroundContainer,
+                                        viewDataBinding.lbillPaymentDue.rvAllDueBills.findViewById(R.id.foregroundContainer),
                                         viewModel.dueBillsAdapter.getDataForPosition(position),
-                                        position
-                                    )
-                                )
-                                viewModel.clickEvent.setValue(foregroundContainer.id)
+                                        position))
+                                viewModel.clickEvent.setValue(R.id.foregroundContainer)
                             }
 
                             override fun onIndependentViewClicked(
@@ -213,27 +215,17 @@ class BillDashboardFragment : BillDashboardBaseFragment<IBillDashboard.ViewModel
                         )
                         viewModel.clickEvent.setValue(viewID)
                     }
-            getBindings().lbillPaymentDue.rvAllDueBills.addOnItemTouchListener(onTouchListener!!)
+            viewDataBinding.lbillPaymentDue.rvAllDueBills.addOnItemTouchListener(onTouchListener!!)
         }
     }
 
     private fun handleState(state: State?) {
-        when (state?.status) {
-            Status.LOADING -> {
-                multiStateView.viewState = MultiStateView.ViewState.LOADING
-            }
-            Status.EMPTY -> {
-                multiStateView.viewState = MultiStateView.ViewState.EMPTY
-            }
-            Status.SUCCESS -> {
-                multiStateView.viewState = MultiStateView.ViewState.CONTENT
-            }
-            Status.ERROR -> {
-                multiStateView.viewState = MultiStateView.ViewState.ERROR
-            }
-            else -> {
-                throw IllegalStateException("State is not handled " + state?.status)
-            }
+        viewDataBinding.multiStateView.viewState = when (state?.status) {
+            Status.LOADING -> MultiStateView.ViewState.LOADING
+            Status.EMPTY -> MultiStateView.ViewState.EMPTY
+            Status.SUCCESS -> MultiStateView.ViewState.CONTENT
+            Status.ERROR -> MultiStateView.ViewState.ERROR
+            else -> throw IllegalStateException("State is not handled " + state?.status)
         }
     }
 
@@ -241,19 +233,19 @@ class BillDashboardFragment : BillDashboardBaseFragment<IBillDashboard.ViewModel
         viewModel.clickEvent.removeObservers(this)
     }
 
-    override fun getBindings(): FragmentBillDashboardBinding {
-        return viewDataBinding as FragmentBillDashboardBinding
-    }
-
     override fun onResume() {
         super.onResume()
         SessionManager.updateCardBalance {}
-        onTouchListener?.let { getBindings().lbillPaymentDue.rvAllDueBills.addOnItemTouchListener(it) }
+        onTouchListener?.let {
+            viewDataBinding.lbillPaymentDue.rvAllDueBills.addOnItemTouchListener(
+                it
+            )
+        }
     }
 
     override fun onPause() {
         onTouchListener?.let {
-            getBindings().lbillPaymentDue.rvAllDueBills.removeOnItemTouchListener(
+            viewDataBinding.lbillPaymentDue.rvAllDueBills.removeOnItemTouchListener(
                 it
             )
         }

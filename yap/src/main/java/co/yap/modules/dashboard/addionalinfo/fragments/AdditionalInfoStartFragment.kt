@@ -9,7 +9,7 @@ import co.yap.modules.dashboard.addionalinfo.viewmodels.AdditionalInfoStartViewM
 import co.yap.networking.customers.models.additionalinfo.AdditionalQuestion
 import co.yap.yapcore.enums.AdditionalInfoScreenType
 
-class AdditionalInfoStartFragment : AdditionalInfoBaseFragment<IAdditionalInfoStart.ViewModel>(),
+class AdditionalInfoStartFragment : AdditionalInfoBaseFragment<FragmentAdditionalInfoStartBinding,IAdditionalInfoStart.ViewModel>(),
     IAdditionalInfoStart.View {
     override fun getBindingVariable(): Int = BR.viewModel
 

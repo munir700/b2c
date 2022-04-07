@@ -7,11 +7,12 @@ import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.R
+import co.yap.databinding.FragmentReorderCardSuccessBinding
 import co.yap.modules.dashboard.cards.reordercard.interfaces.IReorderCardSuccess
 import co.yap.modules.dashboard.cards.reordercard.viewmodels.ReorderCardSuccessViewModel
 import co.yap.yapcore.BR
 
-class ReorderCardSuccessFragment : ReorderCardBaseFragment<IReorderCardSuccess.ViewModel>(),
+class ReorderCardSuccessFragment : ReorderCardBaseFragment<FragmentReorderCardSuccessBinding,IReorderCardSuccess.ViewModel>(),
     IReorderCardSuccess.View {
     override fun getBindingVariable(): Int = BR.viewModel
 

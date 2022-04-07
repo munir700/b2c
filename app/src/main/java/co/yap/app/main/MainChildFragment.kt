@@ -3,11 +3,11 @@ package co.yap.app.main
 import android.os.Bundle
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.ViewModelProviders
-import co.yap.yapcore.BaseBindingFragmentV2
+import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.IBase
 
 abstract class MainChildFragment<VB : ViewDataBinding, V : IBase.ViewModel<*>> :
-    BaseBindingFragmentV2<VB, V>() {
+    BaseBindingFragment<VB, V>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
