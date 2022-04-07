@@ -129,7 +129,6 @@
                     app:isNotNeedToCheckWithPrevious="@{true}"
                     app:missingFieldMap="@{viewModel.state.amendmentMap}"
                     app:previousValue="@{viewModel.state.previousPassportNumber}"
-                    app:validateMinLength="@{9}"
                     />
             </co.yap.widgets.CollapsedColoredHintTextInputLayout>
 

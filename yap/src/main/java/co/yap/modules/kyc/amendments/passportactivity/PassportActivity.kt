@@ -6,6 +6,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
 import co.yap.R
 import co.yap.databinding.ActivityPassportBinding
 import co.yap.yapcore.BR
@@ -30,7 +31,9 @@ class PassportActivity : BaseBindingActivity<IPassport.ViewModel>(), IPassport.V
     override fun getLayoutId(): Int = R.layout.activity_passport
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        findNavController(R.id.nav_host_fragment).setGraph(
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        val navController = navHostFragment.navController
+        navController.setGraph(
             R.navigation.passport_amendment_navigation,
             intent.extras
         )

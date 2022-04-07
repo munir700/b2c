@@ -68,7 +68,8 @@ class EidInfoReviewAmendmentFragment : KYCChildFragment<IEidInfoReviewAmendment.
 
         viewModel.parentViewModel?.uqudoManager?.getPayloadData()?.let { identity ->
             viewModel.populateUqudoState(identity = identity)
-        } ?: viewModel.requestAllAPIs(true)
+        } ?:
+        viewModel.requestAllAPIs(true)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

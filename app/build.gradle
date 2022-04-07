@@ -53,8 +53,8 @@ android {
         }
 
         Preprod {
-            versionCode 140
-            versionName "2.4.0"
+            versionCode 141
+            versionName "2.4.1"
             applicationId "com.yap.banking.preprod"
             resValue "string", "app_name", "YAP Preprod"
             // It binds with SHA1- SHA 256 and package bundle
@@ -149,13 +149,6 @@ shieldConfig {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-/*    implementation('io.uqudo.sdk:digitify:1.12.1') {
-        exclude group: 'androidx.appcompat', module: 'appcompat'
-        exclude group: 'androidx.fragment'
-        exclude group: 'androidx.activity'
-        exclude group: 'androidx.navigation'
-        exclude group: 'com.google.dagger'
-    }*/
     project.testDependencies.each {
         add(it.configuration, it.dependency)
     }
