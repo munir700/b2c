@@ -5,6 +5,7 @@ import android.view.View
 import androidx.fragment.app.viewModels
 import co.yap.BR
 import co.yap.R
+import co.yap.databinding.FragmentEasyBankTransferBankListBinding
 import co.yap.databinding.FragmentTopupAmountBinding
 import co.yap.modules.dashboard.yapit.addmoney.main.AddMoneyBaseFragment
 import co.yap.yapcore.helpers.extentions.generateChipViews
@@ -33,5 +34,5 @@ class TopupAmountFragment : AddMoneyBaseFragment<ITopupAmount.ViewModel>(),
         )
     }
 
-    private fun getBinding() = viewDataBinding as FragmentTopupAmountBinding
+    private fun getBinding() = getDataBindingView<FragmentTopupAmountBinding>()
 }
