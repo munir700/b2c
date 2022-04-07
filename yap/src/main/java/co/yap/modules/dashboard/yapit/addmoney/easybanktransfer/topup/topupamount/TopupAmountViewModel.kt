@@ -29,12 +29,8 @@ class TopupAmountViewModel(application: Application) :
         )
         if (!state.enteredTopUpAmount.value.equals(currency)) {
             state.enteredTopUpAmount.value = currency
-            state.valid.value = true
-           // be used when user remaining balance is known via api
-           // state.valid.value = state.enteredTopUpAmount.value?.getValueWithoutComa().parseToDouble() <= state.remainingAccumulative.get()?:0.0*/
         } else {
             state.enteredTopUpAmount.value = ""
-            state.valid.value = false
         }
     }
 

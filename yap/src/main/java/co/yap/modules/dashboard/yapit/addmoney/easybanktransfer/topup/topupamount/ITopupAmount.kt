@@ -18,7 +18,6 @@ interface ITopupAmount {
 
     interface State : IBase.State {
         val denominationChipList:MutableLiveData<List<String>>
-        val valid: MutableLiveData<Boolean>
         val enteredTopUpAmount: MutableLiveData<String>
         val availableBalance: MutableLiveData<CharSequence>
     }

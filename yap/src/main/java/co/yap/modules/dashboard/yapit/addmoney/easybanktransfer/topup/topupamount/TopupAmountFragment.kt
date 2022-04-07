@@ -74,13 +74,12 @@ class TopupAmountFragment : AddMoneyBaseFragment<ITopupAmount.ViewModel>(),
         }
     }
     
-    private fun generateChipViews(selectedList: List<String>) {
+    private fun generateChipViews(chipsTextList: List<String>) {
         getBinding().cgDenominations.generateChipViews(
             R.layout.item_denominations_chip,
-            selectedList
+            chipsTextList
         )
     }
 
-    private fun getBinding() = viewDataBinding as FragmentTopupAmountBinding
-
+    private fun getBinding() = getDataBindingView<FragmentTopupAmountBinding>()
 }
