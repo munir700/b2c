@@ -53,7 +53,6 @@ interface IEidInfoReview {
         var errorTitle: String
         var errorBody: String
         fun requestAllAPIs(callAll: Boolean)
-        var uqudoResponse: MutableLiveData<UqudoTokenResponse>
         fun populateUqudoState(identity: EidData?)
         fun navigateToConfirmNameFragment(navigate: () -> Unit)
         fun performUqudoUploadDocumentsRequest(
