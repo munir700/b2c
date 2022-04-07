@@ -4,9 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import co.yap.yapcore.BaseState
 
 class TopupAmountState : BaseState(), ITopupAmount.State {
-    override val denominationFirstAmount: String = "+100"
-    override val denominationSecondAmount: String = "+500"
-    override val denominationThirdAmount: String = "+1000"
+    override val denominationChipList: MutableLiveData<List<String>> = MutableLiveData(listOf("+100","+500","+1000"))
     override val valid: MutableLiveData<Boolean> = MutableLiveData(false)
     override val availableBalance: MutableLiveData<CharSequence> = MutableLiveData()
 }
