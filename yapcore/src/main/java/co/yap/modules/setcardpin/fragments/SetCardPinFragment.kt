@@ -12,7 +12,7 @@ import co.yap.yapcore.BR
 import co.yap.yapcore.R
 import co.yap.yapcore.databinding.FragmentPinBinding
 
-class SetCardPinFragment : SetPinChildFragment<IPin.ViewModel>(), IPin.View {
+class SetCardPinFragment : SetPinChildFragment<FragmentPinBinding,IPin.ViewModel>(), IPin.View {
 
     override fun getBindingVariable(): Int = BR.viewModel
 

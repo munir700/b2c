@@ -9,6 +9,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import co.yap.BR
 import co.yap.R
+import co.yap.databinding.FragmentMissinginfoBinding
 import co.yap.modules.dashboard.main.activities.YapDashboardActivity
 import co.yap.modules.kyc.activities.DocumentsDashboardActivity
 import co.yap.modules.kyc.amendments.passportactivity.PassportActivity
@@ -17,12 +18,13 @@ import co.yap.networking.cards.responsedtos.Address
 import co.yap.networking.customers.responsedtos.AmendmentSection
 import co.yap.translation.Strings
 import co.yap.yapcore.BaseBindingFragment
+import co.yap.yapcore.BaseBindingFragmentV2
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.managers.SessionManager
 
-class MissingInfoFragment : BaseBindingFragment<IMissingInfo.ViewModel>(), IMissingInfo.View {
+class MissingInfoFragment : BaseBindingFragmentV2<FragmentMissinginfoBinding,  IMissingInfo.ViewModel>(), IMissingInfo.View {
     override fun getBindingVariable() = BR.viewModel
     override fun getLayoutId() = R.layout.fragment_missinginfo
 

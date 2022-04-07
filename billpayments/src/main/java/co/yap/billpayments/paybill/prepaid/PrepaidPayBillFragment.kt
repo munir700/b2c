@@ -82,7 +82,7 @@ class PrepaidPayBillFragment :
     }
 
     private fun setRadioGroup() {
-        viewDataBinding.raAirtimData.setOnCheckedChangeListener { group, checkedId ->
+        viewDataBinding.raAirtimData.setOnCheckedChangeListener { _, checkedId ->
             resetAmountValueOnChange()
             if (checkedId == R.id.btnAirtime) {
                 viewModel.setSkuInfos(SkuInfoType.Airtime().airtime)
@@ -180,7 +180,7 @@ class PrepaidPayBillFragment :
     override fun setObservers() {
         viewModel.clickEvent.observe(this, clickEvent)
         viewModel.adapter.setItemListener(skuListener)
-        viewModel.editBillerError.observe(viewLifecycleOwner, Observer { errorCode ->
+        viewModel.editBillerError.observe(viewLifecycleOwner, { errorCode ->
             errorCode?.let {
                 requireContext().customAlertDialog(
                     topIconResId = R.drawable.ic_error_info_primary,
