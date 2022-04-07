@@ -255,7 +255,7 @@ class EidInfoReviewAmendmentFragment : KYCChildFragment<IEidInfoReviewAmendment.
                     viewModel.parentViewModel?.uqudoManager?.decodeEncodedUqudoToken(
                         uqudoJWT ?: ""
                     ) {
-                        viewModel.eidStateLiveData.postValue(State.success(""))
+                        viewModel.getKYCDataFromServer()
                     }
                 } else {
                     if (viewModel.parentViewModel?.uqudoManager?.getPayloadData() == null) requireActivity().finish()

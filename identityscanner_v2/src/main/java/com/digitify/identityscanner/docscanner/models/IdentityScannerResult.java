@@ -3,7 +3,8 @@ package com.digitify.identityscanner.docscanner.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 import com.digitify.identityscanner.models.Error;
-
+@SuppressWarnings("DeprecatedIsStillUsed")
+@Deprecated
 public class IdentityScannerResult implements Parcelable {
 
     private Document document;

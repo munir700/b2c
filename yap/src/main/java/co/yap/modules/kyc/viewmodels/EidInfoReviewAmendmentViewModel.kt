@@ -1,8 +1,6 @@
 package co.yap.modules.kyc.viewmodels
 
 import android.app.Application
-import android.graphics.Bitmap
-import android.graphics.drawable.Drawable
 import android.text.TextUtils
 import android.view.View
 import androidx.lifecycle.MutableLiveData
@@ -35,18 +33,11 @@ import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.DateUtils.getAge
 import co.yap.yapcore.helpers.Utils
-import co.yap.yapcore.helpers.extentions.saveEidTemp
 import co.yap.yapcore.helpers.validation.IValidator
 import co.yap.yapcore.helpers.validation.Validator
 import co.yap.yapcore.leanplum.KYCEvents
 import co.yap.yapcore.leanplum.trackEvent
 import co.yap.yapcore.managers.SessionManager
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.model.GlideUrl
-import com.bumptech.glide.load.model.LazyHeaders
-import com.bumptech.glide.request.target.CustomTarget
-import com.bumptech.glide.request.transition.Transition
-import com.digitify.identityscanner.docscanner.models.IdentityScannerResult
 import kotlinx.coroutines.delay
 import java.util.*
 
@@ -163,11 +154,6 @@ class EidInfoReviewAmendmentViewModel(application: Application) :
         errorTitle = title
         errorBody = body
     }
-
-    override fun onEIDScanningComplete(result: IdentityScannerResult) {
-        //uploadDocuments(result)
-    }
-
 
     override fun getAllCountries() {
         launch(Dispatcher.Background) {
@@ -338,13 +324,15 @@ class EidInfoReviewAmendmentViewModel(application: Application) :
                             parentViewModel?.uqudoManager?.setUqudoToken(
                                 it
                             )
-                        }                    }
+                        }
+                    }
                     uqudoTokenResponse is RetroApiResponse.Success -> {
                         uqudoTokenResponse.data.data?.let {
                             parentViewModel?.uqudoManager?.setUqudoToken(
                                 it
                             )
-                        }                    }
+                        }
+                    }
                     else -> {
                         if (senctionedCountryResponse is RetroApiResponse.Error)
                             state.toast = senctionedCountryResponse.error.message
