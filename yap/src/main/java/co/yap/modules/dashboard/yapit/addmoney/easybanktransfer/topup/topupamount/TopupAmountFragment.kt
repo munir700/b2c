@@ -1,7 +1,6 @@
 package co.yap.modules.dashboard.yapit.addmoney.easybanktransfer.topup.topupamount
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.fragment.app.viewModels
 import co.yap.BR
@@ -36,7 +35,6 @@ class TopupAmountFragment : AddMoneyBaseFragment<ITopupAmount.ViewModel>(),
         for (index in 0 until getBinding().cgDenominations.childCount) {
             val chip: Chip = getBinding().cgDenominations.getChildAt(index) as Chip
             chip.setOnCheckedChangeListener { view, isChecked ->
-                Log.i("T", "setDenominationsChipListener: $isChecked")
                 viewModel.denominationAmountValidator(view.text.toString())
             }
         }
