@@ -20,14 +20,14 @@ import co.yap.widgets.Status
 import co.yap.widgets.advrecyclerview.swipeable.RecyclerViewSwipeManager
 import co.yap.widgets.advrecyclerview.touchguard.RecyclerViewTouchActionGuardManager
 import co.yap.widgets.advrecyclerview.utils.WrapperAdapterUtils
-import co.yap.yapcore.BaseBindingFragmentV2
+import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.confirm
 import co.yap.yapcore.helpers.extentions.dimen
 import co.yap.yapcore.interfaces.OnItemClickListener
 
 class NotificationsHomeFragment :
-    BaseBindingFragmentV2<FragmentNotificationsHomeV2Binding, INotificationsHome.ViewModel>(),
+    BaseBindingFragment<FragmentNotificationsHomeV2Binding, INotificationsHome.ViewModel>(),
     INotificationsHome.View, OnItemClickListener {
     private var mRecyclerViewSwipeManager: RecyclerViewSwipeManager? = null
     private var mWrappedAdapter: RecyclerView.Adapter<*>? = null

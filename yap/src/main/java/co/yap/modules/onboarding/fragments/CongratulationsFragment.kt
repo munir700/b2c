@@ -26,6 +26,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
+import co.yap.databinding.FragmentOnboardingCongratulationsBinding
 import co.yap.modules.dashboard.home.fragments.YapHomeFragment
 import co.yap.modules.kyc.activities.DocumentsDashboardActivity
 import co.yap.modules.location.activities.LocationSelectionActivity
@@ -51,7 +52,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 
-class CongratulationsFragment : OnboardingChildFragment<ICongratulations.ViewModel>(),
+class CongratulationsFragment : OnboardingChildFragment<FragmentOnboardingCongratulationsBinding,ICongratulations.ViewModel>(),
     ICongratulations.View {
 
     override fun getBindingVariable(): Int = BR.viewModel

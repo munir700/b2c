@@ -11,7 +11,7 @@ import co.yap.modules.dashboard.addionalinfo.interfaces.IAdditionalInfoComplete
 import co.yap.modules.dashboard.addionalinfo.viewmodels.AdditionalInfoCompleteViewModel
 
 class AdditionalInfoCompleteFragment :
-    AdditionalInfoBaseFragment<IAdditionalInfoComplete.ViewModel>(),
+    AdditionalInfoBaseFragment<FragmentAdditionalInfoCompleteBinding, IAdditionalInfoComplete.ViewModel>(),
     IAdditionalInfoComplete.View {
     override fun getBindingVariable(): Int = BR.viewModel
 

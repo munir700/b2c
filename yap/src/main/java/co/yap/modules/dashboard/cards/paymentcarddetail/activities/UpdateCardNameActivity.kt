@@ -8,6 +8,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
+import co.yap.databinding.ActivityUpdateCardNameBinding
 import co.yap.modules.dashboard.cards.paymentcarddetail.interfaces.IUpdateCardName
 import co.yap.modules.dashboard.cards.paymentcarddetail.viewmodels.UpdateCardNameViewModel
 import co.yap.modules.others.helper.Constants
@@ -17,7 +18,7 @@ import co.yap.yapcore.BaseBindingActivity
 import kotlinx.android.synthetic.main.activity_update_card_name.*
 
 
-class UpdateCardNameActivity : BaseBindingActivity<IUpdateCardName.ViewModel>(),
+class UpdateCardNameActivity : BaseBindingActivity<ActivityUpdateCardNameBinding,IUpdateCardName.ViewModel>(),
     IUpdateCardName.View {
 
     companion object {

@@ -7,6 +7,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import co.yap.R
+import co.yap.databinding.FragmentKycHomeBinding
 import co.yap.modules.kyc.activities.DocumentsResponse
 import co.yap.modules.kyc.enums.DocScanStatus
 import co.yap.modules.kyc.interfaces.IKYCHome
@@ -17,7 +18,7 @@ import co.yap.yapcore.firebase.FirebaseEvent
 import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.managers.SessionManager
 
-class KYCHomeFragment : KYCChildFragment<IKYCHome.ViewModel>(), IKYCHome.View {
+class KYCHomeFragment : KYCChildFragment<FragmentKycHomeBinding,IKYCHome.ViewModel>(), IKYCHome.View {
 
     override fun getBindingVariable(): Int = BR.viewModel
 

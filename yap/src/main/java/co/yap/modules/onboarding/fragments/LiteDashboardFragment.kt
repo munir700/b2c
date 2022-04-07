@@ -8,6 +8,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
+import co.yap.databinding.FragmentLiteDashboardBinding
 import co.yap.modules.dashboard.main.fragments.YapDashboardChildFragment
 import co.yap.modules.dummy.ActivityNavigator
 import co.yap.modules.dummy.NavigatorProvider
@@ -25,7 +26,7 @@ import co.yap.yapcore.managers.SessionManager
 import kotlinx.android.synthetic.main.fragment_lite_dashboard.*
 
 
-class LiteDashboardFragment : YapDashboardChildFragment<ILiteDashboard.ViewModel>() {
+class LiteDashboardFragment : YapDashboardChildFragment<FragmentLiteDashboardBinding,ILiteDashboard.ViewModel>() {
 
     private lateinit var mNavigator: ActivityNavigator
     override fun getBindingVariable(): Int = BR.viewModel

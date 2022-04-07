@@ -7,11 +7,10 @@ import co.yap.modules.dashboard.more.changepasscode.activities.ChangePasscodeAct
 import co.yap.modules.dashboard.more.changepasscode.viewmodels.ChangePassCodeBaseViewModel
 import co.yap.modules.dashboard.more.changepasscode.viewmodels.ChangePassCodeViewModel
 import co.yap.yapcore.BaseBindingFragment
-import co.yap.yapcore.BaseBindingFragmentV2
 import co.yap.yapcore.IBase
 
 abstract class ChangePasscodeBaseFragment<VB : ViewDataBinding, V : IBase.ViewModel<*>> :
-    BaseBindingFragmentV2<VB, V>() {
+    BaseBindingFragment<VB, V>() {
 
     lateinit var parentActivity: ChangePasscodeActivity
     override fun onCreate(savedInstanceState: Bundle?) {

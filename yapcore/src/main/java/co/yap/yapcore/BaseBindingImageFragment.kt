@@ -15,7 +15,7 @@ import pub.devrel.easypermissions.AfterPermissionGranted
 import pub.devrel.easypermissions.AppSettingsDialog
 import pub.devrel.easypermissions.EasyPermissions
 
-abstract class BaseBindingImageFragment<VB : ViewDataBinding,V : IBase.ViewModel<*>> : BaseBindingFragmentV2<VB,V>() {
+abstract class BaseBindingImageFragment<VB : ViewDataBinding,V : IBase.ViewModel<*>> : BaseBindingFragment<VB,V>() {
     private lateinit var easyImage: EasyImage
     private lateinit var selectionType: PhotoSelectionType
 

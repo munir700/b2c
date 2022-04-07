@@ -11,6 +11,7 @@ import co.yap.yapcore.BR
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.IFragmentHolder
 import co.yap.yapcore.R
+import co.yap.yapcore.databinding.ActivitySetCardPinWelcomeBinding
 import co.yap.yapcore.defaults.DefaultNavigator
 import co.yap.yapcore.defaults.INavigator
 import co.yap.yapcore.firebase.*
@@ -19,7 +20,7 @@ import co.yap.yapcore.helpers.extentions.getValue
 import co.yap.yapcore.interfaces.BackPressImpl
 import co.yap.yapcore.interfaces.IBaseNavigator
 
-class SetCardPinWelcomeActivity : BaseBindingActivity<ISetCardPinWelcomeActivity.ViewModel>(),
+class SetCardPinWelcomeActivity : BaseBindingActivity<ActivitySetCardPinWelcomeBinding,ISetCardPinWelcomeActivity.ViewModel>(),
     INavigator, IFragmentHolder {
 
     companion object {

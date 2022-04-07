@@ -37,7 +37,7 @@ import com.nikhilpanju.recyclerviewenhanced.RecyclerTouchListener
 import kotlinx.android.synthetic.main.layout_item_beneficiary.*
 
 class SearchBeneficiariesFragment :
-    SMBeneficiaryParentBaseFragment<ISMSearchBeneficiary.ViewModel>(),
+    SMBeneficiaryParentBaseFragment<FragmentSearchBeneficiaryBinding,ISMSearchBeneficiary.ViewModel>(),
     ISMSearchBeneficiary.View {
     private var onTouchListener: RecyclerTouchListener? = null
     override fun getBindingVariable(): Int = BR.viewModel

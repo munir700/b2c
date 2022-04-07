@@ -9,6 +9,7 @@ import co.yap.networking.customers.requestdtos.SMCoolingPeriodRequest
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.sendmoney.BR
 import co.yap.sendmoney.R
+import co.yap.sendmoney.databinding.ActivityBeneficiaryCashTransferBinding
 import co.yap.sendmoney.fundtransfer.interfaces.IBeneficiaryFundTransfer
 import co.yap.sendmoney.fundtransfer.models.TransferFundData
 import co.yap.sendmoney.fundtransfer.viewmodels.BeneficiaryFundTransferViewModel
@@ -29,7 +30,7 @@ import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_beneficiary_cash_transfer.*
 
 
-class BeneficiaryFundTransferActivity : BaseBindingActivity<IBeneficiaryFundTransfer.ViewModel>(),
+class BeneficiaryFundTransferActivity : BaseBindingActivity<ActivityBeneficiaryCashTransferBinding,IBeneficiaryFundTransfer.ViewModel>(),
     IFragmentHolder, INavigator {
 
     override fun getBindingVariable(): Int = BR.viewModel

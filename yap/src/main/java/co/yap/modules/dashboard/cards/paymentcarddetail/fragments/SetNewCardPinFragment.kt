@@ -13,7 +13,7 @@ import co.yap.yapcore.BR
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.databinding.FragmentPinBinding
 
-open class SetNewCardPinFragment : BaseBindingFragment<IPin.ViewModel>(), IPin.View {
+open class SetNewCardPinFragment : BaseBindingFragment<FragmentPinBinding,IPin.ViewModel>(), IPin.View {
     private val args: SetNewCardPinFragmentArgs by navArgs()
     override fun getBindingVariable(): Int = BR.viewModel
 

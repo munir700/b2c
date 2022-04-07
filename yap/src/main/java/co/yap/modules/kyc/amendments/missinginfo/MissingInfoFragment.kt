@@ -18,13 +18,13 @@ import co.yap.networking.cards.responsedtos.Address
 import co.yap.networking.customers.responsedtos.AmendmentSection
 import co.yap.translation.Strings
 import co.yap.yapcore.BaseBindingFragment
-import co.yap.yapcore.BaseBindingFragmentV2
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.managers.SessionManager
 
-class MissingInfoFragment : BaseBindingFragmentV2<FragmentMissinginfoBinding,  IMissingInfo.ViewModel>(), IMissingInfo.View {
+class MissingInfoFragment :
+    BaseBindingFragment<FragmentMissinginfoBinding, IMissingInfo.ViewModel>(), IMissingInfo.View {
     override fun getBindingVariable() = BR.viewModel
     override fun getLayoutId() = R.layout.fragment_missinginfo
 

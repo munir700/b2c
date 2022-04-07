@@ -59,7 +59,7 @@ import kotlinx.android.synthetic.main.card_list_layout_include.view.*
 import kotlinx.android.synthetic.main.card_swipe_layout_include.view.*
 import kotlinx.android.synthetic.main.fragment_yap_cards.*
 
-class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapCards.View,
+class YapCardsFragment : YapDashboardChildFragment<FragmentYapCardsBinding,IYapCards.ViewModel>(), IYapCards.View,
     SwipeUpClick {
 
     private var tourStep: TourSetup? = null

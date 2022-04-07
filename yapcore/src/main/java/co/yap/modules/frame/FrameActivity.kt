@@ -19,10 +19,10 @@ import co.yap.yapcore.databinding.ActivityFrameBinding
 import co.yap.yapcore.helpers.extentions.createFragmentInstance
 import co.yap.yapcore.helpers.extentions.instantiateFragment
 
-class FrameActivity : BaseBindingActivity<IFrameActivity.ViewModel>(),
+class FrameActivity : BaseBindingActivity<ActivityFrameBinding, IFrameActivity.ViewModel>(),
     IFrameActivity.View, IFragmentHolder {
 
-    private lateinit var fragment: BaseBindingFragment<*>
+    private lateinit var fragment: BaseBindingFragment<*,*>
     override fun getBindingVariable() = BR.frameActivityViewModel
     override fun getLayoutId() = R.layout.activity_frame
     override val viewModel: IFrameActivity.ViewModel
@@ -57,7 +57,7 @@ class FrameActivity : BaseBindingActivity<IFrameActivity.ViewModel>(),
         }
         fragment = instantiateFragment<Fragment>(
             fragmentName
-        ) as BaseBindingFragment<*>
+        ) as BaseBindingFragment<*,*>
         if (extras.hasExtra(EXTRA)) {
             createFragmentInstance(fragment, extras.getBundleExtra(EXTRA)!!)
         } else {

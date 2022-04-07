@@ -16,7 +16,7 @@ import co.yap.yapcore.interfaces.BackPressImpl
 import co.yap.yapcore.interfaces.IBaseNavigator
 import kotlinx.android.synthetic.main.activity_additional_info.*
 
-class AdditionalInfoActivity : BaseBindingActivity<IAdditionalInfo.ViewModel>(),
+class AdditionalInfoActivity : BaseBindingActivity<ActivityAdditionalInfoBinding,IAdditionalInfo.ViewModel>(),
     IFragmentHolder, INavigator, IAdditionalInfo.View {
     override fun getBindingVariable(): Int = BR.viewModel
 

@@ -6,10 +6,10 @@ import androidx.lifecycle.ViewModelProviders
 import co.yap.modules.location.viewmodels.LocationChildViewModel
 import co.yap.modules.location.viewmodels.LocationViewModel
 import co.yap.yapcore.BaseBindingFragment
-import co.yap.yapcore.BaseBindingFragmentV2
 import co.yap.yapcore.IBase
 
-abstract class LocationChildFragment<VB : ViewDataBinding,V : IBase.ViewModel<*>> : BaseBindingFragmentV2<VB ,V>() {
+abstract class LocationChildFragment<VB : ViewDataBinding, V : IBase.ViewModel<*>> :
+    BaseBindingFragment<VB, V>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

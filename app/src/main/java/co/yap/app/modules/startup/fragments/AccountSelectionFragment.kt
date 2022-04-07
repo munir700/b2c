@@ -19,7 +19,7 @@ import co.yap.app.modules.startup.interfaces.IAccountSelection
 import co.yap.app.modules.startup.viewmodels.AccountSelectionViewModel
 import co.yap.modules.onboarding.enums.AccountType
 import co.yap.widgets.video.ExoPlayerCallBack
-import co.yap.yapcore.BaseBindingFragmentV2
+import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.firebase.FirebaseEvent
 import co.yap.yapcore.firebase.trackEventWithScreenName
 import com.daimajia.androidanimations.library.Techniques
@@ -28,7 +28,7 @@ import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.source.TrackGroupArray
 import com.google.android.exoplayer2.trackselection.TrackSelectionArray
 
-class AccountSelectionFragment : BaseBindingFragmentV2<FragmentAccountSelectionBinding,IAccountSelection.ViewModel>(),
+class AccountSelectionFragment : BaseBindingFragment<FragmentAccountSelectionBinding,IAccountSelection.ViewModel>(),
     IAccountSelection.View {
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_account_selection

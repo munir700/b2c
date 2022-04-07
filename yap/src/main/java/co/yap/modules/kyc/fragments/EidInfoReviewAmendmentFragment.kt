@@ -43,7 +43,7 @@ import com.wdullaer.materialdatetimepicker.date.DatePickerDialog
 import java.util.*
 
 
-class EidInfoReviewAmendmentFragment : KYCChildFragment<IEidInfoReviewAmendment.ViewModel>(),
+class EidInfoReviewAmendmentFragment : KYCChildFragment<FragmentEidInfoReviewAmendmentBinding,IEidInfoReviewAmendment.ViewModel>(),
     IEidInfoReviewAmendment.View, View.OnFocusChangeListener {
     override fun getBindingVariable(): Int = BR.viewModel
 

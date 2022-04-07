@@ -14,9 +14,9 @@ import co.yap.yapcore.managers.isUserLogin
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-abstract class BaseBindingActivity<V : IBase.ViewModel<*>> : BaseActivity<V>() {
+abstract class BaseBindingActivity<VB : ViewDataBinding, V : IBase.ViewModel<*>> : BaseActivity<V>() {
 
-    lateinit var viewDataBinding: ViewDataBinding
+    lateinit var viewDataBinding: VB
 
     override fun onCreate(savedInstanceState: Bundle?) {
         // For runtime permission handling if user

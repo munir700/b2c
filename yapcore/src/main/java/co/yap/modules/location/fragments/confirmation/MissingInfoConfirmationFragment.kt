@@ -9,13 +9,13 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import co.yap.yapcore.BR
 import co.yap.yapcore.BaseBindingFragment
-import co.yap.yapcore.BaseBindingFragmentV2
 import co.yap.yapcore.R
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.databinding.FragmentMissinginfoConfirmationBinding
 import co.yap.yapcore.managers.SessionManager
 
-class MissingInfoConfirmationFragment : BaseBindingFragmentV2<FragmentMissinginfoConfirmationBinding ,IMissingInfoConfirmation.ViewModel>(),
+class MissingInfoConfirmationFragment :
+    BaseBindingFragment<FragmentMissinginfoConfirmationBinding, IMissingInfoConfirmation.ViewModel>(),
     IMissingInfoConfirmation.View {
     override fun getBindingVariable() = BR.viewModel
     override fun getLayoutId() = R.layout.fragment_missinginfo_confirmation

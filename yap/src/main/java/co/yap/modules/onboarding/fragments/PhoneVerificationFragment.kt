@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
+import co.yap.databinding.FragmentPhoneVerificationBinding
 import co.yap.modules.autoreadsms.MySMSBroadcastReceiver
 import co.yap.modules.onboarding.activities.CreatePasscodeActivity
 import co.yap.modules.onboarding.interfaces.IPhoneVerification
@@ -26,7 +27,7 @@ import co.yap.yapcore.leanplum.SignupEvents
 import co.yap.yapcore.leanplum.trackEvent
 import com.google.android.gms.auth.api.phone.SmsRetriever
 
-class PhoneVerificationFragment : OnboardingChildFragment<IPhoneVerification.ViewModel>(),
+class PhoneVerificationFragment : OnboardingChildFragment<FragmentPhoneVerificationBinding,IPhoneVerification.ViewModel>(),
     IPhoneVerification.View {
     private var intentFilter: IntentFilter? = null
     private var appSMSBroadcastReceiver: MySMSBroadcastReceiver? = null

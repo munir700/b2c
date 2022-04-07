@@ -35,7 +35,7 @@ import co.yap.yapcore.helpers.extentions.deleteTempFolder
 import co.yap.yapcore.helpers.showAlertDialogAndExitApp
 import co.yap.yapcore.managers.SessionManager
 
-class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEidInfoReview.View {
+class EidInfoReviewFragment : KYCChildFragment<FragmentEidInfoReviewBinding, IEidInfoReview.ViewModel>(), IEidInfoReview.View {
 
     override fun getBindingVariable(): Int = BR.viewModel
 

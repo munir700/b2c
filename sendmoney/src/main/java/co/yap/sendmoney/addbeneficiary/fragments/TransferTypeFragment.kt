@@ -9,9 +9,10 @@ import co.yap.sendmoney.addbeneficiary.viewmodels.TransferTypeViewModel
 import co.yap.sendmoney.addbeneficiary.interfaces.ITransferType
 import co.yap.sendmoney.BR
 import co.yap.sendmoney.R
+import co.yap.sendmoney.databinding.FragmentTransferTypeBinding
 import co.yap.sendmoney.fragments.SendMoneyBaseFragment
 
-class TransferTypeFragment : SendMoneyBaseFragment<ITransferType.ViewModel>(),
+class TransferTypeFragment : SendMoneyBaseFragment<FragmentTransferTypeBinding,ITransferType.ViewModel>(),
     ITransferType.View {
 
     override fun getBindingVariable(): Int = BR.viewModel

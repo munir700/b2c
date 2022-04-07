@@ -21,7 +21,7 @@ import com.google.android.gms.tasks.Task
 import timber.log.Timber
 
 abstract class LocationCheckFragment<VB : ViewDataBinding, V : IBase.ViewModel<*>> :
-    BaseBindingFragmentV2<VB, V>() {
+    BaseBindingFragment<VB, V>() {
     private val REQUEST_CHECK_SETTINGS = 12
     private val UPDATE_INTERVAL = 10000 // 10 sec
     private val FASTEST_INTERVAL = 5000 // 5 sec

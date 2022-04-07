@@ -13,6 +13,7 @@ import co.yap.sendmoney.BR
 import co.yap.sendmoney.R
 import co.yap.sendmoney.addbeneficiary.interfaces.ISelectCountry
 import co.yap.sendmoney.addbeneficiary.viewmodels.SelectCountryViewModel
+import co.yap.sendmoney.databinding.FragmentSelectCountryBinding
 import co.yap.sendmoney.fragments.SendMoneyBaseFragment
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
@@ -23,7 +24,7 @@ import co.yap.yapcore.helpers.extentions.launchBottomSheet
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.SessionManager
 
-class SelectCountryFragment : SendMoneyBaseFragment<ISelectCountry.ViewModel>(),
+class SelectCountryFragment : SendMoneyBaseFragment<FragmentSelectCountryBinding,ISelectCountry.ViewModel>(),
     ISelectCountry.View {
 
     override fun getBindingVariable(): Int = BR.viewModel

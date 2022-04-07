@@ -35,7 +35,7 @@ import com.daimajia.androidanimations.library.YoYo
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_remove_funds.*
 
-class RemoveFundsActivity : BaseBindingActivity<IRemoveFunds.ViewModel>(), IRemoveFunds.View {
+class RemoveFundsActivity : BaseBindingActivity<ActivityRemoveFundsBinding,IRemoveFunds.ViewModel>(), IRemoveFunds.View {
     override fun getBindingVariable(): Int = BR.viewModel
 
     override fun getLayoutId(): Int = R.layout.activity_remove_funds

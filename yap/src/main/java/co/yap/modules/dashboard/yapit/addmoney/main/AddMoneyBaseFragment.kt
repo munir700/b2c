@@ -4,10 +4,10 @@ import android.os.Bundle
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.ViewModelProviders
 import co.yap.yapcore.BaseBindingFragment
-import co.yap.yapcore.BaseBindingFragmentV2
 import co.yap.yapcore.IBase
 
-abstract class AddMoneyBaseFragment<VB : ViewDataBinding,V : IBase.ViewModel<*>> : BaseBindingFragmentV2<VB, V>() {
+abstract class AddMoneyBaseFragment<VB : ViewDataBinding, V : IBase.ViewModel<*>> :
+    BaseBindingFragment<VB, V>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

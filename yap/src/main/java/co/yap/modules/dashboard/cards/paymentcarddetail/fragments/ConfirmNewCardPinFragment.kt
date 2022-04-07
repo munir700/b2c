@@ -18,7 +18,6 @@ import co.yap.modules.setcardpin.pinflow.IPin
 import co.yap.modules.setcardpin.pinflow.PINViewModel
 import co.yap.translation.Strings
 import co.yap.yapcore.BaseBindingFragment
-import co.yap.yapcore.BaseBindingFragmentV2
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.databinding.FragmentPinBinding
 import co.yap.yapcore.enums.OTPActions
@@ -27,7 +26,8 @@ import co.yap.yapcore.helpers.extentions.getValue
 import co.yap.yapcore.helpers.extentions.startFragmentForResult
 import co.yap.yapcore.managers.SessionManager
 
-class ConfirmNewCardPinFragment : BaseBindingFragmentV2<FragmentPinBinding,IPin.ViewModel>(), IPin.View {
+class ConfirmNewCardPinFragment : BaseBindingFragment<FragmentPinBinding, IPin.ViewModel>(),
+    IPin.View {
     private val args: ConfirmNewCardPinFragmentArgs by navArgs()
 
     override val viewModel: IPin.ViewModel

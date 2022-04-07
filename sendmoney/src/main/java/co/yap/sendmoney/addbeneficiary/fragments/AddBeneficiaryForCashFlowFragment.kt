@@ -12,12 +12,13 @@ import co.yap.sendmoney.BR
 import co.yap.sendmoney.R
 import co.yap.sendmoney.addbeneficiary.interfaces.IAddBeneficiary
 import co.yap.sendmoney.addbeneficiary.viewmodels.AddBeneficiaryViewModel
+import co.yap.sendmoney.databinding.FragmentAddBeneficiaryCashFlowBinding
 import co.yap.sendmoney.fragments.SendMoneyBaseFragment
 import co.yap.translation.Translator
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.extentions.toast
 
-class AddBeneficiaryForCashFlowFragment : SendMoneyBaseFragment<IAddBeneficiary.ViewModel>(),
+class AddBeneficiaryForCashFlowFragment : SendMoneyBaseFragment<FragmentAddBeneficiaryCashFlowBinding,IAddBeneficiary.ViewModel>(),
     IAddBeneficiary.View {
 
     override fun getBindingVariable(): Int = BR.viewModel

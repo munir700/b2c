@@ -107,7 +107,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 //TODO("We need to refactor the this fragment because this fragment contains a lot of code regarding transaction graph bars")
-class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHome.View,
+class YapHomeFragment : YapDashboardChildFragment<FragmentDashboardHomeBinding,IYapHome.ViewModel>(), IYapHome.View,
     NotificationItemClickListener, SwipeRefreshLayout.OnRefreshListener {
     private var mAdapter: NotificationAdapter? = null
     private var parentViewModel: YapDashBoardViewModel? = null

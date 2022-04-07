@@ -16,7 +16,7 @@ import co.yap.networking.cards.responsedtos.Address
 import co.yap.translation.Strings
 import co.yap.widgets.video.ExoPlayerCallBack
 import co.yap.yapcore.AdjustEvents.Companion.trackAdjustPlatformEvent
-import co.yap.yapcore.BaseBindingFragmentV2
+import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.adjust.AdjustEvents
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.RequestCodes
@@ -36,7 +36,7 @@ import com.google.android.exoplayer2.trackselection.TrackSelectionArray
 import kotlinx.android.synthetic.main.fragment_reached_queue_top.*
 
 class ReachedTopQueueFragment :
-    BaseBindingFragmentV2<FragmentReachedQueueTopBinding, IReachedQueueTop.ViewModel>(),
+    BaseBindingFragment<FragmentReachedQueueTopBinding, IReachedQueueTop.ViewModel>(),
     IReachedQueueTop.View {
     override fun getBindingVariable(): Int = BR.viewModel
 
