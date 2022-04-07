@@ -93,7 +93,7 @@ class EidInfoReviewAmendmentViewModel(application: Application) :
                     )
                     clickEvent.setValue(EidInfoEvents.EVENT_ERROR_EXPIRED_EID.eventId)
                 }
-                !state.isDateOfBirthValid.get() -> {
+                state.isDateOfBirthValid.get().not() -> {
                     updateLabels(
                         title = getString(Strings.screen_kyc_information_error_display_text_title_under_age).format(
                             state.ageLimit ?: 18
