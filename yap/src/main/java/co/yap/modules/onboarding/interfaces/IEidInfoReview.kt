@@ -35,6 +35,7 @@ interface IEidInfoReview {
         var AgeLimit: MutableLiveData<Int>?
         var isCountryUS: Boolean
         var showMiddleName: MutableLiveData<Boolean>
+        var eidImageDownloaded : MutableLiveData<Boolean>
     }
 
     interface View : IBase.View<ViewModel> {

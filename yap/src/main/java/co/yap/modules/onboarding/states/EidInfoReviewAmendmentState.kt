@@ -162,4 +162,5 @@ class EidInfoReviewAmendmentState : BaseState(), IEidInfoReviewAmendment.State {
     override var isCountryUS: Boolean = false
     override var countryName: ObservableField<String> = ObservableField()
     override var errorScreenVisited: Boolean = false
+    override var eidImageDownloaded: MutableLiveData<Boolean> = MutableLiveData()
 }

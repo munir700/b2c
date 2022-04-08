@@ -411,11 +411,11 @@ class EidInfoReviewViewModel(application: Application) :
                     .isNullOrBlank() && parentViewModel?.uqudoManager?.getBackImagePath()
                     .isNullOrBlank()
             ) parentViewModel?.uqudoManager?.downloadImage { downloaded ->
-                state.viewState.postValue(downloaded.not())
+                state.viewState.postValue(false)
                 if (downloaded)
                     parentViewModel?.uqudoIdentity?.value =
                         parentViewModel?.uqudoManager?.getUqudoIdentity()
-                else showToast("unable to download EIDs")
+                else state.eidImageDownloaded.value = false
             }
         }
     }

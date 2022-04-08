@@ -35,7 +35,9 @@ import co.yap.yapcore.helpers.extentions.deleteTempFolder
 import co.yap.yapcore.helpers.showAlertDialogAndExitApp
 import co.yap.yapcore.managers.SessionManager
 
-class EidInfoReviewFragment : KYCChildFragment<FragmentEidInfoReviewBinding, IEidInfoReview.ViewModel>(), IEidInfoReview.View {
+class EidInfoReviewFragment :
+    KYCChildFragment<FragmentEidInfoReviewBinding, IEidInfoReview.ViewModel>(),
+    IEidInfoReview.View {
 
     override fun getBindingVariable(): Int = BR.viewModel
 
@@ -84,6 +86,13 @@ class EidInfoReviewFragment : KYCChildFragment<FragmentEidInfoReviewBinding, IEi
                         getAge(dateOfBirth) >= limit
                     )
                 }
+            })
+            state.eidImageDownloaded.observe(viewLifecycleOwner, Observer { ableToDownload ->
+                if (ableToDownload.not()) invalidCitizenNumber(
+                    "Sorry, we are unable to download your Eid please rescan",
+                    true
+                )
+
             })
         }
     }
