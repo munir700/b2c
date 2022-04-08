@@ -1,8 +1,6 @@
 package co.yap.modules.kyc.viewmodels
 
 import android.app.Application
-import android.graphics.Bitmap
-import android.graphics.drawable.Drawable
 import android.text.TextUtils
 import android.view.View
 import androidx.lifecycle.MutableLiveData
@@ -35,18 +33,11 @@ import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.DateUtils.getAge
 import co.yap.yapcore.helpers.Utils
-import co.yap.yapcore.helpers.extentions.saveEidTemp
 import co.yap.yapcore.helpers.validation.IValidator
 import co.yap.yapcore.helpers.validation.Validator
 import co.yap.yapcore.leanplum.KYCEvents
 import co.yap.yapcore.leanplum.trackEvent
 import co.yap.yapcore.managers.SessionManager
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.model.GlideUrl
-import com.bumptech.glide.load.model.LazyHeaders
-import com.bumptech.glide.request.target.CustomTarget
-import com.bumptech.glide.request.transition.Transition
-import com.digitify.identityscanner.docscanner.models.IdentityScannerResult
 import kotlinx.coroutines.delay
 import java.util.*
 
@@ -102,7 +93,7 @@ class EidInfoReviewAmendmentViewModel(application: Application) :
                     )
                     clickEvent.setValue(EidInfoEvents.EVENT_ERROR_EXPIRED_EID.eventId)
                 }
-                !state.isDateOfBirthValid.get() -> {
+                state.isDateOfBirthValid.get().not() -> {
                     updateLabels(
                         title = getString(Strings.screen_kyc_information_error_display_text_title_under_age).format(
                             state.ageLimit ?: 18
@@ -163,11 +154,6 @@ class EidInfoReviewAmendmentViewModel(application: Application) :
         errorTitle = title
         errorBody = body
     }
-
-    override fun onEIDScanningComplete(result: IdentityScannerResult) {
-        //uploadDocuments(result)
-    }
-
 
     override fun getAllCountries() {
         launch(Dispatcher.Background) {
@@ -322,290 +308,294 @@ class EidInfoReviewAmendmentViewModel(application: Application) :
     override fun requestAllAPIs(callAll: Boolean) {
         requestAllEIDConfigurations(callAll) { senctionedCountryResponse, configurationEIDResponse, uqudoTokenResponse ->
             launch(Dispatcher.Main) {
-                when {
-                    senctionedCountryResponse is RetroApiResponse.Success && configurationEIDResponse is RetroApiResponse.Success && uqudoTokenResponse is RetroApiResponse.Success -> {
-                        sectionedCountries = senctionedCountryResponse.data
-                        configureEIDResponse.value = configurationEIDResponse.data.data
-                        state.ageLimit = configureEIDResponse?.value?.ageLimit
-                        handleAgeValidation()
-                        state.countryName.set(configureEIDResponse?.value?.country2DigitIsoCode?.let { str ->
-                            str.split(",").map { it -> it.trim() }.find {
-                                it == "US"
-                            }
-                        })
-                        handleIsUsValidation()
-                        uqudoTokenResponse.data.data?.let {
-                            parentViewModel?.uqudoManager?.setUqudoToken(
-                                it
-                            )
-                        }                    }
-                    uqudoTokenResponse is RetroApiResponse.Success -> {
-                        uqudoTokenResponse.data.data?.let {
-                            parentViewModel?.uqudoManager?.setUqudoToken(
-                                it
-                            )
-                        }                    }
-                    else -> {
-                        if (senctionedCountryResponse is RetroApiResponse.Error)
-                            state.toast = senctionedCountryResponse.error.message
+                if (senctionedCountryResponse is RetroApiResponse.Success) {
+                    sectionedCountries = senctionedCountryResponse.data
+                }
+                if (configurationEIDResponse is RetroApiResponse.Success) {
+
+                    configureEIDResponse.value = configurationEIDResponse.data.data
+                    state.ageLimit = configureEIDResponse?.value?.ageLimit
+                    handleAgeValidation()
+                    state.countryName.set(configureEIDResponse?.value?.country2DigitIsoCode?.let { str ->
+                        str.split(",").map { it -> it.trim() }.find {
+                            it == "US"
+                        }
+                    })
+                    handleIsUsValidation()
+                }
+                if (uqudoTokenResponse is RetroApiResponse.Success) {
+                    uqudoTokenResponse.data.data?.let {
+                        parentViewModel?.uqudoManager?.setUqudoToken(
+                            it
+                        )
                     }
                 }
+                else {
+                    if (senctionedCountryResponse is RetroApiResponse.Error)
+                        state.toast = senctionedCountryResponse.error.message
+                }
+              /*  uqudoTokenResponse is RetroApiResponse.Success -> {
+                uqudoTokenResponse.data.data?.let {
+                    parentViewModel?.uqudoManager?.setUqudoToken(
+                        it
+                    )
+                }
+            }*/
+            }
+        }
+}
+
+override fun requestAllEIDConfigurations(
+    callAll: Boolean,
+    responses: (
+        RetroApiResponse<SectionedCountriesResponseDTO>?,
+        RetroApiResponse<BaseResponse<ConfigureEIDResponse>>?,
+        RetroApiResponse<BaseResponse<UqudoTokenResponse>>?
+    ) -> Unit
+) {
+    launch(Dispatcher.Background) {
+        when (callAll) {
+            true -> {
+                val senctionedCountriesList = launchAsync {
+                    repository.getSectionedCountries()
+                }
+
+                val eidConfigurationResponse = launchAsync {
+                    repository.getEIDConfigurations()
+                }
+                val uqudoTokenResponse = launchAsync {
+                    repository.getUqudoAuthToken()
+                }
+                responses(
+                    senctionedCountriesList.await(),
+                    eidConfigurationResponse.await(),
+                    uqudoTokenResponse.await()
+                )
+            }
+            else -> {
+                val uqudoTokenResponse = launchAsync {
+                    repository.getUqudoAuthToken()
+                }
+                responses(
+                    null,
+                    null,
+                    uqudoTokenResponse.await()
+                )
             }
         }
 
     }
+}
 
-    override fun requestAllEIDConfigurations(
-        callAll: Boolean,
-        responses: (
-            RetroApiResponse<SectionedCountriesResponseDTO>?,
-            RetroApiResponse<BaseResponse<ConfigureEIDResponse>>?,
-            RetroApiResponse<BaseResponse<UqudoTokenResponse>>?
-        ) -> Unit
-    ) {
-        launch(Dispatcher.Background) {
-            when (callAll) {
-                true -> {
-                    val senctionedCountriesList = launchAsync {
-                        repository.getSectionedCountries()
-                    }
+override val drawableClickListener = object : OnDrawableClickListener {
+    override fun onClick(view: View, target: DrawablePosition) {
+        clickEvent.setValue(view.id)
+    }
+}
 
-                    val eidConfigurationResponse = launchAsync {
-                        repository.getEIDConfigurations()
-                    }
-                    val uqudoTokenResponse = launchAsync {
-                        repository.getUqudoAuthToken()
-                    }
-                    responses(
-                        senctionedCountriesList.await(),
-                        eidConfigurationResponse.await(),
-                        uqudoTokenResponse.await()
-                    )
-                }
+override fun getGenderOptions(): ArrayList<BottomSheetItem> {
+    val list = arrayListOf<BottomSheetItem>()
+    list.add(
+        BottomSheetItem(
+            icon = if (state.gender == getString(Strings.screen_b2c_eid_info_review_display_text_gender_male)) R.drawable.ic_tick else -1,
+            title = getString(Strings.screen_b2c_eid_info_review_display_text_gender_male),
+            tag = getString(Strings.screen_b2c_eid_info_review_display_text_gender_male)
+        )
+    )
+    list.add(
+        BottomSheetItem(
+            icon = if (state.gender == getString(Strings.screen_b2c_eid_info_review_display_text_gender_female)) R.drawable.ic_tick else -1,
+            title = getString(Strings.screen_b2c_eid_info_review_display_text_gender_female),
+            tag = getString(Strings.screen_b2c_eid_info_review_display_text_gender_female)
+        )
+    )
+    return list
+}
+
+override fun handleIsUsValidation() {
+    state.isCountryUS = state.nationality.value?.let {
+        it.isoCountryCode2Digit?.contains(
+            state.countryName.get() ?: "US"
+        )
+    } == true
+}
+
+override fun handleAgeValidation() {
+    state.isDateOfBirthValid.set(
+        getAge(state.dobCalendar.time) >= state.ageLimit ?: 18
+    )
+}
+
+override fun onValidationSuccess(validator: Validator) {
+    super.onValidationSuccess(validator)
+    state.valid = validator.isValidate.value == true
+}
+
+override fun onValidationError(validator: Validator) {
+    super.onValidationError(validator)
+    state.valid = validator.isValidate.value == false
+}
+
+override fun isFromAmendment() = parentViewModel?.amendmentMap?.isNullOrEmpty() == false
+override fun populateUqudoState(identity: EidData?) {
+    identity?.let {
+        val documentBack = it.documents[0].scan?.back
+        val documentFront = it.documents[0].scan?.front
+        documentFront?.fullName?.let { it1 -> splitLastNames(it1) }
+        state.fullNameValid = state.firstName.isNotBlank()
+        state.nationality.value = Country(name = documentFront?.nationality ?: "")
+        state.nationalityValid =
+            state.nationality.value?.getName()?.isNotBlank() == true && !state.isCountryUS
+        val EXD = parentViewModel?.uqudoManager?.getExpiryDate()
+        val DOB = parentViewModel?.uqudoManager?.getDateOfBirth()
+        state.dateOfBirth.value =
+            DateUtils.reformatToLocalString(DOB, DateUtils.DEFAULT_DATE_FORMAT)
+        state.expiryDate =
+            DateUtils.reformatToLocalString(EXD, DateUtils.DEFAULT_DATE_FORMAT)
+        state.expiryDateValid.value =
+            EXD?.let { it1 -> parentViewModel?.uqudoManager?.isExpiryDateValid(it1) } ?: false
+        state.genderValid = true
+        if (documentFront?.identityNumber?.length != eidLength && !Utils.isValidEID(
+                documentFront?.identityNumber
+            )
+        ) {
+            clickEvent.setValue(EidInfoEvents.EVENT_CITIZEN_NUMBER_ISSUE.eventId)
+        } else {
+            state.citizenNumber.value = documentFront?.identityNumber
+            parentViewModel?.state?.identityNo?.set(documentFront?.identityNumber)
+        }
+        state.gender = documentBack?.sex.run {
+            when {
+                this == Gender.Male.mrz -> getString(Strings.screen_b2c_eid_info_review_display_text_gender_male)
+                this == Gender.Female.mrz -> getString(Strings.screen_b2c_eid_info_review_display_text_gender_female)
                 else -> {
-                    val uqudoTokenResponse = launchAsync {
-                        repository.getUqudoAuthToken()
-                    }
-                    responses(
-                        null,
-                        null,
-                        uqudoTokenResponse.await()
-                    )
+                    state.genderValid = false
+                    ""
                 }
             }
-
         }
-    }
-
-    override val drawableClickListener = object : OnDrawableClickListener {
-        override fun onClick(view: View, target: DrawablePosition) {
-            clickEvent.setValue(view.id)
+        // If Age Limit available in case of Re-Scan, set Age validity again.
+        state.ageLimit?.let { limit ->
+            state.isDateOfBirthValid.set(
+                DOB?.let { it1 -> getAge(it1) } ?: 18 >= limit
+            )
         }
-    }
-
-    override fun getGenderOptions(): ArrayList<BottomSheetItem> {
-        val list = arrayListOf<BottomSheetItem>()
-        list.add(
-            BottomSheetItem(
-                icon = if (state.gender == getString(Strings.screen_b2c_eid_info_review_display_text_gender_male)) R.drawable.ic_tick else -1,
-                title = getString(Strings.screen_b2c_eid_info_review_display_text_gender_male),
-                tag = getString(Strings.screen_b2c_eid_info_review_display_text_gender_male)
-            )
-        )
-        list.add(
-            BottomSheetItem(
-                icon = if (state.gender == getString(Strings.screen_b2c_eid_info_review_display_text_gender_female)) R.drawable.ic_tick else -1,
-                title = getString(Strings.screen_b2c_eid_info_review_display_text_gender_female),
-                tag = getString(Strings.screen_b2c_eid_info_review_display_text_gender_female)
-            )
-        )
-        return list
-    }
-
-    override fun handleIsUsValidation() {
-        state.isCountryUS = state.nationality.value?.let {
-            it.isoCountryCode2Digit?.contains(
-                state.countryName.get() ?: "US"
-            )
-        } == true
-    }
-
-    override fun handleAgeValidation() {
-        state.isDateOfBirthValid.set(
-            getAge(state.dobCalendar.time) >= state.ageLimit ?: 18
-        )
-    }
-
-    override fun onValidationSuccess(validator: Validator) {
-        super.onValidationSuccess(validator)
-        state.valid = validator.isValidate.value == true
-    }
-
-    override fun onValidationError(validator: Validator) {
-        super.onValidationError(validator)
-        state.valid = validator.isValidate.value == false
-    }
-
-    override fun isFromAmendment() = parentViewModel?.amendmentMap?.isNullOrEmpty() == false
-    override fun populateUqudoState(identity: EidData?) {
-        identity?.let {
-            val documentBack = it.documents[0].scan?.back
-            val documentFront = it.documents[0].scan?.front
-            documentFront?.fullName?.let { it1 -> splitLastNames(it1) }
-            state.fullNameValid = state.firstName.isNotBlank()
-            state.nationality.value = Country(name = documentFront?.nationality ?: "")
-            state.nationalityValid =
-                state.nationality.value?.getName()?.isNotBlank() == true && !state.isCountryUS
-            val EXD = parentViewModel?.uqudoManager?.getExpiryDate()
-            val DOB = parentViewModel?.uqudoManager?.getDateOfBirth()
-            state.dateOfBirth.value =
-                DateUtils.reformatToLocalString(DOB, DateUtils.DEFAULT_DATE_FORMAT)
-            state.expiryDate =
-                DateUtils.reformatToLocalString(EXD, DateUtils.DEFAULT_DATE_FORMAT)
-            state.expiryDateValid.value =
-                EXD?.let { it1 -> parentViewModel?.uqudoManager?.isExpiryDateValid(it1) } ?: false
-            state.genderValid = true
-            if (documentFront?.identityNumber?.length != eidLength && !Utils.isValidEID(
-                    documentFront?.identityNumber
-                )
-            ) {
-                clickEvent.setValue(EidInfoEvents.EVENT_CITIZEN_NUMBER_ISSUE.eventId)
-            } else {
-                state.citizenNumber.value = documentFront?.identityNumber
-                parentViewModel?.state?.identityNo?.set(documentFront?.identityNumber)
-            }
-            state.gender = documentBack?.sex.run {
-                when {
-                    this == Gender.Male.mrz -> getString(Strings.screen_b2c_eid_info_review_display_text_gender_male)
-                    this == Gender.Female.mrz -> getString(Strings.screen_b2c_eid_info_review_display_text_gender_female)
-                    else -> {
-                        state.genderValid = false
-                        ""
-                    }
-                }
-            }
-            // If Age Limit available in case of Re-Scan, set Age validity again.
-            state.ageLimit?.let { limit ->
-                state.isDateOfBirthValid.set(
-                    DOB?.let { it1 -> getAge(it1) } ?: 18 >= limit
-                )
-            }
 //            state.isDateOfBirthValid.set(getAge(identity.dateOfBirth) >= configureEIDResponse.value?.ageLimit ?: 18)
-            val countryName = configureEIDResponse.value?.country2DigitIsoCode?.let { str ->
-                str.split(",").map { it -> it.trim() }.find {
-                    it.equals("US")
-                }
+        val countryName = configureEIDResponse.value?.country2DigitIsoCode?.let { str ->
+            str.split(",").map { it -> it.trim() }.find {
+                it.equals("US")
             }
-            state.isCountryUS =
-                getCountryCode(documentFront?.nationality ?: "").contains(countryName ?: "US")
-            state.dobCalendar = Calendar.getInstance().apply {
-                time = DOB
-            }
-            state.expiryCalendar = Calendar.getInstance().apply {
-                time = EXD
-            }
-            if (parentViewModel?.uqudoIdentity?.value == null) {
-                parentViewModel?.uqudoManager?.downloadImage { downloadSuccess ->
-                    state.viewState.postValue(downloadSuccess.not())
-                    if (downloadSuccess) {
-                        parentViewModel?.uqudoIdentity?.value =
-                            parentViewModel?.uqudoManager?.getUqudoIdentity()
-                        state.nationality.value =
-                            countries.firstOrNull { country -> country.isoCountryCode3Digit == parentViewModel?.uqudoIdentity?.value?.digit3CountryCode }
-                    } else showToast("unable to download EIDs")
-
-                }
-            }
-            handleAgeValidation()
-            handleIsUsValidation()
-            validator?.toValidate()
-
         }
+        state.isCountryUS =
+            getCountryCode(documentFront?.nationality ?: "").contains(countryName ?: "US")
+        state.dobCalendar = Calendar.getInstance().apply {
+            time = DOB
+        }
+        state.expiryCalendar = Calendar.getInstance().apply {
+            time = EXD
+        }
+        if (parentViewModel?.uqudoIdentity?.value == null) {
+            parentViewModel?.uqudoManager?.downloadImage { downloadSuccess ->
+                state.viewState.postValue(downloadSuccess.not())
+                if (downloadSuccess) {
+                    parentViewModel?.uqudoIdentity?.value =
+                        parentViewModel?.uqudoManager?.getUqudoIdentity()
+                    state.nationality.value =
+                        countries.firstOrNull { country -> country.isoCountryCode3Digit == parentViewModel?.uqudoIdentity?.value?.digit3CountryCode }
+                } else showToast("unable to download EIDs")
+
+            }
+        }
+        handleAgeValidation()
+        handleIsUsValidation()
+        validator?.toValidate()
+
     }
+}
 
 
-    fun getCountryCode(countryName: String): String =
-        Locale.getISOCountries().find { Locale("", it).displayCountry == countryName } ?: ""
+fun getCountryCode(countryName: String): String =
+    Locale.getISOCountries().find { Locale("", it).displayCountry == countryName } ?: ""
 
-    fun performUqudoUploadDocumentsRequest(
-        fromInformationErrorFragment: Boolean,
-        success: (message: String) -> Unit
-    ) {
-        parentViewModel?.uqudoManager?.getUqudoIdentity()?.let {
-            if (it.dateExpiry.toString().isBlank()) {
-                clickEvent.setValue(EidInfoEvents.EVENT_EID_EXPIRY_DATE_ISSUE.eventId)
-            } else {
-                launch {
-                    val request = UploadDocumentsRequest(
-                        documentType = "EMIRATES_ID",
-                        firstName = state.firstName,
-                        middleName = if (state.middleName.isNotBlank()) state.middleName else null,
-                        lastName = if (state.lastName.isNotBlank()) state.lastName else null,
-                        fullName = getFullName(),
-                        gender = if (state.gender == Gender.Male.name) Gender.Male.mrz else Gender.Female.mrz,
-                        dateExpiry = state.expiryCalendar.time,
-                        dob = state.dobCalendar.time,
-                        nationality = state.nationality.value?.isoCountryCode3Digit ?: "",
-                        identityNo = state.citizenNumber.value?.replace("-".toRegex(), ""),
-                        filePaths = it.filePaths,
-                        countryIsSanctioned = if (fromInformationErrorFragment) fromInformationErrorFragment else null,
-                        isAmendment = !parentViewModel?.amendmentMap.isNullOrEmpty()
-                    )
+fun performUqudoUploadDocumentsRequest(
+    fromInformationErrorFragment: Boolean,
+    success: (message: String) -> Unit
+) {
+    parentViewModel?.uqudoManager?.getUqudoIdentity()?.let {
+        if (it.dateExpiry.toString().isBlank()) {
+            clickEvent.setValue(EidInfoEvents.EVENT_EID_EXPIRY_DATE_ISSUE.eventId)
+        } else {
+            launch {
+                val request = UploadDocumentsRequest(
+                    documentType = "EMIRATES_ID",
+                    firstName = state.firstName,
+                    middleName = if (state.middleName.isNotBlank()) state.middleName else null,
+                    lastName = if (state.lastName.isNotBlank()) state.lastName else null,
+                    fullName = getFullName(),
+                    gender = if (state.gender == Gender.Male.name) Gender.Male.mrz else Gender.Female.mrz,
+                    dateExpiry = state.expiryCalendar.time,
+                    dob = state.dobCalendar.time,
+                    nationality = state.nationality.value?.isoCountryCode3Digit ?: "",
+                    identityNo = state.citizenNumber.value?.replace("-".toRegex(), ""),
+                    filePaths = it.filePaths,
+                    countryIsSanctioned = if (fromInformationErrorFragment) fromInformationErrorFragment else null,
+                    isAmendment = !parentViewModel?.amendmentMap.isNullOrEmpty()
+                )
 
-                    state.loading = true
-                    val response = repository.uploadDocuments(request)
-                    state.loading = false
+                state.loading = true
+                val response = repository.uploadDocuments(request)
+                state.loading = false
 
-                    when (response) {
-                        is RetroApiResponse.Success -> {
-                            when (SessionManager.eidStatus) {
-                                EIDStatus.EXPIRED, EIDStatus.VALID -> {
-                                    if (fromInformationErrorFragment) {
-                                        success.invoke("success")
-                                    } else {
-                                        SessionManager.eidStatus = EIDStatus.VALID
-                                        clickEvent.setValue(EidInfoEvents.EVENT_EID_UPDATE.eventId)
-                                        trackEvent(KYCEvents.KYC_ID_CONFIRMED.type)
-                                    }
-                                }
-                                EIDStatus.NOT_SET -> {
-                                    if (fromInformationErrorFragment) {
-                                        success.invoke("success")
-                                    } else {
-                                        SessionManager.eidStatus = EIDStatus.VALID
-                                        clickEvent.setValue(EidInfoEvents.EVENT_NEXT.eventId)
-                                        trackEvent(KYCEvents.KYC_ID_CONFIRMED.type)
-                                    }
-                                }
-                                else -> {
-                                    if (fromInformationErrorFragment) {
-                                        success.invoke("success")
-                                    } else {
-                                        SessionManager.eidStatus = EIDStatus.VALID
-                                        clickEvent.setValue(EidInfoEvents.EVENT_NEXT.eventId)
-                                        trackEvent(KYCEvents.KYC_ID_CONFIRMED.type)
-                                    }
+                when (response) {
+                    is RetroApiResponse.Success -> {
+                        when (SessionManager.eidStatus) {
+                            EIDStatus.EXPIRED, EIDStatus.VALID -> {
+                                if (fromInformationErrorFragment) {
+                                    success.invoke("success")
+                                } else {
+                                    SessionManager.eidStatus = EIDStatus.VALID
+                                    clickEvent.setValue(EidInfoEvents.EVENT_EID_UPDATE.eventId)
+                                    trackEvent(KYCEvents.KYC_ID_CONFIRMED.type)
                                 }
                             }
-                        }
-                        is RetroApiResponse.Error -> {
-                            if (fromInformationErrorFragment) {
-                                success.invoke(response.error.message)
-                            } else {
-                                if (response.error.actualCode.equals(
-                                        EidInfoEvents.EVENT_ALREADY_USED_EID.eventId.toString(),
-                                        true
-                                    )
-                                ) {
-                                    //clickEvent.setValue(EVENT_ALREADY_USED_EID)
+                            EIDStatus.NOT_SET -> {
+                                if (fromInformationErrorFragment) {
+                                    success.invoke("success")
+                                } else {
+                                    SessionManager.eidStatus = EIDStatus.VALID
+                                    clickEvent.setValue(EidInfoEvents.EVENT_NEXT.eventId)
+                                    trackEvent(KYCEvents.KYC_ID_CONFIRMED.type)
                                 }
-                                state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
+                            }
+                            else -> {
+                                if (fromInformationErrorFragment) {
+                                    success.invoke("success")
+                                } else {
+                                    SessionManager.eidStatus = EIDStatus.VALID
+                                    clickEvent.setValue(EidInfoEvents.EVENT_NEXT.eventId)
+                                    trackEvent(KYCEvents.KYC_ID_CONFIRMED.type)
+                                }
                             }
                         }
                     }
+                    is RetroApiResponse.Error -> {
+                        if (fromInformationErrorFragment) {
+                            success.invoke(response.error.message)
+                        } else {
+                            if (response.error.actualCode.equals(
+                                    EidInfoEvents.EVENT_ALREADY_USED_EID.eventId.toString(),
+                                    true
+                                )
+                            ) {
+                                //clickEvent.setValue(EVENT_ALREADY_USED_EID)
+                            }
+                            state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
+                        }
+                    }
                 }
-
             }
+
         }
     }
+}
 }

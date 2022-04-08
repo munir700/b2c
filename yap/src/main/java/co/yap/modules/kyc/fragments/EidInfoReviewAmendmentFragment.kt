@@ -68,7 +68,8 @@ class EidInfoReviewAmendmentFragment : KYCChildFragment<FragmentEidInfoReviewAme
 
         viewModel.parentViewModel?.uqudoManager?.getPayloadData()?.let { identity ->
             viewModel.populateUqudoState(identity = identity)
-        } ?: viewModel.requestAllAPIs(true)
+        } ?:
+        viewModel.requestAllAPIs(true)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -255,7 +256,7 @@ class EidInfoReviewAmendmentFragment : KYCChildFragment<FragmentEidInfoReviewAme
                     viewModel.parentViewModel?.uqudoManager?.decodeEncodedUqudoToken(
                         uqudoJWT ?: ""
                     ) {
-                        viewModel.eidStateLiveData.postValue(State.success(""))
+                        viewModel.getKYCDataFromServer()
                     }
                 } else {
                     if (viewModel.parentViewModel?.uqudoManager?.getPayloadData() == null) requireActivity().finish()
