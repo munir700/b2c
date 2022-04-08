@@ -110,9 +110,7 @@
             android:orientation="horizontal"
             android:theme="@style/Theme.MaterialComponents.Light"
             app:layout_constraintEnd_toEndOf="parent"
-            app:singleLine="true"
             app:singleSelection="true"
-            app:selectionRequired="true"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/etAmount" />
 

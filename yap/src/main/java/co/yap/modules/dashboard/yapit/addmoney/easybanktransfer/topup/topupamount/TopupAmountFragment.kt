@@ -20,8 +20,8 @@ class TopupAmountFragment : AddMoneyBaseFragment<ITopupAmount.ViewModel>(),
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewDataBinding.lifecycleOwner = this
-        viewModel.setAvailableBalance()
         generateChipViews(viewModel.state.denominationChipList.value!!)
+        viewModel.setAvailableBalance()
         setObservers()
     }
 

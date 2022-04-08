@@ -14,6 +14,7 @@ interface ITopupAmount {
         val clickEvent: SingleClickEvent
         fun denominationAmountValidator(amount: String)
         fun handleClickEvent(id:Int)
+        fun setAvailableBalance()
     }
 
     interface State : IBase.State {
