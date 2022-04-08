@@ -504,7 +504,7 @@ class EidInfoReviewAmendmentViewModel(application: Application) :
                     state.viewState.postValue(false)
                     if (downloadSuccess) {
                         parentViewModel?.uqudoIdentity?.value =
-                            parentViewModel?.uqudoManager?.getUqudoIdentity()
+                            parentViewModel?.uqudoManager?.getUqudoIdentity(isAmendment = true)
                     } else state.eidImageDownloaded.value = false
                 }
             }

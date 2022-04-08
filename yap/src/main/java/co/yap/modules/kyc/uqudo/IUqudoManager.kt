@@ -19,7 +19,6 @@ interface IUqudoManager {
     fun getFrontImagePath(): String?
     fun getBackImagePath(): String?
     fun getFormatDateFromUqudo(string: String?, flags: UqudoFlags): Date?
-    fun getUqudoIdentity(): V2DocumentDTO?
     fun deleteEidImages()
     fun resetData()
     fun getDateOfBirth(): Date?

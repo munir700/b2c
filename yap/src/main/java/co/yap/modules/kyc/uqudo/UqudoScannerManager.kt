@@ -150,7 +150,10 @@ class UqudoScannerManager private constructor(val context: Context) : IUqudoMana
 
     }
 
-    private fun downloadImagewithGlide(imageId: String, downloaded: (sucess: Boolean, bitmap: Bitmap?) -> Unit) {
+    private fun downloadImagewithGlide(
+        imageId: String,
+        downloaded: (sucess: Boolean, bitmap: Bitmap?) -> Unit
+    ) {
         val url = GlideUrl(
             UQUDO_BASE_URL + imageId, LazyHeaders.Builder()
                 .addHeader(
@@ -200,22 +203,24 @@ class UqudoScannerManager private constructor(val context: Context) : IUqudoMana
         return Date()
     }
 
-    override fun getUqudoIdentity(): V2DocumentDTO? = uqudoPayloadData.value?.let { uqudoIdentity ->
-        V2DocumentDTO(
-            filePaths = ArrayList(imagePaths.values),
-            documentType = "EMIRATES_ID",
-            firstName = "",
-            middleName = "",
-            lastName = "",
-            dateExpiry = dateOfExpiry.value ?: Date(),
-            dob = dateOfBirth.value ?: Date(),
-            fullName = fetchDocumentFrontDate()?.fullName ?: "",
-            gender = fetchDocumentBackDate()?.sex.toString(),
-            digit3CountryCode = fetchDocumentBackDate()?.nationality ?: "UAE",
-            nationality = fetchDocumentFrontDate()?.nationality ?: "",
-            identityNo = fetchDocumentFrontDate()?.identityNumber
-        )
-    }
+    fun getUqudoIdentity(isAmendment: Boolean = false): V2DocumentDTO? =
+        uqudoPayloadData.value?.let { uqudoIdentity ->
+            V2DocumentDTO(
+                filePaths = ArrayList(imagePaths.values),
+                documentType = "EMIRATES_ID",
+                firstName = "",
+                middleName = "",
+                lastName = "",
+                dateExpiry = dateOfExpiry.value ?: Date(),
+                dob = dateOfBirth.value ?: Date(),
+                fullName = fetchDocumentFrontDate()?.fullName ?: "",
+                gender = fetchDocumentBackDate()?.sex.toString(),
+                digit3CountryCode = fetchDocumentBackDate()?.nationality ?: "UAE",
+                nationality = fetchDocumentFrontDate()?.nationality ?: "",
+                identityNo = fetchDocumentFrontDate()?.identityNumber,
+                isAmendment = isAmendment
+            )
+        }
 
     override fun getPayloadData(): EidData? = uqudoPayloadData.value
 
