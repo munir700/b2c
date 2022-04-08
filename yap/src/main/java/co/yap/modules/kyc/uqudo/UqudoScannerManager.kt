@@ -57,20 +57,20 @@ class UqudoScannerManager private constructor(val context: Context) : IUqudoMana
     companion object : SingletonHolder<UqudoScannerManager, Context>(::UqudoScannerManager)
 
     fun fetchDocumentBackDate() = getPayloadData()?.documents?.get(0)?.scan?.back
-    fun fetchDocumentFrontDate() = getPayloadData()?.documents?.get(0)?.scan?.front
-    fun getDateOfBirth(): Date? =
+    private fun fetchDocumentFrontDate() = getPayloadData()?.documents?.get(0)?.scan?.front
+    override fun getDateOfBirth(): Date? =
         getFormatDateFromUqudo(fetchDocumentBackDate()?.dateOfBirth, UqudoFlags.DATE_OF_BIRTH)
 
-    fun getExpiryDate(): Date? =
+    override fun getExpiryDate(): Date? =
         getFormatDateFromUqudo(fetchDocumentBackDate()?.dateOfExpiry, UqudoFlags.EXPIRY_DATE)
 
     override fun initializeUqudo() = UqudoSDK.init(context.applicationContext)
-    fun setUqudoToken(uqudoTokenResponse: UqudoTokenResponse) {
+    override fun setUqudoToken(uqudoTokenResponse: UqudoTokenResponse) {
         tokenInitiatedTime.value = Calendar.getInstance().time
         uqudoAccessToken.value = uqudoTokenResponse
     }
 
-    fun getUqudoAccessToken() = uqudoAccessToken
+    override fun getUqudoAccessToken(): MutableLiveData<UqudoTokenResponse> = uqudoAccessToken
     override fun initiateUqudoScanning(): Intent? {
         var uqudoIntent: Intent? = null
         uqudoAccessToken.value?.accessToken?.let { token ->
@@ -228,7 +228,7 @@ class UqudoScannerManager private constructor(val context: Context) : IUqudoMana
 
     override fun getBackImagePath(): String? = imagePaths[BACK_IMAGE_RESOURCE_PATH]
 
-    fun isExpiryDateValid(expirationDate: Date): Boolean {
+    override fun isExpiryDateValid(expirationDate: Date): Boolean {
         return !DateUtils.isDatePassed(expirationDate).also {
             it
         }

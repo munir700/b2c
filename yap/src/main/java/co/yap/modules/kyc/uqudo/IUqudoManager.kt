@@ -1,9 +1,11 @@
 package co.yap.modules.kyc.uqudo
 
 import android.content.Intent
+import androidx.lifecycle.MutableLiveData
 import co.yap.networking.customers.responsedtos.EidData
 import co.yap.networking.customers.responsedtos.UqudoHeader
 import co.yap.networking.customers.responsedtos.V2DocumentDTO
+import co.yap.networking.customers.responsedtos.documents.UqudoTokenResponse
 import java.util.*
 
 interface IUqudoManager {
@@ -17,7 +19,12 @@ interface IUqudoManager {
     fun getFrontImagePath(): String?
     fun getBackImagePath(): String?
     fun getFormatDateFromUqudo(string: String?, flags: UqudoFlags): Date?
-    fun getUqudoIdentity() : V2DocumentDTO?
+    fun getUqudoIdentity(): V2DocumentDTO?
     fun deleteEidImages()
     fun resetData()
+    fun getDateOfBirth(): Date?
+    fun getExpiryDate(): Date?
+    fun setUqudoToken(uqudoTokenResponse: UqudoTokenResponse)
+    fun getUqudoAccessToken(): MutableLiveData<UqudoTokenResponse>
+    fun isExpiryDateValid(expirationDate: Date): Boolean
 }
