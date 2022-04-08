@@ -1,16 +1,14 @@
 package co.yap.modules.kyc.uqudo
 
-import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
-import android.os.Build
 import android.widget.Toast
 import androidx.annotation.Keep
 import androidx.lifecycle.MutableLiveData
 import co.yap.networking.customers.responsedtos.EidData
 import co.yap.networking.customers.responsedtos.UqudoHeader
-import co.yap.networking.customers.responsedtos.UqudoPayLoad
 import co.yap.networking.customers.responsedtos.V2DocumentDTO
 import co.yap.networking.customers.responsedtos.documents.UqudoTokenResponse
 import co.yap.yapcore.helpers.DateUtils
@@ -18,6 +16,7 @@ import co.yap.yapcore.helpers.DateUtils.isFutureDate
 import co.yap.yapcore.helpers.DateUtils.nextYear
 import co.yap.yapcore.helpers.SingletonHolder
 import co.yap.yapcore.helpers.extentions.saveEidTemp
+import co.yap.yapcore.helpers.jwtparser.JWT
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.model.GlideUrl
 import com.bumptech.glide.load.model.LazyHeaders
@@ -39,11 +38,11 @@ import java.util.*
  * @see SingletonHolder
  * created by Gulwisha Ahmed
  * */
-class UqudoScannerManager private constructor(val context: Activity) : IUqudoManager {
+class UqudoScannerManager private constructor(val context: Context) : IUqudoManager {
     private val FRONT_IMAGE_RESOURCE_PATH: Int = 1
     private val BACK_IMAGE_RESOURCE_PATH: Int = 2
     private val UQUDO_BASE_URL: String = "https://id.dev.uqudo.io/api/v1/info/img/"
-    private var uqudoPayloadData: MutableLiveData<UqudoPayLoad> = MutableLiveData()
+    private var uqudoPayloadData: MutableLiveData<EidData> = MutableLiveData()
     private var uqudoAccessToken: MutableLiveData<UqudoTokenResponse> = MutableLiveData()
     private var uqudoScannedToken: MutableLiveData<String> = MutableLiveData()
     private var imagePaths: HashMap<Int, String> = hashMapOf()
@@ -55,7 +54,7 @@ class UqudoScannerManager private constructor(val context: Activity) : IUqudoMan
     private val DATE_INPUT_FORMAT = "yyMMdd"
     private val DATE_OUTPUT_FORMAT = "yyyy-mm-dd"
 
-    companion object : SingletonHolder<UqudoScannerManager, Activity>(::UqudoScannerManager)
+    companion object : SingletonHolder<UqudoScannerManager, Context>(::UqudoScannerManager)
 
     fun fetchDocumentBackDate() = getPayloadData()?.documents?.get(0)?.scan?.back
     fun fetchDocumentFrontDate() = getPayloadData()?.documents?.get(0)?.scan?.front
@@ -95,39 +94,13 @@ class UqudoScannerManager private constructor(val context: Activity) : IUqudoMan
 
     override fun decodeEncodedUqudoToken(encodedToken: String, sucess: () -> Unit) {
         uqudoScannedToken.value = encodedToken
-        decodeUqudoScannedToken {
-            sucess.invoke()
-        }
-    }
-
-    private fun decodeUqudoScannedToken(success: () -> Unit) {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) Toast.makeText(
-            context,
-            "Requires SDK 26",
-            Toast.LENGTH_SHORT
-        ).show() else {
-            val parts = uqudoScannedToken.value?.split("\\.".toRegex())
-            parts?.let { parts ->
-                try {
-                    val decoder = Base64.getUrlDecoder()
-                    val charset = charset("UTF-8")
-                    val base64EncodedHeader: String = parts[0]
-                    val base64EncodedBody: String = parts[1]
-                    val header =
-                        String(decoder.decode(base64EncodedHeader.toByteArray(charset)), charset)
-                    val payload =
-                        String(decoder.decode(base64EncodedBody.toByteArray(charset)), charset)
-                    val gson = Gson()
-                    val headerObj: UqudoHeader = gson.fromJson(header, UqudoHeader::class.java)
-                    val payLoadObj: UqudoPayLoad = gson.fromJson(payload, UqudoPayLoad::class.java)
-                    uqudoPayloadData.postValue(payLoadObj)
-                    uqudoHeader.postValue(headerObj)
-                    success.invoke()
-                } catch (e: Exception) {
-                    "Error parsing JWT: $e"
-                }
-            }
-        }
+        val jwt = JWT(encodedToken)
+        val gson = Gson()
+        val data = jwt.claims["data"]?.asObject(EidData::class.java)
+        val payLoad = gson.toJson(data)
+        val payLoadObj: EidData = gson.fromJson(payLoad, EidData::class.java)
+        uqudoPayloadData.postValue(payLoadObj)
+        sucess.invoke()
     }
 
     override fun isAccessTokenExpired(): Boolean {
@@ -153,14 +126,14 @@ class UqudoScannerManager private constructor(val context: Activity) : IUqudoMan
         uqudoPayloadData.value?.let { payload ->
             imagePaths.clear()
             downloadImagewithGlide(
-                payload.data?.documents?.get(0)?.scan?.frontImageId ?: ""
+                payload.documents.get(0).scan?.frontImageId ?: ""
             )
             { isFrontImageDownloaded, frontImage ->
                 if (isFrontImageDownloaded) {
                     frontImage?.let { context.saveEidTemp(it) }
                         ?.let { imagePaths[FRONT_IMAGE_RESOURCE_PATH] = it }
                     downloadImagewithGlide(
-                        payload.data?.documents?.get(0)?.scan?.backImageId ?: ""
+                        payload.documents.get(0).scan?.backImageId ?: ""
                     ) { isBackImageDownloaded, backImage ->
                         if (isBackImageDownloaded) {
                             backImage?.let { context.saveEidTemp(it) }
@@ -211,18 +184,18 @@ class UqudoScannerManager private constructor(val context: Activity) : IUqudoMan
             })
     }
 
-    override fun getFormatDateFromUqudo(string: String?, flag: UqudoFlags): Date? {
-        val inputSDF = SimpleDateFormat(DATE_INPUT_FORMAT)
+    override fun getFormatDateFromUqudo(string: String?, flags: UqudoFlags): Date? {
+        val inputSDF = SimpleDateFormat(DATE_INPUT_FORMAT, Locale.getDefault())
         val dob = DateUtils.stringToDate(string ?: "", "yyMMdd")
-        var date: Date? = null
+        val date: Date?
         try {
 
-            date = if (isFutureDate(dob) == true && flag == UqudoFlags.DATE_OF_BIRTH) nextYear(
+            date = if (isFutureDate(dob) == true && flags == UqudoFlags.DATE_OF_BIRTH) nextYear(
                 dob,
                 -100
-            ) else inputSDF.parse(string)
+            ) else inputSDF.parse(string ?: "")
             inputSDF.applyPattern(DATE_OUTPUT_FORMAT)
-            if (flag == UqudoFlags.EXPIRY_DATE) dateOfExpiry.value = date else dateOfBirth.value =
+            if (flags == UqudoFlags.EXPIRY_DATE) dateOfExpiry.value = date else dateOfBirth.value =
                 date
             return date
         } catch (e: java.lang.Exception) {
@@ -248,7 +221,7 @@ class UqudoScannerManager private constructor(val context: Activity) : IUqudoMan
         )
     }
 
-    override fun getPayloadData(): EidData? = uqudoPayloadData.value?.data
+    override fun getPayloadData(): EidData? = uqudoPayloadData.value
 
     override fun getHeaderData(): UqudoHeader? = uqudoHeader.value
     override fun getFrontImagePath(): String? = imagePaths[FRONT_IMAGE_RESOURCE_PATH]
