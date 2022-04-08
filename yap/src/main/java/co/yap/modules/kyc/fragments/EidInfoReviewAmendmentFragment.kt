@@ -112,6 +112,13 @@ class EidInfoReviewAmendmentFragment : KYCChildFragment<FragmentEidInfoReviewAme
                         )
                     }
                 })
+            state.eidImageDownloaded.observe(viewLifecycleOwner, Observer { ableToDownload ->
+                if (ableToDownload.not()) invalidCitizenNumber(
+                    "Sorry, we are unable to download your Eid please rescan",
+                    true
+                )
+
+            })
         }
 
     }

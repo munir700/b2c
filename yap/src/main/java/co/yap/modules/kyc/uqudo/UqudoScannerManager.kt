@@ -14,6 +14,8 @@ import co.yap.networking.customers.responsedtos.UqudoPayLoad
 import co.yap.networking.customers.responsedtos.V2DocumentDTO
 import co.yap.networking.customers.responsedtos.documents.UqudoTokenResponse
 import co.yap.yapcore.helpers.DateUtils
+import co.yap.yapcore.helpers.DateUtils.isFutureDate
+import co.yap.yapcore.helpers.DateUtils.nextYear
 import co.yap.yapcore.helpers.SingletonHolder
 import co.yap.yapcore.helpers.extentions.saveEidTemp
 import com.bumptech.glide.Glide
@@ -57,10 +59,10 @@ class UqudoScannerManager private constructor(val context: Activity) : IUqudoMan
 
     fun fetchDocumentBackDate() = getPayloadData()?.documents?.get(0)?.scan?.back
     fun fetchDocumentFrontDate() = getPayloadData()?.documents?.get(0)?.scan?.front
-    fun getDateOfBirth(): Date =
+    fun getDateOfBirth(): Date? =
         getFormatDateFromUqudo(fetchDocumentBackDate()?.dateOfBirth, UqudoFlags.DATE_OF_BIRTH)
 
-    fun getExpiryDate(): Date =
+    fun getExpiryDate(): Date? =
         getFormatDateFromUqudo(fetchDocumentBackDate()?.dateOfExpiry, UqudoFlags.EXPIRY_DATE)
 
     override fun initializeUqudo() = UqudoSDK.init(context.applicationContext)
@@ -209,11 +211,16 @@ class UqudoScannerManager private constructor(val context: Activity) : IUqudoMan
             })
     }
 
-    override fun getFormatDateFromUqudo(string: String?, flag: UqudoFlags): Date {
+    override fun getFormatDateFromUqudo(string: String?, flag: UqudoFlags): Date? {
         val inputSDF = SimpleDateFormat(DATE_INPUT_FORMAT)
+        val dob = DateUtils.stringToDate(string ?: "", "yyMMdd")
         var date: Date? = null
         try {
-            date = inputSDF.parse(string)
+
+            date = if (isFutureDate(dob) == true && flag == UqudoFlags.DATE_OF_BIRTH) nextYear(
+                dob,
+                -100
+            ) else inputSDF.parse(string)
             inputSDF.applyPattern(DATE_OUTPUT_FORMAT)
             if (flag == UqudoFlags.EXPIRY_DATE) dateOfExpiry.value = date else dateOfBirth.value =
                 date
