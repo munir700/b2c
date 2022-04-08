@@ -93,6 +93,7 @@ class UqudoScannerManager private constructor(val context: Context) : IUqudoMana
     }
 
     override fun decodeEncodedUqudoToken(encodedToken: String, sucess: () -> Unit) {
+        imagePaths.clear()
         uqudoScannedToken.value = encodedToken
         val jwt = JWT(encodedToken)
         val gson = Gson()
