@@ -236,6 +236,7 @@ class UqudoScannerManager private constructor(val context: Context) : IUqudoMana
     }
 
     override fun resetData() {
+        imagePaths.clear()
         uqudoPayloadData = MutableLiveData()
         uqudoAccessToken = MutableLiveData()
         uqudoScannedToken = MutableLiveData()
