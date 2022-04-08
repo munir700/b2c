@@ -15,7 +15,6 @@ import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.TxnType
 import co.yap.yapcore.helpers.Utils
-import kotlinx.android.synthetic.main.activity_transaction_note.*
 
 class TransactionNoteActivity : BaseBindingActivity<ActivityTransactionNoteBinding,ITransactionNote.ViewModel>() {
     override fun getBindingVariable(): Int = BR.viewModel
@@ -55,11 +54,11 @@ class TransactionNoteActivity : BaseBindingActivity<ActivityTransactionNoteBindi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setObservers()
-        Utils.requestKeyboard(etNote, request = true, forced = true)
+        Utils.requestKeyboard(viewDataBinding.etNote, request = true, forced = true)
         if (intent.hasExtra(Constants.KEY_NOTE_VALUE)) {
             viewModel.txnType = getTxnType()
             viewModel.state.noteValue.set(getNoteValue())
-            etNote.append(viewModel.state.noteValue.get())
+            viewDataBinding.etNote.append(viewModel.state.noteValue.get())
         }
     }
 
