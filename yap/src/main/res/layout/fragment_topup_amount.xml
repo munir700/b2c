@@ -95,10 +95,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_extra_small"
+            android:text="@={viewModel.state.enteredTopUpAmount}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvCurrency"
-            tools:text="1234567891" />
+            tools:text="1234567891"
+            android:imeOptions="actionDone"/>
 
         <com.google.android.material.chip.ChipGroup
             android:id="@+id/cgDenominations"
@@ -108,7 +110,7 @@
             android:orientation="horizontal"
             android:theme="@style/Theme.MaterialComponents.Light"
             app:layout_constraintEnd_toEndOf="parent"
-            app:singleLine="true"
+            app:singleSelection="true"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/etAmount" />
 
@@ -134,7 +136,7 @@
             android:layout_marginBottom="@dimen/margin_extra_large"
             app:text="@{Strings.common_button_next}"
             app:btn_size="small"
-            app:enableCoreButton="@{viewModel.state.valid}"
+            app:enableCoreButton="@{viewModel.state.enteredTopUpAmount.length()>0}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"

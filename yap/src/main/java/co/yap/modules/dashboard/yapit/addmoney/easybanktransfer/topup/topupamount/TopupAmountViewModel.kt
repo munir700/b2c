@@ -5,21 +5,33 @@ import co.yap.R
 import co.yap.modules.dashboard.yapit.addmoney.main.AddMoneyBaseViewModel
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.helpers.spannables.color
 import co.yap.yapcore.helpers.spannables.getText
 
 class TopupAmountViewModel(application: Application) :
-    AddMoneyBaseViewModel<ITopupAmount.State>(application),
-    ITopupAmount.ViewModel {
+    AddMoneyBaseViewModel<ITopupAmount.State>(application), ITopupAmount.ViewModel{
     override val clickEvent: SingleClickEvent = SingleClickEvent()
     override val state: ITopupAmount.State = TopupAmountState()
 
-    override fun handlePressOnView(id: Int) {
+    override fun handleClickEvent(id: Int) {
         clickEvent.setValue(id)
     }
 
-    fun setAvailableBalance() {
+    override fun denominationAmountValidator(amount: String) {
+        val currency = Utils.getFormattedCurrencyWithoutComma(
+            amount.replace(
+                if (amount.contains("+")) "+" else "-",
+                ""
+            )
+        )
+        if (!state.enteredTopUpAmount.value.equals(currency)) {
+            state.enteredTopUpAmount.value = currency
+        }
+    }
+
+    override fun setAvailableBalance() {
         //Hard coded currency used, to be replaced by the model currency fetched from api
         state.availableBalance.value = context.resources.getText(
             getString(Strings.common_display_text_available_balance),

@@ -5,6 +5,6 @@ import co.yap.yapcore.BaseState
 
 class TopupAmountState : BaseState(), ITopupAmount.State {
     override val denominationChipList: MutableLiveData<List<String>> = MutableLiveData(listOf("+100","+500","+1000"))
-    override val valid: MutableLiveData<Boolean> = MutableLiveData(false)
-    override val availableBalance: MutableLiveData<CharSequence> = MutableLiveData()
+    override val availableBalance: MutableLiveData<CharSequence> = MutableLiveData("")
+    override var enteredTopUpAmount: MutableLiveData<String> = MutableLiveData()
 }

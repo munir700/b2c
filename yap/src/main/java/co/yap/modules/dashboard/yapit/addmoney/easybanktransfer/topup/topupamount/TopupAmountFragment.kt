@@ -9,6 +9,7 @@ import co.yap.databinding.FragmentEasyBankTransferBankListBinding
 import co.yap.databinding.FragmentTopupAmountBinding
 import co.yap.modules.dashboard.yapit.addmoney.main.AddMoneyBaseFragment
 import co.yap.yapcore.helpers.extentions.generateChipViews
+import com.google.android.material.chip.Chip
 
 //adjust resize need to be added when required activity is created
 class TopupAmountFragment : AddMoneyBaseFragment<ITopupAmount.ViewModel>(),
@@ -20,17 +21,64 @@ class TopupAmountFragment : AddMoneyBaseFragment<ITopupAmount.ViewModel>(),
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewDataBinding.lifecycleOwner = this
-        viewModel.setAvailableBalance()
         generateChipViews(viewModel.state.denominationChipList.value!!)
+        viewModel.setAvailableBalance()
+        setObservers()
     }
 
-    override fun setObservers() {}
-    override fun removeObservers() {}
+    override fun setObservers() {
+        observeClickEvent()
+        observeEnteredAmount()
+        setDenominationsChipListener()
+    }
 
-    private fun generateChipViews(selectedList: List<String>) {
+    private fun setDenominationsChipListener() {
+        for (index in 0 until getBinding().cgDenominations.childCount) {
+            val chip: Chip = getBinding().cgDenominations.getChildAt(index) as Chip
+            chip.setOnCheckedChangeListener { view, isChecked ->
+                viewModel.denominationAmountValidator(view.text.toString())
+            }
+        }
+    }
+
+    private fun observeEnteredAmount() {
+        viewModel.state.enteredTopUpAmount.observe(viewLifecycleOwner) {topUpAmount->
+            //deal with topUpAmount
+        }
+    }
+
+    private fun observeClickEvent(){
+        viewModel.clickEvent.observe(this) { id ->
+            when (id) {
+                R.id.btnAction -> {
+                    //navigate screen
+                }
+            }
+        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        removeObservers()
+    }
+
+    override fun removeObservers() {
+        viewModel.clickEvent.removeObservers(this)
+        viewModel.state.enteredTopUpAmount.removeObservers(this)
+    }
+
+    override fun onToolBarClick(id: Int) {
+        when (id) {
+            R.id.ivLeftIcon -> {
+                activity?.finish()
+            }
+        }
+    }
+    
+    private fun generateChipViews(chipsTextList: List<String>) {
         getBinding().cgDenominations.generateChipViews(
             R.layout.item_denominations_chip,
-            selectedList
+            chipsTextList
         )
     }
 
