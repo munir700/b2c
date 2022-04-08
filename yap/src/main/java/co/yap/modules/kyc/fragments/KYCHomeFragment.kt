@@ -116,11 +116,6 @@ class KYCHomeFragment : KYCChildFragment<FragmentKycHomeBinding,IKYCHome.ViewMod
         super.onDestroyView()
     }
 
-    override fun onDestroy() {
-        viewModel.parentViewModel?.uqudoManager?.deleteEidImages()
-        super.onDestroy()
-    }
-
     override fun onBackPressed(): Boolean {
         return true
     }

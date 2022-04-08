@@ -68,9 +68,7 @@ class EidInfoReviewFragment :
         with(viewModel) {
             clickEvent.observe(viewLifecycleOwner, clickEventObserver)
             eidStateLiveData.observe(viewLifecycleOwner, Observer
-            {
-                handleState(it)
-            })
+            { handleState(it) })
             parentViewModel?.uqudoManager?.getUqudoAccessToken()
                 ?.observe(viewLifecycleOwner, Observer { response ->
                     if (parentViewModel?.uqudoManager?.getPayloadData() == null) {
@@ -106,8 +104,6 @@ class EidInfoReviewFragment :
                 },
                 closeActivity = false
             )
-            viewModel.parentViewModel?.uqudoManager?.deleteEidImages()
-
         }
     }
 
@@ -171,12 +167,6 @@ class EidInfoReviewFragment :
             else -> viewModel.parentViewModel?.finishKyc?.value = DocumentsResponse(false)
 
         }
-    }
-
-
-    override fun onDestroy() {
-        viewModel.parentViewModel?.uqudoManager?.deleteEidImages()
-        super.onDestroy()
     }
 
     override fun onDestroyView() {

@@ -214,7 +214,6 @@ class EidInfoReviewAmendmentFragment : KYCChildFragment<FragmentEidInfoReviewAme
                 },
                 closeActivity = false
             )
-            viewModel.parentViewModel?.uqudoManager?.deleteEidImages()
         }
     }
 

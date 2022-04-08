@@ -120,9 +120,7 @@ class UqudoScannerManager private constructor(val context: Context) : IUqudoMana
         return (timeInSec <= seconds)
     }
 
-    override fun downloadImage(
-        success: (success: Boolean) -> Unit
-    ) {
+    override fun downloadImage(success: (success: Boolean) -> Unit) {
         uqudoPayloadData.value?.let { payload ->
             imagePaths.clear()
             downloadImagewithGlide(
@@ -151,10 +149,7 @@ class UqudoScannerManager private constructor(val context: Context) : IUqudoMana
 
     }
 
-    private fun downloadImagewithGlide(
-        imageId: String,
-        downloaded: (sucess: Boolean, bitmap: Bitmap?) -> Unit
-    ) {
+    private fun downloadImagewithGlide(imageId: String, downloaded: (sucess: Boolean, bitmap: Bitmap?) -> Unit) {
         val url = GlideUrl(
             UQUDO_BASE_URL + imageId, LazyHeaders.Builder()
                 .addHeader(
