@@ -16,6 +16,7 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layoutMain"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -61,7 +62,6 @@
         <FrameLayout
             android:id="@+id/layoutSearchView"
             android:layout_width="0dp"
-            android:visibility="gone"
             android:layout_height="@dimen/_30sdp"
             android:layout_marginStart="@dimen/margin_normal"
             android:layout_marginTop="@dimen/margin_medium"

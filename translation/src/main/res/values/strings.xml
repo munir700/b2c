@@ -1743,7 +1743,7 @@
     <string name="screen_lean_welcome_screen_title">Easy bank transfer</string>
     <string name="screen_lean_welcome_screen_welcome_to_open_banking">Welcome to open banking</string>
     <string name="screen_lean_welcome_screen_connect_one_of_your_existing_bank">Connect one of your existing bank accounts to YAP and use it to top-up instantly with zero fees!</string>
-    <string name="screen_lean_welcome_screen_link_an_account"> + Link an account</string>
+    <string name="screen_lean_welcome_screen_link_an_account"> Link an account</string>
 
     <!--Lean -Easy Bank Transfer- Bank List-->
     <string name="screen_lean_bank_list_add_an_account">Add an account</string>
