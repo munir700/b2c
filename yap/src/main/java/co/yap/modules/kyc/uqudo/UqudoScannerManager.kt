@@ -41,7 +41,7 @@ import java.util.*
 class UqudoScannerManager private constructor(val context: Context) : IUqudoManager {
     private val FRONT_IMAGE_RESOURCE_PATH: Int = 1
     private val BACK_IMAGE_RESOURCE_PATH: Int = 2
-    private val UQUDO_BASE_URL: String = "https://id.dev.uqudo.io/api/v1/info/img/"
+    private val UQUDO_BASE_URL: String = "https://id.uqudo.io/api/v1/info/img/"
     private var uqudoPayloadData: MutableLiveData<EidData> = MutableLiveData()
     private var uqudoAccessToken: MutableLiveData<UqudoTokenResponse> = MutableLiveData()
     private var uqudoScannedToken: MutableLiveData<String> = MutableLiveData()
