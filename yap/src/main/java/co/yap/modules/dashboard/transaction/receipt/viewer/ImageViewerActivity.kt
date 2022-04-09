@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.viewpager2.widget.ViewPager2
 import co.yap.BR
 import co.yap.R
+import co.yap.databinding.ActivityImagePreviewerBinding
 import co.yap.networking.transactions.responsedtos.ReceiptModel
 import co.yap.translation.Strings
 import co.yap.yapcore.BaseBindingActivity
@@ -16,7 +17,7 @@ import co.yap.yapcore.helpers.confirm
 import co.yap.yapcore.helpers.extentions.shareImage
 import kotlinx.android.synthetic.main.activity_image_previewer.*
 
-class ImageViewerActivity : BaseBindingActivity<IImageViewer.ViewModel>(), IImageViewer.View {
+class ImageViewerActivity : BaseBindingActivity<ActivityImagePreviewerBinding,IImageViewer.ViewModel>(), IImageViewer.View {
 
     override fun getBindingVariable(): Int = BR.viewModel
 

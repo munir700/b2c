@@ -6,13 +6,14 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import co.yap.BR
 import co.yap.R
+import co.yap.databinding.FragmentEditCardNameBinding
 import co.yap.modules.kyc.activities.DocumentsResponse
 import co.yap.modules.kyc.interfaces.IEditCardName
 import co.yap.modules.kyc.viewmodels.EditCardNameViewModel
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.SharedPreferenceManager
 
-class EditCardNameFragment : KYCChildFragment<IEditCardName.ViewModel>(), IEditCardName.View {
+class EditCardNameFragment : KYCChildFragment<FragmentEditCardNameBinding,IEditCardName.ViewModel>(), IEditCardName.View {
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_edit_card_name
     override val viewModel: EditCardNameViewModel by viewModels()

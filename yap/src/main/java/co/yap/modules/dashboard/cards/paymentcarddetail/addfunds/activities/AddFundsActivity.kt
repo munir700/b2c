@@ -39,7 +39,7 @@ import com.daimajia.androidanimations.library.YoYo
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_add_funds.*
 
-class AddFundsActivity : BaseBindingActivity<IAddFunds.ViewModel>(), IAddFunds.View {
+class AddFundsActivity : BaseBindingActivity<ActivityAddFundsBinding,IAddFunds.ViewModel>(), IAddFunds.View {
     override fun getBindingVariable(): Int = BR.viewModel
 
     override fun getLayoutId(): Int = R.layout.activity_add_funds

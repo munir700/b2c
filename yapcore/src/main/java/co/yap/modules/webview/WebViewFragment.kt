@@ -17,7 +17,7 @@ import androidx.lifecycle.ViewModelProvider
 import co.yap.translation.Strings
 import co.yap.widgets.AdvancedWebView
 import co.yap.yapcore.BR
-import co.yap.yapcore.BaseBindingFragmentV2
+import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.R
 import co.yap.yapcore.constants.Constants.PAGE_URL
 import co.yap.yapcore.constants.Constants.TOOLBAR_TITLE
@@ -27,7 +27,7 @@ import co.yap.yapcore.helpers.extentions.sendEmail
 import co.yap.yapcore.helpers.permissions.PermissionHelper
 
 
-class WebViewFragment : BaseBindingFragmentV2<FragmentWebviewBinding, IWebViewFragment.ViewModel>(),
+class WebViewFragment : BaseBindingFragment<FragmentWebviewBinding, IWebViewFragment.ViewModel>(),
     IWebViewFragment.View,
     AdvancedWebView.Listener, View.OnKeyListener {
     override fun getBindingVariable() = BR.webViewFragmentViewModel

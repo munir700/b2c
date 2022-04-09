@@ -40,7 +40,7 @@ import com.yarolegovich.discretescrollview.transform.ScaleTransformer
 import timber.log.Timber
 import kotlin.math.abs
 
-class TopUpBeneficiariesActivity : BaseBindingActivity<ITopUpBeneficiaries.ViewModel>(),
+class TopUpBeneficiariesActivity : BaseBindingActivity<ActivityTopupCardsBinding,ITopUpBeneficiaries.ViewModel>(),
     ITopUpBeneficiaries.View {
     companion object {
         fun newIntent(context: Context, successButtonLabel: String): Intent {

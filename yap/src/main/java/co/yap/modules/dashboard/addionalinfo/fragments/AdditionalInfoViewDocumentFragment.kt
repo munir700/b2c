@@ -15,7 +15,7 @@ import co.yap.modules.dashboard.addionalinfo.viewmodels.AdditionalInfoViewDocume
 import co.yap.yapcore.helpers.ImageBinding
 
 class AdditionalInfoViewDocumentFragment :
-    AdditionalInfoBaseFragment<IAdditionalInfoViewDocument.ViewModel>(),
+    AdditionalInfoBaseFragment<FragmentAdditionalInfoViewDocumentBinding,IAdditionalInfoViewDocument.ViewModel>(),
     IAdditionalInfoViewDocument.View {
     override fun getBindingVariable(): Int = BR.viewModel
 

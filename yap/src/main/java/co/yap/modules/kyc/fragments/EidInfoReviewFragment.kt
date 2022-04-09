@@ -35,7 +35,9 @@ import co.yap.yapcore.helpers.extentions.deleteTempFolder
 import co.yap.yapcore.helpers.showAlertDialogAndExitApp
 import co.yap.yapcore.managers.SessionManager
 
-class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEidInfoReview.View {
+class EidInfoReviewFragment :
+    KYCChildFragment<FragmentEidInfoReviewBinding, IEidInfoReview.ViewModel>(),
+    IEidInfoReview.View {
 
     override fun getBindingVariable(): Int = BR.viewModel
 
@@ -66,9 +68,7 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
         with(viewModel) {
             clickEvent.observe(viewLifecycleOwner, clickEventObserver)
             eidStateLiveData.observe(viewLifecycleOwner, Observer
-            {
-                handleState(it)
-            })
+            { handleState(it) })
             parentViewModel?.uqudoManager?.getUqudoAccessToken()
                 ?.observe(viewLifecycleOwner, Observer { response ->
                     if (parentViewModel?.uqudoManager?.getPayloadData() == null) {
@@ -85,6 +85,13 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
                     )
                 }
             })
+            state.eidImageDownloaded.observe(viewLifecycleOwner, Observer { ableToDownload ->
+                if (ableToDownload.not()) invalidCitizenNumber(
+                    "Sorry, we are unable to download your Eid please rescan",
+                    true
+                )
+
+            })
         }
     }
 
@@ -97,8 +104,6 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
                 },
                 closeActivity = false
             )
-            viewModel.parentViewModel?.uqudoManager?.deleteEidImages()
-
         }
     }
 
@@ -162,12 +167,6 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
             else -> viewModel.parentViewModel?.finishKyc?.value = DocumentsResponse(false)
 
         }
-    }
-
-
-    override fun onDestroy() {
-        viewModel.parentViewModel?.uqudoManager?.deleteEidImages()
-        super.onDestroy()
     }
 
     override fun onDestroyView() {

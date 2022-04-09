@@ -12,6 +12,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
+import co.yap.databinding.FragmentEmailBinding
 import co.yap.modules.onboarding.activities.OnboardingActivity
 import co.yap.modules.onboarding.interfaces.IEmail
 import co.yap.modules.onboarding.viewmodels.EmailViewModel
@@ -22,7 +23,7 @@ import co.yap.yapcore.helpers.AnimationUtils
 import co.yap.yapcore.helpers.ExtraKeys
 
 
-class EmailFragment : OnboardingChildFragment<IEmail.ViewModel>() {
+class EmailFragment : OnboardingChildFragment<FragmentEmailBinding, IEmail.ViewModel>() {
 
     private val windowSize: Rect = Rect() // to hold the size of the visible window
 

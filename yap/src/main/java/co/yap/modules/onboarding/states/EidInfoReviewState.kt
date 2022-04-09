@@ -104,4 +104,5 @@ class EidInfoReviewState : BaseState(), IEidInfoReview.State {
     override var AgeLimit: MutableLiveData<Int>? = MutableLiveData()
     override var isCountryUS: Boolean = false
     override var showMiddleName: MutableLiveData<Boolean> = MutableLiveData()
+    override var eidImageDownloaded: MutableLiveData<Boolean> = MutableLiveData()
 }

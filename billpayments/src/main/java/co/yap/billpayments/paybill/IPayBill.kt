@@ -61,7 +61,6 @@ interface IPayBill {
     interface View : IBase.View<ViewModel> {
         fun setObservers()
         fun removeObservers()
-        fun getViewBinding(): FragmentPayBillBinding
         val day: Int get() = 0
         val week: Int get() = 1
         val month: Int get() = 2

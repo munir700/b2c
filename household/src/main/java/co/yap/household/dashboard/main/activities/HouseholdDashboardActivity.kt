@@ -16,7 +16,7 @@ import co.yap.yapcore.IFragmentHolder
 import co.yap.yapcore.helpers.extentions.navViewWidth
 import kotlinx.android.synthetic.main.activity_household_dashboard.*
 
-class HouseholdDashboardActivity : BaseBindingActivity<IHouseholdDashboard.ViewModel>(),
+class HouseholdDashboardActivity : BaseBindingActivity<ActivityHouseholdDashboardBinding,IHouseholdDashboard.ViewModel>(),
     IFragmentHolder,
     IHouseholdDashboard.View {
 

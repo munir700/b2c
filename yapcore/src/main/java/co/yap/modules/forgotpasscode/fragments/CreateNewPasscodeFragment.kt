@@ -12,14 +12,14 @@ import co.yap.modules.passcode.PassCodeViewModel
 import co.yap.modules.webview.WebViewFragment
 import co.yap.translation.Strings
 import co.yap.yapcore.BR
-import co.yap.yapcore.BaseBindingFragmentV2
+import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.R
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.databinding.FragmentPassCodeBinding
 import co.yap.yapcore.helpers.extentions.startFragment
 
 class CreateNewPasscodeFragment :
-    BaseBindingFragmentV2<FragmentPassCodeBinding, IPassCode.ViewModel>() {
+    BaseBindingFragment<FragmentPassCodeBinding, IPassCode.ViewModel>() {
     private val args: CreateNewPasscodeFragmentArgs by navArgs()
 
     override fun getBindingVariable(): Int = BR.viewModel

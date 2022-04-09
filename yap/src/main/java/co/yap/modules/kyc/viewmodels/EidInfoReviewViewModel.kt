@@ -52,8 +52,6 @@ class EidInfoReviewViewModel(application: Application) :
     override var configureEIDResponse: MutableLiveData<ConfigureEIDResponse> = MutableLiveData()
 
     private val eidLength = 15
-    override var uqudoResponse: MutableLiveData<UqudoTokenResponse> = MutableLiveData()
-
     override var eidStateLiveData: MutableLiveData<State> = MutableLiveData()
 
     override fun handlePressOnView(id: Int) {
@@ -413,11 +411,11 @@ class EidInfoReviewViewModel(application: Application) :
                     .isNullOrBlank() && parentViewModel?.uqudoManager?.getBackImagePath()
                     .isNullOrBlank()
             ) parentViewModel?.uqudoManager?.downloadImage { downloaded ->
-                state.viewState.postValue(downloaded.not())
+                state.viewState.postValue(false)
                 if (downloaded)
                     parentViewModel?.uqudoIdentity?.value =
                         parentViewModel?.uqudoManager?.getUqudoIdentity()
-                else showToast("unable to download EIDs")
+                else state.eidImageDownloaded.value = false
             }
         }
     }

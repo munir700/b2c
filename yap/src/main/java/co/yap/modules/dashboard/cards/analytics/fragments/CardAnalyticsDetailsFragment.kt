@@ -6,6 +6,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
+import co.yap.databinding.FragmentCardAnalyticsDetailsBinding
 import co.yap.modules.dashboard.cards.analytics.interfaces.ICardAnalyticsDetails
 import co.yap.modules.dashboard.cards.analytics.main.fragments.CardAnalyticsBaseFragment
 import co.yap.modules.dashboard.cards.analytics.viewmodels.CardAnalyticsDetailsViewModel
@@ -15,10 +16,10 @@ import co.yap.widgets.MultiStateView
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.extentions.dimen
 import co.yap.yapcore.helpers.extentions.getMerchantCategoryIcon
-import co.yap.yapcore.helpers.extentions.setCircularDrawable
 import kotlinx.android.synthetic.main.fragment_card_analytics_details.*
 
-class CardAnalyticsDetailsFragment : CardAnalyticsBaseFragment<ICardAnalyticsDetails.ViewModel>() {
+class CardAnalyticsDetailsFragment :
+    CardAnalyticsBaseFragment<FragmentCardAnalyticsDetailsBinding, ICardAnalyticsDetails.ViewModel>() {
     override fun getBindingVariable() = BR.viewModel
 
     override fun getLayoutId() = R.layout.fragment_card_analytics_details

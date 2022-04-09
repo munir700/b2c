@@ -16,7 +16,7 @@ import co.yap.yapcore.defaults.INavigator
 import co.yap.yapcore.interfaces.BackPressImpl
 import co.yap.yapcore.interfaces.IBaseNavigator
 
-class MoreActivity : BaseBindingActivity<IMore.ViewModel>(), INavigator,
+class MoreActivity : BaseBindingActivity<ActivityMoreBinding,IMore.ViewModel>(), INavigator,
     IFragmentHolder {
 
     public companion object {

@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
+import co.yap.databinding.ActivityCardsAnalyticsBinding
 import co.yap.modules.dashboard.cards.analytics.main.interfaces.ICardAnalyticsMain
 import co.yap.modules.dashboard.cards.analytics.main.viewmodels.CardAnalyticsMainViewModel
 import co.yap.yapcore.BaseBindingActivity
@@ -14,7 +15,7 @@ import co.yap.yapcore.helpers.extentions.ExtraType
 import co.yap.yapcore.helpers.extentions.getValue
 import co.yap.yapcore.interfaces.IBaseNavigator
 
-class CardAnalyticsActivity : BaseBindingActivity<ICardAnalyticsMain.ViewModel>(),
+class CardAnalyticsActivity : BaseBindingActivity<ActivityCardsAnalyticsBinding,ICardAnalyticsMain.ViewModel>(),
     ICardAnalyticsMain.View, INavigator, IFragmentHolder {
 
     override fun getBindingVariable(): Int = BR.viewModel

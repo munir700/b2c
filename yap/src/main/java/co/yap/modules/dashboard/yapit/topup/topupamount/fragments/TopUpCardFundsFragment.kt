@@ -29,7 +29,7 @@ import co.yap.yapcore.helpers.spannables.getText
 import co.yap.yapcore.managers.SessionManager
 import com.google.android.material.snackbar.Snackbar
 
-class TopUpCardFundsFragment : BaseBindingFragment<IFundActions.ViewModel>(),
+class TopUpCardFundsFragment : BaseBindingFragment<FragmentTopUpCardFundsBinding,IFundActions.ViewModel>(),
     IFundActions.View {
     private var parentViewModel: FundActionsViewModel? = null
     override fun getBindingVariable(): Int = BR.viewModel

@@ -7,6 +7,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
+import co.yap.databinding.ActivityHouseHoldLandingBinding
 import co.yap.modules.dashboard.store.household.interfaces.IHouseHoldLanding
 import co.yap.modules.dashboard.store.household.viewmodels.HouseHoldLandingViewModel
 import co.yap.yapcore.BaseBindingActivity
@@ -14,7 +15,7 @@ import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.helpers.extentions.ExtraType
 import co.yap.yapcore.helpers.extentions.getValue
 
-class HouseHoldLandingActivity : BaseBindingActivity<IHouseHoldLanding.ViewModel>(),
+class HouseHoldLandingActivity : BaseBindingActivity<ActivityHouseHoldLandingBinding,IHouseHoldLanding.ViewModel>(),
     IHouseHoldLanding.View {
 
     override fun getBindingVariable(): Int = BR.viewModel

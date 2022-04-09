@@ -41,7 +41,7 @@ import com.google.android.gms.maps.SupportMapFragment
 import kotlinx.android.synthetic.main.activity_transaction_details.*
 import pl.aprilapps.easyphotopicker.MediaFile
 
-class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.ViewModel>(),
+class TransactionDetailsActivity : BaseBindingImageActivity<ActivityTransactionDetailsBinding, ITransactionDetails.ViewModel>(),
     ITransactionDetails.View, OnMapReadyCallback {
 
     override fun getBindingVariable(): Int = BR.viewModel

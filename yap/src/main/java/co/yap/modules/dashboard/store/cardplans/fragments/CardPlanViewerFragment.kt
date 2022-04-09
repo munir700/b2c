@@ -10,7 +10,7 @@ import co.yap.modules.dashboard.store.cardplans.adaptors.CardsFragmentAdapter
 import co.yap.modules.dashboard.store.cardplans.interfaces.ICardViewer
 import co.yap.modules.dashboard.store.cardplans.viewmodels.CardPlanViewerViewModel
 
-class CardPlanViewerFragment : CardPlansBaseFragment<ICardViewer.ViewModel>(), ICardViewer.View {
+class CardPlanViewerFragment : CardPlansBaseFragment<FragmentViewerCardPlansBinding,ICardViewer.ViewModel>(), ICardViewer.View {
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_viewer_card_plans
 

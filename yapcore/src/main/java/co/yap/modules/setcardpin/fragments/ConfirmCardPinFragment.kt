@@ -28,7 +28,7 @@ import co.yap.yapcore.managers.SessionManager
 import java.text.SimpleDateFormat
 import java.util.*
 
-class ConfirmCardPinFragment : SetPinChildFragment<IPin.ViewModel>(), IPin.View {
+class ConfirmCardPinFragment : SetPinChildFragment<FragmentPinBinding,IPin.ViewModel>(), IPin.View {
 
     private val args: ConfirmCardPinFragmentArgs by navArgs()
     override val viewModel: PINViewModel
