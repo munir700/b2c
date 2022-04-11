@@ -26,7 +26,7 @@
         android:paddingEnd="@dimen/margin_normal"
         android:paddingBottom="@dimen/margin_normal">
 
-        <androidx.appcompat.widget.AppCompatImageView
+        <co.yap.widgets.CoreCircularImageView
             android:id="@+id/imgIcon"
             android:layout_width="@dimen/_40sdp"
             android:layout_height="@dimen/_40sdp"

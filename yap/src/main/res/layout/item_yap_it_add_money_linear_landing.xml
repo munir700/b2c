@@ -31,7 +31,6 @@
             android:layout_marginBottom="@dimen/margin_small"
             android:background="@drawable/bg_round_purple_enabled"
             android:padding="@dimen/margin_small"
-            app:isFlag="@{false}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:resName="@{viewModel.item.image}"
