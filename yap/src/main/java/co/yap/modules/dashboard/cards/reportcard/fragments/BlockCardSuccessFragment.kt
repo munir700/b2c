@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.ViewModelProviders
 import co.yap.R
+import co.yap.databinding.FragmentBlockCardSuccessBinding
 import co.yap.modules.dashboard.cards.reordercard.activities.ReorderCardActivity
 import co.yap.modules.dashboard.cards.reportcard.activities.ReportLostOrStolenCardActivity.Companion.reportCardSuccess
 import co.yap.modules.dashboard.cards.reportcard.viewmodels.BlockCardSuccessViewModel
@@ -17,7 +18,7 @@ import co.yap.yapcore.enums.FeatureSet
 import co.yap.yapcore.helpers.extentions.launchActivity
 import kotlinx.android.synthetic.main.fragment_block_card_success.*
 
-class BlockCardSuccessFragment : ReportOrLOstCardChildFragment<IDefault.ViewModel>() {
+class BlockCardSuccessFragment : ReportOrLOstCardChildFragment<FragmentBlockCardSuccessBinding,IDefault.ViewModel>() {
     override fun getBindingVariable(): Int = 0
 
     override fun getLayoutId(): Int = R.layout.fragment_block_card_success

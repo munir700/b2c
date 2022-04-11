@@ -93,9 +93,9 @@ class SplashFragment : MainChildFragment<FragmentSplashBinding,ISplash.ViewModel
     private fun playAnimationAndMoveNext() {
         initPkGhana()
         val scaleLogo =
-            ScaleAnimator(1.0f, 150.0f, AccelerateDecelerateInterpolator()).with(ivLogo, 1500)
+            ScaleAnimator(1.0f, 150.0f, AccelerateDecelerateInterpolator()).with(viewDataBinding.ivLogo, 1500)
         val scaleDot =
-            ScaleAnimator(1.0f, 150.0f, AccelerateDecelerateInterpolator()).with(ivDot, 1500)
+            ScaleAnimator(1.0f, 150.0f, AccelerateDecelerateInterpolator()).with(viewDataBinding.ivDot, 1500)
         scaleDot.startDelay = 400
 
         animatorSet?.play(scaleLogo)?.with(scaleDot)

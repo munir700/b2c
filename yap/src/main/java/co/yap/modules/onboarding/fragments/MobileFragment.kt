@@ -20,7 +20,7 @@ import com.yap.ghana.ui.onboarding.main.YapGhanaMainActivity
 import com.yap.yappakistan.ui.onboarding.main.YapPkMainActivity
 
 
-class MobileFragment : OnboardingChildFragment<IMobile.ViewModel>() {
+class MobileFragment : OnboardingChildFragment<FragmentMobileBinding,IMobile.ViewModel>() {
 
     override fun getBindingVariable(): Int = BR.viewModel
 

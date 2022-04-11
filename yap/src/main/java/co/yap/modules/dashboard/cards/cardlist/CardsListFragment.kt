@@ -21,7 +21,7 @@ import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.enums.CardStatus
 import co.yap.yapcore.enums.CardType
 
-class CardsListFragment : YapDashboardChildFragment<ICardsList.ViewModel>(), ICardsList.View {
+class CardsListFragment : YapDashboardChildFragment<FragmentCardsListBinding,ICardsList.ViewModel>(), ICardsList.View {
 
     private val mRecyclerViewExpandableItemManager: RecyclerViewExpandableItemManager by lazy {
         RecyclerViewExpandableItemManager(null)

@@ -14,7 +14,7 @@ import co.yap.widgets.State
 import co.yap.widgets.Status
 import co.yap.yapcore.interfaces.OnItemClickListener
 
-class BillersFragment : AddBillBaseFragment<IBillers.ViewModel>(),
+class BillersFragment : AddBillBaseFragment<FragmentBillersBinding,IBillers.ViewModel>(),
     IBillers.View {
 
     override fun getBindingVariable(): Int = BR.viewModel

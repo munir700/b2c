@@ -5,6 +5,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import co.yap.BR
 import co.yap.R
+import co.yap.databinding.FragmentNameBinding
 import co.yap.modules.onboarding.interfaces.IName
 import co.yap.modules.onboarding.viewmodels.NameViewModel
 import co.yap.yapcore.firebase.FirebaseEvent
@@ -13,7 +14,7 @@ import co.yap.yapcore.leanplum.SignupEvents
 import co.yap.yapcore.leanplum.trackEvent
 import kotlinx.android.synthetic.main.fragment_name.*
 
-class NameFragment : OnboardingChildFragment<IName.ViewModel>(), IName.View {
+class NameFragment : OnboardingChildFragment<FragmentNameBinding,IName.ViewModel>(), IName.View {
 
     override fun getBindingVariable(): Int = BR.viewModel
 

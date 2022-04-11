@@ -53,7 +53,7 @@ import java.io.File
 
 
 class EmploymentQuestionnaireAmendmentFragment :
-    BaseBindingImageFragment<IEmploymentQuestionnaireAmendment.ViewModel>(),
+    BaseBindingImageFragment<FragmentEmploymentQuestionnaireAmendmentBinding , IEmploymentQuestionnaireAmendment.ViewModel>(),
     IEmploymentQuestionnaireAmendment.View, IAnimationComplete {
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_employment_questionnaire_amendment

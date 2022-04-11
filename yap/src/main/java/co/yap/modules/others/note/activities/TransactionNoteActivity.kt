@@ -7,6 +7,7 @@ import android.os.Bundle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.R
+import co.yap.databinding.ActivityTransactionNoteBinding
 import co.yap.modules.others.note.interfaces.ITransactionNote
 import co.yap.modules.others.note.viewmodels.TransactionNoteViewModel
 import co.yap.yapcore.BR
@@ -14,9 +15,8 @@ import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.TxnType
 import co.yap.yapcore.helpers.Utils
-import kotlinx.android.synthetic.main.activity_transaction_note.*
 
-class TransactionNoteActivity : BaseBindingActivity<ITransactionNote.ViewModel>() {
+class TransactionNoteActivity : BaseBindingActivity<ActivityTransactionNoteBinding,ITransactionNote.ViewModel>() {
     override fun getBindingVariable(): Int = BR.viewModel
 
     override fun getLayoutId(): Int = R.layout.activity_transaction_note
@@ -54,11 +54,11 @@ class TransactionNoteActivity : BaseBindingActivity<ITransactionNote.ViewModel>(
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setObservers()
-        Utils.requestKeyboard(etNote, request = true, forced = true)
+        Utils.requestKeyboard(viewDataBinding.etNote, request = true, forced = true)
         if (intent.hasExtra(Constants.KEY_NOTE_VALUE)) {
             viewModel.txnType = getTxnType()
             viewModel.state.noteValue.set(getNoteValue())
-            etNote.append(viewModel.state.noteValue.get())
+            viewDataBinding.etNote.append(viewModel.state.noteValue.get())
         }
     }
 

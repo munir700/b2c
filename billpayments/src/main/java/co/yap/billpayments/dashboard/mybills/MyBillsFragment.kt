@@ -10,6 +10,7 @@ import co.yap.billpayments.BR
 import co.yap.billpayments.R
 import co.yap.billpayments.base.BillDashboardBaseFragment
 import co.yap.billpayments.billdetail.BillDetailActivity
+import co.yap.billpayments.databinding.FragmentMyBillsBinding
 import co.yap.translation.Strings
 import co.yap.widgets.bottomsheet.BottomSheetConfiguration
 import co.yap.widgets.bottomsheet.CoreBottomSheet
@@ -22,7 +23,7 @@ import co.yap.yapcore.helpers.extentions.getValue
 import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.interfaces.OnItemClickListener
 
-class MyBillsFragment : BillDashboardBaseFragment<IMyBills.ViewModel>(),
+class MyBillsFragment : BillDashboardBaseFragment<FragmentMyBillsBinding, IMyBills.ViewModel>(),
     IMyBills.View {
     override fun getBindingVariable(): Int = BR.viewModel
 
@@ -113,14 +114,17 @@ class MyBillsFragment : BillDashboardBaseFragment<IMyBills.ViewModel>(),
     private val toolbarClickObserver = Observer<Int> {
         when (it) {
             R.id.ivSortIcon -> openSortBottomSheet()
-            R.id.ivRightIcon -> navigate(destinationId = R.id.action_myBillsFragment_to_billCategoryFragment,screenType = FeatureSet.ADD_BILL_PAYMENT)
+            R.id.ivRightIcon -> navigate(
+                destinationId = R.id.action_myBillsFragment_to_billCategoryFragment,
+                screenType = FeatureSet.ADD_BILL_PAYMENT
+            )
         }
     }
 
     override fun removeObservers() {
         viewModel.parentViewModel?.billsResponse?.removeObservers(this)
         viewModel.parentViewModel?.toolBarClickEvent?.removeObservers(this)
-        viewModel?.toggleSortIconVisibility(false)
+        viewModel.toggleSortIconVisibility(false)
     }
 
     override fun onDestroy() {

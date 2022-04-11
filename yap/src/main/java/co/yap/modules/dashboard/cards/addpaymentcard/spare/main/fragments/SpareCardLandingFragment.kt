@@ -9,6 +9,7 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import co.yap.BR
 import co.yap.R
+import co.yap.databinding.FragmentSpareCardLandingBinding
 import co.yap.modules.dashboard.cards.addpaymentcard.main.fragments.AddPaymentChildFragment
 import co.yap.modules.dashboard.cards.addpaymentcard.main.viewmodels.AddPaymentCardViewModel
 import co.yap.modules.dashboard.cards.addpaymentcard.models.BenefitsModel
@@ -20,7 +21,7 @@ import co.yap.yapcore.helpers.SharedPreferenceManager
 import kotlinx.android.synthetic.main.fragment_spare_card_landing.*
 
 
-class SpareCardLandingFragment : AddPaymentChildFragment<ISpareCards.ViewModel>(), ISpareCards.View,
+class SpareCardLandingFragment : AddPaymentChildFragment<FragmentSpareCardLandingBinding,ISpareCards.ViewModel>(), ISpareCards.View,
     SpareCardsLandingAdapter.OnItemClickedListener {
     val args: SpareCardLandingFragmentArgs? by navArgs()
     override fun onItemClick(benefitsModel: BenefitsModel) {}

@@ -15,7 +15,6 @@ import co.yap.widgets.bottomsheet.BottomSheetItem
 import co.yap.widgets.edittext.OnDrawableClickListener
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
-import com.digitify.identityscanner.docscanner.models.IdentityScannerResult
 import java.util.*
 
 interface IEidInfoReviewAmendment {
@@ -56,6 +55,7 @@ interface IEidInfoReviewAmendment {
         var isCountryUS: Boolean
         var countryName: ObservableField<String>
         var errorScreenVisited: Boolean
+        var eidImageDownloaded : MutableLiveData<Boolean>
     }
 
     interface View : IBase.View<ViewModel> {
@@ -67,7 +67,6 @@ interface IEidInfoReviewAmendment {
         val clickEvent: SingleClickEvent
         fun handlePressOnView(id: Int)
         fun updateLabels(title: String, body: String)
-        fun onEIDScanningComplete(result: IdentityScannerResult)
         var sanctionedCountry: String
         var sanctionedNationality: String
         var errorTitle: String

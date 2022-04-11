@@ -1,8 +1,6 @@
 package co.yap.modules.kyc.viewmodels
 
 import android.app.Application
-import android.graphics.Bitmap
-import android.graphics.drawable.Drawable
 import android.text.TextUtils
 import android.view.View
 import androidx.lifecycle.MutableLiveData
@@ -35,18 +33,11 @@ import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.DateUtils.getAge
 import co.yap.yapcore.helpers.Utils
-import co.yap.yapcore.helpers.extentions.saveEidTemp
 import co.yap.yapcore.helpers.validation.IValidator
 import co.yap.yapcore.helpers.validation.Validator
 import co.yap.yapcore.leanplum.KYCEvents
 import co.yap.yapcore.leanplum.trackEvent
 import co.yap.yapcore.managers.SessionManager
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.model.GlideUrl
-import com.bumptech.glide.load.model.LazyHeaders
-import com.bumptech.glide.request.target.CustomTarget
-import com.bumptech.glide.request.transition.Transition
-import com.digitify.identityscanner.docscanner.models.IdentityScannerResult
 import kotlinx.coroutines.delay
 import java.util.*
 
@@ -102,7 +93,7 @@ class EidInfoReviewAmendmentViewModel(application: Application) :
                     )
                     clickEvent.setValue(EidInfoEvents.EVENT_ERROR_EXPIRED_EID.eventId)
                 }
-                !state.isDateOfBirthValid.get() -> {
+                state.isDateOfBirthValid.get().not() -> {
                     updateLabels(
                         title = getString(Strings.screen_kyc_information_error_display_text_title_under_age).format(
                             state.ageLimit ?: 18
@@ -163,11 +154,6 @@ class EidInfoReviewAmendmentViewModel(application: Application) :
         errorTitle = title
         errorBody = body
     }
-
-    override fun onEIDScanningComplete(result: IdentityScannerResult) {
-        //uploadDocuments(result)
-    }
-
 
     override fun getAllCountries() {
         launch(Dispatcher.Background) {
@@ -322,37 +308,40 @@ class EidInfoReviewAmendmentViewModel(application: Application) :
     override fun requestAllAPIs(callAll: Boolean) {
         requestAllEIDConfigurations(callAll) { senctionedCountryResponse, configurationEIDResponse, uqudoTokenResponse ->
             launch(Dispatcher.Main) {
-                when {
-                    senctionedCountryResponse is RetroApiResponse.Success && configurationEIDResponse is RetroApiResponse.Success && uqudoTokenResponse is RetroApiResponse.Success -> {
-                        sectionedCountries = senctionedCountryResponse.data
-                        configureEIDResponse.value = configurationEIDResponse.data.data
-                        state.ageLimit = configureEIDResponse?.value?.ageLimit
-                        handleAgeValidation()
-                        state.countryName.set(configureEIDResponse?.value?.country2DigitIsoCode?.let { str ->
-                            str.split(",").map { it -> it.trim() }.find {
-                                it == "US"
-                            }
-                        })
-                        handleIsUsValidation()
-                        uqudoTokenResponse.data.data?.let {
-                            parentViewModel?.uqudoManager?.setUqudoToken(
-                                it
-                            )
-                        }                    }
-                    uqudoTokenResponse is RetroApiResponse.Success -> {
-                        uqudoTokenResponse.data.data?.let {
-                            parentViewModel?.uqudoManager?.setUqudoToken(
-                                it
-                            )
-                        }                    }
-                    else -> {
-                        if (senctionedCountryResponse is RetroApiResponse.Error)
-                            state.toast = senctionedCountryResponse.error.message
-                    }
+                if (senctionedCountryResponse is RetroApiResponse.Success) {
+                    sectionedCountries = senctionedCountryResponse.data
                 }
+                if (configurationEIDResponse is RetroApiResponse.Success) {
+
+                    configureEIDResponse.value = configurationEIDResponse.data.data
+                    state.ageLimit = configureEIDResponse?.value?.ageLimit
+                    handleAgeValidation()
+                    state.countryName.set(configureEIDResponse?.value?.country2DigitIsoCode?.let { str ->
+                        str.split(",").map { it -> it.trim() }.find {
+                            it == "US"
+                        }
+                    })
+                    handleIsUsValidation()
+                }
+                if (uqudoTokenResponse is RetroApiResponse.Success) {
+                    uqudoTokenResponse.data.data?.let {
+                        parentViewModel?.uqudoManager?.setUqudoToken(
+                            it
+                        )
+                    }
+                } else {
+                    if (senctionedCountryResponse is RetroApiResponse.Error)
+                        state.toast = senctionedCountryResponse.error.message
+                }
+                /*  uqudoTokenResponse is RetroApiResponse.Success -> {
+                  uqudoTokenResponse.data.data?.let {
+                      parentViewModel?.uqudoManager?.setUqudoToken(
+                          it
+                      )
+                  }
+              }*/
             }
         }
-
     }
 
     override fun requestAllEIDConfigurations(
@@ -504,16 +493,19 @@ class EidInfoReviewAmendmentViewModel(application: Application) :
             state.expiryCalendar = Calendar.getInstance().apply {
                 time = EXD
             }
-            if (parentViewModel?.uqudoIdentity?.value == null) {
+
+            state.nationality.value =
+                countries.firstOrNull { country -> country.isoCountryCode3Digit == parentViewModel?.uqudoManager?.fetchDocumentBackDate()?.nationality }
+            if (parentViewModel?.uqudoManager?.getFrontImagePath()
+                    .isNullOrBlank() && parentViewModel?.uqudoManager?.getBackImagePath()
+                    .isNullOrBlank()
+            ) {
                 parentViewModel?.uqudoManager?.downloadImage { downloadSuccess ->
-                    state.viewState.postValue(downloadSuccess.not())
+                    state.viewState.postValue(false)
                     if (downloadSuccess) {
                         parentViewModel?.uqudoIdentity?.value =
-                            parentViewModel?.uqudoManager?.getUqudoIdentity()
-                        state.nationality.value =
-                            countries.firstOrNull { country -> country.isoCountryCode3Digit == parentViewModel?.uqudoIdentity?.value?.digit3CountryCode }
-                    } else showToast("unable to download EIDs")
-
+                            parentViewModel?.uqudoManager?.getUqudoIdentity(isAmendment = true)
+                    } else state.eidImageDownloaded.value = false
                 }
             }
             handleAgeValidation()

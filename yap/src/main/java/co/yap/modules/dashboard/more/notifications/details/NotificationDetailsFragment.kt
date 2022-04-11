@@ -18,7 +18,7 @@ import co.yap.networking.cards.responsedtos.Address
 import co.yap.networking.customers.responsedtos.documents.GetMoreDocumentsResponse
 import co.yap.networking.notification.responsedtos.NotificationAction
 import co.yap.translation.Strings
-import co.yap.yapcore.BaseBindingFragmentV2
+import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.enums.EIDStatus
@@ -32,7 +32,7 @@ import co.yap.yapcore.helpers.extentions.startFragment
 import co.yap.yapcore.managers.SessionManager
 
 class NotificationDetailsFragment :
-    BaseBindingFragmentV2<FragmentNotificationDetailsBinding, INotificationDetails.ViewModel>(),
+    BaseBindingFragment<FragmentNotificationDetailsBinding, INotificationDetails.ViewModel>(),
     INotificationDetails.View {
     override fun getBindingVariable() = BR.viewModel
 

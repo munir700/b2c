@@ -8,6 +8,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
+import co.yap.databinding.ActivityUnverifiedEmailBinding
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.IFragmentHolder
 import co.yap.yapcore.defaults.DefaultNavigator
@@ -16,7 +17,7 @@ import co.yap.yapcore.interfaces.BackPressImpl
 import co.yap.yapcore.interfaces.IBaseNavigator
 import kotlinx.android.synthetic.main.activity_add_payment_cards.*
 
-class UnVerifiedEmailActivity : BaseBindingActivity<IUnverifiedEmail.ViewModel>(), INavigator,
+class UnVerifiedEmailActivity : BaseBindingActivity<ActivityUnverifiedEmailBinding,IUnverifiedEmail.ViewModel>(), INavigator,
     IFragmentHolder {
 
     companion object {

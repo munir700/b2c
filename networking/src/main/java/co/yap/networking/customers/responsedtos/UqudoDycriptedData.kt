@@ -3,7 +3,8 @@ package co.yap.networking.customers.responsedtos
 import android.os.Parcelable
 import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
+
 import java.util.*
 
 @Keep

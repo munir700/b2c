@@ -17,7 +17,7 @@ import com.checkout.android_sdk.Response.CardTokenisationResponse
 import com.checkout.android_sdk.network.NetworkError
 
 
-class AddTopUpCardFragment : BaseBindingFragment<IAddTopUpCard.ViewModel>() {
+class AddTopUpCardFragment : BaseBindingFragment<FragmentAddTopupCardBinding,IAddTopUpCard.ViewModel>() {
 
     override fun getBindingVariable(): Int = BR.viewModel
 

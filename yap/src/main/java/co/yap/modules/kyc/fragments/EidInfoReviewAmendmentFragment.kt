@@ -43,7 +43,7 @@ import com.wdullaer.materialdatetimepicker.date.DatePickerDialog
 import java.util.*
 
 
-class EidInfoReviewAmendmentFragment : KYCChildFragment<IEidInfoReviewAmendment.ViewModel>(),
+class EidInfoReviewAmendmentFragment : KYCChildFragment<FragmentEidInfoReviewAmendmentBinding,IEidInfoReviewAmendment.ViewModel>(),
     IEidInfoReviewAmendment.View, View.OnFocusChangeListener {
     override fun getBindingVariable(): Int = BR.viewModel
 
@@ -68,7 +68,8 @@ class EidInfoReviewAmendmentFragment : KYCChildFragment<IEidInfoReviewAmendment.
 
         viewModel.parentViewModel?.uqudoManager?.getPayloadData()?.let { identity ->
             viewModel.populateUqudoState(identity = identity)
-        } ?: viewModel.requestAllAPIs(true)
+        } ?:
+        viewModel.requestAllAPIs(true)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -111,6 +112,13 @@ class EidInfoReviewAmendmentFragment : KYCChildFragment<IEidInfoReviewAmendment.
                         )
                     }
                 })
+            state.eidImageDownloaded.observe(viewLifecycleOwner, Observer { ableToDownload ->
+                if (ableToDownload.not()) invalidCitizenNumber(
+                    "Sorry, we are unable to download your Eid please rescan",
+                    true
+                )
+
+            })
         }
 
     }
@@ -206,7 +214,6 @@ class EidInfoReviewAmendmentFragment : KYCChildFragment<IEidInfoReviewAmendment.
                 },
                 closeActivity = false
             )
-            viewModel.parentViewModel?.uqudoManager?.deleteEidImages()
         }
     }
 
@@ -255,7 +262,7 @@ class EidInfoReviewAmendmentFragment : KYCChildFragment<IEidInfoReviewAmendment.
                     viewModel.parentViewModel?.uqudoManager?.decodeEncodedUqudoToken(
                         uqudoJWT ?: ""
                     ) {
-                        viewModel.eidStateLiveData.postValue(State.success(""))
+                        viewModel.getKYCDataFromServer()
                     }
                 } else {
                     if (viewModel.parentViewModel?.uqudoManager?.getPayloadData() == null) requireActivity().finish()

@@ -20,13 +20,13 @@ import co.yap.app.modules.login.viewmodels.SystemPermissionViewModel
 import co.yap.modules.kyc.amendments.missinginfo.MissingInfoFragment
 import co.yap.modules.webview.WebViewFragment
 import co.yap.networking.customers.responsedtos.AmendmentStatus
-import co.yap.yapcore.BaseBindingFragmentV2
+import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.constants.RequestCodes.REQUEST_NOTIFICATION_SETTINGS
 import co.yap.yapcore.helpers.extentions.startFragment
 import co.yap.yapcore.managers.SessionManager
 
 @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
-class SystemPermissionFragment : BaseBindingFragmentV2<FragmentBiometricPermissionBinding, ISystemPermission.ViewModel>(),
+class SystemPermissionFragment : BaseBindingFragment<FragmentBiometricPermissionBinding, ISystemPermission.ViewModel>(),
     ISystemPermission.View {
 
     override fun getBindingVariable(): Int = BR.viewModel

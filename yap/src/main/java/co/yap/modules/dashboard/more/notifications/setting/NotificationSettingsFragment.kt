@@ -7,10 +7,10 @@ import androidx.lifecycle.ViewModelProvider
 import co.yap.BR
 import co.yap.R
 import co.yap.databinding.FragmentNotificationSettingsBinding
-import co.yap.yapcore.BaseBindingFragmentV2
+import co.yap.yapcore.BaseBindingFragment
 
 class NotificationSettingsFragment :
-    BaseBindingFragmentV2<FragmentNotificationSettingsBinding, INotificationSettings.ViewModel>(),
+    BaseBindingFragment<FragmentNotificationSettingsBinding, INotificationSettings.ViewModel>(),
     INotificationSettings.View, CompoundButton.OnCheckedChangeListener {
     override fun getBindingVariable(): Int = BR.viewModel
 

@@ -6,6 +6,7 @@ import android.os.Bundle
 import androidx.lifecycle.ViewModelProviders
 import co.yap.sendmoney.BR
 import co.yap.sendmoney.R
+import co.yap.sendmoney.databinding.ActivitySendMoneyHomeBinding
 import co.yap.sendmoney.interfaces.ISendMoney
 import co.yap.sendmoney.viewmodels.SendMoneyViewModel
 import co.yap.yapcore.BaseBindingActivity
@@ -19,7 +20,7 @@ import co.yap.yapcore.helpers.showAlertDialogAndExitApp
 import co.yap.yapcore.interfaces.BackPressImpl
 import co.yap.yapcore.interfaces.IBaseNavigator
 
-class SendMoneyHomeActivity : BaseBindingActivity<ISendMoney.ViewModel>(), INavigator,
+class SendMoneyHomeActivity : BaseBindingActivity<ActivitySendMoneyHomeBinding,ISendMoney.ViewModel>(), INavigator,
     IFragmentHolder {
 
     override fun getBindingVariable(): Int = BR.viewModel

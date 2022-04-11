@@ -42,7 +42,7 @@ import com.nikhilpanju.recyclerviewenhanced.RecyclerTouchListener
 import kotlinx.android.synthetic.main.layout_beneficiaries.*
 import kotlinx.android.synthetic.main.layout_item_beneficiary.*
 
-class SMBeneficiariesFragment : SMBeneficiaryParentBaseFragment<ISMBeneficiaries.ViewModel>(),
+class SMBeneficiariesFragment : SMBeneficiaryParentBaseFragment<ActivitySendMoneyLandingBinding,ISMBeneficiaries.ViewModel>(),
     ISMBeneficiaries.View {
 
     private var onTouchListener: RecyclerTouchListener? = null

@@ -180,10 +180,6 @@
             android:name="co.yap.modules.others.note.activities.TransactionNoteActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
-        <activity
-            android:name=".modules.dashboard.yapit.topup.landing.TopUpLandingActivity"
-            android:exported="false"
-            android:screenOrientation="portrait" />
 
         <activity
             android:name=".modules.dashboard.yapit.topup.cardslisting.TopUpBeneficiariesActivity"

@@ -6,12 +6,14 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
+import co.yap.databinding.FragmentChangePasscodeeSuccessBinding
+import co.yap.databinding.FragmentChangePinSuccessBinding
 import co.yap.modules.dashboard.cards.paymentcarddetail.forgotcardpin.activities.ForgotCardPinActivity
 import co.yap.modules.dashboard.cards.paymentcarddetail.interfaces.IChangeCardPinSuccess
 import co.yap.modules.dashboard.cards.paymentcarddetail.viewmodels.ChangeCardPinSuccessViewModel
 import co.yap.yapcore.BaseBindingFragment
 
-class ChangePinSuccessFragment : BaseBindingFragment<IChangeCardPinSuccess.ViewModel>(),
+class ChangePinSuccessFragment : BaseBindingFragment<FragmentChangePinSuccessBinding,IChangeCardPinSuccess.ViewModel>(),
     IChangeCardPinSuccess.View {
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_change_pin_success

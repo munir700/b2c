@@ -20,7 +20,7 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.android.synthetic.main.fragment_add_virtual_card.*
 
-class AddVirtualCardFragment : AddPaymentChildFragment<IAddVirtualCard.ViewModel>(),
+class AddVirtualCardFragment : AddPaymentChildFragment<FragmentAddVirtualCardBinding,IAddVirtualCard.ViewModel>(),
     TabLayout.OnTabSelectedListener,
     IAddVirtualCard.View {
     override fun getBindingVariable(): Int = BR.viewModel
