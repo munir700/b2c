@@ -27,7 +27,6 @@ interface ISendMoneyLinearDashboard {
 
     interface View : IBase.View<ViewModel> {
         var permissionHelper: PermissionHelper?
-        fun getBinding(): ActivitySendMoneyLinearDashboardBinding
         fun setObservers()
         fun removeObservers()
     }

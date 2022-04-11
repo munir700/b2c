@@ -11,9 +11,11 @@ import co.yap.yapcore.BR
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.R
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.databinding.FragmentMissinginfoConfirmationBinding
 import co.yap.yapcore.managers.SessionManager
 
-class MissingInfoConfirmationFragment : BaseBindingFragment<IMissingInfoConfirmation.ViewModel>(),
+class MissingInfoConfirmationFragment :
+    BaseBindingFragment<FragmentMissinginfoConfirmationBinding, IMissingInfoConfirmation.ViewModel>(),
     IMissingInfoConfirmation.View {
     override fun getBindingVariable() = BR.viewModel
     override fun getLayoutId() = R.layout.fragment_missinginfo_confirmation

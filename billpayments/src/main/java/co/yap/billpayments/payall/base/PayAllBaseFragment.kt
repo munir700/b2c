@@ -1,17 +1,21 @@
 package co.yap.billpayments.payall.base
 
 import android.os.Bundle
-import androidx.lifecycle.ViewModelProviders
+import androidx.databinding.ViewDataBinding
+import androidx.lifecycle.ViewModelProvider
 import co.yap.billpayments.payall.main.PayAllMainViewModel
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.IBase
 
-abstract class PayAllBaseFragment<V : IBase.ViewModel<*>> : BaseBindingFragment<V>() {
+abstract class PayAllBaseFragment<VB : ViewDataBinding, V : IBase.ViewModel<*>> :
+    BaseBindingFragment<VB, V>() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (viewModel is PayAllBaseViewModel<*> && activity != null) {
-            (viewModel as PayAllBaseViewModel<*>).parentViewModel =
-                ViewModelProviders.of(activity!!).get(PayAllMainViewModel::class.java)
+        activity?.let {
+            if (viewModel is PayAllBaseViewModel<*>) {
+                (viewModel as PayAllBaseViewModel<*>).parentViewModel =
+                    ViewModelProvider(it).get(PayAllMainViewModel::class.java)
+            }
         }
     }
 }

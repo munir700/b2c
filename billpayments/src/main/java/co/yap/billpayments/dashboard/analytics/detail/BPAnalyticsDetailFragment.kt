@@ -9,10 +9,10 @@ import co.yap.billpayments.R
 import co.yap.billpayments.base.BillDashboardBaseFragment
 import co.yap.billpayments.databinding.FragmentBpAnalyticsDetailsBinding
 import co.yap.networking.transactions.responsedtos.billpayments.BPAnalyticsModel
-import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.interfaces.OnItemClickListener
 
-class BPAnalyticsDetailFragment : BillDashboardBaseFragment<IBPAnalyticsDetail.ViewModel>(),
+class BPAnalyticsDetailFragment :
+    BillDashboardBaseFragment<FragmentBpAnalyticsDetailsBinding, IBPAnalyticsDetail.ViewModel>(),
     IBPAnalyticsDetail.View {
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_bp_analytics_details
@@ -52,9 +52,6 @@ class BPAnalyticsDetailFragment : BillDashboardBaseFragment<IBPAnalyticsDetail.V
 
         }
     }
-
-    override fun getBinding(): FragmentBpAnalyticsDetailsBinding =
-        viewDataBinding as FragmentBpAnalyticsDetailsBinding
 
     override fun removeObservers() {
         viewModel.clickEvent.removeObservers(this)

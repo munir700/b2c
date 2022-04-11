@@ -5,6 +5,7 @@ import android.view.View
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
+import co.yap.databinding.ActivityCardStatementsBinding
 import co.yap.modules.dashboard.cards.paymentcarddetail.statments.adaptor.CardStatementsAdaptor
 import co.yap.modules.dashboard.cards.paymentcarddetail.statments.interfaces.ICardStatments
 import co.yap.modules.dashboard.cards.paymentcarddetail.statments.viewmodels.CardStatementsViewModel
@@ -13,7 +14,7 @@ import co.yap.networking.transactions.responsedtos.CardStatement
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.interfaces.OnItemClickListener
 
-class CardStatementsActivity : BaseBindingActivity<ICardStatments.ViewModel>(),
+class CardStatementsActivity : BaseBindingActivity<ActivityCardStatementsBinding,ICardStatments.ViewModel>(),
     ICardStatments.View {
 
     override val viewModel: ICardStatments.ViewModel

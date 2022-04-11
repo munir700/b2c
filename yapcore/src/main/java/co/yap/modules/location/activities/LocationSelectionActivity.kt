@@ -15,6 +15,7 @@ import co.yap.yapcore.IFragmentHolder
 import co.yap.yapcore.R
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.Constants.ADDRESS
+import co.yap.yapcore.databinding.ActivityLocationBinding
 import co.yap.yapcore.defaults.DefaultNavigator
 import co.yap.yapcore.defaults.INavigator
 import co.yap.yapcore.helpers.extentions.ExtraType
@@ -23,7 +24,7 @@ import co.yap.yapcore.interfaces.BackPressImpl
 import co.yap.yapcore.interfaces.IBaseNavigator
 import kotlinx.android.synthetic.main.activity_location.*
 
-class LocationSelectionActivity : BaseBindingActivity<ILocation.ViewModel>(), ILocation.View,
+class LocationSelectionActivity : BaseBindingActivity<ActivityLocationBinding,ILocation.ViewModel>(), ILocation.View,
     INavigator, IFragmentHolder {
 
     companion object {

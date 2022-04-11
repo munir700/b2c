@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<shield>
+    <config>
+        <checkDebugger                      v="0"/>
+        <exitOnDebugger                     v="0"/>
+        <!-- <exitOnDebuggerURL                  v=""/> -->
+
+        <blockJavaDebugger                  v="0"/>
+
+        <checkEmulator                      v="1"/>
+        <exitOnEmulator                     v="1"/>
+        <!-- <exitOnEmulatorURL                  v=""/> -->
+
+        <checkRooting                       v="1"/>
+        <exitOnRooting                      v="1"/>
+        <checkRootingDeepScan               v="0"/>
+        <exitOnRootingHeuristicsThreshold   v="0"/>
+        <!-- <exitOnRootingURL                   v=""/> -->
+
+        <checkHookingFrameworks             v="1"/>
+        <exitOnHookingFrameworks            v="1"/>
+        <!-- <exitOnHookingFrameworksURL         v=""/> -->
+
+        <checkRepackaging                   v="1"/>
+        <exitOnRepackaging                  v="1"/>
+        <queryAllPackagesPermission         v="1" />
+        <!-- <exitOnRepackagingURL               v=""/> -->
+
+        <!-- Live -->
+         <applicationSignerCertificate       v="MIIFiDCCA3CgAwIBAgIUeIt4SNKkrQEPbjKuTCWAiFOtD+wwDQYJKoZIhvcNAQELBQAwdDELMAkGA1UEBhMCVVMxEzARBgNVBAgTCkNhbGlmb3JuaWExFjAUBgNVBAcTDU1vdW50YWluIFZpZXcxFDASBgNVBAoTC0dvb2dsZSBJbmMuMRAwDgYDVQQLEwdBbmRyb2lkMRAwDgYDVQQDEwdBbmRyb2lkMCAXDTIwMDcwOTEzMDIyNVoYDzIwNTAwNzA5MTMwMjI1WjB0MQswCQYDVQQGEwJVUzETMBEGA1UECBMKQ2FsaWZvcm5pYTEWMBQGA1UEBxMNTW91bnRhaW4gVmlldzEUMBIGA1UEChMLR29vZ2xlIEluYy4xEDAOBgNVBAsTB0FuZHJvaWQxEDAOBgNVBAMTB0FuZHJvaWQwggIiMA0GCSqGSIb3DQEBAQUAA4ICDwAwggIKAoICAQCixB61KQJYArg8v3eh58BhkRue98MBSsv6b2AKbGXY6fnck0LxT56Bo8+Bv3zq0BYpmrJv4zLcaLTtlunOBq1AROzpJokOJMlgCXvNEJfrnJLupy72bLYlkxsfUDbvMwodsuZHPTlW+ljKoyjQwZXlBG6ch+G1SL53E2zGx4F0+IwF3w0Cn6pD5B9Q0+7rYnjMxcuuyUWFcCfUUXMntxMAvf+UFAP76ow0p4g7/UBjmotWpuWPTNCaWp0ddfc14yo8MtZQum6xL/mAuq4xEan9dW4JFEiCyW7q4ktHpEJAtvyoTNRXl1pl9FjalSrmB8kaG4VQ3cOchYZED5kJP5nyTvkP9NS95VLJAEdPoVlnWLKUc0K+E3plhgp0Z8kbV6ZRsOIa01o6aSFzJxZX2pPhWDxit8lK3IIr3aGl4gkEDU4V38heN6FHxY0YgQxGUrfM4muC1wTOL4guSU59YxP13RnVgEiytK1RejEiKqeYjI/h9mlATyhIjK8CJiEeuPxYgR0vSQBPGUrHtMHTkf9GpQIw04NQDCymqLY+BHbQVBV0fINKKLe/mBeAVyGbzZ+ilFt4AJlkZfNmllplTcXY0AGvj0XTkJmVWS7c8Y8L9cksntP6hV3bAu/JvFbqvcYudbBVrFmEeRcS2xA4kRc9ryLHtLzGSQHRpVtL2S4OCwIDAQABoxAwDjAMBgNVHRMEBTADAQH/MA0GCSqGSIb3DQEBCwUAA4ICAQARiN+nLM//6HxeRj2OYQwnI14pjfp7wXlogHO3LnLe9fC2tkyXubJBxYGKRAu/3zCznfXeZ/4nCxhb1Qc3jgTlF97E3cefb+6j4wBfAGwFt3jIwkUE/wQdPoPz2Y6oxXL/k2QiENrPidEXr4qqWscJazZLii9MxLbJ1lJQy3bRCRAdY0S3BJLQVFbbE3tA6lDnLqd1bUMZxwwUhdOjAqZ6JDjQtTIDYdoeFEHWK9TKBzuZniWM4fVvunmSoAwHaerjZTdG+hpxstY2ymXhu+O59Ea2BGZ04wFtg2EKC/wmis1hNlxaiLdQBltbzHMz3Pa4eQnaj4bgLUXXqO86WQqqe8rO4ar7fbMYEgJRkai3piod/xVWEtoagmeeQinCQrIopiQYrAa/6HFvB0CGCxAsbP0tqYF0gihtY7trQ45MbxLAV/XDPcSjGMWkx4Bg30K5azzdNsjoMR1J5R+bvTa5tcjgHtQZZ3WblzhV3frzrohiQcoid7D/Rail9nD+b8yQ706/hsKGHk7gXqbgZEfRxk4lXxdZhWBT+2F1hKHOqlQMl4ucOS4qaummPgUs+KpwNI9+ki5x4qa9OU+E2x8Iybgv7AOoiKnRuKvsaVJwAiIZu0lCBgDaG7EedLpFhSG8qA70aF2EGsdGxRf1OvCxd2fwLUuxHYqpV+e+JVNBTw=="/>
+
+
+
+
+        <blockScreenshots                   v="0"/>
+
+        <checkTrustedKeyboard               v="1"/>
+        <exitOnUntrustedKeyboard            v="0"/>
+        <!-- <exitOnUntrustedKeyboardURL         v=""/> -->
+        <!-- <addTrustedKeyboardSigner           v=""/> -->
+
+        <secureTextFieldKeyboard            v="in-app"/>
+
+        <checkTrustedScreenreaders          v="1"/>
+        <blockUntrustedScreenreaders        v="0"/>
+        <exitOnUntrustedScreenreaders       v="0"/>
+        <!-- <exitOnUntrustedScreenreadersURL    v=""/> -->
+
+        <!-- ClockBack and QueryBack -->
+        <addTrustedScreenreaderSigner       v="dc152407a9a13ef757f0d38d0e379bb1da255c8cb82b3f975bec9f6a5ae08e00"/>
+        <!-- TalkBack -->
+        <addTrustedScreenreaderSigner       v="df37f8d8023ce4776089cca07a8b4cf9adc36a80fc5b5075393450f1fb20caa8"/>
+        <!-- Samsung Voice Assistant: com.samsung.android.app.talkback -->
+        <addTrustedScreenreaderSigner       v="da09c54e4ba07e365cf90f0c1d90fbb11b2353fb5142aa4eb3e3c1dc9fe48983"/>
+
+        <checkNativeCodeHooks               v="1"/>
+        <exitOnNativeCodeHooks              v="1"/>
+        <!-- <exitOnNativeCodeHooksURL           v=""/> -->
+
+        <checkAdbStatus                     v="0"/>
+
+        <checkDeveloperOptions              v="0"/>
+
+        <checkUntrustedInstaller            v="1"/>
+
+        <!-- Google Play -->
+        <addTrustedInstallerSigner       v="3c66420dc7a9e3714f531cae00ccd779e20dfb1c9c40113bf66416f41e366501"/>
+        <!-- Samsung Galaxy App Store -->
+        <addTrustedInstallerSigner       v="d614a59f97cb719e47a01d101b76a9e4950d28e0a6919b651eec2de5056d4b05"/>
+        <!-- Huawei App Gallery -->
+        <!-- <addTrustedInstallerSigner       v="167638c1e015f1fef536a6370f43007b25e164b02afa6fd2f4b1295aee46322f"/> -->
+        <!-- Xiaomi Market -->
+        <!-- <addTrustedInstallerSigner       v="97191af2edf26865b2a529b23a1cda40dc455a56a572ab7c0d4b0ff38106a0db"/> -->
+        <!-- LG SmartWorld Store -->
+        <!-- <addTrustedInstallerSigner       v="b67fedd52cbc309ce7bfbba7440bca88bb926a242b17b69374fcd065f0ae57c2"/> -->
+
+        <!-- <addTrustedApplicationSigner       v=""/> -->
+
+        <checkScreenMirroring               v="0" />
+        <blockScreenMirroring               v="0" />
+    </config>
+</shield>

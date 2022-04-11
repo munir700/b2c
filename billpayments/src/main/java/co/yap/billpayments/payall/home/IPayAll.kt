@@ -39,6 +39,5 @@ interface IPayAll {
     interface View : IBase.View<ViewModel> {
         fun setObservers()
         fun removeObservers()
-        fun getViewBinding(): FragmentPayAllBinding
     }
 }

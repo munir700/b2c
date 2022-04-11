@@ -5,12 +5,13 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
+import co.yap.databinding.FragmentMobileBinding
 import co.yap.modules.onboarding.interfaces.IMobile
 import co.yap.modules.onboarding.viewmodels.MobileViewModel
 import kotlinx.android.synthetic.main.fragment_mobile.*
 
 
-class MobileFragment : OnboardingChildFragment<IMobile.ViewModel>() {
+class MobileFragment : OnboardingChildFragment<FragmentMobileBinding,IMobile.ViewModel>() {
 
     override fun getBindingVariable(): Int = BR.viewModel
 

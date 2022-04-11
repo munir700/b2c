@@ -6,13 +6,14 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import co.yap.BR
 import co.yap.R
+import co.yap.databinding.FragmentOnboardingConfirmCardNameBinding
 import co.yap.modules.kyc.activities.DocumentsResponse
 import co.yap.modules.kyc.interfaces.IConfirmCardName
 import co.yap.modules.kyc.viewmodels.ConfirmCardNameViewModel
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.SharedPreferenceManager
 
-class ConfirmCardNameFragment : KYCChildFragment<IConfirmCardName.ViewModel>(),
+class ConfirmCardNameFragment : KYCChildFragment<FragmentOnboardingConfirmCardNameBinding,IConfirmCardName.ViewModel>(),
     IConfirmCardName.View {
     override val viewModel: ConfirmCardNameViewModel by viewModels()
 

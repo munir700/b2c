@@ -10,6 +10,7 @@ import androidx.navigation.fragment.findNavController
 import co.yap.household.BR
 import co.yap.household.R
 import co.yap.household.dashboard.main.activities.HouseholdDashboardActivity
+import co.yap.household.databinding.FragmentHouseHoldNumberRegistrationBinding
 import co.yap.household.onboard.cardselection.HouseHoldCardsSelectionActivity
 import co.yap.household.onboard.onboarding.interfaces.IHouseHoldNumberRegistration
 import co.yap.household.onboard.onboarding.viewmodels.HouseHoldNumberRegistrationViewModel
@@ -24,7 +25,7 @@ import kotlinx.android.synthetic.main.fragment_house_hold_number_registration.*
 
 
 class HouseHoldNumberRegistrationFragment :
-    OnboardingChildFragment<IHouseHoldNumberRegistration.ViewModel>(),
+    OnboardingChildFragment<FragmentHouseHoldNumberRegistrationBinding,IHouseHoldNumberRegistration.ViewModel>(),
     IHouseHoldNumberRegistration.View {
     override fun getBindingVariable(): Int = BR.houseHoldViewModel
 

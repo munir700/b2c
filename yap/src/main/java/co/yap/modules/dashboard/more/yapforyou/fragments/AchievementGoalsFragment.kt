@@ -3,7 +3,7 @@ package co.yap.modules.dashboard.more.yapforyou.fragments
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import co.yap.R
 import co.yap.databinding.FragmentAchievementGoalsBinding
 import co.yap.modules.dashboard.more.yapforyou.interfaces.IAchievementGoals
@@ -14,13 +14,13 @@ import co.yap.widgets.MultiStateView
 import co.yap.yapcore.BR
 import co.yap.yapcore.interfaces.OnItemClickListener
 
-class AchievementGoalsFragment : YapForYouBaseFragment<IAchievementGoals.ViewModel>(),
+class AchievementGoalsFragment : YapForYouBaseFragment<FragmentAchievementGoalsBinding, IAchievementGoals.ViewModel>(),
     IAchievementGoals.View {
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_achievement_goals
 
     override val viewModel: AchievementViewModel
-        get() = ViewModelProviders.of(this).get(AchievementViewModel::class.java)
+        get() = ViewModelProvider(this).get(AchievementViewModel::class.java)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,7 +50,7 @@ class AchievementGoalsFragment : YapForYouBaseFragment<IAchievementGoals.ViewMod
 
     private fun setGoalsList(achievement: Achievement?) {
         viewModel.parentViewModel?.selectedAchievement?.set(achievement)
-        getBinding().multiStateView.viewState =
+      viewDataBinding.multiStateView.viewState =
             if (achievement?.goals.isNullOrEmpty()) MultiStateView.ViewState.EMPTY else MultiStateView.ViewState.CONTENT
         achievement?.goals?.let { goals ->
             viewModel.adapter.setList(goals)
@@ -74,9 +74,5 @@ class AchievementGoalsFragment : YapForYouBaseFragment<IAchievementGoals.ViewMod
     override fun onDestroy() {
         super.onDestroy()
         removeObservers()
-    }
-
-    override fun getBinding(): FragmentAchievementGoalsBinding {
-        return (viewDataBinding as FragmentAchievementGoalsBinding)
     }
 }

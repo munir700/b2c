@@ -38,7 +38,7 @@ import co.yap.yapcore.managers.FeatureProvisioning
 import co.yap.yapcore.managers.SessionManager
 
 
-class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
+class PersonalDetailsFragment : MoreBaseFragment<FragmentPersonalDetailBinding, IPersonalDetail.ViewModel>(),
     IPersonalDetail.View {
 
     private var photoPlacesId: String = " "
