@@ -2,6 +2,11 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'com.google.gms.google-services'
 apply plugin: 'com.google.firebase.crashlytics'
+apply plugin: 'no.promon.shield.shieldplugin'
+
+repositories {
+    maven { url '../promon/SDK/maven/' }
+}
 
 android {
     defaultConfig {
@@ -34,8 +39,8 @@ android {
 
     productFlavors {
         live {
-            versionCode 112
-            versionName "1.8.2"
+            versionCode 114
+            versionName "1.8.4"
             applicationId "com.yap.banking"
             resValue "string", "app_name", "YAP"
             // It binds with SHA1- SHA 256 and package bundle
@@ -124,6 +129,21 @@ android {
     }
     packagingOptions {
         exclude 'META-INF/*'
+    }
+}
+
+shieldConfig {
+    shielderJar "../promon/Shielder/Shielder.jar"
+    config '../promon/configration/config-stage.xml' // for stage APK
+    enabled false
+    pluginOptions "debug", { enabled false}
+    options "liveRelease", {
+        enabled = true
+        option("config", "../promon/configration/config-live.xml")
+    }
+    options "stgRelease", {
+        enabled = true
+        option("config", "../promon/configration/config-stage.xml")
     }
 }
 
