@@ -17,7 +17,7 @@ import co.yap.yapcore.helpers.showTextUpdatedAbleSnackBar
 import co.yap.yapcore.managers.FeatureProvisioning
 import com.google.android.material.snackbar.Snackbar
 
-class PayAllFragment : PayAllBaseFragment<IPayAll.ViewModel>(),
+class PayAllFragment : PayAllBaseFragment<FragmentPayAllBinding, IPayAll.ViewModel>(),
     IPayAll.View {
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_pay_all
@@ -31,7 +31,7 @@ class PayAllFragment : PayAllBaseFragment<IPayAll.ViewModel>(),
 
     override fun setObservers() {
         viewModel.parentViewModel?.allBills?.observe(this, Observer {
-            getViewBinding().etAmount.setText(viewModel.parentViewModel?.allBills?.value?.sumByDouble { it.totalAmountDue?.toDouble() as Double }
+            viewDataBinding.etAmount.setText(viewModel.parentViewModel?.allBills?.value?.sumByDouble { it.totalAmountDue?.toDouble() as Double }
                 .toString().toFormattedCurrency(withComma = true, showCurrency = false))
             viewModel.populateData()
         })
@@ -85,10 +85,6 @@ class PayAllFragment : PayAllBaseFragment<IPayAll.ViewModel>(),
         super.onDestroy()
         removeObservers()
         cancelAllSnackBar()
-    }
-
-    override fun getViewBinding(): FragmentPayAllBinding {
-        return viewDataBinding as FragmentPayAllBinding
     }
 
     private fun showErrorSnackBar(errorMessage: String) {

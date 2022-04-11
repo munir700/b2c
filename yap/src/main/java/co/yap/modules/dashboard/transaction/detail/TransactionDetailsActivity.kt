@@ -41,7 +41,7 @@ import com.google.android.gms.maps.SupportMapFragment
 import kotlinx.android.synthetic.main.activity_transaction_details.*
 import pl.aprilapps.easyphotopicker.MediaFile
 
-class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.ViewModel>(),
+class TransactionDetailsActivity : BaseBindingImageActivity<ActivityTransactionDetailsBinding, ITransactionDetails.ViewModel>(),
     ITransactionDetails.View, OnMapReadyCallback {
 
     override fun getBindingVariable(): Int = BR.viewModel
@@ -110,7 +110,7 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
             }
             R.id.tvImproveLogo -> {
                 startFragmentForResult<TransactionFeedbackFragment>(
-                    TransactionFeedbackFragment::class.java.name, bundleOf(
+                    fragmentName = TransactionFeedbackFragment::class.java.name, bundle =  bundleOf(
                         Constants.FEEDBACK_LOCATION to viewModel.state.transactionData.get()?.locationValue,
                         Constants.FEEDBACK_TITLE to viewModel.state.transactionData.get()?.transactionTitle,
                         Constants.TRANSACTION_DETAIL to viewModel.transaction.get()
@@ -135,8 +135,8 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
 
     private fun updateCategory() {
         startFragmentForResult<TransactionCategoryFragment>(
-            TransactionCategoryFragment::class.java.name,
-            bundleOf(
+            fragmentName = TransactionCategoryFragment::class.java.name,
+            bundle = bundleOf(
                 Constants.TRANSACTION_ID to viewModel.transaction.get()?.transactionId,
                 Constants.PRE_SELECTED_CATEGORY to viewModel.state.updatedCategory.get()?.categoryName
             )

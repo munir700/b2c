@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import co.yap.modules.passcode.IPassCode
@@ -18,13 +18,14 @@ import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.databinding.FragmentPassCodeBinding
 import co.yap.yapcore.helpers.extentions.startFragment
 
-class CreateNewPasscodeFragment : BaseBindingFragment<IPassCode.ViewModel>() {
+class CreateNewPasscodeFragment :
+    BaseBindingFragment<FragmentPassCodeBinding, IPassCode.ViewModel>() {
     private val args: CreateNewPasscodeFragmentArgs by navArgs()
 
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_pass_code
     override val viewModel: IPassCode.ViewModel
-        get() = ViewModelProviders.of(this).get(PassCodeViewModel::class.java)
+        get() = ViewModelProvider(this).get(PassCodeViewModel::class.java)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,17 +66,13 @@ class CreateNewPasscodeFragment : BaseBindingFragment<IPassCode.ViewModel>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        getBindings().dialer.hideFingerprintView()
-        getBindings().dialer.upDatedDialerPad(viewModel.state.passCode)
+        viewDataBinding.dialer.hideFingerprintView()
+        viewDataBinding.dialer.upDatedDialerPad(viewModel.state.passCode)
     }
 
     override fun onDestroy() {
         viewModel.clickEvent.removeObservers(this)
         super.onDestroy()
-    }
-
-    fun getBindings(): FragmentPassCodeBinding {
-        return viewDataBinding as FragmentPassCodeBinding
     }
 
     override fun onToolBarClick(id: Int) {

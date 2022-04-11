@@ -16,7 +16,7 @@ import co.yap.yapcore.defaults.INavigator
 import co.yap.yapcore.interfaces.BackPressImpl
 import co.yap.yapcore.interfaces.IBaseNavigator
 
-class MoreActivity : BaseBindingActivity<IMore.ViewModel>(), INavigator,
+class MoreActivity : BaseBindingActivity<ActivityMoreBinding,IMore.ViewModel>(), INavigator,
     IFragmentHolder {
 
     public companion object {
@@ -50,11 +50,12 @@ class MoreActivity : BaseBindingActivity<IMore.ViewModel>(), INavigator,
     }
 
     public fun hideToolbar() {
-        getDataBindingView<ActivityMoreBinding>().toolbar.visibility = View.INVISIBLE
+          getDataBindingView<ActivityMoreBinding>().toolbar.visibility = View.INVISIBLE
     }
 
     public fun goneToolbar() {
-        getDataBindingView<ActivityMoreBinding>().toolbar.visibility = View.GONE
+        viewModel.state.toolbarVisibility.set(false)
+        //getDataBindingView<ActivityMoreBinding>().toolbar.visibility = View.GONE
     }
 
     fun visibleToolbar() {

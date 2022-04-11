@@ -18,6 +18,7 @@ import co.yap.networking.customers.responsedtos.currency.CurrenciesResponse
 import co.yap.networking.customers.responsedtos.documents.ConfigureEIDResponse
 import co.yap.networking.customers.responsedtos.documents.EIDDocumentsResponse
 import co.yap.networking.customers.responsedtos.documents.GetMoreDocumentsResponse
+import co.yap.networking.customers.responsedtos.documents.UqudoTokenResponse
 import co.yap.networking.customers.responsedtos.employment_amendment.Document
 import co.yap.networking.customers.responsedtos.employment_amendment.DocumentResponse
 import co.yap.networking.customers.responsedtos.employment_amendment.EmploymentInfoAmendmentResponse
@@ -162,6 +163,9 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     const val URL_GET_AMENDMENT_FIELDS = "customers/api/amendment-fields"
     const val URL_GET_CUSTOMER_KYC_DOCUMENTS = "customers/api/v2/documents"
     const val URL_UPDATE_PASSPORT_AMENDMENT = "customers/api/kyc-amendments/passport"
+    //Uqudo API
+    const val URL_GET_UQUDO_AUTH_TOKEN = "customers/api/uqudo/get-token"
+
     const val URL_GET_CUSTOMER_DOCUMENTS =
         "customers/api/eida-data"
     const val URL_GET_EMPLOYMENT_INFORMATION =
@@ -698,4 +702,7 @@ object CustomersRepository : BaseRepository(), CustomersApi {
 
     override suspend fun getAllDocumentsForEmploymentAmendment(): RetroApiResponse<BaseListResponse<DocumentResponse>> =
         executeSafely { api.getAllDocumentsForEmploymentAmendment() }
+
+    override suspend fun getUqudoAuthToken(): RetroApiResponse<BaseResponse<UqudoTokenResponse>> =
+        executeSafely(call = { api.getUqudoAuthToken() })
 }

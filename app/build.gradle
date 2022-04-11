@@ -3,6 +3,7 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'com.google.gms.google-services'
 apply plugin: 'com.google.firebase.crashlytics'
 apply plugin: 'no.promon.shield.shieldplugin'
+apply plugin: 'com.digitify.hiddensecrets'
 
 repositories {
     maven { url '../promon/SDK/maven/' }
@@ -39,8 +40,8 @@ android {
 
     productFlavors {
         live {
-            versionCode 114
-            versionName "1.8.4"
+            versionCode 115
+            versionName "1.8.5"
             applicationId "com.yap.banking"
             resValue "string", "app_name", "YAP"
             // It binds with SHA1- SHA 256 and package bundle
@@ -53,8 +54,8 @@ android {
         }
 
         Preprod {
-            versionCode 133
-            versionName "2.3.3"
+            versionCode 146
+            versionName "2.4.6"
             applicationId "com.yap.banking.preprod"
             resValue "string", "app_name", "YAP Preprod"
             // It binds with SHA1- SHA 256 and package bundle
@@ -67,8 +68,8 @@ android {
         }
 
         stg {
-            versionCode 379
-            versionName "3.9.9"
+            versionCode 406
+            versionName "2.2.4"
             applicationIdSuffix ".stg"
             resValue "string", "app_name", "YAP Stage"
             resValue "string", "google_maps_key", versionProps.getProperty("map_key_other")
@@ -132,21 +133,23 @@ android {
 shieldConfig {
     shielderJar "../promon/Shielder/Shielder.jar"
     config '../promon/configration/config-stage.xml' // for stage APK
-    enabled false
+    enabled = true
     pluginOptions "debug", { enabled false}
     options "liveRelease", {
         enabled = true
         option("config", "../promon/configration/config-live.xml")
     }
     options "stgRelease", {
-        enabled = true
+        enabled  = true
         option("config", "../promon/configration/config-stage.xml")
+    }
+    options "preprodRelease", {
+        enabled  = false
     }
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-
     project.testDependencies.each {
         add(it.configuration, it.dependency)
     }

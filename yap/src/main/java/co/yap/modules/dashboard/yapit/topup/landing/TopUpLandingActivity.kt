@@ -7,6 +7,7 @@ import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.R
+import co.yap.databinding.ActivityTopupLandingBinding
 import co.yap.modules.dashboard.yapit.topup.cardslisting.TopUpBeneficiariesActivity
 import co.yap.modules.dashboard.yapit.topup.topupbankdetails.TopUpBankDetailsFragment
 import co.yap.translation.Strings
@@ -15,8 +16,8 @@ import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.helpers.extentions.startFragment
 
-
-class TopUpLandingActivity : BaseBindingActivity<ITopUpLanding.ViewModel>() {
+@Deprecated("Remove this class ")
+class TopUpLandingActivity : BaseBindingActivity<ActivityTopupLandingBinding,ITopUpLanding.ViewModel>() {
 
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.activity_topup_landing

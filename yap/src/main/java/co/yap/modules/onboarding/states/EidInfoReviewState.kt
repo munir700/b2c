@@ -2,18 +2,14 @@ package co.yap.modules.onboarding.states
 
 import androidx.databinding.Bindable
 import androidx.databinding.ObservableBoolean
+import androidx.lifecycle.MutableLiveData
 import co.yap.modules.onboarding.interfaces.IEidInfoReview
 import co.yap.yapcore.BaseState
 import com.digitify.identityscanner.BR
 
 class EidInfoReviewState : BaseState(), IEidInfoReview.State {
 
-    @get:Bindable
-    override var citizenNumber: String = ""
-        set(value) {
-            field = value
-            notifyPropertyChanged(BR.citizenNumber)
-        }
+    override var citizenNumber: MutableLiveData<String> = MutableLiveData()
 
     @get:Bindable
     override var caption: String = ""
@@ -65,12 +61,7 @@ class EidInfoReviewState : BaseState(), IEidInfoReview.State {
             notifyPropertyChanged(BR.gender)
         }
 
-    @get:Bindable
-    override var expiryDate: String = ""
-        set(value) {
-            field = value
-            notifyPropertyChanged(BR.expiryDate)
-        }
+    override var expiryDate: MutableLiveData<String> = MutableLiveData()
 
     @get:Bindable
     override var fullNameValid: Boolean = false
@@ -93,12 +84,7 @@ class EidInfoReviewState : BaseState(), IEidInfoReview.State {
             notifyPropertyChanged(BR.genderValid)
         }
 
-    @get:Bindable
-    override var expiryDateValid: Boolean = false
-        set(value) {
-            field = value
-            notifyPropertyChanged(BR.expiryDateValid)
-        }
+    override var expiryDateValid: MutableLiveData<Boolean> = MutableLiveData()
 
     @get:Bindable
     override var valid: Boolean = true
@@ -114,7 +100,9 @@ class EidInfoReviewState : BaseState(), IEidInfoReview.State {
         valid = firstName.isNotBlank()
     }
 
-    override var isDateOfBirthValid: ObservableBoolean = ObservableBoolean()
-    override var AgeLimit: Int? = 0
+    override var isDateOfBirthValid: ObservableBoolean = ObservableBoolean(false)
+    override var AgeLimit: MutableLiveData<Int>? = MutableLiveData()
     override var isCountryUS: Boolean = false
+    override var showMiddleName: MutableLiveData<Boolean> = MutableLiveData()
+    override var eidImageDownloaded: MutableLiveData<Boolean> = MutableLiveData()
 }

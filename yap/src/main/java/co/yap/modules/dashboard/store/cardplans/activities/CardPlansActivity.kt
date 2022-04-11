@@ -5,6 +5,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
+import co.yap.databinding.ActivityCardPlansBinding
 import co.yap.modules.dashboard.store.cardplans.interfaces.IMainCardPlans
 import co.yap.modules.dashboard.store.cardplans.viewmodels.CardPlansMainViewModel
 import co.yap.yapcore.BaseBindingActivity
@@ -15,7 +16,7 @@ import co.yap.yapcore.interfaces.BackPressImpl
 import co.yap.yapcore.interfaces.IBaseNavigator
 import kotlinx.android.synthetic.main.fragment_prime_metal_card.*
 
-class CardPlansActivity : BaseBindingActivity<IMainCardPlans.ViewModel>(), INavigator,
+class CardPlansActivity : BaseBindingActivity<ActivityCardPlansBinding,IMainCardPlans.ViewModel>(), INavigator,
     IFragmentHolder, IMainCardPlans.View {
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.activity_card_plans

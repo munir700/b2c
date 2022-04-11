@@ -12,6 +12,7 @@ import co.yap.countryutils.country.Country
 import co.yap.countryutils.country.utils.CurrencyUtils
 import co.yap.databinding.ActivitySmHomeCountryBinding
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
+import co.yap.sendmoney.databinding.ActivitySendMoneyHomeBinding
 import co.yap.sendmoney.fundtransfer.activities.BeneficiaryFundTransferActivity
 import co.yap.sendmoney.home.main.SMBeneficiaryParentActivity
 import co.yap.yapcore.BaseBindingActivity
@@ -27,8 +28,7 @@ import co.yap.yapcore.managers.SessionManager
 import java.util.*
 
 
-class
-SMHomeCountryActivity : BaseBindingActivity<ISMHomeCountry.ViewModel>(), ISMHomeCountry.View {
+class SMHomeCountryActivity : BaseBindingActivity<ActivitySmHomeCountryBinding ,ISMHomeCountry.ViewModel>(), ISMHomeCountry.View {
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.activity_sm_home_country
     override val viewModel: ISMHomeCountry.ViewModel

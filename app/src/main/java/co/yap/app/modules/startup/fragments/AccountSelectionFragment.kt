@@ -10,10 +10,11 @@ import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.AccelerateInterpolator
 import android.view.animation.DecelerateInterpolator
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import co.yap.app.BR
 import co.yap.app.R
+import co.yap.app.databinding.FragmentAccountSelectionBinding
 import co.yap.app.modules.startup.interfaces.IAccountSelection
 import co.yap.app.modules.startup.viewmodels.AccountSelectionViewModel
 import co.yap.modules.onboarding.enums.AccountType
@@ -26,9 +27,8 @@ import com.daimajia.androidanimations.library.YoYo
 import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.source.TrackGroupArray
 import com.google.android.exoplayer2.trackselection.TrackSelectionArray
-import kotlinx.android.synthetic.main.fragment_account_selection.*
 
-class AccountSelectionFragment : BaseBindingFragment<IAccountSelection.ViewModel>(),
+class AccountSelectionFragment : BaseBindingFragment<FragmentAccountSelectionBinding,IAccountSelection.ViewModel>(),
     IAccountSelection.View {
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_account_selection
@@ -44,7 +44,7 @@ class AccountSelectionFragment : BaseBindingFragment<IAccountSelection.ViewModel
     )
     private var captionDelays = listOf(1800, 1000, 1800, 1800, 2500, 1800, 2800, 3000)
     override val viewModel: IAccountSelection.ViewModel
-        get() = ViewModelProviders.of(this).get(AccountSelectionViewModel::class.java)
+        get() = ViewModelProvider(this).get(AccountSelectionViewModel::class.java)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -52,61 +52,68 @@ class AccountSelectionFragment : BaseBindingFragment<IAccountSelection.ViewModel
     }
 
     private fun setupPlayer() {
-        andExoPlayerView.setSource(R.raw.yap_demo_intro)
+        viewDataBinding.andExoPlayerView.setSource(R.raw.yap_demo_intro)
         captionsIndex = 0
         handler.postDelayed(runnable, 1000)
-        andExoPlayerView.setExoPlayerCallBack(object : ExoPlayerCallBack {
-            override fun onError() {
-                handler.removeCallbacks(runnable)
-                andExoPlayerView.setSource(R.raw.demo_test)
-                captionsIndex = 0
-                handler.postDelayed(runnable, 1000)
-            }
-
-            override fun onTracksChanged(
-                trackGroups: TrackGroupArray,
-                trackSelections: TrackSelectionArray
-            ) {
-            }
-
-            override fun onPositionDiscontinuity(reason: Int) {
-                animatorSet?.cancel()
-                animatorSet = null
-                //captionsIndex = 0
-                tvCaption?.postDelayed({
+        viewDataBinding.andExoPlayerView.setExoPlayerCallBack(
+            object : ExoPlayerCallBack {
+                override fun onError() {
+                    handler.removeCallbacks(runnable)
+                    viewDataBinding.andExoPlayerView.setSource(
+                        R.raw.demo_test
+                    )
                     captionsIndex = 0
-                    playCaptionAnimation()
-                }, 1800)
-            }
+                    handler.postDelayed(runnable, 1000)
+                }
 
-            override fun onPlayerStateChanged(playWhenReady: Boolean, playbackState: Int) {
-                if (playbackState == Player.STATE_READY) {
-                    captionsIndex = 0
-                    tvCaption?.postDelayed({
+                override fun onTracksChanged(
+                    trackGroups: TrackGroupArray,
+                    trackSelections: TrackSelectionArray
+                ) {
+                }
+
+                override fun onPositionDiscontinuity(reason: Int) {
+                    animatorSet?.cancel()
+                    animatorSet = null
+                    //captionsIndex = 0
+                    viewDataBinding.tvCaption?.postDelayed({
+                        captionsIndex = 0
                         playCaptionAnimation()
                     }, 1800)
                 }
-            }
 
-            override fun onRepeatModeChanged(repeatMode: Int) {
-            }
-        })
+                override fun onPlayerStateChanged(playWhenReady: Boolean, playbackState: Int) {
+                    if (playbackState == Player.STATE_READY) {
+                        captionsIndex = 0
+                        viewDataBinding.tvCaption?.postDelayed(
+                            {
+                                playCaptionAnimation()
+                            },
+                            1800
+                        )
+                    }
+                }
+
+                override fun onRepeatModeChanged(repeatMode: Int) {
+                }
+            })
     }
 
     private val runnable = Runnable {
-        layoutButtons?.let {
+        viewDataBinding.layoutButtons.let {
             YoYo.with(Techniques.FadeIn).duration(1500)
-                .onStart { layoutButtons?.visibility = View.VISIBLE }.playOn(layoutButtons)
+                .onStart {
+                    viewDataBinding.layoutButtons.visibility =
+                        View.VISIBLE
+                }.playOn(viewDataBinding.layoutButtons)
         }
-    }
-    private val layoutButtonsRunnable = Runnable {
-        layoutButtons?.let { playCaptionAnimation() }
     }
 
     fun playCaptionAnimation() {
-        tvCaption?.let {
+        viewDataBinding.tvCaption.let {
             if (!isPaused && captionsIndex != -1) {
-                tvCaption?.text = captions[captionsIndex]
+                viewDataBinding.tvCaption.text =
+                    captions[captionsIndex]
                 val fadeIn = ObjectAnimator.ofFloat(
                     it,
                     View.ALPHA,
@@ -141,7 +148,8 @@ class AccountSelectionFragment : BaseBindingFragment<IAccountSelection.ViewModel
                     }
 
                     override fun onAnimationStart(animation: Animator?) {
-                        tvCaption?.visibility = View.VISIBLE
+                        viewDataBinding.tvCaption.visibility =
+                            View.VISIBLE
                     }
                 })
                 animatorSet?.start()

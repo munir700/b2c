@@ -20,7 +20,8 @@ import com.digitify.identityscanner.docscanner.enums.DocumentType;
 import com.digitify.identityscanner.docscanner.interfaces.IDocReview;
 import com.digitify.identityscanner.docscanner.viewmodels.DocReviewViewModel;
 import com.digitify.identityscanner.docscanner.viewmodels.IdentityScannerViewModel;
-
+@SuppressWarnings("DeprecatedIsStillUsed")
+@Deprecated
 public class DocReviewFragment extends BaseFragment implements IDocReview.View {
     private static String FILE_PATH = "filepath";
     private static String DOC_TYPE = "docType";

@@ -5,7 +5,7 @@ import android.graphics.drawable.AnimationDrawable
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import co.yap.BR
 import co.yap.R
 import co.yap.databinding.FragmentAchievementGoalDetailsBinding
@@ -24,13 +24,14 @@ import co.yap.yapcore.helpers.extentions.launchActivityForResult
 import co.yap.yapcore.helpers.extentions.share
 import co.yap.yapcore.managers.SessionManager
 
-class AchievementGoalDetailFragment : YapForYouBaseFragment<IAchievementGoalDetail.ViewModel>(),
+class AchievementGoalDetailFragment :
+    YapForYouBaseFragment<FragmentAchievementGoalDetailsBinding, IAchievementGoalDetail.ViewModel>(),
     IAchievementGoalDetail.View {
     override fun getBindingVariable(): Int = BR.viewModel
 
     override fun getLayoutId(): Int = R.layout.fragment_achievement_goal_details
     override val viewModel: AchievementGoalDetailViewModel
-        get() = ViewModelProviders.of(this).get(AchievementGoalDetailViewModel::class.java)
+        get() = ViewModelProvider(this).get(AchievementGoalDetailViewModel::class.java)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,7 +42,7 @@ class AchievementGoalDetailFragment : YapForYouBaseFragment<IAchievementGoalDeta
         super.onViewCreated(view, savedInstanceState)
         if (viewModel.parentViewModel?.selectedAchievementGoal?.get()?.title == YapForYouGoalType.FREEZE_UNFREEZE_CARD.title) {
             val animationDrawable: AnimationDrawable =
-                getBindings().tvFreezeAnimationView.background as AnimationDrawable
+                viewDataBinding.tvFreezeAnimationView.background as AnimationDrawable
             animationDrawable.setEnterFadeDuration(1000)
             animationDrawable.setExitFadeDuration(1500)
             animationDrawable.isOneShot = true
@@ -129,8 +130,4 @@ class AchievementGoalDetailFragment : YapForYouBaseFragment<IAchievementGoalDeta
         super.onDestroyView()
         removeObservers()
     }
-
-    private fun getBindings(): FragmentAchievementGoalDetailsBinding =
-        viewDataBinding as FragmentAchievementGoalDetailsBinding
-
 }

@@ -14,6 +14,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
+import co.yap.databinding.FragmentProfileBinding
 import co.yap.modules.dashboard.more.changepasscode.activities.ChangePasscodeActivity
 import co.yap.modules.dashboard.more.main.activities.MoreActivity
 import co.yap.modules.dashboard.more.main.fragments.MoreBaseFragment
@@ -38,20 +39,17 @@ import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.SessionManager
 import kotlinx.android.synthetic.main.layout_profile_picture.*
-import kotlinx.android.synthetic.main.layout_profile_settings.*
 import pl.aprilapps.easyphotopicker.MediaFile
 
-class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile.View {
+class ProfileSettingsFragment : MoreBaseFragment<FragmentProfileBinding , IProfile.ViewModel>(), IProfile.View {
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_profile
-    override val viewModel: IProfile.ViewModel
+    override val viewModel: ProfileSettingsViewModel
         get() = ViewModelProvider(this).get(ProfileSettingsViewModel::class.java)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        if (context is MoreActivity) {
-            (context as MoreActivity).visibleToolbar()
-        }
+        viewModel.parentViewModel?.state?.toolbarVisibility?.set(true)
         viewModel.state.buildVersionDetail = versionName
         val sharedPreferenceManager =
             SharedPreferenceManager.getInstance(requireContext())
@@ -62,10 +60,10 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
                     KEY_TOUCH_ID_ENABLED,
                     false
                 )
-            swTouchId.isChecked = isTouchIdEnabled
-            llSignInWithTouch.visibility = View.VISIBLE
+            getViewBinding().layoutProfileSettings.swTouchId.isChecked = isTouchIdEnabled
+            getViewBinding().layoutProfileSettings.llSignInWithTouch.visibility = View.VISIBLE
 
-            swTouchId.setOnCheckedChangeListener { _, isChecked ->
+            getViewBinding().layoutProfileSettings.swTouchId.setOnCheckedChangeListener { _, isChecked ->
                 if (isChecked) {
                     sharedPreferenceManager.save(
                         KEY_IS_FINGERPRINT_PERMISSION_SHOWN,
@@ -80,12 +78,12 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
                 }
             }
         } else {
-            llSignInWithTouch.visibility = View.GONE
+            getViewBinding().layoutProfileSettings.llSignInWithTouch.visibility = View.GONE
         }
 
         SessionManager.user?.let {
             if (it.currentCustomer.getPicture() != null) {
-                ivAddProfilePic.setImageResource(R.drawable.ic_edit_profile)
+                getViewBinding().layoutProfilePic.ivAddProfilePic.setImageResource(R.drawable.ic_edit_profile)
             }
         }
     }
@@ -258,4 +256,6 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
             }
         }
     }
+
+    fun getViewBinding() = getDataBindingView<FragmentProfileBinding>()
 }

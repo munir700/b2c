@@ -22,7 +22,7 @@ import com.digitify.identityscanner.camera.CameraListener
 import com.digitify.identityscanner.camera.CameraOptions
 import com.digitify.identityscanner.camera.PictureResult
 
-class AddTransactionReceiptFragment : BaseBindingFragment<IAddTransactionReceipt.ViewModel>(),
+class AddTransactionReceiptFragment : BaseBindingFragment<FragmentAddTransactionReceiptBinding,IAddTransactionReceipt.ViewModel>(),
     IAddTransactionReceipt.View, CameraListener {
     override fun getBindingVariable() = BR.viewModel
 

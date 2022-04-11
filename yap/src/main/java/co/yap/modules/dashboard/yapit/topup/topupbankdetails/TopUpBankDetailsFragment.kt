@@ -22,7 +22,7 @@ import co.yap.yapcore.leanplum.TopUpEvents
 import co.yap.yapcore.leanplum.trackEvent
 import co.yap.yapcore.managers.SessionManager
 
-class TopUpBankDetailsFragment : BaseBindingFragment<ITopUpBankDetails.ViewModel>(),
+class TopUpBankDetailsFragment : BaseBindingFragment<FragmentTopUpBankDetailsBinding,ITopUpBankDetails.ViewModel>(),
     ITopUpBankDetails.View {
     override fun getBindingVariable(): Int = BR.viewModel
 

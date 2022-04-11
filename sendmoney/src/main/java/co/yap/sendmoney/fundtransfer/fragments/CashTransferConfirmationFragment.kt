@@ -43,7 +43,7 @@ import co.yap.yapcore.leanplum.trackEvent
 import co.yap.yapcore.managers.SessionManager
 
 class CashTransferConfirmationFragment :
-    BeneficiaryFundTransferBaseFragment<ICashTransferConfirmation.ViewModel>(),
+    BeneficiaryFundTransferBaseFragment<FragmentCashTransferConfirmationBinding,ICashTransferConfirmation.ViewModel>(),
     ICashTransferConfirmation.View {
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_cash_transfer_confirmation
@@ -186,8 +186,8 @@ class CashTransferConfirmationFragment :
 
     private fun startOtpFragment() {
         startFragmentForResult<GenericOtpFragment>(
-            GenericOtpFragment::class.java.name,
-            bundleOf(
+           fragmentName =  GenericOtpFragment::class.java.name,
+           bundle =  bundleOf(
                 OtpDataModel::class.java.name to OtpDataModel(
                     otpAction = getOtpAction(),
                     mobileNumber = SessionManager.user?.currentCustomer?.getFormattedPhoneNumber(

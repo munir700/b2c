@@ -24,7 +24,7 @@ import co.yap.yapcore.helpers.spannables.color
 import co.yap.yapcore.helpers.spannables.getText
 import co.yap.yapcore.managers.SessionManager
 
-class VerifyCardCvvFragment : BaseBindingFragment<IVerifyCardCvv.ViewModel>(), IVerifyCardCvv.View {
+class VerifyCardCvvFragment : BaseBindingFragment<FragmentVerifyCardCvvBinding,IVerifyCardCvv.ViewModel>(), IVerifyCardCvv.View {
     val args: VerifyCardCvvFragmentArgs by navArgs()
     override fun getBindingVariable(): Int = BR.viewModel
 
