@@ -13,13 +13,14 @@ import co.yap.sendmoney.BR
 import co.yap.sendmoney.R
 import co.yap.sendmoney.addbeneficiary.interfaces.IBankDetails
 import co.yap.sendmoney.addbeneficiary.viewmodels.BankDetailsViewModel
+import co.yap.sendmoney.databinding.FragmentAddBankDetailBinding
 import co.yap.sendmoney.fragments.SendMoneyBaseFragment
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 import co.yap.yapcore.interfaces.OnItemClickListener
 import kotlinx.android.synthetic.main.fragment_add_bank_detail.*
 
-class AddBankDetailsFragment : SendMoneyBaseFragment<IBankDetails.ViewModel>(),
+class AddBankDetailsFragment : SendMoneyBaseFragment<FragmentAddBankDetailBinding,IBankDetails.ViewModel>(),
     IBankDetails.View {
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_add_bank_detail

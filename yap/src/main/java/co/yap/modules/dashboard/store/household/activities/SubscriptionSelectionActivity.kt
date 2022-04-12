@@ -10,6 +10,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
+import co.yap.databinding.ActivityHouseHoldSubscriptionSelctionBinding
 import co.yap.modules.dashboard.cards.addpaymentcard.models.BenefitsModel
 import co.yap.modules.dashboard.cards.addpaymentcard.spare.SpareCardsLandingAdapter
 import co.yap.modules.dashboard.store.household.interfaces.IHouseHoldSubscription
@@ -30,7 +31,7 @@ import kotlinx.android.synthetic.main.activity_house_hold_subscription_selction.
 
 
 class SubscriptionSelectionActivity :
-    BaseBindingActivity<IHouseHoldSubscription.ViewModel>(),
+    BaseBindingActivity<ActivityHouseHoldSubscriptionSelctionBinding,IHouseHoldSubscription.ViewModel>(),
     IHouseHoldSubscription.View, SpareCardsLandingAdapter.OnItemClickedListener {
 
     lateinit var item: View

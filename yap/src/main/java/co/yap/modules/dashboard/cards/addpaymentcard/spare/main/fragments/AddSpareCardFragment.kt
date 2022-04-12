@@ -36,7 +36,7 @@ import co.yap.yapcore.managers.SessionManager
 import kotlinx.android.synthetic.main.layout_add_spare_virtaul_card_confirm_purchase.*
 
 
-class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
+class AddSpareCardFragment : AddPaymentChildFragment<FragmentAddSpareCardBinding,IAddSpareCard.ViewModel>(),
     IAddSpareCard.View, IAnimationComplete {
 
     private var cardAdded: Boolean = false

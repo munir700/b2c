@@ -4,13 +4,14 @@ import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.ViewModelProviders
 import co.yap.R
+import co.yap.databinding.ActivityTotalPurchaseBinding
 import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.yapcore.BR
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.constants.Constants
 import kotlinx.android.synthetic.main.activity_total_purchase.*
 
-class TotalPurchaseFragment : BaseBindingFragment<ITotalPurchases.ViewModel>(),
+class TotalPurchaseFragment : BaseBindingFragment<ActivityTotalPurchaseBinding,ITotalPurchases.ViewModel>(),
     ITotalPurchases.View {
     override fun getBindingVariable(): Int = BR.viewModel
 

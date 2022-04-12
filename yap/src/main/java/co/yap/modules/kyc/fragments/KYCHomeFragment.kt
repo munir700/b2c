@@ -7,6 +7,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import co.yap.R
+import co.yap.databinding.FragmentKycHomeBinding
 import co.yap.modules.kyc.activities.DocumentsResponse
 import co.yap.modules.kyc.enums.DocScanStatus
 import co.yap.modules.kyc.interfaces.IKYCHome
@@ -15,9 +16,9 @@ import co.yap.translation.Strings
 import co.yap.yapcore.enums.AccountStatus
 import co.yap.yapcore.firebase.FirebaseEvent
 import co.yap.yapcore.firebase.trackEventWithScreenName
-import java.io.File
+import co.yap.yapcore.managers.SessionManager
 
-class KYCHomeFragment : KYCChildFragment<IKYCHome.ViewModel>(), IKYCHome.View {
+class KYCHomeFragment : KYCChildFragment<FragmentKycHomeBinding,IKYCHome.ViewModel>(), IKYCHome.View {
 
     override fun getBindingVariable(): Int = BR.viewModel
 
@@ -34,12 +35,15 @@ class KYCHomeFragment : KYCChildFragment<IKYCHome.ViewModel>(), IKYCHome.View {
         addObservers()
     }
 
+
     private fun addObservers() {
+        viewModel.parentViewModel?.accountStatus?.value = SessionManager.user?.notificationStatuses
         viewModel.state.addOnPropertyChangedCallback(stateObserver)
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
                 R.id.cvCard -> {
-                    navigate(if (viewModel.isFromAmendment()) R.id.action_KYCHomeFragment_to_eidInfoReviewAmendmentFragment else R.id.action_KYCHomeFragment_to_eidInfoReviewFragment)
+                    viewModel.parentViewModel?.uqudoManager?.resetData()
+                    navigate(viewModel.navigateTo(viewModel.isFromAmendment()))
                 }
                 R.id.btnNext -> {
                     if (viewModel.parentViewModel?.accountStatus?.value == AccountStatus.CAPTURED_EID.name) {
@@ -59,17 +63,20 @@ class KYCHomeFragment : KYCChildFragment<IKYCHome.ViewModel>(), IKYCHome.View {
     }
 
     private fun shouldSkipScreen() {
+        viewModel.parentViewModel?.uqudoManager?.resetData()
         viewModel.parentViewModel?.skipFirstScreen?.value?.let {
             if (it) {
-                if (viewModel.parentViewModel?.uqudoIdentity?.value?.isAmendment == true) {
+                if (viewModel.parentViewModel?.uqudoManager?.getUqudoIdentity()?.isAmendment == true) {
                     requireActivity().finish()
                 } else {
-                    if (viewModel.isFromAmendment()) {
+                    if (viewModel.parentViewModel?.comingFrom?.value.isNullOrBlank().not()) {
+                        findNavController().navigate(R.id.action_KYCHomeFragment_to_eidInfoReviewFragment)
+                    } else {
                         navigateWithPopup(
-                            R.id.action_KYCHomeFragment_to_eidInfoReviewAmendmentFragment,
+                            viewModel.navigateTo(viewModel.isFromAmendment()),
                             R.id.KYCHomeFragment
                         )
-                    } else findNavController().navigate(R.id.action_KYCHomeFragment_to_eidInfoReviewFragment)
+                    }
                 }
             } else if (requireActivity().intent?.getBooleanExtra("GO_ERROR", false) == true) {
                 navigateToInformationErrorFragment()
@@ -107,13 +114,6 @@ class KYCHomeFragment : KYCChildFragment<IKYCHome.ViewModel>(), IKYCHome.View {
         viewModel.clickEvent.removeObservers(this)
         viewModel.state.removeOnPropertyChangedCallback(stateObserver)
         super.onDestroyView()
-    }
-
-    override fun onDestroy() {
-        viewModel.parentViewModel?.paths?.forEach { filePath ->
-            File(filePath).deleteRecursively()
-        }
-        super.onDestroy()
     }
 
     override fun onBackPressed(): Boolean {

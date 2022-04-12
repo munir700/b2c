@@ -9,13 +9,14 @@ import co.yap.networking.transactions.responsedtos.CardStatement
 import co.yap.yapcore.BR
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.R
+import co.yap.yapcore.databinding.ActivityPdfBinding
 import co.yap.yapcore.helpers.extentions.ExtraType
 import co.yap.yapcore.helpers.extentions.deleteTempFolder
 import co.yap.yapcore.helpers.extentions.getValue
 import co.yap.yapcore.interfaces.BackPressImpl
 import com.pdfview.PDFView
 
-class PDFActivity : BaseBindingActivity<IPDFActivity.ViewModel>(), IPDFActivity.View {
+class PDFActivity : BaseBindingActivity<ActivityPdfBinding,IPDFActivity.ViewModel>(), IPDFActivity.View {
 
     companion object {
         private const val URL = "URL"

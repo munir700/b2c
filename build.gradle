@@ -2,15 +2,13 @@
 // apply from: 'shared/build.gradle'
 
 buildscript {
-    ext.kotlin_version = '1.6.10'
+    ext.kotlin_version = '1.5.32'
     ext.navigationVersion = "2.1.0-alpha05"
 
     repositories {
         google()
         maven { url 'https://maven.fabric.io/public' }
         jcenter()
-
-
     }
     dependencies {
 
@@ -21,6 +19,7 @@ buildscript {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$navigationVersion"
         classpath files('promon/shield-gradle-plugin-2.0.0.jar')
+        classpath files('promon/HiddenSecretsPlugin-0.1.3.jar')
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
         // Add dependency
@@ -35,7 +34,7 @@ allprojects {
         mavenCentral()
         maven { url "https://repo.leanplum.com/" }
         maven { url 'https://jitpack.io' }
-        maven { url "http://pay.cards/maven" }
+//        maven { url "http://pay.cards/maven" }
         maven {url 'https://sdk.uxcam.com/android/'}
         maven {
             credentials {

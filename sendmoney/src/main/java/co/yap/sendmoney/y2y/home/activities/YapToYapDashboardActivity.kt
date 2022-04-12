@@ -23,7 +23,7 @@ import co.yap.yapcore.interfaces.BackPressImpl
 import co.yap.yapcore.interfaces.IBaseNavigator
 import com.google.android.material.snackbar.Snackbar
 
-class YapToYapDashboardActivity : BaseBindingActivity<IY2Y.ViewModel>(), INavigator,
+class YapToYapDashboardActivity : BaseBindingActivity<ActivityYapToYapDashboardBinding,IY2Y.ViewModel>(), INavigator,
     IFragmentHolder {
 
     override fun getBindingVariable(): Int = BR.viewModel

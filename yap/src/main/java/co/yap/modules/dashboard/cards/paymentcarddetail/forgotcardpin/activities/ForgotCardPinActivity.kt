@@ -7,6 +7,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
+import co.yap.databinding.ActivityForgotCardPinBinding
 import co.yap.modules.dashboard.cards.paymentcarddetail.forgotcardpin.interfaces.IForgotCardPin
 import co.yap.modules.dashboard.cards.paymentcarddetail.forgotcardpin.viewmodels.ForgotCardPinViewModel
 import co.yap.yapcore.BaseBindingActivity
@@ -17,7 +18,7 @@ import co.yap.yapcore.defaults.INavigator
 import co.yap.yapcore.interfaces.BackPressImpl
 import co.yap.yapcore.interfaces.IBaseNavigator
 
-class ForgotCardPinActivity : BaseBindingActivity<IForgotCardPin.ViewModel>(), INavigator,
+class ForgotCardPinActivity : BaseBindingActivity<ActivityForgotCardPinBinding,IForgotCardPin.ViewModel>(), INavigator,
     IFragmentHolder {
     companion object {
         fun newIntent(context: Context, cardSerialNumber: String): Intent {

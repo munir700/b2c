@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
+import co.yap.databinding.FragmentHouseHoldSuccessBinding
 import co.yap.modules.dashboard.store.household.onboarding.HouseHoldOnboardingActivity
 import co.yap.modules.dashboard.store.household.onboarding.interfaces.IHouseHoldSuccess
 import co.yap.modules.dashboard.store.household.onboarding.viewmodels.HouseHoldSuccessViewModel
@@ -13,7 +14,7 @@ import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.extentions.share
 import co.yap.yapcore.managers.SessionManager
 
-class HouseHoldSuccessFragment : BaseOnBoardingFragment<IHouseHoldSuccess.ViewModel>(),
+class HouseHoldSuccessFragment : BaseOnBoardingFragment<FragmentHouseHoldSuccessBinding, IHouseHoldSuccess.ViewModel>(),
     IHouseHoldSuccess.View {
 
     override fun getBindingVariable(): Int = BR.viewModel

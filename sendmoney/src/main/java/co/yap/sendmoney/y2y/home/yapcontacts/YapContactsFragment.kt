@@ -3,7 +3,7 @@ package co.yap.sendmoney.y2y.home.yapcontacts
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import co.yap.networking.customers.responsedtos.sendmoney.IBeneficiary
 import co.yap.repositories.InviteFriendRepository
 import co.yap.sendmoney.R
@@ -21,13 +21,14 @@ import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.share
 import co.yap.yapcore.interfaces.OnItemClickListener
 
-class YapContactsFragment : Y2YBaseFragment<IYapContact.ViewModel>(), IYapContact.View {
+class YapContactsFragment : Y2YBaseFragment<FragmentYapContactsBinding, IYapContact.ViewModel>(),
+    IYapContact.View {
     private lateinit var skeleton: Skeleton
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_yap_contacts
 
     override val viewModel: YapContactViewModel
-        get() = ViewModelProviders.of(this).get(YapContactViewModel::class.java)
+        get() = ViewModelProvider(this).get(YapContactViewModel::class.java)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -45,8 +46,10 @@ class YapContactsFragment : Y2YBaseFragment<IYapContact.ViewModel>(), IYapContac
 
     private fun setObservers() {
         viewModel.clickEvent.observe(this, observer)
-        viewModel.state.stateLiveData?.observe(this, Observer { handleShimmerState(it) })
-        viewModel.parentViewModel?.y2yBeneficiries?.observe(this, Observer {
+        viewModel.state.stateLiveData?.observe(
+            viewLifecycleOwner,
+            Observer { handleShimmerState(it) })
+        viewModel.parentViewModel?.y2yBeneficiries?.observe(viewLifecycleOwner, Observer {
             viewModel.contactsAdapter.setList(it)
             if (!it.isNullOrEmpty())
                 viewModel.contactsAdapter.filter.filter(viewModel.parentViewModel?.searchQuery?.value)
@@ -55,11 +58,11 @@ class YapContactsFragment : Y2YBaseFragment<IYapContact.ViewModel>(), IYapContac
             viewModel.state.contactsCounts.set(it.size)
         })
 
-        viewModel.parentViewModel?.searchQuery?.observe(this, Observer {
+        viewModel.parentViewModel?.searchQuery?.observe(viewLifecycleOwner, Observer {
             viewModel.contactsAdapter.filter.filter(it)
         })
 
-        viewModel.contactsAdapter.filterCount.observe(this, Observer {
+        viewModel.contactsAdapter.filterCount.observe(viewLifecycleOwner, Observer {
             if (it == 0 && viewModel.parentViewModel?.isSearching?.value == true && !viewModel.state.isNoYapContacts.get()) {
                 viewModel.state.stateLiveData?.value = State.empty(null)
             } else {

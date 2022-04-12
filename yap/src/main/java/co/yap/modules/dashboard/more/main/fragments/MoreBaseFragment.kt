@@ -1,13 +1,14 @@
 package co.yap.modules.dashboard.more.main.fragments
 
 import android.os.Bundle
+import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.ViewModelProviders
 import co.yap.modules.dashboard.more.main.viewmodels.MoreBaseViewModel
 import co.yap.modules.dashboard.more.main.viewmodels.MoreViewModel
 import co.yap.yapcore.BaseBindingImageFragment
 import co.yap.yapcore.IBase
 
-abstract class MoreBaseFragment<V : IBase.ViewModel<*>> : BaseBindingImageFragment<V>() {
+abstract class MoreBaseFragment<VB : ViewDataBinding,V : IBase.ViewModel<*>> : BaseBindingImageFragment<VB, V>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

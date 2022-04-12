@@ -17,7 +17,8 @@ import co.yap.widgets.searchwidget.SearchingListener
 import co.yap.yapcore.helpers.extentions.hideKeyboard
 import co.yap.yapcore.interfaces.OnItemClickListener
 
-class BillerSearchFragment : AddBillBaseFragment<IBillerSearch.ViewModel>(),
+class BillerSearchFragment :
+    AddBillBaseFragment<FragmentBillerSearchBinding, IBillerSearch.ViewModel>(),
     IBillerSearch.View, SearchingListener {
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_biller_search
@@ -97,5 +98,5 @@ class BillerSearchFragment : AddBillBaseFragment<IBillerSearch.ViewModel>(),
     }
 
     private fun getBindings(): FragmentBillerSearchBinding =
-        viewDataBinding as FragmentBillerSearchBinding
+        viewDataBinding
 }

@@ -13,11 +13,14 @@ import co.yap.modules.onboarding.interfaces.IMeetingConfirmation
 import co.yap.modules.onboarding.viewmodels.MeetingConfirmationViewModel
 import co.yap.modules.others.fragmentpresenter.activities.FragmentPresenterActivity
 import co.yap.yapcore.BaseBindingFragment
+import co.yap.yapcore.databinding.FragmentMissinginfoConfirmationBinding
 import co.yap.yapcore.firebase.FirebaseEvent
 import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.managers.SessionManager
 
-class MeetingConfirmationFragment : BaseBindingFragment<IMeetingConfirmation.viewModel>() {
+//TODO Need to fix it
+class MeetingConfirmationFragment :
+    BaseBindingFragment<FragmentMissinginfoConfirmationBinding, IMeetingConfirmation.viewModel>() {
 
     override fun getBindingVariable(): Int = BR.viewModel
 

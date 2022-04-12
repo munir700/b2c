@@ -6,6 +6,7 @@ import android.os.Bundle
 import androidx.lifecycle.ViewModelProviders
 import co.yap.sendmoney.BR
 import co.yap.sendmoney.R
+import co.yap.sendmoney.databinding.ActivitySmBeneficiaryParentBinding
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.IFragmentHolder
 import co.yap.yapcore.constants.Constants
@@ -16,7 +17,7 @@ import co.yap.yapcore.helpers.ExtraKeys
 import co.yap.yapcore.interfaces.BackPressImpl
 import co.yap.yapcore.interfaces.IBaseNavigator
 
-class SMBeneficiaryParentActivity : BaseBindingActivity<ISMBeneficiaryParent.ViewModel>(),
+class SMBeneficiaryParentActivity : BaseBindingActivity<ActivitySmBeneficiaryParentBinding,ISMBeneficiaryParent.ViewModel>(),
     INavigator,
     IFragmentHolder {
 

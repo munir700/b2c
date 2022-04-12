@@ -1,25 +1,19 @@
 package co.yap.modules.kyc.viewmodels
 
 import android.app.Application
-import android.graphics.Bitmap
-import android.graphics.drawable.Drawable
-import android.os.Build
-import android.os.CountDownTimer
 import android.text.TextUtils
 import android.view.View
-import androidx.annotation.RequiresApi
 import androidx.lifecycle.MutableLiveData
 import co.yap.R
 import co.yap.countryutils.country.Country
 import co.yap.modules.kyc.enums.Gender
+import co.yap.modules.onboarding.enums.EidInfoEvents
 import co.yap.modules.onboarding.interfaces.IEidInfoReviewAmendment
 import co.yap.modules.onboarding.states.EidInfoReviewAmendmentState
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.requestdtos.UploadDocumentsRequest
+import co.yap.networking.customers.responsedtos.EidData
 import co.yap.networking.customers.responsedtos.SectionedCountriesResponseDTO
-import co.yap.networking.customers.responsedtos.UqudoHeader
-import co.yap.networking.customers.responsedtos.UqudoPayLoad
-import co.yap.networking.customers.responsedtos.V2DocumentDTO
 import co.yap.networking.customers.responsedtos.documents.ConfigureEIDResponse
 import co.yap.networking.customers.responsedtos.documents.UqudoTokenResponse
 import co.yap.networking.interfaces.IRepositoryHolder
@@ -39,22 +33,12 @@ import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.DateUtils.getAge
 import co.yap.yapcore.helpers.Utils
-import co.yap.yapcore.helpers.extentions.saveEidTemp
-import co.yap.yapcore.helpers.extentions.toast
 import co.yap.yapcore.helpers.validation.IValidator
 import co.yap.yapcore.helpers.validation.Validator
 import co.yap.yapcore.leanplum.KYCEvents
 import co.yap.yapcore.leanplum.trackEvent
 import co.yap.yapcore.managers.SessionManager
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.model.GlideUrl
-import com.bumptech.glide.load.model.LazyHeaders
-import com.bumptech.glide.request.target.CustomTarget
-import com.bumptech.glide.request.transition.Transition
-import com.digitify.identityscanner.docscanner.models.IdentityScannerResult
-import com.google.gson.Gson
 import kotlinx.coroutines.delay
-import java.text.SimpleDateFormat
 import java.util.*
 
 class EidInfoReviewAmendmentViewModel(application: Application) :
@@ -97,19 +81,19 @@ class EidInfoReviewAmendmentViewModel(application: Application) :
     }
 
     private fun handlePressOnConfirmBtn() {
-        parentViewModel?.uqudoIdentity?.value?.let { jj ->
+        parentViewModel?.uqudoManager?.getUqudoIdentity()?.let { identity ->
             when {
                 TextUtils.isEmpty(getFullName()) || TextUtils.isEmpty(state.nationality.value?.getName()) -> {
-                    clickEvent.setValue(eventErrorInvalidEid)
+                    clickEvent.setValue(EidInfoEvents.EVENT_ERROR_INVALID_EID.eventId)
                 }
                 state.expiryDateValid.value?.not() == true -> {
                     updateLabels(
                         title = getString(Strings.screen_kyc_information_error_display_text_title_expired_card),
                         body = getString(Strings.screen_kyc_information_error_display_text_explanation_expired_card)
                     )
-                    clickEvent.setValue(eventErrorExpiredEid)
+                    clickEvent.setValue(EidInfoEvents.EVENT_ERROR_EXPIRED_EID.eventId)
                 }
-                !state.isDateOfBirthValid.get() -> {
+                state.isDateOfBirthValid.get().not() -> {
                     updateLabels(
                         title = getString(Strings.screen_kyc_information_error_display_text_title_under_age).format(
                             state.ageLimit ?: 18
@@ -118,7 +102,7 @@ class EidInfoReviewAmendmentViewModel(application: Application) :
                             state.ageLimit ?: 18
                         )
                     )
-                    clickEvent.setValue(eventErrorUnderAge)
+                    clickEvent.setValue(EidInfoEvents.EVENT_ERROE_UNDERAGE.eventId)
                     trackEvent(KYCEvents.EID_UNDER_AGE_18.type)
                     trackEventWithScreenName(FirebaseEvent.KYC_UNDERAGED)
 
@@ -130,7 +114,7 @@ class EidInfoReviewAmendmentViewModel(application: Application) :
                     )
                     sanctionedCountry = state.nationality.value?.getName() ?: ""
                     sanctionedNationality = state.nationality.value?.getName() ?: ""
-                    clickEvent.setValue(eventErrorFromUsa)
+                    clickEvent.setValue(EidInfoEvents.EVENT_ERROR_FROM_USA.eventId)
                     trackEvent(KYCEvents.KYC_US_CITIIZEN.type)
                     trackEventWithScreenName(FirebaseEvent.KYC_US)
                 }
@@ -150,7 +134,7 @@ class EidInfoReviewAmendmentViewModel(application: Application) :
                     )
                     sanctionedCountry = state.nationality.value?.getName() ?: ""
                     sanctionedNationality = state.nationality.value?.getName() ?: ""
-                    clickEvent.setValue(eventErrorFromUsa)
+                    clickEvent.setValue(EidInfoEvents.EVENT_ERROR_FROM_USA.eventId)
                     trackEvent(KYCEvents.KYC_PROHIBITED_CITIIZEN.type)
                     trackEventWithScreenName(FirebaseEvent.KYC_SANCTIONED)
                 }
@@ -170,11 +154,6 @@ class EidInfoReviewAmendmentViewModel(application: Application) :
         errorTitle = title
         errorBody = body
     }
-
-    override fun onEIDScanningComplete(result: IdentityScannerResult) {
-        //uploadDocuments(result)
-    }
-
 
     override fun getAllCountries() {
         launch(Dispatcher.Background) {
@@ -319,28 +298,6 @@ class EidInfoReviewAmendmentViewModel(application: Application) :
         } ?: ""
     }
 
-    fun invalidateFields() {
-        state.firstName = ""
-        state.middleName = ""
-        state.lastName = ""
-        state.nationality.value = null
-        state.dateOfBirth.value = ""
-        state.gender = ""
-        state.citizenNumber.value = ""
-        state.caption = ""
-        state.valid = false
-        state.citizenNumberValid = false
-        state.fullNameValid = false
-        state.nationalityValid = false
-        state.isDateOfBirthValid.set(false)
-        state.genderValid = false
-        state.expiryDateValid.value = true
-        state.expiryDate = ""
-        state.isCountryUS = false
-        //state.isShowMiddleName = false
-        //state.isShowLastName = false
-    }
-
     private fun hasValidPart(value: String?, start: Int, end: Int): Boolean {
         return value?.let {
             return (end in start..it.length)
@@ -351,31 +308,40 @@ class EidInfoReviewAmendmentViewModel(application: Application) :
     override fun requestAllAPIs(callAll: Boolean) {
         requestAllEIDConfigurations(callAll) { senctionedCountryResponse, configurationEIDResponse, uqudoTokenResponse ->
             launch(Dispatcher.Main) {
-                when {
-                    senctionedCountryResponse is RetroApiResponse.Success && configurationEIDResponse is RetroApiResponse.Success && uqudoTokenResponse is RetroApiResponse.Success -> {
-                        sectionedCountries = senctionedCountryResponse.data
-                        configureEIDResponse.value = configurationEIDResponse.data.data
-                        state.ageLimit = configureEIDResponse?.value?.ageLimit
-                        handleAgeValidation()
-                        state.countryName.set(configureEIDResponse?.value?.country2DigitIsoCode?.let { str ->
-                            str.split(",").map { it -> it.trim() }.find {
-                                it == "US"
-                            }
-                        })
-                        handleIsUsValidation()
-                        uqudoResponse.value = uqudoTokenResponse.data.data
-                    }
-                    uqudoTokenResponse is RetroApiResponse.Success -> {
-                        uqudoResponse.value = uqudoTokenResponse.data.data
-                    }
-                    else -> {
-                        if (senctionedCountryResponse is RetroApiResponse.Error)
-                            state.toast = senctionedCountryResponse.error.message
-                    }
+                if (senctionedCountryResponse is RetroApiResponse.Success) {
+                    sectionedCountries = senctionedCountryResponse.data
                 }
+                if (configurationEIDResponse is RetroApiResponse.Success) {
+
+                    configureEIDResponse.value = configurationEIDResponse.data.data
+                    state.ageLimit = configureEIDResponse?.value?.ageLimit
+                    handleAgeValidation()
+                    state.countryName.set(configureEIDResponse?.value?.country2DigitIsoCode?.let { str ->
+                        str.split(",").map { it -> it.trim() }.find {
+                            it == "US"
+                        }
+                    })
+                    handleIsUsValidation()
+                }
+                if (uqudoTokenResponse is RetroApiResponse.Success) {
+                    uqudoTokenResponse.data.data?.let {
+                        parentViewModel?.uqudoManager?.setUqudoToken(
+                            it
+                        )
+                    }
+                } else {
+                    if (senctionedCountryResponse is RetroApiResponse.Error)
+                        state.toast = senctionedCountryResponse.error.message
+                }
+                /*  uqudoTokenResponse is RetroApiResponse.Success -> {
+                  uqudoTokenResponse.data.data?.let {
+                      parentViewModel?.uqudoManager?.setUqudoToken(
+                          it
+                      )
+                  }
+              }*/
             }
         }
-
     }
 
     override fun requestAllEIDConfigurations(
@@ -470,28 +436,29 @@ class EidInfoReviewAmendmentViewModel(application: Application) :
     }
 
     override fun isFromAmendment() = parentViewModel?.amendmentMap?.isNullOrEmpty() == false
-    override fun populateUqudoState(identity: UqudoPayLoad?) {
+    override fun populateUqudoState(identity: EidData?) {
         identity?.let {
-            val documentBack = it.data?.documents?.get(0)?.scan?.back
-            val documentFront = it.data?.documents?.get(0)?.scan?.front
+            val documentBack = it.documents[0].scan?.back
+            val documentFront = it.documents[0].scan?.front
             documentFront?.fullName?.let { it1 -> splitLastNames(it1) }
             state.fullNameValid = state.firstName.isNotBlank()
             state.nationality.value = Country(name = documentFront?.nationality ?: "")
             state.nationalityValid =
                 state.nationality.value?.getName()?.isNotBlank() == true && !state.isCountryUS
-            var DOB: Date = getDateFormatyyMMddToyyyyMMdd(documentBack?.dateOfBirth) ?: Date()
-            var EXD: Date = getDateFormatyyMMddToyyyyMMdd(documentBack?.dateOfExpiry) ?: Date()
+            val EXD = parentViewModel?.uqudoManager?.getExpiryDate()
+            val DOB = parentViewModel?.uqudoManager?.getDateOfBirth()
             state.dateOfBirth.value =
                 DateUtils.reformatToLocalString(DOB, DateUtils.DEFAULT_DATE_FORMAT)
             state.expiryDate =
                 DateUtils.reformatToLocalString(EXD, DateUtils.DEFAULT_DATE_FORMAT)
-            state.expiryDateValid.value = EXD?.let { it1 -> isExpiryDateValid(it1) } ?: false
+            state.expiryDateValid.value =
+                EXD?.let { it1 -> parentViewModel?.uqudoManager?.isExpiryDateValid(it1) } ?: false
             state.genderValid = true
             if (documentFront?.identityNumber?.length != eidLength && !Utils.isValidEID(
                     documentFront?.identityNumber
                 )
             ) {
-                clickEvent.setValue(eventCitizenNumberIssue)
+                clickEvent.setValue(EidInfoEvents.EVENT_CITIZEN_NUMBER_ISSUE.eventId)
             } else {
                 state.citizenNumber.value = documentFront?.identityNumber
                 parentViewModel?.state?.identityNo?.set(documentFront?.identityNumber)
@@ -526,34 +493,19 @@ class EidInfoReviewAmendmentViewModel(application: Application) :
             state.expiryCalendar = Calendar.getInstance().apply {
                 time = EXD
             }
-            if (parentViewModel?.uqudoIdentity?.value?.filePaths?.size?:0 < 2) {
-                downloadImage {
-                    state.viewState.postValue(it.not())
-                    if (it) {
+
+            state.nationality.value =
+                countries.firstOrNull { country -> country.isoCountryCode3Digit == parentViewModel?.uqudoManager?.fetchDocumentBackDate()?.nationality }
+            if (parentViewModel?.uqudoManager?.getFrontImagePath()
+                    .isNullOrBlank() && parentViewModel?.uqudoManager?.getBackImagePath()
+                    .isNullOrBlank()
+            ) {
+                parentViewModel?.uqudoManager?.downloadImage { downloadSuccess ->
+                    state.viewState.postValue(false)
+                    if (downloadSuccess) {
                         parentViewModel?.uqudoIdentity?.value =
-                            V2DocumentDTO(
-                                filePaths = arrayListOf(
-                                    state.frontImage.value ?: "",
-                                    state.BackImage.value ?: ""
-                                ),
-                                documentType = "EMIRATES_ID",
-                                firstName = state.firstName,
-                                middleName = if (state.middleName.isNotBlank()) state.middleName else null,
-                                lastName = if (state.lastName.isNotBlank()) state.lastName else null,
-                                dateExpiry = EXD,
-                                dob = DOB,
-                                fullName = documentFront?.fullName ?: "",
-                                gender = documentBack?.sex.toString(),
-                                digit3CountryCode = documentBack?.nationality ?: "UAE",
-                                nationality = documentFront?.nationality ?: "",
-                                identityNo = documentFront?.identityNumber,
-                                isAmendment = true
-                            )
-                        state.nationality.value =
-                            countries.firstOrNull { country -> country.isoCountryCode3Digit == parentViewModel?.uqudoIdentity?.value?.digit3CountryCode }
-
-                    } else showToast("unable to download EIDs")
-
+                            parentViewModel?.uqudoManager?.getUqudoIdentity(isAmendment = true)
+                    } else state.eidImageDownloaded.value = false
                 }
             }
             handleAgeValidation()
@@ -563,90 +515,17 @@ class EidInfoReviewAmendmentViewModel(application: Application) :
         }
     }
 
-    fun isExpiryDateValid(expirationDate: Date): Boolean {
-        return if (expirationDate == null) {
-            false.also { it }
-        } else !DateUtils.isDatePassed(expirationDate).also {
-            it
-        }
-    }
 
     fun getCountryCode(countryName: String): String =
         Locale.getISOCountries().find { Locale("", it).displayCountry == countryName } ?: ""
-
-    fun getDateFormatyyMMddToyyyyMMdd(string: String?): Date {
-        var inputSDF = SimpleDateFormat("yyMMdd")
-        val outputSDF = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-        var date: Date? = null
-        try {
-//            val dateInput = string?.replace("..".toRegex(), "$0 ")?.trim()?.replace(" ".toRegex(),"-")
-            date = inputSDF.parse(string)
-            inputSDF.applyPattern("yyyy-mm-dd")
-            val newDate = outputSDF.format(date)
-            //after changing date format again you can change to string with changed format
-            val dateRes: Date = outputSDF.parse(newDate)
-            return dateRes
-        } catch (e: java.lang.Exception) {
-            e.printStackTrace()
-        }
-        return Date()
-    }
-
-    @RequiresApi(Build.VERSION_CODES.O)
-    fun isAccessTokenExpired() {
-        state.isExpired.value = false
-        val timeInSec = uqudoResponse.value?.expiresIn?.toInt() ?: 0
-        object : CountDownTimer((timeInSec * 1000 + 1000).toLong(), 1000) {
-            override fun onTick(millisUntilFinished: Long) {
-                var seconds = (millisUntilFinished / 1000).toInt()
-                seconds %= 60
-                state.isExpired.value = false
-            }
-
-            override fun onFinish() {
-                state.isExpired.value = true
-            }
-        }.start()
-    }
-
-    fun extractJwt(token: String?) {
-        eidStateLiveData.postValue(State.loading("Fetching Data..."))
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) showToast("Requires SDK 26") else {
-            val parts = token?.split("\\.".toRegex())
-            parts?.let { parts ->
-                try {
-                    val decoder = Base64.getUrlDecoder()
-                    val charset = charset("UTF-8")
-                    val base64EncodedHeader: String = parts[0]
-                    val base64EncodedBody: String = parts[1]
-                    val header =
-                        String(decoder.decode(base64EncodedHeader.toByteArray(charset)), charset)
-                    val payload =
-                        String(decoder.decode(base64EncodedBody.toByteArray(charset)), charset)
-                    val gson = Gson()
-                    val headerObj: UqudoHeader = gson.fromJson(header, UqudoHeader::class.java)
-                    val payLoadObj: UqudoPayLoad = gson.fromJson(payload, UqudoPayLoad::class.java)
-                    state.uqudoHeaderObj.postValue(headerObj)
-                    state.payLoadObj.postValue(payLoadObj)
-                    if (isFromAmendment()) {
-                        getKYCDataFromServer()
-                    } else {
-                        toast(context, "rescan again")
-                    }
-                } catch (e: Exception) {
-                    "Error parsing JWT: $e"
-                }
-            }
-        }
-    }
 
     fun performUqudoUploadDocumentsRequest(
         fromInformationErrorFragment: Boolean,
         success: (message: String) -> Unit
     ) {
-        parentViewModel?.uqudoIdentity?.value?.let {
-            if (it.dateExpiry == null) {
-                clickEvent.setValue(eventEidExpiryDateIssue)
+        parentViewModel?.uqudoManager?.getUqudoIdentity()?.let {
+            if (it.dateExpiry.toString().isBlank()) {
+                clickEvent.setValue(EidInfoEvents.EVENT_EID_EXPIRY_DATE_ISSUE.eventId)
             } else {
                 launch {
                     val request = UploadDocumentsRequest(
@@ -660,7 +539,7 @@ class EidInfoReviewAmendmentViewModel(application: Application) :
                         dob = state.dobCalendar.time,
                         nationality = state.nationality.value?.isoCountryCode3Digit ?: "",
                         identityNo = state.citizenNumber.value?.replace("-".toRegex(), ""),
-                        filePaths = it.filePaths ?: arrayListOf(),
+                        filePaths = it.filePaths,
                         countryIsSanctioned = if (fromInformationErrorFragment) fromInformationErrorFragment else null,
                         isAmendment = !parentViewModel?.amendmentMap.isNullOrEmpty()
                     )
@@ -677,7 +556,7 @@ class EidInfoReviewAmendmentViewModel(application: Application) :
                                         success.invoke("success")
                                     } else {
                                         SessionManager.eidStatus = EIDStatus.VALID
-                                        clickEvent.setValue(eventEidUpdate)
+                                        clickEvent.setValue(EidInfoEvents.EVENT_EID_UPDATE.eventId)
                                         trackEvent(KYCEvents.KYC_ID_CONFIRMED.type)
                                     }
                                 }
@@ -686,7 +565,7 @@ class EidInfoReviewAmendmentViewModel(application: Application) :
                                         success.invoke("success")
                                     } else {
                                         SessionManager.eidStatus = EIDStatus.VALID
-                                        clickEvent.setValue(eventNext)
+                                        clickEvent.setValue(EidInfoEvents.EVENT_NEXT.eventId)
                                         trackEvent(KYCEvents.KYC_ID_CONFIRMED.type)
                                     }
                                 }
@@ -695,7 +574,7 @@ class EidInfoReviewAmendmentViewModel(application: Application) :
                                         success.invoke("success")
                                     } else {
                                         SessionManager.eidStatus = EIDStatus.VALID
-                                        clickEvent.setValue(eventNext)
+                                        clickEvent.setValue(EidInfoEvents.EVENT_NEXT.eventId)
                                         trackEvent(KYCEvents.KYC_ID_CONFIRMED.type)
                                     }
                                 }
@@ -706,7 +585,7 @@ class EidInfoReviewAmendmentViewModel(application: Application) :
                                 success.invoke(response.error.message)
                             } else {
                                 if (response.error.actualCode.equals(
-                                        eventAlreadyUsedEid.toString(),
+                                        EidInfoEvents.EVENT_ALREADY_USED_EID.eventId.toString(),
                                         true
                                     )
                                 ) {
@@ -720,78 +599,5 @@ class EidInfoReviewAmendmentViewModel(application: Application) :
 
             }
         }
-    }
-
-    fun downloadImage(
-        success: (success: Boolean) -> Unit
-    ) {
-        launch(Dispatcher.Background) {
-            state.viewState.postValue(true)
-            downloadImagewithGlide(
-                state.payLoadObj.value?.data?.documents?.get(0)?.scan?.frontImageId ?: ""
-            ) { successs, resource ->
-                if (successs) {
-                    state.frontImage.value = resource?.let { context.saveEidTemp(it) }
-                    downloadImagewithGlide(
-                        state.payLoadObj.value?.data?.documents?.get(0)?.scan?.backImageId ?: ""
-                    ) { succsess, ressource ->
-                        if (succsess) {
-                            state.BackImage.value = ressource?.let {
-                                context.saveEidTemp(
-                                    it
-                                )
-                            }
-                            success.invoke(true)
-
-                        } else {
-                            showToast(
-                                "Re-scan your EID"
-                            )
-                            state.viewState.postValue(false)
-                        }
-                    }
-                } else {
-                    showToast(
-                        "Re-scan your EID"
-                    )
-                    state.viewState.postValue(false)
-                }
-            }
-        }
-    }
-
-    private fun downloadImagewithGlide(
-        imageId: String,
-        downloaded: (sucess: Boolean, bitmap: Bitmap?) -> Unit
-    ) {
-        Glide.with(context)
-            .asBitmap()
-            .load(
-                GlideUrl(
-                    "https://id.dev.uqudo.io/api/v1/info/img/$imageId", LazyHeaders.Builder()
-                        .addHeader(
-                            "Authorization",
-                            "Bearer " + uqudoResponse.value?.accessToken ?: ""
-                        )
-                        .build()
-                )
-            ).into(object : CustomTarget<Bitmap>() {
-                override fun onResourceReady(
-                    resource: Bitmap,
-                    transition: Transition<in Bitmap>?
-                ) {
-                    downloaded.invoke(true, resource)
-                }
-
-                override fun onLoadCleared(placeholder: Drawable?) {
-                }
-
-                override fun onLoadFailed(errorDrawable: Drawable?) {
-                    super.onLoadFailed(errorDrawable)
-                    downloaded.invoke(false, null)
-                    showToast("Unable to download")
-
-                }
-            })
     }
 }

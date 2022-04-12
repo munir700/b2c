@@ -44,7 +44,7 @@ import co.yap.yapcore.managers.SessionManager
 @Deprecated(
     message = "Deprecating this class in order to support new design for Send Money Dashboard",
     replaceWith = ReplaceWith("SendMoneyLinearDashboardActivity.kt"))
-class SendMoneyDashboardActivity : BaseBindingActivity<ISendMoneyDashboard.ViewModel>(),
+class SendMoneyDashboardActivity : BaseBindingActivity<ActivitySendMoneyDashboardBinding,ISendMoneyDashboard.ViewModel>(),
     ISendMoneyDashboard.View {
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.activity_send_money_dashboard

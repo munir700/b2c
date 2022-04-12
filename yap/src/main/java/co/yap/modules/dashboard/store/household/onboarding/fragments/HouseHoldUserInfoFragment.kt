@@ -7,11 +7,12 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
+import co.yap.databinding.FragmentHouseHoldUserInfoBinding
 import co.yap.modules.dashboard.store.household.onboarding.interfaces.IHouseHoldUserInfo
 import co.yap.modules.dashboard.store.household.onboarding.viewmodels.HouseHoldUserInfoViewModel
 
 
-class HouseHoldUserInfoFragment : BaseOnBoardingFragment<IHouseHoldUserInfo.ViewModel>(),
+class HouseHoldUserInfoFragment : BaseOnBoardingFragment<FragmentHouseHoldUserInfoBinding,IHouseHoldUserInfo.ViewModel>(),
     IHouseHoldUserInfo.View {
 
     override fun getBindingVariable(): Int = BR.viewModel

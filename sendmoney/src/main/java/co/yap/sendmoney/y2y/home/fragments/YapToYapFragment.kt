@@ -3,7 +3,7 @@ package co.yap.sendmoney.y2y.home.fragments
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavOptions
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.networking.customers.responsedtos.sendmoney.CoreRecentBeneficiaryItem
@@ -20,12 +20,12 @@ import co.yap.yapcore.adapters.SectionsPagerAdapter
 import co.yap.yapcore.enums.FeatureSet
 import co.yap.yapcore.interfaces.OnItemClickListener
 
-class YapToYapFragment : Y2YBaseFragment<IYapToYap.ViewModel>(), OnItemClickListener {
+class YapToYapFragment : Y2YBaseFragment<FragmentYapToYapBinding,IYapToYap.ViewModel>(), OnItemClickListener {
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_yap_to_yap
 
     override val viewModel: YapToYapViewModel
-        get() = ViewModelProviders.of(this).get(YapToYapViewModel::class.java)
+        get() = ViewModelProvider(this).get(YapToYapViewModel::class.java)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

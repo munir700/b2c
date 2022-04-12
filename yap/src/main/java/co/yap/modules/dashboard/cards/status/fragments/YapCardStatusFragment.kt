@@ -10,6 +10,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
+import co.yap.databinding.FragmentCardStatusBinding
 import co.yap.modules.dashboard.cards.status.interfaces.IYapCardStatus
 import co.yap.modules.dashboard.cards.status.viewmodels.YapCardStatusViewModel
 import co.yap.modules.setcardpin.activities.SetCardPinWelcomeActivity
@@ -23,7 +24,9 @@ import co.yap.yapcore.managers.SessionManager
 import kotlinx.android.synthetic.main.widget_step_indicator_layout.*
 
 
-class YapCardStatusFragment : BaseBindingFragment<IYapCardStatus.ViewModel>(), IYapCardStatus.View {
+class YapCardStatusFragment :
+    BaseBindingFragment<FragmentCardStatusBinding, IYapCardStatus.ViewModel>(),
+    IYapCardStatus.View {
 
     companion object {
         const val data = "payLoad"

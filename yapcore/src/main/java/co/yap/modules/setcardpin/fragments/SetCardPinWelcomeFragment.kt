@@ -12,10 +12,11 @@ import co.yap.yapcore.AdjustEvents.Companion.trackAdjustPlatformEvent
 import co.yap.yapcore.BR
 import co.yap.yapcore.R
 import co.yap.yapcore.adjust.AdjustEvents
+import co.yap.yapcore.databinding.FragmentSetCardPinWelcomeBinding
 import co.yap.yapcore.firebase.FirebaseEvent
 import co.yap.yapcore.firebase.trackEventWithScreenName
 
-class SetCardPinWelcomeFragment : SetPinChildFragment<ISetCardPinWelcome.ViewModel>(),
+class SetCardPinWelcomeFragment : SetPinChildFragment<FragmentSetCardPinWelcomeBinding, ISetCardPinWelcome.ViewModel>(),
     ISetCardPinWelcome.View {
 
     override fun getBindingVariable(): Int = BR.viewModel

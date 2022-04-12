@@ -10,7 +10,7 @@ import co.yap.databinding.FragmentAddVirtualCardNameBinding
 import co.yap.modules.dashboard.cards.addpaymentcard.main.fragments.AddPaymentChildFragment
 import co.yap.yapcore.helpers.extentions.afterTextChanged
 
-class AddVirtualCardNameFragment : AddPaymentChildFragment<IAddVirtualCardName.ViewModel>(),
+class AddVirtualCardNameFragment : AddPaymentChildFragment<FragmentAddVirtualCardNameBinding,IAddVirtualCardName.ViewModel>(),
     IAddVirtualCardName.View {
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_add_virtual_card_name

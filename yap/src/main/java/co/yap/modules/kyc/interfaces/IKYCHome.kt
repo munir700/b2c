@@ -16,10 +16,10 @@ interface IKYCHome {
         fun handlePressOnScanCard(id: Int)
         fun handlePressOnNextButton(id: Int)
         fun handlePressOnSkipButton(id: Int)
-        fun onEIDScanningComplete(result: IdentityScannerResult)
         fun requestDocuments()
         fun requestDocumentsInformation(success: () -> Unit)
-        fun isFromAmendment() : Boolean
+        fun isFromAmendment(): Boolean
+        fun navigateTo(fromAmendment: Boolean): Int
     }
 
     interface View : IBase.View<ViewModel>
