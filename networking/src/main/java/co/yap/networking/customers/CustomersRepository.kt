@@ -1,6 +1,5 @@
 package co.yap.networking.customers
 
-import android.os.Environment
 import androidx.annotation.NonNull
 import co.yap.networking.BaseRepository
 import co.yap.networking.CookiesManager
@@ -43,6 +42,7 @@ import java.util.*
 object CustomersRepository : BaseRepository(), CustomersApi {
 
     const val URL_SIGN_UP = "/customers/api/profile"
+    const val URL_GET_SIGN_UP_COUNTRIES = "/customers/api/sign-up/countries"
     const val URL_SEND_VERIFICATION_EMAIL = "/customers/api/sign-up/email"
     const val URL_ACCOUNT_INFO = "/customers/api/accounts"
     const val URL_POST_DEMOGRAPHIC_DATA_SIGN_IN = "/customers/api/demographics/device-login"
@@ -131,7 +131,7 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     const val URL_RESEND_EMAIL = "/customers/api/sign-up/resend/email"
 
     const val URL_GET_ALL_CURRENCIES = "/customers/api/currencies"
-    const val URL_GET_BY_CURRENCY_CODE = "/customers/aapi/currencies/code/{currencyCode}"
+    const val URL_GET_BY_CURRENCY_CODE = "/customers/api/currencies/code/{currencyCode}"
 
     const val URL_GET_COOLING_PERIOD = "customers/api/cooling-period-duration"
     const val URL_UPDATE_HOME_COUNTRY = "customers/api/customers-info/update-home-country"
@@ -705,4 +705,7 @@ object CustomersRepository : BaseRepository(), CustomersApi {
 
     override suspend fun getUqudoAuthToken(): RetroApiResponse<BaseResponse<UqudoTokenResponse>> =
         executeSafely(call = { api.getUqudoAuthToken() })
+
+    override suspend fun getAppCountries(): RetroApiResponse<BaseListResponse<Country>> =
+        executeSafely { api.getAppCountries() }
 }

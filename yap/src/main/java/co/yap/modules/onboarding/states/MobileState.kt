@@ -10,8 +10,12 @@ import android.view.ViewTreeObserver
 import android.widget.EditText
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.databinding.Bindable
+import androidx.databinding.ObservableBoolean
+import androidx.databinding.ObservableField
+import androidx.lifecycle.MutableLiveData
 import co.yap.BR
 import co.yap.modules.onboarding.interfaces.IMobile
+import co.yap.modules.onboarding.models.CountryCode
 import co.yap.modules.onboarding.viewmodels.MobileViewModel
 import co.yap.widgets.mobile.CountryCodePicker
 import co.yap.yapcore.BaseState
@@ -27,7 +31,6 @@ class MobileState(application: Application, var viewModel: MobileViewModel) : Ba
     val VISIBLE: Int = 0x00000000
     val GONE: Int = 0x00000008
     val mContext = application.applicationContext
-    var countryCode: String = "+971 "
 
 
     @get:Bindable
@@ -70,12 +73,7 @@ class MobileState(application: Application, var viewModel: MobileViewModel) : Ba
 
         }
 
-    @get:Bindable
-    override var valid: Boolean = false
-        set(value) {
-            field = value
-            notifyPropertyChanged(BR.valid)
-        }
+    override var valid: ObservableBoolean = ObservableBoolean()
 
     @get:Bindable
     override var activeFieldValue: Boolean = true
@@ -84,12 +82,12 @@ class MobileState(application: Application, var viewModel: MobileViewModel) : Ba
             notifyPropertyChanged(BR.activeFieldValue)
         }
 
-    @get:Bindable
-    override var errorVisibility: Int = VISIBLE
-        set(value) {
-            field = value
-            notifyPropertyChanged(BR.handleBackPress)
-        }
+//    @get:Bindable
+//    override var errorVisibility: Int = VISIBLE
+//        set(value) {
+//            field = value
+//            notifyPropertyChanged(BR.handleBackPress)
+//        }
 
     @get:Bindable
     override var mobileNoLength: Int = 11
@@ -120,7 +118,7 @@ class MobileState(application: Application, var viewModel: MobileViewModel) : Ba
                     if (mobile.length == 11) {
                         setSuccessUI()
                         setDrawableTint()
-                        valid = true
+                        valid.set(true)
 
                     } else {
                         setSuccessUI()
@@ -160,7 +158,7 @@ class MobileState(application: Application, var viewModel: MobileViewModel) : Ba
 
     private fun setErrorLayout() {
         mobileNoLength = 9
-        valid = false
+        valid.set(false)
 
     }
 
@@ -170,7 +168,6 @@ class MobileState(application: Application, var viewModel: MobileViewModel) : Ba
             drawbleRight = mContext.resources.getDrawable(R.drawable.invalid_name)
             background =
                 mContext.resources.getDrawable(R.drawable.bg_round_error_layout)
-            errorVisibility = VISIBLE
             //valid = false
         }
     }
@@ -180,7 +177,7 @@ class MobileState(application: Application, var viewModel: MobileViewModel) : Ba
         background = mContext.resources.getDrawable(R.drawable.bg_round_edit_text)
         activeFieldValue = true
         mobileError = ""
-        valid = false
+        valid.set(false)
 
     }
 
@@ -196,4 +193,6 @@ class MobileState(application: Application, var viewModel: MobileViewModel) : Ba
         }
 
     }
+    override var countryCode: MutableLiveData<String> = MutableLiveData(CountryCode.UAE.countryCode ?: "")
+    override var mobileNumber: MutableLiveData<String> = MutableLiveData("")
 }

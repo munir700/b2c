@@ -111,6 +111,7 @@
     <color name="colorLightPinkBackground">#FFE3E0</color>
 
     <color name="colorAccentHouseHold">#fc6253</color>
+    <color name="textInputBackgroundColor">#E8E9F6</color>
 
     <!--    d32f2f-->
     <color name="colorPrimaryHouseHold">#fc6253</color>

@@ -2,6 +2,8 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'com.google.gms.google-services'
 apply plugin: 'com.google.firebase.crashlytics'
+apply plugin: 'dagger.hilt.android.plugin'
+apply plugin: 'kotlin-kapt'
 apply plugin: 'no.promon.shield.shieldplugin'
 apply plugin: 'com.digitify.hiddensecrets'
 
@@ -133,23 +135,32 @@ android {
 shieldConfig {
     shielderJar "../promon/Shielder/Shielder.jar"
     config '../promon/configration/config-stage.xml' // for stage APK
-    enabled = true
+    enabled false
     pluginOptions "debug", { enabled false}
     options "liveRelease", {
         enabled = true
         option("config", "../promon/configration/config-live.xml")
     }
     options "stgRelease", {
-        enabled  = true
+        enabled = true
         option("config", "../promon/configration/config-stage.xml")
     }
     options "preprodRelease", {
-        enabled  = false
+        enabled = false
+        option("config", "../promon/configration/config-stage.xml")
     }
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation ('com.digitify:yappakistan:0.2.5-beta01'){
+        exclude group: 'com.squareup.okhttp3', module: 'okhttp'
+    }
+    implementation ('com.digitify:yapghana:0.2.5-beta01'){
+        exclude group: 'com.squareup.okhttp3', module: 'okhttp'
+    }
+
     project.testDependencies.each {
         add(it.configuration, it.dependency)
     }
@@ -167,4 +178,7 @@ dependencies {
             add(it.configuration, it.dependency)
         }
     }
+
+    implementation "com.google.dagger:hilt-android:2.38.1"
+    kapt "com.google.dagger:hilt-android-compiler:2.38.1"
 }
