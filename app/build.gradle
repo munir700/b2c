@@ -50,6 +50,7 @@ android {
             resValue "string", "google_maps_key", versionProps.getProperty("map_key_live")
             resValue "string", "facebook_app_id", "319841679191724"
             resValue "string", "fb_login_protocol_scheme", "fb319841679191724"
+            resValue "string", "uq_api_base_url", versionProps.getProperty("uq_api_base_url_live")
             externalNativeBuild.cmake {
                 cppFlags '-DLIVE'
             }
@@ -64,6 +65,7 @@ android {
             resValue "string", "google_maps_key", versionProps.getProperty("map_key_other")
             resValue "string", "facebook_app_id", "327560185026998"
             resValue "string", "fb_login_protocol_scheme", "fb327560185026998"
+            resValue "string", "uq_api_base_url", versionProps.getProperty("uq_api_base_url_stg")
             externalNativeBuild.cmake {
                 cppFlags '-DPreprod'
             }
@@ -77,6 +79,7 @@ android {
             resValue "string", "google_maps_key", versionProps.getProperty("map_key_other")
             resValue "string", "facebook_app_id", "410921516527681"
             resValue "string", "fb_login_protocol_scheme", "fb410921516527681"
+            resValue "string", "uq_api_base_url", versionProps.getProperty("uq_api_base_url_stg")
             externalNativeBuild.cmake {
                 cppFlags '-DSTG'
             }
@@ -91,6 +94,7 @@ android {
             resValue "string", "google_maps_key", versionProps.getProperty("map_key_other")
             resValue "string", "facebook_app_id", "410921516527681"
             resValue "string", "fb_login_protocol_scheme", "fb410921516527681"
+            resValue "string", "uq_api_base_url", versionProps.getProperty("uq_api_base_url_stg")
             externalNativeBuild.cmake {
                 cppFlags '-DQA'
             }
@@ -104,6 +108,7 @@ android {
             resValue "string", "google_maps_key", versionProps.getProperty("map_key_other")
             resValue "string", "facebook_app_id", "410921516527681"
             resValue "string", "fb_login_protocol_scheme", "fb410921516527681"
+            resValue "string", "uq_api_base_url", versionProps.getProperty("uq_api_base_url_stg")
             externalNativeBuild.cmake {
                 cppFlags '-DQA'
             }
@@ -117,6 +122,7 @@ android {
             resValue "string", "google_maps_key", versionProps.getProperty("map_key_other")
             resValue "string", "facebook_app_id", "410921516527681"
             resValue "string", "fb_login_protocol_scheme", "fb410921516527681"
+            resValue "string", "uq_api_base_url", versionProps.getProperty("uq_api_base_url_stg")
             externalNativeBuild.cmake {
                 cppFlags '-DDEV'
             }
