@@ -5,10 +5,10 @@ dependencies {
         exclude group: 'androidx.activity', module: 'activity'
         exclude group: 'androidx.navigation'
     }
-    implementation ('com.digitify:yappakistan:0.2.3'){
+    implementation ('com.digitify:yappakistan:0.2.5-beta01'){
         exclude group: 'com.squareup.okhttp3', module: 'okhttp'
     }
-    implementation ('com.digitify:yapghana:0.2.3'){
+    implementation ('com.digitify:yapghana:0.2.5-beta01'){
         exclude group: 'com.squareup.okhttp3', module: 'okhttp'
     }
 

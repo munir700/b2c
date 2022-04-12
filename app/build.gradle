@@ -56,8 +56,8 @@ android {
         }
 
         Preprod {
-            versionCode 146
-            versionName "2.4.6"
+            versionCode 147
+            versionName "2.4.7"
             applicationId "com.yap.banking.preprod"
             resValue "string", "app_name", "YAP Preprod"
             // It binds with SHA1- SHA 256 and package bundle
@@ -145,15 +145,19 @@ shieldConfig {
         enabled = true
         option("config", "../promon/configration/config-stage.xml")
     }
+    options "preprodRelease", {
+        enabled = false
+        option("config", "../promon/configration/config-stage.xml")
+    }
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    implementation ('com.digitify:yappakistan:0.2.3'){
+    implementation ('com.digitify:yappakistan:0.2.5-beta01'){
         exclude group: 'com.squareup.okhttp3', module: 'okhttp'
     }
-    implementation ('com.digitify:yapghana:0.2.3'){
+    implementation ('com.digitify:yapghana:0.2.5-beta01'){
         exclude group: 'com.squareup.okhttp3', module: 'okhttp'
     }
 

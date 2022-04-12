@@ -235,7 +235,10 @@ class LoginFragment : MainChildFragment<FragmentLogInBinding,ILogin.ViewModel>()
                         }
                     }
                     else -> {
-                        viewModel.verifyUser(countryCode, mobileNo)
+                        viewModel.verifyUser(countryCode, mobileNo){error->
+                            getDataBindingView<FragmentLogInBinding>().tlPhoneNumber.error =
+                                error
+                        }
                     }
                 }
             }

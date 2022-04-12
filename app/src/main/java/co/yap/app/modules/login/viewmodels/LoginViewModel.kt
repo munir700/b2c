@@ -23,7 +23,6 @@ import co.yap.yapcore.helpers.getCountryCodeForRegion
 import co.yap.yapcore.helpers.isValidPhoneNumber
 import co.yap.yapcore.helpers.validation.IValidator
 import co.yap.yapcore.helpers.validation.Validator
-import kotlin.collections.ArrayList
 
 class LoginViewModel(application: Application) :
     MainChildViewModel<ILogin.State>(application),
@@ -40,16 +39,6 @@ class LoginViewModel(application: Application) :
     override fun handlePressOnView(id: Int) {
         clickEvent.setValue(id)
     }
-
-/*    fun handlePressOnLogin(eventHandle: () -> Unit) {
-        eventHandle.invoke()
-        state.twoWayTextWatcher =
-            Utils.verifyUsername(state.twoWayTextWatcher.trim().filter { !it.isWhitespace() })
-        validateUsername {}
-    }*/
-//    override fun handlePressOnSignUp() {
-//   signUpButtonPressEvent.value = true
-//    }
 
     override fun onEditorActionListener(): TextView.OnEditorActionListener {
         return TextView.OnEditorActionListener { _, actionId, _ ->
@@ -121,13 +110,22 @@ class LoginViewModel(application: Application) :
     val userVerified: LiveData<String> = _userVerified
     private val userVerifier: UserVerifierProvider = UserVerifierProvider()
 
-    fun verifyUser(countryCode: String, mobileNumber: String) {
+    fun verifyUser(
+        countryCode: String,
+        mobileNumber: String,
+        success: (errorMessage: String) -> Unit
+    ) {
         state.loading = true
         LoadConfig(context).initYapRegion(countryCode)
         userVerifier.provide(countryCode).verifyUser(mobileNumber) { result ->
             state.loading = false
             if (result.isSuccess && result.getOrNull() == true) {
                 _userVerified.value = countryCode
+            } else {
+                state.isError.set(true)
+                getString(Strings.screen_sign_in_display_text_error_text)
+                success.invoke(getString(Strings.screen_sign_in_display_text_error_text))
+//                success.invoke()
             }
         }
     }
