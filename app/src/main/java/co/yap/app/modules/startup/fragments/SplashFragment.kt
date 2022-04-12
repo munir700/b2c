@@ -55,7 +55,7 @@ class SplashFragment : MainChildFragment<FragmentSplashBinding,ISplash.ViewModel
             KEY_IMAGE_LOADING_TIME,
             System.currentTimeMillis().toString()
         )
-        viewModel.appUpdate.observe(this, Observer {
+        viewModel.appUpdate?.observe(this, {
             if (it != null && it.androidForceUpdate && Utils.checkForUpdate(
                     BuildConfig.VERSION_NAME,
                     it.androidAppVersionNumber

@@ -3,7 +3,7 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'com.google.gms.google-services'
 apply plugin: 'com.google.firebase.crashlytics'
 apply plugin: 'no.promon.shield.shieldplugin'
-apply plugin: 'com.digitify.hiddensecrets'
+//apply plugin: 'com.digitify.hiddensecrets'
 
 repositories {
     maven { url '../promon/SDK/maven/' }
@@ -128,9 +128,9 @@ android {
             }
         }
     }
-    packagingOptions {
-        exclude 'META-INF/*'
-    }
+//    packagingOptions {
+//        exclude 'META-INF/*'
+//    }
 }
 
 shieldConfig {
