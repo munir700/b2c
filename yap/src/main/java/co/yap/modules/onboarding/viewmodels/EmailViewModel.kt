@@ -48,7 +48,7 @@ class EmailViewModel(application: Application) :
     override fun onCreate() {
         super.onCreate()
         state.emailTitle = getString(R.string.screen_enter_email_b2c_display_text_title)
-        state.emailBtnTitle = getString(R.string.screen_phone_number_button_send)
+        state.emailBtnTitle = getString(R.string.common_button_next)
         state.deactivateField = true
     }
 

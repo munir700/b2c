@@ -18,13 +18,13 @@ import co.yap.modules.dashboard.addionalinfo.interfaces.IAdditionalInfoScanDocum
 import co.yap.modules.dashboard.addionalinfo.model.AdditionalDocumentImage
 import co.yap.modules.dashboard.addionalinfo.viewmodels.AdditionalInfoScanDocumentViewModel
 import co.yap.widgets.guidedtour.description.locationOnScreen
+import co.yap.yapcore.helpers.extentions.getFilePrivately
 import co.yap.yapcore.helpers.extentions.startFragmentForResult
 import co.yap.yapcore.helpers.rx.Task
 import com.digitify.identityscanner.camera.CameraException
 import com.digitify.identityscanner.camera.CameraListener
 import com.digitify.identityscanner.camera.CameraOptions
 import com.digitify.identityscanner.camera.PictureResult
-import com.digitify.identityscanner.utils.ImageUtils
 import id.zelory.compressor.overWrite
 import java.io.File
 
@@ -77,7 +77,7 @@ class AdditionalInfoScanDocumentFragment :
 
     override fun onPictureTaken(result: PictureResult) {
         result.toFile(
-            ImageUtils.getFilePrivately(activity) ?: File(result.toString())
+            requireContext().getFilePrivately()
         ) { file: File? -> file?.let { cropImage(it) } ?: showToast("Invalid image") }
 //        result.toBitmap(getScreenWidth(), getScreenHeight()){
 //                bitmap: Bitmap? ->

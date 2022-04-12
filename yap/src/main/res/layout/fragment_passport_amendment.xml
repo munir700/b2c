@@ -217,7 +217,7 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="@dimen/margin_medium"
                 android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
-                android:text="@string/screen_phone_number_button_send"
+                android:text="@string/common_button_next"
                 app:btn_size="medium"
                 app:enableCoreButton="@{viewModel.validator.isValidate &amp;&amp; viewModel.state.mFile!=null}"
                 tools:ignore="MissingConstraints" />
