@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.app.R
 import co.yap.app.YAPApplication
+import co.yap.app.databinding.ActivityMainBinding
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.IFragmentHolder
 import co.yap.yapcore.defaults.DefaultNavigator
@@ -15,7 +16,7 @@ import co.yap.yapcore.interfaces.IBaseNavigator
 import co.yap.yapcore.managers.SessionManager
 import com.adjust.sdk.Adjust
 
-class MainActivity : BaseBindingActivity<IMain.ViewModel>(), INavigator, IFragmentHolder {
+class MainActivity : BaseBindingActivity<ActivityMainBinding,IMain.ViewModel>(), INavigator, IFragmentHolder {
 
     override fun getLayoutId() = R.layout.activity_main
 

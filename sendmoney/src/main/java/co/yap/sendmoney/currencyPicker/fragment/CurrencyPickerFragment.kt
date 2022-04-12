@@ -21,7 +21,7 @@ import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.interfaces.OnItemClickListener
 
-class CurrencyPickerFragment : BaseBindingFragment<ICurrencyPicker.ViewModel>(),
+class CurrencyPickerFragment : BaseBindingFragment<FragmentCurrencyPickerBinding,ICurrencyPicker.ViewModel>(),
     ICurrencyPicker.View, SearchingListener {
 
     companion object {

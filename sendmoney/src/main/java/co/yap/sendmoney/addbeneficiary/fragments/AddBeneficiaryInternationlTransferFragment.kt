@@ -45,7 +45,7 @@ import co.yap.yapcore.managers.SessionManager
 import kotlinx.android.synthetic.main.fragment_add_beneficiary_international_bank_transfer.*
 
 class AddBeneficiaryInternationlTransferFragment :
-    SendMoneyBaseFragment<IAddBeneficiary.ViewModel>(),
+    SendMoneyBaseFragment<FragmentAddBeneficiaryInternationalBankTransferBinding , IAddBeneficiary.ViewModel>(),
     IAddBeneficiary.View {
     private var currencyPopMenu: PopupMenu? = null
     override fun getBindingVariable(): Int = BR.viewModel
@@ -75,7 +75,7 @@ class AddBeneficiaryInternationlTransferFragment :
                 true
             )
         )
-        viewModel.otpCreateObserver.observe(this, otpCreateObserver)
+        viewModel.otpCreateObserver.observe(viewLifecycleOwner, otpCreateObserver)
         showResidenceCountries()
 
     }
@@ -187,8 +187,8 @@ class AddBeneficiaryInternationlTransferFragment :
 
     private fun startOtpFragment() {
         startFragmentForResult<GenericOtpFragment>(
-            GenericOtpFragment::class.java.name,
-            bundleOf(
+            fragmentName = GenericOtpFragment::class.java.name,
+            bundle = bundleOf(
                 OtpDataModel::class.java.name to OtpDataModel(
                     OTPActions.CASHPAYOUT_BENEFICIARY.name,//action,
                     SessionManager.user?.currentCustomer?.getFormattedPhoneNumber(requireContext())

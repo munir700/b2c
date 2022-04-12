@@ -21,7 +21,7 @@
             layout="@layout/layout_house_hold_progress_toolbar"
             app:viewModelHouseHold="@{viewModelHouseHold}" />
 
-        <fragment
+        <androidx.fragment.app.FragmentContainerView
             android:id="@+id/main_nav_host_container_fragment"
             android:name="androidx.navigation.fragment.NavHostFragment"
             android:layout_width="match_parent"

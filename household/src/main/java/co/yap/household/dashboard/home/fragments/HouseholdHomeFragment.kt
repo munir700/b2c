@@ -16,7 +16,7 @@ import co.yap.yapcore.BR
 import co.yap.yapcore.constants.Constants
 import com.yarolegovich.discretescrollview.transform.ScaleTransformer
 
-class HouseholdHomeFragment : HouseholdDashboardBaseFragment<IHouseholdHome.ViewModel>(),
+class HouseholdHomeFragment : HouseholdDashboardBaseFragment<FragmentHouseholdHomeBinding,IHouseholdHome.ViewModel>(),
     IHouseholdHome.View, NotificationItemClickListener {
 
     private var mAdapter: YapNotificationAdapter? = null

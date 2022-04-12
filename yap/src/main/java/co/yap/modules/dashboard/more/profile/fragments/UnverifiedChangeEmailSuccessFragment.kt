@@ -11,6 +11,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
+import co.yap.databinding.FragmentUnverifiedChangeEmailSuccessBinding
 import co.yap.modules.dashboard.more.main.activities.MoreActivity
 import co.yap.modules.dashboard.more.profile.intefaces.IUnverifiedChangeEmailSuccess
 import co.yap.modules.dashboard.more.profile.viewmodels.UnverifiedChangeEmailSuccessViewModel
@@ -21,7 +22,7 @@ import co.yap.yapcore.managers.SessionManager
 import kotlinx.android.synthetic.main.fragment_unverified_change_email_success.*
 
 class UnverifiedChangeEmailSuccessFragment :
-    BaseBindingFragment<IUnverifiedChangeEmailSuccess.ViewModel>(),
+    BaseBindingFragment<FragmentUnverifiedChangeEmailSuccessBinding,IUnverifiedChangeEmailSuccess.ViewModel>(),
     IUnverifiedChangeEmailSuccess.View {
     override fun getBindingVariable(): Int = BR.viewModel
 

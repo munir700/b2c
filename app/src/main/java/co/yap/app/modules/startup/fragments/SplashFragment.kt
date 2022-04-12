@@ -11,6 +11,7 @@ import androidx.navigation.fragment.findNavController
 import co.yap.app.BR
 import co.yap.app.BuildConfig
 import co.yap.app.R
+import co.yap.app.databinding.FragmentSplashBinding
 import co.yap.app.main.MainChildFragment
 import co.yap.app.modules.startup.interfaces.ISplash
 import co.yap.app.modules.startup.viewmodels.SplashViewModel
@@ -21,9 +22,8 @@ import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.alert
 import co.yap.yapcore.helpers.extentions.openPlayStore
-import kotlinx.android.synthetic.main.fragment_splash.*
 
-class SplashFragment : MainChildFragment<ISplash.ViewModel>(), ISplash.View {
+class SplashFragment : MainChildFragment<FragmentSplashBinding,ISplash.ViewModel>(), ISplash.View {
     private var animatorSet: AnimatorSet? = null
 
     override fun getBindingVariable() = BR.viewModel
@@ -78,9 +78,9 @@ class SplashFragment : MainChildFragment<ISplash.ViewModel>(), ISplash.View {
 
     private fun playAnimationAndMoveNext() {
         val scaleLogo =
-            ScaleAnimator(1.0f, 150.0f, AccelerateDecelerateInterpolator()).with(ivLogo, 1500)
+            ScaleAnimator(1.0f, 150.0f, AccelerateDecelerateInterpolator()).with(viewDataBinding.ivLogo, 1500)
         val scaleDot =
-            ScaleAnimator(1.0f, 150.0f, AccelerateDecelerateInterpolator()).with(ivDot, 1500)
+            ScaleAnimator(1.0f, 150.0f, AccelerateDecelerateInterpolator()).with(viewDataBinding.ivDot, 1500)
         scaleDot.startDelay = 400
 
         animatorSet?.play(scaleLogo)?.with(scaleDot)

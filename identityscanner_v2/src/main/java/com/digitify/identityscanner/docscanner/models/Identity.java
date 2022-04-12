@@ -8,7 +8,8 @@ import com.digitify.identityscanner.core.arch.Gender;
 import java.util.Date;
 
 import co.yap.yapcore.helpers.DateUtils;
-
+@SuppressWarnings("DeprecatedIsStillUsed")
+@Deprecated
 public class Identity implements Parcelable {
 
     public static final Creator<Identity> CREATOR = new Creator<Identity>() {

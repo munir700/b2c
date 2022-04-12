@@ -20,7 +20,7 @@ import co.yap.yapcore.databinding.FragmentPassCodeBinding
 import co.yap.yapcore.helpers.extentions.startFragment
 
 
-class CreatePasscodeActivity : BaseBindingActivity<IPassCode.ViewModel>(),
+class CreatePasscodeActivity : BaseBindingActivity<FragmentPassCodeBinding,IPassCode.ViewModel>(),
     IPassCode.View {
 
     override fun getBindingVariable(): Int = BR.viewModel

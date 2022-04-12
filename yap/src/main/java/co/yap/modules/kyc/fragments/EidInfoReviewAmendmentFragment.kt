@@ -1,6 +1,5 @@
 package co.yap.modules.kyc.fragments
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -11,6 +10,7 @@ import android.view.inputmethod.InputMethodManager
 import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
@@ -19,29 +19,31 @@ import co.yap.databinding.FragmentEidInfoReviewAmendmentBinding
 import co.yap.modules.kyc.activities.DocumentsResponse
 import co.yap.modules.kyc.enums.KYCAction
 import co.yap.modules.kyc.viewmodels.EidInfoReviewAmendmentViewModel
+import co.yap.modules.onboarding.enums.EidInfoEvents
 import co.yap.modules.onboarding.interfaces.IEidInfoReviewAmendment
 import co.yap.translation.Strings
+import co.yap.widgets.MultiStateView
+import co.yap.widgets.State
 import co.yap.widgets.Status
 import co.yap.widgets.bottomsheet.BottomSheetItem
 import co.yap.widgets.edittext.EditTextRichDrawable
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.constants.RequestCodes
+import co.yap.yapcore.constants.RequestCodes.REQUEST_UQUDO
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.firebase.FirebaseEvent
 import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.*
+import co.yap.yapcore.helpers.extentions.deleteTempFolder
 import co.yap.yapcore.helpers.extentions.launchBottomSheet
 import co.yap.yapcore.helpers.extentions.launchSheet
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.SessionManager
-import com.digitify.identityscanner.docscanner.activities.IdentityScannerActivity
-import com.digitify.identityscanner.docscanner.enums.DocumentType
-import com.digitify.identityscanner.docscanner.models.IdentityScannerResult
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog
-import kotlinx.android.synthetic.main.fragment_eid_info_review_amendment.*
-import java.io.File
 import java.util.*
 
-class EidInfoReviewAmendmentFragment : KYCChildFragment<IEidInfoReviewAmendment.ViewModel>(),
+
+class EidInfoReviewAmendmentFragment : KYCChildFragment<FragmentEidInfoReviewAmendmentBinding,IEidInfoReviewAmendment.ViewModel>(),
     IEidInfoReviewAmendment.View, View.OnFocusChangeListener {
     override fun getBindingVariable(): Int = BR.viewModel
 
@@ -50,196 +52,80 @@ class EidInfoReviewAmendmentFragment : KYCChildFragment<IEidInfoReviewAmendment.
     override val viewModel: EidInfoReviewAmendmentViewModel
         get() = ViewModelProvider(this).get(EidInfoReviewAmendmentViewModel::class.java)
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        getDataBindingView<FragmentEidInfoReviewAmendmentBinding>().lifecycleOwner = this
-        viewModel.validator?.targetViewBinding =
-            getDataBindingView<FragmentEidInfoReviewAmendmentBinding>()
+        getViewBinding().lifecycleOwner = this
+        viewModel.validator?.targetViewBinding = getViewBinding()
         viewModel.validator?.toValidate()
+        addObservers()
         // TODO use MaskTextWatcher to mask the eid number
-        getDataBindingView<FragmentEidInfoReviewAmendmentBinding>().tvEidNumber.filters =
+        getViewBinding().tvEidNumber.filters =
             arrayOf(
                 InputFilter.LengthFilter(resources.getInteger(R.integer.eid_length)),
                 EidFilter(intArrayOf(3, 8, 16), '-')
             )
+
+        viewModel.parentViewModel?.uqudoManager?.getPayloadData()?.let { identity ->
+            viewModel.populateUqudoState(identity = identity)
+        } ?:
+        viewModel.requestAllAPIs(true)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         if (viewModel.parentViewModel?.skipFirstScreen?.value == true) {
-            if (!viewModel.state.errorScreenVisited) {
-                openCardScanner()
-            }
             viewModel.state.errorScreenVisited = false
-            tbBtnBack.setOnClickListener {
+            getViewBinding().tbBtnBack.setOnClickListener {
                 viewModel.parentViewModel?.finishKyc?.value = DocumentsResponse(false)
             }
         }
-        addFocusListeners()
-        addObservers()
-    }
-
-    private fun addFocusListeners() {
-        tvEidNumber.onFocusChangeListener = this
-        tvFirstName.onFocusChangeListener = this
-        tvMiddleName.onFocusChangeListener = this
-        tvLastName.onFocusChangeListener = this
     }
 
     private fun addObservers() {
-        viewModel.clickEvent.observe(this, Observer {
-            when (it) {
-                R.id.tvEidNumber -> {
-                    disableEndDrawable(tvEidNumber)
-                    manageFocus(tvEidNumber)
+        with(viewModel) {
+            if (parentViewModel?.skipFirstScreen?.value == true) {
+                state.errorScreenVisited = false
+                getViewBinding().tbBtnBack.setOnClickListener {
+                    parentViewModel?.finishKyc?.value = DocumentsResponse(false)
                 }
-                R.id.tvFirstName -> {
-                    disableEndDrawable(tvFirstName)
-                    manageFocus(tvFirstName)
-                    trackEventWithScreenName(
-                        FirebaseEvent.EDIT_FIELD,
-                        bundleOf("field_name" to "first_name")
-                    )
-                }
+            }
+            addFocusListeners()
+            clickEvent.observe(viewLifecycleOwner, clickEventObserver)
+            state.dateOfBirth.observe(viewLifecycleOwner, Observer {
+                viewModel.handleAgeValidation()
+            })
+            state.nationality.observe(viewLifecycleOwner, Observer {
+                viewModel.handleIsUsValidation()
+            })
 
-                R.id.tvMiddleName -> {
-                    disableEndDrawable(tvMiddleName)
-                    manageFocus(tvMiddleName)
-                    trackEventWithScreenName(
-                        FirebaseEvent.EDIT_FIELD,
-                        bundleOf("field_name" to "middle_name")
-                    )
-                }
-
-                R.id.tvLastName -> {
-                    disableEndDrawable(tvLastName)
-                    manageFocus(tvLastName)
-                    trackEventWithScreenName(
-                        FirebaseEvent.EDIT_FIELD,
-                        bundleOf("field_name" to "last_name")
-                    )
-                }
-
-                R.id.tvNationality -> {
-                    launchBottomSheet(
-                        itemClickListener = selectCountryItemClickListener,
-                        label = getString(Strings.screen_place_of_birth_display_text_select_country),
-                        viewType = Constants.VIEW_WITH_FLAG,
-                        countriesList = viewModel.countries
-                    )
-                }
-
-                R.id.tvDOB -> {
-                    showDateOfBirthPicker(viewModel.state.dobCalendar)
-                }
-
-                R.id.tvGender -> {
-                    requireActivity().launchSheet(
-                        itemClickListener = genderItemListener,
-                        itemsList = viewModel.getGenderOptions(),
-                        heading = getString(Strings.screen_b2c_eid_info_review_display_text_select_gender)
-                    )
-                }
-
-                R.id.tvExpiryDate -> {
-                    showExpiryDatePicker(viewModel.state.expiryCalendar)
-                }
-
-                viewModel.eventErrorInvalidEid -> showInvalidEidScreen()
-                viewModel.eventErrorExpiredEid -> showExpiredEidScreen()
-                viewModel.eventErrorUnderAge -> showUnderAgeScreen()
-                viewModel.eventErrorFromUsa -> showUSACitizenScreen()
-                viewModel.eventRescan -> openCardScanner()
-                R.id.tvNoThanks -> {
-                    trackEventWithScreenName(FirebaseEvent.RESCAN_ID)
-                    Utils.hideKeyboard(tvNoThanks)
-                    openCardScanner()
-                }
-                viewModel.eventAlreadyUsedEid -> {
-                    viewModel.parentViewModel?.finishKyc?.value =
-                        DocumentsResponse(false, KYCAction.ACTION_EID_FAILED.name)
-                }
-
-                viewModel.eventNextWithError -> {
-                    viewModel.performUploadDocumentsRequest(true) {
-                        if (it.equals("success", true)) {
-                            viewModel.state.errorScreenVisited = true
-                            val action =
-                                EidInfoReviewFragmentDirections.actionEidInfoReviewFragmentToInformationErrorFragment(
-                                    viewModel.errorTitle, viewModel.errorBody
-                                )
-                            findNavController().navigate(action)
-                        } else {
-                            viewModel.state.toast = "${it}^${AlertType.DIALOG.name}"
-                        }
+            eidStateLiveData.observe(viewLifecycleOwner, Observer
+            {
+                handleState(it)
+            })
+            parentViewModel?.uqudoManager?.getUqudoAccessToken()
+                ?.observe(viewLifecycleOwner, Observer { response ->
+                    if (viewModel.parentViewModel?.uqudoManager?.getPayloadData() == null) {
+                        if (response.accessToken.isNullOrEmpty().not()
+                        ) viewModel.eidStateLiveData.postValue(State.empty("")) else viewModel.eidStateLiveData.postValue(
+                            State.error("Sorry, that didn’t work. Please try again")
+                        )
                     }
-
-                }
-                viewModel.eventFinish -> {
-                    viewModel.parentViewModel?.finishKyc?.value =
-                        DocumentsResponse(false, KYCAction.ACTION_EID_FAILED.name)
-                }
-                viewModel.eventNext -> {
-                    trackEventWithScreenName(FirebaseEvent.CONFIRM_ID)
-//                    requireActivity().firebaseTagManagerEvent(FirebaseTagManagerModel(action = FirebaseEvents.CONFIRM_ID.event))
-                    SessionManager.getAccountInfo()
-                    SessionManager.onAccountInfoSuccess.observe(
-                        viewLifecycleOwner,
-                        Observer { isSuccess ->
-                            if (isSuccess) {
-                                if (viewModel.isFromAmendment()) {
-                                    navigateToAmendmentSuccess()
-                                } else {
-                                    navigateToConfirmNameFragment()
-                                }
-                            } else {
-                                showToast("Accounts info failed")
-                                navigateToConfirmNameFragment()
-                            }
-
-                        })
-                }
-                viewModel.eventEidUpdate -> {
-                    SessionManager.getAccountInfo()
-                    SessionManager.onAccountInfoSuccess.observe(
-                        viewLifecycleOwner,
-                        Observer { isSuccess ->
-                            if (isSuccess) {
-                                if (viewModel.isFromAmendment()) {
-                                    navigateToAmendmentSuccess()
-                                } else {
-                                    viewModel.parentViewModel?.finishKyc?.value =
-                                        DocumentsResponse(false, KYCAction.ACTION_EID_UPDATE.name)
-                                }
-                            } else {
-                                showToast("Accounts info failed")
-                                viewModel.parentViewModel?.finishKyc?.value =
-                                    DocumentsResponse(false, KYCAction.ACTION_EID_UPDATE.name)
-                            }
-
-                        })
-                }
-                viewModel.eventCitizenNumberIssue, viewModel.eventEidExpiryDateIssue -> invalidCitizenNumber(
-                    "Sorry, that didn’t work. Please try again"
+                })
+            state.eidImageDownloaded.observe(viewLifecycleOwner, Observer { ableToDownload ->
+                if (ableToDownload.not()) invalidCitizenNumber(
+                    "Sorry, we are unable to download your Eid please rescan",
+                    true
                 )
-            }
-        })
-        viewModel.eidStateLiveData.observe(viewLifecycleOwner, Observer {
-            if (it.status == Status.ERROR) {
-                invalidCitizenNumber(it.message ?: "Sorry, that didn’t work. Please try again")
-            }
-        })
-        viewModel.state.dateOfBirth.observe(viewLifecycleOwner, Observer {
-            viewModel.handleAgeValidation()
-        })
-        viewModel.state.nationality.observe(viewLifecycleOwner, Observer {
-            viewModel.handleIsUsValidation()
-        })
+
+            })
+        }
+
     }
 
     private fun navigateToConfirmNameFragment() {
         viewModel.parentViewModel?.state?.let { state ->
-            state.identityNo.set(viewModel.state.citizenNumber.replace("-", ""))
+            state.identityNo.set(viewModel.state.citizenNumber.value?.replace("-", ""))
             state.middleName.set(viewModel.state.middleName)
             state.firstName.set(viewModel.state.firstName)
             state.lastName.set(viewModel.state.lastName)
@@ -280,11 +166,11 @@ class EidInfoReviewAmendmentFragment : KYCChildFragment<IEidInfoReviewAmendment.
     }
 
     private fun disableEndDrawable(view: EditTextRichDrawable?) {
-        val list = listOf<EditTextRichDrawable>(
-            tvEidNumber,
-            tvFirstName,
-            tvMiddleName,
-            tvLastName
+        val list = listOf(
+            getViewBinding().tvEidNumber,
+            getViewBinding().tvFirstName,
+            getViewBinding().tvMiddleName,
+            getViewBinding().tvLastName
         )
         list.forEach {
             it.setDrawableEndVectorId(
@@ -293,18 +179,25 @@ class EidInfoReviewAmendmentFragment : KYCChildFragment<IEidInfoReviewAmendment.
         }
     }
 
-    private fun showDateOfBirthPicker(calendar: Calendar) {
+    private fun showDatePicker(
+        calendar: Calendar,
+        id: Int? = R.id.tvExpiryDate,
+        picked: (date: String) -> Unit
+    ) {
         val dpd =
             DatePickerDialog.newInstance({ view, year, monthOfYear, dayOfMonth ->
                 calendar.set(Calendar.YEAR, year)
                 calendar.set(Calendar.MONTH, monthOfYear)
                 calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
-                viewModel.state.dateOfBirth.value = DateUtils.dateToString(
-                    calendar.time, DateUtils.DEFAULT_DATE_FORMAT,
-                    DateUtils.TIME_ZONE_Default
+                picked.invoke(
+                    DateUtils.dateToString(
+                        calendar.time, DateUtils.DEFAULT_DATE_FORMAT,
+                        DateUtils.TIME_ZONE_Default
+                    )
                 )
             }, calendar)
-        dpd.maxDate = Calendar.getInstance()
+        if (id == R.id.tvDOB) dpd.maxDate = Calendar.getInstance() else dpd.minDate =
+            Calendar.getInstance()
         dpd.version = DatePickerDialog.Version.VERSION_2
         childFragmentManager.run {
             dpd.accentColor = requireContext().getColor(R.color.colorPrimary)
@@ -312,37 +205,15 @@ class EidInfoReviewAmendmentFragment : KYCChildFragment<IEidInfoReviewAmendment.
         }
     }
 
-    private fun showExpiryDatePicker(calendar: Calendar) {
-        val dpd =
-            DatePickerDialog.newInstance({ view, year, monthOfYear, dayOfMonth ->
-                calendar.set(Calendar.YEAR, year)
-                calendar.set(Calendar.MONTH, monthOfYear)
-                calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
-                viewModel.state.expiryDate = DateUtils.dateToString(
-                    calendar.time, DateUtils.DEFAULT_DATE_FORMAT,
-                    DateUtils.TIME_ZONE_Default
-                )
-            }, calendar)
-        dpd.minDate = Calendar.getInstance()
-        dpd.version = DatePickerDialog.Version.VERSION_2
-        childFragmentManager.run {
-            dpd.accentColor = requireContext().getColor(R.color.colorPrimary)
-            dpd.show(this, "")
-        }
-    }
-
-    private fun invalidCitizenNumber(title: String) {
+    private fun invalidCitizenNumber(title: String, rescan: Boolean = false) {
         activity?.let {
             it.showAlertDialogAndExitApp(
                 message = title,
                 callback = {
-                    openCardScanner()
+                    if (rescan.not()) requireActivity().finish() else initializeUqudoScanner()
                 },
                 closeActivity = false
             )
-            viewModel.parentViewModel?.paths?.forEach { filePath ->
-                File(filePath).deleteRecursively()
-            }
         }
     }
 
@@ -373,89 +244,54 @@ class EidInfoReviewAmendmentFragment : KYCChildFragment<IEidInfoReviewAmendment.
     }
 
     override fun onDestroyView() {
-        viewModel.clickEvent.removeObservers(this)
+        removeObserver()
         super.onDestroyView()
     }
 
-    override fun showUnderAgeScreen() {
+    override fun showErrorScreen(actionId: NavDirections) {
         viewModel.state.errorScreenVisited = true
-        val action =
-            EidInfoReviewFragmentDirections.actionEidInfoReviewFragmentToInformationErrorFragment(
-                viewModel.errorTitle, viewModel.errorBody
-            )
-        navigate(action)
-    }
-
-    override fun showExpiredEidScreen() {
-        viewModel.state.errorScreenVisited = true
-        val action =
-            EidInfoReviewFragmentDirections.actionEidInfoReviewFragmentToInformationErrorFragment(
-                viewModel.errorTitle, viewModel.errorBody
-            )
-        navigate(action)
-    }
-
-    override fun showInvalidEidScreen() {
-        viewModel.state.errorScreenVisited = true
-        val action =
-            EidInfoReviewFragmentDirections.actionEidInfoReviewFragmentToInformationErrorFragment(
-                viewModel.errorTitle, viewModel.errorBody
-            )
-        navigate(action)
-    }
-
-    override fun showUSACitizenScreen() {
-        viewModel.state.errorScreenVisited = true
-        val action =
-            EidInfoReviewFragmentDirections.actionEidInfoReviewFragmentToInformationErrorFragment(
-                viewModel.errorTitle, viewModel.errorBody
-            )
-        navigate(action)
+        navigate(actionId)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (data == null && viewModel.parentViewModel?.skipFirstScreen?.value == true) {
-
-        }
-        if (requestCode == IdentityScannerActivity.SCAN_EID_CAM && resultCode == Activity.RESULT_OK) {
-            data?.let {
-                it.getParcelableExtra<IdentityScannerResult>(IdentityScannerActivity.SCAN_RESULT)
-                    ?.let { it1 ->
-                        viewModel.onEIDScanningComplete(
-                            it1
-                        )
+        when (requestCode) {
+            REQUEST_UQUDO -> {
+                val uqudoJWT = data?.getStringExtra("data")
+                if (uqudoJWT.isNullOrBlank().not()) {
+                    viewModel.parentViewModel?.uqudoManager?.decodeEncodedUqudoToken(
+                        uqudoJWT ?: ""
+                    ) {
+                        viewModel.getKYCDataFromServer()
                     }
+                } else {
+                    if (viewModel.parentViewModel?.uqudoManager?.getPayloadData() == null) requireActivity().finish()
+                }
             }
-        } else {
-            viewModel.parentViewModel?.finishKyc?.value = DocumentsResponse(false)
-        }
-    }
+            else -> viewModel.parentViewModel?.finishKyc?.value = DocumentsResponse(false)
 
-    override fun openCardScanner() {
-        viewModel.invalidateFields()
-        startActivityForResult(
-            IdentityScannerActivity.getLaunchIntent(
-                requireContext(),
-                DocumentType.EID,
-                IdentityScannerActivity.SCAN_FROM_CAMERA
-            ),
-            IdentityScannerActivity.SCAN_EID_CAM
-        )
+        }
     }
 
     override fun onDestroy() {
-        viewModel.parentViewModel?.paths?.forEach { filePath ->
-            File(filePath).deleteRecursively()
-        }
+        viewModel.parentViewModel?.uqudoManager?.deleteEidImages()
         super.onDestroy()
     }
 
-    private val genderItemListener = object : OnItemClickListener {
-        override fun onItemClick(view: View, data: Any, pos: Int) {
-            viewModel.state.gender = (data as BottomSheetItem).tag ?: ""
+    override fun onBackPressed(): Boolean {
+        if (viewModel.state.errorScreenVisited) {
+            requireActivity().finish()
         }
+        return super.onBackPressed()
     }
+
+    private fun addFocusListeners() {
+        getViewBinding().tvEidNumber.onFocusChangeListener = this
+        getViewBinding().tvFirstName.onFocusChangeListener = this
+        getViewBinding().tvMiddleName.onFocusChangeListener = this
+        getViewBinding().tvLastName.onFocusChangeListener = this
+    }
+
 
     override fun onFocusChange(v: View?, hasFocus: Boolean) {
         if (!hasFocus) {
@@ -467,9 +303,217 @@ class EidInfoReviewAmendmentFragment : KYCChildFragment<IEidInfoReviewAmendment.
         }
     }
 
+    private fun handleState(state: State?) {
+        when (state?.status) {
+            Status.IDEAL -> {
+                //do nothing
+            }
+            Status.LOADING -> {
+                getViewBinding().multiStateView.viewState = MultiStateView.ViewState.LOADING
+            }
+            Status.EMPTY -> {
+                getViewBinding().multiStateView.viewState = MultiStateView.ViewState.EMPTY
+                initializeUqudoScanner()
+            }
+            Status.SUCCESS -> {
+                getViewBinding().multiStateView.viewState = MultiStateView.ViewState.CONTENT
+                viewModel.parentViewModel?.uqudoManager?.getPayloadData()?.let { identity ->
+                    viewModel.populateUqudoState(identity = identity)
+                }
+            }
+            Status.ERROR -> {
+                getViewBinding().multiStateView.viewState = MultiStateView.ViewState.ERROR
+                invalidCitizenNumber(state.message ?: "Sorry, that didn’t work. Please try again")
+            }
+            else -> {
+                throw IllegalStateException("State is not handled " + state?.status)
+            }
+        }
+    }
+
+    private fun initializeUqudoScanner() {
+        with(viewModel.parentViewModel?.uqudoManager) {
+            if (this?.isAccessTokenExpired() == true) viewModel.requestAllAPIs(false)
+            else this?.initiateUqudoScanning().apply {
+                startActivityForResult(this, RequestCodes.REQUEST_UQUDO)
+            }
+        }
+    }
+
+    private fun getViewBinding() = getDataBindingView<FragmentEidInfoReviewAmendmentBinding>()
+    private val genderItemListener = object : OnItemClickListener {
+        override fun onItemClick(view: View, data: Any, pos: Int) {
+            viewModel.state.gender = (data as BottomSheetItem).tag ?: ""
+        }
+    }
     private val selectCountryItemClickListener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
             viewModel.state.nationality.value = (data as Country)
         }
+    }
+    private val clickEventObserver = Observer<Int> { id ->
+        with(viewModel) {
+            when (id) {
+                R.id.tvEidNumber -> {
+                    disableEndDrawable(getViewBinding().tvEidNumber)
+                    manageFocus(getViewBinding().tvEidNumber)
+                }
+                R.id.tvFirstName -> {
+                    disableEndDrawable(getViewBinding().tvFirstName)
+                    manageFocus(getViewBinding().tvFirstName)
+                    trackEventWithScreenName(
+                        FirebaseEvent.EDIT_FIELD,
+                        bundleOf("field_name" to "first_name")
+                    )
+                }
+
+                R.id.tvMiddleName -> {
+                    disableEndDrawable(getViewBinding().tvMiddleName)
+                    manageFocus(getViewBinding().tvMiddleName)
+                    trackEventWithScreenName(
+                        FirebaseEvent.EDIT_FIELD,
+                        bundleOf("field_name" to "middle_name")
+                    )
+                }
+
+                R.id.tvLastName -> {
+                    disableEndDrawable(getViewBinding().tvLastName)
+                    manageFocus(getViewBinding().tvLastName)
+                    trackEventWithScreenName(
+                        FirebaseEvent.EDIT_FIELD,
+                        bundleOf("field_name" to "last_name")
+                    )
+                }
+
+                R.id.tvNationality -> {
+                    launchBottomSheet(
+                        itemClickListener = selectCountryItemClickListener,
+                        label = getString(Strings.screen_place_of_birth_display_text_select_country),
+                        viewType = Constants.VIEW_WITH_FLAG,
+                        countriesList = countries
+                    )
+                }
+
+                R.id.tvDOB -> {
+                    showDatePicker(state.dobCalendar, id) {
+                        viewModel.state.dateOfBirth.value = it
+                    }
+                }
+
+                R.id.tvGender -> {
+                    requireActivity().launchSheet(
+                        itemClickListener = genderItemListener,
+                        itemsList = getGenderOptions(),
+                        heading = getString(Strings.screen_b2c_eid_info_review_display_text_select_gender)
+                    )
+                }
+
+                R.id.tvExpiryDate -> {
+                    showDatePicker(state.expiryCalendar) {
+                        state.expiryDate = it
+                    }
+                }
+
+                EidInfoEvents.EVENT_ERROR_INVALID_EID.eventId -> showErrorScreen(
+                    EidInfoReviewFragmentDirections.actionEidInfoReviewFragmentToInformationErrorFragment(
+                        viewModel.errorTitle, viewModel.errorBody
+                    )
+                )
+                EidInfoEvents.EVENT_ERROR_EXPIRED_EID.eventId -> showErrorScreen(
+                    EidInfoReviewFragmentDirections.actionEidInfoReviewFragmentToInformationErrorFragment(
+                        viewModel.errorTitle, viewModel.errorBody
+                    )
+                )
+                EidInfoEvents.EVENT_ERROE_UNDERAGE.eventId -> showErrorScreen(
+                    EidInfoReviewFragmentDirections.actionEidInfoReviewFragmentToInformationErrorFragment(
+                        viewModel.errorTitle, viewModel.errorBody
+                    )
+                )
+                EidInfoEvents.EVENT_ERROR_FROM_USA.eventId -> showErrorScreen(
+                    EidInfoReviewFragmentDirections.actionEidInfoReviewFragmentToInformationErrorFragment(
+                        viewModel.errorTitle, viewModel.errorBody
+                    )
+                )
+                EidInfoEvents.EVENT_RESCAN.eventId -> {
+                    initializeUqudoScanner()
+                }
+                R.id.tvNoThanks -> {
+                    trackEventWithScreenName(FirebaseEvent.RESCAN_ID)
+                    Utils.hideKeyboard(getViewBinding().tvNoThanks)
+                    initializeUqudoScanner()
+                }
+                EidInfoEvents.EVENT_ALREADY_USED_EID.eventId -> {
+                    parentViewModel?.finishKyc?.value =
+                        DocumentsResponse(false, KYCAction.ACTION_EID_FAILED.name)
+                }
+
+                EidInfoEvents.EVENT_NEXT_WITH_ERROR.eventId -> {
+                    performUqudoUploadDocumentsRequest(true) {
+                        if (it.equals("success", true)) {
+                            showErrorScreen(
+                                EidInfoReviewFragmentDirections.actionEidInfoReviewFragmentToInformationErrorFragment(
+                                    errorTitle, errorBody
+                                ))
+                        } else {
+                            state.toast = "${it}^${AlertType.DIALOG.name}"
+                        }
+                    }
+
+                }
+                EidInfoEvents.EVENT_FINISH.eventId -> {
+                    parentViewModel?.finishKyc?.value =
+                        DocumentsResponse(false, KYCAction.ACTION_EID_FAILED.name)
+                }
+                EidInfoEvents.EVENT_NEXT.eventId -> {
+                    trackEventWithScreenName(FirebaseEvent.CONFIRM_ID)
+                    requireContext().deleteTempFolder()
+                    SessionManager.getAccountInfo()
+                    SessionManager.onAccountInfoSuccess.observe(
+                        viewLifecycleOwner,
+                        Observer { isSuccess ->
+                            if (isSuccess) {
+                                if (isFromAmendment()) {
+                                    navigateToAmendmentSuccess()
+                                } else {
+                                    navigateToConfirmNameFragment()
+                                }
+                            } else {
+                                showToast("Accounts info failed")
+                                navigateToConfirmNameFragment()
+                            }
+
+                        })
+                }
+                EidInfoEvents.EVENT_EID_UPDATE.eventId -> {
+                    SessionManager.getAccountInfo()
+                    SessionManager.onAccountInfoSuccess.observe(
+                        viewLifecycleOwner,
+                        Observer { isSuccess ->
+                            if (isSuccess) {
+                                if (isFromAmendment()) {
+                                    navigateToAmendmentSuccess()
+                                } else {
+                                    parentViewModel?.finishKyc?.value =
+                                        DocumentsResponse(false, KYCAction.ACTION_EID_UPDATE.name)
+                                }
+                            } else {
+                                showToast("Accounts info failed")
+                                parentViewModel?.finishKyc?.value =
+                                    DocumentsResponse(false, KYCAction.ACTION_EID_UPDATE.name)
+                            }
+
+                        })
+                }
+                EidInfoEvents.EVENT_CITIZEN_NUMBER_ISSUE.eventId, EidInfoEvents.EVENT_EID_EXPIRY_DATE_ISSUE.eventId -> invalidCitizenNumber(
+                    "Sorry, that didn’t work. Please try again", true
+                )
+            }
+        }
+    }
+
+    fun removeObserver() {
+        viewModel.clickEvent.removeObserver(clickEventObserver)
+        viewModel.eidStateLiveData.removeObservers(this)
+        viewModel.uqudoResponse.removeObservers(this)
     }
 }

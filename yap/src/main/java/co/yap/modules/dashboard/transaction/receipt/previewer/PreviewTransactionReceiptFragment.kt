@@ -9,6 +9,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
+import co.yap.databinding.FragmentPreviewTransactionReseiptBinding
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.constants.Constants.FILE_PATH
 import co.yap.yapcore.constants.RequestCodes
@@ -20,7 +21,7 @@ import co.yap.yapcore.helpers.permissions.PermissionUtils
 import java.io.File
 
 class PreviewTransactionReceiptFragment :
-    BaseBindingFragment<IPreviewTransactionReceipt.ViewModel>(),
+    BaseBindingFragment<FragmentPreviewTransactionReseiptBinding,IPreviewTransactionReceipt.ViewModel>(),
     IPreviewTransactionReceipt.View {
     override fun getBindingVariable() = BR.viewModel
 

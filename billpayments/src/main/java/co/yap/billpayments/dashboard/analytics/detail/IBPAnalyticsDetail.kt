@@ -11,7 +11,6 @@ interface IBPAnalyticsDetail {
     interface View : IBase.View<ViewModel> {
         fun setObservers()
         fun removeObservers()
-        fun getBinding(): FragmentBpAnalyticsDetailsBinding
     }
 
     interface ViewModel : IBase.ViewModel<State> {

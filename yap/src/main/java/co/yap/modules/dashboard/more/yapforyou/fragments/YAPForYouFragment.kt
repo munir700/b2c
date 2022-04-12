@@ -3,21 +3,22 @@ package co.yap.modules.dashboard.more.yapforyou.fragments
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import co.yap.BR
 import co.yap.R
+import co.yap.databinding.FragmentYapForYouBinding
 import co.yap.modules.dashboard.more.yapforyou.activities.YAPForYouActivity
 import co.yap.modules.dashboard.more.yapforyou.interfaces.IYAPForYou
 import co.yap.modules.dashboard.more.yapforyou.models.Achievement
 import co.yap.modules.dashboard.more.yapforyou.viewmodels.YAPForYouViewModel
 import co.yap.yapcore.interfaces.OnItemClickListener
 
-class YAPForYouFragment : YapForYouBaseFragment<IYAPForYou.ViewModel>(), IYAPForYou.View {
+class YAPForYouFragment : YapForYouBaseFragment<FragmentYapForYouBinding, IYAPForYou.ViewModel>(), IYAPForYou.View {
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_yap_for_you
 
     override val viewModel: YAPForYouViewModel
-        get() = ViewModelProviders.of(this).get(YAPForYouViewModel::class.java)
+        get() = ViewModelProvider(this).get(YAPForYouViewModel::class.java)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

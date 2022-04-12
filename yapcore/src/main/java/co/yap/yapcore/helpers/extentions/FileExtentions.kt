@@ -177,3 +177,17 @@ fun getCurrentDateTime(): String { // need to re verify
         DateUtils.dateToString(currentCalendar.time, "dd-mm-yyyy", DateUtils.TIME_ZONE_Default)
     return date
 }
+
+fun Context.saveEidTemp(bitmap: Bitmap): String? {
+    val file = this.createTempFile("jpg")
+    try {
+        val out = FileOutputStream(file)
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 90, out)
+        out.flush()
+        out.close()
+        return file.absolutePath
+    } catch (e: Exception) {
+        e.printStackTrace()
+    }
+    return null
+}

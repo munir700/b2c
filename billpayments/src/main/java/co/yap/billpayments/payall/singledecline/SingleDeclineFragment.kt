@@ -12,7 +12,8 @@ import co.yap.billpayments.databinding.FragmentSingleDeclineBinding
 import co.yap.billpayments.payall.base.PayAllBaseFragment
 import co.yap.yapcore.binders.UIBinder.strikeThroughText
 
-class SingleDeclineFragment : PayAllBaseFragment<ISingleDecline.ViewModel>(),
+class SingleDeclineFragment :
+    PayAllBaseFragment<FragmentSingleDeclineBinding, ISingleDecline.ViewModel>(),
     ISingleDecline.View {
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_single_decline
@@ -27,7 +28,7 @@ class SingleDeclineFragment : PayAllBaseFragment<ISingleDecline.ViewModel>(),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        getViewBinding().tvDueAmount.strikeThroughText(true)
+        viewDataBinding.tvDueAmount.strikeThroughText(true)
     }
 
     override fun setObservers() {
@@ -57,9 +58,5 @@ class SingleDeclineFragment : PayAllBaseFragment<ISingleDecline.ViewModel>(),
     override fun onDestroy() {
         super.onDestroy()
         removeObservers()
-    }
-
-    override fun getViewBinding(): FragmentSingleDeclineBinding {
-        return viewDataBinding as FragmentSingleDeclineBinding
     }
 }

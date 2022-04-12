@@ -12,6 +12,7 @@ import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.app.R
 import co.yap.app.constants.Constants
+import co.yap.app.databinding.FragmentVerifyPasscodeBinding
 import co.yap.app.main.MainActivity
 import co.yap.app.main.MainChildFragment
 import co.yap.app.modules.login.interfaces.IVerifyPasscode
@@ -50,7 +51,7 @@ import co.yap.yapcore.managers.SessionManager
 import kotlinx.android.synthetic.main.fragment_verify_passcode.*
 import co.yap.modules.kyc.amendments.missinginfo.MissingInfoFragment
 
-class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), BiometricCallback,
+class VerifyPasscodeFragment : MainChildFragment<FragmentVerifyPasscodeBinding , IVerifyPasscode.ViewModel>(), BiometricCallback,
     IVerifyPasscode.View, NumberKeyboardListener {
 
     private lateinit var mBiometricManagerX: BiometricManagerX
@@ -181,8 +182,8 @@ class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), B
 
     private fun startOtpFragment(name: String) {
         startFragmentForResult<GenericOtpFragment>(
-            GenericOtpFragment::class.java.name,
-            bundleOf(
+            fragmentName = GenericOtpFragment::class.java.name,
+            bundle = bundleOf(
                 OtpDataModel::class.java.name to OtpDataModel(
                     otpAction = OTPActions.FORGOT_PASS_CODE.name,
                     mobileNumber = viewModel.mobileNumber,

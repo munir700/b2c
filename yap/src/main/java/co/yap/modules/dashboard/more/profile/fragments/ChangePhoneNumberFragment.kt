@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
+import co.yap.databinding.FragmentChangePhoneNumberBinding
 import co.yap.modules.dashboard.more.main.fragments.MoreBaseFragment
 import co.yap.modules.dashboard.more.profile.intefaces.IChangePhoneNumber
 import co.yap.modules.dashboard.more.profile.viewmodels.ChangePhoneNumberViewModel
@@ -21,7 +22,7 @@ import co.yap.yapcore.helpers.extentions.startFragmentForResult
 import co.yap.yapcore.managers.SessionManager
 import kotlinx.android.synthetic.main.fragment_change_phone_number.*
 
-class ChangePhoneNumberFragment : MoreBaseFragment<IChangePhoneNumber.ViewModel>(),
+class ChangePhoneNumberFragment : MoreBaseFragment<FragmentChangePhoneNumberBinding, IChangePhoneNumber.ViewModel>(),
     IChangePhoneNumber.View {
     override fun getBindingVariable(): Int = BR.viewModel
 
@@ -64,8 +65,8 @@ class ChangePhoneNumberFragment : MoreBaseFragment<IChangePhoneNumber.ViewModel>
 
     private fun startOtpFragment() {
         startFragmentForResult<GenericOtpFragment>(
-            GenericOtpFragment::class.java.name,
-            bundleOf(
+           fragmentName =  GenericOtpFragment::class.java.name,
+           bundle =  bundleOf(
                 OtpDataModel::class.java.name to OtpDataModel(
                     OTPActions.CHANGE_MOBILE_NO.name,
                     "+${viewModel.state.countryCode + " " + viewModel.state.mobile}",

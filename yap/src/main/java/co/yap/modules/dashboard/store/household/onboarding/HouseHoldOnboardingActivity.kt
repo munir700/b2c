@@ -8,6 +8,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
+import co.yap.databinding.ActivityHouseHoldOnboardingBinding
 import co.yap.modules.dashboard.store.household.onboarding.interfaces.IBaseOnboarding
 import co.yap.modules.dashboard.store.household.onboarding.viewmodels.HouseHoldOnboardingViewModel
 import co.yap.networking.household.responsedtos.HouseHoldPlan
@@ -20,7 +21,7 @@ import co.yap.yapcore.interfaces.BackPressImpl
 import co.yap.yapcore.interfaces.IBaseNavigator
 
 
-class HouseHoldOnboardingActivity : BaseBindingActivity<IBaseOnboarding.ViewModel>(), INavigator,
+class HouseHoldOnboardingActivity : BaseBindingActivity<ActivityHouseHoldOnboardingBinding,IBaseOnboarding.ViewModel>(), INavigator,
     IFragmentHolder {
 
 

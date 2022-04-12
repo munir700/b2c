@@ -13,9 +13,10 @@ import co.yap.yapcore.managers.isUserLogin
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-abstract class BaseBindingFragment<V : IBase.ViewModel<*>> : BaseFragment<V>() {
+abstract class BaseBindingFragment<VB : ViewDataBinding, V : IBase.ViewModel<*>> :
+    BaseFragment<V>() {
 
-    lateinit var viewDataBinding: ViewDataBinding
+    lateinit var viewDataBinding: VB
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

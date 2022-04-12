@@ -28,6 +28,7 @@
         <activity
             android:name=".main.MainActivity"
             android:label="@string/app_name"
+            android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             tools:ignore="LockedOrientationActivity">
@@ -44,6 +45,7 @@
 
         <activity
             android:name="co.yap.modules.forgotpasscode.activities.ForgotPasscodeActivity"
+             android:exported="false"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity">
             <nav-graph android:value="@navigation/forgot_passcode_navigation" />
@@ -51,12 +53,14 @@
 
         <activity
             android:name="co.yap.sendmoney.y2y.home.activities.YapToYapDashboardActivity"
+             android:exported="false"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity">
             <nav-graph android:value="@navigation/yap_to_yap_navigation" />
         </activity>
         <activity
             android:name=".modules.login.activities.VerifyPassCodePresenterActivity"
+             android:exported="false"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
 
@@ -100,7 +104,8 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name=".modules.refreal.AdjustReferrerReceiver">
+        <activity android:name=".modules.refreal.AdjustReferrerReceiver"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
