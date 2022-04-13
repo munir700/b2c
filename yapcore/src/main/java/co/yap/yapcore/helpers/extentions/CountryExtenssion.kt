@@ -124,7 +124,7 @@ fun Context.getBottomSheetDataList(countries: ArrayList<co.yap.networking.custom
     countries.forEach {
         list.add(
             CoreBottomSheetData(
-                subTitle = it.name,
+                subTitle = it.name?.trim(),
                 sheetImage = CurrencyUtils.getFlagDrawable(
                     this,
                     it.isoCountryCode2Digit.toString()

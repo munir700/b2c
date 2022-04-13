@@ -31,7 +31,7 @@
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/countryCode"
         style="@style/ARegular2Grey"
-        android:layout_width="wrap_content"
+        android:layout_width="@dimen/_45sdp"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toEndOf="@+id/flag_img"
         app:layout_constraintEnd_toStartOf="@+id/textView"
@@ -52,7 +52,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintStart_toEndOf="@+id/countryCode"
         app:layout_constraintEnd_toEndOf="parent"
-        android:paddingStart="@dimen/margin_medium"
+        android:paddingStart="@dimen/margin_two_dp"
         android:paddingEnd="@dimen/margin_medium"
         android:paddingTop="@dimen/margin_small"
         android:paddingBottom="@dimen/margin_small"

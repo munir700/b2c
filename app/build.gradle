@@ -22,12 +22,12 @@ android {
             }
         }
     }
-    lintOptions {
-        checkReleaseBuilds false
-        // Or, if you prefer, you can continue to check for errors in release builds,
-        // but continue the build even when errors are found:
-        abortOnError false
-    }
+//    lintOptions {
+//        checkReleaseBuilds false
+//        // Or, if you prefer, you can continue to check for errors in release builds,
+//        // but continue the build even when errors are found:
+//        abortOnError false
+//    }
     externalNativeBuild {
         cmake {
             path "CMakeLists.txt"
@@ -166,10 +166,10 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    implementation ('com.digitify:yappakistan:0.2.5-beta01'){
+    implementation ('com.digitify:yappakistan:0.2.5-beta03'){
         exclude group: 'com.squareup.okhttp3', module: 'okhttp'
     }
-    implementation ('com.digitify:yapghana:0.2.5-beta01'){
+    implementation ('com.digitify:yapghana:0.2.5-beta03'){
         exclude group: 'com.squareup.okhttp3', module: 'okhttp'
     }
 //    implementation("com.yap:yapghana:0.0.2")

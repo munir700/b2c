@@ -67,7 +67,7 @@ class LoadConfig @Inject constructor(@ApplicationContext val appContext: Context
     ): GhanaBuildConfigurations {
         val ghConfigs = GhanaBuildConfigurations(context)
         ghConfigs.configure(
-            flavour = ProductFlavour.PREPROD.flavour,
+            flavour = ProductFlavour.PROD.flavour,
             buildType = BuildConfig.BUILD_TYPE,
             versionName = YAPApplication.configManager?.versionName ?: "1.0.0",
             versionCode = YAPApplication.configManager?.versionCode ?: "1",
