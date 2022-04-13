@@ -29,8 +29,8 @@ fun getCodeFromPhone(pNumber: String): Int {
     try {
         // phone must begin with '+'
         val numberProto = phoneUtil.parse(pNumber, "PK")
-        val pp = phoneUtil.getNationalSignificantNumber(numberProto)
-        return numberProto.getCountryCode()
+//        val pp = phoneUtil.getNationalSignificantNumber(numberProto)
+        return numberProto.countryCode
     } catch (e: NumberParseException) {
         System.err.println("NumberParseException was thrown: " + e.toString())
     }
@@ -162,6 +162,11 @@ fun parseContact(contact: String, code: String): String? {
 fun getCountryCodeForRegion(code: String): String {
     val phoneUtil = PhoneNumberUtil.getInstance()
     val pn = phoneUtil.getCountryCodeForRegion(code.toUpperCase())
+    return "+$pn"
+}
+fun String.countryCodeForRegion(): String {
+    val phoneUtil = PhoneNumberUtil.getInstance()
+    val pn = phoneUtil.getCountryCodeForRegion(this.toUpperCase())
     return "+$pn"
 }
 
