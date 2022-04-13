@@ -34,7 +34,7 @@ class SharedPreferenceManager private constructor(val context: Context) {
 
     companion object : SingletonHolder<SharedPreferenceManager, Context>(::SharedPreferenceManager)
 
-    fun save(KEY_NAME: String, text: String) {
+    fun save(KEY_NAME: String, text: String?) {
         val editor: SharedPreferences.Editor = sharedPref.edit()
         editor.putString(KEY_NAME, text)
         editor.apply()

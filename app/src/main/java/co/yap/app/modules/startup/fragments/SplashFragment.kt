@@ -150,7 +150,7 @@ class SplashFragment : MainChildFragment<FragmentSplashBinding,ISplash.ViewModel
                 }?:run{
                    // sharedPreferenceManager.save(Constants.KEY_IS_USER_LOGGED_IN, false)
                     sharedPreferenceManager.save(KEY_MOBILE_NO,  "")
-                    sharedPreferenceManager.save(KEY_COUNTRY_CODE,  "")
+                   sharedPreferenceManager.save(KEY_COUNTRY_CODE,  null)
                 }
             }
             launch {
@@ -174,15 +174,17 @@ class SplashFragment : MainChildFragment<FragmentSplashBinding,ISplash.ViewModel
                 if (it != CountryCode.UAE.countryCode) {
                     val mobileNo = sharedPreferenceManager.getValueString(Constants.KEY_MOBILE_NO)
                         ?.replace(" ", "")
-                    LoadConfig(requireContext()).initYapRegion(it)
+
                     when (it) {
                         CountryCode.PAK.countryCode -> {
+                            LoadConfig(requireContext()).initYapRegion(it)
                             pkIntent = Intent(requireContext(), AuthenticationActivity::class.java)
                             pkIntent.putExtra("countryCode", it)
                             pkIntent.putExtra("mobileNo", mobileNo ?: "")
                             pkIntent.putExtra("isAccountBlocked", false)
                         }
                         CountryCode.GHANA.countryCode -> {
+                            LoadConfig(requireContext()).initYapRegion(it)
                             ghIntent =
                                 Intent(requireContext(), GhAuthenticationActivity::class.java)
                             ghIntent.putExtra("countryCode", it)

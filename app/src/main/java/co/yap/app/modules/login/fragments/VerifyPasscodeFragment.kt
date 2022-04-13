@@ -62,7 +62,7 @@ class VerifyPasscodeFragment : MainChildFragment<FragmentVerifyPasscodeBinding ,
     override fun getLayoutId(): Int = R.layout.fragment_verify_passcode
 
     override val viewModel: VerifyPasscodeViewModel
-        get() = ViewModelProvider(this).get(VerifyPasscodeViewModel::class.java)
+        get() = ViewModelProvider(this)[VerifyPasscodeViewModel::class.java]
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

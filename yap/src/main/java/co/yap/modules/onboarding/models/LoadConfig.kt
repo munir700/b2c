@@ -43,7 +43,7 @@ class LoadConfig @Inject constructor(@ApplicationContext val appContext: Context
     ): PKBuildConfigurations {
         val pkConfigs = PKBuildConfigurations(context)
         pkConfigs.configure(
-            flavour = "qa",
+            flavour = ProductFlavour.PROD.flavour,
             buildType = BuildConfig.BUILD_TYPE,
             versionName = YAPApplication.configManager?.versionName ?: "1.0.0",
             versionCode = YAPApplication.configManager?.versionCode ?: "1",
@@ -52,7 +52,7 @@ class LoadConfig @Inject constructor(@ApplicationContext val appContext: Context
         ) { event ->
             handlePkAppEvent(event, context)
         }
-        pkConfigs.setAdjustAppId(getAdjustReferralTrackerId("PK", "qa"))
+        pkConfigs.setAdjustAppId(getAdjustReferralTrackerId("PK", ProductFlavour.PROD.flavour))
         getReferralInfo("PK")?.let {
             pkConfigs.setReferralInfo(it.id, it.date)
             SharedPreferenceManager.getInstance(context).setReferralInfo(null)
@@ -76,18 +76,16 @@ class LoadConfig @Inject constructor(@ApplicationContext val appContext: Context
         ) {
             handleGhanaAppEvent(it, context)
         }
+        ghConfigs.setAdjustAppId(
+            getAdjustReferralTrackerId(
+                "GH",
+                ProductFlavour.PROD.flavour
+            )
+        )
         getReferralInfo("GH")?.let {
             ghConfigs.setReferralInfo(it.id, it.date)
             SharedPreferenceManager.getInstance(context).setReferralInfo(null)
         }
-
-        ghConfigs.setAdjustAppId(
-            getAdjustReferralTrackerId(
-                "GH",
-                YAPApplication.configManager?.flavor ?: ""
-            )
-        )
-
         return ghConfigs
     }
 
@@ -99,7 +97,7 @@ class LoadConfig @Inject constructor(@ApplicationContext val appContext: Context
                     .save(Constants.KEY_IS_USER_LOGGED_IN, true)
             }
             GhanaAppEvent.LOGOUT -> {
-                SessionManager.getAppCountries(context){_,_->
+                SessionManager.getAppCountries(context) { _, _ ->
                     SessionManager.tempLoginState.postValue(false)
                 }
                 SharedPreferenceManager.getInstance(context)
@@ -117,7 +115,7 @@ class LoadConfig @Inject constructor(@ApplicationContext val appContext: Context
                     .save(Constants.KEY_IS_USER_LOGGED_IN, true)
             }
             PkAppEvent.LOGOUT -> {
-                SessionManager.getAppCountries(context){_,_->
+                SessionManager.getAppCountries(context) { _, _ ->
                     SessionManager.tempLoginState.postValue(false)
                 }
 
