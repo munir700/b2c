@@ -20,6 +20,7 @@ interface IDocumentsDashboard {
         var lastName: ObservableField<String>
         var nationality: ObservableField<String>
         var identityNo: ObservableField<String>
+        var hideParentToolbar : MutableLiveData<Boolean>
     }
 
     interface ViewModel : IBase.ViewModel<State> {
@@ -39,7 +40,6 @@ interface IDocumentsDashboard {
         var uqudoIdentity: MutableLiveData<V2DocumentDTO>
         var uqudoManager : UqudoScannerManager?
         var comingFrom: MutableLiveData<String>
-
     }
 
     interface View : IBase.View<ViewModel>

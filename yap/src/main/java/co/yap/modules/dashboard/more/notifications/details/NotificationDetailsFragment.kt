@@ -24,6 +24,7 @@ import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.enums.EIDStatus
 import co.yap.yapcore.enums.FeatureSet
 import co.yap.yapcore.enums.PartnerBankStatus
+import co.yap.yapcore.helpers.ExtraKeys
 import co.yap.yapcore.helpers.confirm
 import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.helpers.extentions.makeCall
@@ -103,7 +104,7 @@ class NotificationDetailsFragment :
                                             "from",
                                             NotificationDetailsFragment::class.java.name
                                         )
-
+                                        putExtra(ExtraKeys.HIDE_KYC_PARENT_TOOLBAR.name, true)
                                     }
                                 } else {
                                     showBlockedFeatureAlert(
