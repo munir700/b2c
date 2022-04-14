@@ -38,14 +38,13 @@ class CreatePasscodeActivity : BaseBindingActivity<FragmentPassCodeBinding, IPas
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        viewModel.setLayoutVisibility(true)
         with(viewModel.state) {
             forgotTextVisibility = false
             title = getString(Strings.screen_create_passcode_display_heading)
             buttonTitle =
                 getString(Strings.screen_create_passcode_onboarding_button_create_passcode)
         }
-
-        viewModel.setLayoutVisibility(true)
 
         getBinding().tvTermsAndConditions.apply {
             visibility = View.VISIBLE
@@ -98,10 +97,8 @@ class CreatePasscodeActivity : BaseBindingActivity<FragmentPassCodeBinding, IPas
     }
 
     private fun getTermsSpannable(): SpannableStringBuilder {
-        val termsLink =
-            getString(R.string.screen_confirm_card_pin_display_text_terms_and_conditions)
-        val keyFactStatementLink =
-            getString(R.string.screen_confirm_card_pin_display_text_key_fact_statement)
+        val termsLink = getString(R.string.screen_confirm_card_pin_display_text_terms_and_conditions)
+        val keyFactStatementLink = getString(R.string.screen_confirm_card_pin_display_text_key_fact_statement)
         val termsText = getString(
             R.string.screen_confirm_card_pin_terms_condition_note,
             termsLink,
@@ -154,7 +151,6 @@ class CreatePasscodeActivity : BaseBindingActivity<FragmentPassCodeBinding, IPas
             policyStartPos + keyFactStatementLink.length,
             Spannable.SPAN_EXCLUSIVE_INCLUSIVE
         )
-
 
         return termsSpannableText
     }
