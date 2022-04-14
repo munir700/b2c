@@ -24,6 +24,8 @@ class PassCodeState : BaseState(), IPassCode.State {
 
         }
 
+    override var isAgreed: Boolean = false
+
     @get:Bindable
     override var dialerError: String = ""
         set(value) {
@@ -60,7 +62,7 @@ class PassCodeState : BaseState(), IPassCode.State {
         }
 
     fun validate() {
-        if (passCode.length >= 4) {
+        if (passCode.length >= 4 && isAgreed) {
             valid = true
         } else {
             dialerError = ""
