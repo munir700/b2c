@@ -13,15 +13,17 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import co.yap.app.BR
 import co.yap.app.R
-import co.yap.app.constants.Constants
 import co.yap.app.databinding.FragmentBiometricPermissionBinding
 import co.yap.app.modules.login.interfaces.ISystemPermission
 import co.yap.app.modules.login.viewmodels.SystemPermissionViewModel
+import co.yap.modules.dashboard.main.activities.YapDashboardActivity
 import co.yap.modules.kyc.amendments.missinginfo.MissingInfoFragment
 import co.yap.modules.webview.WebViewFragment
 import co.yap.networking.customers.responsedtos.AmendmentStatus
 import co.yap.yapcore.BaseBindingFragment
+import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.RequestCodes.REQUEST_NOTIFICATION_SETTINGS
+import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.helpers.extentions.startFragment
 import co.yap.yapcore.managers.SessionManager
 
@@ -114,7 +116,7 @@ class SystemPermissionFragment : BaseBindingFragment<FragmentBiometricPermission
                 fragmentName = MissingInfoFragment::class.java.name
             )
         } else {
-            findNavController().navigate(R.id.action_goto_yapDashboardActivity)
+            launchActivity<YapDashboardActivity>()
         }
         activity?.finish()
     }

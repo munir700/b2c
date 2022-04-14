@@ -25,6 +25,7 @@ import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.getBlockedFeaturesList
 import co.yap.yapcore.helpers.extentions.getUserAccessRestrictions
+import co.yap.yapcore.helpers.extentions.listToJson
 import com.liveperson.infra.auth.LPAuthenticationParams
 import com.liveperson.messaging.sdk.api.LivePerson
 import com.liveperson.messaging.sdk.api.callbacks.LogoutLivePersonCallback
@@ -50,6 +51,7 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
     var eidStatus: EIDStatus = EIDStatus.NOT_SET
     var helpPhoneNumber: String = "+971600551214"
     var onAccountInfoSuccess: MutableLiveData<Boolean> = MutableLiveData()
+    var tempLoginState: MutableLiveData<Boolean> = MutableLiveData()
     private val currencies: MutableLiveData<ArrayList<CurrencyData>> = MutableLiveData()
     private val countries: MutableLiveData<ArrayList<Country>> = MutableLiveData()
     var isRemembered: MutableLiveData<Boolean> = MutableLiveData(true)
@@ -260,7 +262,7 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
 
     fun getDefaultCurrency() = DEFAULT_CURRENCY
 
-    fun sendFcmTokenToServer(deviceId:String? , success: () -> Unit = {}) {
+    fun sendFcmTokenToServer(deviceId: String?, success: () -> Unit = {}) {
         getFCMToken() {
             it?.let { token ->
                 GlobalScope.launch {
@@ -282,6 +284,41 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
 
         }
     }
+
+    fun getAppCountries(
+        context: Context,
+        completionHandler: ((result: ArrayList<co.yap.networking.customers.responsedtos.sendmoney.Country>?, msg: String?) -> Unit)? = null
+    ) {
+        GlobalScope.launch {
+            when (val response = customerRepository.getAppCountries()) {
+                is RetroApiResponse.Success -> {
+                    response.data.data?.let {
+                        val list = ArrayList(it)
+                        SharedPreferenceManager.getInstance(context)
+                            .save(
+                                Constants.KEY_COUNTRIES_LIST,
+                                list.listToJson<co.yap.networking.customers.responsedtos.sendmoney.Country>()
+                                    ?: ""
+                            )
+                        completionHandler?.invoke(list, null)
+
+                    }
+                }
+                is RetroApiResponse.Error -> {
+                    completionHandler?.invoke(null, response.error.message)
+                }
+            }
+        }
+    }
+
+}
+
+fun Context.saveUserDetails(mobile: String?, countryCode: String?, isRemember: Boolean?) {
+    SharedPreferenceManager.getInstance(this).save(Constants.KEY_IS_REMEMBER, isRemember ?: true)
+    SharedPreferenceManager.getInstance(this)
+        .save(Constants.KEY_MOBILE_NO, mobile ?: "")
+    SharedPreferenceManager.getInstance(this)
+        .save(Constants.KEY_COUNTRY_CODE, countryCode ?: "")
 }
 
 fun Context?.isUserLogin() = this?.let {

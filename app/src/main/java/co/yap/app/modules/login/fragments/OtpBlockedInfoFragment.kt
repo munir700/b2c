@@ -38,13 +38,13 @@ class OtpBlockedInfoFragment :
 
     override fun setObservers() {
         viewModel.clickEvent.observe(this, onClickObserver)
-        viewModel.onHelpNoSuccess.observe(this, Observer {
+        viewModel.onHelpNoSuccess.observe(this, {
             if (it) setDetailTextView()
         })
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         UXCam.occludeSensitiveScreen(false)
     }
 
