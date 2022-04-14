@@ -35,11 +35,22 @@ import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.leanplum.Leanplum
 import com.leanplum.LeanplumActivityHelper
+import com.yap.ghana.configs.GhanaBuildConfigurations
+import com.yap.yappakistan.configs.PKBuildConfigurations
+import dagger.hilt.android.HiltAndroidApp
 import com.uxcam.UXCam
 import timber.log.Timber
 import java.util.*
+import javax.inject.Inject
 
+@HiltAndroidApp
 class AAPApplication : YAPApplication(), NavigatorProvider {
+
+    @Inject
+    lateinit var pkBuildConfigurations: PKBuildConfigurations
+
+    @Inject
+    lateinit var ghanaBuildConfiguration: GhanaBuildConfigurations
 
     private external fun signatureKeysFromJNI(
         name: String,
@@ -95,6 +106,7 @@ class AAPApplication : YAPApplication(), NavigatorProvider {
                 configManager?.hasValidSignature = true
             }
         })
+
     }
 
     private fun initAllModules() {

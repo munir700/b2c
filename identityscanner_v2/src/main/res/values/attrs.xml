@@ -157,18 +157,4 @@
     </declare-styleable>
 
 
-
-    <declare-styleable name="TransparentCardView">
-        <attr name="backgroundColor" format="color" />
-        <attr name="cardColor" format="color" />
-        <attr name="cardCorners" format="dimension" />
-        <attr name="cardMarginTop" format="dimension" />
-        <attr name="cardMarginHorizontal" format="dimension" />
-
-        <attr name="cardBorderColor" format="color" />
-        <attr name="cardBorderDashSpan" format="dimension" />
-        <attr name="cardBorderDashed" format="boolean" />
-        <attr name="cardBorderWidth" format="dimension" />
-    </declare-styleable>
-
 </resources>

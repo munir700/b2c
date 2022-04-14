@@ -1,6 +1,7 @@
 package co.yap.widgets.bottomsheet
 
 import android.animation.Animator
+import android.view.View
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.networking.coreitems.CoreBottomSheetData
@@ -18,10 +19,10 @@ open class CoreBottomSheetAdapter(
 
     override fun getLayoutIdForViewType(viewType: Int): Int = when (viewType) {
         Constants.VIEW_ITEM_WITHOUT_SEPARATOR -> R.layout.item_bottom_sheet_no_separator
-        Constants.VIEW_WITH_FLAG -> R.layout.item_bottomsheet_with_flag
         Constants.VIEW_CARD_DETAIL_ITEM -> R.layout.item_bottomsheet_card_detail
         Constants.VIEW_ITEM_CARD_SUCCESSS -> R.layout.item_bottom_sheet_add_card_success
         Constants.VIEW_ITEM_ACCOUNT_DETAIL -> R.layout.item_bottom_sheet_account_detail
+        Constants.VIEW_WITH_FLAG, Constants.VIEW_ITEM_WITH_FLAG_AND_CODE -> R.layout.item_bottomsheet_with_flag
         else -> R.layout.item_city
     }
 
@@ -120,6 +121,8 @@ class BottomSheetWithFlagViewHolder(private val itemFlagBinding: ItemBottomsheet
             position = position,
             onItemClickListener = onItemClickListener
         )
+        if (itemViewType == Constants.VIEW_ITEM_WITH_FLAG_AND_CODE) itemFlagBinding.countryCode.visibility =
+            View.VISIBLE
         itemFlagBinding.executePendingBindings()
     }
 }

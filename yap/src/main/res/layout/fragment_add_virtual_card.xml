@@ -78,7 +78,7 @@
                 android:layout_marginEnd="@dimen/margin_btn_side_paddings"
                 android:layout_marginBottom="@dimen/margin_medium_large"
                 android:onClick="@{(v) -> viewModel.handlePressOnButton(v.id)}"
-                android:text="@string/screen_phone_number_button_send"
+                android:text="@string/common_button_next"
                 app:enableCoreButton="@{true}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

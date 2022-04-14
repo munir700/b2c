@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="co.yap.app">
+
     <uses-sdk
         android:protectionLevel="signature"
         tools:overrideLibrary="com.leanplum, com.google.android.gms" />
@@ -40,6 +41,14 @@
             <intent-filter>
                 <action android:name="co.yap.app.OPEN_LOGIN" />
                 <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="b2c_yap" />
             </intent-filter>
         </activity>
 
@@ -111,7 +120,6 @@
 
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-
                 <data
                     android:host="gqvg.adj.st"
                     android:scheme="https" />

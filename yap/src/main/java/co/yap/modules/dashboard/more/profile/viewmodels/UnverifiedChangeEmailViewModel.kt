@@ -44,7 +44,7 @@ class UnverifiedChangeEmailViewModel(application: Application) : ChangeEmailView
                 repository.changeUnverifiedEmail(state.newEmail)) {
                 is RetroApiResponse.Success -> {
                     SessionManager.user?.currentCustomer?.email = state.newEmail
-                    SharedPreferenceManager.getInstance(context).saveUserNameWithEncryption(state.newEmail)
+//                    SharedPreferenceManager.getInstance(context).saveUserNameWithEncryption(state.newEmail)
                     success.value = true
                 }
 

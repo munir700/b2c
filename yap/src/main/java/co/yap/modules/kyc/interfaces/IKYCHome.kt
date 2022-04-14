@@ -3,7 +3,6 @@ package co.yap.modules.kyc.interfaces
 import co.yap.modules.kyc.enums.DocScanStatus
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
-import com.digitify.identityscanner.docscanner.models.IdentityScannerResult
 
 interface IKYCHome {
     interface State : IBase.State {
