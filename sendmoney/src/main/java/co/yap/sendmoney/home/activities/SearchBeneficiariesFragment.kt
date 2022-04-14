@@ -5,7 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.networking.customers.responsedtos.sendmoney.IBeneficiary
 import co.yap.sendmoney.BR
@@ -34,17 +34,16 @@ import co.yap.yapcore.helpers.confirm
 import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.managers.SessionManager
 import com.nikhilpanju.recyclerviewenhanced.RecyclerTouchListener
-import kotlinx.android.synthetic.main.layout_item_beneficiary.*
 
 class SearchBeneficiariesFragment :
-    SMBeneficiaryParentBaseFragment<FragmentSearchBeneficiaryBinding,ISMSearchBeneficiary.ViewModel>(),
+    SMBeneficiaryParentBaseFragment<FragmentSearchBeneficiaryBinding, ISMSearchBeneficiary.ViewModel>(),
     ISMSearchBeneficiary.View {
     private var onTouchListener: RecyclerTouchListener? = null
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_search_beneficiary
 
     override val viewModel: SMSearchBeneficiaryViewModel
-        get() = ViewModelProviders.of(this).get(SMSearchBeneficiaryViewModel::class.java)
+        get() = ViewModelProvider(this).get(SMSearchBeneficiaryViewModel::class.java)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -53,12 +52,12 @@ class SearchBeneficiariesFragment :
     }
 
     override fun setObservers() {
-        viewModel.clickEvent.observe(this, clickListener)
+        viewModel.clickEvent.observe(viewLifecycleOwner, clickListener)
         getBindings().etSearch.afterTextChanged {
             viewModel.adapter.filter.filter(it)
         }
-        viewModel.state.stateLiveData?.observe(this, Observer { handleState(it) })
-        viewModel.adapter.filterCount.observe(this, Observer {
+        viewModel.state.stateLiveData?.observe(viewLifecycleOwner, Observer { handleState(it) })
+        viewModel.adapter.filterCount.observe(viewLifecycleOwner, Observer {
             viewModel.state.stateLiveData?.value =
                 if (it == 0) State.empty("") else State.success("")
         })
@@ -73,12 +72,12 @@ class SearchBeneficiariesFragment :
                             override fun onRowClicked(position: Int) {
                                 viewModel.clickEvent.setPayload(
                                     SingleClickEvent.AdaptorPayLoadHolder(
-                                        foregroundContainer,
+                                        viewDataBinding.rvAllBeneficiaries.findViewById(R.id.foregroundContainer),
                                         viewModel.adapter.getDataForPosition(position),
                                         position
                                     )
                                 )
-                                viewModel.clickEvent.setValue(foregroundContainer.id)
+                                viewModel.clickEvent.setValue(R.id.foregroundContainer)
                             }
 
                             override fun onIndependentViewClicked(
@@ -294,6 +293,6 @@ class SearchBeneficiariesFragment :
     }
 
     private fun getBindings(): FragmentSearchBeneficiaryBinding {
-        return viewDataBinding as FragmentSearchBeneficiaryBinding
+        return viewDataBinding
     }
 }

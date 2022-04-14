@@ -7,7 +7,7 @@ import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
@@ -41,16 +41,16 @@ import co.yap.yapcore.helpers.spannables.getText
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.SessionManager
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import kotlinx.android.synthetic.main.fragment_international_funds_transfer.*
 
-class CashTransferFragment : BeneficiaryFundTransferBaseFragment<FragmentCashTransferBinding,ICashTransfer.ViewModel>(),
+class CashTransferFragment :
+    BeneficiaryFundTransferBaseFragment<FragmentCashTransferBinding, ICashTransfer.ViewModel>(),
     ICashTransfer.View {
 
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_cash_transfer
 
     override val viewModel: CashTransferViewModel
-        get() = ViewModelProviders.of(this).get(CashTransferViewModel::class.java)
+        get() = ViewModelProvider(this).get(CashTransferViewModel::class.java)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -109,7 +109,7 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<FragmentCashTra
     }
 
     private fun setupPOP(purposeCategories: Map<String?, List<PurposeOfPayment>>?) {
-        etNote.clearFocus()
+        viewDataBinding.etNote.clearFocus()
         var inviteFriendBottomSheet: BottomSheetDialogFragment? = null
         this.fragmentManager?.let {
             inviteFriendBottomSheet = PopListBottomSheet(object :
@@ -409,6 +409,6 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<FragmentCashTra
     }
 
     private fun getBindings(): FragmentCashTransferBinding {
-        return viewDataBinding as FragmentCashTransferBinding
+        return viewDataBinding
     }
 }

@@ -7,7 +7,7 @@ import android.os.Parcelable
 import android.view.View
 import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import co.yap.countryutils.country.Country
 import co.yap.countryutils.country.InternationalPhoneTextWatcher
@@ -35,24 +35,18 @@ import co.yap.yapcore.enums.OTPActions
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.*
-import co.yap.yapcore.helpers.extentions.getBeneficiaryTransferType
-import co.yap.yapcore.helpers.extentions.getCurrencyPopMenu
-import co.yap.yapcore.helpers.extentions.launchActivity
-import co.yap.yapcore.helpers.extentions.startFragmentForResult
-import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.SessionManager
-import kotlinx.android.synthetic.main.fragment_add_beneficiary_international_bank_transfer.*
 
 class AddBeneficiaryInternationlTransferFragment :
-    SendMoneyBaseFragment<FragmentAddBeneficiaryInternationalBankTransferBinding , IAddBeneficiary.ViewModel>(),
+    SendMoneyBaseFragment<FragmentAddBeneficiaryInternationalBankTransferBinding, IAddBeneficiary.ViewModel>(),
     IAddBeneficiary.View {
     private var currencyPopMenu: PopupMenu? = null
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_add_beneficiary_international_bank_transfer
 
     override val viewModel: AddBeneficiaryViewModel
-        get() = ViewModelProviders.of(this).get(AddBeneficiaryViewModel::class.java)
+        get() = ViewModelProvider(this).get(AddBeneficiaryViewModel::class.java)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,7 +62,7 @@ class AddBeneficiaryInternationlTransferFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initComponents()
-        etMobileNumber.addTextChangedListener(
+        viewDataBinding.etMobileNumber.addTextChangedListener(
             InternationalPhoneTextWatcher(
                 viewModel.state.country2DigitIsoCode,
                 viewModel.state.countryCode.toInt(),
@@ -305,7 +299,7 @@ class AddBeneficiaryInternationlTransferFragment :
     }
 
     private fun getBinding(): FragmentAddBeneficiaryInternationalBankTransferBinding {
-        return (viewDataBinding as FragmentAddBeneficiaryInternationalBankTransferBinding)
+        return viewDataBinding
     }
 
     fun getMultiCurrencyWalletList(): ArrayList<MultiCurrencyWallet> {

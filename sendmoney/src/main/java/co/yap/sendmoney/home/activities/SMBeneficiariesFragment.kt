@@ -39,10 +39,9 @@ import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.SessionManager
 import com.nikhilpanju.recyclerviewenhanced.RecyclerTouchListener
-import kotlinx.android.synthetic.main.layout_beneficiaries.*
-import kotlinx.android.synthetic.main.layout_item_beneficiary.*
 
-class SMBeneficiariesFragment : SMBeneficiaryParentBaseFragment<ActivitySendMoneyLandingBinding,ISMBeneficiaries.ViewModel>(),
+class SMBeneficiariesFragment :
+    SMBeneficiaryParentBaseFragment<ActivitySendMoneyLandingBinding, ISMBeneficiaries.ViewModel>(),
     ISMBeneficiaries.View {
 
     private var onTouchListener: RecyclerTouchListener? = null
@@ -113,12 +112,14 @@ class SMBeneficiariesFragment : SMBeneficiaryParentBaseFragment<ActivitySendMone
                             override fun onRowClicked(position: Int) {
                                 viewModel.clickEvent.setPayload(
                                     SingleClickEvent.AdaptorPayLoadHolder(
-                                        foregroundContainer,
+                                        viewDataBinding.layoutBeneficiaries.rvAllBeneficiaries.findViewById(
+                                            R.id.foregroundContainer
+                                        ),
                                         getAdaptor().getDataForPosition(position),
                                         position
                                     )
                                 )
-                                viewModel.clickEvent.setValue(foregroundContainer.id)
+                                viewModel.clickEvent.setValue(R.id.foregroundContainer)
                             }
 
                             override fun onIndependentViewClicked(
@@ -140,7 +141,9 @@ class SMBeneficiariesFragment : SMBeneficiaryParentBaseFragment<ActivitySendMone
                         )
                         viewModel.clickEvent.setValue(viewID)
                     }
-            rvAllBeneficiaries.addOnItemTouchListener(onTouchListener!!)
+            viewDataBinding.layoutBeneficiaries.rvAllBeneficiaries.addOnItemTouchListener(
+                onTouchListener!!
+            )
         }
     }
 
@@ -186,11 +189,19 @@ class SMBeneficiariesFragment : SMBeneficiaryParentBaseFragment<ActivitySendMone
 
     override fun onResume() {
         super.onResume()
-        onTouchListener?.let { rvAllBeneficiaries.addOnItemTouchListener(it) }
+        onTouchListener?.let {
+            viewDataBinding.layoutBeneficiaries.rvAllBeneficiaries.addOnItemTouchListener(
+                it
+            )
+        }
     }
 
     override fun onPause() {
-        onTouchListener?.let { rvAllBeneficiaries.removeOnItemTouchListener(it) }
+        onTouchListener?.let {
+            viewDataBinding.layoutBeneficiaries.rvAllBeneficiaries.removeOnItemTouchListener(
+                it
+            )
+        }
         super.onPause()
     }
 
@@ -310,7 +321,7 @@ class SMBeneficiariesFragment : SMBeneficiaryParentBaseFragment<ActivitySendMone
     }
 
     private fun getBinding(): ActivitySendMoneyLandingBinding {
-        return (viewDataBinding as ActivitySendMoneyLandingBinding)
+        return viewDataBinding
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -345,8 +356,9 @@ class SMBeneficiariesFragment : SMBeneficiaryParentBaseFragment<ActivitySendMone
                                 }
                                 else -> {
                                     viewModel.parentViewModel?.requestAllBeneficiaries(
-                                    viewModel.state.sendMoneyType.get() ?: ""
-                                )}
+                                        viewModel.state.sendMoneyType.get() ?: ""
+                                    )
+                                }
                             }
                         }
                     }

@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import co.yap.networking.transactions.requestdtos.RemittanceFeeRequest
 import co.yap.networking.transactions.responsedtos.purposepayment.PurposeOfPayment
@@ -32,17 +32,15 @@ import co.yap.yapcore.helpers.spannables.getText
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.SessionManager
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import kotlinx.android.synthetic.main.fragment_international_funds_transfer.*
-
 
 class InternationalFundsTransferFragment :
-    BeneficiaryFundTransferBaseFragment<FragmentInternationalFundsTransferBinding,IInternationalFundsTransfer.ViewModel>(),
+    BeneficiaryFundTransferBaseFragment<FragmentInternationalFundsTransferBinding, IInternationalFundsTransfer.ViewModel>(),
     IInternationalFundsTransfer.View {
 
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_international_funds_transfer
     override val viewModel: InternationalFundsTransferViewModel
-        get() = ViewModelProviders.of(this).get(InternationalFundsTransferViewModel::class.java)
+        get() = ViewModelProvider(this).get(InternationalFundsTransferViewModel::class.java)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -171,7 +169,7 @@ class InternationalFundsTransferFragment :
     }
 
     private fun setupPOP(purposeCategories: Map<String?, List<PurposeOfPayment>>?) {
-        etNote.clearFocus()
+        viewDataBinding.etNote.clearFocus()
         var inviteFriendBottomSheet: BottomSheetDialogFragment? = null
         this.fragmentManager?.let {
             inviteFriendBottomSheet = PopListBottomSheet(object :
@@ -308,7 +306,7 @@ class InternationalFundsTransferFragment :
     }
 
     private fun setEditTextWatcher() {
-        etSenderAmount.afterTextChanged {
+        viewDataBinding.etSenderAmount.afterTextChanged {
             viewModel.state.etInputAmount = it
             viewModel.state.clearError()
             viewModel.setDestinationAmount()
@@ -365,7 +363,7 @@ class InternationalFundsTransferFragment :
     }
 
     fun getBindings(): FragmentInternationalFundsTransferBinding {
-        return viewDataBinding as FragmentInternationalFundsTransferBinding
+        return viewDataBinding
     }
 
     override fun onDestroyView() {
