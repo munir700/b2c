@@ -22,11 +22,17 @@ class AccountListViewModel(application: Application) :
                 is RetroApiResponse.Success -> {
                     response.data.data?.let { list ->
                         val accountListTemp: MutableList<Any> = mutableListOf()
+                        list.sortBy { it.bank?.name }
                         list.forEach { value ->
-                            value.bank?.status = value.status
-                            value.bank?.let { accountListTemp.add(it) }
-                            value.leanCustomerAccounts.forEach { v ->
-                                accountListTemp.add(v)
+                            with(value.bank){
+                                this?.status = value.status
+                                this?.let { accountListTemp.add(it) }
+                            }
+                            with(value.leanCustomerAccounts){
+                                sortBy { it.accountName }
+                                forEach { v ->
+                                    accountListTemp.add(v)
+                                }
                             }
                         }
                         accountList.postValue(accountListTemp)
