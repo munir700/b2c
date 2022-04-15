@@ -259,9 +259,7 @@ class EidInfoReviewAmendmentFragment : KYCChildFragment<FragmentEidInfoReviewAme
             REQUEST_UQUDO -> {
                 val uqudoJWT = data?.getStringExtra("data")
                 if (uqudoJWT.isNullOrBlank().not()) {
-                    viewModel.parentViewModel?.uqudoManager?.decodeEncodedUqudoToken(
-                        uqudoJWT ?: ""
-                    ) {
+                    viewModel.parentViewModel?.uqudoManager?.decodeEncodedUqudoToken(uqudoJWT ?: "") {
                         viewModel.getKYCDataFromServer()
                     }
                 } else {
@@ -317,6 +315,7 @@ class EidInfoReviewAmendmentFragment : KYCChildFragment<FragmentEidInfoReviewAme
             }
             Status.SUCCESS -> {
                 getViewBinding().multiStateView.viewState = MultiStateView.ViewState.CONTENT
+                viewModel.state.viewState.postValue(true)
                 viewModel.parentViewModel?.uqudoManager?.getPayloadData()?.let { identity ->
                     viewModel.populateUqudoState(identity = identity)
                 }

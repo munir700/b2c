@@ -120,10 +120,14 @@ class EidInfoReviewViewModel(application: Application) :
                     trackEvent(KYCEvents.KYC_PROHIBITED_CITIIZEN.type)
                     trackEventWithScreenName(FirebaseEvent.KYC_SANCTIONED)
                 }
-                parentViewModel?.document != null && it.identityNo?.replace("-","") != parentViewModel?.document?.identityNo -> {
+                parentViewModel?.document != null && it.identityNo?.replace(
+                    "-",
+                    ""
+                ) != parentViewModel?.document?.identityNo -> {
                     state.toast =
                         "Your EID doesn't match with the current EID.^${AlertType.DIALOG.name}"
                 }
+                it.filePaths.isNullOrEmpty() -> state.eidImageDownloaded.value = false
                 else -> {
                     performUqudoUploadDocumentsRequest(false) {
                     }
@@ -356,6 +360,7 @@ class EidInfoReviewViewModel(application: Application) :
 
 
     override fun populateUqudoState(identity: EidData?) {
+        if (parentViewModel?.uqudoManager?.noImageDownloaded() == true) downloadImageInBackground()
         identity?.let {
             val documentBack = it.documents[0].scan?.back
             val documentFront = it.documents[0].scan?.front
@@ -407,10 +412,12 @@ class EidInfoReviewViewModel(application: Application) :
             }
             state.isCountryUS =
                 getCountryCode(documentFront?.nationality ?: "").contains(countryName ?: "US")
-            if (parentViewModel?.uqudoManager?.getFrontImagePath()
-                    .isNullOrBlank() && parentViewModel?.uqudoManager?.getBackImagePath()
-                    .isNullOrBlank()
-            ) parentViewModel?.uqudoManager?.downloadImage { downloaded ->
+        }
+    }
+
+    private fun downloadImageInBackground() {
+        launch(Dispatcher.Background) {
+            parentViewModel?.uqudoManager?.downloadImage { downloaded ->
                 state.viewState.postValue(false)
                 if (downloaded)
                     parentViewModel?.uqudoIdentity?.value =

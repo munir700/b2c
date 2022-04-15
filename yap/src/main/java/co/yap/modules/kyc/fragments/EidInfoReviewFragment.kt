@@ -158,8 +158,9 @@ class EidInfoReviewFragment :
                     ) {
                         viewModel.eidStateLiveData.postValue(State.success(""))
                     }
-                } else {
-                    if (viewModel.parentViewModel?.uqudoManager?.getPayloadData() == null && viewModel.parentViewModel?.comingFrom?.value.isNullOrBlank()
+                } else if (viewModel.parentViewModel?.uqudoManager?.getPayloadData() != null && uqudoJWT.isNullOrBlank()){}
+                else{
+                    if (viewModel.parentViewModel?.uqudoManager?.getPayloadData() == null || viewModel.parentViewModel?.comingFrom?.value.isNullOrBlank()
                             .not()
                     ) navigateBack() else requireActivity().finish()
                 }
@@ -191,9 +192,13 @@ class EidInfoReviewFragment :
             }
             Status.SUCCESS -> {
                 getViewBinding().multiStateView.viewState = MultiStateView.ViewState.CONTENT
-                viewModel.parentViewModel?.uqudoManager?.getPayloadData()?.let { identity ->
-                    viewModel.populateUqudoState(identity = identity)
+                with(viewModel) {
+                    this.state.viewState.postValue(true)
+                    parentViewModel?.uqudoManager?.getPayloadData()?.let { identity ->
+                        populateUqudoState(identity = identity)
+                    }
                 }
+
             }
             Status.ERROR -> {
                 getViewBinding().multiStateView.viewState = MultiStateView.ViewState.ERROR
