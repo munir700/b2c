@@ -1750,4 +1750,11 @@
     <string name="screen_lean_bank_list_select_a_bank">Select a bank</string>
     <string name="screen_lean_bank_list_choose_bank">Choose which bank to connect with YAP</string>
 
+    <!--Lean -Easy Bank Transfer- Account List-->
+    <string name="screen_lean_account_list_select_an_account">Select an account</string>
+    <string name="screen_lean_account_list_choose_an_account">Choose an account to top-up with</string>
+    <string name="screen_lean_account_list_pending">Pending</string>
+    <string name="screen_lean_account_list_link_new_account">Link new account</string>
+
+
 </resources>

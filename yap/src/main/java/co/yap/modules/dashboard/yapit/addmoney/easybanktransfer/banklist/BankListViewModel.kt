@@ -7,20 +7,14 @@ import co.yap.networking.leanteach.LeanTechRepository
 import co.yap.networking.leanteach.responsedtos.LeanOnBoardModel
 import co.yap.networking.leanteach.responsedtos.banklistmodels.BankListMainModel
 import co.yap.networking.models.RetroApiResponse
-import co.yap.yapcore.SingleClickEvent
 
 class BankListViewModel(application: Application) :
     AddMoneyBaseViewModel<IBankList.State>(application),
     IBankList.ViewModel {
-    override val clickEvent: SingleClickEvent = SingleClickEvent()
     override val bankList: MutableLiveData<MutableList<BankListMainModel>> = MutableLiveData()
     override val bankListAdapter: BankListAdapter = BankListAdapter(mutableListOf(), null)
     override var leanOnBoardModel: LeanOnBoardModel = LeanOnBoardModel()
     private val leanTechRepository: LeanTechRepository = LeanTechRepository
-
-    override fun handlePressOnView(id: Int) {
-        clickEvent.setValue(id)
-    }
 
     override val state: IBankList.State = BankListState()
 

@@ -9,17 +9,13 @@ import co.yap.yapcore.SingleClickEvent
 
 interface IBankList {
     interface View : IBase.View<ViewModel> {
-        fun getBinding(): FragmentEasyBankTransferBankListBinding
         fun setObservers()
-        fun removeObservers()
     }
 
     interface ViewModel : IBase.ViewModel<State> {
-        val clickEvent: SingleClickEvent
-        val bankList: MutableLiveData<MutableList<BankListMainModel>>
+         val bankList: MutableLiveData<MutableList<BankListMainModel>>
         val bankListAdapter: BankListAdapter
         var leanOnBoardModel: LeanOnBoardModel
-        fun handlePressOnView(id: Int)
         fun getBankList()
     }
 

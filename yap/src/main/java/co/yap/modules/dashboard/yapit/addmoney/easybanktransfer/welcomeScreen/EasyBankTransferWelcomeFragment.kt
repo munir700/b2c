@@ -3,8 +3,8 @@ package co.yap.modules.dashboard.yapit.addmoney.easybanktransfer.welcomeScreen
 import android.os.Bundle
 import android.view.View
 import androidx.core.os.bundleOf
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import co.yap.BR
 import co.yap.R
 import co.yap.databinding.FragmentEasyBankTransferWelcomeBinding
@@ -14,14 +14,14 @@ import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.extentions.startFragment
 import co.yap.yapcore.helpers.extentions.toast
 
-class EasyBankTransferWelcomeFragment : AddMoneyBaseFragment<IEasyBankTransferWelcome.ViewModel>(),
+class EasyBankTransferWelcomeFragment :
+    AddMoneyBaseFragment<FragmentEasyBankTransferWelcomeBinding, IEasyBankTransferWelcome.ViewModel>(),
     IEasyBankTransferWelcome.View {
     override fun getBindingVariable(): Int = BR.viewModel
 
     override fun getLayoutId(): Int = R.layout.fragment_easy_bank_transfer_welcome
 
-    override val viewModel: IEasyBankTransferWelcome.ViewModel
-        get() = ViewModelProvider(this).get(EasyBankTransferWelcomeViewModel::class.java)
+    override val viewModel: EasyBankTransferWelcomeViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -32,13 +32,14 @@ class EasyBankTransferWelcomeFragment : AddMoneyBaseFragment<IEasyBankTransferWe
     override fun setObservers() {
         viewModel.clickEvent.observe(this, observer)
         viewModel.leanOnBoardModel.observe(viewLifecycleOwner) {
-            if (it.customerId.isNullOrEmpty().not())
+            if (it.customerId.isNullOrEmpty().not()) {
                 toast("Customer Created successfully")
-            startFragment(
-                fragmentName = BankListFragment::class.java.name, bundle = bundleOf(
-                    Constants.ONBOARD_USER_LEAN to viewModel.leanOnBoardModel.value
+                startFragment(
+                    fragmentName = BankListFragment::class.java.name, bundle = bundleOf(
+                        Constants.ONBOARD_USER_LEAN to viewModel.leanOnBoardModel.value
+                    )
                 )
-            )
+            }
         }
     }
 
@@ -62,5 +63,8 @@ class EasyBankTransferWelcomeFragment : AddMoneyBaseFragment<IEasyBankTransferWe
         }
     }
 
-    override fun getBinding() = getDataBindingView<FragmentEasyBankTransferWelcomeBinding>()
+    override fun onDestroyView() {
+        super.onDestroyView()
+        removeObservers()
+    }
 }

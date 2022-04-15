@@ -16,7 +16,7 @@
     </string-array>
 
     <string-array name="yap_it_send_money_desc">
-        <item>Send money instantly to a \nYAP use</item>
+        <item>Send money instantly to a \nYAP user</item>
         <item>Scan a YAP QR code and pay</item>
         <item>Send money to a local UAE \nbank account</item>
         <item>Send money back home</item>
@@ -41,7 +41,7 @@
     </string-array>
 
     <string-array name="yap_it_add_money_desc">
-        <item>Link your existing bank accountse</item>
+        <item>Link your existing bank accounts</item>
         <item>Share your account details</item>
         <item>Share your unique payment code</item>
         <item>Link a card and top up</item>

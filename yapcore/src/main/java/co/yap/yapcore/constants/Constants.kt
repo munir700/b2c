@@ -244,6 +244,8 @@ object Constants {
     const val NATIONALITY = "NATIONALITY"
     // KYC Amendments
     const val CONFIRMATION_DESCRIPTION = "CONFIRMATION_DESCRIPTION"
-    // Lean Welcom Screen
+
+    // Lean Screens
     const val ONBOARD_USER_LEAN = "ONBOARD_USER_LEAN"
+
 }

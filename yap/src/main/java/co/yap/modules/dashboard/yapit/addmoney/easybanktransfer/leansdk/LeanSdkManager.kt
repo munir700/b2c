@@ -7,7 +7,7 @@ object LeanSdkManager {
 
     init {
         lean = Lean.Builder()
-            .setAppToken("9f9b7a4a-e470-4aba-b175-0987309e93db")
+            .setAppToken("75cd536d-9c5f-44d4-9731-8d839e7d43d7")
             .setVersion("latest")
             .showLogs()
             .sandboxMode(true)
