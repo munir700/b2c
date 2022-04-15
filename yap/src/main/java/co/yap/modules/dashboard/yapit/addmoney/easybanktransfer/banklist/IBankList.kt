@@ -3,6 +3,7 @@ package co.yap.modules.dashboard.yapit.addmoney.easybanktransfer.banklist
 import androidx.lifecycle.MutableLiveData
 import co.yap.databinding.FragmentEasyBankTransferBankListBinding
 import co.yap.networking.leanteach.responsedtos.banklistmodels.BankListMainModel
+import co.yap.widgets.search.IYapSearchView
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 
@@ -21,5 +22,7 @@ interface IBankList {
         fun getBankList()
     }
 
-    interface State : IBase.State {}
+    interface State : IBase.State {
+        var yapSearchViewListener:IYapSearchView
+    }
 }

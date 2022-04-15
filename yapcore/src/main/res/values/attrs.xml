@@ -565,6 +565,10 @@
     <declare-styleable name="CoreToolbar"></declare-styleable>
     <declare-styleable name="CoreSearchView"></declare-styleable>
 
+    <declare-styleable name="YapSearchView">
+
+    </declare-styleable>
+
     <declare-styleable name="RoundedImageViewV2">
         <attr name="rounded_radius" format="float" />
     </declare-styleable>

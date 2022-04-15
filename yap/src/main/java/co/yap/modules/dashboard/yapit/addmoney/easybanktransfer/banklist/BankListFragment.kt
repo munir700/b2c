@@ -9,11 +9,12 @@ import co.yap.R
 import co.yap.databinding.FragmentEasyBankTransferBankListBinding
 import co.yap.modules.dashboard.yapit.addmoney.main.AddMoneyBaseFragment
 import co.yap.widgets.SpaceGridItemDecoration
+import co.yap.widgets.search.IYapSearchView
 import co.yap.yapcore.helpers.extentions.dimen
 import co.yap.yapcore.helpers.extentions.toast
 
 class BankListFragment : AddMoneyBaseFragment<IBankList.ViewModel>(),
-    IBankList.View {
+    IBankList.View,IYapSearchView {
     override fun getBindingVariable(): Int = BR.viewModel
 
     override fun getLayoutId(): Int = R.layout.fragment_easy_bank_transfer_bank_list
@@ -32,6 +33,8 @@ class BankListFragment : AddMoneyBaseFragment<IBankList.ViewModel>(),
         viewModel.bankList.observe(viewLifecycleOwner) { list ->
             viewModel.bankListAdapter.setData(list)
         }
+
+        getBinding().layoutSearchView.yapSearchViewListener = this
     }
 
     private fun setRecyclerView() {
@@ -66,4 +69,18 @@ class BankListFragment : AddMoneyBaseFragment<IBankList.ViewModel>(),
     }
 
     override fun getBinding() = getDataBindingView<FragmentEasyBankTransferBankListBinding>()
+
+    override fun onSearchActive(isActive: Boolean) {
+        if(isActive) {
+            getBinding().tvSelectBank.visibility = View.GONE
+            getBinding().tvChooseBank.visibility = View.GONE
+        }else{
+            getBinding().tvSelectBank.visibility = View.VISIBLE
+            getBinding().tvChooseBank.visibility = View.VISIBLE
+        }
+    }
+
+    override fun onTypingSearch(search: String?) {
+        //filter adapter
+    }
 }
