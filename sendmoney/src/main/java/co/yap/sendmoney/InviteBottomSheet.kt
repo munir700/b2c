@@ -4,8 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
+import co.yap.sendmoney.databinding.BottomSheetInviteFriendBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import kotlinx.android.synthetic.main.bottom_sheet_invite_friend.view.*
 
 class InviteBottomSheet(
     private val mListener: OnItemClickListener,
@@ -16,9 +17,13 @@ class InviteBottomSheet(
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        val view = inflater.inflate(R.layout.bottom_sheet_invite_friend, container, false)
-
+    ): View {
+        val view = DataBindingUtil.inflate<BottomSheetInviteFriendBinding>(
+            inflater,
+            R.layout.bottom_sheet_invite_friend,
+            container,
+            false
+        )
         view.tvChooseEmail.setOnClickListener { mListener.onClick(view.tvChooseEmail.id, T) }
         view.tvChooseSMS.setOnClickListener { mListener.onClick(view.tvChooseSMS.id, T) }
         view.tvChooseWhatsapp.setOnClickListener {
@@ -27,7 +32,7 @@ class InviteBottomSheet(
                 T
             )
         }
-        return view
+        return view.root
     }
 
     interface OnItemClickListener {

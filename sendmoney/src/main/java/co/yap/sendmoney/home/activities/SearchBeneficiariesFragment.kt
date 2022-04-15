@@ -5,7 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.networking.customers.responsedtos.sendmoney.IBeneficiary
 import co.yap.sendmoney.BR
@@ -34,17 +34,16 @@ import co.yap.yapcore.helpers.confirm
 import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.managers.SessionManager
 import com.nikhilpanju.recyclerviewenhanced.RecyclerTouchListener
-import kotlinx.android.synthetic.main.layout_item_beneficiary.*
 
 class SearchBeneficiariesFragment :
-    SMBeneficiaryParentBaseFragment<FragmentSearchBeneficiaryBinding,ISMSearchBeneficiary.ViewModel>(),
+    SMBeneficiaryParentBaseFragment<FragmentSearchBeneficiaryBinding, ISMSearchBeneficiary.ViewModel>(),
     ISMSearchBeneficiary.View {
     private var onTouchListener: RecyclerTouchListener? = null
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_search_beneficiary
 
     override val viewModel: SMSearchBeneficiaryViewModel
-        get() = ViewModelProviders.of(this).get(SMSearchBeneficiaryViewModel::class.java)
+        get() = ViewModelProvider(this).get(SMSearchBeneficiaryViewModel::class.java)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -53,12 +52,12 @@ class SearchBeneficiariesFragment :
     }
 
     override fun setObservers() {
-        viewModel.clickEvent.observe(this, clickListener)
-        getBindings().etSearch.afterTextChanged {
+        viewModel.clickEvent.observe(viewLifecycleOwner, clickListener)
+        viewDataBinding.etSearch.afterTextChanged {
             viewModel.adapter.filter.filter(it)
         }
-        viewModel.state.stateLiveData?.observe(this, Observer { handleState(it) })
-        viewModel.adapter.filterCount.observe(this, Observer {
+        viewModel.state.stateLiveData?.observe(viewLifecycleOwner, Observer { handleState(it) })
+        viewModel.adapter.filterCount.observe(viewLifecycleOwner, Observer {
             viewModel.state.stateLiveData?.value =
                 if (it == 0) State.empty("") else State.success("")
         })
@@ -67,18 +66,18 @@ class SearchBeneficiariesFragment :
     private fun initSwipeListener() {
         activity?.let { activity ->
             onTouchListener =
-                RecyclerTouchListener(activity, getBindings().rvAllBeneficiaries)
+                RecyclerTouchListener(activity, viewDataBinding.rvAllBeneficiaries)
                     .setClickable(
                         object : RecyclerTouchListener.OnRowClickListener {
                             override fun onRowClicked(position: Int) {
                                 viewModel.clickEvent.setPayload(
                                     SingleClickEvent.AdaptorPayLoadHolder(
-                                        foregroundContainer,
+                                        viewDataBinding.rvAllBeneficiaries.findViewById(R.id.foregroundContainer),
                                         viewModel.adapter.getDataForPosition(position),
                                         position
                                     )
                                 )
-                                viewModel.clickEvent.setValue(foregroundContainer.id)
+                                viewModel.clickEvent.setValue(R.id.foregroundContainer)
                             }
 
                             override fun onIndependentViewClicked(
@@ -108,7 +107,7 @@ class SearchBeneficiariesFragment :
     private val clickListener = Observer<Int> {
         when (it) {
             R.id.tvCancel -> {
-                Utils.hideKeyboard(getBindings().etSearch)
+                Utils.hideKeyboard(viewDataBinding.etSearch)
                 if (viewModel.parentViewModel?.state?.sendMoneyType?.value == SendMoneyTransferType.ALL_Y2Y_SM.name) {
                     requireActivity().finish()
                 } else {
@@ -186,7 +185,7 @@ class SearchBeneficiariesFragment :
     }
 
     private fun startMoneyTransfer(beneficiary: Beneficiary?, position: Int) {
-        Utils.hideKeyboard(getBindings().etSearch)
+        Utils.hideKeyboard(viewDataBinding.etSearch)
         trackEventWithScreenName(FirebaseEvent.CLICK_BENEFICIARY)
         launchActivityForActivityResult<BeneficiaryFundTransferActivity>(
             requestCode = RequestCodes.REQUEST_TRANSFER_MONEY,
@@ -212,7 +211,7 @@ class SearchBeneficiariesFragment :
     }
 
     private fun openEditBeneficiary(beneficiary: Beneficiary?) {
-        Utils.hideKeyboard(getBindings().etSearch)
+        Utils.hideKeyboard(viewDataBinding.etSearch)
         beneficiary?.let {
             trackEventWithScreenName(FirebaseEvent.EDIT_BENEFICIARY)
             val bundle = Bundle()
@@ -231,14 +230,14 @@ class SearchBeneficiariesFragment :
     private fun handleState(state: State?) {
         when (state?.status) {
             Status.EMPTY -> {
-                getBindings().multiStateView.viewState = MultiStateView.ViewState.EMPTY
+                viewDataBinding.multiStateView.viewState = MultiStateView.ViewState.EMPTY
             }
             Status.ERROR -> {
-                getBindings().multiStateView.viewState = MultiStateView.ViewState.ERROR
-                getBindings().rvAllBeneficiaries.showOriginalAdapter()
+                viewDataBinding.multiStateView.viewState = MultiStateView.ViewState.ERROR
+                viewDataBinding.rvAllBeneficiaries.showOriginalAdapter()
             }
             Status.SUCCESS -> {
-                getBindings().multiStateView.viewState = MultiStateView.ViewState.CONTENT
+                viewDataBinding.multiStateView.viewState = MultiStateView.ViewState.CONTENT
             }
             else -> throw IllegalStateException("Provided multi state is not handled $state")
         }
@@ -275,12 +274,12 @@ class SearchBeneficiariesFragment :
 
     override fun onPause() {
         super.onPause()
-        onTouchListener?.let { getBindings().rvAllBeneficiaries.removeOnItemTouchListener(it) }
+        onTouchListener?.let { viewDataBinding.rvAllBeneficiaries.removeOnItemTouchListener(it) }
     }
 
     override fun onResume() {
         super.onResume()
-        onTouchListener?.let { getBindings().rvAllBeneficiaries.addOnItemTouchListener(it) }
+        onTouchListener?.let { viewDataBinding.rvAllBeneficiaries.addOnItemTouchListener(it) }
     }
 
     override fun removeObservers() {
@@ -291,9 +290,5 @@ class SearchBeneficiariesFragment :
     override fun onDestroyView() {
         super.onDestroyView()
         removeObservers()
-    }
-
-    private fun getBindings(): FragmentSearchBeneficiaryBinding {
-        return viewDataBinding as FragmentSearchBeneficiaryBinding
     }
 }
