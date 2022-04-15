@@ -264,8 +264,4 @@ class EditBeneficiaryActivity :
             }
         }
     }
-
-    private fun getBinding(): ActivityEditBeneficiaryBinding {
-        return viewDataBinding
-    }
 }

@@ -30,10 +30,10 @@ class BeneficiaryOverviewFragment :
         get() = ViewModelProvider(this).get(BeneficiaryOverviewViewModel::class.java)
 
     private fun showResidenceCountries() {
-        getBinding().spinner.setEnabledSpinner(false)
-        getBinding().spinner.setAdapter(viewModel.parentViewModel?.countriesList)
+        viewDataBinding.spinner.setEnabledSpinner(false)
+        viewDataBinding.spinner.setAdapter(viewModel.parentViewModel?.countriesList)
         if (viewModel.parentViewModel?.selectedResidenceCountry != null) {
-            getBinding().spinner.setSelectedItem(
+            viewDataBinding.spinner.setSelectedItem(
                 viewModel.parentViewModel?.countriesList?.indexOf(
                     viewModel.parentViewModel?.selectedResidenceCountry ?: Country()
                 ) ?: 0
@@ -74,8 +74,6 @@ class BeneficiaryOverviewFragment :
         if (!isFromAddBeneficiary) {
             editBeneficiaryScreen()
         }
-//        getActivity()!!.getFragmentManager().popBackStack()
-
     }
 
 
@@ -97,10 +95,6 @@ class BeneficiaryOverviewFragment :
 
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
-
-                //                R.id.llBankDetail ->
-                //                    findNavController().navigate(R.id.action_beneficiaryOverviewFragment_to_beneficiaryAccountDetailsFragment)
-
                 R.id.confirmButton ->
                     if (!isFromAddBeneficiary) {
                         //                        ConfirmAddBeneficiary(activity!!)       //may be show a dialogue to confirm edit beneficairy call ???
@@ -163,9 +157,4 @@ class BeneficiaryOverviewFragment :
             .setCancelable(false)
             .show()
     }
-
-    private fun getBinding(): FragmentBeneficiaryOverviewBinding {
-        return viewDataBinding
-    }
-
 }

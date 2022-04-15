@@ -53,7 +53,7 @@ class SearchBeneficiariesFragment :
 
     override fun setObservers() {
         viewModel.clickEvent.observe(viewLifecycleOwner, clickListener)
-        getBindings().etSearch.afterTextChanged {
+        viewDataBinding.etSearch.afterTextChanged {
             viewModel.adapter.filter.filter(it)
         }
         viewModel.state.stateLiveData?.observe(viewLifecycleOwner, Observer { handleState(it) })
@@ -66,7 +66,7 @@ class SearchBeneficiariesFragment :
     private fun initSwipeListener() {
         activity?.let { activity ->
             onTouchListener =
-                RecyclerTouchListener(activity, getBindings().rvAllBeneficiaries)
+                RecyclerTouchListener(activity, viewDataBinding.rvAllBeneficiaries)
                     .setClickable(
                         object : RecyclerTouchListener.OnRowClickListener {
                             override fun onRowClicked(position: Int) {
@@ -107,7 +107,7 @@ class SearchBeneficiariesFragment :
     private val clickListener = Observer<Int> {
         when (it) {
             R.id.tvCancel -> {
-                Utils.hideKeyboard(getBindings().etSearch)
+                Utils.hideKeyboard(viewDataBinding.etSearch)
                 if (viewModel.parentViewModel?.state?.sendMoneyType?.value == SendMoneyTransferType.ALL_Y2Y_SM.name) {
                     requireActivity().finish()
                 } else {
@@ -185,7 +185,7 @@ class SearchBeneficiariesFragment :
     }
 
     private fun startMoneyTransfer(beneficiary: Beneficiary?, position: Int) {
-        Utils.hideKeyboard(getBindings().etSearch)
+        Utils.hideKeyboard(viewDataBinding.etSearch)
         trackEventWithScreenName(FirebaseEvent.CLICK_BENEFICIARY)
         launchActivityForActivityResult<BeneficiaryFundTransferActivity>(
             requestCode = RequestCodes.REQUEST_TRANSFER_MONEY,
@@ -211,7 +211,7 @@ class SearchBeneficiariesFragment :
     }
 
     private fun openEditBeneficiary(beneficiary: Beneficiary?) {
-        Utils.hideKeyboard(getBindings().etSearch)
+        Utils.hideKeyboard(viewDataBinding.etSearch)
         beneficiary?.let {
             trackEventWithScreenName(FirebaseEvent.EDIT_BENEFICIARY)
             val bundle = Bundle()
@@ -230,14 +230,14 @@ class SearchBeneficiariesFragment :
     private fun handleState(state: State?) {
         when (state?.status) {
             Status.EMPTY -> {
-                getBindings().multiStateView.viewState = MultiStateView.ViewState.EMPTY
+                viewDataBinding.multiStateView.viewState = MultiStateView.ViewState.EMPTY
             }
             Status.ERROR -> {
-                getBindings().multiStateView.viewState = MultiStateView.ViewState.ERROR
-                getBindings().rvAllBeneficiaries.showOriginalAdapter()
+                viewDataBinding.multiStateView.viewState = MultiStateView.ViewState.ERROR
+                viewDataBinding.rvAllBeneficiaries.showOriginalAdapter()
             }
             Status.SUCCESS -> {
-                getBindings().multiStateView.viewState = MultiStateView.ViewState.CONTENT
+                viewDataBinding.multiStateView.viewState = MultiStateView.ViewState.CONTENT
             }
             else -> throw IllegalStateException("Provided multi state is not handled $state")
         }
@@ -274,12 +274,12 @@ class SearchBeneficiariesFragment :
 
     override fun onPause() {
         super.onPause()
-        onTouchListener?.let { getBindings().rvAllBeneficiaries.removeOnItemTouchListener(it) }
+        onTouchListener?.let { viewDataBinding.rvAllBeneficiaries.removeOnItemTouchListener(it) }
     }
 
     override fun onResume() {
         super.onResume()
-        onTouchListener?.let { getBindings().rvAllBeneficiaries.addOnItemTouchListener(it) }
+        onTouchListener?.let { viewDataBinding.rvAllBeneficiaries.addOnItemTouchListener(it) }
     }
 
     override fun removeObservers() {
@@ -290,9 +290,5 @@ class SearchBeneficiariesFragment :
     override fun onDestroyView() {
         super.onDestroyView()
         removeObservers()
-    }
-
-    private fun getBindings(): FragmentSearchBeneficiaryBinding {
-        return viewDataBinding
     }
 }

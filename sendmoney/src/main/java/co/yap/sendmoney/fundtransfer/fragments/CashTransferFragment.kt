@@ -61,7 +61,7 @@ class CashTransferFragment :
         super.onViewCreated(view, savedInstanceState)
         viewModel.updatedFee.value = "0.0"
         if (viewModel.parentViewModel?.selectedPop != null) {
-            getBindings().tvSelectReason.text =
+            viewDataBinding.tvSelectReason.text =
                 viewModel.parentViewModel?.selectedPop?.purposeDescription
         }
         setEditTextWatcher()
@@ -118,10 +118,10 @@ class CashTransferFragment :
                     inviteFriendBottomSheet?.dismiss()
                     viewModel.parentViewModel?.selectedPop = data as PurposeOfPayment
                     viewModel.updateFees()
-                    getBindings().tvSelectReason.text =
+                    viewDataBinding.tvSelectReason.text =
                         viewModel.parentViewModel?.selectedPop?.purposeDescription
-                    getBindings().tvSelectReason.alpha = 1.0f
-                    getBindings().tvLabelSpinner.setTextColor(
+                    viewDataBinding.tvSelectReason.alpha = 1.0f
+                    viewDataBinding.tvLabelSpinner.setTextColor(
                         ContextCompat.getColor(
                             requireContext(),
                             R.color.greyDark
@@ -371,7 +371,7 @@ class CashTransferFragment :
     }
 
     private fun setEditTextWatcher() {
-        getBindings().etAmount.afterTextChanged {
+        viewDataBinding.etAmount.afterTextChanged {
             viewModel.state.amount = it
             viewModel.state.clearError()
             if (viewModel.state.amount.isNotEmpty() && viewModel.state.amount.parseToDouble() > 0.0) {
@@ -406,9 +406,5 @@ class CashTransferFragment :
                 viewModel.state.valid = true
             }
         }
-    }
-
-    private fun getBindings(): FragmentCashTransferBinding {
-        return viewDataBinding
     }
 }

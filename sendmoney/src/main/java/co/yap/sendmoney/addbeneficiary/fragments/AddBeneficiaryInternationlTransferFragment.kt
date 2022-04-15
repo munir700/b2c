@@ -75,16 +75,16 @@ class AddBeneficiaryInternationlTransferFragment :
     }
 
     private fun showResidenceCountries() {
-        getBinding().spinner.setItemSelectedListener(selectedItemListener)
-        getBinding().spinner.setAdapter(viewModel.parentViewModel?.countriesList)
+        viewDataBinding.spinner.setItemSelectedListener(selectedItemListener)
+        viewDataBinding.spinner.setAdapter(viewModel.parentViewModel?.countriesList)
         if (viewModel.parentViewModel?.selectedResidenceCountry != null) {
-            getBinding().spinner.setSelectedItem(
+            viewDataBinding.spinner.setSelectedItem(
                 viewModel.parentViewModel?.countriesList?.indexOf(
                     viewModel.parentViewModel?.selectedResidenceCountry ?: Country()
                 ) ?: 0
             )
         } else if (viewModel.parentViewModel?.selectedCountry?.value != null) {
-            getBinding().spinner.setSelectedItem(
+            viewDataBinding.spinner.setSelectedItem(
                 viewModel.parentViewModel?.countriesList?.indexOf(
                     viewModel.parentViewModel?.selectedCountry?.value ?: Country()
                 ) ?: 0
@@ -296,10 +296,6 @@ class AddBeneficiaryInternationlTransferFragment :
             return true
         }
         return false
-    }
-
-    private fun getBinding(): FragmentAddBeneficiaryInternationalBankTransferBinding {
-        return viewDataBinding
     }
 
     fun getMultiCurrencyWalletList(): ArrayList<MultiCurrencyWallet> {

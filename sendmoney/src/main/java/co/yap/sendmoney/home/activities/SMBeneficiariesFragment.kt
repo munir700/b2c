@@ -106,7 +106,10 @@ class SMBeneficiariesFragment :
     private fun initSwipeListener() {
         activity?.let { activity ->
             onTouchListener =
-                RecyclerTouchListener(activity, getBinding().layoutBeneficiaries.rvAllBeneficiaries)
+                RecyclerTouchListener(
+                    activity,
+                    viewDataBinding.layoutBeneficiaries.rvAllBeneficiaries
+                )
                     .setClickable(
                         object : RecyclerTouchListener.OnRowClickListener {
                             override fun onRowClicked(position: Int) {
@@ -318,10 +321,6 @@ class SMBeneficiariesFragment :
 
     private fun getAdaptor(): AllBeneficiariesAdapter {
         return viewModel.beneficiariesAdapter
-    }
-
-    private fun getBinding(): ActivitySendMoneyLandingBinding {
-        return viewDataBinding
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

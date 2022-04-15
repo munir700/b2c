@@ -62,7 +62,7 @@ class InternationalFundsTransferFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         if (viewModel.parentViewModel?.selectedPop != null) {
-            getBindings().tvSelectReason.text =
+            viewDataBinding.tvSelectReason.text =
                 viewModel.parentViewModel?.selectedPop?.purposeDescription
         }
     }
@@ -178,10 +178,10 @@ class InternationalFundsTransferFragment :
                     inviteFriendBottomSheet?.dismiss()
                     viewModel.parentViewModel?.selectedPop = data as PurposeOfPayment
                     viewModel.updateFees()
-                    getBindings().tvSelectReason.text =
+                    viewDataBinding.tvSelectReason.text =
                         viewModel.parentViewModel?.selectedPop?.purposeDescription
-                    getBindings().tvSelectReason.alpha = 1.0f
-                    getBindings().tvReasonLbl.setTextColor(
+                    viewDataBinding.tvSelectReason.alpha = 1.0f
+                    viewDataBinding.tvReasonLbl.setTextColor(
                         ContextCompat.getColor(
                             requireContext(),
                             R.color.greyDark
@@ -360,10 +360,6 @@ class InternationalFundsTransferFragment :
         viewModel.isAPIFailed.removeObservers(this)
         viewModel.purposeOfPaymentList.removeObservers(this)
 
-    }
-
-    fun getBindings(): FragmentInternationalFundsTransferBinding {
-        return viewDataBinding
     }
 
     override fun onDestroyView() {
