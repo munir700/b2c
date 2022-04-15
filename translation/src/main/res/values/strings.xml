@@ -578,6 +578,7 @@
     <string name="screen_profile_settings_display_text_app_notifications">App notifications</string>
     <string name="screen_profile_settings_display_text_about_us">About us</string>
     <string name="screen_profile_settings_display_terms_and_conditions">Terms and conditions</string>
+    <string name="screen_profile_settings_display_key_fact_statement">Key Fact Statement</string>
     <string name="screen_profile_settings_display_fees_and_pricing_plans">Fees &amp; pricing plans</string>
     <string name="screen_profile_settings_display_text_instagram">Instagram</string>
     <string name="screen_profile_settings_display_text_twitter">Twitter</string>

@@ -388,6 +388,44 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/llKeyFactStatement"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_normal"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_file"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    style="@style/ASmall"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_normal"
+                    android:layout_marginEnd="@dimen/margin_normal"
+                    android:layout_weight=".7"
+                    android:text="@string/screen_profile_settings_display_key_fact_statement"
+                    app:text="@{Strings.screen_profile_settings_display_key_fact_statement}" />
+
+                <TextView
+                    android:id="@+id/tvKeyFactStatementView"
+                    style="@style/ASmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="@{(v) -> viewModel.handlePressOnViewClick(v.id)}"
+                    android:text="@string/screen_profile_settings_display_text_view"
+                    android:textColor="?attr/colorPrimaryAttr"
+                    app:text="@{Strings.screen_profile_settings_display_text_view}" />
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:id="@+id/llFeesAndPricingPlans"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
