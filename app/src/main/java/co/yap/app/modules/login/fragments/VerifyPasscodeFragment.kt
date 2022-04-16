@@ -47,7 +47,6 @@ import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.leanplum.SignInEvents
 import co.yap.yapcore.leanplum.trackEvent
 import co.yap.yapcore.managers.SessionManager
-import kotlinx.android.synthetic.main.fragment_verify_passcode.*
 import co.yap.modules.kyc.amendments.missinginfo.MissingInfoFragment
 import co.yap.yapcore.constants.Constants
 import com.yap.core.extensions.hideKeyboard
@@ -72,15 +71,15 @@ class VerifyPasscodeFragment : MainChildFragment<FragmentVerifyPasscodeBinding ,
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         shardPrefs = SharedPreferenceManager.getInstance(requireContext())
-        dialer.hideFingerprintView()
+        viewDataBinding.dialer.hideFingerprintView()
         hideKeyboard()
         receiveData()
         updateUUID()
         bioMetricLogic()
         onbackPressLogic()
-        dialer.setNumberKeyboardListener(this)
-        dialer.upDatedDialerPad(viewModel.state.passcode)
-        dialer.removeError()
+        viewDataBinding.dialer.setNumberKeyboardListener(this)
+        viewDataBinding.dialer.upDatedDialerPad(viewModel.state.passcode)
+        viewDataBinding.dialer.removeError()
     }
 
     private fun addObservers() {
@@ -133,13 +132,13 @@ class VerifyPasscodeFragment : MainChildFragment<FragmentVerifyPasscodeBinding ,
                     false
                 ) == true && shardPrefs?.getDecryptedPassCode() != null
             ) {
-                dialer.showFingerprintView()
+                viewDataBinding.dialer.showFingerprintView()
                 showFingerprintDialog()
             } else {
-                dialer.hideFingerprintView()
+                viewDataBinding.dialer.hideFingerprintView()
             }
         }
-        dialer.setNumberKeyboardListener(object : NumberKeyboardListener {
+        viewDataBinding.dialer.setNumberKeyboardListener(object : NumberKeyboardListener {
             override fun onLeftButtonClicked() {
                 showFingerprintDialog()
             }
@@ -147,7 +146,7 @@ class VerifyPasscodeFragment : MainChildFragment<FragmentVerifyPasscodeBinding ,
     }
 
     private fun onbackPressLogic() {
-        ivBackBtn.setOnClickListener {
+        viewDataBinding.ivBackBtn.setOnClickListener {
             if ((VerifyPassCodeEnum.valueOf(viewModel.state.verifyPassCodeEnum) == VerifyPassCodeEnum.VERIFY)) {
                 activity?.onBackPressed()
             } else {
@@ -167,7 +166,7 @@ class VerifyPasscodeFragment : MainChildFragment<FragmentVerifyPasscodeBinding ,
 
     override fun onStart() {
         super.onStart()
-        dialer.reset()
+        viewDataBinding.dialer.reset()
     }
 
     override fun onResume() {
@@ -251,7 +250,7 @@ class VerifyPasscodeFragment : MainChildFragment<FragmentVerifyPasscodeBinding ,
         when (it) {
             R.id.btnVerifyPasscode -> {
                 viewModel.isFingerprintLogin = false
-                viewModel.state.passcode = dialer.getText()
+                viewModel.state.passcode =  viewDataBinding.dialer.getText()
                 if (!isUserLoginIn()) {
                     setUsername()
                 } else {
@@ -303,7 +302,7 @@ class VerifyPasscodeFragment : MainChildFragment<FragmentVerifyPasscodeBinding ,
                 }
             }
         } else {
-            dialer.startAnimation()
+            viewDataBinding.dialer.startAnimation()
         }
     }
 
@@ -447,7 +446,7 @@ class VerifyPasscodeFragment : MainChildFragment<FragmentVerifyPasscodeBinding ,
 
         shardPrefs?.getDecryptedPassCode()?.let { passedCode ->
             viewModel.state.passcode = passedCode
-            dialer.upDatedDialerPad(viewModel.state.passcode)
+            viewDataBinding.dialer.upDatedDialerPad(viewModel.state.passcode)
         }
 
         shardPrefs?.getDecryptedUserName()
@@ -464,7 +463,7 @@ class VerifyPasscodeFragment : MainChildFragment<FragmentVerifyPasscodeBinding ,
     }
 
     override fun onNumberClicked(number: Int, text: String) {
-        viewModel.state.passcode = dialer.getText()
+        viewModel.state.passcode =  viewDataBinding.dialer.getText()
     }
 
     override fun onLeftButtonClicked() {

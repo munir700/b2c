@@ -1,13 +1,13 @@
 package co.yap.household.onboard.otherscreens
 
 import android.os.Bundle
+import android.widget.TextView
 import co.yap.household.R
 import co.yap.household.onboard.onboarding.main.OnBoardingHouseHoldActivity
 import co.yap.translation.Strings
+import co.yap.widgets.CoreButton
 import co.yap.yapcore.IFragmentHolder
 import co.yap.yapcore.defaults.DefaultActivity
-import co.yap.yapcore.helpers.extentions.toast
-import kotlinx.android.synthetic.main.activity_on_boarding_existing_yap.*
 
 class ExistingHouseholdActivity : DefaultActivity(), IFragmentHolder {
 
@@ -23,11 +23,14 @@ class ExistingHouseholdActivity : DefaultActivity(), IFragmentHolder {
 
     private fun setTitleName() {
         val successMessage =
-            getString(Strings.screen_house_hold_onBoarding_existing_title_display_text).format("Mirza", "Adil")
-        tvTitleKYCSuccess.text = successMessage
+            getString(Strings.screen_house_hold_onBoarding_existing_title_display_text).format(
+                "Mirza",
+                "Adil"
+            )
+        findViewById<TextView>(R.id.tvTitleKYCSuccess).text = successMessage
 
 
-        btnAccept.setOnClickListener {
+        findViewById<CoreButton>(R.id.btnAccept).setOnClickListener {
             val bundle = Bundle()
             bundle.putBoolean(OnBoardingHouseHoldActivity.EXISTING_USER, true)
             startActivity(
@@ -36,11 +39,6 @@ class ExistingHouseholdActivity : DefaultActivity(), IFragmentHolder {
                     bundle
                 )
             )
-        }
-
-
-        tvOnBoardingExistingDeclineRequest.setOnClickListener {
-            toast("Decline request")
         }
     }
 }
