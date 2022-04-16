@@ -420,16 +420,6 @@ object ImageBinding {
         return title.replace(" ", "_").toLowerCase()
     }
 
-    fun getResId(drawableName: String): Int {
-        return try {
-            val res = R.drawable::class.java
-            val field = res.getField(drawableName)
-            field.getInt(null)
-        } catch (e: Exception) {
-            -1
-        }
-    }
-
     fun getResId(context: Context, drawableName: String): Int {
         return try {
             context.resources.getIdentifier(drawableName, "drawable", context.packageName)

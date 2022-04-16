@@ -35,11 +35,10 @@ import co.yap.yapcore.managers.SessionManager
 import co.yap.yapcore.managers.saveUserDetails
 import com.yap.ghana.ui.auth.main.GhAuthenticationActivity
 import com.yap.yappakistan.ui.auth.main.AuthenticationActivity
-import kotlinx.android.synthetic.main.fragment_log_in.*
 import kotlinx.coroutines.delay
 
 
-class LoginFragment : MainChildFragment<FragmentLogInBinding,ILogin.ViewModel>(), ILogin.View {
+class LoginFragment : MainChildFragment<FragmentLogInBinding, ILogin.ViewModel>(), ILogin.View {
 
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_log_in
@@ -118,7 +117,8 @@ class LoginFragment : MainChildFragment<FragmentLogInBinding,ILogin.ViewModel>()
                             launch {
                                 delay(2)
                                 getDataBindingView<FragmentLogInBinding>().etMobileNumber.setSelection(
-                                    getDataBindingView<FragmentLogInBinding>().etMobileNumber.length())
+                                    getDataBindingView<FragmentLogInBinding>().etMobileNumber.length()
+                                )
                             }
 
 
@@ -235,7 +235,7 @@ class LoginFragment : MainChildFragment<FragmentLogInBinding,ILogin.ViewModel>()
                         }
                     }
                     else -> {
-                        viewModel.verifyUser(countryCode, mobileNo){error->
+                        viewModel.verifyUser(countryCode, mobileNo) { error ->
                             getDataBindingView<FragmentLogInBinding>().tlPhoneNumber.error =
                                 error
                         }
