@@ -159,16 +159,6 @@ class YapDashboardActivity : BaseBindingActivity<ActivityYapDashboardBinding, IY
             override fun onMenuOpened(menu: FloatingActionMenu) {
                 trackEventWithScreenName(FirebaseEvent.CLICK_YAPIT)
                 overLayButtonVisibility(View.GONE)
-//                    getFeatureFlagClient.hasFeature(ToggleFeature.BILL_PAYMENTS.flag) { hasFlag ->
-//                        launch {
-//                            if (hasFlag) {
-//                                actionMenu?.subActionItems?.get(1)?.view?.visibility = View.VISIBLE
-//                            } else {
-//                                actionMenu?.subActionItems?.get(1)?.view?.visibility =
-//                                    View.INVISIBLE
-//                            }
-//                        }
-//                    }
             }
 
             override fun onMenuClosed(menu: FloatingActionMenu, subActionButtonId: Int) {

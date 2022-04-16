@@ -5,7 +5,7 @@ apply plugin: 'com.google.firebase.crashlytics'
 apply plugin: 'dagger.hilt.android.plugin'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'com.digitify.hiddensecrets'
-//apply plugin: 'no.promon.shield.shieldplugin'
+apply plugin: 'no.promon.shield.shieldplugin'
 
 repositories {
     maven { url '../promon/SDK/maven/' }
@@ -144,24 +144,24 @@ android {
     }
 }
 
-//shieldConfig {
-//    shielderJar "../promon/Shielder/Shielder.jar"
-//    config '../promon/configration/config-stage.xml' // for stage APK
-//    enabled false
-//    pluginOptions "debug", { enabled false}
-//    options "liveRelease", {
-//        enabled = true
-//        option("config", "../promon/configration/config-live.xml")
-//    }
-//    options "preprodRelease", {
-//        enabled = false
-//        option("config", "../promon/configration/config-stage.xml")
-//    }
-//    options "stgRelease", {
-//        enabled = true
-//        option("config", "../promon/configration/config-stage.xml")
-//    }
-//}
+shieldConfig {
+    shielderJar "../promon/Shielder/Shielder.jar"
+    config './promon/configration/config-stage.xml' // for stage APK
+    enabled false
+    pluginOptions "debug", { enabled false}
+    options "preprodRelease", {
+        enabled = false
+        option("config", "../promon/configration/config-stage.xml")
+    }
+    options "stgRelease", {
+        enabled = false
+        option("config", "../promon/configration/config-stage.xml")
+    }
+    options "liveRelease", {
+        enabled = true
+        option("config", "../promon/configration/config-live.xml")
+    }
+}
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
