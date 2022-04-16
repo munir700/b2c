@@ -806,7 +806,11 @@ object ImageBinding {
 
     @JvmStatic
     @BindingAdapter(value = ["resName", "isFlag"], requireAll = true)
-    fun setDrawableWithName(imageView: ImageView, resourceName: String, isFlag: Boolean) {
+    fun setDrawableWithName(
+        imageView: CoreCircularImageView,
+        resourceName: String,
+        isFlag: Boolean
+    ) {
         if (isFlag) imageView.setImageResource(
             CurrencyUtils.getFlagDrawable(
                 imageView.context,
@@ -820,6 +824,17 @@ object ImageBinding {
                     "ic_${getDrawableName(resourceName)}"
                 )
             )
+    }
+
+    @JvmStatic
+    @BindingAdapter("resName")
+    fun setDrawableWithReflection(imageView: AppCompatImageView, resourceName: String) {
+        imageView.setImageResource(
+            getResId(
+                imageView.context,
+                "ic_${getDrawableName(resourceName)}"
+            )
+        )
     }
 
     fun showUrlOrInitial(

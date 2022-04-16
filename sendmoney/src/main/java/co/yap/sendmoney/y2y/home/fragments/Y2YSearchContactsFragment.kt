@@ -16,9 +16,8 @@ import co.yap.yapcore.BR
 import co.yap.yapcore.adapters.SectionsPagerAdapter
 import co.yap.yapcore.helpers.extentions.afterTextChanged
 import co.yap.yapcore.helpers.extentions.hideKeyboard
-import kotlinx.android.synthetic.main.fragment_y_2_y_search_contacts.view.*
 
-class Y2YSearchContactsFragment : Y2YBaseFragment<IY2YSearchContacts.ViewModel>() {
+class Y2YSearchContactsFragment : Y2YBaseFragment<FragmentY2YSearchContactsBinding,IY2YSearchContacts.ViewModel>() {
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_y_2_y_search_contacts
 
@@ -37,7 +36,7 @@ class Y2YSearchContactsFragment : Y2YBaseFragment<IY2YSearchContacts.ViewModel>(
     }
 
     private fun setupSearch() {
-        getBindingView().lySearchView.etSearch.afterTextChanged {
+        viewDataBinding.etSearch.afterTextChanged {
             viewModel.parentViewModel?.searchQuery?.value = it
         }
         viewModel.parentViewModel?.isSearching?.value = true
@@ -47,9 +46,9 @@ class Y2YSearchContactsFragment : Y2YBaseFragment<IY2YSearchContacts.ViewModel>(
         val adapter = SectionsPagerAdapter(requireActivity(), childFragmentManager)
         adapter.addFragmentInfo<YapContactsFragment>(getString(Strings.screen_y2y_display_button_yap_contacts))
         adapter.addFragmentInfo<PhoneContactFragment>(getString(Strings.screen_y2y_display_button_all_contacts))
-        getBindingView().viewPager.adapter = adapter
+       viewDataBinding.viewPager.adapter = adapter
         viewModel.parentViewModel?.selectedTabPos?.value?.let {
-            getBindingView().viewPager.currentItem = it
+           viewDataBinding.viewPager.currentItem = it
         }
     }
 
@@ -63,9 +62,9 @@ class Y2YSearchContactsFragment : Y2YBaseFragment<IY2YSearchContacts.ViewModel>(
 
     override fun onBackPressed(): Boolean {
         viewModel.parentViewModel?.selectedTabPos?.value =
-            getBindingView().tabLayout.selectedTabPosition
+          viewDataBinding.tabLayout.selectedTabPosition
         viewModel.parentViewModel?.searchQuery?.value = ""
-        getBindingView().lySearchView.etSearch.hideKeyboard()
+        viewDataBinding.etSearch.hideKeyboard()
         viewModel.parentViewModel?.isSearching?.value = false
         return super.onBackPressed()
     }
@@ -73,9 +72,5 @@ class Y2YSearchContactsFragment : Y2YBaseFragment<IY2YSearchContacts.ViewModel>(
     override fun onDestroy() {
         super.onDestroy()
         viewModel.clickEvent.removeObservers(this)
-    }
-
-    private fun getBindingView(): FragmentY2YSearchContactsBinding {
-        return (viewDataBinding as FragmentY2YSearchContactsBinding)
     }
 }

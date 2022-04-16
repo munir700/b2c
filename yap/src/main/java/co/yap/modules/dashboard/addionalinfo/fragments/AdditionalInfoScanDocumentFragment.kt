@@ -30,7 +30,7 @@ import java.io.File
 
 
 class AdditionalInfoScanDocumentFragment :
-    AdditionalInfoBaseFragment<IAdditionalInfoScanDocument.ViewModel>(),
+    AdditionalInfoBaseFragment<FragmentAdditionalInfoScanDocumentBinding,IAdditionalInfoScanDocument.ViewModel>(),
     IAdditionalInfoScanDocument.View, CameraListener {
     override fun getBindingVariable(): Int = BR.viewModel
 

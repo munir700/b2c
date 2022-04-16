@@ -400,7 +400,6 @@ interface CustomersRetroService {
 
     @GET(CustomersRepository.URL_GET_ALL_DOCUMENT_FOR_EMPLOYMENT)
     suspend fun getAllDocumentsForEmploymentAmendment(): Response<BaseListResponse<DocumentResponse>>
-
     //Get Uqudo Token
     @GET(CustomersRepository.URL_GET_UQUDO_AUTH_TOKEN)
     suspend fun getUqudoAuthToken(): Response<BaseResponse<UqudoTokenResponse>>

@@ -41,7 +41,7 @@ import co.yap.yapcore.managers.SessionManager
 import kotlinx.android.synthetic.main.layout_profile_picture.*
 import pl.aprilapps.easyphotopicker.MediaFile
 
-class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile.View {
+class ProfileSettingsFragment : MoreBaseFragment<FragmentProfileBinding,IProfile.ViewModel>(), IProfile.View {
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_profile
     override val viewModel: ProfileSettingsViewModel

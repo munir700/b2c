@@ -6,7 +6,6 @@ import co.yap.yapcore.SingleClickEvent
 
 interface IAddMoneyLanding {
     interface View : IBase.View<ViewModel> {
-        fun getBinding(): FragmentAddMoneyLandingBinding
         fun setObservers()
         fun removeObservers()
     }

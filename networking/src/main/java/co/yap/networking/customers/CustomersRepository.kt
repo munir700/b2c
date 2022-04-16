@@ -18,9 +18,8 @@ import co.yap.networking.customers.responsedtos.currency.CurrenciesResponse
 import co.yap.networking.customers.responsedtos.documents.ConfigureEIDResponse
 import co.yap.networking.customers.responsedtos.documents.EIDDocumentsResponse
 import co.yap.networking.customers.responsedtos.documents.GetMoreDocumentsResponse
-import co.yap.networking.customers.responsedtos.employment_amendment.Document
-import co.yap.networking.customers.responsedtos.employment_amendment.DocumentResponse
 import co.yap.networking.customers.responsedtos.documents.UqudoTokenResponse
+import co.yap.networking.customers.responsedtos.employment_amendment.DocumentResponse
 import co.yap.networking.customers.responsedtos.employment_amendment.EmploymentInfoAmendmentResponse
 import co.yap.networking.customers.responsedtos.employmentinfo.IndustrySegmentsResponse
 import co.yap.networking.customers.responsedtos.sendmoney.*
@@ -655,7 +654,6 @@ object CustomersRepository : BaseRepository(), CustomersApi {
             api.getEIDConfigurations()
         })
 
-
     override suspend fun getMissingInfoList(accountUuid: String): RetroApiResponse<BaseListResponse<AmendmentFields>> {
         return executeSafely(call = { api.getMissingInfoList(accountUuid) })
     }
@@ -699,12 +697,12 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     override suspend fun getCustomerDocuments(accountUuid: String?) =
         executeSafely(call = { api.getCustomerDocuments(accountUuid) })
 
+    override suspend fun getUqudoAuthToken(): RetroApiResponse<BaseResponse<UqudoTokenResponse>> =
+        executeSafely(call = { api.getUqudoAuthToken() })
+
     override suspend fun getEmploymentInfo() =
         executeSafely { api.getEmploymentInfo() }
 
     override suspend fun getAllDocumentsForEmploymentAmendment(): RetroApiResponse<BaseListResponse<DocumentResponse>> =
         executeSafely { api.getAllDocumentsForEmploymentAmendment() }
-    override suspend fun getUqudoAuthToken(): RetroApiResponse<BaseResponse<UqudoTokenResponse>> =
-        executeSafely(call = { api.getUqudoAuthToken() })
-
-}
+ }

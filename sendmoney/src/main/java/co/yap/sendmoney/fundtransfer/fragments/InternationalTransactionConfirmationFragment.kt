@@ -39,7 +39,7 @@ import co.yap.yapcore.leanplum.trackEvent
 import co.yap.yapcore.managers.SessionManager
 
 class InternationalTransactionConfirmationFragment :
-    BeneficiaryFundTransferBaseFragment<IInternationalTransactionConfirmation.ViewModel>(),
+    BeneficiaryFundTransferBaseFragment<FragmentInternationalTransactionConfirmationBinding,IInternationalTransactionConfirmation.ViewModel>(),
     IInternationalTransactionConfirmation.View {
     override fun getBindingVariable(): Int = BR.viewModel
 

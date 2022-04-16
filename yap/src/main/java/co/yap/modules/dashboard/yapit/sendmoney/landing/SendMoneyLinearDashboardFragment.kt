@@ -39,7 +39,7 @@ import co.yap.yapcore.helpers.permissions.PermissionHelper
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.SessionManager
 
-class SendMoneyLinearDashboardFragment : BaseBindingFragment<ISendMoneyLinearDashboard.ViewModel>(),
+class SendMoneyLinearDashboardFragment : BaseBindingFragment<ActivitySendMoneyLinearDashboardBinding,ISendMoneyLinearDashboard.ViewModel>(),
     ISendMoneyLinearDashboard.View {
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.activity_send_money_linear_dashboard
@@ -75,7 +75,7 @@ class SendMoneyLinearDashboardFragment : BaseBindingFragment<ISendMoneyLinearDas
     }
 
     private fun setupRecycleView() {
-        getBinding().recyclerOptions.addItemDecoration(
+        viewDataBinding.recyclerOptions.addItemDecoration(
             SpaceGridItemDecoration(
                 dimen(R.dimen.margin_normal_large),
                 1,
@@ -137,9 +137,9 @@ class SendMoneyLinearDashboardFragment : BaseBindingFragment<ISendMoneyLinearDas
                 checkPermission(cameraPer)
             }
             R.id.tvrecentTransfer, R.id.hiderecentext -> {
-                viewModel.state.isRecentsVisible.set(getBinding().hiderecentext.visibility == View.VISIBLE)
+                viewModel.state.isRecentsVisible.set(viewDataBinding.hiderecentext.visibility == View.VISIBLE)
                 vs.visibility =
-                    if (getBinding().hiderecentext.visibility == View.GONE) View.VISIBLE else View.GONE
+                    if (viewDataBinding.hiderecentext.visibility == View.GONE) View.VISIBLE else View.GONE
             }
         }
     }
@@ -304,8 +304,6 @@ class SendMoneyLinearDashboardFragment : BaseBindingFragment<ISendMoneyLinearDas
     /**
      * Open New Screens End
      */
-
-    override fun getBinding() = getDataBindingView<ActivitySendMoneyLinearDashboardBinding>()
 
     override fun removeObservers() {
         viewModel.clickEvent.removeObservers(this)

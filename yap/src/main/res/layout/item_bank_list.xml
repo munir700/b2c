@@ -21,17 +21,15 @@
         android:id="@+id/clMain"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/round_edges_gery"
-        android:paddingStart="@dimen/margin_normal"
-        android:paddingTop="@dimen/margin_normal"
-        android:paddingEnd="@dimen/margin_normal"
-        android:paddingBottom="@dimen/margin_normal">
+        android:paddingStart="@dimen/margin_medium"
+        android:paddingTop="@dimen/margin_small"
+        android:paddingEnd="@dimen/margin_medium"
+        android:paddingBottom="@dimen/margin_small">
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/imgIcon"
             android:layout_width="@dimen/_40sdp"
             android:layout_height="@dimen/_40sdp"
-            android:layout_marginBottom="@dimen/margin_small"
             android:contentDescription="@string/empty_string"
             app:bgColor="@{viewModel.item.mainColor}"
             app:fullName="@{viewModel.item.name}"
@@ -40,6 +38,7 @@
             app:initialTextColor="@{R.color.white}"
             app:initialTextSize="@{R.dimen.text_size_h4}"
             app:isUrlRound="@{false}"
+            tools:src="@drawable/bg_round_error_layout"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:shapeAppearanceOverlay="@style/circleImageView" />

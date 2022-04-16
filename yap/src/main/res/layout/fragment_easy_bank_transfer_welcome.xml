@@ -53,7 +53,7 @@
             app:layout_constraintTop_toBottomOf="@+id/ivLean"
             app:text="@{Strings.screen_lean_welcome_screen_welcome_to_open_banking}"
             tools:text="@string/screen_lean_welcome_screen_welcome_to_open_banking" />
-        <!--need to customize this for colour substring-->
+
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvDescText"
             style="@style/ASmallGrey"
@@ -67,16 +67,19 @@
             app:layout_constraintTop_toBottomOf="@+id/tvWelcomeText"
             android:text="@{viewModel.state.welcomeText}"
             tools:text="@string/screen_lean_welcome_screen_connect_one_of_your_existing_bank" />
-        <!--need to customize this for drawable start-->
+
         <co.yap.widgets.CoreButton
             android:id="@+id/btnLinkAccount"
             style="@style/FragmentsBtnStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/margin_large"
-            android:drawableStart="@drawable/ic_plus_white"
+            app:btn_drawable="@drawable/ic_plus_white"
             android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
             app:btn_size="large"
+            app:btn_drawable_padding_left="4.5"
+            app:btn_drawable_padding_top="2.5"
+            app:btn_drawable_position="left"
             app:enableCoreButton="@{true}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

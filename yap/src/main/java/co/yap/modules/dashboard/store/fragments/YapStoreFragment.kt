@@ -31,7 +31,7 @@ import co.yap.yapcore.interfaces.OnItemClickListener
 import com.liveperson.infra.configuration.Configuration.getDimension
 import kotlinx.android.synthetic.main.fragment_yap_store.*
 
-class YapStoreFragment : YapDashboardChildFragment<IYapStore.ViewModel>(), IYapStore.View {
+class YapStoreFragment : YapDashboardChildFragment<FragmentYapStoreBinding,IYapStore.ViewModel>(), IYapStore.View {
 
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_yap_store

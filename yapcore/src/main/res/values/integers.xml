@@ -17,6 +17,6 @@
     <integer name="skeleton_layout_item_count">5</integer>
     <integer name="remarks_length_limit">250</integer>
     <integer name="bill_payments_bill_nickname_length">32</integer>
-    <item name="uq_animation_loading_progress" type="raw">@raw/gif_uqudo_validation</item>
+    <item name="uq_animation_loading_progress" type="raw">@raw/gif_new_uqudo</item>
     <item name="uq_back_arrow_light_style_image" type="drawable">@drawable/ic_back_arrow_left_gery</item>
 </resources>

@@ -6,12 +6,13 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
+import co.yap.databinding.FragmentChangePasscodeeSuccessBinding
 import co.yap.modules.dashboard.more.changepasscode.interfaces.IChangePassCodeSuccess
 import co.yap.modules.dashboard.more.changepasscode.viewmodels.ChangePasscodeSuccessViewModel
 import co.yap.translation.Strings
 
 class ChangePasscodeSuccessFragment :
-    ChangePasscodeBaseFragment<IChangePassCodeSuccess.ViewModel>(),
+    ChangePasscodeBaseFragment<FragmentChangePasscodeeSuccessBinding , IChangePassCodeSuccess.ViewModel>(),
     IChangePassCodeSuccess.View {
 
     override fun getBindingVariable(): Int = BR.viewModel

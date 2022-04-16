@@ -48,7 +48,7 @@ import com.leanplum.Leanplum
 import com.liveperson.infra.configuration.Configuration.getDimension
 
 
-class YapMoreFragment : YapDashboardChildFragment<IMoreHome.ViewModel>(), IMoreHome.View {
+class YapMoreFragment : YapDashboardChildFragment<FragmentMoreHomeBinding,IMoreHome.ViewModel>(), IMoreHome.View {
 
     lateinit var adapter: YapMoreAdaptor
     override fun getBindingVariable(): Int = BR.viewModel

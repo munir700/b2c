@@ -13,6 +13,7 @@ import androidx.lifecycle.coroutineScope
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.BR
 import co.yap.R
+import co.yap.databinding.FragmentTransactionSearchBinding
 import co.yap.modules.dashboard.transaction.detail.TransactionDetailsActivity
 import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.widgets.MultiStateView
@@ -33,7 +34,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class TransactionSearchFragment : BaseBindingFragment<ITransactionSearch.ViewModel>() {
+class TransactionSearchFragment : BaseBindingFragment<FragmentTransactionSearchBinding,ITransactionSearch.ViewModel>() {
     private lateinit var mAdapter: HomeTransactionAdapter
     private lateinit var skeleton: Skeleton
     private lateinit var mWrappedAdapter: RecyclerView.Adapter<*>

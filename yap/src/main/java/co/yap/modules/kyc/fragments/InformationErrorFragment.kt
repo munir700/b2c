@@ -5,13 +5,14 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import co.yap.BR
 import co.yap.R
+import co.yap.databinding.FragmentInformationErrorBinding
 import co.yap.modules.kyc.viewmodels.InformationErrorViewModel
 import co.yap.modules.onboarding.interfaces.IInformationError
 import co.yap.yapcore.firebase.FirebaseEvent
 import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.managers.SessionManager
 
-class InformationErrorFragment : KYCChildFragment<IInformationError.ViewModel>() {
+class InformationErrorFragment : KYCChildFragment<FragmentInformationErrorBinding,IInformationError.ViewModel>() {
     override fun getBindingVariable(): Int = BR.viewModel
 
     override fun getLayoutId(): Int = R.layout.fragment_information_error

@@ -29,7 +29,7 @@ import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.helpers.extentions.startFragment
 import co.yap.yapcore.interfaces.OnItemClickListener
 
-class AddMoneyLandingFragment : AddMoneyBaseFragment<IAddMoneyLanding.ViewModel>(),
+class AddMoneyLandingFragment : AddMoneyBaseFragment<FragmentAddMoneyLandingBinding, IAddMoneyLanding.ViewModel>(),
     IAddMoneyLanding.View {
     override fun getBindingVariable(): Int = BR.viewModel
 
@@ -57,7 +57,7 @@ class AddMoneyLandingFragment : AddMoneyBaseFragment<IAddMoneyLanding.ViewModel>
     }
 
     private fun setupRecycleView() {
-        getBinding().recyclerOptions.addItemDecoration(
+        viewDataBinding.recyclerOptions.addItemDecoration(
             SpaceGridItemDecoration(
                 dimen(R.dimen.margin_normal_large), 1, true
             )
@@ -134,9 +134,5 @@ class AddMoneyLandingFragment : AddMoneyBaseFragment<IAddMoneyLanding.ViewModel>
                 }
             }
         }
-    }
-
-    override fun getBinding(): FragmentAddMoneyLandingBinding {
-        return viewDataBinding as FragmentAddMoneyLandingBinding
     }
 }

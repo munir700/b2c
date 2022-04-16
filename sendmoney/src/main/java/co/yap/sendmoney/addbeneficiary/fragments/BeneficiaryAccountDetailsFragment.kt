@@ -11,6 +11,7 @@ import co.yap.sendmoney.BR
 import co.yap.sendmoney.R
 import co.yap.sendmoney.addbeneficiary.interfaces.IBeneficiaryAccountDetails
 import co.yap.sendmoney.addbeneficiary.viewmodels.BeneficiaryAccountDetailsViewModel
+import co.yap.sendmoney.databinding.FragmentBeneficiaryAccountDetailBinding
 import co.yap.sendmoney.editbeneficiary.activity.EditBeneficiaryActivity
 import co.yap.sendmoney.fragments.SendMoneyBaseFragment
 import co.yap.yapcore.constants.Constants
@@ -19,7 +20,7 @@ import co.yap.yapcore.helpers.extentions.getValue
 import co.yap.yapcore.helpers.extentions.launchActivity
 
 class BeneficiaryAccountDetailsFragment :
-    SendMoneyBaseFragment<IBeneficiaryAccountDetails.ViewModel>(),
+    SendMoneyBaseFragment<FragmentBeneficiaryAccountDetailBinding,IBeneficiaryAccountDetails.ViewModel>(),
     IBeneficiaryAccountDetails.View {
 
     override fun getBindingVariable(): Int = BR.viewModel

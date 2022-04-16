@@ -167,6 +167,7 @@
     <color name="teal_green">#44d389</color>
     <color name="colorPurple">#712ce2</color>
     <color name="primary_purple_diffused">#EDE6FF</color>
+    <color name="uq_custom_progress_text">#272262</color>
 
     <color name="dialogue_alert_button_text">#007AFF</color>
     <color name="dialogue_alert_details_text">#000000</color>
@@ -181,6 +182,7 @@
     <color name="upload_dialogue_alert_bg">#F2F2F2</color>
     <color name="take_photo_bg">#F5F5F5</color>
 
-
-    <color name="uq_custom_progress_text">#272262</color>
+    <!--lean-->
+    <color name="orange_light_background">#FFEFD9</color>
+    <color name="orange_dark_text">#FAA960</color>
 </resources>

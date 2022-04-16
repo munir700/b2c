@@ -31,7 +31,7 @@ import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class WaitingListFragment : BaseBindingFragment<IWaitingList.ViewModel>(), IWaitingList.View {
+class WaitingListFragment : BaseBindingFragment<FragmentWaitingListBinding,IWaitingList.ViewModel>(), IWaitingList.View {
     override fun getBindingVariable(): Int = BR.viewModel
 
     override fun getLayoutId(): Int = R.layout.fragment_waiting_list

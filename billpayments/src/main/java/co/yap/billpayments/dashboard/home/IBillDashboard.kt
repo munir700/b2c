@@ -29,6 +29,5 @@ interface IBillDashboard {
         var isFromSwipePayBill: Boolean
         fun setObservers()
         fun removeObservers()
-        fun getBindings(): FragmentBillDashboardBinding
     }
 }

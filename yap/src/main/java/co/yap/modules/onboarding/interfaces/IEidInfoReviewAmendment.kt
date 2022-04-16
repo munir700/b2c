@@ -3,10 +3,10 @@ package co.yap.modules.onboarding.interfaces
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
+import androidx.navigation.NavDirections
 import co.yap.countryutils.country.Country
+import co.yap.networking.customers.responsedtos.EidData
 import co.yap.networking.customers.responsedtos.SectionedCountriesResponseDTO
-import co.yap.networking.customers.responsedtos.UqudoHeader
-import co.yap.networking.customers.responsedtos.UqudoPayLoad
 import co.yap.networking.customers.responsedtos.documents.ConfigureEIDResponse
 import co.yap.networking.customers.responsedtos.documents.UqudoTokenResponse
 import co.yap.networking.models.BaseResponse
@@ -15,7 +15,6 @@ import co.yap.widgets.bottomsheet.BottomSheetItem
 import co.yap.widgets.edittext.OnDrawableClickListener
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
-import com.digitify.identityscanner.docscanner.models.IdentityScannerResult
 import java.util.*
 
 interface IEidInfoReviewAmendment {
@@ -56,41 +55,18 @@ interface IEidInfoReviewAmendment {
         var isCountryUS: Boolean
         var countryName: ObservableField<String>
         var errorScreenVisited: Boolean
-        var isTokenValid: ObservableBoolean
-        var uqudoToken: MutableLiveData<String>
-        var payLoadObj: MutableLiveData<UqudoPayLoad>
-        var uqudoHeaderObj: MutableLiveData<UqudoHeader>
-        var isExpired: MutableLiveData<Boolean>
-        var frontImage: MutableLiveData<String>
-        var BackImage: MutableLiveData<String>
+        var eidImageDownloaded : MutableLiveData<Boolean>
     }
 
     interface View : IBase.View<ViewModel> {
-        fun showUnderAgeScreen()
-        fun showExpiredEidScreen()
-        fun showInvalidEidScreen()
-        fun showUSACitizenScreen()
-        //  fun openCardScanner()
+        fun showErrorScreen(actionId: NavDirections)
     }
 
     interface ViewModel : IBase.ViewModel<State> {
-        val eventRescan: Int get() = 1
-        val eventErrorUnderAge: Int get() = 2
-        val eventErrorExpiredEid: Int get() = 3
-        val eventErrorFromUsa: Int get() = 4
-        val eventNextWithError: Int get() = 5
-        val eventNext: Int get() = 6
-        val eventFinish: Int get() = 7
-        val eventErrorInvalidEid: Int get() = 8
-        val eventAlreadyUsedEid: Int get() = 1041
-        val eventEidUpdate: Int get() = 9
-        val eventCitizenNumberIssue: Int get() = 10
-        val eventEidExpiryDateIssue: Int get() = 11
         var eidStateLiveData: MutableLiveData<co.yap.widgets.State>
         val clickEvent: SingleClickEvent
         fun handlePressOnView(id: Int)
         fun updateLabels(title: String, body: String)
-        fun onEIDScanningComplete(result: IdentityScannerResult)
         var sanctionedCountry: String
         var sanctionedNationality: String
         var errorTitle: String
@@ -115,7 +91,7 @@ interface IEidInfoReviewAmendment {
         )
 
         var uqudoResponse: MutableLiveData<UqudoTokenResponse>
-        fun populateUqudoState(identity: UqudoPayLoad?)
+        fun populateUqudoState(identity: EidData?)
 
     }
 }

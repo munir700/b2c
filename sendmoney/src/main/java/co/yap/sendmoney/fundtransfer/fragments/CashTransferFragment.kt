@@ -43,7 +43,7 @@ import co.yap.yapcore.managers.SessionManager
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlinx.android.synthetic.main.fragment_international_funds_transfer.*
 
-class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.ViewModel>(),
+class CashTransferFragment : BeneficiaryFundTransferBaseFragment<FragmentCashTransferBinding,ICashTransfer.ViewModel>(),
     ICashTransfer.View {
 
     override fun getBindingVariable(): Int = BR.viewModel

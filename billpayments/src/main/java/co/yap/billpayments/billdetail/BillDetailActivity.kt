@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.lifecycle.ViewModelProvider
 import co.yap.billpayments.BR
 import co.yap.billpayments.R
+import co.yap.billpayments.databinding.ActivityBillDetailBinding
 import co.yap.networking.customers.responsedtos.billpayment.ViewBillModel
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.IFragmentHolder
@@ -15,7 +16,7 @@ import co.yap.yapcore.helpers.extentions.getValue
 import co.yap.yapcore.interfaces.BackPressImpl
 import co.yap.yapcore.interfaces.IBaseNavigator
 
-class BillDetailActivity : BaseBindingActivity<IBillDetail.ViewModel>(), INavigator,
+class BillDetailActivity : BaseBindingActivity<ActivityBillDetailBinding,IBillDetail.ViewModel>(), INavigator,
     IFragmentHolder {
     override fun getBindingVariable(): Int = BR.viewModel
 

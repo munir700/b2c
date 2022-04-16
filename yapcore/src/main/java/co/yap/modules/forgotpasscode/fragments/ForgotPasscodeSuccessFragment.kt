@@ -4,7 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
 import co.yap.modules.forgotpasscode.interfaces.IForgotPasscodeSuccess
 import co.yap.modules.forgotpasscode.viewmodels.ForgotPasscodeSuccessViewModel
@@ -14,17 +14,18 @@ import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.R
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.Constants.KEY_IS_USER_LOGGED_IN
+import co.yap.yapcore.databinding.FragmentForgotPasscodeSuccessBinding
 import co.yap.yapcore.helpers.SharedPreferenceManager
 
 
-class ForgotPasscodeSuccessFragment : BaseBindingFragment<IForgotPasscodeSuccess.ViewModel>() {
+class ForgotPasscodeSuccessFragment : BaseBindingFragment<FragmentForgotPasscodeSuccessBinding,IForgotPasscodeSuccess.ViewModel>() {
     val args: ForgotPasscodeSuccessFragmentArgs by navArgs()
 
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_forgot_passcode_success
 
     override val viewModel: IForgotPasscodeSuccess.ViewModel
-        get() = ViewModelProviders.of(this).get(ForgotPasscodeSuccessViewModel::class.java)
+        get() = ViewModelProvider(this).get(ForgotPasscodeSuccessViewModel::class.java)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

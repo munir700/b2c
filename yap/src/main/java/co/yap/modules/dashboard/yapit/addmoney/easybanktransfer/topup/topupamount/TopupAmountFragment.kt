@@ -12,7 +12,7 @@ import co.yap.yapcore.helpers.extentions.generateChipViews
 import com.google.android.material.chip.Chip
 
 //adjust resize need to be added when required activity is created
-class TopupAmountFragment : AddMoneyBaseFragment<ITopupAmount.ViewModel>(),
+class TopupAmountFragment : AddMoneyBaseFragment<FragmentTopupAmountBinding,ITopupAmount.ViewModel>(),
     ITopupAmount.View {
     override val viewModel: TopupAmountViewModel by viewModels()
     override fun getBindingVariable(): Int = BR.viewModel
@@ -33,8 +33,8 @@ class TopupAmountFragment : AddMoneyBaseFragment<ITopupAmount.ViewModel>(),
     }
 
     private fun setDenominationsChipListener() {
-        for (index in 0 until getBinding().cgDenominations.childCount) {
-            val chip: Chip = getBinding().cgDenominations.getChildAt(index) as Chip
+        for (index in 0 until viewDataBinding.cgDenominations.childCount) {
+            val chip: Chip = viewDataBinding.cgDenominations.getChildAt(index) as Chip
             chip.setOnCheckedChangeListener { view, isChecked ->
                 viewModel.denominationAmountValidator(view.text.toString())
             }
@@ -74,13 +74,12 @@ class TopupAmountFragment : AddMoneyBaseFragment<ITopupAmount.ViewModel>(),
             }
         }
     }
-    
+
     private fun generateChipViews(chipsTextList: List<String>) {
-        getBinding().cgDenominations.generateChipViews(
+        viewDataBinding.cgDenominations.generateChipViews(
             R.layout.item_denominations_chip,
             chipsTextList
         )
     }
 
-    private fun getBinding() = getDataBindingView<FragmentTopupAmountBinding>()
 }
