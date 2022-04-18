@@ -9,28 +9,18 @@ import co.yap.databinding.FragmentEasyBankTransferBankListBinding
 import co.yap.modules.dashboard.yapit.addmoney.easybanktransfer.accountlist.AccountListFragment
 import co.yap.modules.dashboard.yapit.addmoney.easybanktransfer.leansdk.LeanSdkManager
 import co.yap.modules.dashboard.yapit.addmoney.main.AddMoneyBaseFragment
-<<<<<<< HEAD
-import co.yap.widgets.SpaceGridItemDecoration
 import co.yap.widgets.search.IYapSearchView
-import co.yap.yapcore.helpers.extentions.dimen
-=======
 import co.yap.networking.leanteach.responsedtos.LeanOnBoardModel
 import co.yap.networking.leanteach.responsedtos.banklistmodels.BankListMainModel
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.extentions.startFragment
->>>>>>> ad77dc6d05b2088ce916436cd8a550d618452f3a
 import co.yap.yapcore.helpers.extentions.toast
 import co.yap.yapcore.interfaces.OnItemClickListener
 import me.leantech.link.android.Lean
 
-<<<<<<< HEAD
-class BankListFragment : AddMoneyBaseFragment<IBankList.ViewModel>(),
-    IBankList.View,IYapSearchView {
-=======
 class BankListFragment :
     AddMoneyBaseFragment<FragmentEasyBankTransferBankListBinding, IBankList.ViewModel>(),
-    IBankList.View {
->>>>>>> ad77dc6d05b2088ce916436cd8a550d618452f3a
+    IBankList.View,IYapSearchView{
     override fun getBindingVariable(): Int = BR.viewModel
 
     override fun getLayoutId(): Int = R.layout.fragment_easy_bank_transfer_bank_list
@@ -60,6 +50,11 @@ class BankListFragment :
         }
 
         getBinding().layoutSearchView.yapSearchViewListener = this
+    }
+
+    override fun removeObservers() {
+        viewModel.bankList.removeObservers(this)
+        getBinding().layoutSearchView.yapSearchViewListener = null
     }
 
     private fun setRecyclerClick() {
@@ -92,7 +87,6 @@ class BankListFragment :
         }
     }
 
-
     override fun onToolBarClick(id: Int) {
         when (id) {
             R.id.ivLeftIcon -> {
@@ -100,9 +94,8 @@ class BankListFragment :
             }
         }
     }
-<<<<<<< HEAD
 
-    override fun getBinding() = getDataBindingView<FragmentEasyBankTransferBankListBinding>()
+    fun getBinding() = getDataBindingView<FragmentEasyBankTransferBankListBinding>()
 
     override fun onSearchActive(isActive: Boolean) {
         if(isActive) {
@@ -117,6 +110,4 @@ class BankListFragment :
     override fun onTypingSearch(search: String?) {
         //filter adapter
     }
-=======
->>>>>>> ad77dc6d05b2088ce916436cd8a550d618452f3a
 }
