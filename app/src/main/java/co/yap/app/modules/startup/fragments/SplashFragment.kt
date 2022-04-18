@@ -29,13 +29,11 @@ import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.alert
 import co.yap.yapcore.helpers.countryCodeForRegion
 import co.yap.yapcore.helpers.extentions.openPlayStore
-import co.yap.yapcore.managers.SessionManager
 import com.yap.ghana.ui.auth.main.GhAuthenticationActivity
 import com.yap.yappakistan.ui.auth.main.AuthenticationActivity
-import kotlinx.android.synthetic.main.fragment_splash.*
 import kotlinx.coroutines.delay
 
-class SplashFragment : MainChildFragment<FragmentSplashBinding,ISplash.ViewModel>(), ISplash.View {
+class SplashFragment : MainChildFragment<FragmentSplashBinding, ISplash.ViewModel>(), ISplash.View {
     private var animatorSet: AnimatorSet? = null
 
     override fun getBindingVariable() = BR.viewModel
@@ -93,9 +91,17 @@ class SplashFragment : MainChildFragment<FragmentSplashBinding,ISplash.ViewModel
     private fun playAnimationAndMoveNext() {
         initPkGhana()
         val scaleLogo =
-            ScaleAnimator(1.0f, 150.0f, AccelerateDecelerateInterpolator()).with(viewDataBinding.ivLogo, 1500)
+            ScaleAnimator(
+                1.0f,
+                150.0f,
+                AccelerateDecelerateInterpolator()
+            ).with(viewDataBinding.ivLogo, 1500)
         val scaleDot =
-            ScaleAnimator(1.0f, 150.0f, AccelerateDecelerateInterpolator()).with(viewDataBinding.ivDot, 1500)
+            ScaleAnimator(
+                1.0f,
+                150.0f,
+                AccelerateDecelerateInterpolator()
+            ).with(viewDataBinding.ivDot, 1500)
         scaleDot.startDelay = 400
 
         animatorSet?.play(scaleLogo)?.with(scaleDot)
@@ -147,10 +153,10 @@ class SplashFragment : MainChildFragment<FragmentSplashBinding,ISplash.ViewModel
                     } else {
                         //sharedPreferenceManager.save(Constants.KEY_IS_USER_LOGGED_IN, false)
                     }
-                }?:run{
-                   // sharedPreferenceManager.save(Constants.KEY_IS_USER_LOGGED_IN, false)
-                    sharedPreferenceManager.save(KEY_MOBILE_NO,  "")
-                   sharedPreferenceManager.save(KEY_COUNTRY_CODE,  null)
+                } ?: run {
+                    // sharedPreferenceManager.save(Constants.KEY_IS_USER_LOGGED_IN, false)
+                    sharedPreferenceManager.save(KEY_MOBILE_NO, "")
+                    sharedPreferenceManager.save(KEY_COUNTRY_CODE, null)
                 }
             }
             launch {

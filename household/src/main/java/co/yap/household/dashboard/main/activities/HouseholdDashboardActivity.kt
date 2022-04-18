@@ -14,7 +14,6 @@ import co.yap.yapcore.BR
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.IFragmentHolder
 import co.yap.yapcore.helpers.extentions.navViewWidth
-import kotlinx.android.synthetic.main.activity_household_dashboard.*
 
 class HouseholdDashboardActivity : BaseBindingActivity<ActivityHouseholdDashboardBinding,IHouseholdDashboard.ViewModel>(),
     IFragmentHolder,
@@ -57,21 +56,21 @@ class HouseholdDashboardActivity : BaseBindingActivity<ActivityHouseholdDashboar
     }
 
     override fun closeDrawer() {
-        drawerLayout.closeDrawer(GravityCompat.END)
+        viewDataBinding.drawerLayout.closeDrawer(GravityCompat.END)
     }
 
     override fun openDrawer() {
-        drawerLayout.openDrawer(GravityCompat.END)
+        viewDataBinding.drawerLayout.openDrawer(GravityCompat.END)
     }
 
     override fun toggleDrawer() {
-        if (drawerLayout.isDrawerOpen(GravityCompat.END)) closeDrawer()
+        if (viewDataBinding.drawerLayout.isDrawerOpen(GravityCompat.END)) closeDrawer()
         else openDrawer()
     }
 
     override fun enableDrawerSwipe(enable: Boolean) {
-        if (enable) drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
-        else drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
+        if (enable) viewDataBinding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
+        else viewDataBinding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
     }
 
     private fun getViewBinding(): ActivityHouseholdDashboardBinding {
