@@ -127,7 +127,6 @@ class ProfileSettingsFragment : MoreBaseFragment<FragmentProfileBinding, IProfil
         super.onResume()
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
-
                 R.id.tvPersonalDetailView -> {
                     val action =
                         ProfileSettingsFragmentDirections.actionProfileSettingsFragmentToPersonalDetailsFragment()
@@ -140,13 +139,11 @@ class ProfileSettingsFragment : MoreBaseFragment<FragmentProfileBinding, IProfil
 
                 R.id.tvKeyFactStatementView -> {
                     startActivity(
-                        view?.context?.let { context ->
-                            PDFActivity.newIntent(
-                                context,
-                                Constants.URL_KEY_FACT_STATEMENT,
-                                false
-                            )
-                        }
+                        PDFActivity.newIntent(
+                            requireContext(),
+                            Constants.URL_KEY_FACT_STATEMENT,
+                            false
+                        )
                     )
                 }
 
