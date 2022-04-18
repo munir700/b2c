@@ -16,14 +16,15 @@ import co.yap.BR
 import co.yap.R
 import co.yap.databinding.FragmentProfileBinding
 import co.yap.modules.dashboard.more.changepasscode.activities.ChangePasscodeActivity
-import co.yap.modules.dashboard.more.main.activities.MoreActivity
 import co.yap.modules.dashboard.more.main.fragments.MoreBaseFragment
 import co.yap.modules.dashboard.more.profile.intefaces.IProfile
 import co.yap.modules.dashboard.more.profile.viewmodels.ProfileSettingsViewModel
 import co.yap.modules.location.kyc_additional_info.employment_info.amendment.EmploymentQuestionnaireAmendmentFragment
+import co.yap.modules.pdf.PDFActivity
 import co.yap.modules.webview.WebViewFragment
 import co.yap.translation.Strings
 import co.yap.widgets.bottomsheet.BottomSheetItem
+import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.Constants.KEY_IS_FINGERPRINT_PERMISSION_SHOWN
 import co.yap.yapcore.constants.Constants.KEY_TOUCH_ID_ENABLED
 import co.yap.yapcore.constants.RequestCodes.REQUEST_NOTIFICATION_SETTINGS
@@ -41,7 +42,8 @@ import co.yap.yapcore.managers.SessionManager
 import kotlinx.android.synthetic.main.layout_profile_picture.*
 import pl.aprilapps.easyphotopicker.MediaFile
 
-class ProfileSettingsFragment : MoreBaseFragment<FragmentProfileBinding , IProfile.ViewModel>(), IProfile.View {
+class ProfileSettingsFragment : MoreBaseFragment<FragmentProfileBinding, IProfile.ViewModel>(),
+    IProfile.View {
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_profile
     override val viewModel: ProfileSettingsViewModel
@@ -125,7 +127,6 @@ class ProfileSettingsFragment : MoreBaseFragment<FragmentProfileBinding , IProfi
         super.onResume()
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
-
                 R.id.tvPersonalDetailView -> {
                     val action =
                         ProfileSettingsFragmentDirections.actionProfileSettingsFragmentToPersonalDetailsFragment()
@@ -135,11 +136,22 @@ class ProfileSettingsFragment : MoreBaseFragment<FragmentProfileBinding , IProfi
                 R.id.tvChangePasscode -> {
                     launchActivity<ChangePasscodeActivity>(type = FeatureSet.CHANGE_PASSCODE)
                 }
+
+                R.id.tvKeyFactStatementView -> {
+                    startActivity(
+                        PDFActivity.newIntent(
+                            requireContext(),
+                            Constants.URL_KEY_FACT_STATEMENT,
+                            false
+                        )
+                    )
+                }
+
                 R.id.tvTermsAndConditionView -> {
                     startFragment(
                         fragmentName = WebViewFragment::class.java.name, bundle = bundleOf(
-                            co.yap.yapcore.constants.Constants.PAGE_URL to co.yap.yapcore.constants.Constants.URL_TERMS_CONDITION,
-                            co.yap.yapcore.constants.Constants.TOOLBAR_TITLE to getString(
+                            Constants.PAGE_URL to Constants.URL_TERMS_CONDITION,
+                            Constants.TOOLBAR_TITLE to getString(
                                 Strings.screen_profile_settings_display_terms_and_conditions
                             )
                         ), showToolBar = false
@@ -149,7 +161,7 @@ class ProfileSettingsFragment : MoreBaseFragment<FragmentProfileBinding , IProfi
                 R.id.tvFeesAndPricingPlansView -> {
                     startFragment(
                         fragmentName = WebViewFragment::class.java.name, bundle = bundleOf(
-                            co.yap.yapcore.constants.Constants.PAGE_URL to co.yap.yapcore.constants.Constants.URL_FEES_AND_PRICING_PLAN
+                            Constants.PAGE_URL to Constants.URL_FEES_AND_PRICING_PLAN
                         ), showToolBar = false
                     )
                 }

@@ -16,11 +16,11 @@ import co.yap.BR
 import co.yap.R
 import co.yap.modules.passcode.IPassCode
 import co.yap.modules.passcode.PassCodeViewModel
+import co.yap.modules.pdf.PDFActivity
 import co.yap.modules.webview.WebViewFragment
 import co.yap.translation.Strings
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.constants.Constants
-import co.yap.yapcore.constants.Constants.URL_KEY_FACT_STATEMENT
 import co.yap.yapcore.constants.Constants.URL_TERMS_CONDITION
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.databinding.FragmentPassCodeBinding
@@ -97,8 +97,10 @@ class CreatePasscodeActivity : BaseBindingActivity<FragmentPassCodeBinding, IPas
     }
 
     private fun getTermsSpannable(): SpannableStringBuilder {
-        val termsLink = getString(R.string.screen_confirm_card_pin_display_text_terms_and_conditions)
-        val keyFactStatementLink = getString(R.string.screen_confirm_card_pin_display_text_key_fact_statement)
+        val termsLink =
+            getString(R.string.screen_confirm_card_pin_display_text_terms_and_conditions)
+        val keyFactStatementLink =
+            getString(R.string.screen_confirm_card_pin_display_text_key_fact_statement)
         val termsText = getString(
             R.string.screen_confirm_card_pin_terms_condition_note,
             termsLink,
@@ -132,11 +134,9 @@ class CreatePasscodeActivity : BaseBindingActivity<FragmentPassCodeBinding, IPas
         termsSpannableText.setSpan(
             object : ClickableSpan() {
                 override fun onClick(widget: View) {
-                    startFragment<WebViewFragment>(
-                        fragmentName = WebViewFragment::class.java.name, bundle = bundleOf(
-                            Constants.PAGE_URL to URL_KEY_FACT_STATEMENT,
-                            Constants.TOOLBAR_TITLE to getString(R.string.screen_confirm_card_pin_display_text_key_fact_statement)
-                        ), showToolBar = false
+                    startActivity(
+                        PDFActivity
+                            .newIntent(context, Constants.URL_KEY_FACT_STATEMENT, false)
                     )
                 }
             },
