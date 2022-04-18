@@ -271,11 +271,6 @@ class EidInfoReviewAmendmentFragment : KYCChildFragment<FragmentEidInfoReviewAme
         }
     }
 
-    override fun onDestroy() {
-        viewModel.parentViewModel?.uqudoManager?.deleteEidImages()
-        super.onDestroy()
-    }
-
     override fun onBackPressed(): Boolean {
         if (viewModel.state.errorScreenVisited) {
             requireActivity().finish()
