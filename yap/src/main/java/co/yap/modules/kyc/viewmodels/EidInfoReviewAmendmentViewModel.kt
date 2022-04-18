@@ -138,7 +138,8 @@ class EidInfoReviewAmendmentViewModel(application: Application) :
                     trackEvent(KYCEvents.KYC_PROHIBITED_CITIIZEN.type)
                     trackEventWithScreenName(FirebaseEvent.KYC_SANCTIONED)
                 }
-                parentViewModel?.document != null && state.citizenNumber.value ?: "" != parentViewModel?.document?.identityNo -> {
+                identity.filePaths.isNullOrEmpty() -> state.eidImageDownloaded.value = false
+                parentViewModel?.document != null && state.citizenNumber.value?.replace("-","") ?: "" != parentViewModel?.document?.identityNo -> {
                     state.toast =
                         "Your EID doesn't match with the current EID.^${AlertType.DIALOG.name}"
                 }
@@ -496,18 +497,7 @@ class EidInfoReviewAmendmentViewModel(application: Application) :
 
             state.nationality.value =
                 countries.firstOrNull { country -> country.isoCountryCode3Digit == parentViewModel?.uqudoManager?.fetchDocumentBackDate()?.nationality }
-            if (parentViewModel?.uqudoManager?.getFrontImagePath()
-                    .isNullOrBlank() && parentViewModel?.uqudoManager?.getBackImagePath()
-                    .isNullOrBlank()
-            ) {
-                parentViewModel?.uqudoManager?.downloadImage { downloadSuccess ->
-                    state.viewState.postValue(false)
-                    if (downloadSuccess) {
-                        parentViewModel?.uqudoIdentity?.value =
-                            parentViewModel?.uqudoManager?.getUqudoIdentity(isAmendment = true)
-                    } else state.eidImageDownloaded.value = false
-                }
-            }
+            if (parentViewModel?.uqudoManager?.noImageDownloaded() == true) downloadImageInBackground()
             handleAgeValidation()
             handleIsUsValidation()
             validator?.toValidate()
@@ -597,6 +587,17 @@ class EidInfoReviewAmendmentViewModel(application: Application) :
                     }
                 }
 
+            }
+        }
+    }
+    private fun downloadImageInBackground() {
+        launch(Dispatcher.Background) {
+            parentViewModel?.uqudoManager?.downloadImage { downloaded ->
+                state.viewState.postValue(false)
+                if (downloaded)
+                    parentViewModel?.uqudoIdentity?.value =
+                        parentViewModel?.uqudoManager?.getUqudoIdentity(isAmendment = true)
+                else state.eidImageDownloaded.value = false
             }
         }
     }

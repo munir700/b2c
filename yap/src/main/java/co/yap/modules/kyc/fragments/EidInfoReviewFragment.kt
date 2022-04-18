@@ -87,20 +87,21 @@ class EidInfoReviewFragment :
             })
             state.eidImageDownloaded.observe(viewLifecycleOwner, Observer { ableToDownload ->
                 if (ableToDownload.not()) invalidCitizenNumber(
-                    "Sorry, we are unable to download your Eid please rescan",
-                    true
-                )
+                    "Sorry, we are unable to download your Eid please rescan"
+                ) {
+                    initializeUqudoScanner()
+                }
 
             })
         }
     }
 
-    private fun invalidCitizenNumber(title: String, rescan: Boolean = false) {
+    private fun invalidCitizenNumber(title: String, event: () -> Unit) {
         activity?.let {
             it.showAlertDialogAndExitApp(
                 message = title,
                 callback = {
-                    if (rescan.not()) requireActivity().finish() else initializeUqudoScanner()
+                    event.invoke()
                 },
                 closeActivity = false
             )
@@ -158,8 +159,9 @@ class EidInfoReviewFragment :
                     ) {
                         viewModel.eidStateLiveData.postValue(State.success(""))
                     }
+                } else if (viewModel.parentViewModel?.uqudoManager?.getPayloadData() != null && uqudoJWT.isNullOrBlank()) {
                 } else {
-                    if (viewModel.parentViewModel?.uqudoManager?.getPayloadData() == null && viewModel.parentViewModel?.comingFrom?.value.isNullOrBlank()
+                    if (viewModel.parentViewModel?.uqudoManager?.getPayloadData() == null || viewModel.parentViewModel?.comingFrom?.value.isNullOrBlank()
                             .not()
                     ) navigateBack() else requireActivity().finish()
                 }
@@ -191,13 +193,21 @@ class EidInfoReviewFragment :
             }
             Status.SUCCESS -> {
                 getViewBinding().multiStateView.viewState = MultiStateView.ViewState.CONTENT
-                viewModel.parentViewModel?.uqudoManager?.getPayloadData()?.let { identity ->
-                    viewModel.populateUqudoState(identity = identity)
+                with(viewModel) {
+                    this.state.viewState.postValue(true)
+                    parentViewModel?.uqudoManager?.getPayloadData()?.let { identity ->
+                        populateUqudoState(identity = identity)
+                    }
                 }
+
             }
             Status.ERROR -> {
-                getViewBinding().multiStateView.viewState = MultiStateView.ViewState.ERROR
-                invalidCitizenNumber(state.message ?: "Sorry, that didn’t work. Please try again")
+                getViewBinding().multiStateView.viewState = MultiStateView.ViewState.EMPTY
+                invalidCitizenNumber(state.message ?: "Sorry, that didn’t work. Please try again") {
+                    if (viewModel.parentViewModel?.comingFrom?.value.isNullOrBlank()
+                            .not()
+                    ) navigateBack() else requireActivity().finish()
+                }
             }
             Status.IDEAL -> {
                 //do nothing
@@ -211,8 +221,8 @@ class EidInfoReviewFragment :
     private fun initializeUqudoScanner() {
         with(viewModel.parentViewModel?.uqudoManager) {
             if (this?.isAccessTokenExpired() == true) viewModel.requestAllAPIs(false)
-            else this?.initiateUqudoScanning().apply {
-                startActivityForResult(this, REQUEST_UQUDO)
+            else this?.initiateUqudoScanning()?.let { intent ->
+                startActivityForResult(intent, REQUEST_UQUDO)
             }
         }
     }
@@ -352,8 +362,10 @@ class EidInfoReviewFragment :
                         })
                 }
                 EidInfoEvents.EVENT_CITIZEN_NUMBER_ISSUE.eventId, EidInfoEvents.EVENT_EID_EXPIRY_DATE_ISSUE.eventId -> invalidCitizenNumber(
-                    "Sorry, that didn’t work. Please try again", true
-                )
+                    "Sorry, that didn’t work. Please try again"
+                ) {
+                    initializeUqudoScanner()
+                }
             }
         }
     }

@@ -16,6 +16,7 @@ import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.DateUtils.isFutureDate
 import co.yap.yapcore.helpers.DateUtils.nextYear
 import co.yap.yapcore.helpers.SingletonHolder
+import co.yap.yapcore.helpers.extentions.createTempFileWithName
 import co.yap.yapcore.helpers.extentions.saveEidTemp
 import co.yap.yapcore.helpers.jwtparser.JWT
 import com.bumptech.glide.Glide
@@ -122,21 +123,21 @@ class UqudoScannerManager private constructor(val context: Context) : IUqudoMana
         return (timeInSec <= seconds)
     }
 
-    override fun downloadImage(success: (success: Boolean) -> Unit) {
+    override suspend fun downloadImage(success: (success: Boolean) -> Unit) {
         uqudoPayloadData.value?.let { payload ->
             imagePaths.clear()
-            downloadImagewithGlide(
-                payload.documents.get(0).scan?.frontImageId ?: ""
+            downloadImageWithGlide(
+                payload.documents[0].scan?.frontImageId ?: ""
             )
             { isFrontImageDownloaded, frontImage ->
                 if (isFrontImageDownloaded) {
-                    frontImage?.let { context.saveEidTemp(it) }
+                    frontImage?.let { context.saveEidTemp("${fetchDocumentFrontDate()?.identityNumber}Front",it) }
                         ?.let { imagePaths[FRONT_IMAGE_RESOURCE_PATH] = it }
-                    downloadImagewithGlide(
-                        payload.documents.get(0).scan?.backImageId ?: ""
+                    downloadImageWithGlide(
+                        payload.documents[0].scan?.backImageId ?: ""
                     ) { isBackImageDownloaded, backImage ->
                         if (isBackImageDownloaded) {
-                            backImage?.let { context.saveEidTemp(it) }
+                            backImage?.let { context.saveEidTemp("${fetchDocumentFrontDate()?.identityNumber}Back",it) }
                                 ?.let { imagePaths[BACK_IMAGE_RESOURCE_PATH] = it }
                             success.invoke(true)
                         } else {
@@ -151,7 +152,7 @@ class UqudoScannerManager private constructor(val context: Context) : IUqudoMana
 
     }
 
-    private fun downloadImagewithGlide(
+    private fun downloadImageWithGlide(
         imageId: String,
         downloaded: (sucess: Boolean, bitmap: Bitmap?) -> Unit
     ) {
@@ -180,7 +181,7 @@ class UqudoScannerManager private constructor(val context: Context) : IUqudoMana
 
                 override fun onLoadFailed(errorDrawable: Drawable?) {
                     super.onLoadFailed(errorDrawable)
-                    downloadImagewithGlide(imageId) { _, _ -> }
+                    downloadImageWithGlide(imageId) { _, _ -> }
                 }
             })
     }
@@ -196,8 +197,8 @@ class UqudoScannerManager private constructor(val context: Context) : IUqudoMana
                 -100
             ) else inputSDF.parse(string ?: "")
             inputSDF.applyPattern(DATE_OUTPUT_FORMAT)
-            if (flags == UqudoFlags.EXPIRY_DATE) dateOfExpiry.value = date else dateOfBirth.value =
-                date
+            if (flags == UqudoFlags.EXPIRY_DATE) dateOfExpiry.value = date?: Date() else dateOfBirth.value =
+                date?:Date()
             return date
         } catch (e: java.lang.Exception) {
             e.printStackTrace()
@@ -236,6 +237,8 @@ class UqudoScannerManager private constructor(val context: Context) : IUqudoMana
             it
         }
     }
+
+    override fun noImageDownloaded(): Boolean = imagePaths.isEmpty() || imagePaths.isNullOrEmpty()
 
     override fun resetData() {
         imagePaths.clear()
