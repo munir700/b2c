@@ -31,7 +31,7 @@ import java.io.BufferedInputStream
 import java.io.FileInputStream
 import java.io.InputStream
 
-class ScanQRCodeFragment : BaseBindingImageFragment<IScanQRCode.ViewModel>(),
+class ScanQRCodeFragment : BaseBindingImageFragment<FragmentScanQrCodeBinding,IScanQRCode.ViewModel>(),
     IScanQRCode.View, QRCodeReaderView.OnQRCodeReadListener {
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_scan_qr_code

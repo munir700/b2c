@@ -10,6 +10,7 @@ import androidx.core.os.bundleOf
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
+import co.yap.databinding.FragmentSelectDocumentBinding
 import co.yap.modules.dashboard.addionalinfo.interfaces.ISelectDocument
 import co.yap.modules.dashboard.addionalinfo.model.AdditionalDocumentImage
 import co.yap.modules.dashboard.addionalinfo.viewmodels.SelectDocumentViewModel
@@ -27,7 +28,7 @@ import co.yap.yapcore.interfaces.OnItemClickListener
 import pub.devrel.easypermissions.EasyPermissions
 import java.io.File
 
-class SelectDocumentFragment : AdditionalInfoBaseFragment<ISelectDocument.ViewModel>(),
+class SelectDocumentFragment : AdditionalInfoBaseFragment<FragmentSelectDocumentBinding,ISelectDocument.ViewModel>(),
     ISelectDocument.View {
     override fun getBindingVariable(): Int = BR.viewModel
 

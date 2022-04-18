@@ -42,6 +42,7 @@ import co.yap.modules.dashboard.home.viewmodels.YapHomeViewModel
 import co.yap.modules.dashboard.main.activities.YapDashboardActivity
 import co.yap.modules.dashboard.main.fragments.YapDashboardChildFragment
 import co.yap.modules.dashboard.main.viewmodels.YapDashBoardViewModel
+import co.yap.modules.dashboard.more.profile.fragments.PersonalDetailsFragment
 import co.yap.modules.dashboard.more.yapforyou.activities.YAPForYouActivity
 import co.yap.modules.dashboard.transaction.detail.TransactionDetailsActivity
 import co.yap.modules.dashboard.transaction.search.TransactionSearchFragment
@@ -101,7 +102,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 //TODO("We need to refactor the this fragment because this fragment contains a lot of code regarding transaction graph bars")
-class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHome.View,
+class YapHomeFragment : YapDashboardChildFragment<FragmentDashboardHomeBinding,IYapHome.ViewModel>(), IYapHome.View,
     NotificationItemClickListener, SwipeRefreshLayout.OnRefreshListener {
     private var mAdapter: NotificationAdapter? = null
     private var parentViewModel: YapDashBoardViewModel? = null
@@ -760,6 +761,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                             Constants.name,
                             SessionManager.user?.currentCustomer?.firstName.toString()
                         )
+                        putExtra("from", YapHomeFragment::class.java.name)
                         putExtra(Constants.data, false)
                     }
                 }
@@ -788,13 +790,15 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                                     identityNo = SessionManager.user?.currentCustomer?.identityNo
                                 )
                             )
+                            putExtra("from", YapHomeFragment::class.java.name)
+
                         }
                     } else {
                         showBlockedFeatureAlert(requireActivity(), FeatureSet.UPDATE_EID)
                     }
                 } else {
                     launchActivity<DocumentsDashboardActivity>(
-                        requestCode = RequestCodes.REQUEST_KYC_DOCUMENTS,
+                        requestCode = RequestCodes.REQUEST_UPDATE_EMIRATES_ID,
                         type = FeatureSet.UPDATE_EID
                     ) {
                         putExtra(
@@ -809,6 +813,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                             )
                         )
                     }
+                    SessionManager.eidStatus = EIDStatus.EXPIRED
                 }
             }
             NotificationAction.HELP_AND_SUPPORT -> {
@@ -1016,6 +1021,10 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                         }
                     }
                 }
+            }
+
+            RequestCodes.REQUEST_UPDATE_EMIRATES_ID -> {
+                SessionManager.getAccountInfo()
             }
         }
     }
@@ -1272,3 +1281,4 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         }
     }
 }
+

@@ -36,7 +36,7 @@ import kotlinx.android.synthetic.main.fragment_international_funds_transfer.*
 
 
 class InternationalFundsTransferFragment :
-    BeneficiaryFundTransferBaseFragment<IInternationalFundsTransfer.ViewModel>(),
+    BeneficiaryFundTransferBaseFragment<FragmentInternationalFundsTransferBinding,IInternationalFundsTransfer.ViewModel>(),
     IInternationalFundsTransfer.View {
 
     override fun getBindingVariable(): Int = BR.viewModel

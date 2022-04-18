@@ -1,12 +1,15 @@
 apply plugin: 'kotlin-android-extensions'
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-
+    implementation('io.uqudo.sdk:digitify:1.12.1') {
+        exclude group: 'androidx.activity', module: 'activity'
+        exclude group: 'androidx.navigation'
+    }
     // Test dependencies
     project.testDependencies.each {
         add(it.configuration, it.dependency)
     }
-
+    implementation "me.leantech:link-sdk-android:2.1.3"
     //shared dependencies to all modules
     project.commonDependencies.each {
         add(it.configuration, it.dependency, it.options)

@@ -25,7 +25,7 @@ class SplashViewModel(application: Application) : MainChildViewModel<ISplash.Sta
     private val customersRepository: CustomersRepository = CustomersRepository
 
     override val splashComplete: SingleLiveEvent<Boolean> = SingleLiveEvent()
-    override var appUpdate: SingleLiveEvent<AppUpdate> = SingleLiveEvent()
+    override var appUpdate: SingleLiveEvent<AppUpdate?>? = SingleLiveEvent()
 
     override fun onCreate() {
         super.onCreate()
@@ -71,13 +71,13 @@ class SplashViewModel(application: Application) : MainChildViewModel<ISplash.Sta
                 is RetroApiResponse.Success -> {
                     response.data.data?.let {
                         if (it.isNotEmpty()) {
-                            appUpdate.value = it[0]
+                            appUpdate?.value = it[0]
                         } else {
-                            appUpdate.value = null
+                            appUpdate?.value = null
                         }
                         return@let
                     }
-                    appUpdate.value = null
+                    appUpdate?.value = null
                 }
                 is RetroApiResponse.Error -> {
                     showToast(response.error.message)

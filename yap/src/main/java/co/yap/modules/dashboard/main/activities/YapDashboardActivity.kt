@@ -79,7 +79,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import net.cachapa.expandablelayout.ExpandableLayout
 
-class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYapDashboard.View,
+class YapDashboardActivity : BaseBindingActivity<ActivityYapDashboardBinding, IYapDashboard.ViewModel>(), IYapDashboard.View,
     IFragmentHolder, AppBarConfiguration.OnNavigateUpListener {
 
     val fragments: Array<Fragment> = arrayOf(YapHomeFragment(), YapStoreFragment())

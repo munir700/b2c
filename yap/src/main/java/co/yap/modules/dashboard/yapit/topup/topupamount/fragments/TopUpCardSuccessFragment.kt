@@ -25,7 +25,7 @@ import co.yap.yapcore.leanplum.TopUpEvents
 import co.yap.yapcore.leanplum.trackEvent
 import co.yap.yapcore.managers.SessionManager
 
-class TopUpCardSuccessFragment : BaseBindingFragment<ITopUpCardSuccess.ViewModel>(),
+class TopUpCardSuccessFragment : BaseBindingFragment<FragmentTopUpCardSuccessBinding,ITopUpCardSuccess.ViewModel>(),
     ITopUpCardSuccess.View {
     val args: VerifyCardCvvFragmentArgs by navArgs()
     override fun getBindingVariable(): Int = BR.viewModel

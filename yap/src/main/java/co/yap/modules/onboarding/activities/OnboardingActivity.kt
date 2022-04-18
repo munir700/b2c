@@ -5,6 +5,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
+import co.yap.databinding.ActivityOnboardingNavigationBinding
 import co.yap.modules.onboarding.enums.AccountType
 import co.yap.modules.onboarding.interfaces.IOnboarding
 import co.yap.modules.onboarding.viewmodels.OnboardingViewModel
@@ -17,7 +18,7 @@ import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.interfaces.BackPressImpl
 import co.yap.yapcore.interfaces.IBaseNavigator
 
-class OnboardingActivity : BaseBindingActivity<IOnboarding.ViewModel>(), INavigator,
+class OnboardingActivity : BaseBindingActivity<ActivityOnboardingNavigationBinding,IOnboarding.ViewModel>(), INavigator,
     IFragmentHolder {
 
     override fun getBindingVariable(): Int = BR.viewModel

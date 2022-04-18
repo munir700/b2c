@@ -19,7 +19,7 @@ import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 
 
-class TransferSuccessFragment : BeneficiaryFundTransferBaseFragment<ITransferSuccess.ViewModel>(),
+class TransferSuccessFragment : BeneficiaryFundTransferBaseFragment<FragmentTransferSuccessBinding,ITransferSuccess.ViewModel>(),
     ITransferSuccess.View {
 
     override fun getBindingVariable(): Int = BR.viewModel

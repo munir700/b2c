@@ -38,7 +38,7 @@ import co.yap.yapcore.managers.FeatureProvisioning
 import co.yap.yapcore.managers.SessionManager
 
 
-class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
+class PersonalDetailsFragment : MoreBaseFragment<FragmentPersonalDetailBinding, IPersonalDetail.ViewModel>(),
     IPersonalDetail.View {
 
     private var photoPlacesId: String = " "
@@ -54,8 +54,8 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        if (context is MoreActivity)
-            (context as MoreActivity).visibleToolbar()
+        viewModel.parentViewModel?.state?.toolbarVisibility?.set(true)
+
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

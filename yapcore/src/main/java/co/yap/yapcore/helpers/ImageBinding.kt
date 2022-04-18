@@ -42,8 +42,6 @@ import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.target.Target
 import com.bumptech.glide.request.transition.Transition
 import com.google.android.material.imageview.ShapeableImageView
-import com.google.android.material.shape.CornerFamily
-import com.liveperson.infra.configuration.Configuration.getDimension
 import com.liveperson.infra.utils.Utils.getResources
 import kotlin.math.roundToInt
 
@@ -245,9 +243,12 @@ object ImageBinding {
 
         val colors = imageView.context.resources.getIntArray(R.array.analyticsColors)
         val resId =
-            if (isBackground) getResId(imageView.context,"ic_${getDrawableName(fName)}") else fName.getMerchantCategoryIcon(imageView.context)
+            if (isBackground) getResId(
+                imageView.context,
+                "ic_${getDrawableName(fName)}"
+            ) else fName.getMerchantCategoryIcon(imageView.context)
 
-        if (resId >0) {
+        if (resId > 0) {
             val resImg = ContextCompat.getDrawable(imageView.context, resId)
             if (isBackground)
                 resImg?.setTint(
@@ -313,7 +314,7 @@ object ImageBinding {
 
     @JvmStatic
     @BindingAdapter(
-        value = ["imageUrl", "fullName", "bgColor", "initialTextSize", "initialTextColor", "imageSize"],
+        value = ["imageUrl", "fullName", "bgColor", "initialTextSize", "initialTextColor", "imageSize", "isUrlRound"],
         requireAll = true
     )
     fun setImageViewResource(
@@ -321,34 +322,35 @@ object ImageBinding {
         fullName: String?,
         bgColor: String, initialTextSize: Int,
         initialTextColor: Int,
-        imageSize: Int
+        imageSize: Int,
+        isUrlRound: Boolean
     ) {
         imageUrl?.let {
             if (imageUrl.isNullOrEmpty().not()) {
                 setImage1(imageView, it)
-                imageView.shapeAppearanceModel =
-                    imageView.shapeAppearanceModel
-                        .toBuilder()
-                        .setTopLeftCorner(CornerFamily.ROUNDED, imageView.context.resources.getDimension(R.dimen.margin_normal_large))
-                        .setTopRightCorner(CornerFamily.ROUNDED, imageView.context.resources.getDimension(R.dimen.margin_normal_large))
-
-                        .build()
+                if (!isUrlRound)
+                    imageView.shapeAppearanceModel =
+                        imageView.shapeAppearanceModel
+                            .toBuilder()
+                            .setAllCornerSizes(imageView.context.resources.getDimension(R.dimen.margin_zero_dp))
+                            .build()
             } else {
-                loadAvatar(
+                //place color validation method after merging of refactoring PR
+                showUrlOrInitial(
                     imageView, false,
                     imageUrl,
                     fullName,
-                    R.color.colorPrimaryDark,
+                    Color.parseColor(bgColor),
                     initialTextSize,
                     initialTextColor,
                     imageSize
                 )
             }
-        } ?: loadAvatar(
+        } ?: showUrlOrInitial(
             imageView, false,
             imageUrl,
             fullName,
-            R.color.colorPrimaryDark,
+            Color.parseColor(bgColor),
             initialTextSize,
             initialTextColor,
             imageSize
@@ -512,14 +514,15 @@ object ImageBinding {
     @BindingAdapter(value = ["countryCode", "countryName"], requireAll = false)
     fun setPhonePrefix(view: PrefixSuffixEditText, countryCode: String, countryName: String) {
 
-        val resId = getResId(view.context,
+        val resId = getResId(
+            view.context,
             "flag_${
                 getDrawableName(
                     countryName
                 )
             }"
         )
-        if (resId >0) {
+        if (resId > 0) {
             view.prefixDrawable = ContextCompat.getDrawable(view.context, resId)
         }
         view.prefix = countryCode
@@ -622,9 +625,12 @@ object ImageBinding {
 
         val colors = imageView.context.resources.getIntArray(R.array.analyticsColors)
         val resId =
-            if (isBackground) getResId(imageView.context,"ic_${getDrawableName(fName)}") else fName.getMerchantCategoryIcon(imageView.context)
+            if (isBackground) getResId(
+                imageView.context,
+                "ic_${getDrawableName(fName)}"
+            ) else fName.getMerchantCategoryIcon(imageView.context)
 
-        if (resId >0) {
+        if (resId > 0) {
             val resImg = ContextCompat.getDrawable(imageView.context, resId)
             if (isBackground)
                 resImg?.setTint(
@@ -800,8 +806,17 @@ object ImageBinding {
 
     @JvmStatic
     @BindingAdapter(value = ["resName", "isFlag"], requireAll = true)
-    fun setDrawableWithName(imageView: ImageView, resourceName: String, isFlag: Boolean) {
-        if (isFlag) imageView.setImageResource(CurrencyUtils.getFlagDrawable(imageView.context, resourceName))
+    fun setDrawableWithName(
+        imageView: CoreCircularImageView,
+        resourceName: String,
+        isFlag: Boolean
+    ) {
+        if (isFlag) imageView.setImageResource(
+            CurrencyUtils.getFlagDrawable(
+                imageView.context,
+                resourceName
+            )
+        )
         else
             imageView.setImageResource(
                 getResId(
@@ -809,5 +824,47 @@ object ImageBinding {
                     "ic_${getDrawableName(resourceName)}"
                 )
             )
+    }
+
+    @JvmStatic
+    @BindingAdapter("resName")
+    fun setDrawableWithReflection(imageView: AppCompatImageView, resourceName: String) {
+        imageView.setImageResource(
+            getResId(
+                imageView.context,
+                "ic_${getDrawableName(resourceName)}"
+            )
+        )
+    }
+
+    fun showUrlOrInitial(
+        imageView: ImageView,
+        isCircular: Boolean,
+        beneficiaryPicture: String?,
+        fullName: String?,
+        color: Int,
+        @DimenRes fontSize: Int = R.dimen.text_size_h5,
+        @ColorRes textColor: Int = R.color.colorPrimary,
+        @DimenRes imageSIze: Int = R.dimen._35sdp
+    ) {
+
+        val builder = TextDrawable.builder()
+        builder.beginConfig().width(imageView.context.dimen(imageSIze))
+            .height(imageView.context.dimen(imageSIze))
+            .fontSize(imageView.context.dimen(fontSize))
+            .useFont(ResourcesCompat.getFont(imageView.context, R.font.roboto_regular)!!).bold()
+            .toUpperCase()
+            .textColor(ContextCompat.getColor(imageView.context, textColor))
+        setCircleCropImage(
+            imageView,
+            beneficiaryPicture ?: "", if (isCircular)
+                builder.buildRound(
+                    Utils.shortName(fullName ?: ""),
+                    color
+                ) else builder.buildRect(
+                Utils.shortName(fullName ?: ""),
+                color
+            )
+        )
     }
 }

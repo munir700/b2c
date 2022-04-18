@@ -25,7 +25,6 @@ import co.yap.widgets.bottomsheet.bottomsheet_with_initials.CoreInitialsBottomSh
 import co.yap.widgets.guidedtour.TourSetup
 import co.yap.widgets.guidedtour.models.GuidedTourViewDetail
 import co.yap.yapcore.BaseActivity
-import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.R
 import co.yap.yapcore.constants.Constants
@@ -467,8 +466,6 @@ inline fun <reified T : BaseViewModel<*>> Fragment.viewModel(
     vm.body()
     return vm
 }
-
-fun BaseBindingFragment<*>.close() = fragmentManager?.popBackStack()
 
 /**
  *

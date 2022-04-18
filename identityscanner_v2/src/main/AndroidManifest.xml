@@ -14,9 +14,6 @@
     <uses-feature
         android:name="android.hardware.camera.front"
         android:required="true" />
-    <uses-feature
-        android:name="android.hardware.microphone"
-        android:required="false" />
 
     <application
         android:allowBackup="false"

@@ -2,7 +2,7 @@ package co.yap.modules.dashboard.more.yapforyou.fragments
 
 import android.os.Bundle
 import android.view.View
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import co.yap.R
 import co.yap.databinding.FragmentCompletedAchievementsBinding
 import co.yap.modules.dashboard.more.yapforyou.interfaces.ICompletedAchievements
@@ -11,14 +11,14 @@ import co.yap.modules.dashboard.more.yapforyou.viewmodels.CompletedAchievementsV
 import co.yap.yapcore.BR
 import co.yap.yapcore.interfaces.OnItemClickListener
 
-class CompletedAchievementsFragment : YapForYouBaseFragment<ICompletedAchievements.ViewModel>(),
+class CompletedAchievementsFragment : YapForYouBaseFragment<FragmentCompletedAchievementsBinding, ICompletedAchievements.ViewModel>(),
     ICompletedAchievements.View {
     override fun getBindingVariable(): Int = BR.viewModel
 
     override fun getLayoutId(): Int = R.layout.fragment_completed_achievements
 
     override val viewModel: ICompletedAchievements.ViewModel
-        get() = ViewModelProviders.of(this).get(CompletedAchievementsViewModel::class.java)
+        get() = ViewModelProvider(this).get(CompletedAchievementsViewModel::class.java)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -35,10 +35,6 @@ class CompletedAchievementsFragment : YapForYouBaseFragment<ICompletedAchievemen
                 navigate(R.id.achievementFragment)
             }
         }
-    }
-
-    override fun getBinding(): FragmentCompletedAchievementsBinding {
-        return viewDataBinding as FragmentCompletedAchievementsBinding
     }
 
 }

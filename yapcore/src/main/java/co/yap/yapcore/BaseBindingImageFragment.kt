@@ -4,6 +4,7 @@ import android.Manifest
 import android.app.Activity
 import android.content.Intent
 import androidx.annotation.NonNull
+import androidx.databinding.ViewDataBinding
 import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.constants.RequestCodes.REQUEST_CAMERA_PERMISSION
@@ -14,7 +15,7 @@ import pub.devrel.easypermissions.AfterPermissionGranted
 import pub.devrel.easypermissions.AppSettingsDialog
 import pub.devrel.easypermissions.EasyPermissions
 
-abstract class BaseBindingImageFragment<V : IBase.ViewModel<*>> : BaseBindingFragment<V>() {
+abstract class BaseBindingImageFragment<VB : ViewDataBinding,V : IBase.ViewModel<*>> : BaseBindingFragment<VB,V>() {
     private lateinit var easyImage: EasyImage
     private lateinit var selectionType: PhotoSelectionType
 

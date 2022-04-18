@@ -13,6 +13,7 @@ import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.app.R
 import co.yap.app.constants.Constants
+import co.yap.app.databinding.ActivityPhoneVerificationBinding
 import co.yap.app.main.MainChildFragment
 import co.yap.app.modules.login.interfaces.IPhoneVerificationSignIn
 import co.yap.app.modules.login.viewmodels.PhoneVerificationSignInViewModel
@@ -44,7 +45,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class PhoneVerificationSignInFragment :
-    MainChildFragment<IPhoneVerificationSignIn.ViewModel>(), IPhoneVerificationSignIn.View {
+    MainChildFragment<ActivityPhoneVerificationBinding , IPhoneVerificationSignIn.ViewModel>(), IPhoneVerificationSignIn.View {
     private var intentFilter: IntentFilter? = null
     private var appSMSBroadcastReceiver: MySMSBroadcastReceiver? = null
     override fun getBindingVariable(): Int = BR.viewModel

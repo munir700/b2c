@@ -3,9 +3,10 @@ package co.yap.modules.dashboard.cards.reportcard.activities
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import co.yap.BR
 import co.yap.R
+import co.yap.databinding.ActivityReportOrStolenCardsBinding
 import co.yap.modules.dashboard.cards.reportcard.interfaces.IReportStolenActivity
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.yapcore.BaseBindingActivity
@@ -15,7 +16,7 @@ import co.yap.yapcore.defaults.INavigator
 import co.yap.yapcore.interfaces.BackPressImpl
 import co.yap.yapcore.interfaces.IBaseNavigator
 
-class ReportLostOrStolenCardActivity : BaseBindingActivity<IReportStolenActivity.ViewModel>(),
+class ReportLostOrStolenCardActivity : BaseBindingActivity<ActivityReportOrStolenCardsBinding, IReportStolenActivity.ViewModel>(),
     INavigator,
     IFragmentHolder {
     companion object {
@@ -33,7 +34,7 @@ class ReportLostOrStolenCardActivity : BaseBindingActivity<IReportStolenActivity
     override fun getLayoutId(): Int = R.layout.activity_report_or_stolen_cards
 
     override val viewModel: IReportStolenActivity.ViewModel
-        get() = ViewModelProviders.of(this).get(ReportLostStolenActivityViewModel::class.java)
+        get() = ViewModelProvider(this).get(ReportLostStolenActivityViewModel::class.java)
 
     override val navigator: IBaseNavigator
         get() = DefaultNavigator(

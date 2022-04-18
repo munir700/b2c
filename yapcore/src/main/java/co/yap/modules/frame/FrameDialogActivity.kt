@@ -15,10 +15,10 @@ import co.yap.yapcore.databinding.DailogActivityFrameBinding
 import co.yap.yapcore.helpers.extentions.createFragmentInstance
 import co.yap.yapcore.helpers.extentions.instantiateFragment
 
-class FrameDialogActivity : BaseBindingActivity<IFrameActivity.ViewModel>(),
+class FrameDialogActivity : BaseBindingActivity<DailogActivityFrameBinding,IFrameActivity.ViewModel>(),
     IFrameActivity.View, IFragmentHolder {
 
-    private lateinit var fragment: BaseBindingFragment<*>
+    private lateinit var fragment: BaseBindingFragment<*,*>
     override fun getBindingVariable() = BR.frameActivityViewModel
     override fun getLayoutId() = R.layout.dailog_activity_frame
     override val viewModel: IFrameActivity.ViewModel
@@ -43,7 +43,7 @@ class FrameDialogActivity : BaseBindingActivity<IFrameActivity.ViewModel>(),
         }
         fragment = instantiateFragment<Fragment>(
             fragmentName
-        ) as BaseBindingFragment<*>
+        ) as BaseBindingFragment<*,*>
         if (extras.hasExtra(EXTRA)) {
             createFragmentInstance(fragment, extras.getBundleExtra(EXTRA)!!)
         } else {

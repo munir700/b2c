@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import co.yap.household.BR
 import co.yap.household.R
+import co.yap.household.databinding.FragmentHouseHoldCreatePasscodeBinding
 import co.yap.household.onboard.onboarding.interfaces.IHouseHoldCreatePassCode
 import co.yap.household.onboard.onboarding.viewmodels.HouseHoldCreatePassCodeViewModel
 import co.yap.modules.webview.WebViewFragment
@@ -17,7 +18,7 @@ import co.yap.yapcore.helpers.extentions.startFragment
 import kotlinx.android.synthetic.main.fragment_house_hold_create_passcode.*
 
 class HouseHoldCreatePassCodeFragment :
-    OnboardingChildFragment<IHouseHoldCreatePassCode.ViewModel>(), IHouseHoldCreatePassCode.View,
+    OnboardingChildFragment<FragmentHouseHoldCreatePasscodeBinding,IHouseHoldCreatePassCode.ViewModel>(), IHouseHoldCreatePassCode.View,
     NumberKeyboardListener {
 
     override fun getLayoutId(): Int = R.layout.fragment_house_hold_create_passcode
