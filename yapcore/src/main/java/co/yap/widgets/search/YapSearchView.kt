@@ -81,12 +81,12 @@ class YapSearchView: LinearLayoutCompat {
     fun setTextChangeListener(){
         viewDataBinding.root.layoutSearchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
             override fun onQueryTextSubmit(query: String?): Boolean {
-                return false
+                return true
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
                 yapSearchViewListener?.onTypingSearch(newText)
-                return false
+                return true
             }
         })
     }

@@ -19,7 +19,7 @@ import me.leantech.link.android.Lean
 
 class BankListFragment :
     AddMoneyBaseFragment<FragmentEasyBankTransferBankListBinding, IBankList.ViewModel>(),
-    IBankList.View{
+    IBankList.View {
     override fun getBindingVariable(): Int = BR.viewModel
 
     override fun getLayoutId(): Int = R.layout.fragment_easy_bank_transfer_bank_list
