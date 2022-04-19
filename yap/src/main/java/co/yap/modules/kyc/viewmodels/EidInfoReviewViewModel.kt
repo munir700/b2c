@@ -306,8 +306,11 @@ class EidInfoReviewViewModel(application: Application) :
                         }
                     }
                     else -> {
-                        if (senctionedCountryResponse is RetroApiResponse.Error)
-                            state.toast = senctionedCountryResponse.error.message
+                        if (uqudoTokenResponse is RetroApiResponse.Error) {
+                            eidStateLiveData.postValue(State.error("Sorry, that didn’t work. Please try again"))
+                        }else{
+                            if (senctionedCountryResponse is RetroApiResponse.Error) state.toast = senctionedCountryResponse.error.message
+                        }
                     }
                 }
             }

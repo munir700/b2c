@@ -331,16 +331,12 @@ class EidInfoReviewAmendmentViewModel(application: Application) :
                         )
                     }
                 } else {
-                    if (senctionedCountryResponse is RetroApiResponse.Error)
-                        state.toast = senctionedCountryResponse.error.message
+                    if (uqudoTokenResponse is RetroApiResponse.Error) {
+                        eidStateLiveData.postValue(State.error("Sorry, that didn’t work. Please try again"))
+                    }else{
+                        if (senctionedCountryResponse is RetroApiResponse.Error) state.toast = senctionedCountryResponse.error.message
+                    }
                 }
-                /*  uqudoTokenResponse is RetroApiResponse.Success -> {
-                  uqudoTokenResponse.data.data?.let {
-                      parentViewModel?.uqudoManager?.setUqudoToken(
-                          it
-                      )
-                  }
-              }*/
             }
         }
     }
@@ -438,6 +434,7 @@ class EidInfoReviewAmendmentViewModel(application: Application) :
 
     override fun isFromAmendment() = parentViewModel?.amendmentMap?.isNullOrEmpty() == false
     override fun populateUqudoState(identity: EidData?) {
+        if (parentViewModel?.uqudoManager?.noImageDownloaded() == true) downloadImageInBackground()
         identity?.let {
             val documentBack = it.documents[0].scan?.back
             val documentFront = it.documents[0].scan?.front
@@ -497,7 +494,6 @@ class EidInfoReviewAmendmentViewModel(application: Application) :
 
             state.nationality.value =
                 countries.firstOrNull { country -> country.isoCountryCode3Digit == parentViewModel?.uqudoManager?.fetchDocumentBackDate()?.nationality }
-            if (parentViewModel?.uqudoManager?.noImageDownloaded() == true) downloadImageInBackground()
             handleAgeValidation()
             handleIsUsValidation()
             validator?.toValidate()

@@ -114,9 +114,10 @@ class EidInfoReviewAmendmentFragment : KYCChildFragment<FragmentEidInfoReviewAme
                 })
             state.eidImageDownloaded.observe(viewLifecycleOwner, Observer { ableToDownload ->
                 if (ableToDownload.not()) invalidCitizenNumber(
-                    "Sorry, we are unable to download your Eid please rescan",
-                    true
-                )
+                    "Sorry, we are unable to download your Eid please rescan"
+                ) {
+                    initializeUqudoScanner()
+                }
 
             })
         }
@@ -205,12 +206,12 @@ class EidInfoReviewAmendmentFragment : KYCChildFragment<FragmentEidInfoReviewAme
         }
     }
 
-    private fun invalidCitizenNumber(title: String, rescan: Boolean = false) {
+    private fun invalidCitizenNumber(title: String, event: () -> Unit) {
         activity?.let {
             it.showAlertDialogAndExitApp(
                 message = title,
                 callback = {
-                    if (rescan.not()) requireActivity().finish() else initializeUqudoScanner()
+                    event.invoke()
                 },
                 closeActivity = false
             )
@@ -316,8 +317,12 @@ class EidInfoReviewAmendmentFragment : KYCChildFragment<FragmentEidInfoReviewAme
                 }
             }
             Status.ERROR -> {
-                getViewBinding().multiStateView.viewState = MultiStateView.ViewState.ERROR
-                invalidCitizenNumber(state.message ?: "Sorry, that didn’t work. Please try again")
+                getViewBinding().multiStateView.viewState = MultiStateView.ViewState.EMPTY
+                invalidCitizenNumber(state.message ?: "Sorry, that didn’t work. Please try again") {
+                    if (viewModel.parentViewModel?.comingFrom?.value.isNullOrBlank()
+                            .not()
+                    ) navigateBack() else requireActivity().finish()
+                }
             }
             else -> {
                 throw IllegalStateException("State is not handled " + state?.status)
@@ -499,8 +504,10 @@ class EidInfoReviewAmendmentFragment : KYCChildFragment<FragmentEidInfoReviewAme
                         })
                 }
                 EidInfoEvents.EVENT_CITIZEN_NUMBER_ISSUE.eventId, EidInfoEvents.EVENT_EID_EXPIRY_DATE_ISSUE.eventId -> invalidCitizenNumber(
-                    "Sorry, that didn’t work. Please try again", true
-                )
+                    "Sorry, that didn’t work. Please try again"
+                ) {
+                    initializeUqudoScanner()
+                }
             }
         }
     }
