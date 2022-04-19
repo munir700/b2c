@@ -136,6 +136,7 @@
             android:layout_marginBottom="@dimen/margin_extra_large"
             app:text="@{Strings.common_button_next}"
             app:btn_size="small"
+            android:onClick="@{(v) -> viewModel.handleClickEvent(v.id)}"
             app:enableCoreButton="@{viewModel.state.enteredTopUpAmount.length()>0}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"

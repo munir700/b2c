@@ -11,7 +11,7 @@ import co.yap.yapcore.BaseBindingRecyclerAdapter
 
 class AccountListAdapter(
     private val list: MutableList<Any>,
-    private val adaptorClick: AccountChildItemViewModel.OnItemClickListenerChild
+    private val adaptorClick: AccountChildItemViewModel.OnItemClickListenerChild?
 ) :
     BaseBindingRecyclerAdapter<Any, RecyclerView.ViewHolder>(list) {
 
@@ -50,7 +50,7 @@ class AccountListAdapter(
         fun onBind(
             data: Any,
             bankList: BankListMainModel,
-            adaptorClick: AccountChildItemViewModel.OnItemClickListenerChild,
+            adaptorClick: AccountChildItemViewModel.OnItemClickListenerChild?,
             groupPosition: Int
         ) {
             itemEmptyBinding.accountChildViewModel =
@@ -70,7 +70,7 @@ class AccountListAdapter(
 
         fun onBind(
             data: Any,
-            adaptorClick: AccountChildItemViewModel.OnItemClickListenerChild,
+            adaptorClick: AccountChildItemViewModel.OnItemClickListenerChild?,
             groupPosition: Int
         ) {
             itemTransactionListHeaderBinding.accountGroupItemViewModel =

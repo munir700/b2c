@@ -5,13 +5,12 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.core.os.bundleOf
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
 import co.yap.databinding.FragmentAddMoneyLandingBinding
 import co.yap.modules.dashboard.more.cdm.CdmMapFragment
-import co.yap.modules.dashboard.yapit.addmoney.easybanktransfer.topup.topupamount.TopupAmountFragment
 import co.yap.modules.dashboard.yapit.addmoney.easybanktransfer.welcomeScreen.EasyBankTransferWelcomeFragment
 import co.yap.modules.dashboard.yapit.addmoney.main.AddMoneyBaseFragment
 import co.yap.modules.dashboard.yapit.topup.cardslisting.TopUpBeneficiariesActivity
@@ -29,14 +28,14 @@ import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.helpers.extentions.startFragment
 import co.yap.yapcore.interfaces.OnItemClickListener
 
-class AddMoneyLandingFragment : AddMoneyBaseFragment<FragmentAddMoneyLandingBinding, IAddMoneyLanding.ViewModel>(),
+class AddMoneyLandingFragment :
+    AddMoneyBaseFragment<FragmentAddMoneyLandingBinding, IAddMoneyLanding.ViewModel>(),
     IAddMoneyLanding.View {
     override fun getBindingVariable(): Int = BR.viewModel
 
     override fun getLayoutId(): Int = R.layout.fragment_add_money_landing
 
-    override val viewModel: IAddMoneyLanding.ViewModel
-        get() = ViewModelProviders.of(this).get(AddMoneyLandingViewModel::class.java)
+    override val viewModel: AddMoneyLandingViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -77,7 +76,7 @@ class AddMoneyLandingFragment : AddMoneyBaseFragment<FragmentAddMoneyLandingBind
         when (it) {
             Constants.ADD_MONEY_INSTANT_BANK_TRANSFER -> {
                 //add firebase event
-                startFragment(fragmentName = TopupAmountFragment::class.java.name)
+                startFragment(fragmentName = EasyBankTransferWelcomeFragment::class.java.name)
             }
             Constants.ADD_MONEY_TOP_UP_VIA_CARD -> {
                 trackEventWithScreenName(FirebaseEvent.CLICK_TOPUP_CARD)

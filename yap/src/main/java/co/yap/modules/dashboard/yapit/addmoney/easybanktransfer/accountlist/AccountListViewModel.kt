@@ -12,6 +12,7 @@ class AccountListViewModel(application: Application) :
     IAccountList.ViewModel {
 
     override var accountList: MutableLiveData<MutableList<Any>> = MutableLiveData()
+    override var accountListAdapter: AccountListAdapter = AccountListAdapter(mutableListOf(), null)
     private val leanTechRepository: LeanTechRepository = LeanTechRepository
     override val state: IAccountList.State = AccountListState()
 
@@ -24,11 +25,11 @@ class AccountListViewModel(application: Application) :
                         val accountListTemp: MutableList<Any> = mutableListOf()
                         list.sortBy { it.bank?.name }
                         list.forEach { value ->
-                            with(value.bank){
+                            with(value.bank) {
                                 this?.status = value.status
                                 this?.let { accountListTemp.add(it) }
                             }
-                            with(value.leanCustomerAccounts){
+                            with(value.leanCustomerAccounts) {
                                 sortBy { it.accountName }
                                 forEach { v ->
                                     accountListTemp.add(v)

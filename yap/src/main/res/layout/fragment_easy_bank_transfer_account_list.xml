@@ -65,6 +65,7 @@
             android:layout_height="0dp"
             android:layout_marginTop="@dimen/margin_extra_small"
             android:paddingBottom="@dimen/margin_medium"
+            android:adapter="@{viewModel.accountListAdapter}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toTopOf="@+id/btnLinkAccount"
             app:layout_constraintEnd_toEndOf="parent"
