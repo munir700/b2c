@@ -404,4 +404,8 @@ interface CustomersRetroService {
     @GET(CustomersRepository.URL_GET_UQUDO_AUTH_TOKEN)
     suspend fun getUqudoAuthToken(): Response<BaseResponse<UqudoTokenResponse>>
 
+
+    //Key Facts Statement
+    @GET(CustomersRepository.URL_TAX_INFO)
+    suspend fun getKeyFactStatement(): Response<BaseResponse<TaxInfoResponse>>
 }

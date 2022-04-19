@@ -137,18 +137,7 @@ class ProfileSettingsFragment : MoreBaseFragment<FragmentProfileBinding, IProfil
                 }
 
                 R.id.tvKeyFactStatementView -> {
-                    with(Constants) {
-                        val pageUrl = URL_GOOGLE_DOCS_LINK.trim() + URL_KEY_FACT_STATEMENT.trim()
-                        startFragment(
-                            fragmentName = WebViewFragment::class.java.name, bundle = bundleOf(
-                                PAGE_URL to pageUrl,
-                                TOOLBAR_TITLE to getString(
-                                    Strings.screen_profile_settings_display_key_fact_statement
-                                )
-                            ), showToolBar = false
-                        )
-                    }
-
+                  initiateKeyFactStatement()
                 }
 
                 R.id.tvTermsAndConditionView -> {
@@ -216,6 +205,22 @@ class ProfileSettingsFragment : MoreBaseFragment<FragmentProfileBinding, IProfil
                 }
             }
         })
+    }
+
+    private fun initiateKeyFactStatement() {
+        viewModel.fetchKeyFactStatementUrl{ keyFactsUrl ->
+            with(Constants) {
+                val pageUrl = URL_GOOGLE_DOCS_LINK.trim() + keyFactsUrl.trim()
+                startFragment(
+                    fragmentName = WebViewFragment::class.java.name, bundle = bundleOf(
+                        PAGE_URL to pageUrl,
+                        TOOLBAR_TITLE to getString(
+                            Strings.screen_profile_settings_display_key_fact_statement
+                        )
+                    ), showToolBar = false
+                )
+            }
+        }
     }
 
     private fun navigateToNotificationSettings() {

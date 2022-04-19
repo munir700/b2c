@@ -273,4 +273,20 @@ class ProfileSettingsViewModel(application: Application) :
             }
         }
     }
+
+    override fun fetchKeyFactStatementUrl(success: (url: String) -> Unit) {
+        launch {
+            state.loading = true
+            // Add KeyFacts Api
+            when (repository.getKeyFactStatement()) {
+                is RetroApiResponse.Success -> {
+                    state.loading = false
+                    success.invoke("")
+                }
+                is RetroApiResponse.Error -> {
+                    state.loading = false
+                }
+            }
+        }
+    }
 }
