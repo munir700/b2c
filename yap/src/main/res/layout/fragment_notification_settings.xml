@@ -29,20 +29,54 @@
             app:rightIconVisibility="@{false}"
             app:titleTranslator="@{Strings.screen_notification_settings_display_text_toolbar_title}" />
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/greyLight"
+            android:padding="@dimen/margin_medium">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/notification_promotion_title"
+                style="@style/DarkGreyMedium"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/screen_notification_settings_display_text_promotion_title"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:text="@{Strings.screen_notification_settings_display_text_promotion_title}" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/notification_promotion_subtitle"
+                style="@style/AMicroGrey"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_extra_small"
+                android:text="@string/screen_notification_settings_display_text_promotion_subtitle"
+                app:layout_constraintEnd_toEndOf="@+id/notification_promotion_title"
+                app:layout_constraintStart_toStartOf="@+id/notification_promotion_title"
+                app:layout_constraintTop_toBottomOf="@id/notification_promotion_title"
+                app:text="@{Strings.screen_notification_settings_display_text_promotion_subtitle}" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
         <androidx.appcompat.widget.SwitchCompat
-            android:id="@+id/swNotifications"
+            android:id="@+id/swAllNotifications"
             style="@style/Regular"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_medium_large"
+            android:layout_marginTop="@dimen/margin_small"
+            android:background="@color/colorCardBg"
             android:checked="@{viewModel.state.inAppNotificationsAllowed}"
             android:gravity="start"
             android:paddingStart="@dimen/margin_medium"
             android:paddingTop="@dimen/margin_small"
             android:paddingEnd="@dimen/margin_medium"
             android:paddingBottom="@dimen/margin_small"
-            android:text="@string/screen_notification_settings_display_text_in_app_notifications"
-            android:theme="@style/CustomSwitch" />
+            android:text="@string/screen_notification_settings_display_text_all_notifications"
+            android:theme="@style/CustomSwitch"
+            app:text="@{Strings.screen_notification_settings_display_text_all_notifications}" />
 
         <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/swSms"
@@ -64,13 +98,28 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_small"
-            android:layout_marginBottom="@dimen/margin_medium_large"
             android:checked="@{viewModel.state.emailNotificationsAllowed}"
             android:paddingStart="@dimen/margin_medium"
             android:paddingTop="@dimen/margin_small"
             android:paddingEnd="@dimen/margin_medium"
             android:paddingBottom="@dimen/margin_small"
             android:text="@string/screen_notification_settings_display_text_email_notifications"
+            android:theme="@style/CustomSwitch" />
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/swNotifications"
+            style="@style/Regular"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_small"
+            android:layout_marginBottom="@dimen/margin_medium_large"
+            android:checked="@{viewModel.state.inAppNotificationsAllowed}"
+            android:gravity="start"
+            android:paddingStart="@dimen/margin_medium"
+            android:paddingTop="@dimen/margin_small"
+            android:paddingEnd="@dimen/margin_medium"
+            android:paddingBottom="@dimen/margin_small"
+            android:text="@string/screen_notification_settings_display_text_in_app_notifications"
             android:theme="@style/CustomSwitch" />
     </androidx.appcompat.widget.LinearLayoutCompat>
 

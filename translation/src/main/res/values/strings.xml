@@ -1146,7 +1146,10 @@
 
     <!--    Notification settings screen-->
     <string name="screen_notification_settings_display_text_toolbar_title">Notification settings</string>
+    <string name="screen_notification_settings_display_text_promotion_title">Offers and promotions</string>
+    <string name="screen_notification_settings_display_text_promotion_subtitle">Switch on/off the type notification you want to receive</string>
     <string name="screen_notification_settings_display_text_in_app_notifications">In-app notifications</string>
+    <string name="screen_notification_settings_display_text_all_notifications">All</string>
     <string name="screen_notification_settings_display_text_sms_notifications">SMS notifications</string>
     <string name="screen_notification_settings_display_text_email_notifications">Email notifications</string>
 

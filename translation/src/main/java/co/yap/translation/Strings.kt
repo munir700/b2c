@@ -1815,6 +1815,12 @@ object Strings {
     //    Notification settings screen
     const val screen_notification_settings_display_text_toolbar_title: String =
         "screen_notification_settings_display_text_toolbar_title"
+    const val screen_notification_settings_display_text_promotion_title: String =
+        "screen_notification_settings_display_text_promotion_title"
+    const val screen_notification_settings_display_text_promotion_subtitle: String =
+        "screen_notification_settings_display_text_promotion_subtitle"
+    const val screen_notification_settings_display_text_all_notifications: String =
+        "screen_notification_settings_display_text_all_notifications"
     const val screen_notification_settings_display_text_in_app_notifications: String =
         "screen_notification_settings_display_text_in_app_notifications"
     const val screen_notification_settings_display_text_sms_notifications: String =
