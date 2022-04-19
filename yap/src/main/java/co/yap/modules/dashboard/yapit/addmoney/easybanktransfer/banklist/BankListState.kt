@@ -1,9 +1,9 @@
 package co.yap.modules.dashboard.yapit.addmoney.easybanktransfer.banklist
 
-import co.yap.widgets.search.IYapSearchView
+import androidx.lifecycle.MutableLiveData
 import co.yap.yapcore.BaseState
 
 class BankListState : BaseState(),
     IBankList.State {
-    override var yapSearchViewListener: IYapSearchView = BankListFragment()
+    override var isSearchActive: MutableLiveData<Boolean> = MutableLiveData(false)
 }

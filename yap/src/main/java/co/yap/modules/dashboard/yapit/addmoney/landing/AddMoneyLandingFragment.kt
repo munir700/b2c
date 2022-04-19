@@ -77,7 +77,7 @@ class AddMoneyLandingFragment : AddMoneyBaseFragment<FragmentAddMoneyLandingBind
         when (it) {
             Constants.ADD_MONEY_INSTANT_BANK_TRANSFER -> {
                 //add firebase event
-                startFragment(fragmentName = TopupAmountFragment::class.java.name)
+                startFragment(fragmentName = EasyBankTransferWelcomeFragment::class.java.name)
             }
             Constants.ADD_MONEY_TOP_UP_VIA_CARD -> {
                 trackEventWithScreenName(FirebaseEvent.CLICK_TOPUP_CARD)

@@ -9,7 +9,6 @@ import co.yap.databinding.FragmentEasyBankTransferBankListBinding
 import co.yap.modules.dashboard.yapit.addmoney.easybanktransfer.accountlist.AccountListFragment
 import co.yap.modules.dashboard.yapit.addmoney.easybanktransfer.leansdk.LeanSdkManager
 import co.yap.modules.dashboard.yapit.addmoney.main.AddMoneyBaseFragment
-import co.yap.widgets.search.IYapSearchView
 import co.yap.networking.leanteach.responsedtos.LeanOnBoardModel
 import co.yap.networking.leanteach.responsedtos.banklistmodels.BankListMainModel
 import co.yap.yapcore.constants.Constants
@@ -20,7 +19,7 @@ import me.leantech.link.android.Lean
 
 class BankListFragment :
     AddMoneyBaseFragment<FragmentEasyBankTransferBankListBinding, IBankList.ViewModel>(),
-    IBankList.View,IYapSearchView{
+    IBankList.View{
     override fun getBindingVariable(): Int = BR.viewModel
 
     override fun getLayoutId(): Int = R.layout.fragment_easy_bank_transfer_bank_list
@@ -29,6 +28,7 @@ class BankListFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewDataBinding.lifecycleOwner = this
         getDataArguments()
         setObservers()
         setRecyclerClick()
@@ -48,8 +48,6 @@ class BankListFragment :
         viewModel.bankList.observe(viewLifecycleOwner) { list ->
             viewModel.bankListAdapter.setData(list)
         }
-
-        getBinding().layoutSearchView.yapSearchViewListener = this
     }
 
     override fun removeObservers() {
@@ -96,18 +94,4 @@ class BankListFragment :
     }
 
     fun getBinding() = getDataBindingView<FragmentEasyBankTransferBankListBinding>()
-
-    override fun onSearchActive(isActive: Boolean) {
-        if(isActive) {
-            getBinding().tvSelectBank.visibility = View.GONE
-            getBinding().tvChooseBank.visibility = View.GONE
-        }else{
-            getBinding().tvSelectBank.visibility = View.VISIBLE
-            getBinding().tvChooseBank.visibility = View.VISIBLE
-        }
-    }
-
-    override fun onTypingSearch(search: String?) {
-        //filter adapter
-    }
 }

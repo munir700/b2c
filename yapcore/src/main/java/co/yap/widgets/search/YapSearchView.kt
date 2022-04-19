@@ -4,14 +4,12 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.Gravity
 import android.view.LayoutInflater
-import android.view.View
 import android.widget.EditText
 import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.appcompat.widget.SearchView
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import co.yap.yapcore.R
-import co.yap.yapcore.helpers.Utils
 import kotlinx.android.synthetic.main.layout_yap_searchview.view.*
 import kotlinx.android.synthetic.main.layout_yap_searchview.view.tvCancel
 
@@ -44,6 +42,7 @@ class YapSearchView: LinearLayoutCompat {
         prepareSearchView()
         setSearchViewFocusListener()
         setCancelClickListener()
+        setTextChangeListener()
         attrs?.let {
             val typedArray =
                 context.obtainStyledAttributes(it, R.styleable.YapSearchView, 0, 0)
@@ -67,8 +66,8 @@ class YapSearchView: LinearLayoutCompat {
     private fun restSearchView() {
         searchEditText.gravity = Gravity.CENTER
         viewDataBinding.root.tvCancel.visibility = GONE
-        viewDataBinding.root.layoutSearchView.setQuery("", false)
         viewDataBinding.root.layoutSearchView.clearFocus()
+        viewDataBinding.root.layoutSearchView.setQuery("", false)
         searchFlag=false
     }
 
@@ -98,17 +97,12 @@ class YapSearchView: LinearLayoutCompat {
                 yapSearchViewListener?.onSearchActive(true)
                 prepareActiveSearchView()
             }else if(searchFlag && !hasFocus){
-                setFocus(searchEditText)
+                showInputMethod()
             }
         }
     }
 
     fun showInputMethod() {
-        searchEditText.requestFocus()
-    }
-
-    private fun setFocus(view: View) {
-        viewDataBinding.root.layoutSearchView.isFocusable = true
-        Utils.requestKeyboard(view, request = true, forced = true)
+        viewDataBinding.root.layoutSearchView.requestFocus()
     }
 }
