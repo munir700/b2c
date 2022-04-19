@@ -10,6 +10,7 @@ interface IAccountList {
 
     interface ViewModel : IBase.ViewModel<State> {
         var accountList: MutableLiveData<MutableList<Any>>
+        var accountListAdapter: AccountListAdapter
         fun getAccountList()
     }
 

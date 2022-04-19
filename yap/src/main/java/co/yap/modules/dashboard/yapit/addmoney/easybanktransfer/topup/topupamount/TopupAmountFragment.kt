@@ -5,14 +5,17 @@ import android.view.View
 import androidx.fragment.app.viewModels
 import co.yap.BR
 import co.yap.R
-import co.yap.databinding.FragmentEasyBankTransferBankListBinding
 import co.yap.databinding.FragmentTopupAmountBinding
+import co.yap.modules.dashboard.yapit.addmoney.easybanktransfer.leansdk.LeanSdkManager
 import co.yap.modules.dashboard.yapit.addmoney.main.AddMoneyBaseFragment
+import co.yap.networking.leanteach.responsedtos.accountlistmodel.LeanCustomerAccounts
 import co.yap.yapcore.helpers.extentions.generateChipViews
 import com.google.android.material.chip.Chip
+import me.leantech.link.android.Lean
 
 //adjust resize need to be added when required activity is created
-class TopupAmountFragment : AddMoneyBaseFragment<FragmentTopupAmountBinding,ITopupAmount.ViewModel>(),
+class TopupAmountFragment :
+    AddMoneyBaseFragment<FragmentTopupAmountBinding, ITopupAmount.ViewModel>(),
     ITopupAmount.View {
     override val viewModel: TopupAmountViewModel by viewModels()
     override fun getBindingVariable(): Int = BR.viewModel
@@ -24,12 +27,25 @@ class TopupAmountFragment : AddMoneyBaseFragment<FragmentTopupAmountBinding,ITop
         generateChipViews(viewModel.state.denominationChipList.value!!)
         viewModel.setAvailableBalance()
         setObservers()
+        getDataArguments()
     }
 
     override fun setObservers() {
         observeClickEvent()
-        observeEnteredAmount()
+        observeValues()
         setDenominationsChipListener()
+    }
+
+    private fun getDataArguments() {
+        arguments?.let { bundle ->
+            bundle.getString(co.yap.yapcore.constants.Constants.CUSTOMER_ID_LEAN)?.let {
+                viewModel.customerId = it
+            }
+            bundle.getParcelable<LeanCustomerAccounts>(co.yap.yapcore.constants.Constants.MODEL_LEAN)
+                ?.let {
+                    viewModel.leanCustomerAccounts = it
+                }
+        }
     }
 
     private fun setDenominationsChipListener() {
@@ -41,17 +57,20 @@ class TopupAmountFragment : AddMoneyBaseFragment<FragmentTopupAmountBinding,ITop
         }
     }
 
-    private fun observeEnteredAmount() {
-        viewModel.state.enteredTopUpAmount.observe(viewLifecycleOwner) {topUpAmount->
+    private fun observeValues() {
+        viewModel.state.enteredTopUpAmount.observe(viewLifecycleOwner) { topUpAmount ->
             //deal with topUpAmount
+        }
+        viewModel.paymentIntentId.observe(viewLifecycleOwner) {
+
         }
     }
 
-    private fun observeClickEvent(){
+    private fun observeClickEvent() {
         viewModel.clickEvent.observe(this) { id ->
             when (id) {
                 R.id.btnAction -> {
-                    //navigate screen
+                    viewModel.getPaymentIntentId()
                 }
             }
         }

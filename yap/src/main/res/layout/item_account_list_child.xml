@@ -22,6 +22,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:alpha="@{accountChildViewModel.bankListMainModel.status.equals(`AWAITING_BENEFICIARY_COOL_OFF`) ? 0.5f:255.0f}"
+        android:onClick="@{accountChildViewModel::onViewClicked}"
         android:paddingStart="@dimen/margin_normal"
         android:paddingTop="@dimen/margin_normal"
         android:paddingEnd="@dimen/margin_normal"

@@ -242,10 +242,13 @@ object Constants {
     const val KYC_LAST_NAME = "KYC_LAST_NAME"
     const val KYC_MIDDLE_NAME = "KYC_MIDDLE_NAME"
     const val NATIONALITY = "NATIONALITY"
+
     // KYC Amendments
     const val CONFIRMATION_DESCRIPTION = "CONFIRMATION_DESCRIPTION"
 
     // Lean Screens
     const val ONBOARD_USER_LEAN = "ONBOARD_USER_LEAN"
+    const val CUSTOMER_ID_LEAN = "CUSTOMER_ID_LEAN"
+    const val MODEL_LEAN = "MODEL_LEAN"
 
 }

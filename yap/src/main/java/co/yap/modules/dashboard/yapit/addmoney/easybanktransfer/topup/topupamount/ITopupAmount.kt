@@ -1,6 +1,7 @@
 package co.yap.modules.dashboard.yapit.addmoney.easybanktransfer.topup.topupamount
 
 import androidx.lifecycle.MutableLiveData
+import co.yap.networking.leanteach.responsedtos.accountlistmodel.LeanCustomerAccounts
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 
@@ -12,13 +13,17 @@ interface ITopupAmount {
 
     interface ViewModel : IBase.ViewModel<State> {
         val clickEvent: SingleClickEvent
+        var customerId: String
+        var paymentIntentId: MutableLiveData<String>
+        var leanCustomerAccounts: LeanCustomerAccounts
         fun denominationAmountValidator(amount: String)
-        fun handleClickEvent(id:Int)
+        fun handleClickEvent(id: Int)
         fun setAvailableBalance()
+        fun getPaymentIntentId()
     }
 
     interface State : IBase.State {
-        val denominationChipList:MutableLiveData<List<String>>
+        val denominationChipList: MutableLiveData<List<String>>
         val enteredTopUpAmount: MutableLiveData<String>
         val availableBalance: MutableLiveData<CharSequence>
     }

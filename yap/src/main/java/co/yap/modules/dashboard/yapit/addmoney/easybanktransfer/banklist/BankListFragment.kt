@@ -2,6 +2,7 @@ package co.yap.modules.dashboard.yapit.addmoney.easybanktransfer.banklist
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
 import co.yap.BR
 import co.yap.R
@@ -76,7 +77,8 @@ class BankListFragment :
                     override fun onResponse(status: Lean.LeanStatus) {
                         if (status.status == co.yap.modules.others.helper.Constants.SUCCESS_STATUS)
                             startFragment(
-                                fragmentName = AccountListFragment::class.java.name
+                                fragmentName = AccountListFragment::class.java.name,
+                                bundle = bundleOf(Constants.CUSTOMER_ID_LEAN to viewModel.leanOnBoardModel.customerId)
                             )
                         else toast(status.status)
                     }
