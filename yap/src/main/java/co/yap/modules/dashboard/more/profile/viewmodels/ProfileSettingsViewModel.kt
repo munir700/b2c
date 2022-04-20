@@ -278,10 +278,11 @@ class ProfileSettingsViewModel(application: Application) :
         launch {
             state.loading = true
             // Add KeyFacts Api
-            when (repository.getKeyFactStatement()) {
+            when (val res =repository.getKeyFactStatement()) {
                 is RetroApiResponse.Success -> {
                     state.loading = false
-                    success.invoke("")
+                    val resp = res.data.pdf
+                    success.invoke(resp?:"")
                 }
                 is RetroApiResponse.Error -> {
                     state.loading = false

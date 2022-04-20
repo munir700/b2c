@@ -406,6 +406,6 @@ interface CustomersRetroService {
 
 
     //Key Facts Statement
-    @GET(CustomersRepository.URL_TAX_INFO)
-    suspend fun getKeyFactStatement(): Response<BaseResponse<TaxInfoResponse>>
+    @GET(CustomersRepository.URL_KEY_FATCS_STATEMENT)
+    suspend fun getKeyFactStatement(): Response<TaxInfoResponse>
 }

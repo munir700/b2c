@@ -117,6 +117,7 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     const val URL_CITIES = "customers/api/cities"
     const val URL_TAX_REASONS = "customers/api/tin-reasons"
     const val URL_GET_QR_CONTACT = "customers/api/customers-info"
+    const val URL_KEY_FATCS_STATEMENT = "customers/api/customer-documents-kfs-statement-url"
 
     /*
    * Url's that comes from admin repo
@@ -705,6 +706,6 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     override suspend fun getUqudoAuthToken(): RetroApiResponse<BaseResponse<UqudoTokenResponse>> =
         executeSafely(call = { api.getUqudoAuthToken() })
 
-    override suspend fun getKeyFactStatement(): RetroApiResponse<BaseResponse<TaxInfoResponse>> =
+    override suspend fun getKeyFactStatement(): RetroApiResponse<TaxInfoResponse> =
         executeSafely(call = { api.getKeyFactStatement() })
 }
