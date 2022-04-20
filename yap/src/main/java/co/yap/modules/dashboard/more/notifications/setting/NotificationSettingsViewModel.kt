@@ -42,9 +42,10 @@ class NotificationSettingsViewModel(application: Application) :
             state.loading = true
             when (val response = repository.saveNotificationSettings(
                 NotificationSettings(
-                    state.emailNotificationsAllowed,
-                    state.inAppNotificationsAllowed,
-                    state.smsNotificationsAllowed
+                    emailEnabled = state.emailNotificationsAllowed,
+                    inAppEnabled = state.inAppNotificationsAllowed,
+                    smsEnabled = state.smsNotificationsAllowed,
+                    optIn = state.allNotificationsAllowed
                 )
             )) {
                 is RetroApiResponse.Success -> {
