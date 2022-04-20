@@ -1711,4 +1711,12 @@
     <string name="screen_view_document_file_size_not_fine">Your file size is too big. Please upload a file less than 25MB to proceed</string>
 
     <string name="country_encoded_base64">W3sKImlzb0NvdW50cnlDb2RlM0RpZ2l0IjoiUEFLIiwKImlzb0NvdW50cnlDb2RlMkRpZ2l0IjoiUEsiLAoibmFtZSI6IiAgIFBha2lzdGFuIn0sCnsKImlzb0NvdW50cnlDb2RlM0RpZ2l0IjoiQVJFIiwKImlzb0NvdW50cnlDb2RlMkRpZ2l0IjoiQUUiLAoibmFtZSI6IlVuaXRlZCBBcmFiIEVtaXJhdGVzIn0sCnsKImlzb0NvdW50cnlDb2RlM0RpZ2l0IjoiR0hBIiwKImlzb0NvdW50cnlDb2RlMkRpZ2l0IjoiR0giLAoibmFtZSI6IkdoYW5hIn0KXQ==</string>
+
+    <string name="screen_kfs_notification_nothanks_label">No thanks, I don\’t mind missing out on the amazing offers from YAP.</string>
+    <string name="screen_kfs_notification_inapp_notification">In App Notifications</string>
+    <string name="screen_kfs_notification_email_notification">Email Notifications</string>
+    <string name="screen_kfs_notification_sms_notification">SMS Notifications</string>
+    <string name="screen_kfs_notification_title">Get the latest</string>
+    <string name="screen_kfs_notification_descrip">We’d love to send you exclusive offers and promotions from YAP. We’ll always treat your personal details with the utmost care.</string>
+    <string name="screen_kfs_notification_accept_all_notification_label">Yes please, I\’d like to hear from YAP on the following channels:</string>
 </resources>

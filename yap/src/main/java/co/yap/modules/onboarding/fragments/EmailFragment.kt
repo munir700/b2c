@@ -7,7 +7,6 @@ import android.os.Handler
 import android.os.Looper
 import android.widget.ImageView
 import androidx.core.animation.addListener
-import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import co.yap.BR
@@ -17,10 +16,7 @@ import co.yap.modules.onboarding.activities.OnboardingActivity
 import co.yap.modules.onboarding.interfaces.IEmail
 import co.yap.modules.onboarding.viewmodels.EmailViewModel
 import co.yap.widgets.AnimatingProgressBar
-import co.yap.yapcore.firebase.FirebaseEvent
-import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.AnimationUtils
-import co.yap.yapcore.helpers.ExtraKeys
 
 
 class EmailFragment : OnboardingChildFragment<FragmentEmailBinding, IEmail.ViewModel>() {
@@ -52,12 +48,13 @@ class EmailFragment : OnboardingChildFragment<FragmentEmailBinding, IEmail.ViewM
     private val nextButtonObserver = Observer<Int> {
         when (it) {
             viewModel.EVENT_NAVIGATE_NEXT -> {
-                trackEventWithScreenName(FirebaseEvent.SIGNUP_EMAIL_SUCCESS)
-                val bundle = bundleOf(ExtraKeys.IS_WAITING.name to viewModel.state.isWaiting)
-                navigate(
-                    destinationId = R.id.congratulationsFragment,
-                    args = bundle
-                )
+                navigate(R.id.action_emailFragment_to_kfsNotificationFragment)
+                /*    trackEventWithScreenName(FirebaseEvent.SIGNUP_EMAIL_SUCCESS)
+                    val bundle = bundleOf(ExtraKeys.IS_WAITING.name to viewModel.state.isWaiting)
+                    navigate(
+                        destinationId = R.id.congratulationsFragment,
+                        args = bundle
+                    )*/
             }
             viewModel.EVENT_POST_VERIFICATION_EMAIL -> {
                 viewModel.sendVerificationEmail()
