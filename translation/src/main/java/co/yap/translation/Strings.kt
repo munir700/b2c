@@ -231,6 +231,8 @@ object Strings {
         "screen_onboarding_confirm_card_name_edit_full_name_text"
     const val screen_onboarding_confirm_card_name_btn_name_fine_text: String =
         "screen_onboarding_confirm_card_name_btn_name_fine_text"
+    const val screen_onboarding_confirm_card_name_kfs_text: String =
+        "screen_onboarding_confirm_card_name_kfs_text"
 
     //System permission screen
     const val screen_system_permission_text_title: String = "screen_system_permission_text_title"

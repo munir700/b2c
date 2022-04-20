@@ -179,6 +179,7 @@
     <string name="screen_onboarding_confirm_card_name_display_name_length_text">We can only print 26 characters on the card, so if you have a long name, we suggest you use initials where possible.</string>
     <string name="screen_onboarding_confirm_card_name_edit_full_name_text">I’d like to edit my name</string>
     <string name="screen_onboarding_confirm_card_name_btn_name_fine_text">This is fine!</string>
+    <string name="screen_onboarding_confirm_card_name_kfs_text">By continuing, you approve YAP to issue and deliver your YAP Debit Card.</string>
 
     <!-- System permission screen -->
     <string name="screen_system_permission_text_title">Use Touch ID to log in to your account?</string>
