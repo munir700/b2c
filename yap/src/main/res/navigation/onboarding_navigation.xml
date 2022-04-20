@@ -12,6 +12,9 @@
         <action
             android:id="@+id/action_emailFragment_to_congratulationsFragment"
             app:destination="@id/congratulationsFragment" />
+        <action
+            android:id="@+id/action_emailFragment_to_kfsNotificationFragment"
+            app:destination="@id/kfsNotificationFragment" />
     </fragment>
 
     <fragment
@@ -50,7 +53,7 @@
             android:id="@+id/action_phoneVerificationFragment_to_waitingListFragment"
             app:destination="@id/waitingListFragment"
             app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"/>
+            app:exitAnim="@anim/slide_out_left" />
     </fragment>
     <fragment
         android:id="@+id/congratulationsFragment"
@@ -96,6 +99,15 @@
         android:id="@+id/waitingListFragment"
         android:name="co.yap.modules.onboarding.fragments.WaitingListFragment"
         android:label="WaitingListFragment"
-        tools:layout="@layout/fragment_waiting_list"/>
+        tools:layout="@layout/fragment_waiting_list" />
+    <fragment
+        android:id="@+id/kfsNotificationFragment"
+        android:name="co.yap.modules.onboarding.fragments.KfsNotificationFragment"
+        tools:layout="@layout/fragment_kfs_notifcation" >
+        <action
+            android:id="@+id/action_kfsNotificationFragment_to_congratulationsFragment"
+            app:destination="@id/congratulationsFragment" />
+    </fragment>
+
 
 </navigation>

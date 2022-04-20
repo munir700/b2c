@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="co.yap.modules.onboarding.viewmodels.KfsNotificationViewModel" />
+
+        <import type="co.yap.translation.Strings" />
+
+        <import type="co.yap.yapcore.helpers.Utils" />
+
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingHorizontal="@dimen/margin_normal_large">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvTitle"
+                style="@style/Title2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_normal_large"
+                android:gravity="center"
+                android:text="Get the latest"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvDescrip"
+                style="@style/ASmallGrey"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_extra_large2"
+                android:gravity="center"
+                android:textColor="@color/colorPrimaryDark"
+                app:layout_constraintTop_toBottomOf="@+id/tvTitle"
+                app:layout_constraintStart_toStartOf="parent"
+                android:text="We’d love to send you exclusive offers and promotions from YAP. We’ll always treat your personal details with the utmost care." />
+
+            <androidx.appcompat.widget.AppCompatCheckBox
+                android:id="@+id/rb1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_medium_large"
+                android:button="@drawable/custom_checkbox"
+                android:drawableLeft="@color/transparent"
+                android:drawablePadding="@dimen/margin_small"
+                android:scaleX="1"
+                android:scaleY="1"
+                android:text="Yes please, I’d like to hear from YAP on the following channels:"
+                android:textAllCaps="false"
+                android:textColor="@color/colorDarkGrey"
+                android:textSize="@dimen/text_size_h2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvDescrip" />
+
+            <androidx.appcompat.widget.AppCompatCheckBox
+                android:id="@+id/cb1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_medium"
+                android:buttonTint="@color/checkbox_selector_tint"
+                android:checked="true"
+                android:scaleX="1.20"
+                android:scaleY="1.20"
+                android:text="SMS Notifications"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:textColor="@color/colorDarkGrey"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/rb1" />
+
+            <androidx.appcompat.widget.AppCompatCheckBox
+                android:id="@+id/cb2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_medium"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:buttonTint="@color/checkbox_selector_tint"
+                android:checked="true"
+                android:scaleX="1.20"
+                android:scaleY="1.20"
+                android:text="Email Notifications"
+                app:layout_constraintTop_toBottomOf="@+id/cb1"
+                app:layout_constraintStart_toStartOf="parent"
+                android:textColor="@color/colorDarkGrey" />
+
+            <androidx.appcompat.widget.AppCompatCheckBox
+                android:id="@+id/cb3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_medium"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:buttonTint="@color/checkbox_selector_tint"
+                android:checked="true"
+                android:scaleX="1.20"
+                android:scaleY="1.20"
+                android:text="In App Notifications"
+                android:textColor="@color/colorDarkGrey"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cb2"
+           />
+
+            <androidx.appcompat.widget.AppCompatCheckBox
+                android:id="@+id/rb2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:layout_marginBottom="@dimen/margin_medium_large"
+                android:button="@drawable/custom_checkbox"
+                android:drawableLeft="@color/transparent"
+                android:drawablePadding="@dimen/margin_small"
+                android:scaleX="1"
+                android:scaleY="1"
+                android:text="No thanks, I don’t mind missing out on the amazing offers from YAP."
+                android:textAllCaps="false"
+                android:textColor="@color/colorDarkGrey"
+                android:textSize="@dimen/text_size_h2"
+                app:layout_constraintBottom_toTopOf="@+id/next_button"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cb3"
+                app:layout_constraintVertical_bias="0.2" />
+
+            <co.yap.widgets.CoreButton
+                android:id="@+id/next_button"
+                style="@style/FragmentsBtnStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal|bottom"
+                android:layout_marginTop="@dimen/margin_xxl"
+                android:layout_marginBottom="@dimen/margin_extra_large"
+                app:btn_size="small"
+                app:enableCoreButton="@{true}"
+                app:text="@{Strings.common_button_next}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+</layout>
