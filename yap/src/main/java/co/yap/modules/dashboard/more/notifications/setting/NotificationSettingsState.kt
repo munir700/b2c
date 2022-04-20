@@ -33,4 +33,6 @@ class NotificationSettingsState : BaseState(), INotificationSettings.State {
             field = value
             notifyPropertyChanged(BR.emailNotificationsAllowed)
         }
+
+    override var pushNotificationsAllowed: Boolean? = false
 }

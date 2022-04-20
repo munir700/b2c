@@ -16,5 +16,6 @@ interface INotificationSettings {
         var inAppNotificationsAllowed: Boolean?
         var smsNotificationsAllowed: Boolean?
         var emailNotificationsAllowed: Boolean?
+        var pushNotificationsAllowed:Boolean?
     }
 }
