@@ -56,7 +56,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_medium_large"
                 android:button="@drawable/custom_checkbox"
-                android:drawableLeft="@color/transparent"
+                android:drawableStart="@color/transparent"
                 android:drawablePadding="@dimen/margin_small"
                 android:scaleX="1"
                 android:scaleY="1"
@@ -67,7 +67,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvDescrip"
                 app:text="@{Strings.screen_kfs_notification_accept_all_notification_label}"
-                tools:text="string/screen_kfs_notification_accept_all_notification_label" />
+                tools:text="@string/screen_kfs_notification_accept_all_notification_label" />
 
             <androidx.appcompat.widget.AppCompatCheckBox
                 android:id="@+id/cb1"
@@ -124,7 +124,7 @@
                 android:layout_marginTop="@dimen/margin_medium"
                 android:layout_marginBottom="@dimen/margin_medium_large"
                 android:button="@drawable/custom_checkbox"
-                android:drawableLeft="@color/transparent"
+                android:drawableStart="@color/transparent"
                 android:drawablePadding="@dimen/margin_small"
                 android:scaleX="1"
                 android:scaleY="1"
