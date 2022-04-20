@@ -68,7 +68,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_small"
             android:background="@color/colorCardBg"
-            android:checked="@{viewModel.state.inAppNotificationsAllowed}"
+            android:checked="@{viewModel.state.inAppNotificationsAllowed &amp;&amp; viewModel.state.smsNotificationsAllowed &amp;&amp; viewModel.state.emailNotificationsAllowed }"
             android:gravity="start"
             android:paddingStart="@dimen/margin_medium"
             android:paddingTop="@dimen/margin_small"
