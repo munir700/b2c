@@ -6,6 +6,7 @@ import android.view.inputmethod.EditorInfo
 import android.widget.TextView
 import co.yap.R
 import co.yap.modules.onboarding.interfaces.IEmail
+import co.yap.modules.onboarding.models.CountryCode
 import co.yap.modules.onboarding.states.EmailState
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.requestdtos.DemographicDataRequest
@@ -17,6 +18,7 @@ import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.SingleLiveEvent
+import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.Constants.KEY_APP_UUID
 import co.yap.yapcore.constants.Constants.KEY_IS_USER_LOGGED_IN
 import co.yap.yapcore.firebase.FirebaseEvent
@@ -27,6 +29,7 @@ import co.yap.yapcore.helpers.extentions.toast
 import co.yap.yapcore.leanplum.SignupEvents
 import co.yap.yapcore.leanplum.trackEvent
 import co.yap.yapcore.managers.SessionManager
+import co.yap.yapcore.managers.saveUserDetails
 import kotlinx.coroutines.delay
 import java.util.*
 import java.util.concurrent.TimeUnit
@@ -48,7 +51,7 @@ class EmailViewModel(application: Application) :
     override fun onCreate() {
         super.onCreate()
         state.emailTitle = getString(R.string.screen_enter_email_b2c_display_text_title)
-        state.emailBtnTitle = getString(R.string.screen_phone_number_button_send)
+        state.emailBtnTitle = getString(R.string.common_button_next)
         state.deactivateField = true
     }
 
@@ -205,6 +208,13 @@ class EmailViewModel(application: Application) :
                         parentViewModel?.onboardingData?.ibanNumber = accountInfo.iban
                         delay(500)
                         SessionManager.user = accountInfo
+                        context.saveUserDetails(
+                            SessionManager.user?.currentCustomer?.mobileNo,
+                            CountryCode.UAE.countryCode,
+                            SharedPreferenceManager.getInstance(context).getValueBoolien(
+                                Constants.KEY_IS_REMEMBER, true
+                            )
+                        )
                         SessionManager.setupDataSetForBlockedFeatures(SessionManager.card.value)
                         state.valid = true
                         state.isWaiting = accountInfo.isWaiting

@@ -26,9 +26,9 @@ class NotificationSettingsFragment :
                 viewDataBinding.swNotifications.setOnCheckedChangeListener(this)
                 viewDataBinding.swEmail.setOnCheckedChangeListener(this)
                 viewDataBinding.swSms.setOnCheckedChangeListener(this)
+                viewDataBinding.swAllNotifications.setOnCheckedChangeListener(this)
             }
         }
-
     }
 
     override fun onCheckedChanged(buttonView: CompoundButton, isChecked: Boolean) {
@@ -36,8 +36,26 @@ class NotificationSettingsFragment :
             R.id.swNotifications -> viewModel.state.inAppNotificationsAllowed = isChecked
             R.id.swEmail -> viewModel.state.emailNotificationsAllowed = isChecked
             R.id.swSms -> viewModel.state.smsNotificationsAllowed = isChecked
+            R.id.swAllNotifications ->
+                viewModel.state.allNotificationsAllowed =
+                    if (isChecked) {
+                        enableAllNotifications()
+                        true
+                    } else {
+                        if (viewModel.state.inAppNotificationsAllowed == true && viewModel.state.emailNotificationsAllowed == true && viewModel.state.smsNotificationsAllowed == true)
+                            enableAllNotifications(false)
+                        false
+                    }
         }
         viewModel.saveNotificationSettings()
+    }
+
+    private fun enableAllNotifications(isEnabled: Boolean = true) {
+        with(viewModel.state) {
+            inAppNotificationsAllowed = isEnabled
+            emailNotificationsAllowed = isEnabled
+            smsNotificationsAllowed = isEnabled
+        }
     }
 
     override fun onToolBarClick(id: Int) {

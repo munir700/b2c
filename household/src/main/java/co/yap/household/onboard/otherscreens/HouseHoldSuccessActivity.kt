@@ -3,11 +3,12 @@ package co.yap.household.onboard.otherscreens
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.widget.TextView
 import co.yap.household.R
 import co.yap.household.onboard.onboarding.main.OnBoardingHouseHoldActivity
 import co.yap.translation.Strings
+import co.yap.widgets.CoreButton
 import co.yap.yapcore.defaults.DefaultActivity
-import kotlinx.android.synthetic.main.activity_onboarding_house_hold_success.*
 
 class HouseHoldSuccessActivity : DefaultActivity() {
     companion object {
@@ -25,7 +26,7 @@ class HouseHoldSuccessActivity : DefaultActivity() {
         setContentView(R.layout.activity_onboarding_house_hold_success)
 
         setMessage()
-        btnCompleteVerification.setOnClickListener {
+        findViewById<CoreButton>(R.id.btnCompleteVerification).setOnClickListener {
             startActivity(
                 intent.getBundleExtra(BUNDLE_DATA)?.let { it1 ->
                     OnBoardingHouseHoldActivity.getIntent(
@@ -46,7 +47,7 @@ class HouseHoldSuccessActivity : DefaultActivity() {
                 "Mirza Adil"
             )
 
-        tvOnBoardingExistingMessage?.text = message
+        findViewById<TextView>(R.id.tvOnBoardingExistingMessage)?.text = message
     }
 
 

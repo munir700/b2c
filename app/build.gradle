@@ -2,8 +2,10 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'com.google.gms.google-services'
 apply plugin: 'com.google.firebase.crashlytics'
-apply plugin: 'no.promon.shield.shieldplugin'
+apply plugin: 'dagger.hilt.android.plugin'
+apply plugin: 'kotlin-kapt'
 apply plugin: 'com.digitify.hiddensecrets'
+apply plugin: 'no.promon.shield.shieldplugin'
 
 repositories {
     maven { url '../promon/SDK/maven/' }
@@ -19,6 +21,12 @@ android {
                 cppFlags "-fvisibility=hidden"
             }
         }
+    }
+    lintOptions {
+        checkReleaseBuilds false
+        // Or, if you prefer, you can continue to check for errors in release builds,
+        // but continue the build even when errors are found:
+        abortOnError false
     }
     externalNativeBuild {
         cmake {
@@ -40,28 +48,30 @@ android {
 
     productFlavors {
         live {
-            versionCode 115
-            versionName "1.8.5"
+            versionCode 119
+            versionName "1.8.9"
             applicationId "com.yap.banking"
             resValue "string", "app_name", "YAP"
             // It binds with SHA1- SHA 256 and package bundle
             resValue "string", "google_maps_key", versionProps.getProperty("map_key_live")
             resValue "string", "facebook_app_id", "319841679191724"
             resValue "string", "fb_login_protocol_scheme", "fb319841679191724"
+            resValue "string", "uq_api_base_url", versionProps.getProperty("uq_api_base_url_live")
             externalNativeBuild.cmake {
                 cppFlags '-DLIVE'
             }
         }
 
         Preprod {
-            versionCode 146
-            versionName "2.4.6"
+            versionCode 151
+            versionName "2.5.1"
             applicationId "com.yap.banking.preprod"
             resValue "string", "app_name", "YAP Preprod"
             // It binds with SHA1- SHA 256 and package bundle
             resValue "string", "google_maps_key", versionProps.getProperty("map_key_other")
             resValue "string", "facebook_app_id", "327560185026998"
             resValue "string", "fb_login_protocol_scheme", "fb327560185026998"
+            resValue "string", "uq_api_base_url", versionProps.getProperty("uq_api_base_url_stg")
             externalNativeBuild.cmake {
                 cppFlags '-DPreprod'
             }
@@ -75,6 +85,7 @@ android {
             resValue "string", "google_maps_key", versionProps.getProperty("map_key_other")
             resValue "string", "facebook_app_id", "410921516527681"
             resValue "string", "fb_login_protocol_scheme", "fb410921516527681"
+            resValue "string", "uq_api_base_url", versionProps.getProperty("uq_api_base_url_stg")
             externalNativeBuild.cmake {
                 cppFlags '-DSTG'
             }
@@ -89,6 +100,7 @@ android {
             resValue "string", "google_maps_key", versionProps.getProperty("map_key_other")
             resValue "string", "facebook_app_id", "410921516527681"
             resValue "string", "fb_login_protocol_scheme", "fb410921516527681"
+            resValue "string", "uq_api_base_url", versionProps.getProperty("uq_api_base_url_stg")
             externalNativeBuild.cmake {
                 cppFlags '-DQA'
             }
@@ -102,6 +114,7 @@ android {
             resValue "string", "google_maps_key", versionProps.getProperty("map_key_other")
             resValue "string", "facebook_app_id", "410921516527681"
             resValue "string", "fb_login_protocol_scheme", "fb410921516527681"
+            resValue "string", "uq_api_base_url", versionProps.getProperty("uq_api_base_url_stg")
             externalNativeBuild.cmake {
                 cppFlags '-DQA'
             }
@@ -115,6 +128,7 @@ android {
             resValue "string", "google_maps_key", versionProps.getProperty("map_key_other")
             resValue "string", "facebook_app_id", "410921516527681"
             resValue "string", "fb_login_protocol_scheme", "fb410921516527681"
+            resValue "string", "uq_api_base_url", versionProps.getProperty("uq_api_base_url_stg")
             externalNativeBuild.cmake {
                 cppFlags '-DDEV'
             }
@@ -132,24 +146,33 @@ android {
 
 shieldConfig {
     shielderJar "../promon/Shielder/Shielder.jar"
-    config '../promon/configration/config-stage.xml' // for stage APK
-    enabled = true
+    config './promon/configration/config-stage.xml' // for stage APK
+    enabled false
     pluginOptions "debug", { enabled false}
+    options "preprodRelease", {
+        enabled = false
+        option("config", "../promon/configration/config-stage.xml")
+    }
+    options "stgRelease", {
+        enabled = false
+        option("config", "../promon/configration/config-stage.xml")
+    }
     options "liveRelease", {
         enabled = true
         option("config", "../promon/configration/config-live.xml")
-    }
-    options "stgRelease", {
-        enabled  = true
-        option("config", "../promon/configration/config-stage.xml")
-    }
-    options "preprodRelease", {
-        enabled  = false
     }
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation ('com.digitify:yappakistan:0.2.5-beta03'){
+        exclude group: 'com.squareup.okhttp3', module: 'okhttp'
+    }
+    implementation ('com.digitify:yapghana:0.2.5-beta03'){
+        exclude group: 'com.squareup.okhttp3', module: 'okhttp'
+    }
+//    implementation("com.yap:yapghana:0.0.2")
     project.testDependencies.each {
         add(it.configuration, it.dependency)
     }
@@ -167,4 +190,7 @@ dependencies {
             add(it.configuration, it.dependency)
         }
     }
+
+    implementation "com.google.dagger:hilt-android:2.38.1"
+    kapt "com.google.dagger:hilt-android-compiler:2.38.1"
 }

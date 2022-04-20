@@ -29,11 +29,14 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import co.yap.modules.qrcode.BarcodeEncoder
 import co.yap.modules.qrcode.BarcodeFormat
+import co.yap.networking.customers.responsedtos.sendmoney.Country
 import co.yap.yapcore.R
 import co.yap.yapcore.helpers.Utils
 import com.bumptech.glide.Glide
 import com.google.android.gms.auth.api.phone.SmsRetriever
 import com.google.android.material.navigation.NavigationView
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import java.io.IOException
 import java.math.RoundingMode
 
@@ -259,3 +262,20 @@ fun Context?.readManifestPlaceholders(metaDataName: String?): String =
             ai.metaData[metaDataName].toString()
         else ""
     } ?: ""
+
+fun String?.jsonToList(): ArrayList<Country> {
+    return if (this.isNullOrBlank().not()) {
+        try {
+            val gson = Gson()
+            val type = object : TypeToken<java.util.ArrayList<Country?>?>() {}.type
+            gson.fromJson<ArrayList<Country>>(this, type)
+        } catch (e: Exception) {
+            arrayListOf<Country>()
+        }
+    } else arrayListOf()
+}
+
+fun <T> ArrayList<Country>.listToJson(): String? {
+    val gson = Gson()
+    return gson.toJson(this)
+}
