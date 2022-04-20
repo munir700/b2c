@@ -2617,13 +2617,17 @@ object Strings {
     const val screen_missing_info_review_required = "screen_missing_info_review_required"
 
     // KYC Amendments/ Missing Info Confirmation Screen
-    const val screen_missing_info_confirmation_button_done = "screen_missing_info_confirmation_button_done"
-    const val screen_missing_info_confirmation_display_all_set = "screen_missing_info_confirmation_display_all_set"
+    const val screen_missing_info_confirmation_button_done =
+        "screen_missing_info_confirmation_button_done"
+    const val screen_missing_info_confirmation_display_all_set =
+        "screen_missing_info_confirmation_display_all_set"
 
     const val screen_view_document_refresh_button_text = "screen_view_document_refresh_button_text"
     const val screen_view_document_file_size_not_fine = "screen_view_document_file_size_not_fine"
-    const val screen_view_document_otp_message_first_part = "screen_view_document_otp_message_first_part"
-    const val screen_view_document_otp_message_second_part = "screen_view_document_otp_message_second_part"
+    const val screen_view_document_otp_message_first_part =
+        "screen_view_document_otp_message_first_part"
+    const val screen_view_document_otp_message_second_part =
+        "screen_view_document_otp_message_second_part"
 
 //    Upload document dialogue
 
@@ -2635,4 +2639,20 @@ object Strings {
         "screen_upload_document_display_text_alert_got_it"
     const val screen_upload_document_item_subtitle: String =
         "screen_upload_document_item_subtitle"
+
+    //KFS notification Screen
+    const val screen_kfs_notification_nothanks_label: String =
+        "screen_kfs_notification_nothanks_label"
+    const val screen_kfs_notification_inapp_notification: String =
+        "screen_kfs_notification_inapp_notification"
+    const val screen_kfs_notification_email_notification: String =
+        "screen_kfs_notification_email_notification"
+    const val screen_kfs_notification_sms_notification: String =
+        "screen_kfs_notification_sms_notification"
+    const val screen_kfs_notification_accept_all_notification_label: String =
+        "screen_kfs_notification_accept_all_notification_label"
+    const val screen_kfs_notification_descrip: String =
+        "screen_kfs_notification_descrip"
+    const val screen_kfs_notification_title: String =
+        "screen_kfs_notification_title"
 }
