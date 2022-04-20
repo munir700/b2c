@@ -8,78 +8,59 @@ import android.widget.EditText
 import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.appcompat.widget.SearchView
 import androidx.databinding.DataBindingUtil
-import androidx.databinding.ViewDataBinding
 import co.yap.yapcore.R
-import kotlinx.android.synthetic.main.layout_yap_searchview.view.*
-import kotlinx.android.synthetic.main.layout_yap_searchview.view.tvCancel
+import co.yap.yapcore.databinding.LayoutYapSearchviewBinding
 
-class YapSearchView: LinearLayoutCompat {
+class YapSearchView(context: Context,attrs: AttributeSet): LinearLayoutCompat(context,attrs) {
     lateinit var searchEditText:EditText
     var yapSearchViewListener: IYapSearchView? = null
     var searchFlag=false
 
-    var viewDataBinding: ViewDataBinding = DataBindingUtil.inflate(
-    LayoutInflater.from(context),
-    R.layout.layout_yap_searchview,
-    this,
-    true
-)
+    var viewDataBinding: LayoutYapSearchviewBinding = DataBindingUtil.inflate(
+        LayoutInflater.from(context),
+        R.layout.layout_yap_searchview,
+        this,
+        true
+    )
 
-    constructor(context: Context) : super(context)
-    constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {
-        init(context, attrs)
-    }
-
-    constructor(context: Context,attrs: AttributeSet, defStyleAttr: Int) : super(
-        context, attrs,
-        defStyleAttr
-    ) {
-        init(context, attrs)
-    }
-
-    private fun init(context: Context, attrs: AttributeSet?) {
+    init {
         viewDataBinding.executePendingBindings()
         prepareSearchView()
         setSearchViewFocusListener()
         setCancelClickListener()
         setTextChangeListener()
-        attrs?.let {
-            val typedArray =
-                context.obtainStyledAttributes(it, R.styleable.YapSearchView, 0, 0)
-            typedArray.recycle()
-        }
     }
 
     private fun prepareSearchView() {
-        searchEditText = viewDataBinding.root.layoutSearchView.findViewById<EditText>(androidx.appcompat.R.id.search_src_text)
+        searchEditText = viewDataBinding.layoutSearchView.findViewById(androidx.appcompat.R.id.search_src_text)
         searchEditText.gravity = Gravity.CENTER
-        viewDataBinding.root.layoutSearchView.isIconified = false
-        viewDataBinding.root.layoutSearchView.clearFocus()
+        viewDataBinding.layoutSearchView.isIconified = false
+        viewDataBinding.layoutSearchView.clearFocus()
     }
 
     private fun prepareActiveSearchView() {
-        viewDataBinding.root.tvCancel.visibility = VISIBLE
+        viewDataBinding.tvCancel.visibility = VISIBLE
         searchEditText.gravity = Gravity.START
         searchFlag= true
     }
 
-    private fun restSearchView() {
+    private fun resetSearchView() {
         searchEditText.gravity = Gravity.CENTER
-        viewDataBinding.root.tvCancel.visibility = GONE
-        viewDataBinding.root.layoutSearchView.clearFocus()
-        viewDataBinding.root.layoutSearchView.setQuery("", false)
+        viewDataBinding.tvCancel.visibility = GONE
+        viewDataBinding.layoutSearchView.clearFocus()
+        viewDataBinding.layoutSearchView.setQuery("", false)
         searchFlag=false
     }
 
     fun setCancelClickListener(){
-        viewDataBinding.root.tvCancel.setOnClickListener {
+        viewDataBinding.tvCancel.setOnClickListener {
             yapSearchViewListener?.onSearchActive(false)
-            restSearchView()
+            resetSearchView()
         }
     }
 
     fun setTextChangeListener(){
-        viewDataBinding.root.layoutSearchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
+        viewDataBinding.layoutSearchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
             override fun onQueryTextSubmit(query: String?): Boolean {
                 return true
             }
@@ -92,7 +73,7 @@ class YapSearchView: LinearLayoutCompat {
     }
 
     private fun setSearchViewFocusListener() {
-        viewDataBinding.root.layoutSearchView.setOnQueryTextFocusChangeListener { _ , hasFocus ->
+        viewDataBinding.layoutSearchView.setOnQueryTextFocusChangeListener { _ , hasFocus ->
             if (hasFocus && !searchFlag) {
                 yapSearchViewListener?.onSearchActive(true)
                 prepareActiveSearchView()
@@ -103,6 +84,6 @@ class YapSearchView: LinearLayoutCompat {
     }
 
     fun showInputMethod() {
-        viewDataBinding.root.layoutSearchView.requestFocus()
+        viewDataBinding.layoutSearchView.requestFocus()
     }
 }

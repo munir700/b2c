@@ -34,7 +34,6 @@ class BankListFragment :
         setObservers()
         setRecyclerClick()
         viewModel.getBankList()
-
     }
 
     private fun getDataArguments() {
@@ -49,6 +48,8 @@ class BankListFragment :
         viewModel.bankList.observe(viewLifecycleOwner) { list ->
             viewModel.bankListAdapter.setData(list)
         }
+
+        getBinding().layoutSearchView.yapSearchViewListener = viewModel.yapSearchViewChangeListener
     }
 
     override fun removeObservers() {

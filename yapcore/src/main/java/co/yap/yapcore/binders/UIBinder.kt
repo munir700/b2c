@@ -30,7 +30,6 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
-import androidx.appcompat.widget.SearchView
 import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.os.bundleOf
@@ -49,8 +48,6 @@ import co.yap.widgets.MaskTextWatcher
 import co.yap.widgets.edittext.EditTextRichDrawable
 import co.yap.widgets.otptextview.OTPListener
 import co.yap.widgets.otptextview.OtpTextView
-import co.yap.widgets.search.IYapSearchView
-import co.yap.widgets.search.YapSearchView
 import co.yap.yapcore.R
 import co.yap.yapcore.enums.*
 import co.yap.yapcore.firebase.FirebaseEvent
@@ -71,12 +68,8 @@ import com.daimajia.androidanimations.library.YoYo
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.google.android.material.textfield.TextInputLayout
-import com.liveperson.infra.utils.picasso.Callback
-import com.liveperson.infra.utils.picasso.MemoryPolicy
-import com.liveperson.infra.utils.picasso.NetworkPolicy
 import com.uxcam.UXCam
 import java.text.SimpleDateFormat
-import com.liveperson.infra.utils.picasso.Picasso
 
 object UIBinder {
     @BindingAdapter(requireAll = false, value = ["adaptor", "selectedListener"])
@@ -382,12 +375,6 @@ object UIBinder {
         val content = SpannableString(value)
         content.setSpan(UnderlineSpan(), 0, content.length, 0)
         text.text = content
-    }
-
-    @BindingAdapter("YapSearchViewListener")
-    @JvmStatic
-    fun setYapSearchViewListener(view: YapSearchView, listener: IYapSearchView) {
-       view.yapSearchViewListener = listener
     }
 
     @BindingAdapter("src")
