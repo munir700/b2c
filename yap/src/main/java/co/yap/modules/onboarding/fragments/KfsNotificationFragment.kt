@@ -53,6 +53,7 @@ class KfsNotificationFragment :
                 enableAllNotifications(isChecked)
             }
             R.id.rb2 -> {
+                viewModel.parentViewModel?.state?.noNotificationAccepted?.value= isChecked
                 if (isChecked) viewModel.revertAllAppNotifications()
                 enableAllNotifications(false)
             }
@@ -81,7 +82,9 @@ class KfsNotificationFragment :
 
     private val clickListenerHandler = Observer<Int> { id ->
         if (viewModel.parentViewModel?.state?.noNotificationAccepted?.value == true) showAlertDialog()
-        else navigate(R.id.action_kfsNotificationFragment_to_congratulationsFragment)
+        else viewModel.signUp {
+            navigateBack()
+        }
     }
 
     fun showAlertDialog() {
@@ -89,7 +92,10 @@ class KfsNotificationFragment :
             title = "You’ll miss out",
             message = "Are you sure you want to miss out on all the latest offers & promotions? You can always change your preferences later in the app.",
             positiveButton = getString(Strings.common_text_ok),
-            positiveCallback = { navigateBack() },
+            positiveCallback = { viewModel.signUp {
+
+                navigateBack()
+            }},
         )
     }
 }
