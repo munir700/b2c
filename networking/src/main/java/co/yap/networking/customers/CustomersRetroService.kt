@@ -41,7 +41,7 @@ interface CustomersRetroService {
 
     //get System configuration settings
     @GET(CustomersRepository.URL_SYSTEM_CONFIGURATION)
-    suspend fun getSystemConfigurations(): Response<SystemConfigurationInfoResponse>
+    suspend fun getSystemConfigurations(): Response<BaseListResponse<SystemConfigurationInfo>>
 
     // In onboarding send verification email to verify uer
     @POST(CustomersRepository.URL_SEND_VERIFICATION_EMAIL)

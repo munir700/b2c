@@ -185,7 +185,7 @@ object CustomersRepository : BaseRepository(), CustomersApi {
         return response
     }
 
-    override suspend fun getSystemConfigurations(): RetroApiResponse<SystemConfigurationInfoResponse> =
+    override suspend fun getSystemConfigurations(): RetroApiResponse<BaseListResponse<SystemConfigurationInfo>> =
         executeSafely(call = { api.getSystemConfigurations() })
 
     override suspend fun sendVerificationEmail(verificationEmailRequest: SendVerificationEmailRequest): RetroApiResponse<OtpValidationResponse> =

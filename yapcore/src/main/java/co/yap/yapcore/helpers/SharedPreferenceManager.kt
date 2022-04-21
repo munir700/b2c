@@ -4,9 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKeys
-import co.yap.networking.customers.responsedtos.SystemConfigurationInfo
 import co.yap.yapcore.adjust.ReferralInfo
-import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.Constants.KEY_MOBILE_NO
 import co.yap.yapcore.constants.Constants.KEY_PASSCODE
 import co.yap.yapcore.constants.Constants.KEY_THEME
@@ -19,7 +17,7 @@ import java.lang.Exception
  * you must need to  access Singlaton instanse of SharedPreferenceManager
  * i.e SharedPreferenceManager.getInstance(context)
  * @see SingletonHolder
-* */
+ * */
 class SharedPreferenceManager private constructor(val context: Context) {
 
     private val PREFS_NAME = "YAPPref"
@@ -57,7 +55,7 @@ class SharedPreferenceManager private constructor(val context: Context) {
     fun getValueString(KEY_NAME: String): String? {
         return sharedPref.getString(KEY_NAME, null)
     }
-    fun getValueString(KEY_NAME: String,defaultValue:String): String? {
+    fun getValueString(KEY_NAME: String, defaultValue: String): String? {
         return sharedPref.getString(KEY_NAME, defaultValue)
     }
 
@@ -77,7 +75,7 @@ class SharedPreferenceManager private constructor(val context: Context) {
                 editor.remove(entry)
             }
             editor.apply()
-        }catch (ex:Exception){
+        } catch (ex: Exception) {
             ex.printStackTrace()
         }
     }
@@ -101,7 +99,7 @@ class SharedPreferenceManager private constructor(val context: Context) {
 
     fun getDecryptedUserName(): String? {
         return getValueString(KEY_USERNAME) ?: getValueString(KEY_MOBILE_NO)
-      //  return getValueString(KEY_USERNAME)
+        //  return getValueString(KEY_USERNAME)
     }
 
     fun savePassCodeWithEncryption(text: String) {
@@ -145,25 +143,27 @@ class SharedPreferenceManager private constructor(val context: Context) {
         )
     }
 
-    fun setSystemConfigurationInfo(data: List<SystemConfigurationInfo>) {
-        save(
-            Constants.SYSTEM_CONFIGURATION,
-            Gson().toJson(data)
-        )
-    }
+//    fun getSystemConfigurationInfo(key: String): HashMap<String, SystemConfigurationInfo>? {
+//        val listSystemConfigurationInfo = getValueString(Constants.SYSTEM_CONFIGURATION)
+//                Gson().fromJson(
+//                    it,
+//                    Array<SystemConfigurationInfo>::class.java
+//                ).toList()
+//        return if (listSystemConfigurationInfo.isNullOrBlank().not()) {
+//            try {
+//                val gson = Gson()
+//                val type =
+//                    object : TypeToken<java.util.ArrayList<SystemConfigurationInfo?>?>() {}.type
+//                var list = gson.fromJson<ArrayList<SystemConfigurationInfo>>(
+//                    listSystemConfigurationInfo,
+//                    type
+//                )
+//                list.map { it.key ?: "" to it }
+//
+//            } catch (e: Exception) {
+//                hashMapOf()
+//            }
+//        } else hashMapOf()
 
-    fun getSystemConfigurationInfo(key: String): SystemConfigurationInfo? {
-        val listSystemConfigurationInfo = getValueString(Constants.SYSTEM_CONFIGURATION)?.let {
-            if (it.isBlank()) {
-                return null
-            } else {
-                Gson().fromJson(
-                    it,
-                    Array<SystemConfigurationInfo>::class.java
-                ).toList()
-            }
-        }
-        listSystemConfigurationInfo?.first { it.key?.equals(key) == true }?.let { return it }
-        return null
-    }
+//    }
 }

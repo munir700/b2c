@@ -2,8 +2,9 @@ package co.yap.networking.customers.responsedtos
 
 
 import android.os.Parcelable
+import co.yap.networking.models.ApiResponse
 import com.google.gson.annotations.SerializedName
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class SystemConfigurationInfo(
@@ -17,4 +18,4 @@ data class SystemConfigurationInfo(
     val key: String? = "",
     @SerializedName("value")
     val value: String? = ""
-) : Parcelable
+) : ApiResponse(), Parcelable

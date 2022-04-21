@@ -26,6 +26,7 @@ import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.getBlockedFeaturesList
 import co.yap.yapcore.helpers.extentions.getUserAccessRestrictions
 import co.yap.yapcore.helpers.extentions.listToJson
+import com.google.gson.Gson
 import com.liveperson.infra.auth.LPAuthenticationParams
 import com.liveperson.messaging.sdk.api.LivePerson
 import com.liveperson.messaging.sdk.api.callbacks.LogoutLivePersonCallback
@@ -145,12 +146,13 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
             when (val response = customerRepository.getSystemConfigurations()) {
                 is RetroApiResponse.Success -> {
                     response.data.data.let { list ->
-                        SharedPreferenceManager.getInstance(context)
-                            .setSystemConfigurationInfo(list)
+                        val listArray = ArrayList(list)
+                        SharedPreferenceManager.getInstance(context).save(
+                            Constants.SYSTEM_CONFIGURATION,
+                            Gson().toJson(listArray)
+                        )
                     }
-
                 }
-
                 is RetroApiResponse.Error -> {
                     Log.d("", response?.error?.message)
                 }
