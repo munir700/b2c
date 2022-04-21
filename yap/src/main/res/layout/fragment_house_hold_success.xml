@@ -182,8 +182,8 @@
                     app:btn_drawable_position="right"
                     app:btn_text_size="@dimen/_11sdp"
                     app:enableCoreButton="@{true}"
-                    app:text="@{Strings.screen_yap_house_hold_success_button_text_share}"
-                    tools:text="@string/screen_yap_house_hold_success_button_text_share" />
+                    app:text="@{Strings.common_button_text_share}"
+                    tools:text="@string/common_button_text_share" />
 
             </LinearLayout>
 

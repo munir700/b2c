@@ -79,7 +79,7 @@ class MoreHomeViewModel(application: Application) :
             MoreOption(
                 Constants.MORE_INVITE_FRIEND,
                 Translator.getString(context, Strings.screen_more_invite_a_friend),
-                R.drawable.invite_a_friend,
+                R.drawable.ic_invite,
                 ContextCompat.getColor(context, R.color.colorPrimaryAlt),
                 false,
                 0

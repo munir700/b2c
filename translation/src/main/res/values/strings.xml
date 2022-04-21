@@ -68,6 +68,7 @@
     <string name="default_regex_validation_message">The field value does not match the
         required format.
     </string>
+    <string name="common_button_text_share">Share</string>
     <!--Validation Error Messages End-->
     <string name="error_message_phone_email_validation">Invalid Email or Phone format</string>
     <string name="common_display_text_on_hold_limit_error">You have exceeded your limit for held on transactions, please enter an amount less than %1s</string>
@@ -534,7 +535,7 @@
     <string name="screen_more_detail_display_text_account">Account</string>
     <string name="screen_more_detail_display_text_copied_to_clipboard">Copied to clipboard</string>
     <string name="screen_more_atm_cdm">ATM &amp; CDM</string>
-    <string name="screen_more_invite_a_friend">Invite a friend</string>
+    <string name="screen_more_invite_a_friend">Refer a friend</string>
     <string name="screen_more_help_and_support">Help and support</string>
     <string name="screen_more_subscription">Subscriptions</string>
     <string name="screen_more_gifts">Gifts</string>
@@ -933,7 +934,6 @@
     <string name="screen_add_topup_bank_bic_label_text">SWIFT/BIC</string>
     <string name="screen_add_topup_bank_account_number_label_text">Account number</string>
     <string name="screen_add_topup_bank_address_label_text">Bank &amp; Address</string>
-    <string name="screen_add_topup_bank_core_btn_label_text">Share</string>
 
     <!--Screen add top up card -->
     <string name="screen_add_topup_card_display_text_title">Enter your card details</string>
@@ -1068,7 +1068,6 @@
     <string name="screen_yap_house_hold_success_display_text_share_email">Email address</string>
     <string name="screen_yap_house_hold_success_display_text_share_mobile_no">Mobile number</string>
     <string name="screen_yap_house_hold_success_display_text_share_pass_code">Temporary passcode</string>
-    <string name="screen_yap_house_hold_success_button_text_share">Share</string>
     <string name="screen_yap_house_hold_success_button_text_goto_house_hold">Go to Household</string>
 
     <!-- YAP Household Card Confirm payment screen -->
@@ -1165,11 +1164,10 @@
 
 
     <!--  Invite a friend screen  -->
-    <string name="screen_invite_friend_display_text_title">Refer a friend</string>
-    <string name="screen_invite_friend_display_text_reward">Tell your friends about us!</string>
-    <string name="screen_invite_friend_display_text_referal_reward">Sharing is sweet, and it’s even better when you do it with friends. Send this special link to your special people so they change the way they bank too!</string>
-    <string name="screen_invite_friend_display_text_referal_code">Share your referral link</string>
-    <string name="screen_invite_friend_button_share">Share</string>
+    <string name="screen_invite_friend_text_title">Refer a friend</string>
+    <string name="screen_invite_friend_text_reward">Refer your family and friends and earn for everyone who joins. T&amp;C\'s apply</string>
+    <string name="screen_invite_friend_text_referal_reward">Get AED 25 each time you refer someone. So, share this with your loved ones, and help them to start banking smarter!</string>
+    <string name="screen_invite_friend_text_referal_code">Share your referral link</string>
     <string name="screen_invite_friend_display_text_share_url">Connect with me on YAP! An innovative digital banking app that gives you total control of your finances.\n\n%1s</string>
 
     <!--  OTP Blocked New screen -->
