@@ -170,7 +170,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="@string/action_done"
+            android:text="@string/screen_add_spare_card_completion_button_done"
             android:textColor="@color/colorWhite"
             android:textSize="@dimen/text_size_h4"
             app:btn_size="small"
@@ -178,6 +178,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/appCompatTextView5"
-            tools:text="@string/action_done" />
+            tools:text="@string/screen_add_spare_card_completion_button_done" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

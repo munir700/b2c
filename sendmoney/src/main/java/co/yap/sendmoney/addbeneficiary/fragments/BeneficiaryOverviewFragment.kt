@@ -5,7 +5,7 @@ import android.content.DialogInterface
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import co.yap.countryutils.country.Country
 import co.yap.sendmoney.BR
@@ -16,9 +16,9 @@ import co.yap.sendmoney.databinding.FragmentBeneficiaryOverviewBinding
 import co.yap.sendmoney.fragments.SendMoneyBaseFragment
 import co.yap.translation.Translator
 import co.yap.yapcore.helpers.Utils
-import kotlinx.android.synthetic.main.fragment_beneficiary_overview.*
 
-class BeneficiaryOverviewFragment : SendMoneyBaseFragment<FragmentBeneficiaryOverviewBinding, IBeneficiaryOverview.ViewModel>(),
+class BeneficiaryOverviewFragment :
+    SendMoneyBaseFragment<FragmentBeneficiaryOverviewBinding, IBeneficiaryOverview.ViewModel>(),
     IBeneficiaryOverview.View {
 
     var isFromAddBeneficiary: Boolean = false
@@ -27,17 +27,13 @@ class BeneficiaryOverviewFragment : SendMoneyBaseFragment<FragmentBeneficiaryOve
     override fun getLayoutId(): Int = R.layout.fragment_beneficiary_overview
 
     override val viewModel: BeneficiaryOverviewViewModel
-        get() = ViewModelProviders.of(this).get(BeneficiaryOverviewViewModel::class.java)
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
+        get() = ViewModelProvider(this).get(BeneficiaryOverviewViewModel::class.java)
 
     private fun showResidenceCountries() {
-        getBinding().spinner.setEnabledSpinner(false)
-        getBinding().spinner.setAdapter(viewModel.parentViewModel?.countriesList)
+        viewDataBinding.spinner.setEnabledSpinner(false)
+        viewDataBinding.spinner.setAdapter(viewModel.parentViewModel?.countriesList)
         if (viewModel.parentViewModel?.selectedResidenceCountry != null) {
-            getBinding().spinner.setSelectedItem(
+            viewDataBinding.spinner.setSelectedItem(
                 viewModel.parentViewModel?.countriesList?.indexOf(
                     viewModel.parentViewModel?.selectedResidenceCountry ?: Country()
                 ) ?: 0
@@ -46,13 +42,15 @@ class BeneficiaryOverviewFragment : SendMoneyBaseFragment<FragmentBeneficiaryOve
     }
 
     private fun editBeneficiaryScreen() {
-        etnickName.isEnabled = true
-        etFirstName.isEnabled = true
-        etLastName.isEnabled = true
-        etAccountIbanNumber.isEnabled = true
-        etnickName.isEnabled = true
-        etSwiftCode.isEnabled = true
-        etBankREquiredFieldCode.isEnabled = true
+        with(viewDataBinding) {
+            etnickName.isEnabled = true
+            etFirstName.isEnabled = true
+            etLastName.isEnabled = true
+            etAccountIbanNumber.isEnabled = true
+            etnickName.isEnabled = true
+            etSwiftCode.isEnabled = true
+            etBankREquiredFieldCode.isEnabled = true
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -76,8 +74,6 @@ class BeneficiaryOverviewFragment : SendMoneyBaseFragment<FragmentBeneficiaryOve
         if (!isFromAddBeneficiary) {
             editBeneficiaryScreen()
         }
-//        getActivity()!!.getFragmentManager().popBackStack()
-
     }
 
 
@@ -94,15 +90,11 @@ class BeneficiaryOverviewFragment : SendMoneyBaseFragment<FragmentBeneficiaryOve
 
     private fun observeEvents() {
         viewModel.onDeleteSuccess.observe(this, Observer {
-            activity!!.onBackPressed()
+            requireActivity().onBackPressed()
         })
 
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
-
-                //                R.id.llBankDetail ->
-                //                    findNavController().navigate(R.id.action_beneficiaryOverviewFragment_to_beneficiaryAccountDetailsFragment)
-
                 R.id.confirmButton ->
                     if (!isFromAddBeneficiary) {
                         //                        ConfirmAddBeneficiary(activity!!)       //may be show a dialogue to confirm edit beneficairy call ???
@@ -115,7 +107,7 @@ class BeneficiaryOverviewFragment : SendMoneyBaseFragment<FragmentBeneficiaryOve
 
 
                     } else {
-                        ConfirmAddBeneficiary(activity!!)
+                        ConfirmAddBeneficiary(requireActivity())
                     }
             }
         })
@@ -165,9 +157,4 @@ class BeneficiaryOverviewFragment : SendMoneyBaseFragment<FragmentBeneficiaryOve
             .setCancelable(false)
             .show()
     }
-
-    private fun getBinding(): FragmentBeneficiaryOverviewBinding {
-        return (viewDataBinding as FragmentBeneficiaryOverviewBinding)
-    }
-
 }

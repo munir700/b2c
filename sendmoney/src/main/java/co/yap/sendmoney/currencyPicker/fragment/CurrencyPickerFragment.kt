@@ -50,7 +50,7 @@ class CurrencyPickerFragment : BaseBindingFragment<FragmentCurrencyPickerBinding
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setListeners()
-        getBindings().svBeneficiary.initializeSearch(this)
+        viewDataBinding.svBeneficiary.initializeSearch(this)
     }
 
     private fun setListeners() {
@@ -66,13 +66,13 @@ class CurrencyPickerFragment : BaseBindingFragment<FragmentCurrencyPickerBinding
     private fun handleState(state: State?) {
         when (state?.status) {
             Status.EMPTY -> {
-                getBindings().multiStateView.viewState = MultiStateView.ViewState.EMPTY
+                viewDataBinding.multiStateView.viewState = MultiStateView.ViewState.EMPTY
             }
             Status.ERROR -> {
-                getBindings().multiStateView.viewState = MultiStateView.ViewState.ERROR
+                viewDataBinding.multiStateView.viewState = MultiStateView.ViewState.ERROR
             }
             Status.SUCCESS -> {
-                getBindings().multiStateView.viewState = MultiStateView.ViewState.CONTENT
+                viewDataBinding.multiStateView.viewState = MultiStateView.ViewState.CONTENT
             }
             else -> throw IllegalStateException("Provided multi state is not handled $state")
         }
@@ -103,7 +103,4 @@ class CurrencyPickerFragment : BaseBindingFragment<FragmentCurrencyPickerBinding
     override fun onTypingSearch(search: String?) {
         viewModel.currencyAdapter.filter.filter(search)
     }
-
-    private fun getBindings(): FragmentCurrencyPickerBinding =
-        viewDataBinding as FragmentCurrencyPickerBinding
 }

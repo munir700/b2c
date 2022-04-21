@@ -15,7 +15,6 @@ import co.yap.modules.webview.WebViewFragment
 import co.yap.widgets.NumberKeyboardListener
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.extentions.startFragment
-import kotlinx.android.synthetic.main.fragment_house_hold_create_passcode.*
 
 class HouseHoldCreatePassCodeFragment :
     OnboardingChildFragment<FragmentHouseHoldCreatePasscodeBinding,IHouseHoldCreatePassCode.ViewModel>(), IHouseHoldCreatePassCode.View,
@@ -33,8 +32,8 @@ class HouseHoldCreatePassCodeFragment :
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        dialer.setNumberKeyboardListener(this)
-        dialer.hideFingerprintView()
+        viewDataBinding.dialer.setNumberKeyboardListener(this)
+        viewDataBinding.dialer.hideFingerprintView()
     }
 
     override fun setObservers() {
@@ -60,7 +59,7 @@ class HouseHoldCreatePassCodeFragment :
 
     override fun onBackPressed(): Boolean = true
     override fun onNumberClicked(number: Int, text: String) {
-        viewModel.state.passcode = dialer.getText()
+        viewModel.state.passcode = viewDataBinding.dialer.getText()
         viewModel.state.dialerError = ""
     }
 

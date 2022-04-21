@@ -21,7 +21,6 @@ import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.enums.NotificationStatus
 import co.yap.yapcore.helpers.extentions.ExtraType
 import co.yap.yapcore.helpers.extentions.getValue
-import kotlinx.android.synthetic.main.fragment_house_hold_number_registration.*
 
 
 class HouseHoldNumberRegistrationFragment :
@@ -121,8 +120,8 @@ class HouseHoldNumberRegistrationFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        dialer.setInPutEditText(etPhoneNumber)
-        dialer.hideFingerprintView()
+        viewDataBinding.dialer.setInPutEditText(viewDataBinding.etPhoneNumber)
+        viewDataBinding.dialer.hideFingerprintView()
     }
 
     private val isParentMobileValid = Observer<Boolean>
