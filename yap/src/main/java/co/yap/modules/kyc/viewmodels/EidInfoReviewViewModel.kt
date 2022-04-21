@@ -358,7 +358,6 @@ class EidInfoReviewViewModel(application: Application) :
         }
     }
 
-
     override fun populateUqudoState(identity: EidData?) {
         identity?.let {
             val documentBack = it.documents[0].scan?.back

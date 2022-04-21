@@ -27,6 +27,7 @@ import co.yap.widgets.State
 import co.yap.widgets.Status
 import co.yap.yapcore.constants.RequestCodes.REQUEST_UQUDO
 import co.yap.yapcore.enums.AlertType
+import co.yap.yapcore.enums.SystemConfigurations
 import co.yap.yapcore.firebase.FirebaseEvent
 import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.DateUtils.getAge
@@ -66,7 +67,7 @@ class EidInfoReviewFragment :
             viewModel.populateUqudoState(identity = identity)
         } ?: viewModel.requestAllAPIs(true)
         viewModel.state.eidExpireLimitDays.value =
-            SessionManager.systemConfiguration.value?.get("EID_EXPIRE_LIMIT_DAYS")?.value?.parseToInt()
+            SessionManager.systemConfiguration.value?.get(SystemConfigurations.EID_EXPIRE_LIMIT_DAYS.key)?.value?.parseToInt()
     }
 
     private fun addObservers() {

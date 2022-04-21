@@ -31,19 +31,23 @@ import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.constants.RequestCodes.REQUEST_UQUDO
 import co.yap.yapcore.enums.AlertType
+import co.yap.yapcore.enums.SystemConfigurations
 import co.yap.yapcore.firebase.FirebaseEvent
 import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.*
 import co.yap.yapcore.helpers.extentions.deleteTempFolder
 import co.yap.yapcore.helpers.extentions.launchBottomSheet
 import co.yap.yapcore.helpers.extentions.launchSheet
+import co.yap.yapcore.helpers.extentions.parseToInt
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.SessionManager
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog
+import com.yap.core.extensions.finish
 import java.util.*
 
 
-class EidInfoReviewAmendmentFragment : KYCChildFragment<FragmentEidInfoReviewAmendmentBinding,IEidInfoReviewAmendment.ViewModel>(),
+class EidInfoReviewAmendmentFragment :
+    KYCChildFragment<FragmentEidInfoReviewAmendmentBinding, IEidInfoReviewAmendment.ViewModel>(),
     IEidInfoReviewAmendment.View, View.OnFocusChangeListener {
     override fun getBindingVariable(): Int = BR.viewModel
 
@@ -68,8 +72,9 @@ class EidInfoReviewAmendmentFragment : KYCChildFragment<FragmentEidInfoReviewAme
 
         viewModel.parentViewModel?.uqudoManager?.getPayloadData()?.let { identity ->
             viewModel.populateUqudoState(identity = identity)
-        } ?:
-        viewModel.requestAllAPIs(true)
+        } ?: viewModel.requestAllAPIs(true)
+        viewModel.state.eidExpireLimitDays.value =
+            SessionManager.systemConfiguration.value?.get(SystemConfigurations.EID_EXPIRE_LIMIT_DAYS.key)?.value?.parseToInt()
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -453,7 +458,8 @@ class EidInfoReviewAmendmentFragment : KYCChildFragment<FragmentEidInfoReviewAme
                             showErrorScreen(
                                 EidInfoReviewFragmentDirections.actionEidInfoReviewFragmentToInformationErrorFragment(
                                     errorTitle, errorBody
-                                ))
+                                )
+                            )
                         } else {
                             state.toast = "${it}^${AlertType.DIALOG.name}"
                         }
@@ -507,6 +513,7 @@ class EidInfoReviewAmendmentFragment : KYCChildFragment<FragmentEidInfoReviewAme
                 EidInfoEvents.EVENT_CITIZEN_NUMBER_ISSUE.eventId, EidInfoEvents.EVENT_EID_EXPIRY_DATE_ISSUE.eventId -> invalidCitizenNumber(
                     "Sorry, that didn’t work. Please try again", true
                 )
+                EidInfoEvents.EVENT_EID_ABOUT_TO_EXPIRY_DATE_ISSUE.eventId -> showAboutToExpireDialogue()
             }
         }
     }
@@ -515,5 +522,19 @@ class EidInfoReviewAmendmentFragment : KYCChildFragment<FragmentEidInfoReviewAme
         viewModel.clickEvent.removeObserver(clickEventObserver)
         viewModel.eidStateLiveData.removeObservers(this)
         viewModel.uqudoResponse.removeObservers(this)
+    }
+
+    private fun showAboutToExpireDialogue() {
+        context?.let { it ->
+            it.customAlertDialog(
+                title = getString(R.string.expiry_dialogue_title_oops),
+                message = getString(R.string.expiry_dialogue_message),
+                positiveButton = getString(R.string.common_text_ok),
+                cancelable = false,
+                positiveCallback = {
+                    finish()
+                }
+            )
+        }
     }
 }
