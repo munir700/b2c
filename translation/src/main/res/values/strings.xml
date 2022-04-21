@@ -1760,4 +1760,9 @@
     <string name="screen_lean_topup_amount_toolbar_title">Top up via bank account</string>
     <string name="screen_lean_topup_text_enter_amount_to_topup">Enter the amount to top up</string>
 
+    <!--Lean -Easy bank Transfer -Payment Successful -->
+    <string name="screen_lean_topup_payment_successful_title">Top up successful</string>
+    <string name="screen_lean_topup_payment_successful_button_text">Back to dashboard</string>
+    <string name="screen_lean_topup_payment_successful_new_balance_text">Your new balance is</string>
+
 </resources>

@@ -48,13 +48,12 @@ class BankListFragment :
         viewModel.bankList.observe(viewLifecycleOwner) { list ->
             viewModel.bankListAdapter.setData(list)
         }
-
-        getBinding().layoutSearchView.yapSearchViewListener = viewModel.yapSearchViewChangeListener
+        viewDataBinding.layoutSearchView.yapSearchViewListener = viewModel.yapSearchViewChangeListener
     }
 
     override fun removeObservers() {
         viewModel.bankList.removeObservers(this)
-        getBinding().layoutSearchView.yapSearchViewListener = null
+        viewDataBinding.layoutSearchView.yapSearchViewListener = null
     }
 
     private fun setRecyclerClick() {
@@ -95,6 +94,4 @@ class BankListFragment :
             }
         }
     }
-
-    fun getBinding() = getDataBindingView<FragmentEasyBankTransferBankListBinding>()
 }
