@@ -16,6 +16,7 @@ interface IAccountList {
         var accountListAdapter: AccountListAdapter
         val clickEvent: SingleClickEvent
         val leanOnBoardModel: MutableLiveData<LeanOnBoardModel>
+        var customerId : String?
         fun getAccountList()
         fun handlePressOnView(id: Int)
         fun onboardUser()
