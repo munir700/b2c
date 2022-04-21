@@ -41,7 +41,7 @@
 
             <TextView
                 android:id="@+id/tvInviteTitle"
-                style="@style/Title3"
+                style="@style/Large"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_medium"
