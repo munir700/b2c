@@ -791,6 +791,7 @@ class YapHomeFragment : YapDashboardChildFragment<FragmentDashboardHomeBinding,I
                                 )
                             )
                             putExtra("from", YapHomeFragment::class.java.name)
+                            putExtra(ExtraKeys.HIDE_KYC_PARENT_TOOLBAR.name, true)
 
                         }
                     } else {
@@ -812,6 +813,7 @@ class YapHomeFragment : YapDashboardChildFragment<FragmentDashboardHomeBinding,I
                                 identityNo = SessionManager.user?.currentCustomer?.identityNo
                             )
                         )
+                        putExtra(ExtraKeys.HIDE_KYC_PARENT_TOOLBAR.name, true)
                     }
                     SessionManager.eidStatus = EIDStatus.EXPIRED
                 }

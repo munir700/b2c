@@ -4,7 +4,7 @@
     <string name="yap_to_yap">YAP to YAP</string>
     <string name="top_up">Top up</string>
     <string name="send_money">Send money</string>
-    <string name="uq_api_base_url">https://id.uqudo.io</string>
+    <string name="uq_api_base_url" templateMergeStrategy="preserve" translatable="false" />
 
     <!-- YAP It Send Money-->
     <string-array name="yap_it_send_money_title">

@@ -3,10 +3,12 @@ package co.yap.yapcore.helpers.extentions
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.media.MediaScannerConnection
 import android.net.Uri
 import android.os.Environment
+import android.text.TextUtils
 import android.view.View
 import androidx.core.content.FileProvider
 import co.yap.app.YAPApplication
@@ -191,3 +193,14 @@ fun Context.saveEidTemp(bitmap: Bitmap): String? {
     }
     return null
 }
+
+fun String?.isValidFile(filePath: String?): Boolean {
+    return this?.let { if (TextUtils.isEmpty(it)) false else File(it).exists() } ?: false
+//    returnurn
+}
+
+fun getBitmapFromStorage(filePath: String?): Bitmap? {
+    return BitmapFactory.decodeFile(filePath)
+}
+
+fun Context.getFilePrivately()=this.createTempFile("jpg")

@@ -5,19 +5,21 @@ import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.view.Window
+import android.widget.TextView
 import co.yap.R
-import kotlinx.android.synthetic.main.dialog_add_topup_card.*
+import co.yap.widgets.CoreButton
 
 class AddTopUpCardDialog(context: Context) : Dialog(context) {
     private var onProceedListener: OnProceedListener? = null
 
 
     private fun setListeners() {
-        btnLater.setOnClickListener {
+
+        findViewById<TextView>(R.id.btnLater).setOnClickListener {
             onProceedListener?.onProceed(it.id)
             dismiss()
         }
-        done.setOnClickListener {
+        findViewById<CoreButton>(R.id.done).setOnClickListener {
             onProceedListener?.onProceed(it.id)
             dismiss()
         }

@@ -9,5 +9,6 @@ open class CoreBottomSheetData(
     var content: String? = "",
     var subTitle: String? = "",
     var isSelected: Boolean? = false,
-    var subContent : String? = ""
+    var subContent : String? = "",
+    var key : String? = "None"
 ) : Parcelable

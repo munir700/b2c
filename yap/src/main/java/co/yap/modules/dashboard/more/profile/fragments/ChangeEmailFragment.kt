@@ -43,9 +43,9 @@ open class ChangeEmailFragment : MoreBaseFragment<FragmentChangeEmailBinding , I
 
         viewModel.changeEmailSuccessEvent.observe(this, Observer {
             SessionManager.user?.currentCustomer?.email = viewModel.state.newEmail
-            SharedPreferenceManager.getInstance(requireContext()).saveUserNameWithEncryption(
-                viewModel.state.newEmail
-            )
+//            SharedPreferenceManager.getInstance(requireContext()).saveUserNameWithEncryption(
+//                viewModel.state.newEmail
+//            )
             val action =
                 ChangeEmailFragmentDirections.actionChangeEmailFragmentToChangeEmailSuccessFragment()
             findNavController().navigate(action)

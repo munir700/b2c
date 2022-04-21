@@ -146,8 +146,8 @@ object NotificationHelper {
                 )
             )
         }
-        if (accountInfo?.getUserAccessRestrictions(paymentCard)
-                ?.contains(UserAccessRestriction.EID_EXPIRED) == true || !accountInfo?.EIDExpiryMessage.isNullOrBlank()
+        if ((accountInfo?.getUserAccessRestrictions(paymentCard)
+                ?.contains(UserAccessRestriction.EID_EXPIRED) == true || !accountInfo?.EIDExpiryMessage.isNullOrBlank()) && accountInfo?.partnerBankStatus == PartnerBankStatus.ACTIVATED.status
         ) {
             list.add(
                 HomeNotification(
