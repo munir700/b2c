@@ -2,17 +2,29 @@ package co.yap.modules.dashboard.yapit.addmoney.easybanktransfer.accountlist
 
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.widget.AppCompatTextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.RecyclerView
 import co.yap.BR
 import co.yap.R
 import co.yap.databinding.FragmentEasyBankTransferAccountListBinding
+import co.yap.modules.dashboard.yapit.addmoney.easybanktransfer.banklist.BankListFragment
 import co.yap.modules.dashboard.yapit.addmoney.easybanktransfer.topup.topupamount.TopupAmountFragment
 import co.yap.modules.dashboard.yapit.addmoney.main.AddMoneyBaseFragment
 import co.yap.modules.others.helper.Constants
 import co.yap.networking.leanteach.responsedtos.accountlistmodel.LeanCustomerAccounts
 import co.yap.networking.leanteach.responsedtos.banklistmodels.BankListMainModel
+import co.yap.translation.Strings
+import co.yap.widgets.MultiStateView
+import co.yap.widgets.State
+import co.yap.widgets.Status
+import co.yap.widgets.loading.CircularProgressBar
 import co.yap.yapcore.helpers.extentions.startFragment
+import co.yap.yapcore.helpers.extentions.toast
+import co.yap.yapcore.helpers.spannables.color
+import co.yap.yapcore.helpers.spannables.getText
 
 class AccountListFragment :
     AddMoneyBaseFragment<FragmentEasyBankTransferAccountListBinding, IAccountList.ViewModel>(),
@@ -25,26 +37,65 @@ class AccountListFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewDataBinding.lifecycleOwner = this
         viewModel.getAccountList()
         setObserver()
+        setTextWithFormat()
     }
 
     override fun setObserver() {
+        accountListObserver()
+        stateDataObserver()
+        onBoardObserver()
+        clickObserver()
+    }
+
+    private fun accountListObserver() {
         viewModel.accountList.observe(viewLifecycleOwner) {
-            viewDataBinding.rvAccountList.adapter = AccountListAdapter(it, clickListener)
+            (viewDataBinding.multiStateView.getView(
+                MultiStateView.ViewState.CONTENT
+            ) as ConstraintLayout).findViewById<RecyclerView>(R.id.rvAccountList).adapter =
+                AccountListAdapter(it, object : AccountChildItemViewModel.OnItemClickListenerChild {
+                    override fun onItemClick(
+                        view: View,
+                        data: Any,
+                        bankListMainModel: BankListMainModel?,
+                        pos: Int
+                    ) {
+                        bankListMainModel?.let { bankModel ->
+                            if (bankModel.status == Constants.ACTIVE_STATUS) {
+                                startNewScreen(data as LeanCustomerAccounts)
+                            }
+                        }
+                    }
+                })
         }
     }
 
-    private val clickListener = object : AccountChildItemViewModel.OnItemClickListenerChild {
-        override fun onItemClick(
-            view: View,
-            data: Any,
-            bankListMainModel: BankListMainModel?,
-            pos: Int
-        ) {
-            bankListMainModel?.let { bankModel ->
-                if (bankModel.status == Constants.ACTIVE_STATUS) {
-                    startNewScreen(data as LeanCustomerAccounts)
+    private fun stateDataObserver() {
+        viewModel.state.stateLiveData?.observe(viewLifecycleOwner) {
+            handleState(it)
+        }
+    }
+
+    private fun onBoardObserver() {
+        viewModel.leanOnBoardModel.observe(viewLifecycleOwner) {
+            if (it.customerId.isNullOrEmpty().not()) {
+                toast("Customer Created successfully")
+                startFragment(
+                    fragmentName = BankListFragment::class.java.name, bundle = bundleOf(
+                        co.yap.yapcore.constants.Constants.ONBOARD_USER_LEAN to viewModel.leanOnBoardModel.value
+                    )
+                )
+            }
+        }
+    }
+
+    private fun clickObserver() {
+        viewModel.clickEvent.observe(viewLifecycleOwner) {
+            when (it) {
+                R.id.btnLinkAccount -> {
+                    viewModel.onboardUser()
                 }
             }
         }
@@ -70,5 +121,38 @@ class AccountListFragment :
                 )
             }
         }
+    }
+
+    private fun handleState(state: State?) {
+        viewDataBinding.multiStateView.viewState = when (state?.status) {
+            Status.LOADING -> MultiStateView.ViewState.LOADING
+            Status.EMPTY -> MultiStateView.ViewState.EMPTY
+            Status.SUCCESS -> MultiStateView.ViewState.CONTENT
+            Status.ERROR -> MultiStateView.ViewState.ERROR
+            else -> throw IllegalStateException("State is not handled " + state?.status)
+        }
+        (viewDataBinding.multiStateView.getView(
+            MultiStateView.ViewState.LOADING
+        ) as CircularProgressBar).indeterminateMode = true
+    }
+
+    private fun setTextWithFormat() {
+        val mainLayout: ConstraintLayout =
+            (viewDataBinding.multiStateView.getView(MultiStateView.ViewState.EMPTY) as ConstraintLayout)
+        context?.getColor(R.color.colorPrimaryDark)?.let {
+            (mainLayout.getViewById(R.id.tvWelcomeText) as AppCompatTextView).setTextColor(it)
+        }
+        (mainLayout.getViewById(R.id.tvDescText) as AppCompatTextView).text =
+            context?.resources?.getText(
+                getString(Strings.screen_lean_welcome_screen_connect_one_of_your_existing_bank),
+                color(
+                    R.color.colorPrimaryDark,
+                    "instantly"
+                ),
+                color(
+                    R.color.colorPrimaryDark,
+                    "zero fees!"
+                )
+            )
     }
 }

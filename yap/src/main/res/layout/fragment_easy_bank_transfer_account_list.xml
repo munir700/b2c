@@ -11,6 +11,10 @@
 
         <import type="co.yap.translation.Strings" />
 
+        <import type="co.yap.widgets.Status" />
+
+        <import type="android.view.View" />
+
         <import type="co.yap.yapcore.R" />
 
     </data>
@@ -34,44 +38,24 @@
             app:tint="@color/colorPrimaryDark"
             app:titleTranslator="@{Strings.screen_lean_welcome_screen_title}" />
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvSelectBank"
-            style="@style/ATitle2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_medium_large"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toolbarAddAccount"
-            app:text="@{Strings.screen_lean_account_list_select_an_account}"
-            tools:text="@string/screen_lean_account_list_select_an_account" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvChooseBank"
-            style="@style/ARegularGrey"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_5sdp"
-            android:gravity="center"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvSelectBank"
-            app:text="@{Strings.screen_lean_account_list_choose_an_account}"
-            tools:text="@string/screen_lean_account_list_choose_an_account" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvAccountList"
+        <co.yap.widgets.MultiStateView
+            android:id="@+id/multiStateView"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginTop="@dimen/margin_extra_small"
-            android:paddingBottom="@dimen/margin_medium"
-            android:adapter="@{viewModel.accountListAdapter}"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:background="@color/white"
             app:layout_constraintBottom_toTopOf="@+id/btnLinkAccount"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvChooseBank"
-            tools:listitem="@layout/item_account_list_group" />
+            app:layout_constraintTop_toBottomOf="@id/toolbarAddAccount"
+            app:msv_emptyView="@layout/layout_easy_bank_transfer_welcome"
+            app:msv_loadingView="@layout/layout_loading_view_for_view_document"
+            app:msv_viewState="loading"
+            app:viewState="@{viewModel.state.stateLiveData}">
+
+           <include
+               layout="@layout/layout_easy_bank_transfer_account_list"/>
+
+        </co.yap.widgets.MultiStateView>
 
         <co.yap.widgets.CoreButton
             android:id="@+id/btnLinkAccount"
@@ -79,17 +63,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/margin_large"
-            app:btn_drawable="@drawable/ic_plus_white"
-            app:btn_drawable_padding_left="5.5"
-            app:btn_drawable_padding_top="2.5"
-            app:btn_drawable_position="left"
+            android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
+            android:visibility="@{viewModel.state.stateLiveData.status == Status.LOADING ? View.GONE : View.VISIBLE}"
             app:btn_size="large"
             app:enableCoreButton="@{true}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:text="@{Strings.screen_lean_account_list_link_new_account}"
-            tools:text="@string/screen_lean_account_list_link_new_account" />
-
+            app:text="@{viewModel.state.StateLiveData.status == Status.EMPTY? Strings.screen_lean_welcome_screen_link_an_account:Strings.screen_lean_account_list_link_new_account}"
+            tools:text="@string/screen_lean_welcome_screen_link_an_account" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

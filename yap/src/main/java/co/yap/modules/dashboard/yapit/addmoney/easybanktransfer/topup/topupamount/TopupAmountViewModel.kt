@@ -53,7 +53,7 @@ class TopupAmountViewModel(application: Application) :
     }
 
     override fun getPaymentIntentId() {
-        var model = GetPaymentIntentIdModel(20, "AED", customerId)
+        var model = GetPaymentIntentIdModel(20.00, "AED", customerId)
         launch {
             when (val response = leanTechRepository.getPaymentIntentId(model)) {
                 is RetroApiResponse.Success -> {
