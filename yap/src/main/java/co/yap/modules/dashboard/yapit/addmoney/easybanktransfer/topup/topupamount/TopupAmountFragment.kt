@@ -62,6 +62,17 @@ class TopupAmountFragment :
             //deal with topUpAmount
         }
         viewModel.paymentIntentId.observe(viewLifecycleOwner) {
+            if (it.isNullOrEmpty().not())
+                LeanSdkManager.lean?.pay(
+                    requireActivity(),
+                    it,
+                    true,
+                    viewModel.leanCustomerAccounts.accountId,
+                    object : Lean.LeanListener {
+                        override fun onResponse(status: Lean.LeanStatus) {
+                            val value = status.status
+                        }
+                    })
 
         }
     }
