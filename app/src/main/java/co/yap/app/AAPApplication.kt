@@ -35,10 +35,10 @@ import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.leanplum.Leanplum
 import com.leanplum.LeanplumActivityHelper
+import com.uxcam.UXCam
 import com.yap.ghana.configs.GhanaBuildConfigurations
 import com.yap.yappakistan.configs.PKBuildConfigurations
 import dagger.hilt.android.HiltAndroidApp
-import com.uxcam.UXCam
 import timber.log.Timber
 import java.util.*
 import javax.inject.Inject
@@ -98,7 +98,8 @@ class AAPApplication : YAPApplication(), NavigatorProvider {
             spayServiceId = originalSign.spayServiceId,
             flagSmithAPIKey = originalSign.flagSmithAPIKey,
             uxCamKey = originalSign.uxCamKey,
-            checkoutKey = originalSign.checkoutKey
+            checkoutKey = originalSign.checkoutKey,
+            leanOpenBanking = originalSign.leanOpenBanking
         )
         initAllModules()
         SecurityHelper(this, originalSign, object : SignatureValidator {
@@ -259,7 +260,7 @@ class AAPApplication : YAPApplication(), NavigatorProvider {
     }
 
     private fun initUxCam(configManager: BuildConfigManager?) {
-        if(!BuildConfig.DEBUG){
+        if (!BuildConfig.DEBUG) {
             UXCam.startWithKey(configManager?.uxCamKey)
         }
     }
