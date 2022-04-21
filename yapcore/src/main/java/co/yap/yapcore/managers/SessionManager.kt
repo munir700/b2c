@@ -139,6 +139,25 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
         }
     }
 
+    //TODO Will place this call according to need
+    fun getSystemConfigurationInfo(context: Context) {
+        GlobalScope.launch {
+            when (val response = customerRepository.getSystemConfigurations()) {
+                is RetroApiResponse.Success -> {
+                    response.data.data.let { list ->
+                        SharedPreferenceManager.getInstance(context)
+                            .setSystemConfigurationInfo(list)
+                    }
+
+                }
+
+                is RetroApiResponse.Error -> {
+                    Log.d("", response?.error?.message)
+                }
+            }
+        }
+    }
+
     fun setupDataSetForBlockedFeatures(card: Card?) {
         user?.getUserAccessRestrictions(card = card) {
             val featuresList = arrayListOf<FeatureSet>()
@@ -319,6 +338,8 @@ fun Context.saveUserDetails(mobile: String?, countryCode: String?, isRemember: B
         .save(Constants.KEY_MOBILE_NO, mobile ?: "")
     SharedPreferenceManager.getInstance(this)
         .save(Constants.KEY_COUNTRY_CODE, countryCode ?: "")
+//TODO will Change this accordingly, now trying to test from here
+    SessionManager.getSystemConfigurationInfo(this)
 }
 
 fun Context?.isUserLogin() = this?.let {

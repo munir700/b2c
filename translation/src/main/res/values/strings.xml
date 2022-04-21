@@ -1707,4 +1707,8 @@
     <string name="screen_view_document_file_size_not_fine">Your file size is too big. Please upload a file less than 25MB to proceed</string>
 
     <string name="country_encoded_base64">W3sKImlzb0NvdW50cnlDb2RlM0RpZ2l0IjoiUEFLIiwKImlzb0NvdW50cnlDb2RlMkRpZ2l0IjoiUEsiLAoibmFtZSI6IiAgIFBha2lzdGFuIn0sCnsKImlzb0NvdW50cnlDb2RlM0RpZ2l0IjoiQVJFIiwKImlzb0NvdW50cnlDb2RlMkRpZ2l0IjoiQUUiLAoibmFtZSI6IlVuaXRlZCBBcmFiIEVtaXJhdGVzIn0sCnsKImlzb0NvdW50cnlDb2RlM0RpZ2l0IjoiR0hBIiwKImlzb0NvdW50cnlDb2RlMkRpZ2l0IjoiR0giLAoibmFtZSI6IkdoYW5hIn0KXQ==</string>
+
+    <!-- EID expiry not accept -->
+    <string name="expiry_dialogue_title_oops">Oops!</string>
+    <string name="expiry_dialogue_message"> Looks like your Emirates ID is about to expire. Please renew and re-scan your ID in order to continue.</string>
 </resources>

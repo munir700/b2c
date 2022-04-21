@@ -560,4 +560,11 @@ object DateUtils {
         }
     }
 
+    fun expectedExpiryDateNotValid(maxAllowExpiryDate: Date, expiryDate: Date): Boolean {
+        val maxAllowExpiryDateCalendar = Calendar.getInstance()
+        maxAllowExpiryDateCalendar.time = maxAllowExpiryDate
+        val expiryDateCalendar = Calendar.getInstance()
+        expiryDateCalendar.time = expiryDate
+        return maxAllowExpiryDateCalendar[Calendar.DATE] >= expiryDateCalendar[Calendar.DATE]
+    }
 }

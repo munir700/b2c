@@ -4,7 +4,9 @@ import android.content.Context
 import android.content.SharedPreferences
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKeys
+import co.yap.networking.customers.responsedtos.SystemConfigurationInfo
 import co.yap.yapcore.adjust.ReferralInfo
+import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.Constants.KEY_MOBILE_NO
 import co.yap.yapcore.constants.Constants.KEY_PASSCODE
 import co.yap.yapcore.constants.Constants.KEY_THEME
@@ -143,4 +145,25 @@ class SharedPreferenceManager private constructor(val context: Context) {
         )
     }
 
+    fun setSystemConfigurationInfo(data: List<SystemConfigurationInfo>) {
+        save(
+            Constants.SYSTEM_CONFIGURATION,
+            Gson().toJson(data)
+        )
+    }
+
+    fun getSystemConfigurationInfo(key: String): SystemConfigurationInfo? {
+        val listSystemConfigurationInfo = getValueString(Constants.SYSTEM_CONFIGURATION)?.let {
+            if (it.isBlank()) {
+                return null
+            } else {
+                Gson().fromJson(
+                    it,
+                    Array<SystemConfigurationInfo>::class.java
+                ).toList()
+            }
+        }
+        listSystemConfigurationInfo?.first { it.key?.equals(key) == true }?.let { return it }
+        return null
+    }
 }
