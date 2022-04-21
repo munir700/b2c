@@ -1,6 +1,6 @@
 package co.yap.modules.onboarding.interfaces
 
-import androidx.lifecycle.MutableLiveData
+import androidx.databinding.ObservableBoolean
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 
@@ -14,10 +14,6 @@ interface IKfsNotification {
     }
 
     interface State : IBase.State {
-        var allNotificationAccepted: MutableLiveData<Boolean>
-        var smsNotificationAccepted: MutableLiveData<Boolean>
-        var inappNotificationAccepted: MutableLiveData<Boolean>
-        var emailNotificationAccepted: MutableLiveData<Boolean>
-        var noNotificationAccepted: MutableLiveData<Boolean>
+        var valid: ObservableBoolean
     }
 }

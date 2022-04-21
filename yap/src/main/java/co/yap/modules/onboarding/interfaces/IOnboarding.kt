@@ -23,5 +23,10 @@ interface IOnboarding {
         var totalProgress: Int
         var currentProgress: Int
         var emailError: Boolean
+        var allNotificationAccepted: MutableLiveData<Boolean>
+        var smsNotificationAccepted: MutableLiveData<Boolean>
+        var inappNotificationAccepted: MutableLiveData<Boolean>
+        var emailNotificationAccepted: MutableLiveData<Boolean>
+        var noNotificationAccepted: MutableLiveData<Boolean>
     }
 }

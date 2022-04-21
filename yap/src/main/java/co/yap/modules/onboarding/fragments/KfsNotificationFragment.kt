@@ -10,6 +10,8 @@ import co.yap.R
 import co.yap.databinding.FragmentKfsNotifcationBinding
 import co.yap.modules.onboarding.interfaces.IKfsNotification
 import co.yap.modules.onboarding.viewmodels.KfsNotificationViewModel
+import co.yap.translation.Strings
+import co.yap.yapcore.helpers.customAlertDialog
 
 class KfsNotificationFragment :
     OnboardingChildFragment<FragmentKfsNotifcationBinding, IKfsNotification.ViewModel>(),
@@ -23,11 +25,7 @@ class KfsNotificationFragment :
     }
 
     private fun addObservers() {
-        viewModel.clickEvent.observe(viewLifecycleOwner, Observer {
-            when(id){
-                R.id.next_button-> navigate(R.id.action_kfsNotificationFragment_to_congratulationsFragment)
-            }
-        })
+        viewModel.clickEvent.observe(viewLifecycleOwner, clickListenerHandler)
         getViewBinding().rb2.setOnCheckedChangeListener(this)
         getViewBinding().rb1.setOnCheckedChangeListener(this)
         getViewBinding().cb1.setOnCheckedChangeListener(this)
@@ -39,19 +37,19 @@ class KfsNotificationFragment :
     override fun onCheckedChanged(buttonView: CompoundButton, isChecked: Boolean) {
         when (buttonView.id) {
             R.id.cb3 -> {
-                viewModel.state.inappNotificationAccepted.value = isChecked
+                viewModel.parentViewModel?.state?.inappNotificationAccepted?.value = isChecked
                 enableAllNotifications(false)
             }
             R.id.cb2 -> {
-                viewModel.state.emailNotificationAccepted.value = isChecked
+                viewModel.parentViewModel?.state?.emailNotificationAccepted?.value = isChecked
                 enableAllNotifications(false)
             }
             R.id.cb1 -> {
-                viewModel.state.smsNotificationAccepted.value = isChecked
+                viewModel.parentViewModel?.state?.smsNotificationAccepted?.value = isChecked
                 enableAllNotifications(false)
             }
             R.id.rb1 -> {
-                viewModel.state.allNotificationAccepted.value = isChecked
+                viewModel.parentViewModel?.state?.allNotificationAccepted?.value = isChecked
                 enableAllNotifications(isChecked)
             }
             R.id.rb2 -> {
@@ -59,21 +57,39 @@ class KfsNotificationFragment :
                 enableAllNotifications(false)
             }
         }
+        viewModel.state.valid.set(viewModel.isAnyNotificationSelected() || viewModel.parentViewModel?.state?.noNotificationAccepted?.value == true)
     }
 
     private fun enableAllNotifications(isEnabled: Boolean = true) {
-        with(viewModel.state) {
-            if (isEnabled) viewModel.enableAllAppNotifications()
-            getViewBinding().rb1.isChecked =
-                if (isEnabled) isEnabled else viewModel.getAllAppNotificationSettings()
-            getViewBinding().cb1.isChecked =
-                if (isEnabled) isEnabled else smsNotificationAccepted.value ?: false
-            getViewBinding().cb2.isChecked =
-                if (isEnabled) isEnabled else emailNotificationAccepted.value ?: false
-            getViewBinding().cb3.isChecked =
-                if (isEnabled) isEnabled else inappNotificationAccepted.value ?: false
-            getViewBinding().rb2.isChecked =
-                if (isEnabled) isEnabled.not() else noNotificationAccepted.value?:false && viewModel.isAnyNotificationSelected().not()
+        viewModel.parentViewModel?.state?.let { parentState ->
+            with(parentState) {
+                if (isEnabled) viewModel.enableAllAppNotifications()
+                getViewBinding().rb1.isChecked =
+                    if (isEnabled) isEnabled else viewModel.getAllAppNotificationSettings()
+                getViewBinding().cb1.isChecked =
+                    if (isEnabled) isEnabled else smsNotificationAccepted.value ?: false
+                getViewBinding().cb2.isChecked =
+                    if (isEnabled) isEnabled else emailNotificationAccepted.value ?: false
+                getViewBinding().cb3.isChecked =
+                    if (isEnabled) isEnabled else inappNotificationAccepted.value ?: false
+                getViewBinding().rb2.isChecked =
+                    if (isEnabled) isEnabled.not() else noNotificationAccepted.value ?: false && viewModel.isAnyNotificationSelected()
+                        .not()
+            }
         }
+    }
+
+    private val clickListenerHandler = Observer<Int> { id ->
+        if (viewModel.parentViewModel?.state?.noNotificationAccepted?.value == true) showAlertDialog()
+        else navigate(R.id.action_kfsNotificationFragment_to_congratulationsFragment)
+    }
+
+    fun showAlertDialog() {
+        requireContext().customAlertDialog(
+            title = "You’ll miss out",
+            message = "Are you sure you want to miss out on all the latest offers & promotions? You can always change your preferences later in the app.",
+            positiveButton = getString(Strings.common_text_ok),
+            positiveCallback = { navigateBack() },
+        )
     }
 }
