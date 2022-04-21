@@ -15,7 +15,6 @@ class NotificationSettingsViewModel(application: Application) :
         NotificationSettingsState()
     override val repository: NotificationsApi = NotificationsRepository
 
-
     override fun getNotificationSettings(onComplete: (Boolean) -> Unit) {
         launch {
             state.loading = true
@@ -24,6 +23,7 @@ class NotificationSettingsViewModel(application: Application) :
                     state.emailNotificationsAllowed = response.data.data?.emailEnabled
                     state.inAppNotificationsAllowed = response.data.data?.inAppEnabled
                     state.smsNotificationsAllowed = response.data.data?.smsEnabled
+                    state.pushNotificationsAllowed = response.data.data?.pushNotificationEnabled
                     state.loading = false
                     delay(100)
                     onComplete.invoke(true)
@@ -42,9 +42,10 @@ class NotificationSettingsViewModel(application: Application) :
             state.loading = true
             when (val response = repository.saveNotificationSettings(
                 NotificationSettings(
-                    state.emailNotificationsAllowed,
-                    state.inAppNotificationsAllowed,
-                    state.smsNotificationsAllowed
+                    emailEnabled = state.emailNotificationsAllowed,
+                    inAppEnabled = state.inAppNotificationsAllowed,
+                    smsEnabled = state.smsNotificationsAllowed,
+                    optIn = state.allNotificationsAllowed
                 )
             )) {
                 is RetroApiResponse.Success -> {

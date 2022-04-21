@@ -127,7 +127,6 @@
     <!-- Phone Number Screen -->
     <string name="screen_phone_number_display_text_title">What\'s your mobile number?</string>
     <string name="screen_phone_number_display_text_error">You\’ve entered an invalid phone number. Please, try again.</string>
-    <string name="screen_phone_number_button_send">Next</string>
 
     <!-- Phone number verification screen -->
     <string name="screen_verify_phone_number_display_text_title">Verify your mobile number</string>
@@ -180,6 +179,7 @@
     <string name="screen_onboarding_confirm_card_name_display_name_length_text">We can only print 26 characters on the card, so if you have a long name, we suggest you use initials where possible.</string>
     <string name="screen_onboarding_confirm_card_name_edit_full_name_text">I’d like to edit my name</string>
     <string name="screen_onboarding_confirm_card_name_btn_name_fine_text">This is fine!</string>
+    <string name="screen_onboarding_confirm_card_name_kfs_text">By continuing, you approve YAP to issue and deliver your YAP Debit Card.</string>
 
     <!-- System permission screen -->
     <string name="screen_system_permission_text_title">Use Touch ID to log in to your account?</string>
@@ -286,30 +286,8 @@
 
     <string name="screen_b2c_passport_number_text">Passport number</string>
 
-
-    <!--    <string name="screen_b2c_eid_info_review_display_text_error_from_usa">Looks like you\'re from United States</string>-->
-    <!--    <string name="screen_b2c_eid_info_review_button_not_from_usa">No, I\'m not from USA</string>-->
-
     <!-- KYC SDK -->
-    <string name="idenetity_scanner_sdk_screen_scanner_display_text_step_1">Step 1 of 2</string>
-    <string name="idenetity_scanner_sdk_screen_scanner_display_text_step_2">Step 2 of 2</string>
-    <string name="idenetity_scanner_sdk_screen_scanner_display_text_front_side">Scan the front of your Emirates ID</string>
-    <string name="idenetity_scanner_sdk_screen_scanner_display_text_back_side">Now scan the back</string>
-    <string name="idenetity_scanner_sdk_screen_scanner_button_scan">Scan</string>
-    <string name="idenetity_scanner_sdk_screen_scanner_display_text_glare">A glare is detected on your document please try moving your document for best results</string>
-    <string name="idenetity_scanner_sdk_screen_review_info_button_rescan">Rescan</string>
-    <string name="idenetity_scanner_sdk_screen_review_info_button_next">Next</string>
     <string name="idenetity_scanner_sdk_screen_review_info_button_done">Done</string>
-    <string name="idenetity_scanner_sdk_screen_review_info_display_text_review">Please review your scanned document and make sure it is readable</string>
-    <string name="idenetity_scanner_sdk_screen_review_info_display_text_error_emirates_id_front">Document you scanned does not appear to be front side of Emirates ID. Please rescan</string>
-    <string name="idenetity_scanner_sdk_screen_review_info_display_text_error_emirates_id_back">Document you scanned does not appear to be back side of Emirates ID. Please rescan</string>
-    <string name="idenetity_scanner_sdk_screen_review_info_display_text_error_not_readable">Your scanned document is not properly readable. Please rescan</string>
-    <string name="idenetity_scanner_sdk_screen_review_info_display_text_error_face">Face is not clearly visible in your scanned document. Please rescan</string>
-    <string name="idenetity_scanner_sdk_screen_review_info_display_text_error_invalid_document">Document you scanned does not appear to be a valid document. Please rescan</string>
-    <string name="idenetity_scanner_sdk_screen_review_info_display_text_error_detecting_document">Could not detect document. Please focus and try again.</string>
-    <string name="idenetity_scanner_sdk_screen_review_info_display_text_error_saving_file">There is an error saving the image. Please try again</string>
-    <string name="idenetity_scanner_sdk_screen_review_info_display_text_error_saving_cropped_file">There is an error in saving cropped image. Please try again</string>
-    <string name="idenetity_scanner_sdk_screen_review_info_display_text_capture_process_complete">Capturing Complete</string>
 
     <!-- Set card PIN Welcome screen -->
     <string name="screen_set_card_pin_welcome_display_text_title">Now create a unique PIN to start using this card</string>
@@ -1171,7 +1149,10 @@
 
     <!--    Notification settings screen-->
     <string name="screen_notification_settings_display_text_toolbar_title">Notification settings</string>
+    <string name="screen_notification_settings_display_text_promotion_title">Offers and promotions</string>
+    <string name="screen_notification_settings_display_text_promotion_subtitle">Switch on/off the type notification you want to receive</string>
     <string name="screen_notification_settings_display_text_in_app_notifications">In-app notifications</string>
+    <string name="screen_notification_settings_display_text_all_notifications">All</string>
     <string name="screen_notification_settings_display_text_sms_notifications">SMS notifications</string>
     <string name="screen_notification_settings_display_text_email_notifications">Email notifications</string>
 
@@ -1731,4 +1712,13 @@
 
     <string name="screen_view_document_file_size_not_fine">Your file size is too big. Please upload a file less than 25MB to proceed</string>
 
+    <string name="country_encoded_base64">W3sKImlzb0NvdW50cnlDb2RlM0RpZ2l0IjoiUEFLIiwKImlzb0NvdW50cnlDb2RlMkRpZ2l0IjoiUEsiLAoibmFtZSI6IiAgIFBha2lzdGFuIn0sCnsKImlzb0NvdW50cnlDb2RlM0RpZ2l0IjoiQVJFIiwKImlzb0NvdW50cnlDb2RlMkRpZ2l0IjoiQUUiLAoibmFtZSI6IlVuaXRlZCBBcmFiIEVtaXJhdGVzIn0sCnsKImlzb0NvdW50cnlDb2RlM0RpZ2l0IjoiR0hBIiwKImlzb0NvdW50cnlDb2RlMkRpZ2l0IjoiR0giLAoibmFtZSI6IkdoYW5hIn0KXQ==</string>
+
+    <string name="screen_kfs_notification_nothanks_label">No thanks, I don\’t mind missing out on the amazing offers from YAP.</string>
+    <string name="screen_kfs_notification_inapp_notification">In App Notifications</string>
+    <string name="screen_kfs_notification_email_notification">Email Notifications</string>
+    <string name="screen_kfs_notification_sms_notification">SMS Notifications</string>
+    <string name="screen_kfs_notification_title">Get the latest</string>
+    <string name="screen_kfs_notification_descrip">We’d love to send you exclusive offers and promotions from YAP. We’ll always treat your personal details with the utmost care.</string>
+    <string name="screen_kfs_notification_accept_all_notification_label">Yes please, I\’d like to hear from YAP on the following channels:</string>
 </resources>

@@ -15,7 +15,6 @@ import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.helpers.ExtraKeys
 import co.yap.yapcore.helpers.confirm
 import co.yap.yapcore.helpers.extentions.shareImage
-import kotlinx.android.synthetic.main.activity_image_previewer.*
 
 class ImageViewerActivity : BaseBindingActivity<ActivityImagePreviewerBinding,IImageViewer.ViewModel>(), IImageViewer.View {
 
@@ -30,7 +29,7 @@ class ImageViewerActivity : BaseBindingActivity<ActivityImagePreviewerBinding,II
         super.onCreate(savedInstanceState)
         viewModel.clickEvent.observe(this, clickEvent)
         setDataArguments(intent)
-        viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+        viewDataBinding.viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 viewModel.receiptId =
                     viewModel.imagesViewerAdapter.getDataForPosition(position).receiptId
@@ -51,8 +50,8 @@ class ImageViewerActivity : BaseBindingActivity<ActivityImagePreviewerBinding,II
                 viewModel.imagesViewerAdapter.getDataList().indexOf(selectedReceipt)
 
             viewModel.state.imageReceiptTitle?.set("receipt ${currentImagePos.plus(1)}")
-            viewPager.currentItem = currentImagePos
-            viewPager.setCurrentItem(currentImagePos,false)
+            viewDataBinding.viewPager.currentItem = currentImagePos
+            viewDataBinding.viewPager.setCurrentItem(currentImagePos,false)
             viewModel.receiptId = selectedReceipt?.receiptId?:""
         } else {
             finish()
@@ -63,7 +62,7 @@ class ImageViewerActivity : BaseBindingActivity<ActivityImagePreviewerBinding,II
         when (it) {
             R.id.ivActionShare -> {
                 shareImage(
-                    viewPager,
+                    viewDataBinding.viewPager,
                     imageName = shareReceiptImageName,
                     chooserTitle = shareReceiptTitle
                 )
@@ -86,7 +85,7 @@ class ImageViewerActivity : BaseBindingActivity<ActivityImagePreviewerBinding,II
                 if (viewModel.imagesViewerAdapter.itemCount == 1) {
                     setResult()
                 } else {
-                    viewModel.imagesViewerAdapter.removeItemAt(viewPager.currentItem)
+                    viewModel.imagesViewerAdapter.removeItemAt(viewDataBinding.viewPager.currentItem)
                 }
             }
         }

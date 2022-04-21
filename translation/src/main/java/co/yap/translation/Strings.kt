@@ -142,7 +142,6 @@ object Strings {
         "screen_phone_number_display_text_title"
     const val screen_phone_number_display_text_error: String =
         "screen_phone_number_display_text_error"
-    const val screen_phone_number_button_send: String = "screen_phone_number_button_send"
 
     //Phone number verification screen
     const val screen_verify_phone_number_display_text_sub_title: String =
@@ -232,6 +231,8 @@ object Strings {
         "screen_onboarding_confirm_card_name_edit_full_name_text"
     const val screen_onboarding_confirm_card_name_btn_name_fine_text: String =
         "screen_onboarding_confirm_card_name_btn_name_fine_text"
+    const val screen_onboarding_confirm_card_name_kfs_text: String =
+        "screen_onboarding_confirm_card_name_kfs_text"
 
     //System permission screen
     const val screen_system_permission_text_title: String = "screen_system_permission_text_title"
@@ -410,54 +411,9 @@ object Strings {
         "screen_b2c_eid_info_review_display_text_select_gender"
 
     // KYC SDK
-    const val idenetity_scanner_sdk_screen_scanner_display_text_step_1: String =
-        "idenetity_scanner_sdk_screen_scanner_display_text_step_1"
-    const val idenetity_scanner_sdk_screen_scanner_display_text_step_2: String =
-        "idenetity_scanner_sdk_screen_scanner_display_text_step_2"
-    const val idenetity_scanner_sdk_screen_scanner_display_text_front_side: String =
-        "idenetity_scanner_sdk_screen_scanner_display_text_front_side"
-    const val idenetity_scanner_sdk_screen_scanner_display_text_back_side: String =
-        "idenetity_scanner_sdk_screen_scanner_display_text_back_side"
-    const val idenetity_scanner_sdk_screen_scanner_button_scan: String =
-        "idenetity_scanner_sdk_screen_scanner_button_scan"
-    const val idenetity_scanner_sdk_screen_scanner_display_text_glare: String =
-        "idenetity_scanner_sdk_screen_scanner_display_text_glare"
-    const val idenetity_scanner_sdk_screen_review_info_button_rescan: String =
-        "idenetity_scanner_sdk_screen_review_info_button_rescan"
-    const val idenetity_scanner_sdk_screen_review_info_button_next: String =
-        "idenetity_scanner_sdk_screen_review_info_button_next"
+
     const val idenetity_scanner_sdk_screen_review_info_button_done: String =
         "idenetity_scanner_sdk_screen_review_info_button_done"
-    const val idenetity_scanner_sdk_screen_review_info_display_text_review: String =
-        "idenetity_scanner_sdk_screen_review_info_display_text_review"
-    const val idenetity_scanner_sdk_screen_review_info_display_text_error_emirates_id_front: String =
-        "idenetity_scanner_sdk_screen_review_info_display_text_error_emirates_id_front"
-    const val idenetity_scanner_sdk_screen_review_info_display_text_error_emirates_id_back: String =
-        "idenetity_scanner_sdk_screen_review_info_display_text_error_emirates_id_back"
-    const val idenetity_scanner_sdk_screen_review_info_display_text_error_not_readable: String =
-        "idenetity_scanner_sdk_screen_review_info_display_text_error_not_readable"
-    const val idenetity_scanner_sdk_screen_review_info_display_text_error_face: String =
-        "idenetity_scanner_sdk_screen_review_info_display_text_error_face"
-    const val idenetity_scanner_sdk_screen_review_info_display_text_error_invalid_document: String =
-        "idenetity_scanner_sdk_screen_review_info_display_text_error_invalid_document"
-    const val idenetity_scanner_sdk_screen_review_info_display_text_error_detecting_document: String =
-        "idenetity_scanner_sdk_screen_review_info_display_text_error_detecting_document"
-    const val idenetity_scanner_sdk_screen_review_info_display_text_error_saving_file: String =
-        "idenetity_scanner_sdk_screen_review_info_display_text_error_saving_file"
-    const val idenetity_scanner_sdk_screen_review_info_display_text_error_saving_cropped_file: String =
-        "idenetity_scanner_sdk_screen_review_info_display_text_error_saving_cropped_file"
-    const val idenetity_scanner_sdk_screen_review_info_display_text_capture_process_complete: String =
-        "idenetity_scanner_sdk_screen_review_info_display_text_capture_process_complete"
-    const val identity_scanner_sdk_screen_scanner_glare_error: String =
-        "identity_scanner_sdk_screen_scanner_glare_error"
-    const val identity_scanner_sdk_screen_scanner_nationality_name_detection_error: String =
-        "identity_scanner_sdk_screen_scanner_nationality_name_detection_error"
-    const val identity_scanner_sdk_screen_scanner_mrz_error: String =
-        "identity_scanner_sdk_screen_scanner_mrz_error"
-    const val identity_scanner_sdk_screen_scanner_object_detection_error: String =
-        "identity_scanner_sdk_screen_scanner_object_detection_error"
-    const val identity_scanner_sdk_screen_scanner_overlay_instruction_title: String =
-        "identity_scanner_sdk_screen_scanner_overlay_instruction_title"
 
     //Set card PIN welcome screen
     const val screen_set_card_pin_welcome_display_text_title: String =
@@ -1865,6 +1821,12 @@ object Strings {
     //    Notification settings screen
     const val screen_notification_settings_display_text_toolbar_title: String =
         "screen_notification_settings_display_text_toolbar_title"
+    const val screen_notification_settings_display_text_promotion_title: String =
+        "screen_notification_settings_display_text_promotion_title"
+    const val screen_notification_settings_display_text_promotion_subtitle: String =
+        "screen_notification_settings_display_text_promotion_subtitle"
+    const val screen_notification_settings_display_text_all_notifications: String =
+        "screen_notification_settings_display_text_all_notifications"
     const val screen_notification_settings_display_text_in_app_notifications: String =
         "screen_notification_settings_display_text_in_app_notifications"
     const val screen_notification_settings_display_text_sms_notifications: String =
@@ -2661,13 +2623,17 @@ object Strings {
     const val screen_missing_info_review_required = "screen_missing_info_review_required"
 
     // KYC Amendments/ Missing Info Confirmation Screen
-    const val screen_missing_info_confirmation_button_done = "screen_missing_info_confirmation_button_done"
-    const val screen_missing_info_confirmation_display_all_set = "screen_missing_info_confirmation_display_all_set"
+    const val screen_missing_info_confirmation_button_done =
+        "screen_missing_info_confirmation_button_done"
+    const val screen_missing_info_confirmation_display_all_set =
+        "screen_missing_info_confirmation_display_all_set"
 
     const val screen_view_document_refresh_button_text = "screen_view_document_refresh_button_text"
     const val screen_view_document_file_size_not_fine = "screen_view_document_file_size_not_fine"
-    const val screen_view_document_otp_message_first_part = "screen_view_document_otp_message_first_part"
-    const val screen_view_document_otp_message_second_part = "screen_view_document_otp_message_second_part"
+    const val screen_view_document_otp_message_first_part =
+        "screen_view_document_otp_message_first_part"
+    const val screen_view_document_otp_message_second_part =
+        "screen_view_document_otp_message_second_part"
 
 //    Upload document dialogue
 
@@ -2679,4 +2645,20 @@ object Strings {
         "screen_upload_document_display_text_alert_got_it"
     const val screen_upload_document_item_subtitle: String =
         "screen_upload_document_item_subtitle"
+
+    //KFS notification Screen
+    const val screen_kfs_notification_nothanks_label: String =
+        "screen_kfs_notification_nothanks_label"
+    const val screen_kfs_notification_inapp_notification: String =
+        "screen_kfs_notification_inapp_notification"
+    const val screen_kfs_notification_email_notification: String =
+        "screen_kfs_notification_email_notification"
+    const val screen_kfs_notification_sms_notification: String =
+        "screen_kfs_notification_sms_notification"
+    const val screen_kfs_notification_accept_all_notification_label: String =
+        "screen_kfs_notification_accept_all_notification_label"
+    const val screen_kfs_notification_descrip: String =
+        "screen_kfs_notification_descrip"
+    const val screen_kfs_notification_title: String =
+        "screen_kfs_notification_title"
 }

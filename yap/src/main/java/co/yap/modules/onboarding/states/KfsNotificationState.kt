@@ -1,0 +1,9 @@
+package co.yap.modules.onboarding.states
+
+import androidx.databinding.ObservableBoolean
+import co.yap.modules.onboarding.interfaces.IKfsNotification
+import co.yap.yapcore.BaseState
+
+class KfsNotificationState : BaseState(), IKfsNotification.State {
+    override var valid: ObservableBoolean = ObservableBoolean(false)
+}

@@ -13,4 +13,12 @@ abstract class OnboardingChildViewModel<S : IBase.State>(application: Applicatio
     fun setProgress(percent: Int) {
         parentViewModel?.state?.currentProgress = percent
     }
+
+    fun isAnyNotificationSelected(): Boolean = parentViewModel?.state?.let { it ->
+        with(it) {
+            inappNotificationAccepted.value == true
+                    || smsNotificationAccepted.value == true
+                    || emailNotificationAccepted.value == true
+        }
+    } == true
 }

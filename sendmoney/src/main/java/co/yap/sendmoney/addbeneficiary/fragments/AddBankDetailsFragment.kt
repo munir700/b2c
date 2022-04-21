@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import co.yap.networking.customers.requestdtos.OtherBankQuery
@@ -18,7 +19,6 @@ import co.yap.sendmoney.fragments.SendMoneyBaseFragment
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 import co.yap.yapcore.interfaces.OnItemClickListener
-import kotlinx.android.synthetic.main.fragment_add_bank_detail.*
 
 class AddBankDetailsFragment : SendMoneyBaseFragment<FragmentAddBankDetailBinding,IBankDetails.ViewModel>(),
     IBankDetails.View {
@@ -26,7 +26,7 @@ class AddBankDetailsFragment : SendMoneyBaseFragment<FragmentAddBankDetailBindin
     override fun getLayoutId(): Int = R.layout.fragment_add_bank_detail
 
     override val viewModel: BankDetailsViewModel
-        get() = ViewModelProviders.of(this).get(BankDetailsViewModel::class.java)
+        get() = ViewModelProvider(this).get(BankDetailsViewModel::class.java)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -34,12 +34,12 @@ class AddBankDetailsFragment : SendMoneyBaseFragment<FragmentAddBankDetailBindin
     }
 
     private fun addListener() {
-        viewModel.clickEvent.observe(this, observer)
-        viewModel.bankList.observe(this, Observer {
+        viewModel.clickEvent.observe(viewLifecycleOwner, observer)
+        viewModel.bankList.observe(viewLifecycleOwner, Observer {
             setupAdaptorBanks(it)
         })
-        recycler.adapter = viewModel.paramsAdaptor
-        recycler_banks.adapter = viewModel.adaptorBanks
+        viewDataBinding.recycler.adapter = viewModel.paramsAdaptor
+        viewDataBinding.recyclerBanks.adapter = viewModel.adaptorBanks
     }
 
     private fun setIntentResult() {
@@ -55,7 +55,7 @@ class AddBankDetailsFragment : SendMoneyBaseFragment<FragmentAddBankDetailBindin
     private fun setupAdaptorBanks(list: MutableList<Bank>) {
         viewModel.state.txtCount.set(if (list.isEmpty()) "" else "Select your bank (${list.size} bank found)")
         viewModel.adaptorBanks.setItemListener(listener)
-        recycler_banks.adapter = viewModel.adaptorBanks
+        viewDataBinding.recyclerBanks.adapter = viewModel.adaptorBanks
     }
 
     val listener = object : OnItemClickListener {

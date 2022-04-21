@@ -2,6 +2,7 @@ package co.yap.yapcore.adjust
 
 import androidx.annotation.Keep
 import co.yap.app.YAPApplication
+import co.yap.yapcore.leanplum.KYCEvents
 
 @Keep
 enum class AdjustEvents(val type: String) {
@@ -19,6 +20,24 @@ enum class AdjustEvents(val type: String) {
     TOP_UP_START(YAPApplication.configManager?.getAdjustEvent(AdjustEvent.TOP_UP_START) ?: ""),
     INVITER(YAPApplication.configManager?.getAdjustEvent(AdjustEvent.INVITER) ?: "");
 }
+
+sealed class AdjustSealed{
+    object KycStart:AdjustSealed()
+}
+fun AdjustSealed.KycStart.log(){
+    when(YAPApplication.configManager?.flavor){
+        ""->""
+        ""->""
+        ""->""
+    }
+}
+
+class Ab{
+    fun abc(){
+        AdjustSealed.KycStart.log()
+    }
+}
+
 
 @Keep
 enum class AdjustEvent {

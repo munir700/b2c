@@ -5,10 +5,6 @@
     android:id="@+id/main_nav_graph"
     app:startDestination="@id/splashFragment">
 
-    <action
-        android:id="@+id/action_goto_yapDashboardActivity"
-        app:destination="@id/yapDashboardActivity" />
-
     <fragment
         android:id="@+id/splashFragment"
         android:name="co.yap.app.modules.startup.fragments.SplashFragment"
@@ -130,9 +126,7 @@
         <action
             android:id="@+id/action_systemPermissionFragment_to_systemPermissionFragmentNotification"
             app:destination="@id/systemPermissionFragment" />
-        <action
-            android:id="@+id/action_systemPermissionFragment_to_yapDashboardActivity"
-            app:destination="@id/yapDashboardActivity" />
+
     </fragment>
 
     <fragment
@@ -158,12 +152,6 @@
     </fragment>
 
     <include app:graph="@navigation/forgot_passcode_navigation" />
-
-    <activity
-        android:id="@+id/yapDashboardActivity"
-        android:name="co.yap.modules.dashboard.main.activities.YapDashboardActivity"
-        android:label="YapDashboardActivity"
-        tools:layout="@layout/activity_yap_dashboard" />
 
     <activity
         android:id="@+id/householdOnboard"
