@@ -160,11 +160,11 @@ class AccountListFragment :
         (mainLayout.getViewById(R.id.tvDescText) as AppCompatTextView).text =
             context?.resources?.getText(
                 getString(Strings.screen_lean_welcome_screen_connect_one_of_your_existing_bank),
-                color(
+                context?.color(
                     R.color.colorPrimaryDark,
                     "instantly"
                 ),
-                color(
+                context?.color(
                     R.color.colorPrimaryDark,
                     "zero fees!"
                 )
