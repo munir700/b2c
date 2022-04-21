@@ -303,12 +303,13 @@
     <string name="screen_confirm_card_pin_display_text_title">Enter that one more time to confirm</string>
     <string name="screen_confirm_onboarding_create_passcode_display_title_terms_and_conditions">By creating a passcode you agree to our</string>
     <string name="screen_confirm_card_pin_display_title_terms_and_conditions">By creating a PIN you agree to our</string>
-    <string name="screen_confirm_card_pin_display_text_terms_and_conditions">terms &amp; conditions</string>
+    <string name="screen_confirm_card_pin_display_text_terms_and_conditions">Terms &amp; conditions</string>
+    <string name="screen_confirm_card_pin_display_text_key_fact_statement">Key Fact Statement</string>
     <string name="screen_confirm_card_pin_button_create_pin">Set PIN</string>
     <string name="screen_confirm_card_pin_display_text_error_sequence">PIN cannot be a straight sequence</string>
     <string name="screen_confirm_card_pin_display_text_error_same_digits">PIN cannot be of same digits</string>
     <string name="screen_confirm_card_pin_display_text_error_pins_not_same">This doesn\'t match the previously entered PIN</string>
-    <string name="screen_confirm_card_pin_terms_condition_note">By creating a PIN you agree to our \n<b> %1s </b> </string>
+    <string name="screen_confirm_card_pin_terms_condition_note">I have read and agree to the YAP %s and %s</string>
 
     <!-- Set card PIN success screen -->
     <string name="screen_set_card_pin_success_display_text_title">You’re all set!\nTime to top up</string>
@@ -555,6 +556,7 @@
     <string name="screen_profile_settings_display_text_app_notifications">App notifications</string>
     <string name="screen_profile_settings_display_text_about_us">About us</string>
     <string name="screen_profile_settings_display_terms_and_conditions">Terms and conditions</string>
+    <string name="screen_profile_settings_display_key_fact_statement">Key Fact Statement</string>
     <string name="screen_profile_settings_display_fees_and_pricing_plans">Fees &amp; pricing plans</string>
     <string name="screen_profile_settings_display_text_instagram">Instagram</string>
     <string name="screen_profile_settings_display_text_twitter">Twitter</string>

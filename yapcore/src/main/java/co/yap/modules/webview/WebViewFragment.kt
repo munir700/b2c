@@ -8,10 +8,7 @@ import android.os.Bundle
 import android.view.KeyEvent
 import android.view.MotionEvent
 import android.view.View
-import android.webkit.WebChromeClient
-import android.webkit.WebResourceRequest
-import android.webkit.WebView
-import android.webkit.WebViewClient
+import android.webkit.*
 import android.widget.ProgressBar
 import androidx.lifecycle.ViewModelProvider
 import co.yap.translation.Strings
@@ -25,7 +22,6 @@ import co.yap.yapcore.databinding.FragmentWebviewBinding
 import co.yap.yapcore.helpers.extentions.makeCall
 import co.yap.yapcore.helpers.extentions.sendEmail
 import co.yap.yapcore.helpers.permissions.PermissionHelper
-
 
 class WebViewFragment : BaseBindingFragment<FragmentWebviewBinding, IWebViewFragment.ViewModel>(),
     IWebViewFragment.View,
@@ -70,7 +66,6 @@ class WebViewFragment : BaseBindingFragment<FragmentWebviewBinding, IWebViewFrag
     }
 
     private fun initAdvanceWebView() {
-
         viewDataBinding.webView.setListener(activity, this)
         viewDataBinding.webView.setGeolocationEnabled(false)
         viewDataBinding.webView.setMixedContentAllowed(true)
@@ -79,10 +74,17 @@ class WebViewFragment : BaseBindingFragment<FragmentWebviewBinding, IWebViewFrag
         viewDataBinding.webView.setOnKeyListener(this)
         viewDataBinding.webView.webViewClient = object : WebViewClient() {
             override fun onPageFinished(view: WebView, url: String) {
+                if (view.title.equals(""))
+                    view.reload()
                 viewDataBinding.progressBar.visibility = ProgressBar.GONE
             }
         }
         viewDataBinding.webView.webChromeClient = object : WebChromeClient() {
+            override fun onProgressChanged(view: WebView?, newProgress: Int) {
+                super.onProgressChanged(view, newProgress)
+                updateProgress(newProgress)
+
+            }
 
             override fun onReceivedTitle(view: WebView, title: String) {
                 super.onReceivedTitle(view, title)
@@ -94,6 +96,12 @@ class WebViewFragment : BaseBindingFragment<FragmentWebviewBinding, IWebViewFrag
         viewDataBinding.webView.loadUrl(pageUrl ?: "")
     }
 
+    private fun updateProgress(newProgress: Int) {
+        with(viewDataBinding.progressBar) {
+            progress = newProgress
+            visibility = if (newProgress < 100) ProgressBar.VISIBLE else ProgressBar.GONE
+        }
+    }
 
     override fun onPageStarted(url: String?, favicon: Bitmap?) {
         viewDataBinding.progressBar.visibility = ProgressBar.VISIBLE
@@ -122,17 +130,16 @@ class WebViewFragment : BaseBindingFragment<FragmentWebviewBinding, IWebViewFrag
     }
 
     override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean {
-        if (request?.url.toString().startsWith("tel:")) {
-            requireContext().makeCall(request?.url.toString().replaceFirst("tel:", ""))
+        if (request?.url.toString().startsWith("mailto")) {
+            requireContext().sendEmail(
+                email = request?.url.toString().replaceFirst("mailto:", "")
+            )
             return true
         } else {
-            if (request?.url.toString().startsWith("mailto")) {
-                requireContext().sendEmail(
-                    email = request?.url.toString().replaceFirst("mailto:", "")
-                )
+            if (request?.url.toString().startsWith("tel:")) {
+                requireContext().makeCall(request?.url.toString().replaceFirst("tel:", ""))
                 return true
             }
-
         }
         return false
     }

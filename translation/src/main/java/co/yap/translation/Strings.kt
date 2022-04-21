@@ -440,6 +440,8 @@ object Strings {
         "screen_confirm_card_pin_display_title_terms_and_conditions"
     const val screen_confirm_card_pin_display_text_terms_and_conditions: String =
         "screen_confirm_card_pin_display_text_terms_and_conditions"
+    const val screen_confirm_card_pin_display_text_key_fact_statement: String =
+        "screen_confirm_card_pin_display_text_key_fact_statement"
     const val screen_confirm_card_pin_button_create_pin: String =
         "screen_confirm_card_pin_button_create_pin"
     const val screen_confirm_card_pin_display_text_error_sequence: String =
@@ -847,6 +849,8 @@ object Strings {
         "screen_profile_settings_display_text_about_us"
     const val screen_profile_settings_display_terms_and_conditions: String =
         "screen_profile_settings_display_terms_and_conditions"
+    const val screen_profile_settings_display_key_fact_statement: String =
+        "screen_profile_settings_display_key_fact_statement"
     const val screen_profile_settings_display_fees_and_pricing_plans: String =
         "screen_profile_settings_display_fees_and_pricing_plans"
     const val screen_profile_settings_display_text_instagram: String =
