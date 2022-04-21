@@ -25,16 +25,15 @@ import co.yap.modules.onboarding.interfaces.IEidInfoReview
 import co.yap.widgets.MultiStateView
 import co.yap.widgets.State
 import co.yap.widgets.Status
-import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.RequestCodes.REQUEST_UQUDO
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.firebase.FirebaseEvent
 import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.DateUtils.getAge
-import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.Utils.hideKeyboard
 import co.yap.yapcore.helpers.customAlertDialog
 import co.yap.yapcore.helpers.extentions.deleteTempFolder
+import co.yap.yapcore.helpers.extentions.parseToInt
 import co.yap.yapcore.helpers.showAlertDialogAndExitApp
 import co.yap.yapcore.managers.SessionManager
 import com.yap.core.extensions.finish
@@ -66,13 +65,8 @@ class EidInfoReviewFragment :
         viewModel.parentViewModel?.uqudoManager?.getPayloadData()?.let { identity ->
             viewModel.populateUqudoState(identity = identity)
         } ?: viewModel.requestAllAPIs(true)
-        context?.let {
-            SharedPreferenceManager.getInstance(it)
-                .getSystemConfigurationInfo(Constants.SYSTEM_CONFIGURATION_EID_EXPIRE_LIMIT_DAYS)
-                ?.let { item ->
-                    viewModel.state.eidExpireLimitDays.value = item.value?.toInt()
-                }
-        }
+        viewModel.state.eidExpireLimitDays.value =
+            SessionManager.systemConfiguration.value?.get("EID_EXPIRE_LIMIT_DAYS")?.value?.parseToInt()
     }
 
     private fun addObservers() {

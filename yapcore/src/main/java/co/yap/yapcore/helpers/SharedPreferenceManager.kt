@@ -10,7 +10,6 @@ import co.yap.yapcore.constants.Constants.KEY_PASSCODE
 import co.yap.yapcore.constants.Constants.KEY_THEME
 import co.yap.yapcore.constants.Constants.KEY_USERNAME
 import com.google.gson.Gson
-import java.lang.Exception
 
 /**
  * To improve the performanceSharedPreferenceManager  @constructor is private.
@@ -55,6 +54,7 @@ class SharedPreferenceManager private constructor(val context: Context) {
     fun getValueString(KEY_NAME: String): String? {
         return sharedPref.getString(KEY_NAME, null)
     }
+
     fun getValueString(KEY_NAME: String, defaultValue: String): String? {
         return sharedPref.getString(KEY_NAME, defaultValue)
     }
@@ -142,28 +142,4 @@ class SharedPreferenceManager private constructor(val context: Context) {
             if (referralInfo != null) Gson().toJson(referralInfo) else ""
         )
     }
-
-//    fun getSystemConfigurationInfo(key: String): HashMap<String, SystemConfigurationInfo>? {
-//        val listSystemConfigurationInfo = getValueString(Constants.SYSTEM_CONFIGURATION)
-//                Gson().fromJson(
-//                    it,
-//                    Array<SystemConfigurationInfo>::class.java
-//                ).toList()
-//        return if (listSystemConfigurationInfo.isNullOrBlank().not()) {
-//            try {
-//                val gson = Gson()
-//                val type =
-//                    object : TypeToken<java.util.ArrayList<SystemConfigurationInfo?>?>() {}.type
-//                var list = gson.fromJson<ArrayList<SystemConfigurationInfo>>(
-//                    listSystemConfigurationInfo,
-//                    type
-//                )
-//                list.map { it.key ?: "" to it }
-//
-//            } catch (e: Exception) {
-//                hashMapOf()
-//            }
-//        } else hashMapOf()
-
-//    }
 }
