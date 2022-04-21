@@ -20,20 +20,19 @@ class AccountListViewModel(application: Application) :
     override val state: IAccountList.State = AccountListState()
     override val leanOnBoardModel: MutableLiveData<LeanOnBoardModel> = MutableLiveData()
     override val clickEvent: SingleClickEvent = SingleClickEvent()
+    override var customerId: String? = ""
     override fun handlePressOnView(id: Int) {
         clickEvent.setValue(id)
     }
 
+    //will change them in parallel call
     override fun onboardUser() {
         launch {
-            state.loading = true
             when (val response = leanTechRepository.onBoardUser()) {
                 is RetroApiResponse.Success -> {
                     leanOnBoardModel.postValue(response.data.data)
-                    state.loading = false
                 }
                 is RetroApiResponse.Error -> {
-                    state.loading = false
                     toast(context, response.error.message)
                 }
             }
@@ -45,32 +44,36 @@ class AccountListViewModel(application: Application) :
             when (val response = leanTechRepository.accountList()) {
                 is RetroApiResponse.Success -> {
                     response.data.data?.let { list ->
-                        state.stateLiveData?.value = if (list.isNullOrEmpty()) {
-                            State.empty("")
+                        if (list.isNullOrEmpty()) {
+                            setStateValue(State.empty(""))
                         } else {
-                            State.success("")
-                        }
-                        val accountListTemp: MutableList<Any> = mutableListOf()
-                        list.sortBy { it.bank?.name }
-                        list.forEach { value ->
-                            with(value.bank) {
-                                this?.status = value.status
-                                this?.let { accountListTemp.add(it) }
-                            }
-                            with(value.leanCustomerAccounts) {
-                                sortBy { it.accountName }
-                                forEach { v ->
-                                    accountListTemp.add(v)
+                            setStateValue(State.success(""))
+                            val accountListTemp: MutableList<Any> = mutableListOf()
+                            list.sortBy { it.bank?.name }
+                            list.forEach { value ->
+                                with(value.bank) {
+                                    this?.status = value.status
+                                    this?.let { accountListTemp.add(it) }
+                                }
+                                with(value.leanCustomerAccounts) {
+                                    sortBy { it.accountName }
+                                    forEach { v ->
+                                        accountListTemp.add(v)
+                                    }
                                 }
                             }
+                            accountList.postValue(accountListTemp)
                         }
-                        accountList.postValue(accountListTemp)
-                    } ?: State.empty("")
+                    } ?: setStateValue(State.empty(""))
                 }
                 is RetroApiResponse.Error -> {
                     toast(context, response.error.message)
                 }
             }
         }
+    }
+
+    fun setStateValue(stateValue: State) {
+        state.stateLiveData?.value = stateValue
     }
 }
