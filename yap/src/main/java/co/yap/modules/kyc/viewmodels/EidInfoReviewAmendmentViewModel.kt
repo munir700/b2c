@@ -138,8 +138,12 @@ class EidInfoReviewAmendmentViewModel(application: Application) :
                     trackEvent(KYCEvents.KYC_PROHIBITED_CITIIZEN.type)
                     trackEventWithScreenName(FirebaseEvent.KYC_SANCTIONED)
                 }
-                identity.filePaths.isNullOrEmpty() -> state.eidImageDownloaded.value = false
-                parentViewModel?.document != null && state.citizenNumber.value?.replace("-","") ?: "" != parentViewModel?.document?.identityNo -> {
+                identity.filePaths.isNullOrEmpty() -> state.eidImageDownloaded.value =
+                    State.empty("Sorry, it seems that the data extracted is not correct. Please scan again")
+                parentViewModel?.document != null && state.citizenNumber.value?.replace(
+                    "-",
+                    ""
+                ) ?: "" != parentViewModel?.document?.identityNo -> {
                     state.toast =
                         "Your EID doesn't match with the current EID.^${AlertType.DIALOG.name}"
                 }
@@ -333,8 +337,9 @@ class EidInfoReviewAmendmentViewModel(application: Application) :
                 } else {
                     if (uqudoTokenResponse is RetroApiResponse.Error) {
                         eidStateLiveData.postValue(State.error("Sorry, that didn’t work. Please try again"))
-                    }else{
-                        if (senctionedCountryResponse is RetroApiResponse.Error) state.toast = senctionedCountryResponse.error.message
+                    } else {
+                        if (senctionedCountryResponse is RetroApiResponse.Error) state.toast =
+                            senctionedCountryResponse.error.message
                     }
                 }
             }
@@ -586,14 +591,16 @@ class EidInfoReviewAmendmentViewModel(application: Application) :
             }
         }
     }
-    private fun downloadImageInBackground() {
-        launch(Dispatcher.Background) {
-            parentViewModel?.uqudoManager?.downloadImage { downloaded ->
-                state.viewState.postValue(false)
-                if (downloaded)
+
+    fun downloadImageInBackground() {
+        launch {
+            state.eidImageDownloaded.value = State.loading(null)
+            parentViewModel?.uqudoManager?.downloadImage { downloaded, msg ->
+                if (downloaded) {
+                    state.eidImageDownloaded.value = State.success(null)
                     parentViewModel?.uqudoIdentity?.value =
                         parentViewModel?.uqudoManager?.getUqudoIdentity(isAmendment = true)
-                else state.eidImageDownloaded.value = false
+                } else state.eidImageDownloaded.value = State.error(msg)
             }
         }
     }

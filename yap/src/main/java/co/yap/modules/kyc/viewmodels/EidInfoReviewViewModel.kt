@@ -20,6 +20,10 @@ import co.yap.networking.models.BaseResponse
 import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
 import co.yap.widgets.State
+import co.yap.widgets.State.Companion.empty
+import co.yap.widgets.State.Companion.error
+import co.yap.widgets.State.Companion.loading
+import co.yap.widgets.State.Companion.success
 import co.yap.yapcore.Dispatcher
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
@@ -127,7 +131,7 @@ class EidInfoReviewViewModel(application: Application) :
                     state.toast =
                         "Your EID doesn't match with the current EID.^${AlertType.DIALOG.name}"
                 }
-                it.filePaths.isNullOrEmpty() -> state.eidImageDownloaded.value = false
+                it.filePaths.isNullOrEmpty() -> state.eidImageDownloaded.value = empty("Sorry, it seems that the data extracted is not correct. Please scan again")
                 else -> {
                     performUqudoUploadDocumentsRequest(false) {
                     }
@@ -308,8 +312,9 @@ class EidInfoReviewViewModel(application: Application) :
                     else -> {
                         if (uqudoTokenResponse is RetroApiResponse.Error) {
                             eidStateLiveData.postValue(State.error("Sorry, that didn’t work. Please try again"))
-                        }else{
-                            if (senctionedCountryResponse is RetroApiResponse.Error) state.toast = senctionedCountryResponse.error.message
+                        } else {
+                            if (senctionedCountryResponse is RetroApiResponse.Error) state.toast =
+                                senctionedCountryResponse.error.message
                         }
                     }
                 }
@@ -418,14 +423,15 @@ class EidInfoReviewViewModel(application: Application) :
         }
     }
 
-    private fun downloadImageInBackground() {
-        launch(Dispatcher.Background) {
-            parentViewModel?.uqudoManager?.downloadImage { downloaded ->
-                state.viewState.postValue(false)
-                if (downloaded)
+    fun downloadImageInBackground() {
+        launch {
+            state.eidImageDownloaded.value = loading(null)
+            parentViewModel?.uqudoManager?.downloadImage { downloaded, msg ->
+                if (downloaded) {
+                    state.eidImageDownloaded.value = success(null)
                     parentViewModel?.uqudoIdentity?.value =
                         parentViewModel?.uqudoManager?.getUqudoIdentity()
-                else state.eidImageDownloaded.value = false
+                } else state.eidImageDownloaded.value = error(msg)
             }
         }
     }

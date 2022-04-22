@@ -15,7 +15,7 @@ interface IUqudoManager {
     fun decodeEncodedUqudoToken(encodedToken: String, sucess: () -> Unit)
     fun getPayloadData(): EidData?
     fun getHeaderData(): UqudoHeader?
-    suspend fun downloadImage(success: (success: Boolean) -> Unit)
+    suspend fun downloadImage(success: (success: Boolean,String?) -> Unit)
     fun getFrontImagePath(): String?
     fun getBackImagePath(): String?
     fun getFormatDateFromUqudo(string: String?, flags: UqudoFlags): Date?
