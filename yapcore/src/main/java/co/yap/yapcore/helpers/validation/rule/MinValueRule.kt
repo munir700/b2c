@@ -22,8 +22,7 @@ class MinValueRule(
     showErrorMessage
 ) {
     override fun isValid(view: TextView?): Boolean {
-        return view?.visibility == View.GONE || view?.text.toString()
-            .parseToInt() > value?.parseToInt() ?: 0
+        return view?.visibility == View.GONE || view?.text.toString().replace(",","").parseToInt() > value?.parseToInt() ?: 0
     }
 
     override fun onValidationSucceeded(view: TextView?) {
