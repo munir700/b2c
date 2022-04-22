@@ -41,13 +41,12 @@ class TopupAmountViewModel(application: Application) :
         }
     }
 
-    override fun setAvailableBalance() {
-        //Hard coded currency used, to be replaced by the model currency fetched from api
+    override fun setAvailableBalance(balance: String) {
         state.availableBalance.value = context.resources.getText(
             getString(Strings.common_display_text_available_balance),
             context.color(
                 R.color.colorPrimaryDark,
-                "2000".toFormattedCurrency()
+                balance.toFormattedCurrency()
             )
         )
     }

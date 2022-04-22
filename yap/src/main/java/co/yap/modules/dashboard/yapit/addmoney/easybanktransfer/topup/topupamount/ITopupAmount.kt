@@ -18,7 +18,7 @@ interface ITopupAmount {
         var leanCustomerAccounts: LeanCustomerAccounts
         fun denominationAmountValidator(amount: String)
         fun handleClickEvent(id: Int)
-        fun setAvailableBalance()
+        fun setAvailableBalance(balance: String)
         fun getPaymentIntentId()
     }
 
