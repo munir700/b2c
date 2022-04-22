@@ -31,6 +31,7 @@ import co.yap.yapcore.firebase.FirebaseEvent
 import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.DateUtils.getAge
 import co.yap.yapcore.helpers.Utils.hideKeyboard
+import co.yap.yapcore.helpers.alert
 import co.yap.yapcore.helpers.extentions.deleteTempFolder
 import co.yap.yapcore.helpers.showAlertDialogAndExitApp
 import co.yap.yapcore.managers.SessionManager
@@ -85,14 +86,29 @@ class EidInfoReviewFragment :
                     )
                 }
             })
-            state.eidImageDownloaded.observe(viewLifecycleOwner, Observer { ableToDownload ->
-                if (ableToDownload.not()) invalidCitizenNumber(
-                    "Sorry, we are unable to download your Eid please rescan"
-                ) {
+            state.eidImageDownloaded.observe(viewLifecycleOwner, ::handleDownLoadState)
+        }
+    }
+
+    private fun handleDownLoadState(state: State?) {
+        when (state?.status) {
+            Status.LOADING -> viewModel.state.loading = true
+            Status.EMPTY -> {
+                viewModel.state.loading = false
+                requireContext().alert(message = "", cancelable = false) {
                     initializeUqudoScanner()
                 }
 
-            })
+            }
+            Status.ERROR -> {
+                viewModel.state.loading = false
+                requireContext().alert(message = "", cancelable = false) {
+                    viewModel.downloadImageInBackground()
+                }
+            }
+            else ->
+                viewModel.state.loading = false
+
         }
     }
 
@@ -194,7 +210,6 @@ class EidInfoReviewFragment :
             Status.SUCCESS -> {
                 getViewBinding().multiStateView.viewState = MultiStateView.ViewState.CONTENT
                 with(viewModel) {
-                    this.state.viewState.postValue(true)
                     parentViewModel?.uqudoManager?.getPayloadData()?.let { identity ->
                         populateUqudoState(identity = identity)
                     }

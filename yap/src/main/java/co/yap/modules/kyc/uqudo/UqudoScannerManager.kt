@@ -122,39 +122,27 @@ class UqudoScannerManager private constructor(val context: Context) : IUqudoMana
         return (timeInSec <= seconds)
     }
 
-    override suspend fun downloadImage(success: (success: Boolean) -> Unit) {
+    override suspend fun downloadImage(success: (success: Boolean, String?) -> Unit) {
         uqudoPayloadData.value?.let { payload ->
             imagePaths.clear()
             downloadImageWithGlide(
-                payload.documents[0].scan?.frontImageId ?: ""
+                payload.documents[0].scan?.frontImageId ?: "",
+                "${fetchDocumentFrontDate()?.identityNumber}Front", FRONT_IMAGE_RESOURCE_PATH
             )
-            { isFrontImageDownloaded, frontImage ->
+            { isFrontImageDownloaded, msg ->
                 if (isFrontImageDownloaded) {
-                    frontImage?.let {
-                        context.saveEidTemp(
-                            "${fetchDocumentFrontDate()?.identityNumber}Front",
-                            it
-                        )
-                    }
-                        ?.let { imagePaths[FRONT_IMAGE_RESOURCE_PATH] = it }
                     downloadImageWithGlide(
-                        payload.documents[0].scan?.backImageId ?: ""
-                    ) { isBackImageDownloaded, backImage ->
+                        payload.documents[0].scan?.backImageId ?: "",
+                        "${fetchDocumentFrontDate()?.identityNumber}Back", BACK_IMAGE_RESOURCE_PATH
+                    ) { isBackImageDownloaded, msg ->
                         if (isBackImageDownloaded) {
-                            backImage?.let {
-                                context.saveEidTemp(
-                                    "${fetchDocumentFrontDate()?.identityNumber}Back",
-                                    it
-                                )
-                            }
-                                ?.let { imagePaths[BACK_IMAGE_RESOURCE_PATH] = it }
-                            success.invoke(true)
+                            success.invoke(true, msg)
                         } else {
-                            success.invoke(false)
+                            success.invoke(false, msg)
                         }
                     }
                 } else {
-                    success.invoke(false)
+                    success.invoke(false, msg)
                 }
             }
         }
@@ -162,8 +150,8 @@ class UqudoScannerManager private constructor(val context: Context) : IUqudoMana
     }
 
     private fun downloadImageWithGlide(
-        imageId: String,
-        downloaded: (sucess: Boolean, bitmap: Bitmap?) -> Unit
+        imageId: String, fileName: String, key: Int,
+        downloaded: (Boolean, String?) -> Unit
     ) {
         val uqUrl = "${context.getString(R.string.uq_api_base_url)}$UQUDO_IMAGE_URL"
         val url = GlideUrl(
@@ -182,7 +170,10 @@ class UqudoScannerManager private constructor(val context: Context) : IUqudoMana
                     resource: Bitmap,
                     transition: Transition<in Bitmap>?
                 ) {
-                    downloaded.invoke(true, resource)
+                    context.saveEidTemp(fileName, resource)?.let {
+                        imagePaths[key] = fileName
+                    }
+                    downloaded.invoke(true, null)
                 }
 
                 override fun onLoadCleared(placeholder: Drawable?) {
@@ -190,7 +181,8 @@ class UqudoScannerManager private constructor(val context: Context) : IUqudoMana
 
                 override fun onLoadFailed(errorDrawable: Drawable?) {
                     super.onLoadFailed(errorDrawable)
-                    downloadImageWithGlide(imageId) { _, _ -> }
+                    downloaded.invoke(false, "Sorry, we are unable to download your EIDs please download again.")
+                    //  downloadImageWithGlide(imageId) { _, _ -> }
                 }
             })
     }
@@ -248,7 +240,7 @@ class UqudoScannerManager private constructor(val context: Context) : IUqudoMana
         }
     }
 
-    override fun noImageDownloaded(): Boolean = imagePaths.isEmpty() || imagePaths.isNullOrEmpty()
+    override fun noImageDownloaded(): Boolean = imagePaths.size == 2
 
     override fun resetData() {
         imagePaths.clear()
