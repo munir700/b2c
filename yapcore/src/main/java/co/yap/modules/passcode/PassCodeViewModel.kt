@@ -11,9 +11,9 @@ import co.yap.networking.messages.requestdtos.CreateForgotPasscodeOtpRequest
 import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
 import co.yap.yapcore.BaseViewModel
+import co.yap.yapcore.R
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
-import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.StringUtils
 import co.yap.yapcore.helpers.Utils
@@ -33,7 +33,13 @@ class PassCodeViewModel(application: Application) : BaseViewModel<IPassCode.Stat
 
 
     override fun handlePressView(id: Int) {
-        clickEvent.setValue(id)
+        when (id) {
+            R.id.cbTermsAndConditions -> {
+                state.isAgreed = !state.isAgreed
+                state.validate()
+            }
+            else -> clickEvent.setValue(id)
+        }
     }
 
     override fun validatePassCode(success: (isSuccess: Boolean) -> Unit) {
@@ -94,7 +100,8 @@ class PassCodeViewModel(application: Application) : BaseViewModel<IPassCode.Stat
                 )) {
                 is RetroApiResponse.Success -> {
                     state.loading = false
-                    SharedPreferenceManager.getInstance(context).savePassCodeWithEncryption(state.passCode)
+                    SharedPreferenceManager.getInstance(context)
+                        .savePassCodeWithEncryption(state.passCode)
                     success()
                 }
                 is RetroApiResponse.Error -> {

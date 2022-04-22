@@ -31,7 +31,7 @@
             android:paddingBottom="@dimen/margin_medium"
             tools:ignore="ContentDescription">
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvProfileCaption"
                 style="@style/ASmallGrey"
                 android:layout_width="wrap_content"
@@ -56,7 +56,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvPersonalDetailCaption"
                     style="@style/ASmall"
                     android:layout_width="wrap_content"
@@ -85,7 +85,7 @@
                         app:tint="@color/colorPrimaryDark" />
                 </FrameLayout>
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvPersonalDetailView"
                     style="@style/ASmall"
                     android:layout_width="0dp"
@@ -116,7 +116,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvEmploymentInformationCaption"
                     style="@style/ASmall"
                     android:layout_width="wrap_content"
@@ -125,7 +125,7 @@
                     android:text="@string/screen_profile_settings_display_text_employment_information"
                     app:text="@{Strings.screen_profile_settings_display_text_employment_information}" />
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvEmploymentInformationView"
                     style="@style/ASmall"
                     android:layout_width="0dp"
@@ -146,7 +146,7 @@
                 android:layout_marginTop="@dimen/margin_medium_large"
                 android:background="@color/divider" />
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvProfileSecurity"
                 style="@style/ASmallGrey"
                 android:layout_width="wrap_content"
@@ -173,7 +173,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     style="@style/ASmall"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -183,7 +183,7 @@
                     android:text="@string/screen_profile_settings_display_text_privacy"
                     app:text="@{Strings.screen_profile_settings_display_text_privacy}" />
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvPrivacyView"
                     style="@style/ASmall"
                     android:layout_width="wrap_content"
@@ -211,7 +211,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     style="@style/ASmall"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -221,7 +221,7 @@
                     android:text="@string/screen_profile_settings_display_text_passcode"
                     app:text="@{Strings.screen_profile_settings_display_text_passcode}" />
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvChangePasscode"
                     style="@style/ASmall"
                     android:layout_width="wrap_content"
@@ -250,7 +250,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     style="@style/ASmall"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -260,7 +260,7 @@
                     android:text="@string/screen_profile_settings_display_text_app_notifications"
                     app:text="@{Strings.screen_profile_settings_display_text_app_notifications}" />
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvNotificationsView"
                     style="@style/ASmall"
                     android:layout_width="wrap_content"
@@ -309,7 +309,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     style="@style/ASmall"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -340,7 +340,7 @@
                 android:background="@color/divider" />
 
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 style="@style/ASmallGrey"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -365,7 +365,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     style="@style/ASmall"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -375,8 +375,46 @@
                     android:text="@string/screen_profile_settings_display_terms_and_conditions"
                     app:text="@{Strings.screen_profile_settings_display_terms_and_conditions}" />
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvTermsAndConditionView"
+                    style="@style/ASmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="@{(v) -> viewModel.handlePressOnViewClick(v.id)}"
+                    android:text="@string/screen_profile_settings_display_text_view"
+                    android:textColor="?attr/colorPrimaryAttr"
+                    app:text="@{Strings.screen_profile_settings_display_text_view}" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llKeyFactStatement"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_normal"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_file"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/ASmall"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_normal"
+                    android:layout_marginEnd="@dimen/margin_normal"
+                    android:layout_weight=".7"
+                    android:text="@string/screen_profile_settings_display_key_fact_statement"
+                    app:text="@{Strings.screen_profile_settings_display_key_fact_statement}" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvKeyFactStatementView"
                     style="@style/ASmall"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -403,7 +441,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     style="@style/ASmall"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -413,7 +451,7 @@
                     android:text="@string/screen_profile_settings_display_fees_and_pricing_plans"
                     app:text="@{Strings.screen_profile_settings_display_fees_and_pricing_plans}" />
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvFeesAndPricingPlansView"
                     style="@style/ASmall"
                     android:layout_width="wrap_content"
@@ -441,7 +479,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     style="@style/ASmall"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -451,7 +489,7 @@
                     android:text="@string/screen_profile_settings_display_text_instagram"
                     app:text="@{Strings.screen_profile_settings_display_text_instagram}" />
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvFollowOnInstagram"
                     style="@style/ASmall"
                     android:layout_width="wrap_content"
@@ -479,7 +517,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     style="@style/ASmall"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -489,7 +527,7 @@
                     android:text="@string/screen_profile_settings_display_text_twitter"
                     app:text="@{Strings.screen_profile_settings_display_text_twitter}" />
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvFollowOnTwitter"
                     style="@style/ASmall"
                     android:layout_width="wrap_content"
@@ -517,7 +555,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     style="@style/ASmall"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -526,7 +564,7 @@
                     android:text="@string/screen_profile_settings_display_text_facebook"
                     app:text="@{Strings.screen_profile_settings_display_text_facebook}" />
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvLikeUsOnFaceBook"
                     style="@style/ASmall"
                     android:layout_width="wrap_content"
@@ -538,7 +576,7 @@
 
             </LinearLayout>
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvLogOut"
                 style="@style/Large"
                 android:layout_width="match_parent"
@@ -550,7 +588,7 @@
                 android:textColor="?attr/colorPrimaryAttr"
                 app:text="@{Strings.screen_profile_settings_display_text_logout}" />
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvBuildVersion"
                 style="@style/ASmallGrey"
                 android:layout_width="match_parent"
