@@ -453,14 +453,14 @@ class EidInfoReviewViewModel(application: Application) :
             ), state.eidExpireLimitDays.value ?: 0
         )
         if (maxAllowExpiryDate?.let {
-                DateUtils.expectedExpiryDateNotValid(
+                DateUtils.expectedExpiryDateValid(
                     it,
                     expiryDate
                 )
             } == true) {
-            state.expiryDateValid.value = false
-            return true
+            return false
         }
-        return false
+        state.expiryDateValid.value = false
+        return true
     }
 }

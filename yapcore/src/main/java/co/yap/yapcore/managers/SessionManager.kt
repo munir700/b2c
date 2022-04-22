@@ -156,10 +156,10 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
                             SYSTEM_CONFIGURATION,
                             Gson().toJson(listArray)
                         )
-                        systemConfiguration.value = convertSystemConfigurationInfoIntoMap(
+                        systemConfiguration.postValue(convertSystemConfigurationInfoIntoMap(
                             SharedPreferenceManager.getInstance(context)
                                 .getValueString(SYSTEM_CONFIGURATION)
-                        )
+                        ))
                     }
                 }
                 is RetroApiResponse.Error -> {
