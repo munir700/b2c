@@ -27,13 +27,17 @@ import co.yap.widgets.State
 import co.yap.widgets.Status
 import co.yap.yapcore.constants.RequestCodes.REQUEST_UQUDO
 import co.yap.yapcore.enums.AlertType
+import co.yap.yapcore.enums.SystemConfigurations
 import co.yap.yapcore.firebase.FirebaseEvent
 import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.DateUtils.getAge
 import co.yap.yapcore.helpers.Utils.hideKeyboard
+import co.yap.yapcore.helpers.customAlertDialog
 import co.yap.yapcore.helpers.extentions.deleteTempFolder
+import co.yap.yapcore.helpers.extentions.parseToInt
 import co.yap.yapcore.helpers.showAlertDialogAndExitApp
 import co.yap.yapcore.managers.SessionManager
+import com.yap.core.extensions.finish
 
 class EidInfoReviewFragment :
     KYCChildFragment<FragmentEidInfoReviewBinding, IEidInfoReview.ViewModel>(),
@@ -62,6 +66,8 @@ class EidInfoReviewFragment :
         viewModel.parentViewModel?.uqudoManager?.getPayloadData()?.let { identity ->
             viewModel.populateUqudoState(identity = identity)
         } ?: viewModel.requestAllAPIs(true)
+        viewModel.state.eidExpireLimitDays.value =
+            SessionManager.systemConfiguration.value?.get(SystemConfigurations.EID_EXPIRE_LIMIT_DAYS.key)?.value?.parseToInt()
     }
 
     private fun addObservers() {
@@ -78,7 +84,7 @@ class EidInfoReviewFragment :
                     }
                 })
 
-            state.AgeLimit?.observe(viewLifecycleOwner, Observer { limit ->
+            state.ageLimit?.observe(viewLifecycleOwner, Observer { limit ->
                 parentViewModel?.uqudoManager?.getDateOfBirth()?.let { dateOfBirth ->
                     state.isDateOfBirthValid.set(
                         getAge(dateOfBirth) >= limit
@@ -175,7 +181,7 @@ class EidInfoReviewFragment :
             eidStateLiveData.removeObservers(viewLifecycleOwner)
             parentViewModel?.uqudoManager?.getUqudoAccessToken()
                 ?.removeObservers(viewLifecycleOwner)
-            state.AgeLimit?.removeObservers(viewLifecycleOwner)
+            state.ageLimit?.removeObservers(viewLifecycleOwner)
         }
         super.onDestroyView()
     }
@@ -354,7 +360,22 @@ class EidInfoReviewFragment :
                 EidInfoEvents.EVENT_CITIZEN_NUMBER_ISSUE.eventId, EidInfoEvents.EVENT_EID_EXPIRY_DATE_ISSUE.eventId -> invalidCitizenNumber(
                     "Sorry, that didn’t work. Please try again", true
                 )
+                EidInfoEvents.EVENT_EID_ABOUT_TO_EXPIRY_DATE_ISSUE.eventId -> showAboutToExpireDialogue()
             }
+        }
+    }
+
+    private fun showAboutToExpireDialogue() {
+        context?.let { it ->
+            it.customAlertDialog(
+                title = getString(R.string.expiry_dialogue_title_oops),
+                message = getString(R.string.expiry_dialogue_message),
+                positiveButton = getString(R.string.common_text_ok),
+                cancelable = false,
+                positiveCallback = {
+                    finish()
+                }
+            )
         }
     }
 }

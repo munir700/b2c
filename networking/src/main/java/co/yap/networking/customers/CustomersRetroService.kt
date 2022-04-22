@@ -39,6 +39,10 @@ interface CustomersRetroService {
     @POST(CustomersRepository.URL_SIGN_UP)
     suspend fun signUp(@Body signUpRequest: SignUpRequest): Response<SignUpResponse>
 
+    //get System configuration settings
+    @GET(CustomersRepository.URL_SYSTEM_CONFIGURATION)
+    suspend fun getSystemConfigurations(): Response<BaseListResponse<SystemConfigurationInfo>>
+
     // In onboarding send verification email to verify uer
     @POST(CustomersRepository.URL_SEND_VERIFICATION_EMAIL)
     suspend fun sendVerificationEmail(@Body sendVerificationEmailRequest: SendVerificationEmailRequest): Response<OtpValidationResponse>

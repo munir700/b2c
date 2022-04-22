@@ -28,7 +28,6 @@ import co.yap.yapcore.enums.EIDStatus
 import co.yap.yapcore.firebase.FirebaseEvent
 import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.DateUtils
-import co.yap.yapcore.helpers.DateUtils.getAge
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.leanplum.KYCEvents
@@ -68,20 +67,13 @@ class EidInfoReviewViewModel(application: Application) :
                 TextUtils.isEmpty(it.fullName) || TextUtils.isEmpty(it.nationality) -> {
                     clickEvent.setValue(EidInfoEvents.EVENT_ERROR_INVALID_EID.eventId)
                 }
-                state.expiryDateValid.value?.not() == true -> {
-                    updateLabels(
-                        title = getString(Strings.screen_kyc_information_error_display_text_title_expired_card),
-                        body = getString(Strings.screen_kyc_information_error_display_text_explanation_expired_card)
-                    )
-                    clickEvent.setValue(EidInfoEvents.EVENT_ERROR_EXPIRED_EID.eventId)
-                }
                 !state.isDateOfBirthValid.get() -> {
                     updateLabels(
                         title = getString(Strings.screen_kyc_information_error_display_text_title_under_age).format(
-                            state.AgeLimit?.value ?: 18
+                            state.ageLimit?.value ?: 18
                         ),
                         body = getString(Strings.screen_kyc_information_error_display_text_explanation_under_age).format(
-                            state.AgeLimit?.value ?: 18
+                            state.ageLimit?.value ?: 18
                         )
                     )
                     clickEvent.setValue(EidInfoEvents.EVENT_ERROE_UNDERAGE.eventId)
@@ -120,7 +112,19 @@ class EidInfoReviewViewModel(application: Application) :
                     trackEvent(KYCEvents.KYC_PROHIBITED_CITIIZEN.type)
                     trackEventWithScreenName(FirebaseEvent.KYC_SANCTIONED)
                 }
-                parentViewModel?.document != null && it.identityNo?.replace("-","") != parentViewModel?.document?.identityNo -> {
+                state.expiryDateValid.value?.not() == true -> {
+                    updateLabels(
+                        title = getString(Strings.screen_kyc_information_error_display_text_title_expired_card),
+                        body = getString(Strings.screen_kyc_information_error_display_text_explanation_expired_card)
+                    )
+                    clickEvent.setValue(EidInfoEvents.EVENT_ERROR_EXPIRED_EID.eventId)
+                }
+                parentViewModel?.document != null
+                        && it.identityNo?.replace(
+                    "-",
+                    ""
+                ) != parentViewModel?.document?.identityNo
+                -> {
                     state.toast =
                         "Your EID doesn't match with the current EID.^${AlertType.DIALOG.name}"
                 }
@@ -277,7 +281,7 @@ class EidInfoReviewViewModel(application: Application) :
                         sectionedCountries = senctionedCountryResponse.data
                         configureEIDResponse.value = configurationEIDResponse.data.data
 //                        state.isDateOfBirthValid.set(getAge(identity.dateOfBirth) >= configureEIDResponse.value?.ageLimit ?: 18)
-                        state.AgeLimit?.value = configureEIDResponse.value?.ageLimit
+                        state.ageLimit?.value = configureEIDResponse.value?.ageLimit
                         val countryName =
                             configureEIDResponse.value?.country2DigitIsoCode?.let { str ->
                                 str.split(",").map { it -> it.trim() }.find {
@@ -354,7 +358,6 @@ class EidInfoReviewViewModel(application: Application) :
         }
     }
 
-
     override fun populateUqudoState(identity: EidData?) {
         identity?.let {
             val documentBack = it.documents[0].scan?.back
@@ -367,6 +370,9 @@ class EidInfoReviewViewModel(application: Application) :
             state.nationalityValid = state.nationality.isNotBlank() && !state.isCountryUS
             val expiryDate = parentViewModel?.uqudoManager?.getExpiryDate()
             val birthDate = parentViewModel?.uqudoManager?.getDateOfBirth()
+            if (expiryDate?.let { it1 -> needToShowExpiryDateDialogue(it1) } == true) {
+                clickEvent.setValue(EidInfoEvents.EVENT_EID_ABOUT_TO_EXPIRY_DATE_ISSUE.eventId)
+            }
             state.dateOfBirth =
                 DateUtils.reformatToLocalString(birthDate, DateUtils.DEFAULT_DATE_FORMAT)
             state.expiryDate.value =
@@ -395,9 +401,9 @@ class EidInfoReviewViewModel(application: Application) :
                 }
             }
             // If Age Limit available in case of Re-Scan, set Age validity again.
-            state.AgeLimit?.value?.let { limit ->
+            state.ageLimit?.value?.let { limit ->
                 state.isDateOfBirthValid.set(
-                    birthDate?.let { it1 -> getAge(it1) } ?: 18 >= limit
+                    birthDate?.let { it1 -> DateUtils.getAge(it1) } ?: 18 >= limit
                 )
             }
             val countryName = configureEIDResponse.value?.country2DigitIsoCode?.let { str ->
@@ -437,5 +443,24 @@ class EidInfoReviewViewModel(application: Application) :
                 .save(Constants.KYC_MIDDLE_NAME, parentState.middleName.get() ?: "")
             navigate.invoke()
         }
+    }
+
+    private fun needToShowExpiryDateDialogue(expiryDate: Date): Boolean {
+        var maxAllowExpiryDate = DateUtils.nextDay(
+            DateUtils.stringToDate(
+                DateUtils.getCurrentDateWithFormat(DateUtils.SERVER_DATE_FULL_FORMAT),
+                DateUtils.SERVER_DATE_FULL_FORMAT
+            ), state.eidExpireLimitDays.value ?: 0
+        )
+        if (maxAllowExpiryDate?.let {
+                DateUtils.expectedExpiryDateNotValid(
+                    it,
+                    expiryDate
+                )
+            } == true) {
+            state.expiryDateValid.value = false
+            return true
+        }
+        return false
     }
 }

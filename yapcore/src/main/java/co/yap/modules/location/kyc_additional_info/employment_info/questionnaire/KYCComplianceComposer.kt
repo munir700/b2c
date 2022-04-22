@@ -8,6 +8,8 @@ import co.yap.networking.customers.responsedtos.employment_amendment.EmploymentI
 import co.yap.yapcore.enums.EmploymentQuestionIdentifier
 import co.yap.yapcore.enums.EmploymentStatus
 import co.yap.yapcore.enums.EmploymentStatus.*
+import co.yap.yapcore.enums.SystemConfigurations
+import co.yap.yapcore.managers.SessionManager
 
 
 interface ComplianceQuestionsItemsComposer {
@@ -40,9 +42,16 @@ class KYCComplianceComposer :
                         questionTitle = "What is your total monthly income?",
                         placeholder = "Enter the amount",
                         questionType = QuestionType.EDIT_TEXT_FIELD_WITH_AMOUNT,
-                        answer = ObservableField(status?.monthlySalary ?: ""),
+                        answer = ObservableField(
+                            status?.monthlySalary ?: SessionManager.systemConfiguration.value?.get(
+                                SystemConfigurations.DEFAULT_SALARY.key
+                            )?.value
+                        ),
                         previousValue = ObservableField(status?.monthlySalary),
-                        tag = "MonthlySalary"
+                        tag = "MonthlySalary",
+                        minimumValue = SessionManager.systemConfiguration.value?.get(
+                            SystemConfigurations.MINIMUM_SALARY.key
+                        )?.value
                     ),
                     key = EmploymentQuestionIdentifier.SALARY_AMOUNT
                 ), QuestionUiFields(
@@ -50,9 +59,17 @@ class KYCComplianceComposer :
                         questionTitle = "How much cash do you plan to deposit or receive monthly in a cash deposit machine (ATM)? If you don’t deal with cash, then enter AED 0.00",
                         placeholder = "Enter the amount",
                         questionType = QuestionType.EDIT_TEXT_FIELD_WITH_AMOUNT,
-                        answer = ObservableField(status?.expectedMonthlyCredit ?: ""),
+                        answer = ObservableField(
+                            status?.expectedMonthlyCredit
+                                ?: SessionManager.systemConfiguration.value?.get(
+                                    SystemConfigurations.DEFAULT_CASH_DEPOSIT.key
+                                )?.value
+                        ),
                         previousValue = ObservableField(status?.expectedMonthlyCredit),
-                        tag = "CashDeposit"
+                        tag = "CashDeposit",
+                        minimumValue = SessionManager.systemConfiguration.value?.get(
+                            SystemConfigurations.MINIMUM_CASH_DEPOSIT.key
+                        )?.value
                     ),
                     key = EmploymentQuestionIdentifier.DEPOSIT_AMOUNT
                 )
@@ -74,8 +91,8 @@ class KYCComplianceComposer :
                         questionTitle = "Type of self-employment:",
                         placeholder = "Select Type",
                         questionType = QuestionType.DROP_DOWN_FIELD,
-                        answer =ObservableField(status?.typeOfSelfEmployment?:""),
-                        previousValue = ObservableField(status?.typeOfSelfEmployment?:""),
+                        answer = ObservableField(status?.typeOfSelfEmployment ?: ""),
+                        previousValue = ObservableField(status?.typeOfSelfEmployment ?: ""),
                         tag = "typeOfSelfEmployment"
                     ),
                     key = EmploymentQuestionIdentifier.SELF_EMPLOYMENT
@@ -105,9 +122,16 @@ class KYCComplianceComposer :
                         questionTitle = "What is your total monthly income?",
                         placeholder = "Enter the amount",
                         questionType = QuestionType.EDIT_TEXT_FIELD_WITH_AMOUNT,
-                        answer = ObservableField(status?.monthlySalary ?: ""),
+                        answer = ObservableField(
+                            status?.monthlySalary ?: SessionManager.systemConfiguration.value?.get(
+                                SystemConfigurations.DEFAULT_SALARY.key
+                            )?.value
+                        ),
                         previousValue = ObservableField(status?.monthlySalary),
-                        tag = "MonthlySalary"
+                        tag = "MonthlySalary",
+                        minimumValue = SessionManager.systemConfiguration.value?.get(
+                            SystemConfigurations.MINIMUM_SALARY.key
+                        )?.value
                     ),
                     key = EmploymentQuestionIdentifier.SALARY_AMOUNT
                 ), QuestionUiFields(
@@ -115,13 +139,20 @@ class KYCComplianceComposer :
                         questionTitle = "How much cash do you plan to deposit or receive monthly in a cash deposit machine (ATM)? If you don’t deal with cash, then enter AED 0.00",
                         placeholder = "Enter the amount",
                         questionType = QuestionType.EDIT_TEXT_FIELD_WITH_AMOUNT,
-                        answer = ObservableField(status?.expectedMonthlyCredit ?: ""),
+                        answer = ObservableField(
+                            status?.expectedMonthlyCredit
+                                ?: SessionManager.systemConfiguration.value?.get(
+                                    SystemConfigurations.DEFAULT_CASH_DEPOSIT.key
+                                )?.value
+                        ),
                         previousValue = ObservableField(status?.expectedMonthlyCredit),
-                        tag = "CashDeposit"
+                        tag = "CashDeposit",
+                        minimumValue = SessionManager.systemConfiguration.value?.get(
+                            SystemConfigurations.MINIMUM_CASH_DEPOSIT.key
+                        )?.value
                     ),
                     key = EmploymentQuestionIdentifier.DEPOSIT_AMOUNT
                 )
-
             )
             OTHER -> arrayListOf(
                 QuestionUiFields(
@@ -129,8 +160,8 @@ class KYCComplianceComposer :
                         questionTitle = "Which of the following statements describes you best?",
                         placeholder = "Select from list",
                         questionType = QuestionType.DROP_DOWN_FIELD,
-                        answer = ObservableField(status?.employmentTypeValue?:""),
-                        previousValue = ObservableField(status?.employmentTypeValue?:""),
+                        answer = ObservableField(status?.employmentTypeValue ?: ""),
+                        previousValue = ObservableField(status?.employmentTypeValue ?: ""),
                         tag = "EmploymentStatus"
                     ), key = EmploymentQuestionIdentifier.EMPLOYMENT_TYPE
                 ),
@@ -161,7 +192,8 @@ class KYCComplianceComposer :
                         questionType = QuestionType.EDIT_TEXT_FIELD_WITH_AMOUNT,
                         answer = ObservableField(status?.monthlySalary ?: "5000"),
                         previousValue = ObservableField(status?.monthlySalary),
-                        tag = "MonthlySalary"
+                        tag = "MonthlySalary",
+                        minimumValue = "0"
                     ),
                     key = EmploymentQuestionIdentifier.SALARY_AMOUNT
                 ), QuestionUiFields(
@@ -171,7 +203,8 @@ class KYCComplianceComposer :
                         questionType = QuestionType.EDIT_TEXT_FIELD_WITH_AMOUNT,
                         answer = ObservableField(status?.expectedMonthlyCredit ?: "4000"),
                         previousValue = ObservableField(status?.expectedMonthlyCredit),
-                        tag = "CashDeposit"
+                        tag = "CashDeposit",
+                        minimumValue = "0"
                     ), key = EmploymentQuestionIdentifier.DEPOSIT_AMOUNT
                 )
             )

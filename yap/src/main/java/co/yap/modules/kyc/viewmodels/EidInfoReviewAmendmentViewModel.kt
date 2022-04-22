@@ -86,13 +86,6 @@ class EidInfoReviewAmendmentViewModel(application: Application) :
                 TextUtils.isEmpty(getFullName()) || TextUtils.isEmpty(state.nationality.value?.getName()) -> {
                     clickEvent.setValue(EidInfoEvents.EVENT_ERROR_INVALID_EID.eventId)
                 }
-                state.expiryDateValid.value?.not() == true -> {
-                    updateLabels(
-                        title = getString(Strings.screen_kyc_information_error_display_text_title_expired_card),
-                        body = getString(Strings.screen_kyc_information_error_display_text_explanation_expired_card)
-                    )
-                    clickEvent.setValue(EidInfoEvents.EVENT_ERROR_EXPIRED_EID.eventId)
-                }
                 state.isDateOfBirthValid.get().not() -> {
                     updateLabels(
                         title = getString(Strings.screen_kyc_information_error_display_text_title_under_age).format(
@@ -137,6 +130,13 @@ class EidInfoReviewAmendmentViewModel(application: Application) :
                     clickEvent.setValue(EidInfoEvents.EVENT_ERROR_FROM_USA.eventId)
                     trackEvent(KYCEvents.KYC_PROHIBITED_CITIIZEN.type)
                     trackEventWithScreenName(FirebaseEvent.KYC_SANCTIONED)
+                }
+                state.expiryDateValid.value?.not() == true -> {
+                    updateLabels(
+                        title = getString(Strings.screen_kyc_information_error_display_text_title_expired_card),
+                        body = getString(Strings.screen_kyc_information_error_display_text_explanation_expired_card)
+                    )
+                    clickEvent.setValue(EidInfoEvents.EVENT_ERROR_EXPIRED_EID.eventId)
                 }
                 parentViewModel?.document != null && state.citizenNumber.value ?: "" != parentViewModel?.document?.identityNo -> {
                     state.toast =
@@ -447,6 +447,9 @@ class EidInfoReviewAmendmentViewModel(application: Application) :
                 state.nationality.value?.getName()?.isNotBlank() == true && !state.isCountryUS
             val EXD = parentViewModel?.uqudoManager?.getExpiryDate()
             val DOB = parentViewModel?.uqudoManager?.getDateOfBirth()
+            if (EXD?.let { it1 -> needToShowExpiryDateDialogue(it1) } == true) {
+                clickEvent.setValue(EidInfoEvents.EVENT_EID_ABOUT_TO_EXPIRY_DATE_ISSUE.eventId)
+            }
             state.dateOfBirth.value =
                 DateUtils.reformatToLocalString(DOB, DateUtils.DEFAULT_DATE_FORMAT)
             state.expiryDate =
@@ -599,5 +602,23 @@ class EidInfoReviewAmendmentViewModel(application: Application) :
 
             }
         }
+    }
+    private fun needToShowExpiryDateDialogue(expiryDate: Date): Boolean {
+        var maxAllowExpiryDate = DateUtils.nextDay(
+            DateUtils.stringToDate(
+                DateUtils.getCurrentDateWithFormat(DateUtils.SERVER_DATE_FULL_FORMAT),
+                DateUtils.SERVER_DATE_FULL_FORMAT
+            ), state.eidExpireLimitDays.value ?: 0
+        )
+        if (maxAllowExpiryDate?.let {
+                DateUtils.expectedExpiryDateNotValid(
+                    it,
+                    expiryDate
+                )
+            } == true) {
+            state.expiryDateValid.value = false
+            return true
+        }
+        return false
     }
 }
