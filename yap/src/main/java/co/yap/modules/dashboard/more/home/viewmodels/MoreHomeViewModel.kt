@@ -56,12 +56,12 @@ class MoreHomeViewModel(application: Application) :
         val list = mutableListOf<MoreOption>()
         list.add(
             MoreOption(
-                Constants.MORE_YAP_FOR_YOU,
-                Translator.getString(context, Strings.screen_yap_for_you_display_text_title),
-                R.drawable.yap_for_you,
-                ContextCompat.getColor(context, R.color.transparent),
+                Constants.MORE_INVITE_FRIEND,
+                Translator.getString(context, Strings.screen_more_invite_a_friend),
+                R.drawable.ic_invite,
+                ContextCompat.getColor(context, R.color.colorPrimaryAlt),
                 false,
-                Leanplum.getInbox().unreadCount()
+                0
             )
         )
         //colorSecondaryGreen
@@ -77,12 +77,12 @@ class MoreHomeViewModel(application: Application) :
         )
         list.add(
             MoreOption(
-                Constants.MORE_INVITE_FRIEND,
-                Translator.getString(context, Strings.screen_more_invite_a_friend),
-                R.drawable.ic_invite,
-                ContextCompat.getColor(context, R.color.colorPrimaryAlt),
+                Constants.MORE_YAP_FOR_YOU,
+                Translator.getString(context, Strings.screen_yap_for_you_display_text_title),
+                R.drawable.yap_for_you,
+                ContextCompat.getColor(context, R.color.transparent),
                 false,
-                0
+                Leanplum.getInbox().unreadCount()
             )
         )
         list.add(
