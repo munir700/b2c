@@ -53,7 +53,7 @@ class KfsNotificationFragment :
                 enableAllNotifications(isChecked)
             }
             R.id.rb2 -> {
-                viewModel.parentViewModel?.state?.noNotificationAccepted?.value= isChecked
+                viewModel.parentViewModel?.state?.noNotificationAccepted?.value = isChecked
                 if (isChecked) viewModel.revertAllAppNotifications()
                 enableAllNotifications(false)
             }
@@ -66,7 +66,7 @@ class KfsNotificationFragment :
             with(parentState) {
                 if (isEnabled) viewModel.enableAllAppNotifications()
                 getViewBinding().rb1.isChecked =
-                    if (isEnabled) isEnabled else viewModel.getAllAppNotificationSettings()
+                    if (isEnabled) isEnabled else viewModel.isAnyNotificationSelected()
                 getViewBinding().cb1.isChecked =
                     if (isEnabled) isEnabled else smsNotificationAccepted.value ?: false
                 getViewBinding().cb2.isChecked =
@@ -89,13 +89,14 @@ class KfsNotificationFragment :
 
     fun showAlertDialog() {
         requireContext().customAlertDialog(
-            title = "You’ll miss out",
-            message = "Are you sure you want to miss out on all the latest offers & promotions? You can always change your preferences later in the app.",
+            title = getString(Strings.screen_kfs_notification_accept_no_notification_label),
+            message = getString(Strings.screen_kfs_notification_accept_no_notification_note),
             positiveButton = getString(Strings.common_text_ok),
-            positiveCallback = { viewModel.signUp {
-
-                navigateBack()
-            }},
+            positiveCallback = {
+                viewModel.signUp {
+                    navigateBack()
+                }
+            },
         )
     }
 }

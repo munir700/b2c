@@ -37,14 +37,6 @@ class KfsNotificationViewModel(application: Application) :
         clickEvent.setValue(id)
     }
 
-    fun getAllAppNotificationSettings(): Boolean = parentViewModel?.state?.let { it ->
-        with(it) {
-            inappNotificationAccepted.value == true
-                    && smsNotificationAccepted.value == true
-                    && emailNotificationAccepted.value == true
-        }
-    } == true
-
     fun revertAllAppNotifications() {
         parentViewModel?.state?.let { it ->
             with(it) {
@@ -83,7 +75,7 @@ class KfsNotificationViewModel(application: Application) :
                     parentViewModel?.onboardingData?.passcode,
                     parentViewModel?.onboardingData?.accountType.toString(),
                     token = parentViewModel?.onboardingData?.token,
-                    kfsAcceptedTimeStamp = DateUtils.getCurrentDateWithFormat(DateUtils.SERVER_DATE_FORMAT)
+                    kfsAcceptedTimeStamp = DateUtils.getCurrentDateWithFormat(DateUtils.SERVER_DATE_FULL_FORMAT)
                 )
             )) {
                 is RetroApiResponse.Success -> {

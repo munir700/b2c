@@ -2661,4 +2661,8 @@ object Strings {
         "screen_kfs_notification_descrip"
     const val screen_kfs_notification_title: String =
         "screen_kfs_notification_title"
+    const val screen_kfs_notification_accept_no_notification_note: String =
+        "screen_kfs_notification_accept_no_notification_note"
+    const val screen_kfs_notification_accept_no_notification_label: String =
+        "screen_kfs_notification_accept_no_notification_label"
 }

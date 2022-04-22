@@ -20,6 +20,7 @@ import co.yap.modules.dashboard.more.main.fragments.MoreBaseFragment
 import co.yap.modules.dashboard.more.profile.intefaces.IProfile
 import co.yap.modules.dashboard.more.profile.viewmodels.ProfileSettingsViewModel
 import co.yap.modules.location.kyc_additional_info.employment_info.amendment.EmploymentQuestionnaireAmendmentFragment
+import co.yap.modules.pdf.PDFActivity
 import co.yap.modules.webview.WebViewFragment
 import co.yap.translation.Strings
 import co.yap.widgets.bottomsheet.BottomSheetItem
@@ -210,14 +211,10 @@ class ProfileSettingsFragment : MoreBaseFragment<FragmentProfileBinding, IProfil
     private fun initiateKeyFactStatement() {
         viewModel.fetchKeyFactStatementUrl{ keyFactsUrl ->
             with(Constants) {
-                val pageUrl = URL_GOOGLE_DOCS_LINK.trim() + keyFactsUrl.trim()
-                startFragment(
-                    fragmentName = WebViewFragment::class.java.name, bundle = bundleOf(
-                        PAGE_URL to pageUrl,
-                        TOOLBAR_TITLE to getString(
-                            Strings.screen_profile_settings_display_key_fact_statement
-                        )
-                    ), showToolBar = false
+                val pageUrl = keyFactsUrl.trim()
+                trackEventWithScreenName(FirebaseEvent.FATCA_KNOW_MORE)
+                startActivity(
+                    PDFActivity.newIntent(requireContext(), pageUrl ?: "", true)
                 )
             }
         }
