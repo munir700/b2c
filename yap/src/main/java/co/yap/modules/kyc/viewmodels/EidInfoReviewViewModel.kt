@@ -20,6 +20,10 @@ import co.yap.networking.models.BaseResponse
 import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
 import co.yap.widgets.State
+import co.yap.widgets.State.Companion.empty
+import co.yap.widgets.State.Companion.error
+import co.yap.widgets.State.Companion.loading
+import co.yap.widgets.State.Companion.success
 import co.yap.yapcore.Dispatcher
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
@@ -33,6 +37,7 @@ import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.leanplum.KYCEvents
 import co.yap.yapcore.leanplum.trackEvent
 import co.yap.yapcore.managers.SessionManager
+import kotlinx.coroutines.delay
 import java.util.*
 
 class EidInfoReviewViewModel(application: Application) :
@@ -128,6 +133,7 @@ class EidInfoReviewViewModel(application: Application) :
                     state.toast =
                         "Your EID doesn't match with the current EID.^${AlertType.DIALOG.name}"
                 }
+                it.filePaths.isNullOrEmpty() -> state.eidImageDownloaded.value = empty("Sorry, it seems that the data extracted is not correct. Please scan again")
                 else -> {
                     performUqudoUploadDocumentsRequest(false) {
                     }
@@ -306,8 +312,12 @@ class EidInfoReviewViewModel(application: Application) :
                         }
                     }
                     else -> {
-                        if (senctionedCountryResponse is RetroApiResponse.Error)
-                            state.toast = senctionedCountryResponse.error.message
+                        if (uqudoTokenResponse is RetroApiResponse.Error) {
+                            eidStateLiveData.postValue(State.error("Sorry, that didn’t work. Please try again"))
+                        } else {
+                            if (senctionedCountryResponse is RetroApiResponse.Error) state.toast =
+                                senctionedCountryResponse.error.message
+                        }
                     }
                 }
             }
@@ -359,6 +369,7 @@ class EidInfoReviewViewModel(application: Application) :
     }
 
     override fun populateUqudoState(identity: EidData?) {
+        if (parentViewModel?.uqudoManager?.noImageDownloaded() == true) downloadImageInBackground()
         identity?.let {
             val documentBack = it.documents[0].scan?.back
             val documentFront = it.documents[0].scan?.front
@@ -413,15 +424,18 @@ class EidInfoReviewViewModel(application: Application) :
             }
             state.isCountryUS =
                 getCountryCode(documentFront?.nationality ?: "").contains(countryName ?: "US")
-            if (parentViewModel?.uqudoManager?.getFrontImagePath()
-                    .isNullOrBlank() && parentViewModel?.uqudoManager?.getBackImagePath()
-                    .isNullOrBlank()
-            ) parentViewModel?.uqudoManager?.downloadImage { downloaded ->
-                state.viewState.postValue(false)
-                if (downloaded)
+        }
+    }
+
+    fun downloadImageInBackground() {
+        launch{
+            state.eidImageDownloaded.value = loading("")
+            parentViewModel?.uqudoManager?.downloadImage { downloaded, msg ->
+                if (downloaded) {
+                    state.eidImageDownloaded.value = success("")
                     parentViewModel?.uqudoIdentity?.value =
                         parentViewModel?.uqudoManager?.getUqudoIdentity()
-                else state.eidImageDownloaded.value = false
+                } else state.eidImageDownloaded.value = error(msg)
             }
         }
     }

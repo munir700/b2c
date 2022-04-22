@@ -4,6 +4,7 @@ import androidx.databinding.Bindable
 import androidx.databinding.ObservableBoolean
 import androidx.lifecycle.MutableLiveData
 import co.yap.modules.onboarding.interfaces.IEidInfoReview
+import co.yap.widgets.State
 import co.yap.yapcore.BaseState
 import com.digitify.identityscanner.BR
 
@@ -104,5 +105,5 @@ class EidInfoReviewState : BaseState(), IEidInfoReview.State {
     override var ageLimit: MutableLiveData<Int>? = MutableLiveData()
     override var isCountryUS: Boolean = false
     override var showMiddleName: MutableLiveData<Boolean> = MutableLiveData()
-    override var eidImageDownloaded: MutableLiveData<Boolean> = MutableLiveData()
+    override var eidImageDownloaded: MutableLiveData<State> = MutableLiveData()
 }

@@ -11,7 +11,6 @@ import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavDirections
-import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
 import co.yap.countryutils.country.Country
@@ -117,15 +116,39 @@ class EidInfoReviewAmendmentFragment :
                         )
                     }
                 })
-            state.eidImageDownloaded.observe(viewLifecycleOwner, Observer { ableToDownload ->
-                if (ableToDownload.not()) invalidCitizenNumber(
-                    "Sorry, we are unable to download your Eid please rescan",
-                    true
-                )
-
-            })
+            state.eidImageDownloaded.observe(viewLifecycleOwner, ::handleDownLoadState)
         }
 
+    }
+
+    private fun handleDownLoadState(state: State?) {
+        when (state?.status) {
+            Status.LOADING -> viewModel.state.loading = true
+            Status.EMPTY -> {
+                viewModel.state.loading = false
+                requireContext().alert(
+                    message = state.message ?: "",
+                    cancelable = false,
+                    positiveButton = getString(R.string.screen_b2c_eid_info_review__button_title_rescan_eid)
+                ) {
+                    initializeUqudoScanner()
+                }
+
+            }
+            Status.ERROR -> {
+                viewModel.state.loading = false
+                requireContext().alert(
+                    message = state.message ?: "",
+                    cancelable = false,
+                    positiveButton = getString(R.string.common_display_text_retry)
+                ) {
+                    viewModel.downloadImageInBackground()
+                }
+            }
+            else ->
+                viewModel.state.loading = false
+
+        }
     }
 
     private fun navigateToConfirmNameFragment() {
@@ -210,12 +233,12 @@ class EidInfoReviewAmendmentFragment :
         }
     }
 
-    private fun invalidCitizenNumber(title: String, rescan: Boolean = false) {
+    private fun invalidCitizenNumber(title: String, event: () -> Unit) {
         activity?.let {
             it.showAlertDialogAndExitApp(
                 message = title,
                 callback = {
-                    if (rescan.not()) requireActivity().finish() else initializeUqudoScanner()
+                    event.invoke()
                 },
                 closeActivity = false
             )
@@ -278,11 +301,6 @@ class EidInfoReviewAmendmentFragment :
         }
     }
 
-    override fun onDestroy() {
-        viewModel.parentViewModel?.uqudoManager?.deleteEidImages()
-        super.onDestroy()
-    }
-
     override fun onBackPressed(): Boolean {
         if (viewModel.state.errorScreenVisited) {
             requireActivity().finish()
@@ -327,8 +345,12 @@ class EidInfoReviewAmendmentFragment :
                 }
             }
             Status.ERROR -> {
-                getViewBinding().multiStateView.viewState = MultiStateView.ViewState.ERROR
-                invalidCitizenNumber(state.message ?: "Sorry, that didn’t work. Please try again")
+                getViewBinding().multiStateView.viewState = MultiStateView.ViewState.EMPTY
+                invalidCitizenNumber(state.message ?: "Sorry, that didn’t work. Please try again") {
+                    if (viewModel.parentViewModel?.comingFrom?.value.isNullOrBlank()
+                            .not()
+                    ) navigateBack() else requireActivity().finish()
+                }
             }
             else -> {
                 throw IllegalStateException("State is not handled " + state?.status)
@@ -511,8 +533,10 @@ class EidInfoReviewAmendmentFragment :
                         })
                 }
                 EidInfoEvents.EVENT_CITIZEN_NUMBER_ISSUE.eventId, EidInfoEvents.EVENT_EID_EXPIRY_DATE_ISSUE.eventId -> invalidCitizenNumber(
-                    "Sorry, that didn’t work. Please try again", true
-                )
+                    "Sorry, that didn’t work. Please try again"
+                ) {
+                    initializeUqudoScanner()
+                }
                 EidInfoEvents.EVENT_EID_ABOUT_TO_EXPIRY_DATE_ISSUE.eventId -> showAboutToExpireDialogue()
             }
         }

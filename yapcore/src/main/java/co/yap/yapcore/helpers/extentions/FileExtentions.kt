@@ -180,8 +180,8 @@ fun getCurrentDateTime(): String { // need to re verify
     return date
 }
 
-fun Context.saveEidTemp(bitmap: Bitmap): String? {
-    val file = this.createTempFile("jpg")
+fun Context.saveEidTemp(fileName:String,bitmap: Bitmap): String? {
+    val file = this.createTempFileWithName(fileName,"jpg")
     try {
         val out = FileOutputStream(file)
         bitmap.compress(Bitmap.CompressFormat.JPEG, 90, out)
@@ -204,3 +204,12 @@ fun getBitmapFromStorage(filePath: String?): Bitmap? {
 }
 
 fun Context.getFilePrivately()=this.createTempFile("jpg")
+
+fun Context.createTempFileWithName(fileName:String,extension: String): File {
+    val dir = File(this.filesDir, "yapTemp")
+    if (!dir.exists()) {
+        dir.mkdirs()
+        dir.mkdir()
+    }
+    return File(dir, "${fileName}.$extension")
+}
