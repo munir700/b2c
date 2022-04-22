@@ -95,14 +95,22 @@ class EidInfoReviewFragment :
             Status.LOADING -> viewModel.state.loading = true
             Status.EMPTY -> {
                 viewModel.state.loading = false
-                requireContext().alert(message = state.message?:"", cancelable = false) {
+                requireContext().alert(
+                    message = state.message ?: "",
+                    cancelable = false,
+                    positiveButton = getString(R.string.screen_b2c_eid_info_review__button_title_rescan_eid)
+                ) {
                     initializeUqudoScanner()
                     it.dismiss()
                 }
             }
             Status.ERROR -> {
                 viewModel.state.loading = false
-                requireContext().alert(message = state.message?:"", cancelable = false) {
+                requireContext().alert(
+                    message = state.message ?: "",
+                    cancelable = false,
+                    positiveButton = getString(R.string.common_display_text_retry)
+                ) {
                     it.dismiss()
                     viewModel.downloadImageInBackground()
                 }

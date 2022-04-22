@@ -164,14 +164,13 @@ class UqudoScannerManager private constructor(val context: Context) : IUqudoMana
         )
         Glide.with(context.applicationContext)
             .asBitmap()
-            .load(url)
-            .error(url).into(object : CustomTarget<Bitmap>() {
+            .load(url).into(object : CustomTarget<Bitmap>() {
                 override fun onResourceReady(
                     resource: Bitmap,
                     transition: Transition<in Bitmap>?
                 ) {
                     context.saveEidTemp(fileName, resource)?.let {
-                        imagePaths[key] = fileName
+                        imagePaths[key] = it
                         downloaded.invoke(true, null)
                     }
                 }

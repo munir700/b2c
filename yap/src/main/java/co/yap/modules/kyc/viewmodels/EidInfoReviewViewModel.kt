@@ -427,7 +427,6 @@ class EidInfoReviewViewModel(application: Application) :
     fun downloadImageInBackground() {
         launch{
             state.eidImageDownloaded.value = loading("")
-            delay(10000)
             parentViewModel?.uqudoManager?.downloadImage { downloaded, msg ->
                 if (downloaded) {
                     state.eidImageDownloaded.value = success("")

@@ -125,7 +125,7 @@ class PersonalDetailsFragment : MoreBaseFragment<FragmentPersonalDetailBinding, 
                             showBlockedFeatureAlert(requireActivity(), FeatureSet.UPDATE_EID)
                         }
                     } else {
-//                        if (canOpenEIDCard()) {
+                        if (canOpenEIDCard()) {
                             launchActivity<DocumentsDashboardActivity>(
                                 requestCode = RequestCodes.REQUEST_KYC_DOCUMENTS,
                                 type = FeatureSet.UPDATE_EID
@@ -138,7 +138,7 @@ class PersonalDetailsFragment : MoreBaseFragment<FragmentPersonalDetailBinding, 
                                 putExtra("document", viewModel.parentViewModel?.document)
                                 putExtra("PersonalDetails", true)
                             }
-//                        }
+                        }
                     }
                 }
 
