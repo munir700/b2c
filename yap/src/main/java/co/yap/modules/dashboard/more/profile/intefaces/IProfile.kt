@@ -9,7 +9,6 @@ import co.yap.widgets.bottomsheet.BottomSheetItem
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 import java.io.File
-import java.util.*
 
 interface IProfile {
     interface State : IBase.State {
@@ -19,8 +18,7 @@ interface IProfile {
         var imageUri: Uri
         var buildVersionDetail: String?
         var isShowErrorIcon: ObservableField<Boolean>
-        var isNotificationsEnabled : ObservableBoolean
-
+        var isNotificationsEnabled: ObservableBoolean
     }
 
     interface ViewModel : IBase.ViewModel<State> {
@@ -34,7 +32,8 @@ interface IProfile {
         fun logout()
         fun requestRemoveProfilePicture(apiRes: (Boolean) -> Unit)
         fun getUploadProfileOptions(isShowRemovePhoto: Boolean): ArrayList<BottomSheetItem>
-        fun getNotificationScreenValues(isGranted : Boolean)
+        fun getNotificationScreenValues(isGranted: Boolean)
+        fun fetchKeyFactStatementUrl(success: (url: String) -> Unit)
     }
 
     interface View : IBase.View<ViewModel> {

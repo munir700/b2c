@@ -161,4 +161,5 @@ interface CustomersApi {
     suspend fun getUqudoAuthToken(): RetroApiResponse<BaseResponse<UqudoTokenResponse>>
     suspend fun getEmploymentInfo(): RetroApiResponse<BaseResponse<EmploymentInfoAmendmentResponse>>
     suspend fun getAllDocumentsForEmploymentAmendment(): RetroApiResponse<BaseListResponse<DocumentResponse>>
+    suspend fun getKeyFactStatement(): RetroApiResponse<TaxInfoResponse>
 }
