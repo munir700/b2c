@@ -8,6 +8,7 @@
         <import type="co.yap.R" />
 
         <import type="android.view.View" />
+        <import type="co.yap.translation.Strings"/>
 
         <variable
             name="viewModel"
@@ -40,25 +41,25 @@
 
             <TextView
                 android:id="@+id/tvInviteTitle"
-                style="@style/Title3"
+                style="@style/Large"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_medium"
                 android:layout_marginTop="@dimen/margin_small"
                 android:layout_marginEnd="@dimen/margin_medium"
                 android:gravity="center"
-                android:text="@{viewModel.state.inviteTitle}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/toolBar"
-                tools:text="@string/screen_invite_friend_display_text_reward" />
+                app:text="@{Strings.screen_invite_friend_text_reward}"
+                android:text="@string/screen_invite_friend_text_reward" />
 
             <ImageView
                 android:id="@+id/ivInvite"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_extra_large"
-                android:src="@drawable/ic_invite"
+                android:src="@drawable/invite_a_friend"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvInviteTitle" />
@@ -71,14 +72,14 @@
                 android:layout_marginStart="@dimen/margin_medium"
                 android:layout_marginEnd="@dimen/margin_medium"
                 android:gravity="center"
-                android:text="@{viewModel.state.inviteDescription}"
                 app:layout_constraintBottom_toTopOf="@+id/tvReferralCode"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/ivInvite"
                 app:layout_constraintVertical_bias="0.262"
-                tools:text="@string/screen_invite_friend_display_text_referal_reward" />
+                app:text="@{Strings.screen_invite_friend_text_referal_reward}"
+                android:text="@string/screen_invite_friend_text_referal_reward" />
 
             <TextView
                 android:id="@+id/tvReferralCode"
@@ -89,11 +90,12 @@
                 android:layout_marginEnd="@dimen/margin_medium"
                 android:layout_marginBottom="@dimen/margin_small"
                 android:gravity="center"
-                android:text="@{viewModel.state.referralLinkTextHeading}"
                 app:layout_constraintBottom_toTopOf="@+id/btnShare"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                tools:text="@string/screen_invite_friend_display_text_referal_code" />
+                android:text="@string/screen_invite_friend_text_referal_code"
+                app:text="@{Strings.screen_invite_friend_text_referal_code}"
+                />
 
             <co.yap.widgets.CoreButton
                 android:id="@+id/btnShare"
@@ -104,7 +106,7 @@
                 android:layout_marginTop="@dimen/margin_normal"
                 android:layout_marginBottom="@dimen/margin_extra_large"
                 android:onClick="@{(v) -> viewModel.handlePressOnButton(v.id)}"
-                android:text="@{viewModel.state.buttonTitle}"
+                app:text="@{Strings.common_button_text_share}"
                 app:btn_drawable="@drawable/ic_share_white"
                 app:btn_drawable_padding_right="1.26"
                 app:btn_drawable_padding_top="4"
