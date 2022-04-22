@@ -28,5 +28,5 @@ data class UserAttributes(
     val last_transaction_time: String = "last_transaction_time",
     val last_pos_txn_category: String = "last_pos_txn_category",
     val total_transaction_count: String = "total_transaction_count",
-    val total_transaction_value: String = "total_transaction_value"
+    val total_transaction_value: String = "total_transaction_value",
 )

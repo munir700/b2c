@@ -5,6 +5,7 @@ import android.graphics.Rect
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.view.View
 import android.widget.ImageView
 import androidx.core.animation.addListener
 import androidx.core.os.bundleOf
@@ -38,8 +39,23 @@ class EmailFragment : OnboardingChildFragment<FragmentEmailBinding, IEmail.ViewM
         super.onActivityCreated(savedInstanceState)
         val display = activity?.windowManager?.defaultDisplay
         display?.getRectSize(windowSize)
+
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        addObservers()
+    }
+
+    private fun addObservers() {
         viewModel.nextButtonPressEvent.observe(this, nextButtonObserver)
         viewModel.animationStartEvent.observe(this, Observer { startAnimation() })
+        viewModel.parentViewModel?.state?.notificationAction?.value?.let {
+            viewModel.nextButtonPressEvent.postValue(it.id)
+        }
+        if (viewModel.parentViewModel?.emailError?.value.isNullOrBlank()
+                .not()
+        ) viewModel.state.emailError = viewModel.parentViewModel?.emailError?.value ?: ""
     }
 
     override fun onDestroyView() {
@@ -51,7 +67,7 @@ class EmailFragment : OnboardingChildFragment<FragmentEmailBinding, IEmail.ViewM
     private val nextButtonObserver = Observer<Int> {
         when (it) {
             OnboardingPhase.NOTIFICATION_KFS_FLOW.id -> navigate(R.id.action_emailFragment_to_kfsNotificationFragment)
-            OnboardingPhase.NOTIFICATION_SELECTED.id -> if (viewModel.isAnyNotificationSelected() || viewModel.parentViewModel?.state?.noNotificationAccepted?.value == true) viewModel.signUp()
+            OnboardingPhase.NOTIFICATION_SELECTED.id -> if (viewModel.isAnyNotificationSelected() || viewModel.parentViewModel?.state?.noNotificationAccepted?.value == true) viewModel.setVerificationLabel()
             OnboardingPhase.EVENT_NAVIGATE_NEXT.id -> {
                 trackEventWithScreenName(FirebaseEvent.SIGNUP_EMAIL_SUCCESS)
                 val bundle = bundleOf(ExtraKeys.IS_WAITING.name to viewModel.state.isWaiting)

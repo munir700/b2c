@@ -35,6 +35,9 @@
         <action
             android:id="@+id/action_mobileFragment_to_phoneVerificationFragment"
             app:destination="@id/phoneVerificationFragment" />
+        <action
+            android:id="@+id/action_mobileFragment_to_kfsNotificationFragment"
+            app:destination="@id/kfsNotificationFragment" />
     </fragment>
 
     <fragment

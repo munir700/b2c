@@ -15,7 +15,12 @@ class NameViewModel(application: Application) : OnboardingChildViewModel<IName.S
 
     override fun onResume() {
         super.onResume()
-        setProgress(60)
+        setProgress(50)
+    }
+
+    override fun onCreate() {
+        super.onCreate()
+        parentViewModel?.onboardingData?.email = ""
     }
 
     override fun handlePressOnNext() {

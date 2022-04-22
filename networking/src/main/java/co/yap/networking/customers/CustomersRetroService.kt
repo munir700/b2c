@@ -408,6 +408,6 @@ interface CustomersRetroService {
     suspend fun getAppCountries(): Response<BaseListResponse<Country>>
 
     //Key Facts Statement
-    @GET(CustomersRepository.URL_KEY_FATCS_STATEMENT)
+    @GET(CustomersRepository.URL_KEY_FACTS_STATEMENT)
     suspend fun getKeyFactStatement(): Response<TaxInfoResponse>
 }
