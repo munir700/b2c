@@ -54,15 +54,18 @@ class TopupAmountViewModel(application: Application) :
 
     override fun getPaymentIntentId() {
         var model = GetPaymentIntentIdModel(20.00, "AED", customerId)
+        state.loading = true
         launch {
             when (val response = leanTechRepository.getPaymentIntentId(model)) {
                 is RetroApiResponse.Success -> {
                     response.data.data?.paymentIntentId?.let {
                         paymentIntentId.postValue(it)
+                        state.loading = false
                     }
                 }
                 is RetroApiResponse.Error -> {
                     toast(context, response.error.message)
+                    state.loading = false
                 }
             }
         }

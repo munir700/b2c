@@ -22,6 +22,7 @@ import co.yap.widgets.State
 import co.yap.widgets.Status
 import co.yap.widgets.loading.CircularProgressBar
 import co.yap.yapcore.helpers.extentions.startFragment
+import co.yap.yapcore.helpers.extentions.toast
 import co.yap.yapcore.helpers.spannables.color
 import co.yap.yapcore.helpers.spannables.getText
 
@@ -111,10 +112,10 @@ class AccountListFragment :
                     if (viewModel.customerId.isNullOrEmpty().not()) {
                         startFragment(
                             fragmentName = BankListFragment::class.java.name, bundle = bundleOf(
-                                co.yap.yapcore.constants.Constants.ONBOARD_USER_LEAN to viewModel.customerId
+                                co.yap.yapcore.constants.Constants.ONBOARD_USER_LEAN to viewModel.leanOnBoardModel.value
                             )
                         )
-                    }
+                    }else toast("No customer ID found")
                 }
             }
         }
