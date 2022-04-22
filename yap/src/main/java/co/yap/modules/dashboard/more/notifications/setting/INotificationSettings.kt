@@ -12,8 +12,10 @@ interface INotificationSettings {
     }
 
     interface State : IBase.State {
+        var allNotificationsAllowed: Boolean
         var inAppNotificationsAllowed: Boolean?
         var smsNotificationsAllowed: Boolean?
         var emailNotificationsAllowed: Boolean?
+        var pushNotificationsAllowed:Boolean?
     }
 }

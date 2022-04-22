@@ -274,13 +274,15 @@
 
             </LinearLayout>
 
-            <!--<LinearLayout
+            <LinearLayout
+                android:id="@+id/layoutAlert"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_small"
                 android:orientation="vertical"
                 android:paddingStart="@dimen/margin_medium"
                 android:paddingEnd="0dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/layoutRef"
                 android:paddingBottom="@dimen/margin_extra_small">
 
                 <include
@@ -290,7 +292,7 @@
                     app:title='@{"Alerts and notifications"}'
                     app:tint="@{@color/greyDark}"/>
 
-            </LinearLayout>-->
+            </LinearLayout>
 
             <!-- Management -->
             <LinearLayout
@@ -304,7 +306,7 @@
                 android:paddingBottom="@dimen/margin_small"
                 android:visibility="gone"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/layoutRef">
+                app:layout_constraintTop_toBottomOf="@+id/layoutAlert">
 
                 <include
                     layout="@layout/layout_item_icon_text"

@@ -210,7 +210,6 @@ fun deleteLeanPlumMessage(messageId: String?) {
             val message = Leanplum.getInbox().messageForId(it)
             message.remove()
         }
-
     } catch (e: Exception) {
     }
 }

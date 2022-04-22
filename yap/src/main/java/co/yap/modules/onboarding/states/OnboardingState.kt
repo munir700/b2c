@@ -1,7 +1,9 @@
 package co.yap.modules.onboarding.states
 
 import androidx.databinding.Bindable
+import androidx.lifecycle.MutableLiveData
 import co.yap.BR
+import co.yap.modules.onboarding.enums.OnboardingPhase
 import co.yap.modules.onboarding.interfaces.IOnboarding
 import co.yap.yapcore.BaseState
 
@@ -27,4 +29,11 @@ class OnboardingState : BaseState(), IOnboarding.State {
             field = value
             notifyPropertyChanged(BR.emailError)
         }
+
+    override var allNotificationAccepted: MutableLiveData<Boolean> = MutableLiveData(false)
+    override var smsNotificationAccepted: MutableLiveData<Boolean> = MutableLiveData(false)
+    override var inappNotificationAccepted: MutableLiveData<Boolean> = MutableLiveData(false)
+    override var emailNotificationAccepted: MutableLiveData<Boolean> = MutableLiveData(false)
+    override var noNotificationAccepted: MutableLiveData<Boolean> = MutableLiveData(false)
+    override var notificationAction: MutableLiveData<OnboardingPhase> = MutableLiveData(OnboardingPhase.NONE)
 }
