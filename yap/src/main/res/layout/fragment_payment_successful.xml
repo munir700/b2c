@@ -15,17 +15,16 @@
         android:layout_height="match_parent"
         android:background="@color/white">
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvTitle"
-            style="@style/Regular"
-            android:layout_width="wrap_content"
+        <co.yap.widgets.CoreToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="@dimen/margin_small"
-            app:text="@{Strings.screen_lean_topup_payment_successful_title}"
-            tools:text="@string/screen_lean_topup_payment_successful_title" />
+            app:leftIconVisibility="@{false}"
+            app:rightIconVisibility="@{false}"
+            app:titleTranslator='@{Strings.screen_lean_topup_payment_successful_title}' />
 
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/animationView"
@@ -47,21 +46,11 @@
             app:layout_constraintBottom_toTopOf="@+id/btnGoToDashboard"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvTitle"
-            app:text="@{Strings.screen_lean_topup_payment_successful_new_balance_text}"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.56"
+            android:gravity="center"
+            android:text="@{viewModel.state.newBalanceText}"
             tools:text="@string/screen_lean_topup_payment_successful_new_balance_text" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvNewAmount"
-            style="@style/Title2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_two_dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvNewAmountStatus"
-            android:text="AED 1000.00"
-            tools:text="AED 1000.00" />
 
         <co.yap.widgets.CoreButton
             android:id="@+id/btnGoToDashboard"
@@ -74,9 +63,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:text="@{Strings.screen_lean_topup_payment_successful_button_text}"
-            tools:text="@string/screen_lean_topup_payment_successful_button_text" />
+            app:text="@{Strings.screen_international_funds_transfer_back_to_dashboard}"
+            tools:text="@string/screen_international_funds_transfer_back_to_dashboard" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 </layout>

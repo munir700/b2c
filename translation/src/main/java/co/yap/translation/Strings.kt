@@ -2740,8 +2740,6 @@ object Strings {
     //Lean -Easy Bank Transfer-Payment-Successful
     const val screen_lean_topup_payment_successful_title =
         "screen_lean_topup_payment_successful_title"
-    const val screen_lean_topup_payment_successful_button_text: String =
-        "screen_lean_topup_payment_successful_button_text"
     const val screen_lean_topup_payment_successful_new_balance_text: String =
         "screen_lean_topup_payment_successful_new_balance_text"
 }
