@@ -13,12 +13,15 @@
 
         <import type="co.yap.yapcore.R" />
 
+        <import type="co.yap.yapcore.helpers.Utils" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layoutMain"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        app:sensitiveViews="@{Utils.getViewsList(layoutSearchView)}">
 
         <co.yap.widgets.CoreToolbar
             android:id="@+id/toolbarAddAccount"
