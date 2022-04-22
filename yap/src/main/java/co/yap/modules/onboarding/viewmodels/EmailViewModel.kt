@@ -204,6 +204,7 @@ class EmailViewModel(application: Application) :
             when (val response = repository.getAccountInfo()) {
                 is RetroApiResponse.Success -> {
                     if (response.data.data.isNotEmpty()) {
+                        SessionManager.getSystemConfigurationInfo(context)
                         val accountInfo: AccountInfo = response.data.data[0]
                         parentViewModel?.onboardingData?.ibanNumber = accountInfo.iban
                         delay(500)

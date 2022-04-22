@@ -145,9 +145,8 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
         }
     }
 
-    //TODO Will place this call according to need
     fun getSystemConfigurationInfo(context: Context) {
-        GlobalScope.launch {
+        GlobalScope.launch(Dispatchers.IO) {
             when (val response = customerRepository.getSystemConfigurations()) {
                 is RetroApiResponse.Success -> {
                     response.data.data.let { list ->
@@ -349,8 +348,6 @@ fun Context.saveUserDetails(mobile: String?, countryCode: String?, isRemember: B
         .save(Constants.KEY_MOBILE_NO, mobile ?: "")
     SharedPreferenceManager.getInstance(this)
         .save(Constants.KEY_COUNTRY_CODE, countryCode ?: "")
-//TODO will Change this accordingly, now trying to test from here
-    SessionManager.getSystemConfigurationInfo(this)
 }
 
 fun Context?.isUserLogin() = this?.let {

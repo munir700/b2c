@@ -170,6 +170,7 @@ class VerifyPasscodeViewModel(application: Application) :
             when (val response = customersRepository.getAccountInfo()) {
                 is RetroApiResponse.Success -> {
                     if (!response.data.data.isNullOrEmpty()) {
+                        SessionManager.getSystemConfigurationInfo(context)
                         SessionManager.user = response.data.data[0]
                         accountInfo.postValue(response.data.data[0])
 //                        SessionManager.setupDataSetForBlockedFeatures()
