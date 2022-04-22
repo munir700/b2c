@@ -769,12 +769,6 @@
     <string name="screen_send_show_recent">Show Recent Transfers</string>
     <string name="screen_send_money_display_text_delete_message">Are you sure you want to delete beneficiary?</string>
     <string name="screen_send_money_display_text_all_local_beneficiaries">All local beneficiaries</string>
-    <string name="screen_send_money_display_yap_to_yap_contact_title">YAP 2 YAP</string>
-    <string name="screen_send_money_display_yap_to_yap_contact_description">Send money instantly to a \nYAP user</string>
-    <string name="screen_send_money_display_qr_code_description">Scan a YAP QR code and pay</string>
-    <string name="screen_send_money_display_local_bank_description">Send money to a local UAE \nbank account</string>
-    <string name="screen_send_money_display_home_country_description">Send money back home</string>
-    <string name="screen_send_money_display_international_transfer_description">Send money to a global bank</string>
     <string name="screen_send_money_display_permission_text">Can\'t proceed without permissions, Please go to settings and allow permission</string>
 
     <!--  Edit Beneficiary Money Screen-->
