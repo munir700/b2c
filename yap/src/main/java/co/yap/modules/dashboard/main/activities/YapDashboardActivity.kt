@@ -39,6 +39,7 @@ import co.yap.modules.dashboard.main.interfaces.IYapDashboard
 import co.yap.modules.dashboard.main.viewmodels.YapDashBoardViewModel
 import co.yap.modules.dashboard.more.home.fragments.InviteFriendFragment
 import co.yap.modules.dashboard.more.main.activities.MoreActivity
+import co.yap.modules.dashboard.more.notifications.setting.NotificationSettingsFragment
 import co.yap.modules.dashboard.store.fragments.YapStoreFragment
 import co.yap.modules.dashboard.unverifiedemail.UnVerifiedEmailActivity
 import co.yap.modules.dashboard.yapit.addmoney.main.AddMoneyActivity
@@ -152,8 +153,8 @@ class YapDashboardActivity :
             R.layout.component_yap_menu_sub_button,
             this, 3
         )
-        builder.attachTo(getViewBinding().btnYapIt).setAlphaOverlay(getViewBinding().flAlphaOverlay)
-        builder.setTxtYapIt(getViewBinding().txtYapIt)
+        builder.attachTo(viewDataBinding.btnYapIt).setAlphaOverlay(viewDataBinding.flAlphaOverlay)
+        builder.setTxtYapIt(viewDataBinding.txtYapIt)
         builder.setStateChangeListener(object :
             FloatingActionMenu.MenuStateChangeListener {
             override fun onMenuOpened(menu: FloatingActionMenu) {
@@ -188,14 +189,14 @@ class YapDashboardActivity :
 
     private fun setupPager() {
         adapter = YapDashboardAdaptor(supportFragmentManager)
-        getViewBinding().viewPager.adapter = adapter
+       viewDataBinding.viewPager.adapter = adapter
 
-        with(getViewBinding().viewPager) {
+        with(viewDataBinding.viewPager) {
             clipToPadding = false
             clipChildren = false
             offscreenPageLimit = 3
         }
-        getViewBinding().viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+       viewDataBinding.viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrollStateChanged(state: Int) {
             }
 
@@ -363,8 +364,8 @@ class YapDashboardActivity :
     }
 
     fun showHideBottomBar(show: Boolean) {
-        getViewBinding().rlYapIt.visibility = if (show) View.VISIBLE else View.GONE
-        getViewBinding().bottomNav.visibility = if (show) View.VISIBLE else View.GONE
+       viewDataBinding.rlYapIt.visibility = if (show) View.VISIBLE else View.GONE
+       viewDataBinding.bottomNav.visibility = if (show) View.VISIBLE else View.GONE
     }
 
     override fun onDestroy() {
@@ -397,9 +398,9 @@ class YapDashboardActivity :
 
     override fun onBackPressed() {
         if (actionMenu?.isOpen == true && actionMenu?.isAnimating() == false) {
-            actionMenu?.toggle(getViewBinding().btnYapIt, true)
+            actionMenu?.toggle(viewDataBinding.btnYapIt, true)
         } else if (drawerLayout.isDrawerOpen(GravityCompat.END)) closeDrawer()
-        else if (getViewBinding().viewPager.currentItem != 0) {
+        else if (viewDataBinding.viewPager.currentItem != 0) {
             bottomNav.selectedItemId = R.id.yapHome
         } else super.onBackPressed()
     }
@@ -415,12 +416,12 @@ class YapDashboardActivity :
                 )
             }
         }
-        getViewBinding().includedDrawerLayout.lAnalytics.lnAnalytics.setOnClickListener {
+       viewDataBinding.includedDrawerLayout.lAnalytics.lnAnalytics.setOnClickListener {
             trackEventWithScreenName(FirebaseEvent.CLICK_ANALYTICS_MAIN_MENU)
             launchActivity<CardAnalyticsActivity>(type = FeatureSet.ANALYTICS)
             closeDrawer()
         }
-        getViewBinding().includedDrawerLayout.lRefer.lnAnalytics.setOnClickListener {
+       viewDataBinding.includedDrawerLayout.lRefer.lnAnalytics.setOnClickListener {
             trackEventWithScreenName(FirebaseEvent.CLICK_REFER_FRIEND)
             startFragment<InviteFriendFragment>(
                 InviteFriendFragment::class.java.name, false,
@@ -428,11 +429,18 @@ class YapDashboardActivity :
             )
             closeDrawer()
         }
-        getViewBinding().includedDrawerLayout.lScanQR.lnAnalytics.setOnClickListener {
+       viewDataBinding.includedDrawerLayout.lAlert.lnAnalytics.setOnClickListener {
+            startFragment<NotificationSettingsFragment>(
+                NotificationSettingsFragment::class.java.name, false,
+                bundleOf( "isFromActivity" to true)
+            )
+            closeDrawer()
+        }
+       viewDataBinding.includedDrawerLayout.lScanQR.lnAnalytics.setOnClickListener {
             openQRCodeFragment()
             closeDrawer()
         }
-        getViewBinding().includedDrawerLayout.lStatements.lnAnalytics.setOnClickListener {
+       viewDataBinding.includedDrawerLayout.lStatements.lnAnalytics.setOnClickListener {
             SessionManager.getPrimaryCard()?.let {
                 trackEventWithScreenName(FirebaseEvent.CLICK_STATEMENTS)
                 launchActivity<CardStatementsActivity> {
@@ -442,12 +450,12 @@ class YapDashboardActivity :
                 closeDrawer()
             }
         }
-        getViewBinding().includedDrawerLayout.lManageWidget.lnAnalytics.setOnClickListener {
+       viewDataBinding.includedDrawerLayout.lManageWidget.lnAnalytics.setOnClickListener {
             viewModel.isFromSideMenu = true
             viewModel.isYapHomeFragmentVisible.value = true
             closeDrawer()
         }
-        getViewBinding().includedDrawerLayout.lSupport.lnAnalytics.setOnClickListener {
+       viewDataBinding.includedDrawerLayout.lSupport.lnAnalytics.setOnClickListener {
             startActivity(
                 FragmentPresenterActivity.getIntent(
                     this,
@@ -456,7 +464,7 @@ class YapDashboardActivity :
             )
             closeDrawer()
         }
-        getViewBinding().includedDrawerLayout.lyContact.lnAnalytics.setOnClickListener {
+       viewDataBinding.includedDrawerLayout.lyContact.lnAnalytics.setOnClickListener {
             trackEventWithScreenName(FirebaseEvent.CLICK_HELP_MAIN_MENU)
             startActivity(
                 FragmentPresenterActivity.getIntent(
@@ -467,13 +475,13 @@ class YapDashboardActivity :
             closeDrawer()
         }
 
-        getViewBinding().includedDrawerLayout.lLiveChat.lnAnalytics.setOnClickListener {
+       viewDataBinding.includedDrawerLayout.lLiveChat.lnAnalytics.setOnClickListener {
             trackEventWithScreenName(FirebaseEvent.CLICK_LIVECHAT_MAIN_MENU)
             chatSetup()
             closeDrawer()
         }
 
-        getViewBinding().includedDrawerLayout.ivSettings.setOnClickListener {
+       viewDataBinding.includedDrawerLayout.ivSettings.setOnClickListener {
             trackEventWithScreenName(FirebaseEvent.CLICK_PROFILE)
             startActivity(Intent(this, MoreActivity::class.java))
             closeDrawer()
@@ -483,23 +491,23 @@ class YapDashboardActivity :
             when (item.itemId) {
                 R.id.yapHome -> {
                     trackEventWithScreenName(FirebaseEvent.CLICK_HOME)
-                    getViewBinding().viewPager.setCurrentItem(0, false)
+                   viewDataBinding.viewPager.setCurrentItem(0, false)
                     SessionManager.getAccountInfo()
                 }
                 R.id.yapStore -> {
                     trackEventWithScreenName(FirebaseEvent.CLICK_STORE)
-                    getViewBinding().viewPager.setCurrentItem(1, false)
+                   viewDataBinding.viewPager.setCurrentItem(1, false)
                 }
                 R.id.yapIt -> {
 
                 }
                 R.id.yapCards -> {
                     trackEventWithScreenName(FirebaseEvent.CLICK_CARDS)
-                    getViewBinding().viewPager.setCurrentItem(2, false)
+                   viewDataBinding.viewPager.setCurrentItem(2, false)
                 }
                 R.id.yapMore -> {
                     trackEventWithScreenName(FirebaseEvent.CLICK_MORE_DASHBOARD)
-                    getViewBinding().viewPager.setCurrentItem(3, false)
+                   viewDataBinding.viewPager.setCurrentItem(3, false)
                 }
             }
             true
@@ -511,7 +519,7 @@ class YapDashboardActivity :
 
                 }
                 R.id.yapCards -> {
-                    getViewBinding().viewPager.setCurrentItem(2, false)
+                   viewDataBinding.viewPager.setCurrentItem(2, false)
                 }
             }
         }
@@ -556,8 +564,8 @@ class YapDashboardActivity :
                     val result =
                         data.getBooleanExtra(Constants.result, false)
                     if (result) {
-                        getViewBinding().viewPager.setCurrentItem(0, false)
-                        getViewBinding().bottomNav.selectedItemId = R.id.yapHome
+                       viewDataBinding.viewPager.setCurrentItem(0, false)
+                       viewDataBinding.bottomNav.selectedItemId = R.id.yapHome
                     }
                 }
             }
@@ -567,17 +575,13 @@ class YapDashboardActivity :
                     val result =
                         data.getBooleanExtra(Constants.result, false)
                     if (result) {
-                        getViewBinding().viewPager.setCurrentItem(0, false)
+                        viewDataBinding.viewPager.setCurrentItem(0, false)
                         viewModel.isKycCompelted.value = true
-                        getViewBinding().bottomNav.selectedItemId = R.id.yapHome
+                       viewDataBinding.bottomNav.selectedItemId = R.id.yapHome
                     }
                 }
             }
         }
-    }
-
-    fun getViewBinding(): ActivityYapDashboardBinding {
-        return (viewDataBinding as ActivityYapDashboardBinding)
     }
 
     private fun logoutAlert() {

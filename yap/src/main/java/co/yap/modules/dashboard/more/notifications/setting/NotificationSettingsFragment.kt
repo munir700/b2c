@@ -61,7 +61,17 @@ class NotificationSettingsFragment :
     override fun onToolBarClick(id: Int) {
         super.onToolBarClick(id)
         when (id) {
-            R.id.ivLeftIcon -> navigateBack()
+            R.id.ivLeftIcon -> {
+                //NOTE: This is used where there is no NavController i-e YapDashboardActivity it is not implemented
+                arguments?.let { bundle ->
+                    if (bundle.getBoolean("isFromActivity")) {
+                        activity?.finish()
+                        return
+                    }
+                }
+                navigateBack()
+            }
+
         }
     }
 }
