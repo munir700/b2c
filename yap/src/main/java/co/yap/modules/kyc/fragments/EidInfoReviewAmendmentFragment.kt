@@ -121,14 +121,14 @@ class EidInfoReviewAmendmentFragment :
             Status.LOADING -> viewModel.state.loading = true
             Status.EMPTY -> {
                 viewModel.state.loading = false
-                requireContext().alert(message = "", cancelable = false) {
+                requireContext().alert(message = state.message?:"", cancelable = false) {
                     initializeUqudoScanner()
                 }
 
             }
             Status.ERROR -> {
                 viewModel.state.loading = false
-                requireContext().alert(message = "", cancelable = false) {
+                requireContext().alert(message = state.message?:"", cancelable = false) {
                     viewModel.downloadImageInBackground()
                 }
             }

@@ -38,6 +38,7 @@ import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.leanplum.KYCEvents
 import co.yap.yapcore.leanplum.trackEvent
 import co.yap.yapcore.managers.SessionManager
+import kotlinx.coroutines.delay
 import java.util.*
 
 class EidInfoReviewViewModel(application: Application) :
@@ -424,11 +425,12 @@ class EidInfoReviewViewModel(application: Application) :
     }
 
     fun downloadImageInBackground() {
-        launch {
-            state.eidImageDownloaded.value = loading(null)
+        launch{
+            state.eidImageDownloaded.value = loading("")
+            delay(10000)
             parentViewModel?.uqudoManager?.downloadImage { downloaded, msg ->
                 if (downloaded) {
-                    state.eidImageDownloaded.value = success(null)
+                    state.eidImageDownloaded.value = success("")
                     parentViewModel?.uqudoIdentity?.value =
                         parentViewModel?.uqudoManager?.getUqudoIdentity()
                 } else state.eidImageDownloaded.value = error(msg)

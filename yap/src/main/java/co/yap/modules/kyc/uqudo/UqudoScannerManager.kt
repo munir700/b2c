@@ -172,8 +172,8 @@ class UqudoScannerManager private constructor(val context: Context) : IUqudoMana
                 ) {
                     context.saveEidTemp(fileName, resource)?.let {
                         imagePaths[key] = fileName
+                        downloaded.invoke(true, null)
                     }
-                    downloaded.invoke(true, null)
                 }
 
                 override fun onLoadCleared(placeholder: Drawable?) {
@@ -240,7 +240,7 @@ class UqudoScannerManager private constructor(val context: Context) : IUqudoMana
         }
     }
 
-    override fun noImageDownloaded(): Boolean = imagePaths.size == 2
+    override fun noImageDownloaded(): Boolean = imagePaths.size < 2
 
     override fun resetData() {
         imagePaths.clear()
