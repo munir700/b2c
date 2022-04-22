@@ -79,7 +79,7 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
         GlobalScope.launch(Dispatchers.IO) {
             when (val apiResponse = customerRepository.getAllCurrenciesConfigs()) {
                 is RetroApiResponse.Success -> {
-                    currencies.postValue(apiResponse.data.curriencies)
+                    currencies.postValue(apiResponse.data.curriencies ?: arrayListOf())
                     response.invoke(true, apiResponse.data.curriencies ?: arrayListOf())
                 }
 
@@ -155,10 +155,12 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
                             SYSTEM_CONFIGURATION,
                             Gson().toJson(listArray)
                         )
-                        systemConfiguration.postValue(convertSystemConfigurationInfoIntoMap(
-                            SharedPreferenceManager.getInstance(context)
-                                .getValueString(SYSTEM_CONFIGURATION)
-                        ))
+                        systemConfiguration.postValue(
+                            convertSystemConfigurationInfoIntoMap(
+                                SharedPreferenceManager.getInstance(context)
+                                    .getValueString(SYSTEM_CONFIGURATION)
+                            )
+                        )
                     }
                 }
                 is RetroApiResponse.Error -> {
