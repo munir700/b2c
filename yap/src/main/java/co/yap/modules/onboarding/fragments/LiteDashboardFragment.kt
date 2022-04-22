@@ -23,7 +23,6 @@ import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.biometric.BiometricUtil
 import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.managers.SessionManager
-import kotlinx.android.synthetic.main.fragment_lite_dashboard.*
 
 
 class LiteDashboardFragment : YapDashboardChildFragment<FragmentLiteDashboardBinding,ILiteDashboard.ViewModel>() {
@@ -55,10 +54,10 @@ class LiteDashboardFragment : YapDashboardChildFragment<FragmentLiteDashboardBin
                     KEY_TOUCH_ID_ENABLED,
                     false
                 )
-            swTouchId.isChecked = isTouchIdEnabled
-            swTouchId.visibility = View.VISIBLE
+            viewDataBinding.swTouchId.isChecked = isTouchIdEnabled
+            viewDataBinding.swTouchId.visibility = View.VISIBLE
 
-            swTouchId.setOnCheckedChangeListener { _, isChecked ->
+            viewDataBinding.swTouchId.setOnCheckedChangeListener { _, isChecked ->
                 if (isChecked) {
                     sharedPreferenceManager.save(
                         KEY_IS_FINGERPRINT_PERMISSION_SHOWN,
@@ -73,7 +72,7 @@ class LiteDashboardFragment : YapDashboardChildFragment<FragmentLiteDashboardBin
                 }
             }
         } else {
-            swTouchId.visibility = View.INVISIBLE
+            viewDataBinding. swTouchId.visibility = View.INVISIBLE
         }
     }
 
@@ -122,7 +121,7 @@ class LiteDashboardFragment : YapDashboardChildFragment<FragmentLiteDashboardBin
                     mNavigator.startEIDNotAcceptedActivity(requireActivity())
 
                 } else {
-                    btnCompleteVerification.visibility = if (result) View.GONE else View.VISIBLE
+                    viewDataBinding.btnCompleteVerification.visibility = if (result) View.GONE else View.VISIBLE
                 }
             }
         }
@@ -131,20 +130,20 @@ class LiteDashboardFragment : YapDashboardChildFragment<FragmentLiteDashboardBin
     private fun checkUserStatus() {
         when (SessionManager.user?.notificationStatuses) {
             Constants.USER_STATUS_ON_BOARDED -> {
-                btnCompleteVerification.visibility = View.VISIBLE
-                btnSetCardPin.visibility = View.GONE
+                viewDataBinding.btnCompleteVerification.visibility = View.VISIBLE
+                viewDataBinding.btnSetCardPin.visibility = View.GONE
             }
             Constants.USER_STATUS_MEETING_SUCCESS -> {
-                btnSetCardPin.visibility = View.VISIBLE
-                btnCompleteVerification.visibility = View.GONE
+                viewDataBinding.btnSetCardPin.visibility = View.VISIBLE
+                viewDataBinding.btnCompleteVerification.visibility = View.GONE
             }
             Constants.USER_STATUS_MEETING_SCHEDULED -> {
-                btnSetCardPin.visibility = View.GONE
-                btnCompleteVerification.visibility = View.GONE
+                viewDataBinding.btnSetCardPin.visibility = View.GONE
+                viewDataBinding.btnCompleteVerification.visibility = View.GONE
             }
             co.yap.yapcore.constants.Constants.USER_STATUS_CARD_ACTIVATED -> {
-                btnSetCardPin.visibility = View.GONE
-                btnCompleteVerification.visibility = View.GONE
+                viewDataBinding.btnSetCardPin.visibility = View.GONE
+                viewDataBinding.btnCompleteVerification.visibility = View.GONE
             }
         }
     }

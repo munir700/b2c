@@ -8,6 +8,7 @@ import co.yap.R
 import co.yap.app.main.MainChildViewModel
 import co.yap.app.modules.login.interfaces.IPhoneVerificationSignIn
 import co.yap.app.modules.login.states.PhoneVerificationSignInState
+import co.yap.modules.onboarding.models.CountryCode
 import co.yap.modules.otp.getOtpMessageFromComposer
 import co.yap.networking.authentication.AuthRepository
 import co.yap.networking.customers.CustomersRepository
@@ -29,6 +30,7 @@ import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.getColors
 import co.yap.yapcore.leanplum.trackEventWithAttributes
 import co.yap.yapcore.managers.SessionManager
+import co.yap.yapcore.managers.saveUserDetails
 
 class PhoneVerificationSignInViewModel(application: Application) :
     MainChildViewModel<IPhoneVerificationSignIn.State>(application),
@@ -77,12 +79,12 @@ class PhoneVerificationSignInViewModel(application: Application) :
                         KEY_IS_USER_LOGGED_IN,
                         true
                     )
-                    SessionManager.isRemembered.value?.let {
-                        sharedPreferenceManager.save(Constants.KEY_IS_REMEMBER, it)
-                    }
+//                    SessionManager.isRemembered.value?.let {
+//                        sharedPreferenceManager.save(Constants.KEY_IS_REMEMBER, it)
+//                    }
 
                     sharedPreferenceManager.savePassCodeWithEncryption(state.passcode)
-                    sharedPreferenceManager.saveUserNameWithEncryption(state.username)
+//                    sharedPreferenceManager.saveUserNameWithEncryption(state.username)
                     postDemographicData()
                 }
                 is RetroApiResponse.Error -> {
@@ -165,6 +167,13 @@ class PhoneVerificationSignInViewModel(application: Application) :
                     if (response.data.data.isNotEmpty()) {
                         SessionManager.user = response.data.data[0]
                         accountInfo.postValue(response.data.data[0])
+                        context.saveUserDetails(
+                            SessionManager.user?.currentCustomer?.mobileNo,
+                            CountryCode.UAE.countryCode,
+                            SharedPreferenceManager.getInstance(context).getValueBoolien(
+                                Constants.KEY_IS_REMEMBER, true
+                            )
+                        )
                         trackEventWithAttributes(
                             SessionManager.user
                         )

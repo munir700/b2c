@@ -2,22 +2,22 @@
 // apply from: 'shared/build.gradle'
 
 buildscript {
-    ext.kotlin_version = '1.5.32'
-    ext.navigationVersion = "2.1.0-alpha05"
+    ext.kotlin_version = '1.6.10'
+    ext.navigationVersion = "2.3.0"
 
     repositories {
         google()
-        maven { url 'https://maven.fabric.io/public' }
+       // maven { url 'https://maven.fabric.io/public' }
         jcenter()
     }
     dependencies {
-
-//        classpath 'io.fabric.tools:gradle:1.31.2'
+        //classpath 'io.fabric.tools:gradle:1.31.2'
         classpath 'com.google.firebase:firebase-crashlytics-gradle:2.3.0'
         classpath 'com.google.gms:google-services:4.3.4'  // Google Services plugin
-        classpath 'com.android.tools.build:gradle:4.2.2'
+        classpath 'com.android.tools.build:gradle:7.0.4'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$navigationVersion"
+        classpath "com.google.dagger:hilt-android-gradle-plugin:2.38.1"
         classpath files('promon/shield-gradle-plugin-2.0.0.jar')
         classpath files('promon/HiddenSecretsPlugin-0.1.3.jar')
         // NOTE: Do not place your application dependencies here; they belong
@@ -42,6 +42,73 @@ allprojects {
                 password "EKyTWcXk2rs9vZKviksfG6Hh"
             }
             url 'https://rm.dev.uqudo.io/repository/digitify'}
+        maven {
+            credentials {
+                username = "faheem870"
+                password = "m7RkEz8Apxd6NjuXtthd"
+            }
+            authentication {
+                basic(BasicAuthentication)
+            }
+            url "https://api.bitbucket.org/2.0/repositories/yap-technology/android-yap-pak/src/releases"}
+
+//        maven {
+//            credentials {
+//                username = "sherazahmeddigitify"
+//                password = "yMYGkjX4aFAGGb54YYA3"
+//            }
+//            authentication {
+//                basic(BasicAuthentication)
+//            }
+//            url  "https://api.bitbucket.org/2.0/repositories/yap-technology/android-b2c-ghana/src/releases"}
+//        maven {
+//            credentials {
+//                username = "sherazahmeddigitify"
+//                password = "yMYGkjX4aFAGGb54YYA3"
+//            }
+//            authentication {
+//                basic(BasicAuthentication)
+//            }
+//
+//            url  "https://api.bitbucket.org/2.0/repositories/mb28/android-yap-ui-kit/src/releases"}
+//        maven {
+//            credentials {
+//                username = "sherazahmeddigitify"
+//                password = "yMYGkjX4aFAGGb54YYA3"
+//            }
+//            authentication {
+//                basic(BasicAuthentication)
+//            }
+//
+//            url  "https://api.bitbucket.org/2.0/repositories/mb28/android-yap-permissions/src/releasesLib"}
+//        maven {
+//            credentials {
+//                username = "sherazahmeddigitify"
+//                password = "yMYGkjX4aFAGGb54YYA3"
+//            }
+//            authentication {
+//                basic(BasicAuthentication)
+//            }
+//            url  "https://api.bitbucket.org/2.0/repositories/mb28/android-yap-assets/src/releases"}
+//        maven {
+//            credentials {
+//                username = "sherazahmeddigitify"
+//                password = "yMYGkjX4aFAGGb54YYA3"
+//            }
+//            authentication {
+//                basic(BasicAuthentication)
+//            }
+//            url  "https://api.bitbucket.org/2.0/repositories/mb28/android-yap-scanner/src/releasesLib"}
+//        maven {
+//            credentials {
+//                username = "sherazahmeddigitify"
+//                password = "yMYGkjX4aFAGGb54YYA3"
+//            }
+//            authentication {
+//                basic(BasicAuthentication)
+//            }
+//
+//            url  "https://api.bitbucket.org/2.0/repositories/mb28/android-yap-core/src/releases"}
     }
 }
 

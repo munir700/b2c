@@ -3,13 +3,14 @@ package co.yap.household.onboard.otherscreens
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.widget.TextView
 import co.yap.household.R
 import co.yap.modules.dummy.ActivityNavigator
 import co.yap.translation.Strings
+import co.yap.widgets.CoreButton
 import co.yap.yapcore.IFragmentHolder
 import co.yap.yapcore.defaults.DefaultActivity
 import co.yap.yapcore.managers.SessionManager
-import kotlinx.android.synthetic.main.activity_eidnot_accepted.*
 
 
 class InvalidEIDActivity : DefaultActivity(), IFragmentHolder {
@@ -29,7 +30,7 @@ class InvalidEIDActivity : DefaultActivity(), IFragmentHolder {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_eidnot_accepted)
-        tvEID_NotAcceptMessage.text =
+        findViewById<TextView>(R.id.tvEID_NotAcceptMessage).text =
             getString(Strings.screen_house_hold_existing_yap_message).format(
                 SessionManager.user?.currentCustomer?.getFullName()
             )
@@ -41,7 +42,7 @@ class InvalidEIDActivity : DefaultActivity(), IFragmentHolder {
     * In this function set onClicker listener.
     * */
     private fun setClickerListner() {
-        btnEID_NotAccept.setOnClickListener {
+        findViewById<CoreButton>(R.id.btnEID_NotAccept).setOnClickListener {
             SessionManager.doLogout(this)
             finish()
         }

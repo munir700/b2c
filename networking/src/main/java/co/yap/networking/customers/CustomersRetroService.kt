@@ -404,4 +404,6 @@ interface CustomersRetroService {
     @GET(CustomersRepository.URL_GET_UQUDO_AUTH_TOKEN)
     suspend fun getUqudoAuthToken(): Response<BaseResponse<UqudoTokenResponse>>
 
+    @GET(CustomersRepository.URL_GET_SIGN_UP_COUNTRIES)
+    suspend fun getAppCountries(): Response<BaseListResponse<Country>>
 }

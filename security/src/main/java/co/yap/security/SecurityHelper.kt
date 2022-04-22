@@ -67,7 +67,8 @@ class SecurityHelper(
                         spayServiceId = "",
                         flagSmithAPIKey = "",
                         uxCamKey = "",
-                        checkoutKey = ""
+                        checkoutKey = "",
+                        leanOpenBanking = ""
                     )
                     signaturesList.add(signatures)
                 }

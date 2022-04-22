@@ -120,7 +120,7 @@ class EidInfoReviewViewModel(application: Application) :
                     trackEvent(KYCEvents.KYC_PROHIBITED_CITIIZEN.type)
                     trackEventWithScreenName(FirebaseEvent.KYC_SANCTIONED)
                 }
-                parentViewModel?.document != null && it.identityNo != parentViewModel?.document?.identityNo -> {
+                parentViewModel?.document != null && it.identityNo?.replace("-","") != parentViewModel?.document?.identityNo -> {
                     state.toast =
                         "Your EID doesn't match with the current EID.^${AlertType.DIALOG.name}"
                 }
