@@ -1731,5 +1731,6 @@
     <!--Lean -Easy bank Transfer -Topup Amount -->
     <string name="screen_lean_topup_amount_toolbar_title">Top up via bank account</string>
     <string name="screen_lean_topup_text_enter_amount_to_topup">Enter the amount to top up</string>
+    <string name="screen_lean_topup_text_min_max_error">The transfer amount should be greater than %1s and less than %2s</string>
 
 </resources>

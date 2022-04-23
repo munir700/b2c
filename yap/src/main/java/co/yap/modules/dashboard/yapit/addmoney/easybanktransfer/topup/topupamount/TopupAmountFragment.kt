@@ -9,8 +9,13 @@ import co.yap.databinding.FragmentTopupAmountBinding
 import co.yap.modules.dashboard.yapit.addmoney.easybanktransfer.leansdk.LeanSdkManager
 import co.yap.modules.dashboard.yapit.addmoney.main.AddMoneyBaseFragment
 import co.yap.networking.leanteach.responsedtos.accountlistmodel.LeanCustomerAccounts
+import co.yap.networking.leanteach.responsedtos.banklistmodels.BankListMainModel
+import co.yap.translation.Strings
 import co.yap.yapcore.helpers.extentions.generateChipViews
+import co.yap.yapcore.helpers.extentions.toFormattedCurrency
+import co.yap.yapcore.helpers.showTextUpdatedAbleSnackBar
 import com.google.android.material.chip.Chip
+import com.google.android.material.snackbar.Snackbar
 import me.leantech.link.android.Lean
 
 //adjust resize need to be added when required activity is created
@@ -28,6 +33,7 @@ class TopupAmountFragment :
         viewModel.setAvailableBalance()
         setObservers()
         getDataArguments()
+        viewModel.getLimitOfAmount()
     }
 
     override fun setObservers() {
@@ -45,6 +51,10 @@ class TopupAmountFragment :
                 ?.let {
                     viewModel.leanCustomerAccounts = it
                 }
+            bundle.getParcelable<BankListMainModel>(co.yap.yapcore.constants.Constants.MODEL_BANK_LEAN)
+                ?.let {
+                    viewModel.bankListMainModel = it
+                }
         }
     }
 
@@ -59,7 +69,8 @@ class TopupAmountFragment :
 
     private fun observeValues() {
         viewModel.state.enteredTopUpAmount.observe(viewLifecycleOwner) { topUpAmount ->
-            //deal with topUpAmount
+            if (topUpAmount.isNotBlank())
+                viewModel.getPaymentIntentModel.amount = topUpAmount.toDouble()
         }
         viewModel.paymentIntentId.observe(viewLifecycleOwner) {
             if (it.isNullOrEmpty().not())
@@ -81,7 +92,8 @@ class TopupAmountFragment :
         viewModel.clickEvent.observe(this) { id ->
             when (id) {
                 R.id.btnAction -> {
-                    viewModel.getPaymentIntentId()
+                    if (viewModel.isMaxMinLimitReached()) showUpperLowerLimitError()
+                    else viewModel.getPaymentIntentId()
                 }
             }
         }
@@ -112,4 +124,14 @@ class TopupAmountFragment :
         )
     }
 
+    fun showUpperLowerLimitError() {
+        showTextUpdatedAbleSnackBar(
+            getString(
+                Strings.screen_lean_topup_text_min_max_error,
+                viewModel.getLimitOfAmount()?.min.toString().toFormattedCurrency(),
+                viewModel.getLimitOfAmount()?.max.toString().toFormattedCurrency()
+            ),
+            Snackbar.LENGTH_INDEFINITE
+        )
+    }
 }
