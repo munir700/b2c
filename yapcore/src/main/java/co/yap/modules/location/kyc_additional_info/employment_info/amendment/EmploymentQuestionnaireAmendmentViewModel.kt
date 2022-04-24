@@ -336,7 +336,7 @@ class EmploymentQuestionnaireAmendmentViewModel(application: Application) :
             documentsList.value?.find { it.isMandatory && it.fileURL == null } == null
 
         validator?.isValidate?.value =
-            isValid && documentsValid && salaryAmount.parseToDouble() >= depositAmount.parseToDouble() && isInEditMode.value == true && validator?.isValidate?.value == true
+            isValid && documentsValid && salaryAmount.parseToDouble() >= depositAmount.parseToDouble() && isInEditMode.value == true && state.ruleValid == true
     }
 
     private fun fetchParallelAPIResponses(
@@ -667,5 +667,15 @@ class EmploymentQuestionnaireAmendmentViewModel(application: Application) :
             )
         )
         return list
+    }
+
+    override fun onValidationSuccess(validator: Validator) {
+        super.onValidationSuccess(validator)
+        state.ruleValid = true
+    }
+
+    override fun onValidationError(validator: Validator) {
+        super.onValidationError(validator)
+        state.ruleValid = false
     }
 }

@@ -3,7 +3,7 @@ package co.yap.yapcore.helpers.validation.rule
 import android.view.View
 import android.widget.TextView
 import androidx.annotation.Keep
-import co.yap.yapcore.helpers.extentions.parseToInt
+import co.yap.yapcore.helpers.extentions.parseToDouble
 import co.yap.yapcore.helpers.validation.util.EditTextHandler
 
 /**
@@ -22,7 +22,7 @@ class MinValueRule(
     showErrorMessage
 ) {
     override fun isValid(view: TextView?): Boolean {
-        return view?.visibility == View.GONE || view?.text.toString().replace(",","").parseToInt() >= value?.parseToInt() ?: 0
+        return view?.visibility == View.GONE || view?.text.toString().replace(",","").parseToDouble() >= value?.parseToDouble() ?: 0.0
     }
 
     override fun onValidationSucceeded(view: TextView?) {
