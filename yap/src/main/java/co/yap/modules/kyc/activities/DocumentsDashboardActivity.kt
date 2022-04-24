@@ -71,8 +71,6 @@ class DocumentsDashboardActivity :
     private fun addObserver() {
         viewModel.clickEvent.observe(this, clickEventObserver)
         viewModel.finishKyc.observe(this, Observer {
-            viewModel.uqudoManager?.deleteEidImages()
-
             goToDashBoard(
                 success = it.success,
                 skippedPress = !it.success,
