@@ -67,7 +67,7 @@ class EmailFragment : OnboardingChildFragment<FragmentEmailBinding, IEmail.ViewM
     private val nextButtonObserver = Observer<Int> {
         when (it) {
             OnboardingPhase.NOTIFICATION_KFS_FLOW.id -> navigate(R.id.action_emailFragment_to_kfsNotificationFragment)
-            OnboardingPhase.NOTIFICATION_SELECTED.id -> if (viewModel.isAnyNotificationSelected() || viewModel.parentViewModel?.state?.noNotificationAccepted?.value == true) viewModel.setVerificationLabel()
+            OnboardingPhase.NOTIFICATION_SELECTED.id -> if (viewModel.ifAnyNotificationSelected()) viewModel.setVerificationLabel()
             OnboardingPhase.EVENT_NAVIGATE_NEXT.id -> {
                 trackEventWithScreenName(FirebaseEvent.SIGNUP_EMAIL_SUCCESS)
                 val bundle = bundleOf(ExtraKeys.IS_WAITING.name to viewModel.state.isWaiting)

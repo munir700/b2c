@@ -8,6 +8,7 @@ import androidx.lifecycle.Observer
 import co.yap.BR
 import co.yap.R
 import co.yap.databinding.FragmentKfsNotifcationBinding
+import co.yap.modules.onboarding.enums.NotificationType
 import co.yap.modules.onboarding.interfaces.IKfsNotification
 import co.yap.modules.onboarding.viewmodels.KfsNotificationViewModel
 import co.yap.translation.Strings
@@ -36,52 +37,65 @@ class KfsNotificationFragment :
     private fun getViewBinding() = getDataBindingView<FragmentKfsNotifcationBinding>()
     override fun onCheckedChanged(buttonView: CompoundButton, isChecked: Boolean) {
         when (buttonView.id) {
-            R.id.cb3 -> {
-                viewModel.parentViewModel?.state?.inappNotificationAccepted?.value = isChecked
-                enableAllNotifications(false)
-            }
-            R.id.cb2 -> {
-                viewModel.parentViewModel?.state?.emailNotificationAccepted?.value = isChecked
-                enableAllNotifications(false)
-            }
-            R.id.cb1 -> {
-                viewModel.parentViewModel?.state?.smsNotificationAccepted?.value = isChecked
-                enableAllNotifications(false)
-            }
-            R.id.rb1 -> {
-                viewModel.parentViewModel?.state?.allNotificationAccepted?.value = isChecked
-                enableAllNotifications(isChecked)
-            }
-            R.id.rb2 -> {
-                viewModel.parentViewModel?.state?.noNotificationAccepted?.value = isChecked
-                if (isChecked) viewModel.revertAllAppNotifications()
-                enableAllNotifications(false)
-            }
+            R.id.cb3 -> enableAllNotifications(
+                NotificationType.IN_APP_NOTIFICATION,
+                isChecked,
+                enableAll = false
+            )
+
+            R.id.cb2 -> enableAllNotifications(
+                NotificationType.EMAIL_NOTIFICATION,
+                isChecked,
+                enableAll = false
+            )
+
+            R.id.cb1 -> enableAllNotifications(
+                NotificationType.SMS_NOTIFICATION,
+                isChecked,
+                enableAll = false
+            )
+
+            R.id.rb1 -> enableAllNotifications(
+                NotificationType.ALL_NOTIFICATION,
+                isChecked,
+                enableAll = isChecked
+            )
+
+            R.id.rb2 -> enableAllNotifications(
+                NotificationType.NONE_NOTIFICATION,
+                isChecked,
+                enableAll = false
+            )
+
         }
-        viewModel.state.valid.set(viewModel.isAnyNotificationSelected() || viewModel.parentViewModel?.state?.noNotificationAccepted?.value == true)
+        viewModel.state.valid.set(viewModel.isAnyOfNotificationSelected() || viewModel.state.notificationMap[NotificationType.NONE_NOTIFICATION]?:false)
     }
 
-    private fun enableAllNotifications(isEnabled: Boolean = true) {
-        viewModel.parentViewModel?.state?.let { parentState ->
-            with(parentState) {
-                if (isEnabled) viewModel.enableAllAppNotifications()
-                getViewBinding().rb1.isChecked =
-                    if (isEnabled) isEnabled else viewModel.isAnyNotificationSelected()
-                getViewBinding().cb1.isChecked =
-                    if (isEnabled) isEnabled else smsNotificationAccepted.value ?: false
-                getViewBinding().cb2.isChecked =
-                    if (isEnabled) isEnabled else emailNotificationAccepted.value ?: false
-                getViewBinding().cb3.isChecked =
-                    if (isEnabled) isEnabled else inappNotificationAccepted.value ?: false
-                getViewBinding().rb2.isChecked =
-                    if (isEnabled) isEnabled.not() else noNotificationAccepted.value ?: false && viewModel.isAnyNotificationSelected()
-                        .not()
-            }
+    private fun enableAllNotifications(
+        key: NotificationType,
+        isChecked: Boolean,
+        enableAll: Boolean
+    ) {
+        viewModel.setUpNotificationOnCheck(
+            key,
+            isChecked,
+            enableAll
+        ) { map ->
+            getViewBinding().rb1.isChecked =
+                map[NotificationType.ALL_NOTIFICATION] ?: false
+            getViewBinding().cb1.isChecked =
+                map[NotificationType.SMS_NOTIFICATION] ?: false
+            getViewBinding().cb2.isChecked =
+                map[NotificationType.EMAIL_NOTIFICATION] ?: false
+            getViewBinding().cb3.isChecked =
+                map[NotificationType.IN_APP_NOTIFICATION] ?: false
+            getViewBinding().rb2.isChecked = map[NotificationType.NONE_NOTIFICATION] ?: false
+
         }
     }
 
     private val clickListenerHandler = Observer<Int> { id ->
-        if (viewModel.parentViewModel?.state?.noNotificationAccepted?.value == true) showAlertDialog()
+        if (viewModel.state.notificationMap[NotificationType.NONE_NOTIFICATION] == true) showAlertDialog()
         else viewModel.signUp {
             navigateBack()
         }

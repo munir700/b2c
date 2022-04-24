@@ -1,5 +1,6 @@
 package co.yap.modules.onboarding.interfaces
 
+import androidx.databinding.ObservableBoolean
 import androidx.lifecycle.MutableLiveData
 import co.yap.modules.onboarding.enums.OnboardingPhase
 import co.yap.modules.onboarding.models.OnboardingData
@@ -18,18 +19,14 @@ interface IOnboarding {
         val isPhoneNumberEntered: MutableLiveData<Boolean>
         var rankNo: MutableLiveData<String>
         var isWaitingList: MutableLiveData<Boolean>
-        var emailError : MutableLiveData<String>
+        var emailError: MutableLiveData<String>
     }
 
     interface State : IBase.State {
         var totalProgress: Int
         var currentProgress: Int
         var emailError: Boolean
-        var allNotificationAccepted: MutableLiveData<Boolean>
-        var smsNotificationAccepted: MutableLiveData<Boolean>
-        var inappNotificationAccepted: MutableLiveData<Boolean>
-        var emailNotificationAccepted: MutableLiveData<Boolean>
-        var noNotificationAccepted: MutableLiveData<Boolean>
         var notificationAction: MutableLiveData<OnboardingPhase>
+        var anyNotificationOptionSelected : ObservableBoolean
     }
 }

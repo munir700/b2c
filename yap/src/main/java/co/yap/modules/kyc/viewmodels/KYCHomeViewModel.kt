@@ -48,7 +48,10 @@ class KYCHomeViewModel(application: Application) : KYCChildViewModel<IKYCHome.St
             when (val response = repository.getDocuments()) {
                 is RetroApiResponse.Success -> {
                     response.data.data?.let {
-                        if (it.isNotEmpty()) state.eidScanStatus = DocScanStatus.DOCS_UPLOADED
+                        val kycisCompleted =it[0].imageText?.contains("pdf")?.not()?:false
+                        if (it.isNotEmpty() && kycisCompleted) {
+                            state.eidScanStatus = DocScanStatus.DOCS_UPLOADED
+                        }
                     }
                     state.loading = false
                 }

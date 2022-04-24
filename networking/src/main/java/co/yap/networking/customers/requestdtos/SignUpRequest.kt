@@ -21,6 +21,6 @@ data class SignUpRequest(
     val accountType: String? = null,
     @SerializedName("token")
     val token: String? = null,
-    @SerializedName("kfsAcceptedTimeStamp ")
+    @SerializedName("kfsAcceptedTimeStamp")
     val kfsAcceptedTimeStamp : String? = null
 ) : Serializable

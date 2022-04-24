@@ -1,6 +1,7 @@
 package co.yap.modules.onboarding.viewmodels
 
 import android.app.Application
+import co.yap.modules.onboarding.enums.NotificationType
 import co.yap.modules.onboarding.enums.OnboardingPhase
 import co.yap.modules.onboarding.interfaces.IKfsNotification
 import co.yap.modules.onboarding.states.KfsNotificationState
@@ -28,6 +29,12 @@ class KfsNotificationViewModel(application: Application) :
     override var clickEvent: SingleClickEvent = SingleClickEvent()
     override val repository: CustomersRepository = CustomersRepository
     val notificationRepository: NotificationsApi = NotificationsRepository
+
+    override fun onCreate() {
+        super.onCreate()
+        state.notificationMap.clear()
+    }
+
     override fun onResume() {
         super.onResume()
         setProgress(80)
@@ -37,29 +44,70 @@ class KfsNotificationViewModel(application: Application) :
         clickEvent.setValue(id)
     }
 
-    fun revertAllAppNotifications() {
-        parentViewModel?.state?.let { it ->
-            with(it) {
-                inappNotificationAccepted.value = false
-                smsNotificationAccepted.value = false
-                emailNotificationAccepted.value = false
-                allNotificationAccepted.value = false
-                noNotificationAccepted.value = true
-            }
+    fun revertAllAppNotifications(enableNone: Boolean = true) {
+        with(state) {
+            notificationMap.putAll(
+                mutableListOf(
+                    NotificationType.ALL_NOTIFICATION to false,
+                    NotificationType.SMS_NOTIFICATION to false,
+                    NotificationType.EMAIL_NOTIFICATION to false,
+                    NotificationType.IN_APP_NOTIFICATION to false,
+                    NotificationType.NONE_NOTIFICATION to enableNone,
+                )
+            )
         }
-
     }
 
     fun enableAllAppNotifications() {
-        parentViewModel?.state?.let { it ->
-            with(it) {
-                inappNotificationAccepted.value = true
-                smsNotificationAccepted.value = true
-                emailNotificationAccepted.value = true
-                allNotificationAccepted.value = true
-                noNotificationAccepted.value = false
-            }
+        with(state) {
+            notificationMap.putAll(
+                mutableListOf(
+                    NotificationType.ALL_NOTIFICATION to true,
+                    NotificationType.SMS_NOTIFICATION to true,
+                    NotificationType.EMAIL_NOTIFICATION to true,
+                    NotificationType.IN_APP_NOTIFICATION to true,
+                    NotificationType.NONE_NOTIFICATION to false,
+                )
+            )
         }
+    }
+
+
+    fun isAnyOfNotificationSelected(): Boolean = state.notificationMap?.let { it ->
+        it[NotificationType.SMS_NOTIFICATION] == true
+                || it[NotificationType.EMAIL_NOTIFICATION] == true
+                || it[NotificationType.IN_APP_NOTIFICATION] == true
+    }
+
+    fun setUpNotificationOnCheck(
+        key: NotificationType,
+        checked: Boolean,
+        enableAll: Boolean,
+        checkSelection: (MutableMap<NotificationType, Boolean?>) -> Unit
+    ) {
+        state.notificationMap[key] =
+            when (key) {
+                NotificationType.NONE_NOTIFICATION -> checked
+                NotificationType.SMS_NOTIFICATION, NotificationType.EMAIL_NOTIFICATION, NotificationType.IN_APP_NOTIFICATION -> {
+                    if (checked) {
+                        state.notificationMap[NotificationType.NONE_NOTIFICATION] = false
+                        state.notificationMap[NotificationType.ALL_NOTIFICATION] = true
+                    }
+                    checked &&   state.notificationMap[NotificationType.ALL_NOTIFICATION]?:false
+                }
+                NotificationType.ALL_NOTIFICATION -> {
+                    if (checked.not() && isAnyOfNotificationSelected()) revertAllAppNotifications(
+                        false
+                    ) else if (checked && isAnyOfNotificationSelected().not())enableAllAppNotifications()
+                    checked
+                }
+            }
+        state.notificationMap[NotificationType.ALL_NOTIFICATION] =
+            enableAll || (state.notificationMap[NotificationType.ALL_NOTIFICATION] ?: false && isAnyOfNotificationSelected())
+
+        setNotificationSelection(state.valid.get())
+        if (key == NotificationType.NONE_NOTIFICATION && state.notificationMap[NotificationType.NONE_NOTIFICATION] == true) revertAllAppNotifications()
+        checkSelection.invoke(state.notificationMap)
     }
 
     fun signUp(success: () -> Unit) {
@@ -89,7 +137,10 @@ class KfsNotificationViewModel(application: Application) :
                             .savePassCodeWithEncryption(passCode)
                     } ?: toast(context, "Invalid pass code")
 
-                    trackEvent(SignupEvents.SIGN_UP_EMAIL.type,parentViewModel?.onboardingData?.email ?: "")
+                    trackEvent(
+                        SignupEvents.SIGN_UP_EMAIL.type,
+                        parentViewModel?.onboardingData?.email ?: ""
+                    )
                     trackEventWithScreenName(FirebaseEvent.SIGNUP_EMAIL)
                     SharedPreferenceManager.getInstance(context)
                         .saveUserNameWithEncryption(parentViewModel?.onboardingData?.email ?: "")
@@ -112,9 +163,9 @@ class KfsNotificationViewModel(application: Application) :
         launch {
             when (val response = notificationRepository.saveNotificationSettings(
                 NotificationSettings(
-                    emailEnabled = parentViewModel?.state?.emailNotificationAccepted?.value,
-                    inAppEnabled = parentViewModel?.state?.inappNotificationAccepted?.value,
-                    smsEnabled = parentViewModel?.state?.smsNotificationAccepted?.value,
+                    emailEnabled = state.notificationMap[NotificationType.EMAIL_NOTIFICATION],
+                    inAppEnabled = state.notificationMap[NotificationType.IN_APP_NOTIFICATION],
+                    smsEnabled = state.notificationMap[NotificationType.SMS_NOTIFICATION],
                     optIn = isOptTrue()
                 )
             )) {
@@ -133,5 +184,6 @@ class KfsNotificationViewModel(application: Application) :
     }
 
     fun isOptTrue() =
-        parentViewModel?.state?.noNotificationAccepted?.value == false && isAnyNotificationSelected()
+        state.notificationMap[NotificationType.NONE_NOTIFICATION] == false && isAnyOfNotificationSelected()
+
 }
