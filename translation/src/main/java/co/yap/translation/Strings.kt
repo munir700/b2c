@@ -2678,6 +2678,8 @@ object Strings {
         "screen_lean_topup_amount_toolbar_title"
     const val screen_lean_topup_text_enter_amount_to_topup =
         "screen_lean_topup_text_enter_amount_to_topup"
+    const val screen_lean_topup_text_min_max_error =
+            "screen_lean_topup_text_min_max_error"
 
     //Lean -Easy Bank Transfer-Payment-Successful
     const val screen_lean_topup_payment_successful_title =
