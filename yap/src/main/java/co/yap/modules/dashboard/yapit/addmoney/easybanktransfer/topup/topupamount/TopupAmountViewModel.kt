@@ -7,6 +7,7 @@ import co.yap.modules.dashboard.yapit.addmoney.main.AddMoneyBaseViewModel
 import co.yap.networking.leanteach.LeanTechRepository
 import co.yap.networking.leanteach.requestdtos.GetPaymentIntentIdModel
 import co.yap.networking.leanteach.responsedtos.accountlistmodel.LeanCustomerAccounts
+import co.yap.networking.leanteach.responsedtos.banklistmodels.BankListMainModel
 import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
@@ -15,6 +16,7 @@ import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.helpers.extentions.toast
 import co.yap.yapcore.helpers.spannables.color
 import co.yap.yapcore.helpers.spannables.getText
+import co.yap.yapcore.managers.SessionManager
 
 class TopupAmountViewModel(application: Application) :
     AddMoneyBaseViewModel<ITopupAmount.State>(application), ITopupAmount.ViewModel {
@@ -22,6 +24,8 @@ class TopupAmountViewModel(application: Application) :
     override var customerId: String = ""
     override var paymentIntentId: MutableLiveData<String> = MutableLiveData("")
     override var leanCustomerAccounts: LeanCustomerAccounts = LeanCustomerAccounts()
+    override var getPaymentIntentModel: GetPaymentIntentIdModel = GetPaymentIntentIdModel()
+    override var bankListMainModel: BankListMainModel = BankListMainModel()
     override val state: ITopupAmount.State = TopupAmountState()
     private val leanTechRepository: LeanTechRepository = LeanTechRepository
 
@@ -52,18 +56,36 @@ class TopupAmountViewModel(application: Application) :
     }
 
     override fun getPaymentIntentId() {
-        var model = GetPaymentIntentIdModel(20.00, "AED", customerId)
+        val model = GetPaymentIntentIdModel(
+            state.enteredTopUpAmount.value?.toDouble(),
+            SessionManager.getDefaultCurrency(),
+            customerId
+        )
+        state.loading = true
         launch {
             when (val response = leanTechRepository.getPaymentIntentId(model)) {
                 is RetroApiResponse.Success -> {
                     response.data.data?.paymentIntentId?.let {
                         paymentIntentId.postValue(it)
+                        state.loading = false
                     }
                 }
                 is RetroApiResponse.Error -> {
                     toast(context, response.error.message)
+                    state.loading = false
                 }
             }
         }
     }
+
+    override fun getLimitOfAmount() =
+        bankListMainModel.transferLimits?.filter { it.currency.equals(SessionManager.getDefaultCurrency()) }
+            ?.get(0)
+
+    override fun isMaxMinLimitReached() =
+        state.enteredTopUpAmount.value?.let {
+            if (it.isNotBlank() || it.toDoubleOrNull() ?: 0.0 > 0.0)
+                it.toDoubleOrNull() ?: 0.0 > getLimitOfAmount()?.max?.toDouble() ?: 0.0 || it.toDoubleOrNull() ?: 0.0 < getLimitOfAmount()?.min?.toDouble() ?: 0.0
+            else false
+        } ?: false
 }
