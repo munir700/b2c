@@ -115,11 +115,11 @@ class AccountListFragment :
                             fragmentName = BankListFragment::class.java.name, bundle = bundleOf(
                                 co.yap.yapcore.constants.Constants.ONBOARD_USER_LEAN to viewModel.leanOnBoardModel.value
                             )
-                        ){resultCode, _ ->
-                            if(resultCode == Activity.RESULT_OK)
+                        ) { resultCode, _ ->
+                            if (resultCode == Activity.RESULT_OK)
                                 viewModel.setMultiState()
                         }
-                    }else toast("No customer ID found")
+                    } else toast("No customer ID found")
                 }
             }
         }
