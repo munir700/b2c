@@ -59,6 +59,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/margin_large"
             app:btn_size="medium"
+            android:onClick="@{(v)->viewModel.handlePressOnView(v.id)}"
             app:enableCoreButton="@{true}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

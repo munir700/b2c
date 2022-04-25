@@ -23,6 +23,7 @@ class TopupAmountViewModel(application: Application) :
     override val clickEvent: SingleClickEvent = SingleClickEvent()
     override var customerId: String = ""
     override var paymentIntentId: MutableLiveData<String> = MutableLiveData("")
+    override var leanPaymentStatus: MutableLiveData<Boolean> = MutableLiveData(false)
     override var leanCustomerAccounts: LeanCustomerAccounts = LeanCustomerAccounts()
     override var getPaymentIntentModel: GetPaymentIntentIdModel = GetPaymentIntentIdModel()
     override var bankListMainModel: BankListMainModel = BankListMainModel()

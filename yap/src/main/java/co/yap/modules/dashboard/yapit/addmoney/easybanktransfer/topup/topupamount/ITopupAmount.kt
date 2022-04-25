@@ -18,6 +18,7 @@ interface ITopupAmount {
         val clickEvent: SingleClickEvent
         var customerId: String
         var paymentIntentId: MutableLiveData<String>
+        var leanPaymentStatus: MutableLiveData<Boolean>
         var leanCustomerAccounts: LeanCustomerAccounts
         var getPaymentIntentModel: GetPaymentIntentIdModel
         var bankListMainModel: BankListMainModel

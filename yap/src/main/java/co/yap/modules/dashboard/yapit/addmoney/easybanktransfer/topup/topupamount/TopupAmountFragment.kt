@@ -3,7 +3,6 @@ package co.yap.modules.dashboard.yapit.addmoney.easybanktransfer.topup.topupamou
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import co.yap.BR
 import co.yap.R
 import co.yap.databinding.FragmentTopupAmountBinding
@@ -16,7 +15,6 @@ import co.yap.yapcore.helpers.extentions.generateChipViews
 import co.yap.yapcore.managers.SessionManager
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.helpers.showTextUpdatedAbleSnackBar
-import co.yap.yapcore.managers.SessionManager
 import com.google.android.material.chip.Chip
 import com.google.android.material.snackbar.Snackbar
 import me.leantech.link.android.Lean
@@ -43,6 +41,7 @@ class TopupAmountFragment :
         observeValues()
         setDenominationsChipListener()
         balanceObserver()
+        leanPaymentSuccessObserver()
     }
 
     private fun getDataArguments() {
@@ -95,13 +94,23 @@ class TopupAmountFragment :
                     viewModel.leanCustomerAccounts.accountId,
                     object : Lean.LeanListener {
                         override fun onResponse(status: Lean.LeanStatus) {
-                            if (status.status == co.yap.modules.others.helper.Constants.SUCCESS_STATUS){
-                                navigate(R.id.action_topUpAmountFragment_to_paymentSuccessfulFragment)
-                            }
+                            if (status.status == co.yap.modules.others.helper.Constants.SUCCESS_STATUS)
+                                viewModel.leanPaymentStatus.postValue(true)
                         }
                     })
 
         }
+    }
+
+    private fun leanPaymentSuccessObserver() {
+        viewModel.leanPaymentStatus.observe(viewLifecycleOwner){
+            if(it)
+                openPaymentSuccessScreen()
+        }
+    }
+
+    private fun openPaymentSuccessScreen() {
+        navigate(R.id.action_topUpAmountFragment_to_paymentSuccessfulFragment)
     }
 
     private fun observeClickEvent() {
