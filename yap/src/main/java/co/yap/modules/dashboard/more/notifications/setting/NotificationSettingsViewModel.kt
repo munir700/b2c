@@ -6,6 +6,7 @@ import co.yap.networking.notification.NotificationsApi
 import co.yap.networking.notification.NotificationsRepository
 import co.yap.networking.notification.responsedtos.NotificationSettings
 import co.yap.yapcore.BaseViewModel
+import co.yap.yapcore.leanplum.trackKfsWithAttributes
 import kotlinx.coroutines.delay
 
 class NotificationSettingsViewModel(application: Application) :
@@ -24,6 +25,11 @@ class NotificationSettingsViewModel(application: Application) :
                     state.inAppNotificationsAllowed = response.data.data?.inAppEnabled
                     state.smsNotificationsAllowed = response.data.data?.smsEnabled
                     state.pushNotificationsAllowed = response.data.data?.pushNotificationEnabled
+                    trackKfsWithAttributes(
+                        state.smsNotificationsAllowed ?: false,
+                        state.emailNotificationsAllowed ?: false,
+                        state.inAppNotificationsAllowed ?: false
+                    )
                     state.loading = false
                     delay(100)
                     onComplete.invoke(true)
@@ -49,6 +55,11 @@ class NotificationSettingsViewModel(application: Application) :
                 )
             )) {
                 is RetroApiResponse.Success -> {
+                    trackKfsWithAttributes(
+                        state.smsNotificationsAllowed ?: false,
+                        state.emailNotificationsAllowed ?: false,
+                        state.inAppNotificationsAllowed ?: false
+                    )
                     state.loading = false
                 }
                 is RetroApiResponse.Error -> {

@@ -25,15 +25,6 @@ class KfsNotificationFragment :
         addObservers()
     }
 
-    private fun addObservers() {
-        viewModel.clickEvent.observe(viewLifecycleOwner, clickListenerHandler)
-        getViewBinding().rb2.setOnCheckedChangeListener(this)
-        getViewBinding().rb1.setOnCheckedChangeListener(this)
-        getViewBinding().cb1.setOnCheckedChangeListener(this)
-        getViewBinding().cb2.setOnCheckedChangeListener(this)
-        getViewBinding().cb3.setOnCheckedChangeListener(this)
-    }
-
     private fun getViewBinding() = getDataBindingView<FragmentKfsNotifcationBinding>()
     override fun onCheckedChanged(buttonView: CompoundButton, isChecked: Boolean) {
         when (buttonView.id) {
@@ -68,7 +59,7 @@ class KfsNotificationFragment :
             )
 
         }
-        viewModel.state.valid.set(viewModel.isAnyOfNotificationSelected() || viewModel.state.notificationMap[NotificationType.NONE_NOTIFICATION]?:false)
+        viewModel.state.valid.set(viewModel.isAnyOfNotificationSelected() || viewModel.state.notificationMap[NotificationType.NONE_NOTIFICATION] ?: false)
     }
 
     private fun enableAllNotifications(
@@ -112,5 +103,19 @@ class KfsNotificationFragment :
                 }
             },
         )
+    }
+
+    private fun addObservers() {
+        viewModel.clickEvent.observe(viewLifecycleOwner, clickListenerHandler)
+        getViewBinding().rb2.setOnCheckedChangeListener(this)
+        getViewBinding().rb1.setOnCheckedChangeListener(this)
+        getViewBinding().cb1.setOnCheckedChangeListener(this)
+        getViewBinding().cb2.setOnCheckedChangeListener(this)
+        getViewBinding().cb3.setOnCheckedChangeListener(this)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        viewModel.clickEvent.removeObserver(clickListenerHandler)
     }
 }

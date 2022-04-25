@@ -29,4 +29,8 @@ data class UserAttributes(
     val last_pos_txn_category: String = "last_pos_txn_category",
     val total_transaction_count: String = "total_transaction_count",
     val total_transaction_value: String = "total_transaction_value",
+
+    val in_AppMessage_MarketingConsent: String = "In-AppMessage_MarketingConsent",
+    val email_MarketingConsent: String = "Email_MarketingConsent",
+    val sMS_MarketingConsent: String = "SMS_MarketingConsent ",
 )
