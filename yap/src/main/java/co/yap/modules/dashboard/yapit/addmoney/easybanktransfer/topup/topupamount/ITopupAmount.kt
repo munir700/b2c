@@ -13,9 +13,9 @@ interface ITopupAmount {
 
     interface ViewModel : IBase.ViewModel<State> {
         val clickEvent: SingleClickEvent
-        var customerId: String
+        var customerId: String?
         var paymentIntentId: MutableLiveData<String>
-        var leanCustomerAccounts: LeanCustomerAccounts
+        var leanCustomerAccounts: LeanCustomerAccounts?
         fun denominationAmountValidator(amount: String)
         fun handleClickEvent(id: Int)
         fun setAvailableBalance()

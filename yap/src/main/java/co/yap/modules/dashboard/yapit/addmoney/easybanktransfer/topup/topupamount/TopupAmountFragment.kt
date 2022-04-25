@@ -67,7 +67,7 @@ class TopupAmountFragment :
                     requireActivity(),
                     it,
                     true,
-                    viewModel.leanCustomerAccounts.accountId,
+                    viewModel.leanCustomerAccounts?.accountId,
                     object : Lean.LeanListener {
                         override fun onResponse(status: Lean.LeanStatus) {
                             val value = status.status

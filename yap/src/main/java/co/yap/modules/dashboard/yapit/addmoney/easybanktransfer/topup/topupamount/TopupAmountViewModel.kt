@@ -19,9 +19,9 @@ import co.yap.yapcore.helpers.spannables.getText
 class TopupAmountViewModel(application: Application) :
     AddMoneyBaseViewModel<ITopupAmount.State>(application), ITopupAmount.ViewModel {
     override val clickEvent: SingleClickEvent = SingleClickEvent()
-    override var customerId: String = ""
+    override var customerId: String? = ""
     override var paymentIntentId: MutableLiveData<String> = MutableLiveData("")
-    override var leanCustomerAccounts: LeanCustomerAccounts = LeanCustomerAccounts()
+    override var leanCustomerAccounts: LeanCustomerAccounts? = LeanCustomerAccounts()
     override val state: ITopupAmount.State = TopupAmountState()
     private val leanTechRepository: LeanTechRepository = LeanTechRepository
 
