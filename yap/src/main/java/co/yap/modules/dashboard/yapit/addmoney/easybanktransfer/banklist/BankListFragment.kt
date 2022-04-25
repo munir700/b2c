@@ -78,7 +78,7 @@ class BankListFragment :
                         if (status.status == co.yap.modules.others.helper.Constants.SUCCESS_STATUS)
                             startFragment(
                                 fragmentName = AccountListFragment::class.java.name,
-                                bundle = bundleOf(Constants.CUSTOMER_ID_LEAN to viewModel.leanOnBoardModel.customerId)
+                                bundle = bundleOf(Constants.ONBOARD_USER_LEAN to viewModel.leanOnBoardModel)
                             )
                         else toast(status.status)
                     }
