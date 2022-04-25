@@ -3,6 +3,7 @@ package co.yap.modules.dashboard.more.home.viewmodels
 import android.app.Application
 import co.yap.modules.dashboard.more.home.interfaces.IInviteFriend
 import co.yap.modules.dashboard.more.home.states.InviteFriendState
+import co.yap.translation.Strings
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 
@@ -21,7 +22,7 @@ class InviteFriendViewModel(application: Application) :
     }
 
     override fun setUpStrings() {
-//        state.toolbarTitle = getString(Strings.screen_invite_friend_text_title)
+        state.toolbarTitle = getString(Strings.screen_invite_friend_text_title)
     }
 
 }

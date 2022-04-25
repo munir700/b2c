@@ -1164,9 +1164,9 @@
 
 
     <!--  Invite a friend screen  -->
-    <string name="screen_invite_friend_text_title">Refer a friend</string>
-    <string name="screen_invite_friend_text_reward">Refer your family and friends and earn for everyone who joins. T&amp;C\'s apply</string>
-    <string name="screen_invite_friend_text_referal_reward">Get AED 25 each time you refer someone. So, share this with your loved ones, and help them to start banking smarter!</string>
+    <string name="screen_invite_friend_text_title">Spread the word</string>
+    <string name="screen_invite_friend_text_reward">Refer a friend and get AED 25</string>
+    <string name="screen_invite_friend_text_referal_reward">Life is better when you YAP together! That\'s not all, your friends will also get AED 50.</string>
     <string name="screen_invite_friend_text_referal_code">Share your referral link</string>
     <string name="screen_invite_friend_display_text_share_url">Connect with me on YAP! An innovative digital banking app that gives you total control of your finances.\n\n%1s</string>
 
