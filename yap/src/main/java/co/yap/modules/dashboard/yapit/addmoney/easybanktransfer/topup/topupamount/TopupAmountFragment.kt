@@ -89,7 +89,9 @@ class TopupAmountFragment :
                     viewModel.leanCustomerAccounts.accountId,
                     object : Lean.LeanListener {
                         override fun onResponse(status: Lean.LeanStatus) {
-                            val value = status.status
+                            if (status.status == co.yap.modules.others.helper.Constants.SUCCESS_STATUS){
+                                navigate(R.id.action_topUpAmountFragment_to_paymentSuccessfulFragment)
+                            }
                         }
                     })
 
