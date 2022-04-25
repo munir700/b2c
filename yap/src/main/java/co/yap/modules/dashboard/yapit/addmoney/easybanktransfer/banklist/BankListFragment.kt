@@ -16,6 +16,7 @@ import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.extentions.startFragment
 import co.yap.yapcore.helpers.extentions.toast
 import co.yap.yapcore.interfaces.OnItemClickListener
+import com.uxcam.UXCam
 import me.leantech.link.android.Lean
 
 class BankListFragment :
@@ -62,6 +63,7 @@ class BankListFragment :
 
     private fun startPaymentSourceJourney(bankIdentifier: String) {
         with(viewModel.leanOnBoardModel) {
+            UXCam.occludeSensitiveScreen(true)
             LeanSdkManager.lean?.createPaymentSource(
                 requireActivity(),
                 customerId.toString(),
@@ -69,6 +71,7 @@ class BankListFragment :
                 destinationId.toString(),
                 object : Lean.LeanListener {
                     override fun onResponse(status: Lean.LeanStatus) {
+                        UXCam.occludeSensitiveScreen(false)
                         if (status.status == co.yap.modules.others.helper.Constants.SUCCESS_STATUS)
                             startFragment(
                                 fragmentName = AccountListFragment::class.java.name,
