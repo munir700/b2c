@@ -22,7 +22,7 @@ data class BankListMainModel(
     @SerializedName("active") var active: Boolean? = null,
     @SerializedName("traits") var traits: ArrayList<String>? = null,
     @SerializedName("supported_account_types") var supportedAccountTypes: ArrayList<String>? = null,
-    @SerializedName("transfer_limits") var transferLimits: List<TransferLimits>? = null,
+    @SerializedName("transfer_limits") var transferLimits: ArrayList<TransferLimits>? = null,
     @SerializedName("international_transfer_limits") var internationalTransferLimits: ArrayList<InternationalTransferLimits>? = null,
     @SerializedName("international_destinations") var internationalDestinations: ArrayList<InternationalDestinations>? = null,
     @SerializedName("availability") var availability: Availability? = null,
