@@ -14,6 +14,7 @@ import co.yap.translation.Strings
 import co.yap.yapcore.helpers.extentions.generateChipViews
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.helpers.showTextUpdatedAbleSnackBar
+import co.yap.yapcore.managers.SessionManager
 import com.google.android.material.chip.Chip
 import com.google.android.material.snackbar.Snackbar
 import me.leantech.link.android.Lean
@@ -46,6 +47,11 @@ class TopupAmountFragment :
         arguments?.let { bundle ->
             bundle.getString(co.yap.yapcore.constants.Constants.CUSTOMER_ID_LEAN)?.let {
                 viewModel.customerId = it
+                viewModel.getPaymentIntentModel.customerId = it
+                viewModel.getPaymentIntentModel.currency = SessionManager.getDefaultCurrency()
+            }
+            bundle.getString(co.yap.yapcore.constants.Constants.DESTINATION_ID_LEAN)?.let {
+                viewModel.getPaymentIntentModel.paymentDestinationId = it
             }
             bundle.getParcelable<LeanCustomerAccounts>(co.yap.yapcore.constants.Constants.MODEL_LEAN)
                 ?.let {
