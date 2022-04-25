@@ -22,6 +22,7 @@ import co.yap.yapcore.helpers.extentions.toast
 import co.yap.yapcore.leanplum.SignupEvents
 import co.yap.yapcore.leanplum.trackEvent
 import co.yap.yapcore.leanplum.trackKfsWithAttributes
+import java.util.*
 
 class KfsNotificationViewModel(application: Application) :
     OnboardingChildViewModel<IKfsNotification.State>(application), IKfsNotification.ViewModel,
@@ -95,7 +96,7 @@ class KfsNotificationViewModel(application: Application) :
                     parentViewModel?.onboardingData?.passcode,
                     parentViewModel?.onboardingData?.accountType.toString(),
                     token = parentViewModel?.onboardingData?.token,
-                    kfsAcceptedTimeStamp = DateUtils.getCurrentDateWithFormat(DateUtils.SERVER_DATE_FULL_FORMAT)
+                    kfsAcceptedTimeStamp = DateUtils.getCurrentDateWithFormat(DateUtils.SERVER_DATE_FULL_FORMAT, TimeZone.getTimeZone("UTC"))
                 )
             )) {
                 is RetroApiResponse.Success -> {
