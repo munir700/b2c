@@ -7,7 +7,7 @@ import co.yap.networking.leanteach.responsedtos.common.InternationalTransferLimi
 import co.yap.networking.leanteach.responsedtos.common.TransferLimits
 import co.yap.networking.models.ApiResponse
 import com.google.gson.annotations.SerializedName
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class BankListMainModel(

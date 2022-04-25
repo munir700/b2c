@@ -1,5 +1,7 @@
 package co.yap.modules.dashboard.yapit.addmoney.easybanktransfer.banklist
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.core.os.bundleOf
@@ -70,10 +72,7 @@ class BankListFragment :
                 object : Lean.LeanListener {
                     override fun onResponse(status: Lean.LeanStatus) {
                         if (status.status == co.yap.modules.others.helper.Constants.SUCCESS_STATUS)
-                            startFragment(
-                                fragmentName = AccountListFragment::class.java.name,
-                                bundle = bundleOf(Constants.CUSTOMER_ID_LEAN to viewModel.leanOnBoardModel.customerId)
-                            )
+                            setResultData()
                         else toast(status.status)
                     }
                 }
@@ -88,5 +87,11 @@ class BankListFragment :
                 activity?.finish()
             }
         }
+    }
+
+    fun setResultData() {
+        val intent = Intent()
+        activity?.setResult(Activity.RESULT_OK, intent)
+        activity?.finish()
     }
 }

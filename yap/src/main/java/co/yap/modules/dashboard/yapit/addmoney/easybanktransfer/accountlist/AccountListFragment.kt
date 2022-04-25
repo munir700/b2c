@@ -1,5 +1,6 @@
 package co.yap.modules.dashboard.yapit.addmoney.easybanktransfer.accountlist
 
+import android.app.Activity
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.widget.AppCompatTextView
@@ -22,6 +23,7 @@ import co.yap.widgets.State
 import co.yap.widgets.Status
 import co.yap.widgets.loading.CircularProgressBar
 import co.yap.yapcore.helpers.extentions.startFragment
+import co.yap.yapcore.helpers.extentions.startFragmentForResult
 import co.yap.yapcore.helpers.extentions.toast
 import co.yap.yapcore.helpers.spannables.color
 import co.yap.yapcore.helpers.spannables.getText
@@ -38,8 +40,7 @@ class AccountListFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewDataBinding.lifecycleOwner = this
-        viewModel.state.stateLiveData?.value = State.loading("")
-        viewModel.getAccountList()
+        viewModel.setMultiState()
         viewModel.onboardUser()
         setObserver()
         setTextWithFormat()
@@ -110,11 +111,14 @@ class AccountListFragment :
             when (it) {
                 R.id.btnLinkAccount -> {
                     if (viewModel.customerId.isNullOrEmpty().not()) {
-                        startFragment(
+                        startFragmentForResult<BankListFragment>(
                             fragmentName = BankListFragment::class.java.name, bundle = bundleOf(
                                 co.yap.yapcore.constants.Constants.ONBOARD_USER_LEAN to viewModel.leanOnBoardModel.value
                             )
-                        )
+                        ){resultCode, _ ->
+                            if(resultCode == Activity.RESULT_OK)
+                                viewModel.setMultiState()
+                        }
                     }else toast("No customer ID found")
                 }
             }
@@ -155,9 +159,6 @@ class AccountListFragment :
     private fun setTextWithFormat() {
         val mainLayout: ConstraintLayout =
             (viewDataBinding.multiStateView.getView(MultiStateView.ViewState.EMPTY) as ConstraintLayout)
-        context?.getColor(R.color.colorPrimaryDark)?.let {
-            (mainLayout.getViewById(R.id.tvWelcomeText) as AppCompatTextView).setTextColor(it)
-        }
         (mainLayout.getViewById(R.id.tvDescText) as AppCompatTextView).text =
             context?.resources?.getText(
                 getString(Strings.screen_lean_welcome_screen_connect_one_of_your_existing_bank),

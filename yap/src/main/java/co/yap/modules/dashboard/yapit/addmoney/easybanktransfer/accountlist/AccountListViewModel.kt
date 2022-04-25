@@ -39,6 +39,11 @@ class AccountListViewModel(application: Application) :
         }
     }
 
+    override fun setMultiState() {
+        state.stateLiveData?.value = State.loading("")
+        getAccountList()
+    }
+
     override fun getAccountList() {
         launch {
             when (val response = leanTechRepository.accountList()) {
