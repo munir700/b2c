@@ -29,5 +29,6 @@ enum class ExtraKeys {
     FILE_PATH,
     FILE_TYPE,
     FILE_FOR_UPDATE,
-    DELETED
+    DELETED,
+    HIDE_KYC_PARENT_TOOLBAR
 }

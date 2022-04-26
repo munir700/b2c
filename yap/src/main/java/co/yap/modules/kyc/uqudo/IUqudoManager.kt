@@ -15,7 +15,7 @@ interface IUqudoManager {
     fun decodeEncodedUqudoToken(encodedToken: String, sucess: () -> Unit)
     fun getPayloadData(): EidData?
     fun getHeaderData(): UqudoHeader?
-    fun downloadImage(success: (success: Boolean) -> Unit)
+    suspend fun downloadImage(success: (success: Boolean,String?) -> Unit)
     fun getFrontImagePath(): String?
     fun getBackImagePath(): String?
     fun getFormatDateFromUqudo(string: String?, flags: UqudoFlags): Date?
@@ -26,4 +26,5 @@ interface IUqudoManager {
     fun setUqudoToken(uqudoTokenResponse: UqudoTokenResponse)
     fun getUqudoAccessToken(): MutableLiveData<UqudoTokenResponse>
     fun isExpiryDateValid(expirationDate: Date): Boolean
+    fun noImageDownloaded():Boolean
 }

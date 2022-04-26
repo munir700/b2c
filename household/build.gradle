@@ -1,4 +1,3 @@
-apply plugin: 'kotlin-android-extensions'
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     project.testDependencies.each {

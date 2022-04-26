@@ -55,7 +55,7 @@ interface IEidInfoReviewAmendment {
         var isCountryUS: Boolean
         var countryName: ObservableField<String>
         var errorScreenVisited: Boolean
-        var eidImageDownloaded : MutableLiveData<Boolean>
+        var eidImageDownloaded : MutableLiveData<co.yap.widgets.State>
     }
 
     interface View : IBase.View<ViewModel> {

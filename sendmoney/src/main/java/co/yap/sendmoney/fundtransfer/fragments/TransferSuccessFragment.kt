@@ -32,7 +32,7 @@ class TransferSuccessFragment : BeneficiaryFundTransferBaseFragment<FragmentTran
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         if (activity is BeneficiaryFundTransferActivity) {
-            getBindings().flTransactionComplete.visibility = View.VISIBLE
+            viewDataBinding.flTransactionComplete.visibility = View.VISIBLE
             setData()
         }
     }
@@ -214,9 +214,4 @@ class TransferSuccessFragment : BeneficiaryFundTransferBaseFragment<FragmentTran
 //        }
 //        return false
 //    }
-
-    private fun getBindings(): FragmentTransferSuccessBinding {
-        return viewDataBinding as FragmentTransferSuccessBinding
-    }
-
 }
