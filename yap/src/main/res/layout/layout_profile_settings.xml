@@ -390,8 +390,10 @@
             <LinearLayout
                 android:id="@+id/llKeyFactStatement"
                 android:layout_width="match_parent"
+                android:visibility="@{viewModel.state.kfsAcceptedTimeStamp?View.VISIBLE:View.GONE}"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_normal"
+                tools:visibility="gone"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 

@@ -3,6 +3,7 @@ package co.yap.modules.dashboard.more.profile.intefaces
 import android.net.Uri
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
+import androidx.lifecycle.MutableLiveData
 import co.yap.app.YAPApplication
 import co.yap.networking.authentication.AuthRepository
 import co.yap.widgets.bottomsheet.BottomSheetItem
@@ -19,6 +20,7 @@ interface IProfile {
         var buildVersionDetail: String?
         var isShowErrorIcon: ObservableField<Boolean>
         var isNotificationsEnabled: ObservableBoolean
+        var kfsAcceptedTimeStamp: MutableLiveData<Boolean>
     }
 
     interface ViewModel : IBase.ViewModel<State> {

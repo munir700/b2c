@@ -67,6 +67,7 @@ class ProfileSettingsViewModel(application: Application) :
 
     override fun onCreate() {
         super.onCreate()
+        state.kfsAcceptedTimeStamp.value = SessionManager.user?.kfsAcceptedTimeStamp.isNullOrBlank().not()
         toggleToolBarVisibility(false)
         state.isNotificationsEnabled.set(NotificationManagerCompat.from(context)
             .areNotificationsEnabled())
