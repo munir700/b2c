@@ -19,9 +19,9 @@ import co.yap.yapcore.helpers.spannables.getText
 class TopupAmountViewModel(application: Application) :
     AddMoneyBaseViewModel<ITopupAmount.State>(application), ITopupAmount.ViewModel {
     override val clickEvent: SingleClickEvent = SingleClickEvent()
-    override var customerId: String = ""
+    override var customerId: String? = ""
     override var paymentIntentId: MutableLiveData<String> = MutableLiveData("")
-    override var leanCustomerAccounts: LeanCustomerAccounts = LeanCustomerAccounts()
+    override var leanCustomerAccounts: LeanCustomerAccounts? = LeanCustomerAccounts()
     override val state: ITopupAmount.State = TopupAmountState()
     private val leanTechRepository: LeanTechRepository = LeanTechRepository
 
@@ -53,15 +53,18 @@ class TopupAmountViewModel(application: Application) :
 
     override fun getPaymentIntentId() {
         var model = GetPaymentIntentIdModel(20.00, "AED", customerId)
+        state.loading = true
         launch {
             when (val response = leanTechRepository.getPaymentIntentId(model)) {
                 is RetroApiResponse.Success -> {
                     response.data.data?.paymentIntentId?.let {
                         paymentIntentId.postValue(it)
+                        state.loading = false
                     }
                 }
                 is RetroApiResponse.Error -> {
                     toast(context, response.error.message)
+                    state.loading = false
                 }
             }
         }
