@@ -15,6 +15,7 @@ import co.yap.modules.dashboard.yapit.addmoney.easybanktransfer.banklist.BankLis
 import co.yap.modules.dashboard.yapit.addmoney.easybanktransfer.topup.topupamount.TopupAmountFragment
 import co.yap.modules.dashboard.yapit.addmoney.main.AddMoneyBaseFragment
 import co.yap.modules.others.helper.Constants
+import co.yap.networking.leanteach.responsedtos.LeanOnBoardModel
 import co.yap.networking.leanteach.responsedtos.accountlistmodel.LeanCustomerAccounts
 import co.yap.networking.leanteach.responsedtos.banklistmodels.BankListMainModel
 import co.yap.translation.Strings
@@ -71,25 +72,29 @@ class AccountListFragment :
                                 if (bankModel.status == Constants.ACTIVE_STATUS) {
                                     //this case will be handled when user will come in this screen after adding account
                                     arguments?.let { bundle ->
-                                        bundle.getString(co.yap.yapcore.constants.Constants.CUSTOMER_ID_LEAN)
+                                        bundle.getParcelable<LeanOnBoardModel>(co.yap.yapcore.constants.Constants.ONBOARD_USER_LEAN)
                                             ?.let {
-                                                startNewScreen(
-                                                    data as LeanCustomerAccounts,
-                                                    bankListMainModel,
-                                                    it
-                                                )
-                                            } ?: viewModel.customerId?.let { it1 ->
-                                            startNewScreen(
-                                                data as LeanCustomerAccounts, bankListMainModel,
-                                                it1
-                                            )
+                                                it.customerId?.let { cus_id ->
+                                                    it.destinationId?.let { des_id ->
+                                                        startNewScreen(
+                                                            data as LeanCustomerAccounts,
+                                                            bankListMainModel,
+                                                            cus_id,
+                                                            des_id
+                                                        )
+                                                    }
+                                                }
                                         }
                                     } //this case will be handled when user already have an account
-                                        ?: viewModel.customerId?.let { it1 ->
-                                            startNewScreen(
-                                                data as LeanCustomerAccounts, bankListMainModel,
-                                                it1
-                                            )
+                                        ?: viewModel.customerId?.let { cus_id ->
+                                            viewModel.leanOnBoardModel.value?.destinationId
+                                                ?.let {des_id->
+                                                    startNewScreen(
+                                                        data as LeanCustomerAccounts, bankListMainModel,
+                                                        cus_id,
+                                                        des_id
+                                                    )
+                                                }
                                         }
                                 }
                             }
@@ -142,12 +147,14 @@ class AccountListFragment :
     private fun startNewScreen(
         leanCustomerAccounts: LeanCustomerAccounts,
         bankListMainModel: BankListMainModel,
-        customerID: String
+        customerID: String,
+        destinationId:String
     ) {
         startFragment(
             fragmentName = TopupAmountFragment::class.java.name,
             bundle = bundleOf(
                 co.yap.yapcore.constants.Constants.CUSTOMER_ID_LEAN to customerID,
+                co.yap.yapcore.constants.Constants.DESTINATION_ID_LEAN to destinationId,
                 co.yap.yapcore.constants.Constants.MODEL_LEAN to leanCustomerAccounts,
                 co.yap.yapcore.constants.Constants.MODEL_BANK_LEAN to bankListMainModel
             )
