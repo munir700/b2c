@@ -1,6 +1,7 @@
 package co.yap.modules.dashboard.yapit.addmoney.easybanktransfer.leansdk
 
 import co.yap.app.YAPApplication
+import co.yap.yapcore.enums.ProductFlavour
 import me.leantech.link.android.Lean
 
 object LeanSdkManager {
@@ -11,7 +12,7 @@ object LeanSdkManager {
             .setAppToken(YAPApplication.configManager?.leanOpenBanking ?: "")
             .setVersion("latest")
             .showLogs()
-            .sandboxMode(true)
+            .sandboxMode(!YAPApplication.configManager?.flavor.equals(ProductFlavour.PROD.flavour))
             .build()
     }
 }
