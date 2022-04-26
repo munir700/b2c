@@ -26,7 +26,7 @@ interface ITopupAmount {
         fun setAvailableBalance(balance: String)
         fun getPaymentIntentId()
         fun getLimitOfAmount(): TransferLimits?
-        fun isMaxMinLimitReached():Boolean
+        fun isMaxMinLimitReached(): Boolean
     }
 
     interface State : IBase.State {

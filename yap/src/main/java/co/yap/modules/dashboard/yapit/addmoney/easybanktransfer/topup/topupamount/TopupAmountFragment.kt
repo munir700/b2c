@@ -3,7 +3,6 @@ package co.yap.modules.dashboard.yapit.addmoney.easybanktransfer.topup.topupamou
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import co.yap.BR
 import co.yap.R
 import co.yap.databinding.FragmentTopupAmountBinding
@@ -13,9 +12,8 @@ import co.yap.networking.leanteach.responsedtos.accountlistmodel.LeanCustomerAcc
 import co.yap.networking.leanteach.responsedtos.banklistmodels.BankListMainModel
 import co.yap.translation.Strings
 import co.yap.yapcore.helpers.extentions.generateChipViews
-import co.yap.yapcore.managers.SessionManager
-import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.helpers.showTextUpdatedAbleSnackBar
+import co.yap.yapcore.managers.SessionManager
 import com.google.android.material.chip.Chip
 import com.google.android.material.snackbar.Snackbar
 import me.leantech.link.android.Lean
