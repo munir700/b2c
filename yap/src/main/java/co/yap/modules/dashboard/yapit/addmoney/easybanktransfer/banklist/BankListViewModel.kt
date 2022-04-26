@@ -9,10 +9,10 @@ import co.yap.networking.leanteach.LeanTechRepository
 import co.yap.networking.leanteach.responsedtos.LeanOnBoardModel
 import co.yap.networking.leanteach.responsedtos.banklistmodels.BankListMainModel
 import co.yap.networking.models.RetroApiResponse
-import co.yap.yapcore.helpers.extentions.toast
-import me.leantech.link.android.Lean
 import co.yap.widgets.search.IYapSearchView
 import co.yap.yapcore.OnFilter
+import co.yap.yapcore.helpers.extentions.toast
+import me.leantech.link.android.Lean
 
 class BankListViewModel(application: Application) :
     AddMoneyBaseViewModel<IBankList.State>(application),
@@ -77,7 +77,10 @@ class BankListViewModel(application: Application) :
         }
 
         override fun onTypingSearch(search: String?) {
-            if (!search.isNullOrEmpty()) bankListAdapter.onSearch(search, onFilter) else bankListAdapter.clearFilter()
+            if (!search.isNullOrEmpty()) bankListAdapter.onSearch(
+                search,
+                onFilter
+            ) else bankListAdapter.clearFilter()
         }
 
     }
