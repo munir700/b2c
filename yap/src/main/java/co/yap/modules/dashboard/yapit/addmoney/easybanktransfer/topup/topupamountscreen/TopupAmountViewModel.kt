@@ -1,4 +1,4 @@
-package co.yap.modules.dashboard.yapit.addmoney.easybanktransfer.topup.topupamount
+package co.yap.modules.dashboard.yapit.addmoney.easybanktransfer.topup.topupamountscreen
 
 import android.app.Application
 import androidx.lifecycle.MutableLiveData

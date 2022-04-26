@@ -1,4 +1,4 @@
-package co.yap.modules.dashboard.yapit.addmoney.easybanktransfer.topupactivity
+package co.yap.modules.dashboard.yapit.addmoney.easybanktransfer.topup.activity
 
 import android.os.Bundle
 import androidx.activity.viewModels
@@ -15,7 +15,7 @@ import co.yap.yapcore.interfaces.BackPressImpl
 import co.yap.yapcore.interfaces.IBaseNavigator
 
 class TopUpActivity : BaseBindingActivity<ActivityTopUpBinding, ITopUp.ViewModel>(), INavigator,
-    IFragmentHolder,ITopUp.View {
+    IFragmentHolder, ITopUp.View {
     override fun getBindingVariable() : Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.activity_top_up
     override val viewModel: TopUpViewModel by viewModels()
@@ -25,6 +25,7 @@ class TopUpActivity : BaseBindingActivity<ActivityTopUpBinding, ITopUp.ViewModel
         setupNavHostFragmentWithData()
     }
 
+    //cross check it
     override fun setupNavHostFragmentWithData() {
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.top_up_amount_nav_host_fragment) as NavHostFragment
         intent?.let {

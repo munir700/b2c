@@ -5,7 +5,7 @@
     <data>
         <variable
             name="viewModel"
-            type="co.yap.modules.dashboard.yapit.addmoney.easybanktransfer.topupactivity.TopUpViewModel" />
+            type="co.yap.modules.dashboard.yapit.addmoney.easybanktransfer.topup.activity.TopUpViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

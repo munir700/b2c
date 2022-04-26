@@ -1735,6 +1735,6 @@
 
     <!--Lean -Easy bank Transfer -Payment Successful -->
     <string name="screen_lean_topup_payment_successful_title">Top up successful</string>
-    <string name="screen_lean_topup_payment_successful_new_balance_text">Your new balance is \n%1s</string>
+    <string name="screen_lean_topup_payment_successful_new_balance_text">Your current balance is \n%1s</string>
 
 </resources>

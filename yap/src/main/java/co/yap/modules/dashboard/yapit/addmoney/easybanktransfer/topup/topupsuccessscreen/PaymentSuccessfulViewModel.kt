@@ -1,4 +1,4 @@
-package co.yap.modules.dashboard.yapit.addmoney.easybanktransfer.paymentsuccessful
+package co.yap.modules.dashboard.yapit.addmoney.easybanktransfer.topup.topupsuccessscreen
 
 import android.app.Application
 import co.yap.R

@@ -6,7 +6,7 @@
     <data>
         <variable
             name="viewModel"
-            type="co.yap.modules.dashboard.yapit.addmoney.easybanktransfer.paymentsuccessful.PaymentSuccessfulViewModel" />
+            type="co.yap.modules.dashboard.yapit.addmoney.easybanktransfer.topup.topupsuccessscreen.PaymentSuccessfulViewModel" />
         <import type="co.yap.translation.Strings" />
     </data>
 

@@ -1,4 +1,4 @@
-package co.yap.modules.dashboard.yapit.addmoney.easybanktransfer.topupactivity
+package co.yap.modules.dashboard.yapit.addmoney.easybanktransfer.topup.activity
 
 import co.yap.networking.leanteach.responsedtos.accountlistmodel.LeanCustomerAccounts
 import co.yap.yapcore.IBase

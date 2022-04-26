@@ -1,4 +1,4 @@
-package co.yap.modules.dashboard.yapit.addmoney.easybanktransfer.paymentsuccessful
+package co.yap.modules.dashboard.yapit.addmoney.easybanktransfer.topup.topupsuccessscreen
 
 import android.os.Bundle
 import android.view.View
@@ -10,7 +10,7 @@ import co.yap.databinding.FragmentPaymentSuccessfulBinding
 import co.yap.modules.dashboard.yapit.addmoney.main.AddMoneyBaseFragment
 import co.yap.yapcore.managers.SessionManager
 
-class PaymentSuccessfulFragment:AddMoneyBaseFragment<FragmentPaymentSuccessfulBinding,IPaymentSuccessful.ViewModel>(),
+class PaymentSuccessfulFragment:AddMoneyBaseFragment<FragmentPaymentSuccessfulBinding, IPaymentSuccessful.ViewModel>(),
     IPaymentSuccessful.View {
     override fun getBindingVariable(): Int = BR.viewModel
 

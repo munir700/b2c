@@ -11,7 +11,7 @@ import co.yap.BR
 import co.yap.R
 import co.yap.databinding.FragmentEasyBankTransferAccountListBinding
 import co.yap.modules.dashboard.yapit.addmoney.easybanktransfer.banklist.BankListFragment
-import co.yap.modules.dashboard.yapit.addmoney.easybanktransfer.topupactivity.TopUpActivity
+import co.yap.modules.dashboard.yapit.addmoney.easybanktransfer.topup.activity.TopUpActivity
 import co.yap.modules.dashboard.yapit.addmoney.main.AddMoneyBaseFragment
 import co.yap.modules.others.helper.Constants
 import co.yap.networking.leanteach.responsedtos.LeanOnBoardModel
