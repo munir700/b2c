@@ -39,21 +39,23 @@ class BankListViewModel(application: Application) :
         }
     }
 
-    override fun startPaymentSourceJourney(bankIdentifier: String) {
-        with(leanOnBoardModel) {
-            LeanSdkManager.lean?.createPaymentSource(
-                activity = context as Activity,
-                customerId.toString(),
-                bankIdentifier,
-                destinationId.toString(),
-                object : Lean.LeanListener {
-                    override fun onResponse(status: Lean.LeanStatus) {
-                        if (status.status == co.yap.modules.others.helper.Constants.SUCCESS_STATUS)
-                            isPaymentJourneySet.value = true
-                        else toast(context, status.status)
+    override fun startPaymentSourceJourney(bankIdentifier: String, activity: Activity?) {
+        activity?.let { act ->
+            with(leanOnBoardModel) {
+                LeanSdkManager.lean?.createPaymentSource(
+                    act,
+                    customerId.toString(),
+                    bankIdentifier,
+                    destinationId.toString(),
+                    object : Lean.LeanListener {
+                        override fun onResponse(status: Lean.LeanStatus) {
+                            if (status.status == co.yap.modules.others.helper.Constants.SUCCESS_STATUS)
+                                isPaymentJourneySet.postValue(true)
+                            else toast(context, status.status)
+                        }
                     }
-                }
-            )
+                )
+            }
         }
     }
 }

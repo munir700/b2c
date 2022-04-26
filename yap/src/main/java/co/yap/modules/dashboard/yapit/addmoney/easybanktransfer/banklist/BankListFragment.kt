@@ -53,7 +53,7 @@ class BankListFragment :
         viewModel.bankListAdapter.onItemClickListener = object : OnItemClickListener {
             override fun onItemClick(view: View, data: Any, pos: Int) {
                 if (data is BankListMainModel) {
-                    data.identifier?.let { viewModel.startPaymentSourceJourney(it) }
+                    data.identifier?.let { viewModel.startPaymentSourceJourney(it,activity) }
                 }
             }
         }
