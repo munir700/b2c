@@ -232,8 +232,8 @@
 
         <activity
             android:name=".modules.dashboard.yapit.addmoney.easybanktransfer.topup.activity.TopUpActivity"
-            android:screenOrientation="portrait"
-            android:exported="false">
+            android:exported="false"
+            android:screenOrientation="portrait">
             <nav-graph android:value="@navigation/top_up_amount_navigation" />
         </activity>
 
