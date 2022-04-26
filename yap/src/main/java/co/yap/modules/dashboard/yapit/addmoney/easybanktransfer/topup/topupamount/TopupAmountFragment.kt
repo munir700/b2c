@@ -3,6 +3,7 @@ package co.yap.modules.dashboard.yapit.addmoney.easybanktransfer.topup.topupamou
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import co.yap.BR
 import co.yap.R
 import co.yap.databinding.FragmentTopupAmountBinding
@@ -10,6 +11,7 @@ import co.yap.modules.dashboard.yapit.addmoney.easybanktransfer.leansdk.LeanSdkM
 import co.yap.modules.dashboard.yapit.addmoney.main.AddMoneyBaseFragment
 import co.yap.networking.leanteach.responsedtos.accountlistmodel.LeanCustomerAccounts
 import co.yap.yapcore.helpers.extentions.generateChipViews
+import co.yap.yapcore.managers.SessionManager
 import com.google.android.material.chip.Chip
 import me.leantech.link.android.Lean
 
@@ -25,7 +27,6 @@ class TopupAmountFragment :
         super.onViewCreated(view, savedInstanceState)
         viewDataBinding.lifecycleOwner = this
         generateChipViews(viewModel.state.denominationChipList.value!!)
-        viewModel.setAvailableBalance()
         setObservers()
         getDataArguments()
     }
@@ -34,6 +35,7 @@ class TopupAmountFragment :
         observeClickEvent()
         observeValues()
         setDenominationsChipListener()
+        balanceObserver()
     }
 
     private fun getDataArguments() {
@@ -54,6 +56,12 @@ class TopupAmountFragment :
             chip.setOnCheckedChangeListener { view, isChecked ->
                 viewModel.denominationAmountValidator(view.text.toString())
             }
+        }
+    }
+
+    private fun balanceObserver() {
+        SessionManager.cardBalance.observe(viewLifecycleOwner) { value ->
+            viewModel.setAvailableBalance(value.availableBalance.toString())
         }
     }
 
