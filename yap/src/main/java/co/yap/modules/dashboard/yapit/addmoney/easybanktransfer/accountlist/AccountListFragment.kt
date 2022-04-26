@@ -54,41 +54,47 @@ class AccountListFragment :
     }
 
     private fun accountListObserver() {
-        viewModel.accountList.observe(viewLifecycleOwner) {
+        viewModel.accountList.observe(viewLifecycleOwner) { list ->
             (viewDataBinding.multiStateView.getView(
                 MultiStateView.ViewState.CONTENT
             ) as ConstraintLayout).findViewById<RecyclerView>(R.id.rvAccountList).adapter =
-                AccountListAdapter(it, object : AccountChildItemViewModel.OnItemClickListenerChild {
-                    override fun onItemClick(
-                        view: View,
-                        data: Any,
-                        bankListMainModel: BankListMainModel?,
-                        pos: Int
-                    ) {
-                        bankListMainModel?.let { bankModel ->
-                            if (bankModel.status == Constants.ACTIVE_STATUS) {
-                                //this case will be handled when user will come in this screen after adding account
-                                arguments?.let { bundle ->
-                                    bundle.getString(co.yap.yapcore.constants.Constants.CUSTOMER_ID_LEAN)
-                                        ?.let {
-                                            startNewScreen(data as LeanCustomerAccounts, it)
-                                        } ?: viewModel.customerId?.let { it1 ->
-                                        startNewScreen(
-                                            data as LeanCustomerAccounts,
-                                            it1
-                                        )
-                                    }
-                                } //this case will be handled when user already have an account
-                                    ?: viewModel.customerId?.let { it1 ->
-                                        startNewScreen(
-                                            data as LeanCustomerAccounts,
-                                            it1
-                                        )
-                                    }
+                AccountListAdapter(
+                    list,
+                    object : AccountChildItemViewModel.OnItemClickListenerChild {
+                        override fun onItemClick(
+                            view: View,
+                            data: Any,
+                            bankListMainModel: BankListMainModel?,
+                            pos: Int
+                        ) {
+                            bankListMainModel?.let { bankModel ->
+                                if (bankModel.status == Constants.ACTIVE_STATUS) {
+                                    //this case will be handled when user will come in this screen after adding account
+                                    arguments?.let { bundle ->
+                                        bundle.getString(co.yap.yapcore.constants.Constants.CUSTOMER_ID_LEAN)
+                                            ?.let {
+                                                startNewScreen(
+                                                    data as LeanCustomerAccounts,
+                                                    bankListMainModel,
+                                                    it
+                                                )
+                                            } ?: viewModel.customerId?.let { it1 ->
+                                            startNewScreen(
+                                                data as LeanCustomerAccounts, bankListMainModel,
+                                                it1
+                                            )
+                                        }
+                                    } //this case will be handled when user already have an account
+                                        ?: viewModel.customerId?.let { it1 ->
+                                            startNewScreen(
+                                                data as LeanCustomerAccounts, bankListMainModel,
+                                                it1
+                                            )
+                                        }
+                                }
                             }
                         }
-                    }
-                })
+                    })
         }
     }
 
@@ -133,12 +139,17 @@ class AccountListFragment :
         }
     }
 
-    private fun startNewScreen(leanCustomerAccounts: LeanCustomerAccounts, customerID: String) {
+    private fun startNewScreen(
+        leanCustomerAccounts: LeanCustomerAccounts,
+        bankListMainModel: BankListMainModel,
+        customerID: String
+    ) {
         startFragment(
             fragmentName = TopupAmountFragment::class.java.name,
             bundle = bundleOf(
                 co.yap.yapcore.constants.Constants.CUSTOMER_ID_LEAN to customerID,
-                co.yap.yapcore.constants.Constants.MODEL_LEAN to leanCustomerAccounts
+                co.yap.yapcore.constants.Constants.MODEL_LEAN to leanCustomerAccounts,
+                co.yap.yapcore.constants.Constants.MODEL_BANK_LEAN to bankListMainModel
             )
         )
     }

@@ -20,11 +20,11 @@ data class BankListMainModel(
     @SerializedName("theme") var theme: String? = null,
     @SerializedName("country_code") var countryCode: String? = null,
     @SerializedName("active") var active: Boolean? = null,
-    @SerializedName("traits") var traits: ArrayList<String>,
-    @SerializedName("supported_account_types") var supportedAccountTypes: ArrayList<String>,
-    @SerializedName("transfer_limits") var transferLimits: ArrayList<TransferLimits>,
-    @SerializedName("international_transfer_limits") var internationalTransferLimits: ArrayList<InternationalTransferLimits>,
-    @SerializedName("international_destinations") var internationalDestinations: ArrayList<InternationalDestinations>,
-    @SerializedName("availability") var availability: Availability?,
-    @Transient var status: String
+    @SerializedName("traits") var traits: ArrayList<String>? = null,
+    @SerializedName("supported_account_types") var supportedAccountTypes: ArrayList<String>? = null,
+    @SerializedName("transfer_limits") var transferLimits: ArrayList<TransferLimits>? = null,
+    @SerializedName("international_transfer_limits") var internationalTransferLimits: ArrayList<InternationalTransferLimits>? = null,
+    @SerializedName("international_destinations") var internationalDestinations: ArrayList<InternationalDestinations>? = null,
+    @SerializedName("availability") var availability: Availability? = null,
+    @Transient var status: String? = null
 ) : ApiResponse(), Parcelable
