@@ -10,6 +10,7 @@ import co.yap.yapcore.IBase
 interface IBankList {
     interface View : IBase.View<ViewModel> {
         fun setObservers()
+        fun removeObservers()
     }
 
     interface ViewModel : IBase.ViewModel<State> {
@@ -21,5 +22,7 @@ interface IBankList {
         fun startPaymentSourceJourney(bankIdentifier: String, activity: Activity?)
     }
 
-    interface State : IBase.State {}
+    interface State : IBase.State {
+        var isSearchActive:MutableLiveData<Boolean>
+    }
 }

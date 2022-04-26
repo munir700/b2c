@@ -25,11 +25,11 @@ class BankListFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewDataBinding.lifecycleOwner = this
         getDataArguments()
         setObservers()
         setRecyclerClick()
         viewModel.getBankList()
-
     }
 
     private fun getDataArguments() {
@@ -47,6 +47,14 @@ class BankListFragment :
         viewModel.isPaymentJourneySet.observe(viewLifecycleOwner) { isSet ->
             if (isSet) setResultData()
         }
+
+        viewDataBinding.layoutSearchView.yapSearchViewListener =
+            viewModel.yapSearchViewChangeListener
+    }
+
+    override fun removeObservers() {
+        viewModel.bankList.removeObservers(this)
+        viewDataBinding.layoutSearchView.yapSearchViewListener = null
     }
 
     private fun setRecyclerClick() {
@@ -72,4 +80,5 @@ class BankListFragment :
         activity?.setResult(Activity.RESULT_OK, intent)
         activity?.finish()
     }
+
 }

@@ -9,6 +9,8 @@ import co.yap.networking.leanteach.LeanTechRepository
 import co.yap.networking.leanteach.responsedtos.LeanOnBoardModel
 import co.yap.networking.leanteach.responsedtos.banklistmodels.BankListMainModel
 import co.yap.networking.models.RetroApiResponse
+import co.yap.widgets.search.IYapSearchView
+import co.yap.yapcore.OnFilter
 import co.yap.yapcore.helpers.extentions.toast
 import me.leantech.link.android.Lean
 
@@ -16,7 +18,7 @@ class BankListViewModel(application: Application) :
     AddMoneyBaseViewModel<IBankList.State>(application),
     IBankList.ViewModel {
     override val bankList: MutableLiveData<MutableList<BankListMainModel>> = MutableLiveData()
-    override val bankListAdapter: BankListAdapter = BankListAdapter(mutableListOf(), null)
+    override val bankListAdapter: BankListAdapter = BankListAdapter(mutableListOf())
     override var leanOnBoardModel: LeanOnBoardModel = LeanOnBoardModel()
     override var isPaymentJourneySet: MutableLiveData<Boolean> = MutableLiveData(false)
     private val leanTechRepository: LeanTechRepository = LeanTechRepository
@@ -57,5 +59,29 @@ class BankListViewModel(application: Application) :
                 )
             }
         }
+    }
+
+    private val onFilter = object : OnFilter<BankListMainModel> {
+        override fun onFilterApply(filter: CharSequence?, model: BankListMainModel): Boolean {
+            return filter?.let {
+                return model.name?.lowercase()?.contains(
+                    it.toString().lowercase()
+                ) == true
+            } ?: false
+        }
+    }
+
+    val yapSearchViewChangeListener = object : IYapSearchView {
+        override fun onSearchActive(isActive: Boolean) {
+            state.isSearchActive.value = isActive
+        }
+
+        override fun onTypingSearch(search: String?) {
+            if (!search.isNullOrEmpty()) bankListAdapter.onSearch(
+                search,
+                onFilter
+            ) else bankListAdapter.clearFilter()
+        }
+
     }
 }
