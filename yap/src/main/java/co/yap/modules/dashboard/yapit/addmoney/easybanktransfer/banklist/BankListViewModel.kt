@@ -1,7 +1,9 @@
 package co.yap.modules.dashboard.yapit.addmoney.easybanktransfer.banklist
 
+import android.app.Activity
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
+import co.yap.modules.dashboard.yapit.addmoney.easybanktransfer.leansdk.LeanSdkManager
 import co.yap.modules.dashboard.yapit.addmoney.main.AddMoneyBaseViewModel
 import co.yap.networking.leanteach.LeanTechRepository
 import co.yap.networking.leanteach.responsedtos.LeanOnBoardModel
@@ -10,6 +12,7 @@ import co.yap.networking.models.RetroApiResponse
 import co.yap.widgets.search.IYapSearchView
 import co.yap.yapcore.OnFilter
 import co.yap.yapcore.helpers.extentions.toast
+import me.leantech.link.android.Lean
 
 class BankListViewModel(application: Application) :
     AddMoneyBaseViewModel<IBankList.State>(application),
@@ -17,22 +20,43 @@ class BankListViewModel(application: Application) :
     override val bankList: MutableLiveData<MutableList<BankListMainModel>> = MutableLiveData()
     override val bankListAdapter: BankListAdapter = BankListAdapter(mutableListOf())
     override var leanOnBoardModel: LeanOnBoardModel = LeanOnBoardModel()
+    override var isPaymentJourneySet: MutableLiveData<Boolean> = MutableLiveData(false)
     private val leanTechRepository: LeanTechRepository = LeanTechRepository
 
     override val state: IBankList.State = BankListState()
 
     override fun getBankList() {
         launch {
-            state.loading=true
+            state.loading = true
             when (val response = leanTechRepository.bankList()) {
                 is RetroApiResponse.Success -> {
-                    state.loading=false
+                    state.loading = false
                     bankList.postValue(response.data.data)
                 }
                 is RetroApiResponse.Error -> {
-                    state.loading=false
-                    toast(context,response.error.message)
+                    state.loading = false
+                    toast(context, response.error.message)
                 }
+            }
+        }
+    }
+
+    override fun startPaymentSourceJourney(bankIdentifier: String, activity: Activity?) {
+        activity?.let { act ->
+            with(leanOnBoardModel) {
+                LeanSdkManager.lean?.createPaymentSource(
+                    act,
+                    customerId.toString(),
+                    bankIdentifier,
+                    destinationId.toString(),
+                    object : Lean.LeanListener {
+                        override fun onResponse(status: Lean.LeanStatus) {
+                            if (status.status == co.yap.modules.others.helper.Constants.SUCCESS_STATUS)
+                                isPaymentJourneySet.postValue(true)
+                            else toast(context, status.status)
+                        }
+                    }
+                )
             }
         }
     }
@@ -53,7 +77,10 @@ class BankListViewModel(application: Application) :
         }
 
         override fun onTypingSearch(search: String?) {
-            if (!search.isNullOrEmpty()) bankListAdapter.onSearch(search, onFilter) else bankListAdapter.clearFilter()
+            if (!search.isNullOrEmpty()) bankListAdapter.onSearch(
+                search,
+                onFilter
+            ) else bankListAdapter.clearFilter()
         }
 
     }

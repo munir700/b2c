@@ -82,8 +82,12 @@ class TopupAmountFragment :
 
     private fun observeValues() {
         viewModel.state.enteredTopUpAmount.observe(viewLifecycleOwner) { topUpAmount ->
-            if (topUpAmount.isNotBlank())
-                viewModel.getPaymentIntentModel.amount = topUpAmount.toDouble()
+            if (topUpAmount.isNotBlank()) {
+                if (topUpAmount.contains(",")) {
+                    viewModel.getPaymentIntentModel.amount = topUpAmount.replace(",", "").toDouble()
+                } else
+                    viewModel.getPaymentIntentModel.amount = topUpAmount.toDouble()
+            }
         }
         viewModel.paymentIntentId.observe(viewLifecycleOwner) {
             if (it.isNullOrEmpty().not())
@@ -91,7 +95,7 @@ class TopupAmountFragment :
                     requireActivity(),
                     it,
                     true,
-                    viewModel.leanCustomerAccounts.accountId,
+                    viewModel.leanCustomerAccounts?.accountId,
                     object : Lean.LeanListener {
                         override fun onResponse(status: Lean.LeanStatus) {
                             if (status.status == co.yap.modules.others.helper.Constants.SUCCESS_STATUS)

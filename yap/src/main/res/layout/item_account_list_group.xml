@@ -49,11 +49,11 @@
             android:gravity="center"
             android:textColor="@color/orange_dark_text"
             android:textSize="@dimen/_10sdp"
+            android:visibility="@{accountGroupItemViewModel.bankListMainModel.status.equals(`ACTIVE`) ? View.GONE:View.VISIBLE}"
             app:layout_constraintBottom_toBottomOf="@+id/tvBankName"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/tvBankName"
             app:text="@{Strings.screen_lean_account_list_pending}"
-            app:visibility='@{accountGroupItemViewModel.bankListMainModel.status == "ACTIVE" ?View.VISIBLE:View.GONE}'
             tools:text="@string/screen_lean_account_list_pending" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

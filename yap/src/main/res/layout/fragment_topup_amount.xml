@@ -51,7 +51,7 @@
 
         <!--To be changed when topup model class is available-->
         <!--android:text="@{viewModel.topupModel.bankAccountType}"-->
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvCurrentAccount"
             style="@style/ALarge"
             android:layout_width="wrap_content"
@@ -63,7 +63,7 @@
             app:layout_constraintTop_toBottomOf="@+id/ivBankIcon"
             tools:text="Current Account" />
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvEnterTopUpAmount"
             style="@style/Small"
             android:layout_width="wrap_content"
@@ -77,7 +77,7 @@
 
         <!-- To be changed when topup model class is available-->
         <!-- android:text="@{viewModel.topupModel.currencyType}"-->
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvCurrency"
             style="@style/AMicroGrey"
             android:layout_width="wrap_content"

@@ -21,10 +21,10 @@ import co.yap.yapcore.managers.SessionManager
 class TopupAmountViewModel(application: Application) :
     AddMoneyBaseViewModel<ITopupAmount.State>(application), ITopupAmount.ViewModel {
     override val clickEvent: SingleClickEvent = SingleClickEvent()
-    override var customerId: String = ""
+    override var customerId: String? = ""
     override var paymentIntentId: MutableLiveData<String> = MutableLiveData("")
+    override var leanCustomerAccounts: LeanCustomerAccounts? = LeanCustomerAccounts()
     override var leanPaymentStatus: MutableLiveData<Boolean> = MutableLiveData(false)
-    override var leanCustomerAccounts: LeanCustomerAccounts = LeanCustomerAccounts()
     override var getPaymentIntentModel: GetPaymentIntentIdModel = GetPaymentIntentIdModel()
     override var bankListMainModel: BankListMainModel = BankListMainModel()
     override val state: ITopupAmount.State = TopupAmountState()

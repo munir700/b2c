@@ -20,6 +20,7 @@ interface IAccountList {
         fun getAccountList()
         fun handlePressOnView(id: Int)
         fun onboardUser()
+        fun setMultiState()
     }
 
     interface State : IBase.State {
