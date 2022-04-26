@@ -12,6 +12,7 @@ import co.yap.networking.leanteach.responsedtos.accountlistmodel.LeanCustomerAcc
 import co.yap.networking.leanteach.responsedtos.banklistmodels.BankListMainModel
 import co.yap.translation.Strings
 import co.yap.yapcore.helpers.extentions.generateChipViews
+import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.helpers.showTextUpdatedAbleSnackBar
 import co.yap.yapcore.managers.SessionManager
 import com.google.android.material.chip.Chip
@@ -80,8 +81,12 @@ class TopupAmountFragment :
 
     private fun observeValues() {
         viewModel.state.enteredTopUpAmount.observe(viewLifecycleOwner) { topUpAmount ->
-            if (topUpAmount.isNotBlank())
-                viewModel.getPaymentIntentModel.amount = topUpAmount.toDouble()
+            if (topUpAmount.isNotBlank()) {
+                if (topUpAmount.contains(",")) {
+                    viewModel.getPaymentIntentModel.amount = topUpAmount.replace(",", "").toDouble()
+                } else
+                    viewModel.getPaymentIntentModel.amount = topUpAmount.toDouble()
+            }
         }
         viewModel.paymentIntentId.observe(viewLifecycleOwner) {
             if (it.isNullOrEmpty().not())
