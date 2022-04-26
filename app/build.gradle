@@ -63,8 +63,8 @@ android {
         }
 
         Preprod {
-            versionCode 156
-            versionName "2.5.6"
+            versionCode 159
+            versionName "2.5.9"
             applicationId "com.yap.banking.preprod"
             resValue "string", "app_name", "YAP Preprod"
             // It binds with SHA1- SHA 256 and package bundle
@@ -78,8 +78,8 @@ android {
         }
 
         stg {
-            versionCode 415
-            versionName "2.3.1"
+            versionCode 417
+            versionName "2.3.3"
             applicationIdSuffix ".stg"
             resValue "string", "app_name", "YAP Stage"
             resValue "string", "google_maps_key", versionProps.getProperty("map_key_other")

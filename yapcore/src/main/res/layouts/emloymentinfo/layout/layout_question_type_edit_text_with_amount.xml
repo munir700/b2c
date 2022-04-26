@@ -13,6 +13,10 @@
 
         <import type="co.yap.translation.Strings" />
 
+        <import type="co.yap.translation.Translator" />
+
+        <import type="co.yap.yapcore.enums.EmploymentQuestionIdentifier" />
+
         <import type="co.yap.yapcore.helpers.extentions.ParseExtenstionKt" />
         <import type="co.yap.yapcore.helpers.Utils" />
 
@@ -38,16 +42,16 @@
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvTinNumber"
                 style="@style/SmallGrey"
-                android:layout_marginTop="@dimen/margin_small"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_small"
                 android:lineSpacingExtra="2sp"
                 android:text="@{viewModel.questionUiFields.question.questionTitle}"
                 android:textColor="@color/darkSlateBlueFaded"
                 app:layout_constraintStart_toStartOf="parent"
                 tools:text="What is your total monthly income?" />
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_3sdp"
@@ -62,44 +66,53 @@
                     android:lineSpacingExtra="0dp"
                     android:text="AED"
                     android:textColor="@color/darkSlateBlueFaded"
+                    android:visibility="gone"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <co.yap.widgets.currency.CoreEditText
-                    android:id="@+id/etAmount"
-                    style="@style/ARegular"
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tlAmount"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:background="@null"
-                    android:enabled="@{viewModel.isEditable()}"
-                    android:hint="@{viewModel.questionUiFields.question.placeholder}"
-                    android:inputType="numberDecimal"
-                    android:maxLength="@{15}"
-                    android:paddingStart="@dimen/margin_small"
-                    android:paddingTop="@dimen/margin_extra_small"
-                    android:paddingBottom="@dimen/margin_extra_small"
-                    android:text="@={viewModel.questionUiFields.question.answer}"
-                    android:textColor="@color/colorPrimaryDark"
-                    android:textColorHint="@color/colorPrimaryDark"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/ivSupport"
-                    app:layout_constraintStart_toEndOf="@+id/appCompatTextView"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:validateMinimumValue="@{viewModel.questionUiFields.question.minimumValue}"
-                    tools:text="1234567891" />
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:singleLine="true"
+                    android:visibility="visible"
+                    app:prefixText="AED"
+                    app:prefixTextAppearance="@style/Yap.Widget.TextInputLayout.PrefixForCurrency"
+                    tools:prefixText="AED">
+
+                    <co.yap.widgets.currency.CoreEditText
+                        android:id="@+id/etAmount"
+                        style="@style/ARegular"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@null"
+                        android:enabled="@{viewModel.isEditable()}"
+                        android:hint="@{viewModel.questionUiFields.question.placeholder}"
+                        android:inputType="numberDecimal"
+                        android:maxLength="@{15}"
+                        android:paddingTop="@dimen/margin_extra_small"
+                        android:paddingBottom="@dimen/margin_extra_small"
+                        android:text="@={viewModel.questionUiFields.question.answer}"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textColorHint="@color/colorPrimaryDark"
+                        app:enableError="@{viewModel.questionUiFields.question.minimumValue.equals(0)? false:true}"
+                        app:validateMaxLengthMessage="@{viewModel.questionUiFields.key.equals(EmploymentQuestionIdentifier.SALARY_AMOUNT)? Translator.INSTANCE.getString(context,Strings.enter_greater_salary_amount) : Translator.INSTANCE.getString(context,Strings.enter_greater_deposit_amount) }"
+                        app:validateMinimumValue="@{viewModel.questionUiFields.question.minimumValue}"
+                        tools:text="1234567891" />
+                </com.google.android.material.textfield.TextInputLayout>
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/ivSupport"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
                     android:enabled="@{viewModel.isEditable()}"
                     app:srcCompat="@drawable/ic_support" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.appcompat.widget.LinearLayoutCompat>
 
             <include
                 layout="@layout/content_input_field_selector"

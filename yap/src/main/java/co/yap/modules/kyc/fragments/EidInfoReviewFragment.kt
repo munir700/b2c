@@ -409,7 +409,7 @@ class EidInfoReviewFragment :
                 positiveButton = getString(R.string.common_text_ok),
                 cancelable = false,
                 positiveCallback = {
-                    finish()
+                   navigateBack()
                 }
             )
         }

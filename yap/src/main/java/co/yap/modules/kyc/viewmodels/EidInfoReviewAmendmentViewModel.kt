@@ -608,18 +608,11 @@ class EidInfoReviewAmendmentViewModel(application: Application) :
         }
     }
     private fun needToShowExpiryDateDialogue(expiryDate: Date): Boolean {
-        var maxAllowExpiryDate = DateUtils.nextDay(
-            DateUtils.stringToDate(
-                DateUtils.getCurrentDateWithFormat(DateUtils.SERVER_DATE_FULL_FORMAT),
-                DateUtils.SERVER_DATE_FULL_FORMAT
-            ), state.eidExpireLimitDays.value ?: 0
-        )
-        if (maxAllowExpiryDate?.let {
-                DateUtils.expectedExpiryDateValid(
-                    it,
-                    expiryDate
-                )
-            } == true) {
+        if (DateUtils.expiryDateValidWithLimitedDays(
+                expiryDate,
+                state.eidExpireLimitDays.value ?: 0
+            )
+        ) {
             return false
         }
         state.expiryDateValid.value = false

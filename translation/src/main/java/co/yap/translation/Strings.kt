@@ -2631,4 +2631,10 @@ object Strings {
         "expiry_dialogue_title_oops"
     const val expiry_dialogue_message: String =
         "expiry_dialogue_message"
+
+    //     Error message on Employment Questioner
+    const val enter_greater_salary_amount: String =
+        "enter_greater_salary_amount"
+    const val enter_greater_deposit_amount: String =
+        "enter_greater_deposit_amount"
 }

@@ -56,7 +56,7 @@ class KYCComplianceComposer :
                     key = EmploymentQuestionIdentifier.SALARY_AMOUNT
                 ), QuestionUiFields(
                     question = Question(
-                        questionTitle = "How much cash do you plan to deposit or receive monthly in a cash deposit machine (ATM)? If you don’t deal with cash, then enter AED 0.00",
+                        questionTitle = "How much cash do you plan to deposit/receive on a monthly basis in cash deposit machine (ATM)? Please adjust amount as required - it should be less then your income.",
                         placeholder = "Enter the amount",
                         questionType = QuestionType.EDIT_TEXT_FIELD_WITH_AMOUNT,
                         answer = ObservableField(
@@ -136,7 +136,7 @@ class KYCComplianceComposer :
                     key = EmploymentQuestionIdentifier.SALARY_AMOUNT
                 ), QuestionUiFields(
                     question = Question(
-                        questionTitle = "How much cash do you plan to deposit or receive monthly in a cash deposit machine (ATM)? If you don’t deal with cash, then enter AED 0.00",
+                        questionTitle = "How much cash do you plan to deposit/receive on a monthly basis in cash deposit machine (ATM)? Please adjust amount as required - it should be less then your income.",
                         placeholder = "Enter the amount",
                         questionType = QuestionType.EDIT_TEXT_FIELD_WITH_AMOUNT,
                         answer = ObservableField(
@@ -198,7 +198,7 @@ class KYCComplianceComposer :
                     key = EmploymentQuestionIdentifier.SALARY_AMOUNT
                 ), QuestionUiFields(
                     question = Question(
-                        questionTitle = "How much cash do you plan to deposit or receive monthly in a cash deposit machine (ATM)? If you don’t deal with cash, then enter AED 0.00",
+                        questionTitle = "How much cash do you plan to deposit/receive on a monthly basis in cash deposit machine (ATM)? Please adjust amount as required - it should be less then your income.",
                         placeholder = "Enter the amount",
                         questionType = QuestionType.EDIT_TEXT_FIELD_WITH_AMOUNT,
                         answer = ObservableField(status?.expectedMonthlyCredit ?: "4000"),

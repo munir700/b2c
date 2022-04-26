@@ -37,7 +37,6 @@ import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.leanplum.KYCEvents
 import co.yap.yapcore.leanplum.trackEvent
 import co.yap.yapcore.managers.SessionManager
-import kotlinx.coroutines.delay
 import java.util.*
 
 class EidInfoReviewViewModel(application: Application) :
@@ -133,7 +132,8 @@ class EidInfoReviewViewModel(application: Application) :
                     state.toast =
                         "Your EID doesn't match with the current EID.^${AlertType.DIALOG.name}"
                 }
-                it.filePaths.isNullOrEmpty() -> state.eidImageDownloaded.value = empty("Sorry, it seems that the data extracted is not correct. Please scan again")
+                it.filePaths.isNullOrEmpty() -> state.eidImageDownloaded.value =
+                    empty("Sorry, it seems that the data extracted is not correct. Please scan again")
                 else -> {
                     performUqudoUploadDocumentsRequest(false) {
                     }
@@ -428,7 +428,7 @@ class EidInfoReviewViewModel(application: Application) :
     }
 
     fun downloadImageInBackground() {
-        launch{
+        launch {
             state.eidImageDownloaded.value = loading("")
             parentViewModel?.uqudoManager?.downloadImage { downloaded, msg ->
                 if (downloaded) {
@@ -460,18 +460,11 @@ class EidInfoReviewViewModel(application: Application) :
     }
 
     private fun needToShowExpiryDateDialogue(expiryDate: Date): Boolean {
-        var maxAllowExpiryDate = DateUtils.nextDay(
-            DateUtils.stringToDate(
-                DateUtils.getCurrentDateWithFormat(DateUtils.SERVER_DATE_FULL_FORMAT),
-                DateUtils.SERVER_DATE_FULL_FORMAT
-            ), state.eidExpireLimitDays.value ?: 0
-        )
-        if (maxAllowExpiryDate?.let {
-                DateUtils.expectedExpiryDateValid(
-                    it,
-                    expiryDate
-                )
-            } == true) {
+        if (DateUtils.expiryDateValidWithLimitedDays(
+                expiryDate,
+                state.eidExpireLimitDays.value ?: 0
+            )
+        ) {
             return false
         }
         state.expiryDateValid.value = false
