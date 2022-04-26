@@ -8,14 +8,11 @@ import androidx.fragment.app.viewModels
 import co.yap.BR
 import co.yap.R
 import co.yap.databinding.FragmentEasyBankTransferBankListBinding
-import co.yap.modules.dashboard.yapit.addmoney.easybanktransfer.leansdk.LeanSdkManager
 import co.yap.modules.dashboard.yapit.addmoney.main.AddMoneyBaseFragment
 import co.yap.networking.leanteach.responsedtos.LeanOnBoardModel
 import co.yap.networking.leanteach.responsedtos.banklistmodels.BankListMainModel
 import co.yap.yapcore.constants.Constants
-import co.yap.yapcore.helpers.extentions.toast
 import co.yap.yapcore.interfaces.OnItemClickListener
-import me.leantech.link.android.Lean
 
 class BankListFragment :
     AddMoneyBaseFragment<FragmentEasyBankTransferBankListBinding, IBankList.ViewModel>(),
@@ -47,36 +44,20 @@ class BankListFragment :
         viewModel.bankList.observe(viewLifecycleOwner) { list ->
             viewModel.bankListAdapter.setData(list)
         }
+        viewModel.isPaymentJourneySet.observe(viewLifecycleOwner) { isSet ->
+            if (isSet) setResultData()
+        }
     }
 
     private fun setRecyclerClick() {
         viewModel.bankListAdapter.onItemClickListener = object : OnItemClickListener {
             override fun onItemClick(view: View, data: Any, pos: Int) {
                 if (data is BankListMainModel) {
-                    data.identifier?.let { startPaymentSourceJourney(it) }
+                    data.identifier?.let { viewModel.startPaymentSourceJourney(it) }
                 }
             }
         }
     }
-
-    private fun startPaymentSourceJourney(bankIdentifier: String) {
-        with(viewModel.leanOnBoardModel) {
-            LeanSdkManager.lean?.createPaymentSource(
-                requireActivity(),
-                customerId.toString(),
-                bankIdentifier,
-                destinationId.toString(),
-                object : Lean.LeanListener {
-                    override fun onResponse(status: Lean.LeanStatus) {
-                        if (status.status == co.yap.modules.others.helper.Constants.SUCCESS_STATUS)
-                            setResultData()
-                        else toast(status.status)
-                    }
-                }
-            )
-        }
-    }
-
 
     override fun onToolBarClick(id: Int) {
         when (id) {
