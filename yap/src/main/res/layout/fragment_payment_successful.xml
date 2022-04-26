@@ -6,7 +6,7 @@
     <data>
         <variable
             name="viewModel"
-            type="co.yap.modules.dashboard.yapit.addmoney.easybanktransfer.paymentsuccessful.PaymentSuccessfulViewModel" />
+            type="co.yap.modules.dashboard.yapit.addmoney.easybanktransfer.topup.topupsuccessscreen.PaymentSuccessfulViewModel" />
         <import type="co.yap.translation.Strings" />
     </data>
 
@@ -59,6 +59,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/margin_large"
             app:btn_size="medium"
+            android:onClick="@{(v)->viewModel.handlePressOnView(v.id)}"
             app:enableCoreButton="@{true}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

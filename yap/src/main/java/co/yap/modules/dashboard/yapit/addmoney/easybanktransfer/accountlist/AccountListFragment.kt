@@ -12,7 +12,7 @@ import co.yap.BR
 import co.yap.R
 import co.yap.databinding.FragmentEasyBankTransferAccountListBinding
 import co.yap.modules.dashboard.yapit.addmoney.easybanktransfer.banklist.BankListFragment
-import co.yap.modules.dashboard.yapit.addmoney.easybanktransfer.topup.topupamount.TopupAmountFragment
+import co.yap.modules.dashboard.yapit.addmoney.easybanktransfer.topup.activity.TopUpActivity
 import co.yap.modules.dashboard.yapit.addmoney.main.AddMoneyBaseFragment
 import co.yap.modules.others.helper.Constants
 import co.yap.networking.leanteach.responsedtos.LeanOnBoardModel
@@ -23,6 +23,7 @@ import co.yap.widgets.MultiStateView
 import co.yap.widgets.State
 import co.yap.widgets.Status
 import co.yap.widgets.loading.CircularProgressBar
+import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.helpers.extentions.startFragment
 import co.yap.yapcore.helpers.extentions.startFragmentForResult
 import co.yap.yapcore.helpers.extentions.toast
@@ -150,15 +151,16 @@ class AccountListFragment :
         customerID: String,
         destinationId:String
     ) {
-        startFragment(
-            fragmentName = TopupAmountFragment::class.java.name,
-            bundle = bundleOf(
+        val bundle = bundleOf(
                 co.yap.yapcore.constants.Constants.CUSTOMER_ID_LEAN to customerID,
                 co.yap.yapcore.constants.Constants.DESTINATION_ID_LEAN to destinationId,
                 co.yap.yapcore.constants.Constants.MODEL_LEAN to leanCustomerAccounts,
                 co.yap.yapcore.constants.Constants.MODEL_BANK_LEAN to bankListMainModel
             )
-        )
+
+        launchActivity<TopUpActivity> {
+            putExtra(co.yap.yapcore.constants.Constants.EXTRA, bundle)
+        }
     }
 
     private fun handleState(state: State?) {

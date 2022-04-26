@@ -1,4 +1,4 @@
-package co.yap.modules.dashboard.yapit.addmoney.easybanktransfer.topup.topupamount
+package co.yap.modules.dashboard.yapit.addmoney.easybanktransfer.topup.topupamountscreen
 
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
@@ -24,6 +24,7 @@ class TopupAmountViewModel(application: Application) :
     override var customerId: String? = ""
     override var paymentIntentId: MutableLiveData<String> = MutableLiveData("")
     override var leanCustomerAccounts: LeanCustomerAccounts? = LeanCustomerAccounts()
+    override var leanPaymentStatus: MutableLiveData<Boolean> = MutableLiveData(false)
     override var getPaymentIntentModel: GetPaymentIntentIdModel = GetPaymentIntentIdModel()
     override var bankListMainModel: BankListMainModel = BankListMainModel()
     override val state: ITopupAmount.State = TopupAmountState()

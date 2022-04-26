@@ -1,4 +1,4 @@
-package co.yap.modules.dashboard.yapit.addmoney.easybanktransfer.topup.topupamount
+package co.yap.modules.dashboard.yapit.addmoney.easybanktransfer.topup.topupamountscreen
 
 import android.os.Bundle
 import android.view.View
@@ -12,9 +12,9 @@ import co.yap.networking.leanteach.responsedtos.accountlistmodel.LeanCustomerAcc
 import co.yap.networking.leanteach.responsedtos.banklistmodels.BankListMainModel
 import co.yap.translation.Strings
 import co.yap.yapcore.helpers.extentions.generateChipViews
+import co.yap.yapcore.managers.SessionManager
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.helpers.showTextUpdatedAbleSnackBar
-import co.yap.yapcore.managers.SessionManager
 import com.google.android.material.chip.Chip
 import com.google.android.material.snackbar.Snackbar
 import me.leantech.link.android.Lean
@@ -41,6 +41,7 @@ class TopupAmountFragment :
         observeValues()
         setDenominationsChipListener()
         balanceObserver()
+        leanPaymentSuccessObserver()
     }
 
     private fun getDataArguments() {
@@ -97,11 +98,23 @@ class TopupAmountFragment :
                     viewModel.leanCustomerAccounts?.accountId,
                     object : Lean.LeanListener {
                         override fun onResponse(status: Lean.LeanStatus) {
-                            val value = status.status
+                            if (status.status == co.yap.modules.others.helper.Constants.SUCCESS_STATUS)
+                                viewModel.leanPaymentStatus.postValue(true)
                         }
                     })
 
         }
+    }
+
+    private fun leanPaymentSuccessObserver() {
+        viewModel.leanPaymentStatus.observe(viewLifecycleOwner){
+            if(it)
+                openPaymentSuccessScreen()
+        }
+    }
+
+    private fun openPaymentSuccessScreen() {
+        navigate(R.id.action_topUpAmountFragment_to_paymentSuccessfulFragment)
     }
 
     private fun observeClickEvent() {
