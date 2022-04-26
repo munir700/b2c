@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -13,6 +14,7 @@
         <import type="co.yap.translation.Translator" />
 
         <import type="co.yap.yapcore.managers.SessionManager" />
+
         <import type="co.yap.yapcore.helpers.Utils" />
     </data>
 
@@ -20,9 +22,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:animateLayoutChanges="false"
-        app:sensitiveViews="@{Utils.getViewsList(etEmailField)}"
         android:background="@color/white"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        app:sensitiveViews="@{Utils.getViewsList(etEmailField)}">
 
         <co.yap.widgets.LockableScrollView
             android:id="@+id/scrollView"
@@ -68,7 +70,7 @@
                     android:layout_marginStart="@dimen/margin_medium_large"
                     android:layout_marginTop="@dimen/margin_xl"
                     android:layout_marginEnd="@dimen/margin_medium_large"
-                    android:layout_marginBottom="@dimen/margin_small"
+                    android:visibility="gone"
                     app:coreInputDrawableRight="@{viewModel.state.drawbleRight}"
                     app:coreInputError="@{viewModel.state.emailError}"
                     app:coreInputText="@{viewModel.state.email}"
@@ -78,13 +80,53 @@
                     app:view_hint_input_field="@string/screen_sign_in_input_text_email_hint"
                     app:view_input_type="email" />
 
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tlPhoneNumber"
+                    style="@style/Yap.App.Widget.TextInputLayout.OutLined"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_normal"
+                    android:layout_marginTop="@dimen/margin_xl"
+                    android:layout_marginEnd="@dimen/margin_normal"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="@dimen/margin_extra_small"
+                    android:paddingTop="@dimen/margin_extra_small"
+                    android:paddingRight="@dimen/margin_extra_small"
+                    android:paddingBottom="@dimen/margin_extra_small"
+                    android:singleLine="true"
+                    app:endIconDrawable="@{viewModel.state.valid ? @drawable/path : null}"
+                    app:errorEnabled="@{viewModel.state.isError}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvSignIn"
+                    app:prefixText="@{viewModel.state.countryCode != null ?viewModel.state.countryCode:`+971` }"
+                    app:prefixTextAppearance="@style/Yap.Widget.TextInputLayout.Prefix"
+                    app:startIconDrawable="@drawable/draw_icon_ae"
+                    tools:prefixText="+233">
+
+                    <co.yap.widgets.edittext.PhoneTextInputEditText
+                        android:id="@+id/etMobileNumber"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@null"
+                        android:digits="0123456789-"
+                        android:drawablePadding="@dimen/margin_small"
+                        android:imeOptions="actionDone"
+                        android:inputType="phone"
+                        android:onTextChanged="@{viewModel::onPhoneNumberTextChanged}"
+                        android:paddingVertical="@dimen/margin_normal_large"
+                        android:text="@={viewModel.state.mobile}"
+                        app:p_showHint="false"
+                        app:prefixTextNew="@{viewModel.state.countryCode}" />
+                </com.google.android.material.textfield.TextInputLayout>
+
                 <androidx.appcompat.widget.SwitchCompat
                     android:id="@+id/swRemember"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginTop="@dimen/margin_medium_large"
-                    android:checked="@={SessionManager.INSTANCE.isRemembered}"
+                    android:checked="@={viewModel.state.isRemember}"
                     android:padding="@dimen/margin_normal"
                     android:text="@{Translator.INSTANCE.getString(context,Strings.screen_sign_in_label_switch_text)}"
                     android:theme="@style/CustomSwitch" />
@@ -101,7 +143,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:onClick="@{(v) -> viewModel.handlePressOnLogin()}"
+                    android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
                     android:text="@{Translator.INSTANCE.getString(context,Strings.screen_sign_in_button_sign_in)}"
                     app:btn_size="small"
                     app:enableCoreButton="@{viewModel.state.valid}" />
@@ -138,7 +180,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_5sdp"
                 android:maxLines="1"
-                android:onClick="@{(v) -> viewModel.handlePressOnSignUp()}"
+                android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
                 android:paddingTop="@dimen/margin_extra_small"
                 android:paddingBottom="@dimen/margin_extra_small"
                 android:singleLine="true"

@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import co.yap.app.main.MainChildViewModel
 import co.yap.app.modules.login.interfaces.IVerifyPasscode
 import co.yap.app.modules.login.states.VerifyPasscodeState
+import co.yap.modules.onboarding.models.CountryCode
 import co.yap.modules.otp.getOtpMessageFromComposer
 import co.yap.networking.authentication.AuthRepository
 import co.yap.networking.authentication.requestdtos.LoginRequest
@@ -20,12 +21,14 @@ import co.yap.networking.models.ApiError
 import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleLiveEvent
+import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.OTPActions
 import co.yap.yapcore.enums.VerifyPassCodeEnum
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.leanplum.trackEventWithAttributes
 import co.yap.yapcore.managers.SessionManager
+import co.yap.yapcore.managers.saveUserDetails
 import java.util.concurrent.TimeUnit
 
 class VerifyPasscodeViewModel(application: Application) :
@@ -85,15 +88,17 @@ class VerifyPasscodeViewModel(application: Application) :
         val timer = object : CountDownTimer(TimeUnit.SECONDS.toMillis(totalSeconds), 1000) {
             override fun onTick(millisUntilFinished: Long) {
                 state.dialerError =
-                    "Too many attempts. Please wait for ${timerString(
-                        minutes = TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished),
-                        seconds = TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) -
-                                TimeUnit.MINUTES.toSeconds(
-                                    TimeUnit.MILLISECONDS.toMinutes(
-                                        millisUntilFinished
+                    "Too many attempts. Please wait for ${
+                        timerString(
+                            minutes = TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished),
+                            seconds = TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) -
+                                    TimeUnit.MINUTES.toSeconds(
+                                        TimeUnit.MILLISECONDS.toMinutes(
+                                            millisUntilFinished
+                                        )
                                     )
-                                )
-                    )}"
+                        )
+                    }"
             }
 
             override fun onFinish() {
@@ -168,6 +173,13 @@ class VerifyPasscodeViewModel(application: Application) :
                         SessionManager.user = response.data.data[0]
                         accountInfo.postValue(response.data.data[0])
 //                        SessionManager.setupDataSetForBlockedFeatures()
+                        context.saveUserDetails(
+                            SessionManager.user?.currentCustomer?.mobileNo,
+                            CountryCode.UAE.countryCode,
+                            SharedPreferenceManager.getInstance(context).getValueBoolien(
+                                Constants.KEY_IS_REMEMBER, true
+                            )
+                        )
                         trackEventWithAttributes(SessionManager.user)
                         state.loading = false
                     }
@@ -231,7 +243,8 @@ class VerifyPasscodeViewModel(application: Application) :
 
     fun logout(success: () -> Unit) {
         val deviceId: String? =
-            SharedPreferenceManager.getInstance(context).getValueString(co.yap.yapcore.constants.Constants.KEY_APP_UUID)
+            SharedPreferenceManager.getInstance(context)
+                .getValueString(co.yap.yapcore.constants.Constants.KEY_APP_UUID)
         launch {
             state.loading = true
             when (repository.logout(deviceId.toString())) {
@@ -251,11 +264,11 @@ class VerifyPasscodeViewModel(application: Application) :
         onClickEvent.value = id
     }
 
-    override fun otpMessage(otpAction : String): String = context.getOtpMessageFromComposer(
-            otpAction,
-            if (state.verifyPassCodeEnum == VerifyPassCodeEnum.ACCESS_ACCOUNT.name) "There" else SessionManager.user?.currentCustomer?.firstName,
-            "%s1",
-            "%s2",
-          if (state.verifyPassCodeEnum == VerifyPassCodeEnum.ACCESS_ACCOUNT.name) "%s3" else SessionManager.helpPhoneNumber
-        )
+    override fun otpMessage(otpAction: String): String = context.getOtpMessageFromComposer(
+        otpAction,
+        if (state.verifyPassCodeEnum == VerifyPassCodeEnum.ACCESS_ACCOUNT.name) "There" else SessionManager.user?.currentCustomer?.firstName,
+        "%s1",
+        "%s2",
+        if (state.verifyPassCodeEnum == VerifyPassCodeEnum.ACCESS_ACCOUNT.name) "%s3" else SessionManager.helpPhoneNumber
+    )
 }

@@ -13,6 +13,8 @@ object Constants {
     const val FORGOT_PASSCODE_FROM_CHANGE_PASSCODE: String = "forgotPasscodeFromChangePasscodeFlow"
     const val FORGOT_CARD_PIN_FLOW: String = "FORGOT_CARD_PIN_FLOW"
     const val VERIFY_PASSCODE_FROM = "Verify-Passcode-From"
+    const val TOUCH_ID_SCREEN_TYPE: String = "Touch_id"
+    const val NOTIFICATION_SCREEN_TYPE: String = "Notification"
 
 
     const val LONGITUDE = "longitude"
@@ -154,6 +156,9 @@ object Constants {
     const val KEY_APP_UUID = "KEY_APP_UUID"
     const val KEY_PASSCODE: String = "PASSCODE"
     const val KEY_USERNAME: String = "USEERNAME"
+    const val KEY_MOBILE_NO: String = "mobile_no"
+    const val KEY_COUNTRY_CODE: String = "country_code"
+    const val KEY_COUNTRIES_LIST: String = "country_list"
     const val KEY_TOUCH_ID_ENABLED: String = "TOUCH_ID_ENABLED"
     const val KEY_IS_USER_LOGGED_IN: String = "KEY_IS_USER_LOGGED_IN"
     const val KEY_IS_FIRST_TIME_USER: String = "KEY_IS_FIRST_TIME_USER"
@@ -171,6 +176,7 @@ object Constants {
 
     const val REFERRAL_TIME = "time"
     const val REFERRAL_ID = "customer_id"
+    const val REFERRAL_COUNTRY_ISO_CODE = "referral_iso_2_digit_country_code"
     const val FILE_PATH = "imagePath"
 
     const val CURRENCYWALLET = "MultiCurrencyWallet"
@@ -209,6 +215,7 @@ object Constants {
     const val VIEW_CARD_DETAIL_ITEM = 5
     const val VIEW_ITEM_CARD_SUCCESSS = 6
     const val VIEW_ITEM_ACCOUNT_DETAIL = 7
+    const val VIEW_ITEM_WITH_FLAG_AND_CODE = 20
 
     //Yap Store
     const val ITEM_STORE_CARD_PLANS = 0
@@ -249,6 +256,7 @@ object Constants {
     // Lean Screens
     const val ONBOARD_USER_LEAN = "ONBOARD_USER_LEAN"
     const val CUSTOMER_ID_LEAN = "CUSTOMER_ID_LEAN"
+    const val DESTINATION_ID_LEAN = "DESTINATION_ID_LEAN"
     const val MODEL_LEAN = "MODEL_LEAN"
-
+    const val MODEL_BANK_LEAN = "MODEL_BANK_LEAN"
 }

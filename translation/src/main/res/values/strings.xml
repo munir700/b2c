@@ -127,7 +127,6 @@
     <!-- Phone Number Screen -->
     <string name="screen_phone_number_display_text_title">What\'s your mobile number?</string>
     <string name="screen_phone_number_display_text_error">You\’ve entered an invalid phone number. Please, try again.</string>
-    <string name="screen_phone_number_button_send">Next</string>
 
     <!-- Phone number verification screen -->
     <string name="screen_verify_phone_number_display_text_title">Verify your mobile number</string>
@@ -286,30 +285,8 @@
 
     <string name="screen_b2c_passport_number_text">Passport number</string>
 
-
-    <!--    <string name="screen_b2c_eid_info_review_display_text_error_from_usa">Looks like you\'re from United States</string>-->
-    <!--    <string name="screen_b2c_eid_info_review_button_not_from_usa">No, I\'m not from USA</string>-->
-
     <!-- KYC SDK -->
-    <string name="idenetity_scanner_sdk_screen_scanner_display_text_step_1">Step 1 of 2</string>
-    <string name="idenetity_scanner_sdk_screen_scanner_display_text_step_2">Step 2 of 2</string>
-    <string name="idenetity_scanner_sdk_screen_scanner_display_text_front_side">Scan the front of your Emirates ID</string>
-    <string name="idenetity_scanner_sdk_screen_scanner_display_text_back_side">Now scan the back</string>
-    <string name="idenetity_scanner_sdk_screen_scanner_button_scan">Scan</string>
-    <string name="idenetity_scanner_sdk_screen_scanner_display_text_glare">A glare is detected on your document please try moving your document for best results</string>
-    <string name="idenetity_scanner_sdk_screen_review_info_button_rescan">Rescan</string>
-    <string name="idenetity_scanner_sdk_screen_review_info_button_next">Next</string>
     <string name="idenetity_scanner_sdk_screen_review_info_button_done">Done</string>
-    <string name="idenetity_scanner_sdk_screen_review_info_display_text_review">Please review your scanned document and make sure it is readable</string>
-    <string name="idenetity_scanner_sdk_screen_review_info_display_text_error_emirates_id_front">Document you scanned does not appear to be front side of Emirates ID. Please rescan</string>
-    <string name="idenetity_scanner_sdk_screen_review_info_display_text_error_emirates_id_back">Document you scanned does not appear to be back side of Emirates ID. Please rescan</string>
-    <string name="idenetity_scanner_sdk_screen_review_info_display_text_error_not_readable">Your scanned document is not properly readable. Please rescan</string>
-    <string name="idenetity_scanner_sdk_screen_review_info_display_text_error_face">Face is not clearly visible in your scanned document. Please rescan</string>
-    <string name="idenetity_scanner_sdk_screen_review_info_display_text_error_invalid_document">Document you scanned does not appear to be a valid document. Please rescan</string>
-    <string name="idenetity_scanner_sdk_screen_review_info_display_text_error_detecting_document">Could not detect document. Please focus and try again.</string>
-    <string name="idenetity_scanner_sdk_screen_review_info_display_text_error_saving_file">There is an error saving the image. Please try again</string>
-    <string name="idenetity_scanner_sdk_screen_review_info_display_text_error_saving_cropped_file">There is an error in saving cropped image. Please try again</string>
-    <string name="idenetity_scanner_sdk_screen_review_info_display_text_capture_process_complete">Capturing Complete</string>
 
     <!-- Set card PIN Welcome screen -->
     <string name="screen_set_card_pin_welcome_display_text_title">Now create a unique PIN to start using this card</string>
@@ -792,12 +769,6 @@
     <string name="screen_send_show_recent">Show Recent Transfers</string>
     <string name="screen_send_money_display_text_delete_message">Are you sure you want to delete beneficiary?</string>
     <string name="screen_send_money_display_text_all_local_beneficiaries">All local beneficiaries</string>
-    <string name="screen_send_money_display_yap_to_yap_contact_title">YAP 2 YAP</string>
-    <string name="screen_send_money_display_yap_to_yap_contact_description">Send money instantly to a \nYAP user</string>
-    <string name="screen_send_money_display_qr_code_description">Scan a YAP QR code and pay</string>
-    <string name="screen_send_money_display_local_bank_description">Send money to a local UAE \nbank account</string>
-    <string name="screen_send_money_display_home_country_description">Send money back home</string>
-    <string name="screen_send_money_display_international_transfer_description">Send money to a global bank</string>
     <string name="screen_send_money_display_permission_text">Can\'t proceed without permissions, Please go to settings and allow permission</string>
 
     <!--  Edit Beneficiary Money Screen-->
@@ -1742,8 +1713,9 @@
     <!--Lean -Adding an Account- Welcome Screen-->
     <string name="screen_lean_welcome_screen_title">Easy bank transfer</string>
     <string name="screen_lean_welcome_screen_welcome_to_open_banking">Welcome to open banking</string>
-    <string name="screen_lean_welcome_screen_connect_one_of_your_existing_bank">Connect one of your existing bank accounts to YAP and use it to top-up %1s with %2s</string>
-    <string name="screen_lean_welcome_screen_link_an_account"> Link an account</string>
+    <string name="screen_lean_welcome_screen_connect_one_of_your_existing_bank">Connect one of your existing bank accounts to YAP and use it to top-up instantly with zero fees!</string>
+    <string name="screen_lean_welcome_screen_link_an_account">+ Link an account</string>
+    <string name="country_encoded_base64">W3sKImlzb0NvdW50cnlDb2RlM0RpZ2l0IjoiUEFLIiwKImlzb0NvdW50cnlDb2RlMkRpZ2l0IjoiUEsiLAoibmFtZSI6IiAgIFBha2lzdGFuIn0sCnsKImlzb0NvdW50cnlDb2RlM0RpZ2l0IjoiQVJFIiwKImlzb0NvdW50cnlDb2RlMkRpZ2l0IjoiQUUiLAoibmFtZSI6IlVuaXRlZCBBcmFiIEVtaXJhdGVzIn0sCnsKImlzb0NvdW50cnlDb2RlM0RpZ2l0IjoiR0hBIiwKImlzb0NvdW50cnlDb2RlMkRpZ2l0IjoiR0giLAoibmFtZSI6IkdoYW5hIn0KXQ==</string>
 
     <!--Lean -Easy Bank Transfer- Bank List-->
     <string name="screen_lean_bank_list_add_an_account">Add an account</string>
@@ -1754,11 +1726,12 @@
     <string name="screen_lean_account_list_select_an_account">Select an account</string>
     <string name="screen_lean_account_list_choose_an_account">Choose an account to top-up with</string>
     <string name="screen_lean_account_list_pending">Pending</string>
-    <string name="screen_lean_account_list_link_new_account">Link new account</string>
+    <string name="screen_lean_account_list_link_new_account">+ Link new account</string>
 
     <!--Lean -Easy bank Transfer -Topup Amount -->
     <string name="screen_lean_topup_amount_toolbar_title">Top up via bank account</string>
     <string name="screen_lean_topup_text_enter_amount_to_topup">Enter the amount to top up</string>
+    <string name="screen_lean_topup_text_min_max_error">The transfer amount should be greater than %1s and less than %2s</string>
 
     <!--Lean -Easy bank Transfer -Payment Successful -->
     <string name="screen_lean_topup_payment_successful_title">Top up successful</string>

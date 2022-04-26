@@ -142,7 +142,6 @@ object Strings {
         "screen_phone_number_display_text_title"
     const val screen_phone_number_display_text_error: String =
         "screen_phone_number_display_text_error"
-    const val screen_phone_number_button_send: String = "screen_phone_number_button_send"
 
     //Phone number verification screen
     const val screen_verify_phone_number_display_text_sub_title: String =
@@ -410,54 +409,9 @@ object Strings {
         "screen_b2c_eid_info_review_display_text_select_gender"
 
     // KYC SDK
-    const val idenetity_scanner_sdk_screen_scanner_display_text_step_1: String =
-        "idenetity_scanner_sdk_screen_scanner_display_text_step_1"
-    const val idenetity_scanner_sdk_screen_scanner_display_text_step_2: String =
-        "idenetity_scanner_sdk_screen_scanner_display_text_step_2"
-    const val idenetity_scanner_sdk_screen_scanner_display_text_front_side: String =
-        "idenetity_scanner_sdk_screen_scanner_display_text_front_side"
-    const val idenetity_scanner_sdk_screen_scanner_display_text_back_side: String =
-        "idenetity_scanner_sdk_screen_scanner_display_text_back_side"
-    const val idenetity_scanner_sdk_screen_scanner_button_scan: String =
-        "idenetity_scanner_sdk_screen_scanner_button_scan"
-    const val idenetity_scanner_sdk_screen_scanner_display_text_glare: String =
-        "idenetity_scanner_sdk_screen_scanner_display_text_glare"
-    const val idenetity_scanner_sdk_screen_review_info_button_rescan: String =
-        "idenetity_scanner_sdk_screen_review_info_button_rescan"
-    const val idenetity_scanner_sdk_screen_review_info_button_next: String =
-        "idenetity_scanner_sdk_screen_review_info_button_next"
+
     const val idenetity_scanner_sdk_screen_review_info_button_done: String =
         "idenetity_scanner_sdk_screen_review_info_button_done"
-    const val idenetity_scanner_sdk_screen_review_info_display_text_review: String =
-        "idenetity_scanner_sdk_screen_review_info_display_text_review"
-    const val idenetity_scanner_sdk_screen_review_info_display_text_error_emirates_id_front: String =
-        "idenetity_scanner_sdk_screen_review_info_display_text_error_emirates_id_front"
-    const val idenetity_scanner_sdk_screen_review_info_display_text_error_emirates_id_back: String =
-        "idenetity_scanner_sdk_screen_review_info_display_text_error_emirates_id_back"
-    const val idenetity_scanner_sdk_screen_review_info_display_text_error_not_readable: String =
-        "idenetity_scanner_sdk_screen_review_info_display_text_error_not_readable"
-    const val idenetity_scanner_sdk_screen_review_info_display_text_error_face: String =
-        "idenetity_scanner_sdk_screen_review_info_display_text_error_face"
-    const val idenetity_scanner_sdk_screen_review_info_display_text_error_invalid_document: String =
-        "idenetity_scanner_sdk_screen_review_info_display_text_error_invalid_document"
-    const val idenetity_scanner_sdk_screen_review_info_display_text_error_detecting_document: String =
-        "idenetity_scanner_sdk_screen_review_info_display_text_error_detecting_document"
-    const val idenetity_scanner_sdk_screen_review_info_display_text_error_saving_file: String =
-        "idenetity_scanner_sdk_screen_review_info_display_text_error_saving_file"
-    const val idenetity_scanner_sdk_screen_review_info_display_text_error_saving_cropped_file: String =
-        "idenetity_scanner_sdk_screen_review_info_display_text_error_saving_cropped_file"
-    const val idenetity_scanner_sdk_screen_review_info_display_text_capture_process_complete: String =
-        "idenetity_scanner_sdk_screen_review_info_display_text_capture_process_complete"
-    const val identity_scanner_sdk_screen_scanner_glare_error: String =
-        "identity_scanner_sdk_screen_scanner_glare_error"
-    const val identity_scanner_sdk_screen_scanner_nationality_name_detection_error: String =
-        "identity_scanner_sdk_screen_scanner_nationality_name_detection_error"
-    const val identity_scanner_sdk_screen_scanner_mrz_error: String =
-        "identity_scanner_sdk_screen_scanner_mrz_error"
-    const val identity_scanner_sdk_screen_scanner_object_detection_error: String =
-        "identity_scanner_sdk_screen_scanner_object_detection_error"
-    const val identity_scanner_sdk_screen_scanner_overlay_instruction_title: String =
-        "identity_scanner_sdk_screen_scanner_overlay_instruction_title"
 
     //Set card PIN welcome screen
     const val screen_set_card_pin_welcome_display_text_title: String =
@@ -1275,18 +1229,6 @@ object Strings {
         "screen_send_money_home_label"
     const val screen_send_show_recent: String =
         "screen_send_show_recent"
-    const val screen_send_money_display_yap_to_yap_contact_title: String =
-        "screen_send_money_display_yap_to_yap_contact_title"
-    const val screen_send_money_display_yap_to_yap_contact_description: String =
-        "screen_send_money_display_yap_to_yap_contact_description"
-    const val screen_send_money_display_qr_code_description: String =
-        "screen_send_money_display_qr_code_description"
-    const val screen_send_money_display_local_bank_description: String =
-        "screen_send_money_display_local_bank_description"
-    const val screen_send_money_display_home_country_description: String =
-        "screen_send_money_display_home_country_description"
-    const val screen_send_money_display_international_transfer_description: String =
-        "screen_send_money_display_international_transfer_description"
     const val screen_send_money_display_permission_text: String =
         "screen_send_money_display_permission_text"
 
@@ -2734,8 +2676,10 @@ object Strings {
     //Lean -Easy Bank Transfer-Topup amount
     const val screen_lean_topup_amount_toolbar_title =
         "screen_lean_topup_amount_toolbar_title"
-    const val screen_lean_topup_text_enter_amount_to_topup=
+    const val screen_lean_topup_text_enter_amount_to_topup =
         "screen_lean_topup_text_enter_amount_to_topup"
+    const val screen_lean_topup_text_min_max_error =
+            "screen_lean_topup_text_min_max_error"
 
     //Lean -Easy Bank Transfer-Payment-Successful
     const val screen_lean_topup_payment_successful_title =

@@ -3,10 +3,12 @@ package co.yap.yapcore.helpers.extentions
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.media.MediaScannerConnection
 import android.net.Uri
 import android.os.Environment
+import android.text.TextUtils
 import android.view.View
 import androidx.core.content.FileProvider
 import co.yap.app.YAPApplication
@@ -178,8 +180,8 @@ fun getCurrentDateTime(): String { // need to re verify
     return date
 }
 
-fun Context.saveEidTemp(bitmap: Bitmap): String? {
-    val file = this.createTempFile("jpg")
+fun Context.saveEidTemp(fileName:String,bitmap: Bitmap): String? {
+    val file = this.createTempFileWithName(fileName,"jpg")
     try {
         val out = FileOutputStream(file)
         bitmap.compress(Bitmap.CompressFormat.JPEG, 90, out)
@@ -190,4 +192,24 @@ fun Context.saveEidTemp(bitmap: Bitmap): String? {
         e.printStackTrace()
     }
     return null
+}
+
+fun String?.isValidFile(filePath: String?): Boolean {
+    return this?.let { if (TextUtils.isEmpty(it)) false else File(it).exists() } ?: false
+//    returnurn
+}
+
+fun getBitmapFromStorage(filePath: String?): Bitmap? {
+    return BitmapFactory.decodeFile(filePath)
+}
+
+fun Context.getFilePrivately()=this.createTempFile("jpg")
+
+fun Context.createTempFileWithName(fileName:String,extension: String): File {
+    val dir = File(this.filesDir, "yapTemp")
+    if (!dir.exists()) {
+        dir.mkdirs()
+        dir.mkdir()
+    }
+    return File(dir, "${fileName}.$extension")
 }

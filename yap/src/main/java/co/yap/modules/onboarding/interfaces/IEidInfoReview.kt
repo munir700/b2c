@@ -11,6 +11,8 @@ import co.yap.networking.models.BaseResponse
 import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
+import co.yap.widgets.State
+
 
 interface IEidInfoReview {
 
@@ -35,7 +37,7 @@ interface IEidInfoReview {
         var AgeLimit: MutableLiveData<Int>?
         var isCountryUS: Boolean
         var showMiddleName: MutableLiveData<Boolean>
-        var eidImageDownloaded : MutableLiveData<Boolean>
+        var eidImageDownloaded : MutableLiveData<co.yap.widgets.State>
     }
 
     interface View : IBase.View<ViewModel> {

@@ -12,13 +12,13 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.app.R
-import co.yap.app.constants.Constants
 import co.yap.app.databinding.ActivityPhoneVerificationBinding
 import co.yap.app.main.MainChildFragment
 import co.yap.app.modules.login.interfaces.IPhoneVerificationSignIn
 import co.yap.app.modules.login.viewmodels.PhoneVerificationSignInViewModel
 import co.yap.household.onboard.onboarding.main.OnBoardingHouseHoldActivity
 import co.yap.modules.autoreadsms.MySMSBroadcastReceiver
+import co.yap.modules.dashboard.main.activities.YapDashboardActivity
 import co.yap.modules.kyc.amendments.missinginfo.MissingInfoFragment
 import co.yap.modules.onboarding.enums.AccountType
 import co.yap.modules.onboarding.fragments.WaitingListFragment
@@ -26,6 +26,7 @@ import co.yap.modules.reachonthetop.ReachedTopQueueFragment
 import co.yap.networking.customers.responsedtos.AccountInfo
 import co.yap.networking.customers.responsedtos.AmendmentStatus
 import co.yap.yapcore.constants.Constants.SMS_CONSENT_REQUEST
+import co.yap.yapcore.constants.Constants.TOUCH_ID_SCREEN_TYPE
 import co.yap.yapcore.firebase.FirebaseEvent
 import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.SharedPreferenceManager
@@ -33,6 +34,7 @@ import co.yap.yapcore.helpers.TourGuideManager
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.biometric.BiometricUtil
 import co.yap.yapcore.helpers.extentions.getOtpFromMessage
+import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.helpers.extentions.startFragment
 import co.yap.yapcore.helpers.extentions.startSmsConsent
 import co.yap.yapcore.leanplum.SignInEvents
@@ -188,7 +190,7 @@ class PhoneVerificationSignInFragment :
                         } else {
                             val action =
                                 PhoneVerificationSignInFragmentDirections.actionPhoneVerificationSignInFragmentToSystemPermissionFragment(
-                                    Constants.TOUCH_ID_SCREEN_TYPE
+                                    TOUCH_ID_SCREEN_TYPE
                                 )
                             findNavController().navigate(action)
                         }
@@ -235,7 +237,7 @@ class PhoneVerificationSignInFragment :
             )
         } else {
             trackEvent(SignInEvents.SIGN_IN.type)
-            findNavController().navigate(R.id.action_goto_yapDashboardActivity)
+            launchActivity<YapDashboardActivity>()
         }
     }
 

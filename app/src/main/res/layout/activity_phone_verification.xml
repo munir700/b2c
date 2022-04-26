@@ -137,7 +137,7 @@
                     app:btn_size="small"
                     android:layout_marginBottom="@dimen/margin_extra_large"
                     android:onClick="@{(v) -> viewModel.handlePressOnSendButton()}"
-                    android:text="@string/screen_phone_number_button_send"
+                    android:text="@string/common_button_next"
                     app:enableCoreButton="@{viewModel.state.validateBtn}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
