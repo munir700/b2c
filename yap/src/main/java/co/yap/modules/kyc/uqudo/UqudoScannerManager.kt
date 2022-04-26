@@ -122,38 +122,36 @@ class UqudoScannerManager private constructor(val context: Context) : IUqudoMana
         return (timeInSec <= seconds)
     }
 
-    override fun downloadImage(success: (success: Boolean) -> Unit) {
+    override suspend fun downloadImage(success: (success: Boolean, String?) -> Unit) {
         uqudoPayloadData.value?.let { payload ->
             imagePaths.clear()
-            downloadImagewithGlide(
-                payload.documents.get(0).scan?.frontImageId ?: ""
+            downloadImageWithGlide(
+                payload.documents[0].scan?.frontImageId ?: "",
+                "${fetchDocumentFrontDate()?.identityNumber}Front", FRONT_IMAGE_RESOURCE_PATH
             )
-            { isFrontImageDownloaded, frontImage ->
+            { isFrontImageDownloaded, msg ->
                 if (isFrontImageDownloaded) {
-                    frontImage?.let { context.saveEidTemp(it) }
-                        ?.let { imagePaths[FRONT_IMAGE_RESOURCE_PATH] = it }
-                    downloadImagewithGlide(
-                        payload.documents.get(0).scan?.backImageId ?: ""
-                    ) { isBackImageDownloaded, backImage ->
+                    downloadImageWithGlide(
+                        payload.documents[0].scan?.backImageId ?: "",
+                        "${fetchDocumentFrontDate()?.identityNumber}Back", BACK_IMAGE_RESOURCE_PATH
+                    ) { isBackImageDownloaded, msg ->
                         if (isBackImageDownloaded) {
-                            backImage?.let { context.saveEidTemp(it) }
-                                ?.let { imagePaths[BACK_IMAGE_RESOURCE_PATH] = it }
-                            success.invoke(true)
+                            success.invoke(true, msg)
                         } else {
-                            success.invoke(false)
+                            success.invoke(false, msg)
                         }
                     }
                 } else {
-                    success.invoke(false)
+                    success.invoke(false, msg)
                 }
             }
         }
 
     }
 
-    private fun downloadImagewithGlide(
-        imageId: String,
-        downloaded: (sucess: Boolean, bitmap: Bitmap?) -> Unit
+    private fun downloadImageWithGlide(
+        imageId: String, fileName: String, key: Int,
+        downloaded: (Boolean, String?) -> Unit
     ) {
         val uqUrl = "${context.getString(R.string.uq_api_base_url)}$UQUDO_IMAGE_URL"
         val url = GlideUrl(
@@ -166,13 +164,15 @@ class UqudoScannerManager private constructor(val context: Context) : IUqudoMana
         )
         Glide.with(context.applicationContext)
             .asBitmap()
-            .load(url)
-            .error(url).into(object : CustomTarget<Bitmap>() {
+            .load(url).into(object : CustomTarget<Bitmap>() {
                 override fun onResourceReady(
                     resource: Bitmap,
                     transition: Transition<in Bitmap>?
                 ) {
-                    downloaded.invoke(true, resource)
+                    context.saveEidTemp(fileName, resource)?.let {
+                        imagePaths[key] = it
+                        downloaded.invoke(true, null)
+                    }
                 }
 
                 override fun onLoadCleared(placeholder: Drawable?) {
@@ -180,7 +180,8 @@ class UqudoScannerManager private constructor(val context: Context) : IUqudoMana
 
                 override fun onLoadFailed(errorDrawable: Drawable?) {
                     super.onLoadFailed(errorDrawable)
-                    downloadImagewithGlide(imageId) { _, _ -> }
+                    downloaded.invoke(false, "Sorry, we are unable to download your EIDs please download again.")
+                    //  downloadImageWithGlide(imageId) { _, _ -> }
                 }
             })
     }
@@ -196,8 +197,9 @@ class UqudoScannerManager private constructor(val context: Context) : IUqudoMana
                 -100
             ) else inputSDF.parse(string ?: "")
             inputSDF.applyPattern(DATE_OUTPUT_FORMAT)
-            if (flags == UqudoFlags.EXPIRY_DATE) dateOfExpiry.value = date else dateOfBirth.value =
-                date
+            if (flags == UqudoFlags.EXPIRY_DATE) dateOfExpiry.value =
+                date ?: Date() else dateOfBirth.value =
+                date ?: Date()
             return date
         } catch (e: java.lang.Exception) {
             e.printStackTrace()
@@ -236,6 +238,8 @@ class UqudoScannerManager private constructor(val context: Context) : IUqudoMana
             it
         }
     }
+
+    override fun noImageDownloaded(): Boolean = imagePaths.size < 2
 
     override fun resetData() {
         imagePaths.clear()

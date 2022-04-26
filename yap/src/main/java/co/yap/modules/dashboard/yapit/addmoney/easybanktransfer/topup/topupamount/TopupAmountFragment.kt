@@ -3,6 +3,7 @@ package co.yap.modules.dashboard.yapit.addmoney.easybanktransfer.topup.topupamou
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import co.yap.BR
 import co.yap.R
 import co.yap.databinding.FragmentTopupAmountBinding
@@ -12,6 +13,7 @@ import co.yap.networking.leanteach.responsedtos.accountlistmodel.LeanCustomerAcc
 import co.yap.networking.leanteach.responsedtos.banklistmodels.BankListMainModel
 import co.yap.translation.Strings
 import co.yap.yapcore.helpers.extentions.generateChipViews
+import co.yap.yapcore.managers.SessionManager
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.helpers.showTextUpdatedAbleSnackBar
 import com.google.android.material.chip.Chip
@@ -30,7 +32,6 @@ class TopupAmountFragment :
         super.onViewCreated(view, savedInstanceState)
         viewDataBinding.lifecycleOwner = this
         generateChipViews(viewModel.state.denominationChipList.value!!)
-        viewModel.setAvailableBalance()
         setObservers()
         getDataArguments()
         viewModel.getLimitOfAmount()
@@ -40,6 +41,7 @@ class TopupAmountFragment :
         observeClickEvent()
         observeValues()
         setDenominationsChipListener()
+        balanceObserver()
     }
 
     private fun getDataArguments() {
@@ -67,6 +69,12 @@ class TopupAmountFragment :
         }
     }
 
+    private fun balanceObserver() {
+        SessionManager.cardBalance.observe(viewLifecycleOwner) { value ->
+            viewModel.setAvailableBalance(value.availableBalance.toString())
+        }
+    }
+
     private fun observeValues() {
         viewModel.state.enteredTopUpAmount.observe(viewLifecycleOwner) { topUpAmount ->
             if (topUpAmount.isNotBlank())
@@ -78,7 +86,7 @@ class TopupAmountFragment :
                     requireActivity(),
                     it,
                     true,
-                    viewModel.leanCustomerAccounts.accountId,
+                    viewModel.leanCustomerAccounts?.accountId,
                     object : Lean.LeanListener {
                         override fun onResponse(status: Lean.LeanStatus) {
                             val value = status.status

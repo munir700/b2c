@@ -4,8 +4,11 @@ import android.app.Dialog
 import android.os.Bundle
 import android.view.*
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.databinding.DataBindingUtil
+import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.viewbinding.ViewBindings
 import co.yap.networking.coreitems.CoreBottomSheetData
 import co.yap.yapcore.BR
 import co.yap.yapcore.R
@@ -28,7 +31,7 @@ open class CoreBottomSheet(
     private val iAnimationComplete: IAnimationComplete? = null,
     private val buttonClickListener: View.OnClickListener? = null
 ) : BottomSheetDialogFragment(), ICoreBottomSheet.View, IAnimationComplete {
-    lateinit var viewDataBinding: LayoutBottomSheetBinding
+    lateinit var viewDataBinding: ViewDataBinding
     override val viewModel: CoreBottomSheetViewModel by viewModels()
 
     open val adapter: CoreBottomSheetAdapter by lazy {
@@ -42,8 +45,8 @@ open class CoreBottomSheet(
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        viewDataBinding = LayoutBottomSheetBinding.inflate(inflater, container, false)
-        // DataBindingUtil.inflate(inflater, R.layout.layout_bottom_sheet, container, false)
+        viewDataBinding =
+            DataBindingUtil.inflate(inflater, R.layout.layout_bottom_sheet, container, false)
         dialog?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
         if (viewType == Constants.VIEW_ITEM_CARD_SUCCESSS) {
             dialog?.setCanceledOnTouchOutside(false)
@@ -66,13 +69,13 @@ open class CoreBottomSheet(
         viewModel.state.searchBarVisibility.set(configuration.showSearch)
         viewModel.state.headerSeparatorVisibility.set(configuration.showHeaderSeparator ?: false)
         configuration.heading?.let {
-            viewDataBinding.tvlabel.text = it
+            getBinding().tvlabel.text = it
             if (viewType == Constants.VIEW_ITEM_ACCOUNT_DETAIL) {
-                viewDataBinding.tvlabel.gravity = Gravity.CENTER
+                getBinding().tvlabel.gravity = Gravity.CENTER
                 viewModel.state.buttonVisibility.set(true)
             }
         }
-        viewDataBinding.lySearchView.etSearch.afterTextChanged {
+        getBinding().lySearchView.etSearch.afterTextChanged {
             adapter.filter.filter(it) { itemCount ->
                 if (itemCount == 0) {
                     viewModel.state.noItemFound.set(true)
@@ -81,13 +84,13 @@ open class CoreBottomSheet(
                 }
             }
         }
-        viewDataBinding.rvBottomSheet.layoutManager = LinearLayoutManager(context)
-        val params = viewDataBinding.rvBottomSheet.layoutParams as ConstraintLayout.LayoutParams
+        getBinding().rvBottomSheet.layoutManager = LinearLayoutManager(context)
+        val params = getBinding().rvBottomSheet.layoutParams as ConstraintLayout.LayoutParams
         params.height =
             if (viewType == Constants.VIEW_WITH_FLAG || viewType == Constants.VIEW_FIXED_HEIGHT) (getScreenHeight() / 2) + 100 else params.height
-        viewDataBinding.rvBottomSheet.layoutParams = params
-        viewDataBinding.rvBottomSheet.adapter = adapter
-        viewDataBinding.btnShare.setOnClickListener(buttonClickListener)
+        getBinding().rvBottomSheet.layoutParams = params
+        getBinding().rvBottomSheet.adapter = adapter
+        getBinding().btnShare.setOnClickListener(buttonClickListener)
 
     }
 
@@ -142,4 +145,5 @@ open class CoreBottomSheet(
             iAnimationComplete?.onAnimationComplete(isComplete)
         }
     }
+    private fun getBinding() = viewDataBinding as LayoutBottomSheetBinding
 }
