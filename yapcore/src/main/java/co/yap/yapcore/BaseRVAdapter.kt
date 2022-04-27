@@ -78,7 +78,7 @@ abstract class BaseRVAdapter<T : Any, VM : BaseListItemViewModel<T>, VH : BaseVi
         notifyDataSetChanged()
     }
 
-    fun setData(@Nullable newData: MutableList<T>) {
+   open fun setData(@Nullable newData: MutableList<T>) {
         if (this.datas !== newData) {
             this.datas = newData
         }
@@ -91,7 +91,7 @@ abstract class BaseRVAdapter<T : Any, VM : BaseListItemViewModel<T>, VH : BaseVi
         notifyDataSetChanged()
     }
 
-    fun removeAll() {
+    open fun removeAll() {
         this.datas.clear()
         notifyDataSetChanged()
     }

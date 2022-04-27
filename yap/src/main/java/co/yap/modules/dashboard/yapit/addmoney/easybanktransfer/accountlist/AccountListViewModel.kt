@@ -3,6 +3,7 @@ package co.yap.modules.dashboard.yapit.addmoney.easybanktransfer.accountlist
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import co.yap.modules.dashboard.yapit.addmoney.main.AddMoneyBaseViewModel
+import co.yap.networking.leanteach.LeanTechApi
 import co.yap.networking.leanteach.LeanTechRepository
 import co.yap.networking.leanteach.responsedtos.LeanOnBoardModel
 import co.yap.networking.models.RetroApiResponse
@@ -14,7 +15,7 @@ class AccountListViewModel(application: Application) :
     AddMoneyBaseViewModel<IAccountList.State>(application),
     IAccountList.ViewModel {
 
-    private val leanTechRepository: LeanTechRepository = LeanTechRepository
+    private val leanTechRepository: LeanTechApi = LeanTechRepository
     override var accountList: MutableLiveData<MutableList<Any>> = MutableLiveData()
     override var accountListAdapter: AccountListAdapter = AccountListAdapter(mutableListOf(), null)
     override val state: IAccountList.State = AccountListState()
@@ -37,6 +38,11 @@ class AccountListViewModel(application: Application) :
                 }
             }
         }
+    }
+
+    override fun setMultiState() {
+        state.stateLiveData?.value = State.loading("")
+        getAccountList()
     }
 
     override fun getAccountList() {

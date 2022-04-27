@@ -68,12 +68,8 @@ import com.daimajia.androidanimations.library.YoYo
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.google.android.material.textfield.TextInputLayout
-import com.liveperson.infra.utils.picasso.Callback
-import com.liveperson.infra.utils.picasso.MemoryPolicy
-import com.liveperson.infra.utils.picasso.NetworkPolicy
 import com.uxcam.UXCam
 import java.text.SimpleDateFormat
-import com.liveperson.infra.utils.picasso.Picasso
 
 object UIBinder {
     @BindingAdapter(requireAll = false, value = ["adaptor", "selectedListener"])

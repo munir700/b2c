@@ -1,4 +1,4 @@
-package co.yap.modules.dashboard.yapit.addmoney.easybanktransfer.topup.topupamount
+package co.yap.modules.dashboard.yapit.addmoney.easybanktransfer.topup.topupamountscreen
 
 import androidx.lifecycle.MutableLiveData
 import co.yap.networking.leanteach.requestdtos.GetPaymentIntentIdModel
@@ -16,17 +16,18 @@ interface ITopupAmount {
 
     interface ViewModel : IBase.ViewModel<State> {
         val clickEvent: SingleClickEvent
-        var customerId: String
+        var customerId: String?
         var paymentIntentId: MutableLiveData<String>
-        var leanCustomerAccounts: LeanCustomerAccounts
+        var leanPaymentStatus: MutableLiveData<Boolean>
         var getPaymentIntentModel: GetPaymentIntentIdModel
         var bankListMainModel: BankListMainModel
+        var leanCustomerAccounts: LeanCustomerAccounts?
         fun denominationAmountValidator(amount: String)
         fun handleClickEvent(id: Int)
         fun setAvailableBalance(balance: String)
         fun getPaymentIntentId()
         fun getLimitOfAmount(): TransferLimits?
-        fun isMaxMinLimitReached():Boolean
+        fun isMaxMinLimitReached(): Boolean
     }
 
     interface State : IBase.State {

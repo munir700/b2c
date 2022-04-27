@@ -1713,7 +1713,7 @@
     <!--Lean -Adding an Account- Welcome Screen-->
     <string name="screen_lean_welcome_screen_title">Easy bank transfer</string>
     <string name="screen_lean_welcome_screen_welcome_to_open_banking">Welcome to open banking</string>
-    <string name="screen_lean_welcome_screen_connect_one_of_your_existing_bank">Connect one of your existing bank accounts to YAP and use it to top-up instantly with zero fees!</string>
+    <string name="screen_lean_welcome_screen_connect_one_of_your_existing_bank">Connect one of your existing bank accounts to YAP and use it to top-up %1s with %2s</string>
     <string name="screen_lean_welcome_screen_link_an_account">+ Link an account</string>
     <string name="country_encoded_base64">W3sKImlzb0NvdW50cnlDb2RlM0RpZ2l0IjoiUEFLIiwKImlzb0NvdW50cnlDb2RlMkRpZ2l0IjoiUEsiLAoibmFtZSI6IiAgIFBha2lzdGFuIn0sCnsKImlzb0NvdW50cnlDb2RlM0RpZ2l0IjoiQVJFIiwKImlzb0NvdW50cnlDb2RlMkRpZ2l0IjoiQUUiLAoibmFtZSI6IlVuaXRlZCBBcmFiIEVtaXJhdGVzIn0sCnsKImlzb0NvdW50cnlDb2RlM0RpZ2l0IjoiR0hBIiwKImlzb0NvdW50cnlDb2RlMkRpZ2l0IjoiR0giLAoibmFtZSI6IkdoYW5hIn0KXQ==</string>
 
@@ -1732,5 +1732,9 @@
     <string name="screen_lean_topup_amount_toolbar_title">Top up via bank account</string>
     <string name="screen_lean_topup_text_enter_amount_to_topup">Enter the amount to top up</string>
     <string name="screen_lean_topup_text_min_max_error">The transfer amount should be greater than %1s and less than %2s</string>
+
+    <!--Lean -Easy bank Transfer -Payment Successful -->
+    <string name="screen_lean_topup_payment_successful_title">Top up successful</string>
+    <string name="screen_lean_topup_payment_successful_new_balance_text">Your current balance is \n%1s</string>
 
 </resources>

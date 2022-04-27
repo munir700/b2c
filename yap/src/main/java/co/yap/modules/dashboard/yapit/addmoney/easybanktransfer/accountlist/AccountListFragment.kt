@@ -1,5 +1,6 @@
 package co.yap.modules.dashboard.yapit.addmoney.easybanktransfer.accountlist
 
+import android.app.Activity
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.widget.AppCompatTextView
@@ -11,9 +12,10 @@ import co.yap.BR
 import co.yap.R
 import co.yap.databinding.FragmentEasyBankTransferAccountListBinding
 import co.yap.modules.dashboard.yapit.addmoney.easybanktransfer.banklist.BankListFragment
-import co.yap.modules.dashboard.yapit.addmoney.easybanktransfer.topup.topupamount.TopupAmountFragment
+import co.yap.modules.dashboard.yapit.addmoney.easybanktransfer.topup.activity.TopUpActivity
 import co.yap.modules.dashboard.yapit.addmoney.main.AddMoneyBaseFragment
 import co.yap.modules.others.helper.Constants
+import co.yap.networking.leanteach.responsedtos.LeanOnBoardModel
 import co.yap.networking.leanteach.responsedtos.accountlistmodel.LeanCustomerAccounts
 import co.yap.networking.leanteach.responsedtos.banklistmodels.BankListMainModel
 import co.yap.translation.Strings
@@ -21,7 +23,9 @@ import co.yap.widgets.MultiStateView
 import co.yap.widgets.State
 import co.yap.widgets.Status
 import co.yap.widgets.loading.CircularProgressBar
+import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.helpers.extentions.startFragment
+import co.yap.yapcore.helpers.extentions.startFragmentForResult
 import co.yap.yapcore.helpers.extentions.toast
 import co.yap.yapcore.helpers.spannables.color
 import co.yap.yapcore.helpers.spannables.getText
@@ -38,8 +42,7 @@ class AccountListFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewDataBinding.lifecycleOwner = this
-        viewModel.state.stateLiveData?.value = State.loading("")
-        viewModel.getAccountList()
+        viewModel.setMultiState()
         viewModel.onboardUser()
         setObserver()
         setTextWithFormat()
@@ -70,25 +73,29 @@ class AccountListFragment :
                                 if (bankModel.status == Constants.ACTIVE_STATUS) {
                                     //this case will be handled when user will come in this screen after adding account
                                     arguments?.let { bundle ->
-                                        bundle.getString(co.yap.yapcore.constants.Constants.CUSTOMER_ID_LEAN)
+                                        bundle.getParcelable<LeanOnBoardModel>(co.yap.yapcore.constants.Constants.ONBOARD_USER_LEAN)
                                             ?.let {
-                                                startNewScreen(
-                                                    data as LeanCustomerAccounts,
-                                                    bankListMainModel,
-                                                    it
-                                                )
-                                            } ?: viewModel.customerId?.let { it1 ->
-                                            startNewScreen(
-                                                data as LeanCustomerAccounts, bankListMainModel,
-                                                it1
-                                            )
+                                                it.customerId?.let { cus_id ->
+                                                    it.destinationId?.let { des_id ->
+                                                        startNewScreen(
+                                                            data as LeanCustomerAccounts,
+                                                            bankListMainModel,
+                                                            cus_id,
+                                                            des_id
+                                                        )
+                                                    }
+                                                }
                                         }
                                     } //this case will be handled when user already have an account
-                                        ?: viewModel.customerId?.let { it1 ->
-                                            startNewScreen(
-                                                data as LeanCustomerAccounts, bankListMainModel,
-                                                it1
-                                            )
+                                        ?: viewModel.customerId?.let { cus_id ->
+                                            viewModel.leanOnBoardModel.value?.destinationId
+                                                ?.let {des_id->
+                                                    startNewScreen(
+                                                        data as LeanCustomerAccounts, bankListMainModel,
+                                                        cus_id,
+                                                        des_id
+                                                    )
+                                                }
                                         }
                                 }
                             }
@@ -116,11 +123,14 @@ class AccountListFragment :
             when (it) {
                 R.id.btnLinkAccount -> {
                     if (viewModel.customerId.isNullOrEmpty().not()) {
-                        startFragment(
+                        startFragmentForResult<BankListFragment>(
                             fragmentName = BankListFragment::class.java.name, bundle = bundleOf(
                                 co.yap.yapcore.constants.Constants.ONBOARD_USER_LEAN to viewModel.leanOnBoardModel.value
                             )
-                        )
+                        ) { resultCode, _ ->
+                            if (resultCode == Activity.RESULT_OK)
+                                viewModel.setMultiState()
+                        }
                     } else toast("No customer ID found")
                 }
             }
@@ -138,16 +148,19 @@ class AccountListFragment :
     private fun startNewScreen(
         leanCustomerAccounts: LeanCustomerAccounts,
         bankListMainModel: BankListMainModel,
-        customerID: String
+        customerID: String,
+        destinationId:String
     ) {
-        startFragment(
-            fragmentName = TopupAmountFragment::class.java.name,
-            bundle = bundleOf(
+        val bundle = bundleOf(
                 co.yap.yapcore.constants.Constants.CUSTOMER_ID_LEAN to customerID,
+                co.yap.yapcore.constants.Constants.DESTINATION_ID_LEAN to destinationId,
                 co.yap.yapcore.constants.Constants.MODEL_LEAN to leanCustomerAccounts,
                 co.yap.yapcore.constants.Constants.MODEL_BANK_LEAN to bankListMainModel
             )
-        )
+
+        launchActivity<TopUpActivity> {
+            putExtra(co.yap.yapcore.constants.Constants.EXTRA, bundle)
+        }
     }
 
     private fun handleState(state: State?) {
@@ -166,9 +179,6 @@ class AccountListFragment :
     private fun setTextWithFormat() {
         val mainLayout: ConstraintLayout =
             (viewDataBinding.multiStateView.getView(MultiStateView.ViewState.EMPTY) as ConstraintLayout)
-        context?.getColor(R.color.colorPrimaryDark)?.let {
-            (mainLayout.getViewById(R.id.tvWelcomeText) as AppCompatTextView).setTextColor(it)
-        }
         (mainLayout.getViewById(R.id.tvDescText) as AppCompatTextView).text =
             context?.resources?.getText(
                 getString(Strings.screen_lean_welcome_screen_connect_one_of_your_existing_bank),

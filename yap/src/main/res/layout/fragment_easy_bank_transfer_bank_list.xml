@@ -11,6 +11,8 @@
 
         <import type="co.yap.translation.Strings" />
 
+        <import type="android.view.View"/>
+
         <import type="co.yap.yapcore.R" />
 
         <import type="co.yap.yapcore.helpers.Utils" />
@@ -18,7 +20,6 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/layoutMain"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:sensitiveViews="@{Utils.getViewsList(layoutSearchView)}">
@@ -47,6 +48,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/toolbarAddAccount"
             app:text="@{Strings.screen_lean_bank_list_select_a_bank}"
+            android:visibility="@{viewModel.state.isSearchActive ? View.GONE : View.VISIBLE}"
             tools:text="@string/screen_lean_bank_list_select_a_bank" />
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -60,38 +62,25 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvSelectBank"
             app:text="@{Strings.screen_lean_bank_list_choose_bank}"
+            android:visibility="@{viewModel.state.isSearchActive ? View.GONE : View.VISIBLE}"
             tools:text="@string/screen_lean_bank_list_choose_bank" />
 
-        <FrameLayout
-            android:id="@+id/layoutSearchView"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/_30sdp"
-            android:layout_marginStart="@dimen/margin_medium"
-            android:layout_marginTop="@dimen/margin_medium"
-            android:layout_marginEnd="@dimen/margin_medium"
-            android:animateLayoutChanges="true"
-            android:background="@drawable/bg_search_widget"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvChooseBank">
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tvSearch"
-                style="@style/SmallGrey"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:drawableStart="@drawable/ic_search_grey"
-                android:drawablePadding="4dp"
-                android:gravity="center"
-                app:text="@{Strings.common_display_text_search_hint}" />
-        </FrameLayout>
+            <co.yap.widgets.search.YapSearchView
+                android:id="@+id/layoutSearchView"
+                android:layout_height="@dimen/_30sdp"
+                android:layout_marginStart="@dimen/margin_normal"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:layout_marginEnd="@dimen/margin_normal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:YapSearchViewListener="@{viewModel.yapSearchViewChangeListener}"
+                app:layout_constraintTop_toBottomOf="@+id/tvChooseBank"
+                android:layout_width="0dp" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvBankList"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginTop="@dimen/margin_extra_small"
             app:adapter="@{viewModel.bankListAdapter}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"

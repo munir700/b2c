@@ -23,7 +23,7 @@
         android:id="@+id/clMain"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:alpha="@{accountChildViewModel.bankListMainModel.status.equals(`AWAITING_BENEFICIARY_COOL_OFF`) ? 0.5f:255.0f}"
+        android:alpha="@{accountChildViewModel.bankListMainModel.status.equals(`ACTIVE`) ? 255.0f:0.5f}"
         android:onClick="@{accountChildViewModel::onViewClicked}"
         android:paddingStart="@dimen/margin_normal"
         android:paddingTop="@dimen/margin_normal"

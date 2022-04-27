@@ -1,4 +1,4 @@
-package co.yap.modules.dashboard.yapit.addmoney.easybanktransfer.topup.topupamount
+package co.yap.modules.dashboard.yapit.addmoney.easybanktransfer.topup.topupamountscreen
 
 import android.os.Bundle
 import android.view.View
@@ -12,6 +12,7 @@ import co.yap.networking.leanteach.responsedtos.accountlistmodel.LeanCustomerAcc
 import co.yap.networking.leanteach.responsedtos.banklistmodels.BankListMainModel
 import co.yap.translation.Strings
 import co.yap.yapcore.helpers.extentions.generateChipViews
+import co.yap.yapcore.helpers.extentions.getValueWithoutComa
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.helpers.showTextUpdatedAbleSnackBar
 import co.yap.yapcore.managers.SessionManager
@@ -42,12 +43,18 @@ class TopupAmountFragment :
         observeValues()
         setDenominationsChipListener()
         balanceObserver()
+        leanPaymentSuccessObserver()
     }
 
     private fun getDataArguments() {
         arguments?.let { bundle ->
             bundle.getString(co.yap.yapcore.constants.Constants.CUSTOMER_ID_LEAN)?.let {
                 viewModel.customerId = it
+                viewModel.getPaymentIntentModel.customerId = it
+                viewModel.getPaymentIntentModel.currency = SessionManager.getDefaultCurrency()
+            }
+            bundle.getString(co.yap.yapcore.constants.Constants.DESTINATION_ID_LEAN)?.let {
+                viewModel.getPaymentIntentModel.paymentDestinationId = it
             }
             bundle.getParcelable<LeanCustomerAccounts>(co.yap.yapcore.constants.Constants.MODEL_LEAN)
                 ?.let {
@@ -78,7 +85,8 @@ class TopupAmountFragment :
     private fun observeValues() {
         viewModel.state.enteredTopUpAmount.observe(viewLifecycleOwner) { topUpAmount ->
             if (topUpAmount.isNotBlank())
-                viewModel.getPaymentIntentModel.amount = topUpAmount.toDouble()
+                viewModel.getPaymentIntentModel.amount =
+                    topUpAmount.getValueWithoutComa().toDouble()
         }
         viewModel.paymentIntentId.observe(viewLifecycleOwner) {
             if (it.isNullOrEmpty().not()) {
@@ -87,15 +95,27 @@ class TopupAmountFragment :
                     requireActivity(),
                     it,
                     true,
-                    viewModel.leanCustomerAccounts.accountId,
+                    viewModel.leanCustomerAccounts?.accountId,
                     object : Lean.LeanListener {
                         override fun onResponse(status: Lean.LeanStatus) {
-                            val value = status.status
+                            if (status.status == co.yap.modules.others.helper.Constants.SUCCESS_STATUS){
+                                viewModel.leanPaymentStatus.postValue(true)
                             UXCam.occludeSensitiveScreen(false)
                         }
                     })
             }
         }
+    }
+
+    private fun leanPaymentSuccessObserver() {
+        viewModel.leanPaymentStatus.observe(viewLifecycleOwner) {
+            if (it)
+                openPaymentSuccessScreen()
+        }
+    }
+
+    private fun openPaymentSuccessScreen() {
+        navigate(R.id.action_topUpAmountFragment_to_paymentSuccessfulFragment)
     }
 
     private fun observeClickEvent() {

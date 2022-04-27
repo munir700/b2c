@@ -1,20 +1,17 @@
 package co.yap.modules.dashboard.yapit.addmoney.easybanktransfer.banklist
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
 import co.yap.BR
 import co.yap.R
 import co.yap.databinding.FragmentEasyBankTransferBankListBinding
-import co.yap.modules.dashboard.yapit.addmoney.easybanktransfer.accountlist.AccountListFragment
-import co.yap.modules.dashboard.yapit.addmoney.easybanktransfer.leansdk.LeanSdkManager
 import co.yap.modules.dashboard.yapit.addmoney.main.AddMoneyBaseFragment
 import co.yap.networking.leanteach.responsedtos.LeanOnBoardModel
 import co.yap.networking.leanteach.responsedtos.banklistmodels.BankListMainModel
 import co.yap.yapcore.constants.Constants
-import co.yap.yapcore.helpers.extentions.startFragment
-import co.yap.yapcore.helpers.extentions.toast
 import co.yap.yapcore.interfaces.OnItemClickListener
 import com.uxcam.UXCam
 import me.leantech.link.android.Lean
@@ -30,11 +27,11 @@ class BankListFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewDataBinding.lifecycleOwner = this
         getDataArguments()
         setObservers()
         setRecyclerClick()
         viewModel.getBankList()
-
     }
 
     private fun getDataArguments() {
@@ -49,41 +46,28 @@ class BankListFragment :
         viewModel.bankList.observe(viewLifecycleOwner) { list ->
             viewModel.bankListAdapter.setData(list)
         }
+        viewModel.isPaymentJourneySet.observe(viewLifecycleOwner) { isSet ->
+            if (isSet) setResultData()
+        }
+
+        viewDataBinding.layoutSearchView.yapSearchViewListener =
+            viewModel.yapSearchViewChangeListener
+    }
+
+    override fun removeObservers() {
+        viewModel.bankList.removeObservers(this)
+        viewDataBinding.layoutSearchView.yapSearchViewListener = null
     }
 
     private fun setRecyclerClick() {
         viewModel.bankListAdapter.onItemClickListener = object : OnItemClickListener {
             override fun onItemClick(view: View, data: Any, pos: Int) {
                 if (data is BankListMainModel) {
-                    data.identifier?.let { startPaymentSourceJourney(it) }
+                    data.identifier?.let { viewModel.startPaymentSourceJourney(it, activity) }
                 }
             }
         }
     }
-
-    private fun startPaymentSourceJourney(bankIdentifier: String) {
-        with(viewModel.leanOnBoardModel) {
-            UXCam.occludeSensitiveScreen(true)
-            LeanSdkManager.lean?.createPaymentSource(
-                requireActivity(),
-                customerId.toString(),
-                bankIdentifier,
-                destinationId.toString(),
-                object : Lean.LeanListener {
-                    override fun onResponse(status: Lean.LeanStatus) {
-                        UXCam.occludeSensitiveScreen(false)
-                        if (status.status == co.yap.modules.others.helper.Constants.SUCCESS_STATUS)
-                            startFragment(
-                                fragmentName = AccountListFragment::class.java.name,
-                                bundle = bundleOf(Constants.CUSTOMER_ID_LEAN to viewModel.leanOnBoardModel.customerId)
-                            )
-                        else toast(status.status)
-                    }
-                }
-            )
-        }
-    }
-
 
     override fun onToolBarClick(id: Int) {
         when (id) {
@@ -92,4 +76,11 @@ class BankListFragment :
             }
         }
     }
+
+    fun setResultData() {
+        val intent = Intent()
+        activity?.setResult(Activity.RESULT_OK, intent)
+        activity?.finish()
+    }
+
 }
