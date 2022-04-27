@@ -19,6 +19,7 @@ interface ILogin {
         fun handlePressOnView(id: Int)
         val countriesList: MutableLiveData<ArrayList<Country>>
         val countries: ArrayList<Country>
+        fun setFeatureFlagCall()
     }
 
     interface State : IBase.State {

@@ -24,6 +24,7 @@ interface IPhoneVerificationSignIn {
         fun handlePressOnSendButton()
         fun verifyOtp()
         fun getAccountInfo()
+        fun setFeatureFlagCall()
     }
 
     interface State : IBase.State {

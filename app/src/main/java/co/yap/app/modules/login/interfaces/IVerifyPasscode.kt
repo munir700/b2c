@@ -5,7 +5,6 @@ import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import co.yap.networking.customers.responsedtos.AccountInfo
 import co.yap.yapcore.IBase
-import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.SingleLiveEvent
 
 interface IVerifyPasscode {
@@ -16,7 +15,7 @@ interface IVerifyPasscode {
         fun handlePressOnPressView(id: Int)
         fun login()
         fun createOtp()
-        fun createForgotPassCodeOtp(success:()->Unit)
+        fun createForgotPassCodeOtp(success: () -> Unit)
         fun getAccountInfo()
         fun verifyPasscode()
         fun showAccountBlockedError(errorMessage: String)
@@ -28,7 +27,8 @@ interface IVerifyPasscode {
         var isFingerprintLogin: Boolean
         var mobileNumber: String
         var EVENT_LOGOUT_SUCCESS: Int
-        fun otpMessage(otpAction : String): String
+        fun otpMessage(otpAction: String): String
+        fun setFeatureFlagCall()
     }
 
     interface State : IBase.State {

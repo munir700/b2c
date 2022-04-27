@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import co.yap.app.main.MainChildViewModel
 import co.yap.app.modules.login.interfaces.IVerifyPasscode
 import co.yap.app.modules.login.states.VerifyPasscodeState
+import co.yap.config.FeatureFlagCall
 import co.yap.modules.onboarding.models.CountryCode
 import co.yap.modules.otp.getOtpMessageFromComposer
 import co.yap.networking.authentication.AuthRepository
@@ -271,4 +272,8 @@ class VerifyPasscodeViewModel(application: Application) :
         "%s2",
         if (state.verifyPassCodeEnum == VerifyPassCodeEnum.ACCESS_ACCOUNT.name) "%s3" else SessionManager.helpPhoneNumber
     )
+
+    override fun setFeatureFlagCall() {
+        launch { FeatureFlagCall(context).getFeatureFlag()}
+    }
 }

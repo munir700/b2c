@@ -54,6 +54,7 @@ class LoginFragment : MainChildFragment<FragmentLogInBinding, ILogin.ViewModel>(
         configureWindow()
         setTouchListener()
         setObservers()
+        viewModel.setFeatureFlagCall()
     }
 
     private fun configureWindow() {

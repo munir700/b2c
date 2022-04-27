@@ -8,6 +8,7 @@ import androidx.lifecycle.MutableLiveData
 import co.yap.app.main.MainChildViewModel
 import co.yap.app.modules.login.interfaces.ILogin
 import co.yap.app.modules.login.states.LoginState
+import co.yap.config.FeatureFlagCall
 import co.yap.modules.onboarding.models.LoadConfig
 import co.yap.modules.onboarding.models.UserVerifierProvider
 import co.yap.networking.authentication.AuthRepository
@@ -128,5 +129,9 @@ class LoginViewModel(application: Application) :
 //                success.invoke()
             }
         }
+    }
+
+    override fun setFeatureFlagCall() {
+        launch { FeatureFlagCall(context).getFeatureFlag()}
     }
 }
