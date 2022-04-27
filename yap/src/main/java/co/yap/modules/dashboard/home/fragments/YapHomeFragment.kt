@@ -23,6 +23,7 @@ import co.yap.R
 import co.yap.app.YAPApplication
 import co.yap.app.YAPApplication.Companion.homeTransactionsRequest
 import co.yap.billpayments.dashboard.BillPaymentsHomeActivity
+import co.yap.config.FeatureFlagCall
 import co.yap.databinding.ActivityYapDashboardBinding
 import co.yap.databinding.FragmentDashboardHomeBinding
 import co.yap.modules.dashboard.cards.analytics.main.activities.CardAnalyticsActivity
@@ -127,6 +128,7 @@ class YapHomeFragment : YapDashboardChildFragment<FragmentDashboardHomeBinding,I
         parentViewModel =
             activity?.let { ViewModelProviders.of(it).get(YapDashBoardViewModel::class.java) }
         shardPrefs = SharedPreferenceManager.getInstance(requireContext())
+        launch { context?.let { FeatureFlagCall(it).getFeatureFlag() } }
     }
 
     private fun startFlowForSetPin(card: Card?) {
