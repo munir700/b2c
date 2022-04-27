@@ -98,9 +98,10 @@ class TopupAmountFragment :
                     viewModel.leanCustomerAccounts?.accountId,
                     object : Lean.LeanListener {
                         override fun onResponse(status: Lean.LeanStatus) {
-                            if (status.status == co.yap.modules.others.helper.Constants.SUCCESS_STATUS){
+                            if (status.status == co.yap.modules.others.helper.Constants.SUCCESS_STATUS) {
                                 viewModel.leanPaymentStatus.postValue(true)
-                            UXCam.occludeSensitiveScreen(false)
+                                UXCam.occludeSensitiveScreen(false)
+                            }
                         }
                     })
             }
