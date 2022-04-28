@@ -28,6 +28,7 @@ import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.toast
 import co.yap.yapcore.leanplum.SignupEvents
 import co.yap.yapcore.leanplum.trackEvent
+import co.yap.yapcore.leanplum.trackEventWithAttributes
 import co.yap.yapcore.managers.SessionManager
 import co.yap.yapcore.managers.saveUserDetails
 import kotlinx.coroutines.delay
@@ -217,6 +218,7 @@ class EmailViewModel(application: Application) :
                             )
                         )
                         SessionManager.setupDataSetForBlockedFeatures(SessionManager.card.value)
+                        trackEventWithAttributes(SessionManager.user)
                         state.valid = true
                         state.isWaiting = accountInfo.isWaiting
                         state.loading = false

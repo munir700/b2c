@@ -41,7 +41,7 @@
 
             <TextView
                 android:id="@+id/tvInviteTitle"
-                style="@style/Title2"
+                style="@style/Title3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_extra_large"
@@ -56,8 +56,8 @@
 
             <ImageView
                 android:id="@+id/ivInvite"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/_160sdp"
+                android:layout_height="@dimen/_160sdp"
                 android:layout_marginTop="@dimen/margin_extra_large"
                 android:src="@drawable/invite_a_friend"
                 app:layout_constraintEnd_toEndOf="parent"

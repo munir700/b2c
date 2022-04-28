@@ -37,6 +37,8 @@ import co.yap.yapcore.helpers.alert
 import co.yap.yapcore.helpers.extentions.deleteTempFolder
 import co.yap.yapcore.helpers.extentions.parseToInt
 import co.yap.yapcore.helpers.showAlertDialogAndExitApp
+import co.yap.yapcore.leanplum.KYCEvents
+import co.yap.yapcore.leanplum.trackEvent
 import co.yap.yapcore.managers.SessionManager
 import com.yap.core.extensions.finish
 
@@ -185,13 +187,16 @@ class EidInfoReviewFragment :
             REQUEST_UQUDO -> {
                 val uqudoJWT = data?.getStringExtra("data")
                 if (uqudoJWT.isNullOrBlank().not()) {
+                    trackEvent(KYCEvents.EID_SCAN_END.type)
                     viewModel.parentViewModel?.uqudoManager?.decodeEncodedUqudoToken(
                         uqudoJWT ?: ""
                     ) {
                         viewModel.eidStateLiveData.postValue(State.success(""))
                     }
                 } else if (viewModel.parentViewModel?.uqudoManager?.getPayloadData() != null && uqudoJWT.isNullOrBlank()) {
+                    trackEvent(KYCEvents.EID_SCAN_FAIL.type)
                 } else {
+                    trackEvent(KYCEvents.EID_SCAN_FAIL.type)
                     if (viewModel.parentViewModel?.uqudoManager?.getPayloadData() == null || viewModel.parentViewModel?.comingFrom?.value.isNullOrBlank()
                             .not()
                     ) navigateBack() else requireActivity().finish()
@@ -252,6 +257,7 @@ class EidInfoReviewFragment :
         with(viewModel.parentViewModel?.uqudoManager) {
             if (this?.isAccessTokenExpired() == true) viewModel.requestAllAPIs(false)
             else this?.initiateUqudoScanning()?.let { intent ->
+              trackEvent(KYCEvents.EID_SCAN_STARTED.type)
                 startActivityForResult(intent, REQUEST_UQUDO)
             }
         }
