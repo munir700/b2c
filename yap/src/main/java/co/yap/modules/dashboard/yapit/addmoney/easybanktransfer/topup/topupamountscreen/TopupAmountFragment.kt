@@ -11,8 +11,10 @@ import co.yap.modules.dashboard.yapit.addmoney.main.AddMoneyBaseFragment
 import co.yap.networking.leanteach.responsedtos.accountlistmodel.LeanCustomerAccounts
 import co.yap.networking.leanteach.responsedtos.banklistmodels.BankListMainModel
 import co.yap.translation.Strings
+import co.yap.yapcore.helpers.cancelAllSnackBar
 import co.yap.yapcore.helpers.extentions.generateChipViews
 import co.yap.yapcore.helpers.extentions.getValueWithoutComa
+import co.yap.yapcore.helpers.extentions.parseToDouble
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.helpers.showTextUpdatedAbleSnackBar
 import co.yap.yapcore.managers.SessionManager
@@ -28,12 +30,16 @@ class TopupAmountFragment :
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_topup_amount
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        getDataArguments()
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewDataBinding.lifecycleOwner = this
         generateChipViews(viewModel.state.denominationChipList.value!!)
         setObservers()
-        getDataArguments()
         viewModel.getLimitOfAmount()
     }
 
@@ -83,7 +89,8 @@ class TopupAmountFragment :
 
     private fun observeValues() {
         viewModel.state.enteredTopUpAmount.observe(viewLifecycleOwner) { topUpAmount ->
-            if (topUpAmount.isNotBlank())
+            cancelAllSnackBar()
+            if (topUpAmount.isNotBlank() && topUpAmount.parseToDouble() > 0.0)
                 viewModel.getPaymentIntentModel.amount =
                     topUpAmount.getValueWithoutComa().toDouble()
         }
