@@ -1183,6 +1183,11 @@
     <string name="screen_place_of_birth_display_text_description">Just a few more details about you, as per \nyour passport.</string>
     <string name="screen_place_of_birth_display_text_select_country">Select country</string>
     <string name="screen_place_of_birth_display_text_city_of_birth">City of birth</string>
+    <string name="screen_place_of_birth_display_text_select_city_of_birth">Select city of birth</string>
+    <string name="screen_place_of_birth_display_text_city_of_birth_hint">Enter city name</string>
+    <string name="screen_place_of_birth_display_text_select_city">Select city</string>
+    <string name="screen_place_of_birth_display_text_search_city">Search city</string>
+    <string name="screen_place_of_birth_display_text_type_city_of_birth_hint">Type city here as per your passport</string>
     <string name="screen_place_of_birth_display_text_are_you_a_dual_national">Are you a dual national?</string>
     <string name="screen_place_of_birth_display_text_nationality_as_per_eid">Nationality as per EID</string>
     <string name="screen_place_of_birth_display_text_add_second_country">Add second country</string>

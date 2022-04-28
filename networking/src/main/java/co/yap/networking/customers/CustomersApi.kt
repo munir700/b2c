@@ -76,6 +76,7 @@ interface CustomersApi {
     suspend fun getAllBeneficiaries(): RetroApiResponse<GetAllBeneficiaryResponse>
     suspend fun getCountries(): RetroApiResponse<CountryModel>
     suspend fun getAllCountries(): RetroApiResponse<CountryModel>
+    suspend fun getAllCities(): RetroApiResponse<CityModel>
     suspend fun addBeneficiary(beneficiary: Beneficiary): RetroApiResponse<AddBeneficiaryResponseDTO>
     suspend fun validateBeneficiary(beneficiary: Beneficiary): RetroApiResponse<ApiResponse>
     suspend fun editBeneficiary(beneficiary: Beneficiary?): RetroApiResponse<ApiResponse>

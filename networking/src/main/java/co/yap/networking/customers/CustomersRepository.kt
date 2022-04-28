@@ -86,6 +86,7 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     const val URL_SEARCH_BANKS = "/customers/api/other_bank/query"
     const val URL_VALIDATE_BENEFICIARY = "customers/api/validate/bank-transfer/beneficiary-details"
     const val URL_GET_ALL_COUNTRIES = "customers/api/countries"
+    const val URL_GET_ALL_CitIES = "customers/api/cities"
     const val URL_GET_ALL_DOCUMENT_FOR_EMPLOYMENT = "customers/api/employment-document-criteria"
 
     val URL_GET_TRANSFER_REASONS = "/transactions/api/product-codes/{product-code}/purpose-reasons"
@@ -375,6 +376,8 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     override suspend fun getCountries() = executeSafely(call = { api.getCountries() })
 
     override suspend fun getAllCountries() = executeSafely(call = { api.getAllCountries() })
+
+    override suspend fun getAllCities() = executeSafely(call = { api.getAllCities() })
 
     override suspend fun addBeneficiary(beneficiary: Beneficiary): RetroApiResponse<AddBeneficiaryResponseDTO> =
         executeSafely(call = { api.addBeneficiary(beneficiary) })

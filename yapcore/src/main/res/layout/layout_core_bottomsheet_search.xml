@@ -29,7 +29,6 @@
         android:gravity="center_vertical"
         android:imeOptions="actionSearch"
         android:inputType="textFilter"
-        android:hint="Search country"
         android:text="@={viewModel.state.searchText}"
         android:drawableStart="@drawable/ic_search_grey"
         android:drawablePadding="@dimen/small"

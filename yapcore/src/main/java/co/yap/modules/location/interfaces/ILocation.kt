@@ -27,6 +27,7 @@ interface ILocation {
         val clickEvent: SingleClickEvent
         var selectedCountry: Country?
         var countries: ArrayList<Country>
+        var cities: ArrayList<String>?
         // Will be used for KYC Amendment
         var amendmentMap: HashMap<String?, List<String>?>?
         var hideProgressToolbar: MutableLiveData<Boolean>

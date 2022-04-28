@@ -182,6 +182,9 @@ interface CustomersRetroService {
     @GET(CustomersRepository.URL_GET_ALL_COUNTRIES)
     suspend fun getAllCountries(): Response<CountryModel>
 
+    @GET(CustomersRepository.URL_GET_ALL_CitIES)
+    suspend fun getAllCities(): Response<CityModel>
+
     @POST(CustomersRepository.URL_ADD_BENEFICIARY)
     suspend fun addBeneficiary(@Body beneficiary: Beneficiary): Response<AddBeneficiaryResponseDTO>
 

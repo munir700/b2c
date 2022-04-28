@@ -11,7 +11,10 @@ import co.yap.countryutils.country.Country
 import co.yap.modules.dummy.ActivityNavigator
 import co.yap.modules.dummy.NavigatorProvider
 import co.yap.modules.location.fragments.LocationChildFragment
+import co.yap.networking.coreitems.CoreBottomSheetData
 import co.yap.translation.Strings
+import co.yap.widgets.bottomsheet.BottomSheetConfiguration
+import co.yap.widgets.bottomsheet.CoreBottomSheet
 import co.yap.yapcore.BR
 import co.yap.yapcore.R
 import co.yap.yapcore.constants.Constants
@@ -21,7 +24,9 @@ import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.extentions.launchBottomSheet
 import co.yap.yapcore.interfaces.OnItemClickListener
 
-class POBSelectionFragment : LocationChildFragment<FragmentPlaceOfBirthSelectionBinding ,IPOBSelection.ViewModel>(), IPOBSelection.View {
+class POBSelectionFragment :
+    LocationChildFragment<FragmentPlaceOfBirthSelectionBinding, IPOBSelection.ViewModel>(),
+    IPOBSelection.View {
     private lateinit var mNavigator: ActivityNavigator
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_place_of_birth_selection
@@ -89,6 +94,30 @@ class POBSelectionFragment : LocationChildFragment<FragmentPlaceOfBirthSelection
                     countriesList = viewModel.parentViewModel?.countries
                 )
             }
+            R.id.bCities -> {
+                val finalList: ArrayList<CoreBottomSheetData> = arrayListOf()
+                viewModel.parentViewModel?.cities?.let { list ->
+                    list.mapTo(finalList) { item ->
+                        CoreBottomSheetData(
+                            subTitle = item.trim()
+                        )
+                    }
+                }
+                this.childFragmentManager.let {
+                    val coreBottomSheet = CoreBottomSheet(
+                        selectCitiesItemClickListener,
+                        bottomSheetItems = finalList,
+                        viewType = Constants.VIEW_ITEM_WITHOUT_SEPARATOR,
+                        configuration = BottomSheetConfiguration(
+                            heading = getString(Strings.screen_place_of_birth_display_text_select_city),
+                            showSearch = true,
+                            showHeaderSeparator = true,
+                            searchHint = "Search city"
+                        )
+                    )
+                    coreBottomSheet.show(it, "")
+                }
+            }
             R.id.bSecondcountry -> {
                 this.launchBottomSheet(
                     itemClickListener = selectSecondCountryItemClickListener,
@@ -103,6 +132,11 @@ class POBSelectionFragment : LocationChildFragment<FragmentPlaceOfBirthSelection
     private val selectCountryItemClickListener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
             viewModel.state.selectedCountry.set(data as Country)
+        }
+    }
+    private val selectCitiesItemClickListener = object : OnItemClickListener {
+        override fun onItemClick(view: View, data: Any, pos: Int) {
+            viewModel.state.selectedCity.set((data as CoreBottomSheetData).subTitle)
         }
     }
     private val selectSecondCountryItemClickListener = object : OnItemClickListener {
