@@ -67,14 +67,6 @@ class BankListFragment :
         }
     }
 
-    override fun onToolBarClick(id: Int) {
-        when (id) {
-            R.id.ivLeftIcon -> {
-                activity?.finish()
-            }
-        }
-    }
-
     fun setResultData() {
         val intent = Intent()
         activity?.setResult(Activity.RESULT_OK, intent)
