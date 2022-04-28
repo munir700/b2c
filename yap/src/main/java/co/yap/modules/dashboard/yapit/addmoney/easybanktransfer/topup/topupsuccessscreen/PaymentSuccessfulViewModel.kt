@@ -13,7 +13,8 @@ import co.yap.yapcore.helpers.spannables.getText
 import co.yap.yapcore.helpers.spannables.size
 import co.yap.yapcore.managers.SessionManager
 
-class PaymentSuccessfulViewModel(application: Application):AddMoneyBaseViewModel<IPaymentSuccessful.State>(application),
+class PaymentSuccessfulViewModel(application: Application) :
+    AddMoneyBaseViewModel<IPaymentSuccessful.State>(application),
     IPaymentSuccessful.ViewModel {
     override val state: IPaymentSuccessful.State = PaymentSuccessfulState()
     override var clickEvent: SingleClickEvent = SingleClickEvent()
@@ -28,10 +29,11 @@ class PaymentSuccessfulViewModel(application: Application):AddMoneyBaseViewModel
                 getString(Strings.screen_lean_topup_payment_successful_new_balance_text),
                 context.color(
                     R.color.colorPrimaryDark,
-                     size(1.5f,balance.toFormattedCurrency())
+                    size(1.5f, balance.toFormattedCurrency())
                 )
             )
     }
+
     override fun getAccountBalanceRequest() {
         launch {
             state.loading = true
@@ -39,7 +41,7 @@ class PaymentSuccessfulViewModel(application: Application):AddMoneyBaseViewModel
                 is RetroApiResponse.Success -> {
                     SessionManager.cardBalance.value =
                         (CardBalance(availableBalance = response.data.data?.availableBalance.toString()))
-                    setNewBalanceData()
+                    setNewBalanceData(SessionManager.cardBalance.value?.availableBalance.toString())
                     state.loading = false
                 }
                 is RetroApiResponse.Error -> {

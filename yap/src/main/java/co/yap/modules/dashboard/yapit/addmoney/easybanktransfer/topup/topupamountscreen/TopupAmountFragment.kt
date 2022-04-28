@@ -95,7 +95,7 @@ class TopupAmountFragment :
                     topUpAmount.getValueWithoutComa().toDouble()
         }
         viewModel.paymentIntentId.observe(viewLifecycleOwner) {
-            if (it.isNullOrEmpty().not() && it.parseToDouble() > 0)
+            if (it.isNullOrEmpty().not())
                 LeanSdkManager.lean?.pay(
                     requireActivity(),
                     it,
