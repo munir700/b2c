@@ -90,7 +90,7 @@ class TopupAmountFragment :
     private fun observeValues() {
         viewModel.state.enteredTopUpAmount.observe(viewLifecycleOwner) { topUpAmount ->
             cancelAllSnackBar()
-            if (topUpAmount.isNotBlank())
+            if (topUpAmount.isNotBlank() && topUpAmount.parseToDouble() > 0.0)
                 viewModel.getPaymentIntentModel.amount =
                     topUpAmount.getValueWithoutComa().toDouble()
         }

@@ -96,7 +96,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvCurrency"
             tools:text="1234567891"
-            android:inputType="number|numberDecimal"
             android:imeOptions="actionDone"/>
 
         <com.google.android.material.chip.ChipGroup
