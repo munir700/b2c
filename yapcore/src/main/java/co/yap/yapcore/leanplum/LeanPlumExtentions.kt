@@ -21,6 +21,7 @@ import java.text.SimpleDateFormat
 fun trackEvent(eventName: String, value: String = "") {
     fireEventWithAttribute(eventName, value)
 }
+
 fun Activity.trackEvent(eventName: String, value: String = "") {
     fireEventWithAttribute(eventName, value)
 }
@@ -129,7 +130,10 @@ private fun trackAttributes(
             info[UserAttributes().customerId] = customerId
             Firebase.analytics.setUserId(customerId)
         }
-        it.uuid?.let { Leanplum.setUserAttributes(it, info) }
+        it.uuid?.let { uuid ->
+            Leanplum.setUserAttributes(uuid, info)
+            Leanplum.setUserId(uuid)
+        }
         Leanplum.forceContentUpdate(object : VariablesChangedCallback() {
             override fun variablesChanged() {
 
@@ -160,10 +164,11 @@ fun getFormattedDate(creationDate: String?): String {
 
 private fun isBioMetricEnabled(context: Context?): Boolean {
     return context?.let {
-        return@let (BiometricUtil.hasBioMetricFeature(it) && SharedPreferenceManager.getInstance(it).getValueBoolien(
-            KEY_TOUCH_ID_ENABLED,
-            false
-        ))
+        return@let (BiometricUtil.hasBioMetricFeature(it) && SharedPreferenceManager.getInstance(it)
+            .getValueBoolien(
+                KEY_TOUCH_ID_ENABLED,
+                false
+            ))
 
     } ?: false
 }

@@ -31,6 +31,7 @@ import co.yap.yapcore.leanplum.trackEvent
 import co.yap.yapcore.leanplum.trackEventWithAttributes
 import co.yap.yapcore.managers.SessionManager
 import co.yap.yapcore.managers.saveUserDetails
+import co.yap.yapcore.managers.setCrashlyticsUser
 import kotlinx.coroutines.delay
 import java.util.*
 import java.util.concurrent.TimeUnit
@@ -210,6 +211,7 @@ class EmailViewModel(application: Application) :
                         parentViewModel?.onboardingData?.ibanNumber = accountInfo.iban
                         delay(500)
                         SessionManager.user = accountInfo
+                        SessionManager.user.setCrashlyticsUser()
                         context.saveUserDetails(
                             SessionManager.user?.currentCustomer?.mobileNo,
                             CountryCode.UAE.countryCode,

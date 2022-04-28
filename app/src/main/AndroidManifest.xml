@@ -28,8 +28,8 @@
         tools:replace="android:theme,android:allowBackup,android:supportsRtl,android:icon,android:roundIcon">
         <activity
             android:name=".main.MainActivity"
-            android:label="@string/app_name"
             android:exported="true"
+            android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             tools:ignore="LockedOrientationActivity">
@@ -54,7 +54,7 @@
 
         <activity
             android:name="co.yap.modules.forgotpasscode.activities.ForgotPasscodeActivity"
-             android:exported="false"
+            android:exported="false"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity">
             <nav-graph android:value="@navigation/forgot_passcode_navigation" />
@@ -62,14 +62,14 @@
 
         <activity
             android:name="co.yap.sendmoney.y2y.home.activities.YapToYapDashboardActivity"
-             android:exported="false"
+            android:exported="false"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity">
             <nav-graph android:value="@navigation/yap_to_yap_navigation" />
         </activity>
         <activity
             android:name=".modules.login.activities.VerifyPassCodePresenterActivity"
-             android:exported="false"
+            android:exported="false"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
 
@@ -80,8 +80,12 @@
 
         <meta-data
             android:name="firebase_crashlytics_collection_enabled"
-            android:value="true" />
-
+            android:value="@bool/enabled_crash"
+            tools:replace="android:value"/>
+        <meta-data
+            android:name="firebase_analytics_collection_enabled"
+            android:value="@bool/enabled_analytics"
+            tools:replace="android:value"/>
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
@@ -113,13 +117,15 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name=".modules.refreal.AdjustReferrerReceiver"
+        <activity
+            android:name=".modules.refreal.AdjustReferrerReceiver"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
+
                 <data
                     android:host="gqvg.adj.st"
                     android:scheme="https" />

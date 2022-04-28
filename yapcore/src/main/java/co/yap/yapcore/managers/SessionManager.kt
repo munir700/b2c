@@ -28,6 +28,10 @@ import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.getBlockedFeaturesList
 import co.yap.yapcore.helpers.extentions.getUserAccessRestrictions
 import co.yap.yapcore.helpers.extentions.listToJson
+import com.google.firebase.analytics.ktx.analytics
+import com.google.firebase.crashlytics.ktx.crashlytics
+import com.google.firebase.crashlytics.ktx.setCustomKeys
+import com.google.firebase.ktx.Firebase
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.liveperson.infra.auth.LPAuthenticationParams
@@ -371,3 +375,20 @@ fun convertSystemConfigurationInfoIntoMap(jsonString: String?): MutableMap<Strin
             mutableMapOf()
         }
     } else mutableMapOf()
+
+fun AccountInfo?.setCrashlyticsUser() {
+    this?.let { accountInfo ->
+        Firebase.analytics.setUserId(accountInfo.uuid ?: "")
+        Firebase.analytics.setUserProperty(
+            "customerId",
+            accountInfo.currentCustomer.customerId ?: ""
+        )
+        val crashlytics = Firebase.crashlytics
+        crashlytics.setUserId(accountInfo.uuid ?: "")
+        crashlytics.setCustomKeys {
+            key("customerId", accountInfo.currentCustomer.customerId ?: "")
+            key("Email", accountInfo.currentCustomer.email ?: "")
+            key("CustomerUuid", accountInfo.currentCustomer.uuid ?: "")
+        }
+    }
+}
