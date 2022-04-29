@@ -21,6 +21,7 @@ import co.yap.networking.customers.responsedtos.documents.UqudoTokenResponse
 import co.yap.networking.customers.responsedtos.employment_amendment.DocumentResponse
 import co.yap.networking.customers.responsedtos.employment_amendment.EmploymentInfoAmendmentResponse
 import co.yap.networking.customers.responsedtos.employmentinfo.IndustrySegmentsResponse
+import co.yap.networking.customers.responsedtos.featureflag.FeatureFlagResponse
 import co.yap.networking.customers.responsedtos.sendmoney.*
 import co.yap.networking.customers.responsedtos.tax.TaxInfoResponse
 import co.yap.networking.customers.responsedtos.taxinfoamendment.TaxInfoAmendmentResponse
@@ -169,6 +170,10 @@ object CustomersRepository : BaseRepository(), CustomersApi {
 
     //Uqudo API
     const val URL_GET_UQUDO_AUTH_TOKEN = "customers/api/uqudo/get-token"
+
+    //Feature Flag
+    const val URL_GET_FEATURE_FLAG =
+        "yapsuper/feature/YAP-UAE-B2C/customer/{customer_id}/email/{email}"
 
     private val api: CustomersRetroService =
         RetroNetwork.createService(CustomersRetroService::class.java)
@@ -708,4 +713,10 @@ object CustomersRepository : BaseRepository(), CustomersApi {
 
     override suspend fun getAppCountries(): RetroApiResponse<BaseListResponse<Country>> =
         executeSafely { api.getAppCountries() }
+
+    override suspend fun getFeatureFlag(
+        customer_id: String,
+        email: String
+    ): RetroApiResponse<BaseResponse<FeatureFlagResponse>> =
+        executeSafely { api.getFeatureFlag(customer_id, email) }
 }
