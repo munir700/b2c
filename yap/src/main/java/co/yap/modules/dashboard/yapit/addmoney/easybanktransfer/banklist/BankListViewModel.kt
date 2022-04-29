@@ -44,7 +44,7 @@ class BankListViewModel(application: Application) :
 
     override fun startPaymentSourceJourney(bankIdentifier: String, activity: Activity?) {
         activity?.let { act ->
-            UXCam.occludeSensitiveScreen(false)
+            UXCam.occludeSensitiveScreen(true)
             with(leanOnBoardModel) {
                 LeanSdkManager.lean?.createPaymentSource(
                     act,
