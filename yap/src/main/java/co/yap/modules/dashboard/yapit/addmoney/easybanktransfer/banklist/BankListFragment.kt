@@ -30,6 +30,7 @@ class BankListFragment :
         setObservers()
         setRecyclerClick()
         viewModel.getBankList()
+        lifecycle.addObserver(viewModel.leanSdkInitializer)
     }
 
     private fun getDataArguments() {

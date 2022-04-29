@@ -1,8 +1,10 @@
 package co.yap.modules.dashboard.yapit.addmoney.easybanktransfer.topup.topupamountscreen
 
+import android.app.Activity
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import co.yap.R
+import co.yap.modules.dashboard.yapit.addmoney.easybanktransfer.leansdk.LeanSdkInitializer
 import co.yap.modules.dashboard.yapit.addmoney.main.AddMoneyBaseViewModel
 import co.yap.networking.leanteach.LeanTechRepository
 import co.yap.networking.leanteach.requestdtos.GetPaymentIntentIdModel
@@ -18,6 +20,7 @@ import co.yap.yapcore.helpers.extentions.toast
 import co.yap.yapcore.helpers.spannables.color
 import co.yap.yapcore.helpers.spannables.getText
 import co.yap.yapcore.managers.SessionManager
+import me.leantech.link.android.Lean
 
 class TopupAmountViewModel(application: Application) :
     AddMoneyBaseViewModel<ITopupAmount.State>(application), ITopupAmount.ViewModel {
@@ -29,6 +32,7 @@ class TopupAmountViewModel(application: Application) :
     override var getPaymentIntentModel: GetPaymentIntentIdModel = GetPaymentIntentIdModel()
     override var bankListMainModel: BankListMainModel = BankListMainModel()
     override val state: ITopupAmount.State = TopupAmountState()
+    override var leanSdkInitializer: LeanSdkInitializer = LeanSdkInitializer()
     private val leanTechRepository: LeanTechRepository = LeanTechRepository
 
     override fun handleClickEvent(id: Int) {
@@ -86,4 +90,18 @@ class TopupAmountViewModel(application: Application) :
                 amount.toDoubleOrNull() ?: 0.0 > getLimitOfAmount()?.max?.toDouble() ?: 0.0 || amount.toDoubleOrNull() ?: 0.0 < getLimitOfAmount()?.min?.toDouble() ?: 0.0
             else false
         } ?: false
+
+    override fun startTopUpJourney(id: String, activity: Activity) {
+        leanSdkInitializer.getLeanInstance()?.pay(
+            activity,
+            id,
+            true,
+            leanCustomerAccounts?.accountId,
+            object : Lean.LeanListener {
+                override fun onResponse(status: Lean.LeanStatus) {
+                    if (status.status == co.yap.modules.others.helper.Constants.SUCCESS_STATUS)
+                        leanPaymentStatus.postValue(true)
+                }
+            })
+    }
 }

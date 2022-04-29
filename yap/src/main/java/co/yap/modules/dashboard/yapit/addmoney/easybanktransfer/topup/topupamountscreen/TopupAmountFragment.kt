@@ -6,7 +6,6 @@ import androidx.fragment.app.viewModels
 import co.yap.BR
 import co.yap.R
 import co.yap.databinding.FragmentTopupAmountBinding
-import co.yap.modules.dashboard.yapit.addmoney.easybanktransfer.leansdk.LeanSdkManager
 import co.yap.modules.dashboard.yapit.addmoney.main.AddMoneyBaseFragment
 import co.yap.networking.leanteach.responsedtos.accountlistmodel.LeanCustomerAccounts
 import co.yap.networking.leanteach.responsedtos.banklistmodels.BankListMainModel
@@ -20,7 +19,6 @@ import co.yap.yapcore.helpers.showTextUpdatedAbleSnackBar
 import co.yap.yapcore.managers.SessionManager
 import com.google.android.material.chip.Chip
 import com.google.android.material.snackbar.Snackbar
-import me.leantech.link.android.Lean
 
 //adjust resize need to be added when required activity is created
 class TopupAmountFragment :
@@ -33,6 +31,7 @@ class TopupAmountFragment :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         getDataArguments()
+        lifecycle.addObserver(viewModel.leanSdkInitializer)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -96,18 +95,7 @@ class TopupAmountFragment :
         }
         viewModel.paymentIntentId.observe(viewLifecycleOwner) {
             if (it.isNullOrEmpty().not())
-                LeanSdkManager.lean?.pay(
-                    requireActivity(),
-                    it,
-                    true,
-                    viewModel.leanCustomerAccounts?.accountId,
-                    object : Lean.LeanListener {
-                        override fun onResponse(status: Lean.LeanStatus) {
-                            if (status.status == co.yap.modules.others.helper.Constants.SUCCESS_STATUS)
-                                viewModel.leanPaymentStatus.postValue(true)
-                        }
-                    })
-
+                viewModel.startTopUpJourney(it, requireActivity())
         }
     }
 

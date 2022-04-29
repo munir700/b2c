@@ -3,7 +3,7 @@ package co.yap.modules.dashboard.yapit.addmoney.easybanktransfer.banklist
 import android.app.Activity
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
-import co.yap.modules.dashboard.yapit.addmoney.easybanktransfer.leansdk.LeanSdkManager
+import co.yap.modules.dashboard.yapit.addmoney.easybanktransfer.leansdk.LeanSdkInitializer
 import co.yap.modules.dashboard.yapit.addmoney.main.AddMoneyBaseViewModel
 import co.yap.networking.leanteach.LeanTechRepository
 import co.yap.networking.leanteach.responsedtos.LeanOnBoardModel
@@ -21,9 +21,9 @@ class BankListViewModel(application: Application) :
     override val bankListAdapter: BankListAdapter = BankListAdapter(mutableListOf())
     override var leanOnBoardModel: LeanOnBoardModel = LeanOnBoardModel()
     override var isPaymentJourneySet: MutableLiveData<Boolean> = MutableLiveData(false)
-    private val leanTechRepository: LeanTechRepository = LeanTechRepository
-
     override val state: IBankList.State = BankListState()
+    override var leanSdkInitializer: LeanSdkInitializer = LeanSdkInitializer()
+    private val leanTechRepository: LeanTechRepository = LeanTechRepository
 
     override fun getBankList() {
         launch {
@@ -44,7 +44,7 @@ class BankListViewModel(application: Application) :
     override fun startPaymentSourceJourney(bankIdentifier: String, activity: Activity?) {
         activity?.let { act ->
             with(leanOnBoardModel) {
-                LeanSdkManager.lean?.createPaymentSource(
+                leanSdkInitializer.getLeanInstance()?.createPaymentSource(
                     act,
                     customerId.toString(),
                     bankIdentifier,
