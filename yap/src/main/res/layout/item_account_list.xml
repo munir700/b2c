@@ -6,8 +6,8 @@
     <data>
 
         <variable
-            name="accountChildViewModel"
-            type="co.yap.modules.dashboard.yapit.addmoney.easybanktransfer.accountlist.AccountChildItemViewModel" />
+            name="viewModel"
+            type="co.yap.modules.dashboard.yapit.addmoney.easybanktransfer.accountlist.AccountListItemViewModel" />
 
         <import type="co.yap.translation.Strings" />
 
@@ -21,8 +21,7 @@
         android:id="@+id/clMain"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:alpha="@{accountChildViewModel.bankListMainModel.status.equals(`ACTIVE`) ? 255.0f:0.5f}"
-        android:onClick="@{accountChildViewModel::onViewClicked}"
+        android:alpha="@{viewModel.item.bankListMainModel.status.equals(`ACTIVE`) ? 255.0f:0.5f}"
         android:paddingStart="@dimen/margin_normal"
         android:paddingTop="@dimen/margin_normal"
         android:paddingEnd="@dimen/margin_normal"
@@ -34,10 +33,10 @@
             android:layout_height="@dimen/_40sdp"
             android:layout_marginBottom="@dimen/margin_small"
             android:contentDescription="@string/empty_string"
-            app:bgColor="@{accountChildViewModel.bankListMainModel.mainColor}"
-            app:fullName="@{accountChildViewModel.bankListMainModel.name}"
+            app:bgColor="@{viewModel.item.bankListMainModel.mainColor}"
+            app:fullName="@{viewModel.item.bankListMainModel.name}"
             app:imageSize="@{R.dimen._64sdp}"
-            app:imageUrl="@{accountChildViewModel.bankListMainModel.logo}"
+            app:imageUrl="@{viewModel.item.bankListMainModel.logo}"
             app:initialTextColor="@{R.color.white}"
             app:initialTextSize="@{R.dimen.text_size_h4}"
             app:isUrlRound="@{false}"
@@ -54,7 +53,7 @@
             android:layout_marginEnd="@dimen/margin_medium"
             android:gravity="start"
             android:lineSpacingExtra="0dp"
-            android:text="@{accountChildViewModel.leanCustomerAccounts.accountName}"
+            android:text="@{viewModel.item.leanCustomerAccounts.accountName}"
             app:layout_constraintBottom_toTopOf="@+id/tvAccountNumber"
             app:layout_constraintEnd_toStartOf="@+id/ivArrow"
             app:layout_constraintStart_toEndOf="@+id/imgIcon"
@@ -71,7 +70,7 @@
             android:layout_marginEnd="@dimen/margin_medium"
             android:gravity="start"
             android:lineSpacingExtra="0dp"
-            android:text="@{accountChildViewModel.leanCustomerAccounts.iban}"
+            android:text="@{viewModel.item.leanCustomerAccounts.iban}"
             app:layout_constraintBottom_toBottomOf="@+id/imgIcon"
             app:layout_constraintEnd_toStartOf="@+id/ivArrow"
             app:layout_constraintStart_toEndOf="@+id/imgIcon"
