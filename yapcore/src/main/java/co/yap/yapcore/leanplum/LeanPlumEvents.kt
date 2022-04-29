@@ -77,8 +77,10 @@ enum class SendMoneyEvents(val type: String) {
 
 @Keep
 enum class MoreB2CEvents(val type: String) {
-    OPEN_ATM_MAP("open_atm_map")
+    OPEN_ATM_MAP("open_atm_map"),
+    UAE_REFERRALS("uae_referrals")
 }
+
 
 @Keep
 enum class SignInEvents(val type: String) {
