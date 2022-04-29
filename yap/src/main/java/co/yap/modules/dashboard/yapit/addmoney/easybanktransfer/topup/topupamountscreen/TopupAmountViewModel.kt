@@ -20,6 +20,7 @@ import co.yap.yapcore.helpers.extentions.toast
 import co.yap.yapcore.helpers.spannables.color
 import co.yap.yapcore.helpers.spannables.getText
 import co.yap.yapcore.managers.SessionManager
+import com.uxcam.UXCam
 import me.leantech.link.android.Lean
 
 class TopupAmountViewModel(application: Application) :
@@ -92,6 +93,7 @@ class TopupAmountViewModel(application: Application) :
         } ?: false
 
     override fun startTopUpJourney(id: String, activity: Activity) {
+        UXCam.occludeSensitiveScreen(true)
         leanSdkInitializer.getLeanInstance()?.pay(
             activity,
             id,
@@ -101,6 +103,7 @@ class TopupAmountViewModel(application: Application) :
                 override fun onResponse(status: Lean.LeanStatus) {
                     if (status.status == co.yap.modules.others.helper.Constants.SUCCESS_STATUS)
                         leanPaymentStatus.postValue(true)
+                    UXCam.occludeSensitiveScreen(false)
                 }
             })
     }

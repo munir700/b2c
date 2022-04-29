@@ -12,6 +12,7 @@ import co.yap.networking.models.RetroApiResponse
 import co.yap.widgets.search.IYapSearchView
 import co.yap.yapcore.OnFilter
 import co.yap.yapcore.helpers.extentions.toast
+import com.uxcam.UXCam
 import me.leantech.link.android.Lean
 
 class BankListViewModel(application: Application) :
@@ -43,6 +44,7 @@ class BankListViewModel(application: Application) :
 
     override fun startPaymentSourceJourney(bankIdentifier: String, activity: Activity?) {
         activity?.let { act ->
+            UXCam.occludeSensitiveScreen(true)
             with(leanOnBoardModel) {
                 leanSdkInitializer.getLeanInstance()?.createPaymentSource(
                     act,
@@ -51,9 +53,10 @@ class BankListViewModel(application: Application) :
                     destinationId.toString(),
                     object : Lean.LeanListener {
                         override fun onResponse(status: Lean.LeanStatus) {
-                            if (status.status == co.yap.modules.others.helper.Constants.SUCCESS_STATUS)
+                            if (status.status == co.yap.modules.others.helper.Constants.SUCCESS_STATUS) {
                                 isPaymentJourneySet.postValue(true)
-                            else toast(context, status.status)
+                                UXCam.occludeSensitiveScreen(false)
+                            } else toast(context, status.status)
                         }
                     }
                 )

@@ -9,13 +9,18 @@
             type="co.yap.modules.dashboard.yapit.addmoney.easybanktransfer.topup.topupamountscreen.TopupAmountViewModel" />
 
         <import type="co.yap.translation.Strings" />
+
         <import type="co.yap.yapcore.R" />
+
+        <import type="co.yap.yapcore.helpers.Utils" />
+
         <import type="co.yap.yapcore.managers.SessionManager" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        app:sensitiveViews="@{Utils.getViewsList(ivBankIcon,tvCurrentAccount,etAmount)}">
 
         <co.yap.widgets.CoreToolbar
             android:id="@+id/toolbarAddAccount"

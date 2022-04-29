@@ -4,18 +4,25 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="viewModel"
             type="co.yap.modules.dashboard.yapit.addmoney.easybanktransfer.banklist.BankListViewModel" />
 
         <import type="co.yap.translation.Strings" />
+
         <import type="android.view.View"/>
+
         <import type="co.yap.yapcore.R" />
+
+        <import type="co.yap.yapcore.helpers.Utils" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        app:sensitiveViews="@{Utils.getViewsList(layoutSearchView)}">
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvSelectBank"

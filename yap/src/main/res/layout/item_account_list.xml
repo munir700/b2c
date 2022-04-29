@@ -15,6 +15,8 @@
 
         <import type="co.yap.R" />
 
+        <import type="co.yap.yapcore.helpers.Utils" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -25,7 +27,8 @@
         android:paddingStart="@dimen/margin_normal"
         android:paddingTop="@dimen/margin_normal"
         android:paddingEnd="@dimen/margin_normal"
-        android:paddingBottom="@dimen/margin_normal">
+        android:paddingBottom="@dimen/margin_normal"
+        app:sensitiveViews="@{Utils.getViewsList(imgIcon,tvAccountName,tvAccountNumber)}">
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/imgIcon"
