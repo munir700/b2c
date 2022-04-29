@@ -16,19 +16,18 @@ import co.yap.modules.dashboard.yapit.addmoney.easybanktransfer.topup.activity.T
 import co.yap.modules.dashboard.yapit.addmoney.main.AddMoneyBaseFragment
 import co.yap.modules.others.helper.Constants
 import co.yap.networking.leanteach.responsedtos.LeanOnBoardModel
-import co.yap.networking.leanteach.responsedtos.accountlistmodel.LeanCustomerAccounts
-import co.yap.networking.leanteach.responsedtos.banklistmodels.BankListMainModel
 import co.yap.translation.Strings
+import co.yap.translation.Translator
 import co.yap.widgets.MultiStateView
 import co.yap.widgets.State
 import co.yap.widgets.Status
 import co.yap.widgets.loading.CircularProgressBar
 import co.yap.yapcore.helpers.extentions.launchActivity
-import co.yap.yapcore.helpers.extentions.startFragment
 import co.yap.yapcore.helpers.extentions.startFragmentForResult
 import co.yap.yapcore.helpers.extentions.toast
 import co.yap.yapcore.helpers.spannables.color
 import co.yap.yapcore.helpers.spannables.getText
+import co.yap.yapcore.interfaces.OnItemClickListener
 
 class AccountListFragment :
     AddMoneyBaseFragment<FragmentEasyBankTransferAccountListBinding, IAccountList.ViewModel>(),
@@ -55,52 +54,46 @@ class AccountListFragment :
         clickObserver()
     }
 
-    private fun accountListObserver() {
-        viewModel.accountList.observe(viewLifecycleOwner) { list ->
-            (viewDataBinding.multiStateView.getView(
-                MultiStateView.ViewState.CONTENT
-            ) as ConstraintLayout).findViewById<RecyclerView>(R.id.rvAccountList).adapter =
-                AccountListAdapter(
-                    list,
-                    object : AccountChildItemViewModel.OnItemClickListenerChild {
-                        override fun onItemClick(
-                            view: View,
-                            data: Any,
-                            bankListMainModel: BankListMainModel?,
-                            pos: Int
-                        ) {
-                            bankListMainModel?.let { bankModel ->
-                                if (bankModel.status == Constants.ACTIVE_STATUS) {
-                                    //this case will be handled when user will come in this screen after adding account
-                                    arguments?.let { bundle ->
-                                        bundle.getParcelable<LeanOnBoardModel>(co.yap.yapcore.constants.Constants.ONBOARD_USER_LEAN)
-                                            ?.let {
-                                                it.customerId?.let { cus_id ->
-                                                    it.destinationId?.let { des_id ->
-                                                        startNewScreen(
-                                                            data as LeanCustomerAccounts,
-                                                            bankListMainModel,
-                                                            cus_id,
-                                                            des_id
-                                                        )
-                                                    }
-                                                }
-                                        }
-                                    } //this case will be handled when user already have an account
-                                        ?: viewModel.customerId?.let { cus_id ->
-                                            viewModel.leanOnBoardModel.value?.destinationId
-                                                ?.let {des_id->
-                                                    startNewScreen(
-                                                        data as LeanCustomerAccounts, bankListMainModel,
-                                                        cus_id,
-                                                        des_id
-                                                    )
-                                                }
-                                        }
+    private val listener = object : OnItemClickListener {
+        override fun onItemClick(view: View, data: Any, pos: Int) {
+            if (data is AccountsListModel && data.leanCustomerAccounts != null)
+                if (data.bankListMainModel.status == Constants.ACTIVE_STATUS) {
+                    //this case will be handled when user will come in this screen after adding account
+                    arguments?.let { bundle ->
+                        bundle.getParcelable<LeanOnBoardModel>(co.yap.yapcore.constants.Constants.ONBOARD_USER_LEAN)
+                            ?.let {
+                                it.customerId?.let { cus_id ->
+                                    it.destinationId?.let { des_id ->
+                                        startTopUp(
+                                            data,
+                                            cus_id,
+                                            des_id
+                                        )
+                                    }
                                 }
                             }
+                    } //this case will be handled when user already have an account
+                        ?: viewModel.customerId?.let { cus_id ->
+                            viewModel.leanOnBoardModel.value?.destinationId
+                                ?.let { des_id ->
+                                    startTopUp(
+                                        data,
+                                        cus_id,
+                                        des_id
+                                    )
+                                }
                         }
-                    })
+                }
+        }
+    }
+
+    private fun accountListObserver() {
+        viewModel.accountList.observe(viewLifecycleOwner) { list ->
+            val adapter = AccountListAdapter(list, null)
+            (viewDataBinding.multiStateView.getView(
+                MultiStateView.ViewState.CONTENT
+            ) as ConstraintLayout).findViewById<RecyclerView>(R.id.rvAccountList).adapter = adapter
+            adapter.onItemClickListener = listener
         }
     }
 
@@ -124,8 +117,14 @@ class AccountListFragment :
                 R.id.btnLinkAccount -> {
                     if (viewModel.customerId.isNullOrEmpty().not()) {
                         startFragmentForResult<BankListFragment>(
-                            fragmentName = BankListFragment::class.java.name, bundle = bundleOf(
+                            fragmentName = BankListFragment::class.java.name,
+                            bundle = bundleOf(
                                 co.yap.yapcore.constants.Constants.ONBOARD_USER_LEAN to viewModel.leanOnBoardModel.value
+                            ),
+                            showToolBar = true,
+                            toolBarTitle = Translator.getString(
+                                requireContext(),
+                                Strings.screen_lean_bank_list_add_an_account
                             )
                         ) { resultCode, _ ->
                             if (resultCode == Activity.RESULT_OK)
@@ -137,26 +136,17 @@ class AccountListFragment :
         }
     }
 
-    override fun onToolBarClick(id: Int) {
-        when (id) {
-            R.id.ivLeftIcon -> {
-                activity?.finish()
-            }
-        }
-    }
-
-    private fun startNewScreen(
-        leanCustomerAccounts: LeanCustomerAccounts,
-        bankListMainModel: BankListMainModel,
+    private fun startTopUp(
+        accountsListModel: AccountsListModel,
         customerID: String,
-        destinationId:String
+        destinationId: String
     ) {
         val bundle = bundleOf(
-                co.yap.yapcore.constants.Constants.CUSTOMER_ID_LEAN to customerID,
-                co.yap.yapcore.constants.Constants.DESTINATION_ID_LEAN to destinationId,
-                co.yap.yapcore.constants.Constants.MODEL_LEAN to leanCustomerAccounts,
-                co.yap.yapcore.constants.Constants.MODEL_BANK_LEAN to bankListMainModel
-            )
+            co.yap.yapcore.constants.Constants.CUSTOMER_ID_LEAN to customerID,
+            co.yap.yapcore.constants.Constants.DESTINATION_ID_LEAN to destinationId,
+            co.yap.yapcore.constants.Constants.MODEL_LEAN to accountsListModel.leanCustomerAccounts,
+            co.yap.yapcore.constants.Constants.MODEL_BANK_LEAN to accountsListModel.bankListMainModel
+        )
 
         launchActivity<TopUpActivity> {
             putExtra(co.yap.yapcore.constants.Constants.EXTRA, bundle)

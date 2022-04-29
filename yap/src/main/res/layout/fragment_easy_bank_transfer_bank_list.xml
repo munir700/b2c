@@ -24,20 +24,6 @@
         android:layout_height="match_parent"
         app:sensitiveViews="@{Utils.getViewsList(layoutSearchView)}">
 
-        <co.yap.widgets.CoreToolbar
-            android:id="@+id/toolbarAddAccount"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:leftIcon="@{R.drawable.ic_back_arrow_left_gery}"
-            app:leftIconVisibility="@{true}"
-            app:onClick="@{viewModel::onToolBarClick}"
-            app:rightIconVisibility="@{false}"
-            app:tint="@color/colorPrimaryDark"
-            app:titleTranslator="@{Strings.screen_lean_bank_list_add_an_account}" />
-
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvSelectBank"
             style="@style/ATitle2"
@@ -46,7 +32,7 @@
             android:layout_marginTop="@dimen/margin_medium_large"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toolbarAddAccount"
+            app:layout_constraintTop_toTopOf="parent"
             app:text="@{Strings.screen_lean_bank_list_select_a_bank}"
             android:visibility="@{viewModel.state.isSearchActive ? View.GONE : View.VISIBLE}"
             tools:text="@string/screen_lean_bank_list_select_a_bank" />

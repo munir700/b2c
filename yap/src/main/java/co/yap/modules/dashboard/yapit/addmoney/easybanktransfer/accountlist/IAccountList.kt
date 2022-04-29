@@ -12,11 +12,10 @@ interface IAccountList {
     }
 
     interface ViewModel : IBase.ViewModel<State> {
-        var accountList: MutableLiveData<MutableList<Any>>
-        var accountListAdapter: AccountListAdapter
+        var accountList: MutableLiveData<MutableList<AccountsListModel>>
         val clickEvent: SingleClickEvent
         val leanOnBoardModel: MutableLiveData<LeanOnBoardModel>
-        var customerId : String?
+        var customerId: String?
         fun getAccountList()
         fun handlePressOnView(id: Int)
         fun onboardUser()

@@ -32,6 +32,7 @@ class BankListFragment :
         setObservers()
         setRecyclerClick()
         viewModel.getBankList()
+        lifecycle.addObserver(viewModel.leanSdkInitializer)
     }
 
     private fun getDataArguments() {
@@ -65,14 +66,6 @@ class BankListFragment :
                 if (data is BankListMainModel) {
                     data.identifier?.let { viewModel.startPaymentSourceJourney(it, activity) }
                 }
-            }
-        }
-    }
-
-    override fun onToolBarClick(id: Int) {
-        when (id) {
-            R.id.ivLeftIcon -> {
-                activity?.finish()
             }
         }
     }

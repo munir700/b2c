@@ -26,13 +26,11 @@ class PaymentSuccessfulFragment :
         super.onViewCreated(view, savedInstanceState)
         viewDataBinding.lifecycleOwner = this
         setObservers()
+        viewModel.getAccountBalanceRequest()
     }
 
     override fun setObservers() {
         viewModel.clickEvent.observe(this, onClickObserver)
-        SessionManager.cardBalance.observe(viewLifecycleOwner) { value ->
-            viewModel.setNewBalanceData(value.availableBalance.toString())
-        }
     }
 
     private val onClickObserver = Observer<Int> {

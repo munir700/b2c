@@ -14,6 +14,7 @@
 
         <import type="co.yap.yapcore.helpers.Utils" />
 
+        <import type="co.yap.yapcore.managers.SessionManager" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -35,35 +36,32 @@
             app:tint="@color/colorPrimaryDark"
             app:titleTranslator="@{Strings.screen_lean_topup_amount_toolbar_title}" />
 
-<!--        To be changed when topup model class is available-->
-<!--        app:bgColor="@{viewModel.item.backgroundColor}"-->
-<!--        app:fullName="@{viewModel.item.name}"-->
-<!--        app:imageSize="@{R.dimen._64sdp}"-->
-<!--        app:imageUrl="@{viewModel.item.logo}"-->
-<!--        app:initialTextColor="@{R.color.white}"-->
-<!--        app:initialTextSize="@{R.dimen.text_size_h4}"-->
-
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/ivBankIcon"
             android:layout_width="@dimen/_60sdp"
             android:layout_height="@dimen/_60sdp"
-            android:contentDescription="@string/empty_string"
             android:layout_marginTop="@dimen/margin_large"
-            android:src="@drawable/ic_bank"
+            android:contentDescription="@string/empty_string"
+            app:bgColor="@{viewModel.bankListMainModel.mainColor}"
+            app:fullName="@{viewModel.bankListMainModel.name}"
+            app:imageSize="@{R.dimen._64sdp}"
+            app:imageUrl="@{viewModel.bankListMainModel.logo}"
+            app:initialTextColor="@{R.color.white}"
+            app:initialTextSize="@{R.dimen.text_size_h4}"
+            app:isUrlRound="@{false}"
+            tools:src="@drawable/bg_round_error_layout"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/toolbarAddAccount" />
 
-        <!--To be changed when topup model class is available-->
-        <!--android:text="@{viewModel.topupModel.bankAccountType}"-->
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvCurrentAccount"
             style="@style/ALarge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_normal_large"
+            android:text="@{viewModel.leanCustomerAccounts.accountName}"
             app:layout_constraintEnd_toEndOf="parent"
-            android:text="Current Account"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/ivBankIcon"
             tools:text="Current Account" />
@@ -80,8 +78,6 @@
             app:text="@{Strings.screen_lean_topup_text_enter_amount_to_topup}"
             tools:text="@string/screen_lean_topup_text_enter_amount_to_topup" />
 
-        <!-- To be changed when topup model class is available-->
-        <!-- android:text="@{viewModel.topupModel.currencyType}"-->
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvCurrency"
             style="@style/AMicroGrey"
@@ -91,7 +87,7 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvEnterTopUpAmount"
-            android:text="AED"
+            android:text="@{SessionManager.INSTANCE.defaultCurrency}"
             tools:text="AED" />
 
         <co.yap.widgets.EasyMoneyEditText

@@ -13,10 +13,11 @@ import co.yap.networking.customers.responsedtos.currency.CurrenciesByCodeRespons
 import co.yap.networking.customers.responsedtos.currency.CurrenciesResponse
 import co.yap.networking.customers.responsedtos.documents.ConfigureEIDResponse
 import co.yap.networking.customers.responsedtos.documents.EIDDocumentsResponse
-import co.yap.networking.customers.responsedtos.employment_amendment.DocumentResponse
 import co.yap.networking.customers.responsedtos.documents.UqudoTokenResponse
+import co.yap.networking.customers.responsedtos.employment_amendment.DocumentResponse
 import co.yap.networking.customers.responsedtos.employment_amendment.EmploymentInfoAmendmentResponse
 import co.yap.networking.customers.responsedtos.employmentinfo.IndustrySegmentsResponse
+import co.yap.networking.customers.responsedtos.featureflag.FeatureFlagResponse
 import co.yap.networking.customers.responsedtos.sendmoney.*
 import co.yap.networking.customers.responsedtos.tax.TaxInfoResponse
 import co.yap.networking.customers.responsedtos.taxinfoamendment.TaxInfoAmendmentResponse
@@ -29,7 +30,6 @@ import co.yap.networking.transactions.requestdtos.EditBillerRequest
 import co.yap.networking.transactions.responsedtos.transaction.FxRateResponse
 import okhttp3.MultipartBody
 import retrofit2.http.Body
-import java.util.*
 
 interface CustomersApi {
     suspend fun signUp(signUpRequest: SignUpRequest): RetroApiResponse<SignUpResponse>
@@ -166,4 +166,10 @@ interface CustomersApi {
     suspend fun getEmploymentInfo(): RetroApiResponse<BaseResponse<EmploymentInfoAmendmentResponse>>
     suspend fun getAllDocumentsForEmploymentAmendment(): RetroApiResponse<BaseListResponse<DocumentResponse>>
     suspend fun getAppCountries(): RetroApiResponse<BaseListResponse<Country>>
+
+    //Feature Flag
+    suspend fun getFeatureFlag(
+        customer_id: String,
+        email: String
+    ): RetroApiResponse<BaseResponse<FeatureFlagResponse>>
 }

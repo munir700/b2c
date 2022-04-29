@@ -56,7 +56,7 @@ Java_co_yap_app_AAPApplication_signatureKeysFromJNI(JNIEnv *env, jobject /*this*
     sha256Encoded = "ODY6QTE6MzQ6NEU6RkM6OTQ6M0I6NzA6Mjk6MjE6OUU6M0I6NzA6MzM6NDI6RUM6M0M6NjI6M0E6MkI6MEU6N0M6QkM6MDc6RTU6N0Q6M0M6Mjk6RTg6MkE6Q0Y6NTM=";
     uxCamKey = "mi02knons3ceh5z";
     checkoutKey = "pk_test_d0490891-f127-4857-8c6a-c9be8bfb58d6";
-    leanOpenBanking = "75cd536d-9c5f-44d4-9731-8d839e7d43d7";
+    leanOpenBanking = "ea062580-7690-41a9-a6a4-a952f3b3727a";
 
 #endif
 #ifdef Preprod
@@ -75,7 +75,7 @@ Java_co_yap_app_AAPApplication_signatureKeysFromJNI(JNIEnv *env, jobject /*this*
     sha256Encoded = "ODY6QTE6MzQ6NEU6RkM6OTQ6M0I6NzA6Mjk6MjE6OUU6M0I6NzA6MzM6NDI6RUM6M0M6NjI6M0E6MkI6MEU6N0M6QkM6MDc6RTU6N0Q6M0M6Mjk6RTg6MkE6Q0Y6NTM=";
     uxCamKey = "7z7psf07jm1kjoz";
     checkoutKey = "pk_test_d0490891-f127-4857-8c6a-c9be8bfb58d6";
-    leanOpenBanking = "75cd536d-9c5f-44d4-9731-8d839e7d43d7";
+    leanOpenBanking = "ea062580-7690-41a9-a6a4-a952f3b3727a";
 
 
 #endif
