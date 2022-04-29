@@ -6,8 +6,8 @@
     <data>
 
         <variable
-            name="accountGroupItemViewModel"
-            type="co.yap.modules.dashboard.yapit.addmoney.easybanktransfer.accountlist.AccountGroupItemViewModel" />
+            name="viewModel"
+            type="co.yap.modules.dashboard.yapit.addmoney.easybanktransfer.accountlist.AccountBankListItemViewModel" />
 
         <import type="co.yap.translation.Strings" />
 
@@ -34,7 +34,8 @@
             android:layout_marginEnd="@dimen/margin_medium"
             android:gravity="start"
             android:lineSpacingExtra="0dp"
-            android:text="@{accountGroupItemViewModel.bankListMainModel.name}"
+            android:text="@{viewModel.item.bankListMainModel.name}"
+            app:layout_constraintEnd_toStartOf="@+id/labelAccount"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_chainStyle="packed"
@@ -49,7 +50,7 @@
             android:gravity="center"
             android:textColor="@color/orange_dark_text"
             android:textSize="@dimen/_10sdp"
-            android:visibility="@{accountGroupItemViewModel.bankListMainModel.status.equals(`ACTIVE`) ? View.GONE:View.VISIBLE}"
+            android:visibility="@{viewModel.item.bankListMainModel.status.equals(`ACTIVE`) ? View.GONE:View.VISIBLE}"
             app:layout_constraintBottom_toBottomOf="@+id/tvBankName"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/tvBankName"

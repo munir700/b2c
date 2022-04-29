@@ -1,88 +1,47 @@
 package co.yap.modules.dashboard.yapit.addmoney.easybanktransfer.accountlist
 
+import android.view.View
 import androidx.databinding.ViewDataBinding
-import androidx.recyclerview.widget.RecyclerView
-import co.yap.R
-import co.yap.databinding.ItemAccountListChildBinding
-import co.yap.databinding.ItemAccountListGroupBinding
-import co.yap.networking.leanteach.responsedtos.accountlistmodel.LeanCustomerAccounts
-import co.yap.networking.leanteach.responsedtos.banklistmodels.BankListMainModel
-import co.yap.yapcore.BaseBindingRecyclerAdapter
+import androidx.navigation.NavController
+import co.yap.yapcore.BR
+import co.yap.yapcore.BaseListItemViewModel
+import co.yap.yapcore.BaseRVAdapter
+import co.yap.yapcore.BaseViewHolder
 
 class AccountListAdapter(
-    private val list: MutableList<Any>,
-    private val adaptorClick: AccountChildItemViewModel.OnItemClickListenerChild?
+    val list: MutableList<AccountsListModel>, navigation: NavController?
 ) :
-    BaseBindingRecyclerAdapter<Any, RecyclerView.ViewHolder>(list) {
+    BaseRVAdapter<AccountsListModel, BaseListItemViewModel<AccountsListModel>, BaseViewHolder<AccountsListModel, BaseListItemViewModel<AccountsListModel>>>(
+        list,
+        navigation
+    ) {
 
     private val bank = 1
     private val account = 2
-    private var bankList: BankListMainModel? = null
 
-    override fun getLayoutIdForViewType(viewType: Int): Int =
-        if (viewType == bank) R.layout.item_account_list_group else R.layout.item_account_list_child
-
-    override fun onCreateViewHolder(binding: ViewDataBinding): RecyclerView.ViewHolder {
-        return if (binding is ItemAccountListGroupBinding) GroupViewHolder(
-            binding
-        ) else ChildViewHolder(
-            binding as ItemAccountListChildBinding
-        )
+    override fun getItemId(position: Int): Long {
+        return position.toLong()
     }
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        super.onBindViewHolder(holder, position)
-        if (holder is GroupViewHolder) {
-            holder.onBind(list[position], adaptorClick, position)
-            bankList = list[position] as BankListMainModel
-        } else if (holder is ChildViewHolder) {
-            bankList?.let { holder.onBind(list[position], it, adaptorClick, position) }
-        }
-    }
+    override fun getLayoutId(viewType: Int): Int = getViewModel(viewType).layoutRes()
+
+    override fun getViewHolder(
+        view: View,
+        viewModel: BaseListItemViewModel<AccountsListModel>,
+        mDataBinding: ViewDataBinding,
+        viewType: Int
+    ) = BaseViewHolder(view, viewModel, mDataBinding)
+
+    override fun getViewModel(viewType: Int) =
+        if (viewType == bank) AccountBankListItemViewModel() else AccountListItemViewModel()
+
+    override fun getVariableId() = BR.viewModel
 
     override fun getItemViewType(position: Int): Int {
-        return if (list[position] is BankListMainModel) bank else account
-    }
-
-    class ChildViewHolder(private val itemEmptyBinding: ItemAccountListChildBinding) :
-        RecyclerView.ViewHolder(itemEmptyBinding.root) {
-
-        fun onBind(
-            data: Any,
-            bankList: BankListMainModel,
-            adaptorClick: AccountChildItemViewModel.OnItemClickListenerChild?,
-            groupPosition: Int
-        ) {
-            itemEmptyBinding.accountChildViewModel =
-                AccountChildItemViewModel(
-                    data as LeanCustomerAccounts,
-                    bankList,
-                    groupPosition,
-                    adaptorClick
-                )
-
-            itemEmptyBinding.executePendingBindings()
-        }
-    }
-
-    class GroupViewHolder(private val itemTransactionListHeaderBinding: ItemAccountListGroupBinding) :
-        RecyclerView.ViewHolder(itemTransactionListHeaderBinding.root) {
-
-        fun onBind(
-            data: Any,
-            adaptorClick: AccountChildItemViewModel.OnItemClickListenerChild?,
-            groupPosition: Int
-        ) {
-            itemTransactionListHeaderBinding.accountGroupItemViewModel =
-                AccountGroupItemViewModel(
-                    data as BankListMainModel,
-                    groupPosition,
-                    adaptorClick
-                )
-
-            itemTransactionListHeaderBinding.executePendingBindings()
+        return when {
+            list.size <= 0 -> -1
+            list[position].leanCustomerAccounts == null -> bank
+            else -> account
         }
     }
 }
-
-
