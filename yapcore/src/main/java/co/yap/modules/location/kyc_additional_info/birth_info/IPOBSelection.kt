@@ -25,7 +25,7 @@ interface IPOBSelection {
         var populateSpinnerData: MutableLiveData<ArrayList<Country>>
         var populateCitiesSpinnerData: MutableLiveData<ArrayList<String>>
         fun getAllCountries()
-        fun getAllCities()
+        fun getAllCities(countryCode: String)
         val dualNatioanlitySpinnerItemClickListener: OnItemClickListener
         val dualNationalityQuestionOptions: ArrayList<String>
         fun canSkipFragment(): Boolean

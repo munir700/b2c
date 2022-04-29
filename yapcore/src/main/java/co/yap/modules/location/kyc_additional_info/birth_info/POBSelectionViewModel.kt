@@ -41,7 +41,6 @@ class POBSelectionViewModel(application: Application) :
         super.onCreate()
         validator?.setValidationListener(this)
         getAllCountries()
-        getAllCities()
         state.isDualNational.set(false)
     }
 
@@ -99,41 +98,27 @@ class POBSelectionViewModel(application: Application) :
         }
     }
 
-    override fun getAllCities() {
-        parentViewModel?.cities?.add("Bulawayo")
-        parentViewModel?.cities?.add("Chinhoyi")
-        parentViewModel?.cities?.add("Greendale")
-        parentViewModel?.cities?.add("Gwanda")
-        parentViewModel?.cities?.add("Harare")
-        parentViewModel?.cities?.add("Other")
-
-        if (!parentViewModel?.cities.isNullOrEmpty()) {
-            populateCitiesSpinnerData.value = parentViewModel?.cities
-        } else {
-            launch(Dispatcher.Background) {
-                state.viewState.postValue(true)
-                val response = repository.getAllCities()
-                launch {
-                    when (response) {
-                        is RetroApiResponse.Success -> {
-                            response.data.data.let {
-                                populateCitiesSpinnerData.value = it
-                                populateCitiesSpinnerData.value?.add("Other")
-                                parentViewModel?.cities =
-                                    populateCitiesSpinnerData.value as ArrayList<String>
-                            }
-                            state.viewState.value = false
+    override fun getAllCities(countryCode: String) {
+        launch(Dispatcher.Background) {
+            state.viewState.postValue(true)
+            val response = repository.getAllCities(countryCode)
+            launch {
+                when (response) {
+                    is RetroApiResponse.Success -> {
+                        response.data.data?.let {
+                            it.add(0,"Other")
+                            populateCitiesSpinnerData.postValue(it)
                         }
-                        is RetroApiResponse.Error -> {
-                            state.viewState.value = false
-                            state.toast = response.error.message
-                        }
+                        state.viewState.value = false
+                    }
+                    is RetroApiResponse.Error -> {
+                        state.viewState.value = false
+                        state.toast = response.error.message
                     }
                 }
             }
         }
     }
-
 
     override val dualNatioanlitySpinnerItemClickListener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
@@ -204,7 +189,7 @@ class POBSelectionViewModel(application: Application) :
                     selectedCountry?.let {
                         state.previousSelectedCountry.set(it.getName())
                     }
-
+                    state.selectedCity.set(response.data.data?.cityOfBirth ?: "")
                     state.cityOfBirth.set(response.data.data?.cityOfBirth ?: "")
                     state.previousCityOfBirth.set(response.data.data?.cityOfBirth)
                     state.isDualNational.set(response.data.data?.isDualNationality ?: false)

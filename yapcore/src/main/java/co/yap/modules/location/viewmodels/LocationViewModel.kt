@@ -22,7 +22,6 @@ class LocationViewModel(application: Application) :
     override var address: Address? = null
     override var isOnBoarding: Boolean = false
     override var countries: ArrayList<Country> = ArrayList()
-    override var cities: ArrayList<String>? = ArrayList()
     override var amendmentMap: HashMap<String?, List<String>?>? = null
     override var hideProgressToolbar: MutableLiveData<Boolean> = MutableLiveData(false)
 
