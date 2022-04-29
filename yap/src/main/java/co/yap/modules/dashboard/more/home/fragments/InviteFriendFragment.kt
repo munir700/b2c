@@ -13,9 +13,13 @@ import co.yap.translation.Strings
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.share
+import co.yap.yapcore.leanplum.MoreB2CEvents
+import co.yap.yapcore.leanplum.trackEvent
 
 
-class InviteFriendFragment : BaseBindingFragment<FragmentInviteFriendBinding,IInviteFriend.ViewModel>(), IInviteFriend.View {
+class InviteFriendFragment :
+    BaseBindingFragment<FragmentInviteFriendBinding, IInviteFriend.ViewModel>(),
+    IInviteFriend.View {
     override fun getBindingVariable(): Int = BR.viewModel
 
     override fun getLayoutId(): Int = R.layout.fragment_invite_friend
@@ -36,6 +40,7 @@ class InviteFriendFragment : BaseBindingFragment<FragmentInviteFriendBinding,IIn
         when (it) {
             R.id.btnShare -> {
                 InviteFriendRepository().inviteAFriend()
+                trackEvent(MoreB2CEvents.UAE_REFERRALS.type)
                 requireContext().share(
                     text = getString(
                         Strings.screen_invite_friend_display_text_share_url,

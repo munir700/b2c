@@ -52,6 +52,8 @@ android {
             versionName "2.0.1"
             applicationId "com.yap.banking"
             resValue "string", "app_name", "YAP"
+            resValue "bool", "enabled_crash", "true"
+            resValue "bool", "enabled_analytics", "true"
             // It binds with SHA1- SHA 256 and package bundle
             resValue "string", "google_maps_key", versionProps.getProperty("map_key_live")
             resValue "string", "facebook_app_id", "319841679191724"
@@ -63,10 +65,12 @@ android {
         }
 
         Preprod {
-            versionCode 156
-            versionName "2.5.6"
+            versionCode 159
+            versionName "2.5.9"
             applicationId "com.yap.banking.preprod"
             resValue "string", "app_name", "YAP Preprod"
+            resValue "bool", "enabled_crash", "true"
+            resValue "bool", "enabled_analytics", "false"
             // It binds with SHA1- SHA 256 and package bundle
             resValue "string", "google_maps_key", versionProps.getProperty("map_key_other")
             resValue "string", "facebook_app_id", "327560185026998"
@@ -78,11 +82,13 @@ android {
         }
 
         stg {
-            versionCode 410
-            versionName "2.2.6"
+            versionCode 417
+            versionName "2.3.3"
             applicationIdSuffix ".stg"
             resValue "string", "app_name", "YAP Stage"
             resValue "string", "google_maps_key", versionProps.getProperty("map_key_other")
+            resValue "bool", "enabled_crash", "true"
+            resValue "bool", "enabled_analytics", "false"
             resValue "string", "facebook_app_id", "410921516527681"
             resValue "string", "fb_login_protocol_scheme", "fb410921516527681"
             resValue "string", "uq_api_base_url", versionProps.getProperty("uq_api_base_url_stg")
@@ -95,6 +101,8 @@ android {
             versionCode 126
             versionName "0.12.6"
             applicationIdSuffix ".internal"
+            resValue "bool", "enabled_crash", "false"
+            resValue "bool", "enabled_analytics", "false"
             resValue "string", "app_name", "YAP" +
                     " Mock"
             resValue "string", "google_maps_key", versionProps.getProperty("map_key_other")
@@ -110,6 +118,8 @@ android {
             versionCode 135
             versionName "1.3.5"
             applicationIdSuffix ".qa"
+            resValue "bool", "enabled_crash", "false"
+            resValue "bool", "enabled_analytics", "false"
             resValue "string", "app_name", "YAP QA"
             resValue "string", "google_maps_key", versionProps.getProperty("map_key_other")
             resValue "string", "facebook_app_id", "410921516527681"
@@ -124,6 +134,8 @@ android {
             versionCode 2
             versionName "0.2"
             applicationIdSuffix ".dev"
+            resValue "bool", "enabled_crash", "false"
+            resValue "bool", "enabled_analytics", "false"
             resValue "string", "app_name", "YAP Dev"
             resValue "string", "google_maps_key", versionProps.getProperty("map_key_other")
             resValue "string", "facebook_app_id", "410921516527681"
@@ -146,7 +158,7 @@ android {
 
 shieldConfig {
     shielderJar "../promon/Shielder/Shielder.jar"
-    config './promon/configration/config-stage.xml' // for stage APK
+    config '../promon/configration/config-stage.xml' // for stage APK
     enabled false
     pluginOptions "debug", { enabled false}
     options "preprodRelease", {

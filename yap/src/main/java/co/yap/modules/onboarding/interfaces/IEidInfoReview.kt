@@ -24,6 +24,7 @@ interface IEidInfoReview {
         var dateOfBirth: String
         var gender: String
         var expiryDate: MutableLiveData<String>
+        var eidExpireLimitDays: MutableLiveData<Int>
         var citizenNumber: MutableLiveData<String>
         var caption: String
         var fullNameValid: Boolean
@@ -34,7 +35,7 @@ interface IEidInfoReview {
         var isShowMiddleName: ObservableBoolean
         var isShowLastName: ObservableBoolean
         var isDateOfBirthValid: ObservableBoolean
-        var AgeLimit: MutableLiveData<Int>?
+        var ageLimit: MutableLiveData<Int>?
         var isCountryUS: Boolean
         var showMiddleName: MutableLiveData<Boolean>
         var eidImageDownloaded : MutableLiveData<co.yap.widgets.State>
