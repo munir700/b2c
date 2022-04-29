@@ -6,6 +6,7 @@ import co.yap.modules.dashboard.yapit.addmoney.main.AddMoneyBaseViewModel
 import co.yap.networking.leanteach.LeanTechApi
 import co.yap.networking.leanteach.LeanTechRepository
 import co.yap.networking.leanteach.responsedtos.LeanOnBoardModel
+import co.yap.networking.leanteach.responsedtos.banklistmodels.BankListMainModel
 import co.yap.networking.models.RetroApiResponse
 import co.yap.widgets.State
 import co.yap.yapcore.SingleClickEvent
@@ -14,13 +15,11 @@ import co.yap.yapcore.helpers.extentions.toast
 class AccountListViewModel(application: Application) :
     AddMoneyBaseViewModel<IAccountList.State>(application),
     IAccountList.ViewModel {
-
     private val leanTechRepository: LeanTechApi = LeanTechRepository
-    override var accountList: MutableLiveData<MutableList<Any>> = MutableLiveData()
-    override var accountListAdapter: AccountListAdapter = AccountListAdapter(mutableListOf(), null)
     override val state: IAccountList.State = AccountListState()
     override val leanOnBoardModel: MutableLiveData<LeanOnBoardModel> = MutableLiveData()
     override val clickEvent: SingleClickEvent = SingleClickEvent()
+    override var accountList: MutableLiveData<MutableList<AccountsListModel>> = MutableLiveData()
     override var customerId: String? = ""
     override fun handlePressOnView(id: Int) {
         clickEvent.setValue(id)
@@ -54,17 +53,29 @@ class AccountListViewModel(application: Application) :
                             setStateValue(State.empty(""))
                         } else {
                             setStateValue(State.success(""))
-                            val accountListTemp: MutableList<Any> = mutableListOf()
+                            val accountListTemp: MutableList<AccountsListModel> = mutableListOf()
+                            var bankListMainModel = BankListMainModel()
                             list.sortBy { it.bank?.name }
                             list.forEach { value ->
                                 with(value.bank) {
                                     this?.status = value.status
-                                    this?.let { accountListTemp.add(it) }
+                                    this?.let { bankListMainModel = it }
+                                    accountListTemp.add(
+                                        AccountsListModel(
+                                            null,
+                                            bankListMainModel
+                                        )
+                                    ) //to use it for list header
                                 }
                                 with(value.leanCustomerAccounts) {
                                     sortBy { it.accountName }
-                                    forEach { v ->
-                                        accountListTemp.add(v)
+                                    forEach { leanCustomerAccount ->
+                                        accountListTemp.add(
+                                            AccountsListModel(
+                                                leanCustomerAccount,
+                                                bankListMainModel
+                                            )
+                                        )
                                     }
                                 }
                             }
