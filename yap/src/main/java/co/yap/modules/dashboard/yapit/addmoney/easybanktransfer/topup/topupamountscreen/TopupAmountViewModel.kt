@@ -12,6 +12,7 @@ import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.extentions.getValueWithoutComa
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.helpers.extentions.toast
 import co.yap.yapcore.helpers.spannables.color
@@ -80,8 +81,9 @@ class TopupAmountViewModel(application: Application) :
 
     override fun isMaxMinLimitReached() =
         state.enteredTopUpAmount.value?.let {
-            if (it.isNotBlank() || it.toDoubleOrNull() ?: 0.0 > 0.0)
-                it.toDoubleOrNull() ?: 0.0 > getLimitOfAmount()?.max?.toDouble() ?: 0.0 || it.toDoubleOrNull() ?: 0.0 < getLimitOfAmount()?.min?.toDouble() ?: 0.0
+            val amount = it.getValueWithoutComa()
+            if (amount.isNotBlank() || amount.toDoubleOrNull() ?: 0.0 > 0.0)
+                amount.toDoubleOrNull() ?: 0.0 > getLimitOfAmount()?.max?.toDouble() ?: 0.0 || amount.toDoubleOrNull() ?: 0.0 < getLimitOfAmount()?.min?.toDouble() ?: 0.0
             else false
         } ?: false
 }

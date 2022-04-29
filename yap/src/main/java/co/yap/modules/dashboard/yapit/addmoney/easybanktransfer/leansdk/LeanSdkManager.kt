@@ -12,7 +12,7 @@ object LeanSdkManager {
             .setAppToken(YAPApplication.configManager?.leanOpenBanking ?: "")
             .setVersion("latest")
             .showLogs()
-            .sandboxMode(!YAPApplication.configManager?.flavor.equals(ProductFlavour.PROD.flavour))
+            .sandboxMode(!(YAPApplication.configManager?.flavor.equals(ProductFlavour.PROD.flavour) || YAPApplication.configManager?.flavor.equals(ProductFlavour.PREPROD.flavour)))
             .build()
     }
 }

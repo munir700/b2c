@@ -338,6 +338,7 @@ fun Fragment.startFragment(
     requestCode: Int = -1,
     showToolBar: Boolean = false,
     toolBarTitle: String = "",
+    homeAsUpIndicator: Int = -1,
     type: FeatureSet = FeatureSet.NONE
 ) {
     if (FeatureProvisioning.getFeatureProvisioning(type)) {
@@ -348,6 +349,7 @@ fun Fragment.startFragment(
         intent.putExtra(EXTRA, bundle)
         intent.putExtra(SHOW_TOOLBAR, showToolBar)
         intent.putExtra(TOOLBAR_TITLE, toolBarTitle)
+        intent.putExtra(TOOLBAR_BACK_ICON, homeAsUpIndicator)
         if (requestCode > 0) {
             startActivityForResult(intent, requestCode)
         } else {

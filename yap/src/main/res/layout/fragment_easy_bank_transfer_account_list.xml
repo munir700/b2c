@@ -24,20 +24,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <co.yap.widgets.CoreToolbar
-            android:id="@+id/toolbarAddAccount"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:leftIcon="@{R.drawable.ic_close}"
-            app:leftIconVisibility="@{true}"
-            app:onClick="@{viewModel::onToolBarClick}"
-            app:rightIconVisibility="@{false}"
-            app:tint="@color/colorPrimaryDark"
-            app:titleTranslator="@{Strings.screen_lean_welcome_screen_title}" />
-
         <co.yap.widgets.MultiStateView
             android:id="@+id/multiStateView"
             android:layout_width="match_parent"
@@ -46,7 +32,7 @@
             app:layout_constraintBottom_toTopOf="@+id/btnLinkAccount"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/toolbarAddAccount"
+            app:layout_constraintTop_toTopOf="parent"
             app:msv_emptyView="@layout/layout_easy_bank_transfer_welcome"
             app:msv_loadingView="@layout/layout_loading_view_for_view_document"
             app:msv_viewState="loading"

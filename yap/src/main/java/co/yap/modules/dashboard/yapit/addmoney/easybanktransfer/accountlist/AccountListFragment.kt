@@ -17,6 +17,7 @@ import co.yap.modules.dashboard.yapit.addmoney.main.AddMoneyBaseFragment
 import co.yap.modules.others.helper.Constants
 import co.yap.networking.leanteach.responsedtos.LeanOnBoardModel
 import co.yap.translation.Strings
+import co.yap.translation.Translator
 import co.yap.widgets.MultiStateView
 import co.yap.widgets.State
 import co.yap.widgets.Status
@@ -116,8 +117,14 @@ class AccountListFragment :
                 R.id.btnLinkAccount -> {
                     if (viewModel.customerId.isNullOrEmpty().not()) {
                         startFragmentForResult<BankListFragment>(
-                            fragmentName = BankListFragment::class.java.name, bundle = bundleOf(
+                            fragmentName = BankListFragment::class.java.name,
+                            bundle = bundleOf(
                                 co.yap.yapcore.constants.Constants.ONBOARD_USER_LEAN to viewModel.leanOnBoardModel.value
+                            ),
+                            showToolBar = true,
+                            toolBarTitle = Translator.getString(
+                                requireContext(),
+                                Strings.screen_lean_bank_list_add_an_account
                             )
                         ) { resultCode, _ ->
                             if (resultCode == Activity.RESULT_OK)
@@ -125,14 +132,6 @@ class AccountListFragment :
                         }
                     } else toast("No customer ID found")
                 }
-            }
-        }
-    }
-
-    override fun onToolBarClick(id: Int) {
-        when (id) {
-            R.id.ivLeftIcon -> {
-                activity?.finish()
             }
         }
     }

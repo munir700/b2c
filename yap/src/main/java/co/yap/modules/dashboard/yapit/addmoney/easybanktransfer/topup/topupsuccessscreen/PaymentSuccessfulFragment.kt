@@ -1,5 +1,6 @@
 package co.yap.modules.dashboard.yapit.addmoney.easybanktransfer.topup.topupsuccessscreen
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
@@ -7,10 +8,13 @@ import androidx.lifecycle.Observer
 import co.yap.BR
 import co.yap.R
 import co.yap.databinding.FragmentPaymentSuccessfulBinding
+import co.yap.modules.dashboard.main.activities.YapDashboardActivity
 import co.yap.modules.dashboard.yapit.addmoney.main.AddMoneyBaseFragment
 import co.yap.yapcore.managers.SessionManager
+import com.yap.core.extensions.finishAffinity
 
-class PaymentSuccessfulFragment:AddMoneyBaseFragment<FragmentPaymentSuccessfulBinding, IPaymentSuccessful.ViewModel>(),
+class PaymentSuccessfulFragment :
+    AddMoneyBaseFragment<FragmentPaymentSuccessfulBinding, IPaymentSuccessful.ViewModel>(),
     IPaymentSuccessful.View {
     override fun getBindingVariable(): Int = BR.viewModel
 
@@ -22,20 +26,18 @@ class PaymentSuccessfulFragment:AddMoneyBaseFragment<FragmentPaymentSuccessfulBi
         super.onViewCreated(view, savedInstanceState)
         viewDataBinding.lifecycleOwner = this
         setObservers()
+        viewModel.getAccountBalanceRequest()
     }
 
     override fun setObservers() {
         viewModel.clickEvent.observe(this, onClickObserver)
-        SessionManager.cardBalance.observe(viewLifecycleOwner) { value ->
-            viewModel.setNewBalanceData(value.availableBalance.toString())
-        }
     }
 
     private val onClickObserver = Observer<Int> {
         when (it) {
             R.id.btnGoToDashboard -> {
-//                startActivity(Intent(requireContext(), YapDashboardActivity::class.java))
-//                activity?.finish()
+                startActivity(Intent(requireContext(), YapDashboardActivity::class.java))
+                finishAffinity()
             }
         }
     }

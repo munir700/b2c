@@ -1,10 +1,6 @@
 package co.yap.networking.leanteach.responsedtos.banklistmodels
 
 import android.os.Parcelable
-import co.yap.networking.leanteach.responsedtos.common.Availability
-import co.yap.networking.leanteach.responsedtos.common.InternationalDestinations
-import co.yap.networking.leanteach.responsedtos.common.InternationalTransferLimits
-import co.yap.networking.leanteach.responsedtos.common.TransferLimits
 import co.yap.networking.models.ApiResponse
 import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
@@ -28,3 +24,41 @@ data class BankListMainModel(
     @SerializedName("availability") var availability: Availability? = null,
     @Transient var status: String? = null
 ) : ApiResponse(), Parcelable
+
+@Parcelize
+data class TransferLimits(
+    @SerializedName("currency") var currency: String? = null,
+    @SerializedName("min") var min: Int? = null,
+    @SerializedName("max") var max: Int? = null
+) : Parcelable
+
+@Parcelize
+data class InternationalDestinations(
+    @SerializedName("country_iso_code") var countryIsoCode: String? = null,
+    @SerializedName("country_name") var countryName: String? = null
+) : Parcelable
+
+@Parcelize
+data class InternationalTransferLimits(
+    @SerializedName("currency") var currency: String? = null,
+    @SerializedName("min") var min: Int? = null,
+    @SerializedName("max") var max: Int? = null
+) : Parcelable
+
+@Parcelize
+data class Availability(
+    @SerializedName("active") var active: Active?,
+    @SerializedName("enabled") var enabled: Enabled?
+) : Parcelable
+
+@Parcelize
+data class Active(
+    @SerializedName("payments") var payments: Boolean? = null,
+    @SerializedName("data") var data: Boolean? = null
+) : Parcelable
+
+@Parcelize
+data class Enabled(
+    @SerializedName("payments") var payments: Boolean? = null,
+    @SerializedName("data") var data: Boolean? = null
+) : Parcelable

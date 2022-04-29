@@ -12,3 +12,13 @@ data class AccountListMainModel(
     @SerializedName("bank") var bank: BankListMainModel?,
     @SerializedName("leanCustomerAccounts") var leanCustomerAccounts: ArrayList<LeanCustomerAccounts>
 ) : ApiResponse(), Parcelable
+@Parcelize
+data class LeanCustomerAccounts(
+    @SerializedName("paymentSourceId") var paymentSourceId: String? = null,
+    @SerializedName("iban") var iban: String? = null,
+    @SerializedName("accountNumber") var accountNumber: String? = null,
+    @SerializedName("accountName") var accountName: String? = null,
+    @SerializedName("accountId") var accountId: String? = null,
+    @SerializedName("currency") var currency: String? = null,
+    @SerializedName("identifier") var identifier: String? = null
+) : ApiResponse(), Parcelable

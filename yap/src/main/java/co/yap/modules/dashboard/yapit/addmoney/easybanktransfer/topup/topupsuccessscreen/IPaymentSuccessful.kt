@@ -11,9 +11,10 @@ interface IPaymentSuccessful {
     }
 
     interface ViewModel : IBase.ViewModel<State> {
-        fun setNewBalanceData(balance: String)
         var clickEvent: SingleClickEvent
+        fun setNewBalanceData(balance: String)
         fun handlePressOnView(id: Int)
+        fun getAccountBalanceRequest()
     }
 
     interface State : IBase.State {

@@ -16,6 +16,7 @@ import co.yap.modules.dashboard.yapit.addmoney.main.AddMoneyBaseFragment
 import co.yap.modules.dashboard.yapit.topup.cardslisting.TopUpBeneficiariesActivity
 import co.yap.modules.dashboard.yapit.topup.topupbankdetails.TopUpBankDetailsFragment
 import co.yap.translation.Strings
+import co.yap.translation.Translator
 import co.yap.widgets.SpaceGridItemDecoration
 import co.yap.widgets.qrcode.QRCodeFragment
 import co.yap.yapcore.constants.Constants
@@ -76,7 +77,14 @@ class AddMoneyLandingFragment :
         when (it) {
             Constants.ADD_MONEY_INSTANT_BANK_TRANSFER -> {
                 //add firebase event
-                startFragment(fragmentName = AccountListFragment::class.java.name)
+                startFragment(
+                    fragmentName = AccountListFragment::class.java.name, showToolBar = true,
+                    toolBarTitle = Translator.getString(
+                        requireContext(),
+                        Strings.screen_lean_welcome_screen_title
+                    ),
+                    homeAsUpIndicator = R.drawable.ic_close
+                )
             }
             Constants.ADD_MONEY_TOP_UP_VIA_CARD -> {
                 trackEventWithScreenName(FirebaseEvent.CLICK_TOPUP_CARD)

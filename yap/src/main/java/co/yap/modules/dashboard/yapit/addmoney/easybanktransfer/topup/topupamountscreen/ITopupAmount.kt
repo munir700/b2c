@@ -4,7 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import co.yap.networking.leanteach.requestdtos.GetPaymentIntentIdModel
 import co.yap.networking.leanteach.responsedtos.accountlistmodel.LeanCustomerAccounts
 import co.yap.networking.leanteach.responsedtos.banklistmodels.BankListMainModel
-import co.yap.networking.leanteach.responsedtos.common.TransferLimits
+import co.yap.networking.leanteach.responsedtos.banklistmodels.TransferLimits
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 
