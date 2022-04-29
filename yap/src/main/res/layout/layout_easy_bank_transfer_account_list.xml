@@ -50,7 +50,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvChooseBank"
-            tools:listitem="@layout/item_account_list_group" />
+            tools:listitem="@layout/item_account_bank_list" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
