@@ -60,7 +60,6 @@ class PhoneVerificationSignInFragment :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setObservers()
-        viewModel.setFeatureFlagCall()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

@@ -66,7 +66,6 @@ class VerifyPasscodeFragment : MainChildFragment<FragmentVerifyPasscodeBinding ,
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         addObservers()
-        viewModel.setFeatureFlagCall()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

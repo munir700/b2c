@@ -24,6 +24,7 @@ interface IEmail {
         fun postDemographicData()
         fun sendVerificationEmail()
         fun stopTimer()
+        fun setFeatureFlagCall(email: String?, customerId: String?)
     }
 
     interface State : IBase.State {

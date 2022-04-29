@@ -28,7 +28,7 @@ interface IVerifyPasscode {
         var mobileNumber: String
         var EVENT_LOGOUT_SUCCESS: Int
         fun otpMessage(otpAction: String): String
-        fun setFeatureFlagCall()
+        fun setFeatureFlagCall(email: String?, customerId: String?)
     }
 
     interface State : IBase.State {

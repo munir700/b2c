@@ -183,6 +183,10 @@ class VerifyPasscodeViewModel(application: Application) :
                         )
                         trackEventWithAttributes(SessionManager.user)
                         state.loading = false
+                        setFeatureFlagCall(
+                            SessionManager.user?.currentCustomer?.email,
+                            SessionManager.user?.currentCustomer?.customerId
+                        )
                     }
                 }
                 is RetroApiResponse.Error -> {
@@ -273,7 +277,7 @@ class VerifyPasscodeViewModel(application: Application) :
         if (state.verifyPassCodeEnum == VerifyPassCodeEnum.ACCESS_ACCOUNT.name) "%s3" else SessionManager.helpPhoneNumber
     )
 
-    override fun setFeatureFlagCall() {
-        launch { FeatureFlagCall(context).getFeatureFlag()}
+    override fun setFeatureFlagCall(email: String?, customerId: String?) {
+        launch { FeatureFlagCall(context).getFeatureFlag(email, customerId) }
     }
 }

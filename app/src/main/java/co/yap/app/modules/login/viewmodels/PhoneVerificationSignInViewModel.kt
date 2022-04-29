@@ -178,6 +178,10 @@ class PhoneVerificationSignInViewModel(application: Application) :
                         trackEventWithAttributes(
                             SessionManager.user
                         )
+                        setFeatureFlagCall(
+                            SessionManager.user?.currentCustomer?.email,
+                            SessionManager.user?.currentCustomer?.customerId
+                        )
                     }
                     state.loading = false
                 }
@@ -198,7 +202,7 @@ class PhoneVerificationSignInViewModel(application: Application) :
         }
     }
 
-    override fun setFeatureFlagCall() {
-        launch { FeatureFlagCall(context).getFeatureFlag()}
+    override fun setFeatureFlagCall(email: String?, customerId: String?) {
+        launch { FeatureFlagCall(context).getFeatureFlag(email, customerId) }
     }
 }
