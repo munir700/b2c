@@ -3,12 +3,10 @@ package co.yap.modules.dashboard.yapit.addmoney.easybanktransfer.accountlist
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import co.yap.modules.dashboard.yapit.addmoney.main.AddMoneyBaseViewModel
-import co.yap.modules.location.kyc_additional_info.employment_info.amendment.DocumentsAdapter
 import co.yap.networking.leanteach.LeanTechApi
 import co.yap.networking.leanteach.LeanTechRepository
 import co.yap.networking.leanteach.responsedtos.LeanOnBoardModel
 import co.yap.networking.leanteach.responsedtos.banklistmodels.BankListMainModel
-import co.yap.networking.models.ApiResponse
 import co.yap.networking.models.RetroApiResponse
 import co.yap.widgets.State
 import co.yap.yapcore.SingleClickEvent
@@ -56,18 +54,28 @@ class AccountListViewModel(application: Application) :
                         } else {
                             setStateValue(State.success(""))
                             val accountListTemp: MutableList<AccountsListModel> = mutableListOf()
-                            var bankListMainModel= BankListMainModel()
+                            var bankListMainModel = BankListMainModel()
                             list.sortBy { it.bank?.name }
                             list.forEach { value ->
                                 with(value.bank) {
                                     this?.status = value.status
                                     this?.let { bankListMainModel = it }
-                                    accountListTemp.add(AccountsListModel(null,bankListMainModel)) //to use it for list header
+                                    accountListTemp.add(
+                                        AccountsListModel(
+                                            null,
+                                            bankListMainModel
+                                        )
+                                    ) //to use it for list header
                                 }
                                 with(value.leanCustomerAccounts) {
                                     sortBy { it.accountName }
                                     forEach { leanCustomerAccount ->
-                                        accountListTemp.add(AccountsListModel(leanCustomerAccount,bankListMainModel))
+                                        accountListTemp.add(
+                                            AccountsListModel(
+                                                leanCustomerAccount,
+                                                bankListMainModel
+                                            )
+                                        )
                                     }
                                 }
                             }

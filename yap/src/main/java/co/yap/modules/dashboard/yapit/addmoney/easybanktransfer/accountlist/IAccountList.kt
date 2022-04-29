@@ -2,7 +2,6 @@ package co.yap.modules.dashboard.yapit.addmoney.easybanktransfer.accountlist
 
 import androidx.lifecycle.MutableLiveData
 import co.yap.networking.leanteach.responsedtos.LeanOnBoardModel
-import co.yap.networking.models.ApiResponse
 import co.yap.widgets.MultiStateView
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
@@ -16,7 +15,7 @@ interface IAccountList {
         var accountList: MutableLiveData<MutableList<AccountsListModel>>
         val clickEvent: SingleClickEvent
         val leanOnBoardModel: MutableLiveData<LeanOnBoardModel>
-        var customerId : String?
+        var customerId: String?
         fun getAccountList()
         fun handlePressOnView(id: Int)
         fun onboardUser()

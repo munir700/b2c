@@ -18,7 +18,7 @@ class AccountListAdapter(
 
     private val bank = 1
     private val account = 2
-    private val accountBankListItemViewModel  = AccountBankListItemViewModel()
+    private val accountBankListItemViewModel = AccountBankListItemViewModel()
     private val accountListItemViewModel = AccountListItemViewModel()
 
     override fun getItemId(position: Int): Long {
@@ -34,14 +34,15 @@ class AccountListAdapter(
         viewType: Int
     ) = BaseViewHolder(view, viewModel, mDataBinding)
 
-    override fun getViewModel(viewType: Int) = if(viewType==bank) accountBankListItemViewModel else accountListItemViewModel
+    override fun getViewModel(viewType: Int) =
+        if (viewType == bank) accountBankListItemViewModel else accountListItemViewModel
 
     override fun getVariableId() = BR.viewModel
 
     override fun getItemViewType(position: Int): Int {
         return when {
-            list.size<=0 -> -1
-            list[position].leanCustomerAccounts==null -> bank
+            list.size <= 0 -> -1
+            list[position].leanCustomerAccounts == null -> bank
             else -> account
         }
     }
