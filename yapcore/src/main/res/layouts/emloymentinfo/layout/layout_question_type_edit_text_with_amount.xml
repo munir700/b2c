@@ -99,7 +99,7 @@
                         android:text="@={viewModel.questionUiFields.question.answer}"
                         android:textColor="@color/colorPrimaryDark"
                         android:textColorHint="@color/colorPrimaryDark"
-                        app:enableError="@{viewModel.questionUiFields.question.minimumValue.equals(0)? false:true}"
+                        app:enableError="@{viewModel.questionUiFields.question.minimumValue.equals(`0`)? false:true}"
                         app:validateMaxLengthMessage="@{viewModel.questionUiFields.key.equals(EmploymentQuestionIdentifier.SALARY_AMOUNT)? Translator.INSTANCE.getString(context,Strings.enter_greater_salary_amount) : Translator.INSTANCE.getString(context,Strings.enter_greater_deposit_amount) }"
                         app:validateMinimumValue="@{viewModel.questionUiFields.question.minimumValue}"
                         tools:text="1234567891" />
