@@ -10,14 +10,13 @@ import co.yap.yapcore.constants.Constants.KEY_PASSCODE
 import co.yap.yapcore.constants.Constants.KEY_THEME
 import co.yap.yapcore.constants.Constants.KEY_USERNAME
 import com.google.gson.Gson
-import java.lang.Exception
 
 /**
  * To improve the performanceSharedPreferenceManager  @constructor is private.
  * you must need to  access Singlaton instanse of SharedPreferenceManager
  * i.e SharedPreferenceManager.getInstance(context)
  * @see SingletonHolder
-* */
+ * */
 class SharedPreferenceManager private constructor(val context: Context) {
 
     private val PREFS_NAME = "YAPPref"
@@ -55,7 +54,8 @@ class SharedPreferenceManager private constructor(val context: Context) {
     fun getValueString(KEY_NAME: String): String? {
         return sharedPref.getString(KEY_NAME, null)
     }
-    fun getValueString(KEY_NAME: String,defaultValue:String): String? {
+
+    fun getValueString(KEY_NAME: String, defaultValue: String): String? {
         return sharedPref.getString(KEY_NAME, defaultValue)
     }
 
@@ -75,7 +75,7 @@ class SharedPreferenceManager private constructor(val context: Context) {
                 editor.remove(entry)
             }
             editor.apply()
-        }catch (ex:Exception){
+        } catch (ex: Exception) {
             ex.printStackTrace()
         }
     }
@@ -99,7 +99,7 @@ class SharedPreferenceManager private constructor(val context: Context) {
 
     fun getDecryptedUserName(): String? {
         return getValueString(KEY_USERNAME) ?: getValueString(KEY_MOBILE_NO)
-      //  return getValueString(KEY_USERNAME)
+        //  return getValueString(KEY_USERNAME)
     }
 
     fun savePassCodeWithEncryption(text: String) {
@@ -142,5 +142,4 @@ class SharedPreferenceManager private constructor(val context: Context) {
             if (referralInfo != null) Gson().toJson(referralInfo) else ""
         )
     }
-
 }

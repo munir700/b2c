@@ -33,6 +33,7 @@ import java.util.*
 
 interface CustomersApi {
     suspend fun signUp(signUpRequest: SignUpRequest): RetroApiResponse<SignUpResponse>
+    suspend fun getSystemConfigurations(): RetroApiResponse<BaseListResponse<SystemConfigurationInfo>>
     suspend fun sendVerificationEmail(verificationEmailRequest: SendVerificationEmailRequest): RetroApiResponse<OtpValidationResponse>
     suspend fun getAccountInfo(): RetroApiResponse<AccountInfoResponse>
     suspend fun postDemographicData(demographicDataRequest: DemographicDataRequest): RetroApiResponse<ApiResponse>

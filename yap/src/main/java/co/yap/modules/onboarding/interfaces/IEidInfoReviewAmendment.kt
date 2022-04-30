@@ -26,6 +26,7 @@ interface IEidInfoReviewAmendment {
         var dateOfBirth: MutableLiveData<String>
         var gender: String
         var expiryDate: String
+        var eidExpireLimitDays: MutableLiveData<Int>
         var citizenNumber: MutableLiveData<String>
         var caption: String
         var fullNameValid: Boolean

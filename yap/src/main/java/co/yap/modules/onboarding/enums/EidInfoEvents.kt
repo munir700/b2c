@@ -16,5 +16,6 @@ sealed class EidInfoEvents(val eventId: Int) {
     object EVENT_EID_UPDATE : EidInfoEvents(9)
     object EVENT_CITIZEN_NUMBER_ISSUE : EidInfoEvents(10)
     object EVENT_EID_EXPIRY_DATE_ISSUE : EidInfoEvents(11)
+    object EVENT_EID_ABOUT_TO_EXPIRY_DATE_ISSUE : EidInfoEvents(12)
 
 }
