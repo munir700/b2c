@@ -61,7 +61,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:YapSearchViewListener="@{viewModel.yapSearchViewChangeListener}"
                 app:layout_constraintTop_toBottomOf="@+id/tvChooseBank"
-                android:layout_width="0dp" />
+                android:layout_width="match_parent" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvBankList"
