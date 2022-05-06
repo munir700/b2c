@@ -58,6 +58,7 @@ class POBSelectionViewModel(application: Application) :
             state.eidNationality.set(
                 parentViewModel?.countries?.first { it.isoCountryCode2Digit == SessionManager.homeCountry2Digit }
                     ?.getName() ?: "")
+            state.selectedCountry.set(parentViewModel?.countries?.first { it.isoCountryCode2Digit == SessionManager.homeCountry2Digit })
             if (isFromAmendment()) {
                 state.previousEidNationality.set(parentViewModel?.countries?.first { it.isoCountryCode2Digit == SessionManager.homeCountry2Digit }
                     ?.getName())
@@ -78,6 +79,7 @@ class POBSelectionViewModel(application: Application) :
                             state.eidNationality.set(
                                 parentViewModel?.countries?.first { it.isoCountryCode2Digit == SessionManager.homeCountry2Digit }
                                     ?.getName() ?: "")
+                            state.selectedCountry.set(parentViewModel?.countries?.first { it.isoCountryCode2Digit == SessionManager.homeCountry2Digit })
                             if (isFromAmendment()) {
                                 state.previousEidNationality.set(parentViewModel?.countries?.first { it.isoCountryCode2Digit == SessionManager.homeCountry2Digit }
                                     ?.getName())
