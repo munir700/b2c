@@ -168,6 +168,8 @@ class AccountSelectionFragment : BaseBindingFragment<FragmentAccountSelectionBin
                 }
                 R.id.btnPersonal -> {
                     trackEventWithScreenName(FirebaseEvent.CLICK_GET_STARTED)
+                    navigate(R.id.action_accountSelectionFragment_to_mobileFragment2)
+                /*
                     findNavController().navigate(
                         R.id.action_accountSelectionFragment_to_onBaordingActivity,
                         Bundle().apply {
@@ -175,7 +177,7 @@ class AccountSelectionFragment : BaseBindingFragment<FragmentAccountSelectionBin
                                 getString(R.string.arg_account_type),
                                 AccountType.B2C_ACCOUNT
                             )
-                        })
+                        })*/
                 }
             }
         })

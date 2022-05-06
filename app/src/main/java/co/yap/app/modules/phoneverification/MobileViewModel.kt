@@ -1,14 +1,15 @@
-package co.yap.modules.onboarding.viewmodels
+package co.yap.app.modules.phoneverification
 
 import android.app.Application
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.TextView
 import androidx.lifecycle.MutableLiveData
-import co.yap.modules.onboarding.interfaces.IMobile
+import co.yap.app.main.MainChildViewModel
+import co.yap.modules.onboarding.enums.AccountType
 import co.yap.modules.onboarding.models.LoadConfig
+import co.yap.modules.onboarding.models.OnboardingData
 import co.yap.modules.onboarding.models.UserVerifierProvider
-import co.yap.modules.onboarding.states.MobileState
 import co.yap.modules.otp.getOtpMessageFromComposer
 import co.yap.networking.customers.responsedtos.sendmoney.Country
 import co.yap.networking.interfaces.IRepositoryHolder
@@ -26,7 +27,7 @@ import co.yap.yapcore.leanplum.trackEvent
 import java.util.*
 
 class MobileViewModel(application: Application) :
-    OnboardingChildViewModel<IMobile.State>(application),
+    MainChildViewModel<IMobile.State>(application),
     IMobile.ViewModel, IRepositoryHolder<MessagesRepository> {
 
     override val repository: MessagesRepository = MessagesRepository
@@ -34,13 +35,18 @@ class MobileViewModel(application: Application) :
     override val nextButtonPressEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
     override var clickEvent: SingleClickEvent = SingleClickEvent()
     override val countriesList: MutableLiveData<ArrayList<Country>?> = MutableLiveData()
+    override val isPhoneNumberEntered: MutableLiveData<Boolean> = MutableLiveData(false)
+    override var onboardingData: OnboardingData =
+        OnboardingData("", "", "", "", "", "", AccountType.B2C_ACCOUNT, "", "")
+
     override fun handlePressOnView(id: Int) {
         clickEvent.setValue(id)
     }
 
     override fun onResume() {
         super.onResume()
-        setProgress(20)
+        state.currentProgress.set(20)
+
     }
 
     override fun onCreate() {
@@ -73,7 +79,7 @@ class MobileViewModel(application: Application) :
     }
 
     override fun createOtp(success: (success: Boolean) -> Unit) {
-        parentViewModel?.onboardingData?.startTime = Date()
+        onboardingData.startTime = Date()
         val mobileNumber: String = state.mobile.trim().replace(" ", "")
         val formattedMobileNumber: String =
             state.countryCode.value?.trim() + " " + state.mobile.trim().replace(
@@ -88,7 +94,7 @@ class MobileViewModel(application: Application) :
                 CreateOtpOnboardingRequest(
                     countryCode,
                     mobileNumber,
-                    parentViewModel?.onboardingData?.accountType.toString(),
+                    onboardingData.accountType.toString(),
                     otpMessage = context.getOtpMessageFromComposer(
                         SignupEvents.SIGN_UP_NUMBER.name,
                         "%s1",
@@ -98,10 +104,10 @@ class MobileViewModel(application: Application) :
                 )
             )) {
                 is RetroApiResponse.Success -> {
+                    onboardingData.countryCode = countryCode
+                    onboardingData.mobileNo = mobileNumber
+                    onboardingData.formattedMobileNumber = formattedMobileNumber
                     success.invoke(true)
-                    parentViewModel?.onboardingData?.countryCode = countryCode
-                    parentViewModel?.onboardingData?.mobileNo = mobileNumber
-                    parentViewModel?.onboardingData?.formattedMobileNumber = formattedMobileNumber
                 }
                 is RetroApiResponse.Error -> {
                     state.error = response.error.message
@@ -132,7 +138,7 @@ class MobileViewModel(application: Application) :
     override val userVerifier: UserVerifierProvider = UserVerifierProvider()
 
     override fun verifyUser(countryCode: String, mobileNumber: String) {
-        parentViewModel?.onboardingData?.startTime = Date()
+        onboardingData.startTime = Date()
         state.loading = true
         LoadConfig(context).initYapRegion(countryCode)
         userVerifier.provideOtpVerifier(countryCode)

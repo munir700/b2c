@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/onboarding_navigation"
-    app:startDestination="@id/mobileFragment">
+    app:startDestination="@id/phoneVerificationFragment">
     <fragment
         android:id="@+id/emailFragment"
         android:name="co.yap.modules.onboarding.fragments.EmailFragment"
@@ -25,16 +25,6 @@
     </fragment>
 
     <fragment
-        android:id="@+id/mobileFragment"
-        android:name="co.yap.modules.onboarding.fragments.MobileFragment"
-        android:label="MobileFragment"
-        tools:layout="@layout/fragment_mobile">
-        <action
-            android:id="@+id/action_mobileFragment_to_phoneVerificationFragment"
-            app:destination="@id/phoneVerificationFragment" />
-    </fragment>
-
-    <fragment
         android:id="@+id/phoneVerificationFragment"
         android:name="co.yap.modules.onboarding.fragments.PhoneVerificationFragment"
         android:label="fragment_phone_verification"
@@ -44,8 +34,7 @@
             app:destination="@id/createPasscodeActivity2" />
         <action
             android:id="@+id/action_phoneVerificationFragment_to_nameFragment"
-            app:destination="@id/nameFragment"
-            app:popUpTo="@id/mobileFragment" />
+            app:destination="@id/nameFragment" />
         <action
             android:id="@+id/action_phoneVerificationFragment_to_waitingListFragment"
             app:destination="@id/waitingListFragment"

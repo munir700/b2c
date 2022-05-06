@@ -1,26 +1,27 @@
-package co.yap.modules.onboarding.fragments
+package co.yap.app.modules.phoneverification
 
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
+import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import co.yap.BR
-import co.yap.R
-import co.yap.databinding.FragmentMobileBinding
-import co.yap.modules.onboarding.interfaces.IMobile
+import co.yap.app.R
+import co.yap.app.databinding.FragmentMobileBinding
+import co.yap.app.main.MainChildFragment
+import co.yap.modules.onboarding.enums.AccountType
 import co.yap.modules.onboarding.models.CountryCode
-import co.yap.modules.onboarding.viewmodels.MobileViewModel
 import co.yap.networking.coreitems.CoreBottomSheetData
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.helpers.ExtraKeys
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.interfaces.OnItemClickListener
 import com.yap.ghana.ui.onboarding.main.YapGhanaMainActivity
 import com.yap.yappakistan.ui.onboarding.main.YapPkMainActivity
 
-
-class MobileFragment : OnboardingChildFragment<FragmentMobileBinding,IMobile.ViewModel>() {
+class MobileFragment : MainChildFragment<FragmentMobileBinding, IMobile.ViewModel>() {
 
     override fun getBindingVariable(): Int = BR.viewModel
 
@@ -35,7 +36,6 @@ class MobileFragment : OnboardingChildFragment<FragmentMobileBinding,IMobile.Vie
         getDataBindingView<FragmentMobileBinding>().tlPhoneNumber.requestFocusForField()
         viewModel.clickEvent.observe(viewLifecycleOwner, clickListenerHandler)
         setTouchListener()
-
         viewModel.userVerified.observe(viewLifecycleOwner, Observer {
             val mobile = viewModel.state.mobile.replace(" ", "")
             SharedPreferenceManager.getInstance(requireContext())
@@ -47,20 +47,14 @@ class MobileFragment : OnboardingChildFragment<FragmentMobileBinding,IMobile.Vie
                     launchActivity<YapGhanaMainActivity>() {
                         putExtra("countryCode", viewModel.state.countryCode.value)
                         putExtra("mobileNo", mobile)
-                        putExtra(
-                            "startOnboardingTime",
-                            viewModel.parentViewModel?.onboardingData?.startTime?.time
-                        )
+                        putExtra("startOnboardingTime", viewModel.onboardingData.startTime?.time)
                     }
                 }
                 CountryCode.PAK.countryCode -> {
                     launchActivity<YapPkMainActivity> {
                         putExtra("countryCode", viewModel.state.countryCode.value)
                         putExtra("mobileNo", mobile)
-                        putExtra(
-                            "startOnboardingTime",
-                            viewModel.parentViewModel?.onboardingData?.startTime?.time
-                        )
+                        putExtra("startOnboardingTime", viewModel.onboardingData.startTime?.time)
                     }
                 }
             }
@@ -87,10 +81,18 @@ class MobileFragment : OnboardingChildFragment<FragmentMobileBinding,IMobile.Vie
                 else {
                     viewModel.createOtp { success ->
                         if (success) {
-                            navigate(R.id.phoneVerificationFragment)
+                            viewModel.onboardingData.accountType = AccountType.B2C_ACCOUNT
+                            navigate(
+                                R.id.action_mobileFragment2_to_onboardingActivity, bundleOf(
+                                    ExtraKeys.ON_BOARDING_DATA.name to viewModel.onboardingData
+                                )
+                            )
                         }
                     }
                 }
+            }
+            R.id.tbBtnBack -> {
+                navigateBack()
             }
 
         }

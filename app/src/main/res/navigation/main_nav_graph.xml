@@ -45,6 +45,9 @@
             app:popExitAnim="@anim/slide_out_right"
             app:popUpTo="@id/accountSelectionFragment"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_accountSelectionFragment_to_mobileFragment2"
+            app:destination="@id/mobileFragment2" />
     </fragment>
     <activity
         android:id="@+id/onboardingActivity"
@@ -164,6 +167,15 @@
         android:name="co.yap.household.onboard.otherscreens.ExistingHouseholdActivity"
         android:label="OnBoardingExistingYAP"
         tools:layout="@layout/activity_on_boarding_existing_yap" />
+    <fragment
+        android:id="@+id/mobileFragment2"
+        android:name="co.yap.app.modules.phoneverification.MobileFragment"
+        tools:layout="@layout/fragment_mobile"
+        >
+        <action
+            android:id="@+id/action_mobileFragment2_to_onboardingActivity"
+            app:destination="@id/onboardingActivity" />
+    </fragment>
 
 </navigation>
 
