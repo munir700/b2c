@@ -336,7 +336,7 @@ class EmploymentQuestionnaireAmendmentViewModel(application: Application) :
             documentsList.value?.find { it.isMandatory && it.fileURL == null } == null
 
         validator?.isValidate?.value =
-            isValid && documentsValid && salaryAmount.parseToDouble() >= depositAmount.parseToDouble() && isInEditMode.value == true && state.ruleValid == true
+            isValid && documentsValid && salaryAmount.parseToDouble() > depositAmount.parseToDouble() && isInEditMode.value == true && state.ruleValid == true
     }
 
     private fun fetchParallelAPIResponses(
