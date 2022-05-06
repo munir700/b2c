@@ -109,14 +109,14 @@
             android:layout_marginBottom="@dimen/margin_medium"
             android:gravity="center"
             android:textColor="@color/colorHeatherTwo"
-            android:textSize="@dimen/_12sdp"
+            android:layout_marginHorizontal="@dimen/margin_normal_large"
             app:layout_constraintBottom_toTopOf="@+id/btnNameFine"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvFullName"
-            app:text="@{Strings.screen_onboarding_confirm_card_name_display_name_length_text}"
-            tools:text="@string/screen_onboarding_confirm_card_name_display_name_length_text" />
+            app:text="@{Strings.screen_onboarding_confirm_card_name_kfs_text}"
+            tools:text="@string/screen_onboarding_confirm_card_name_kfs_text" />
 
         <co.yap.widgets.CoreButton
             android:id="@+id/btnNameFine"

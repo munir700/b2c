@@ -74,6 +74,8 @@ object Constants {
 
     const val URL_YAP_WEBSITE = "https://www.yap.com/"
     const val URL_TERMS_CONDITION = "https://www.yap.com/yap-legal/"
+    const val URL_KEY_FACT_STATEMENT = "https://www.yap.com/wp-content/uploads/2022/04/YAP-Key-Fact-Statement-KFS.pdf"
+    const val URL_GOOGLE_DOCS_LINK="https://docs.google.com/gview?embedded=true&url="
     const val URL_DISCLAIMER_TERMS = "https://www.yap.com/terms/transfers"
     const val URL_FEES_AND_PRICING_PLAN = "https://www.yap.com/fees"
     const val URL_INSTAGRAM = "https://www.instagram.com/yap"
@@ -248,6 +250,7 @@ object Constants {
     const val KYC_LAST_NAME = "KYC_LAST_NAME"
     const val KYC_MIDDLE_NAME = "KYC_MIDDLE_NAME"
     const val NATIONALITY = "NATIONALITY"
+
     // KYC Amendments
     const val CONFIRMATION_DESCRIPTION = "CONFIRMATION_DESCRIPTION"
 }

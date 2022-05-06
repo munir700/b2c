@@ -406,4 +406,8 @@ interface CustomersRetroService {
 
     @GET(CustomersRepository.URL_GET_SIGN_UP_COUNTRIES)
     suspend fun getAppCountries(): Response<BaseListResponse<Country>>
+
+    //Key Facts Statement
+    @GET(CustomersRepository.URL_KEY_FACTS_STATEMENT)
+    suspend fun getKeyFactStatement(): Response<TaxInfoResponse>
 }

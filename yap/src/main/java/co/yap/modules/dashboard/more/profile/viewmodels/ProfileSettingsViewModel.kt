@@ -67,6 +67,7 @@ class ProfileSettingsViewModel(application: Application) :
 
     override fun onCreate() {
         super.onCreate()
+        state.kfsAcceptedTimeStamp.value = SessionManager.user?.kfsAcceptedTimeStamp.isNullOrBlank().not()
         toggleToolBarVisibility(false)
         state.isNotificationsEnabled.set(NotificationManagerCompat.from(context)
             .areNotificationsEnabled())
@@ -270,6 +271,23 @@ class ProfileSettingsViewModel(application: Application) :
                 trackEventWithScreenName(FirebaseEvent.DECLINE_NOTIFICATIONS)
                 SharedPreferenceManager.getInstance(context).save(ENABLE_LEAN_PLUM_NOTIFICATIONS, false)
                 state.isNotificationsEnabled.set(isGranted)
+            }
+        }
+    }
+
+    override fun fetchKeyFactStatementUrl(success: (url: String) -> Unit) {
+        launch {
+            state.loading = true
+            // Add KeyFacts Api
+            when (val res =repository.getKeyFactStatement()) {
+                is RetroApiResponse.Success -> {
+                    state.loading = false
+                    val resp = res.data.pdf
+                    success.invoke(resp?:"")
+                }
+                is RetroApiResponse.Error -> {
+                    state.loading = false
+                }
             }
         }
     }

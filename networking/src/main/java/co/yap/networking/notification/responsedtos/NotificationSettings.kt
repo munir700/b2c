@@ -8,5 +8,7 @@ import kotlinx.android.parcel.Parcelize
 data class NotificationSettings(
     @SerializedName("emailEnabled") var emailEnabled: Boolean? = true,
     @SerializedName("inAppEnabled") var inAppEnabled: Boolean? = true,
-    @SerializedName("smsEnabled") var smsEnabled: Boolean? = true
+    @SerializedName("smsEnabled") var smsEnabled: Boolean? = true,
+    @SerializedName("pushNotificationEnabled") var pushNotificationEnabled: Boolean? = false,
+    @SerializedName("optIn") var optIn: Boolean? = false
 ):ApiResponse(), Parcelable

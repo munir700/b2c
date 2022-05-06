@@ -21,6 +21,7 @@ import java.text.SimpleDateFormat
 fun Fragment.trackEvent(eventName: String, value: String = "") {
     fireEventWithAttribute(eventName, value)
 }
+
 fun Activity.trackEvent(eventName: String, value: String = "") {
     fireEventWithAttribute(eventName, value)
 }
@@ -71,6 +72,18 @@ fun ViewModel.trackEventWithAttributes(
     )
 }
 
+fun ViewModel.trackKfsWithAttributes(
+    smsNotifications: Boolean? = false,
+    emailNotifications: Boolean? = false,
+    inAppNotifications: Boolean? = false,
+) {
+    trackKFSAttributes(
+        smsNotifications,
+        emailNotifications,
+        inAppNotifications,
+    )
+}
+
 fun trackEventWithAttributes(
     user: AccountInfo?,
     signup_length: String? = null,
@@ -97,7 +110,10 @@ private fun trackAttributes(
     context: Context? = null,
     eidExpire: Boolean = false,
     eidExpireDate: String = "",
-    city: String?
+    city: String?,
+    smsNotifications: Boolean? = false,
+    emailNotifications: Boolean? = false,
+    inappNotifications: Boolean? = false,
 ) {
     user?.let {
         val info: HashMap<String, Any> = HashMap()
@@ -129,6 +145,9 @@ private fun trackAttributes(
             info[UserAttributes().customerId] = customerId
             Firebase.analytics.setUserId(customerId)
         }
+        info[UserAttributes().sMS_MarketingConsent] = smsNotifications ?: false
+        info[UserAttributes().email_MarketingConsent] = emailNotifications ?: false
+        info[UserAttributes().in_AppMessage_MarketingConsent] = inappNotifications ?: false
         it.uuid?.let { Leanplum.setUserAttributes(it, info) }
         Leanplum.forceContentUpdate(object : VariablesChangedCallback() {
             override fun variablesChanged() {
@@ -136,6 +155,22 @@ private fun trackAttributes(
             }
         })
     }
+}
+
+private fun trackKFSAttributes(
+    smsNotifications: Boolean? = false,
+    emailNotifications: Boolean? = false,
+    inappNotifications: Boolean? = false,
+) {
+    val info: HashMap<String, Any> = HashMap()
+    info[UserAttributes().sMS_MarketingConsent] = smsNotifications ?: false
+    info[UserAttributes().email_MarketingConsent] = emailNotifications ?: false
+    info[UserAttributes().in_AppMessage_MarketingConsent] = inappNotifications ?: false
+    Leanplum.forceContentUpdate(object : VariablesChangedCallback() {
+        override fun variablesChanged() {
+
+        }
+    })
 }
 
 @SuppressLint("SimpleDateFormat")
@@ -160,10 +195,11 @@ fun getFormattedDate(creationDate: String?): String {
 
 private fun isBioMetricEnabled(context: Context?): Boolean {
     return context?.let {
-        return@let (BiometricUtil.hasBioMetricFeature(it) && SharedPreferenceManager.getInstance(it).getValueBoolien(
-            KEY_TOUCH_ID_ENABLED,
-            false
-        ))
+        return@let (BiometricUtil.hasBioMetricFeature(it) && SharedPreferenceManager.getInstance(it)
+            .getValueBoolien(
+                KEY_TOUCH_ID_ENABLED,
+                false
+            ))
 
     } ?: false
 }
@@ -210,7 +246,6 @@ fun deleteLeanPlumMessage(messageId: String?) {
             val message = Leanplum.getInbox().messageForId(it)
             message.remove()
         }
-
     } catch (e: Exception) {
     }
 }

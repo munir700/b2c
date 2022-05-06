@@ -231,6 +231,8 @@ object Strings {
         "screen_onboarding_confirm_card_name_edit_full_name_text"
     const val screen_onboarding_confirm_card_name_btn_name_fine_text: String =
         "screen_onboarding_confirm_card_name_btn_name_fine_text"
+    const val screen_onboarding_confirm_card_name_kfs_text: String =
+        "screen_onboarding_confirm_card_name_kfs_text"
 
     //System permission screen
     const val screen_system_permission_text_title: String = "screen_system_permission_text_title"
@@ -438,6 +440,8 @@ object Strings {
         "screen_confirm_card_pin_display_title_terms_and_conditions"
     const val screen_confirm_card_pin_display_text_terms_and_conditions: String =
         "screen_confirm_card_pin_display_text_terms_and_conditions"
+    const val screen_confirm_card_pin_display_text_key_fact_statement: String =
+        "screen_confirm_card_pin_display_text_key_fact_statement"
     const val screen_confirm_card_pin_button_create_pin: String =
         "screen_confirm_card_pin_button_create_pin"
     const val screen_confirm_card_pin_display_text_error_sequence: String =
@@ -845,6 +849,8 @@ object Strings {
         "screen_profile_settings_display_text_about_us"
     const val screen_profile_settings_display_terms_and_conditions: String =
         "screen_profile_settings_display_terms_and_conditions"
+    const val screen_profile_settings_display_key_fact_statement: String =
+        "screen_profile_settings_display_key_fact_statement"
     const val screen_profile_settings_display_fees_and_pricing_plans: String =
         "screen_profile_settings_display_fees_and_pricing_plans"
     const val screen_profile_settings_display_text_instagram: String =
@@ -1815,6 +1821,12 @@ object Strings {
     //    Notification settings screen
     const val screen_notification_settings_display_text_toolbar_title: String =
         "screen_notification_settings_display_text_toolbar_title"
+    const val screen_notification_settings_display_text_promotion_title: String =
+        "screen_notification_settings_display_text_promotion_title"
+    const val screen_notification_settings_display_text_promotion_subtitle: String =
+        "screen_notification_settings_display_text_promotion_subtitle"
+    const val screen_notification_settings_display_text_all_notifications: String =
+        "screen_notification_settings_display_text_all_notifications"
     const val screen_notification_settings_display_text_in_app_notifications: String =
         "screen_notification_settings_display_text_in_app_notifications"
     const val screen_notification_settings_display_text_sms_notifications: String =
@@ -2611,13 +2623,17 @@ object Strings {
     const val screen_missing_info_review_required = "screen_missing_info_review_required"
 
     // KYC Amendments/ Missing Info Confirmation Screen
-    const val screen_missing_info_confirmation_button_done = "screen_missing_info_confirmation_button_done"
-    const val screen_missing_info_confirmation_display_all_set = "screen_missing_info_confirmation_display_all_set"
+    const val screen_missing_info_confirmation_button_done =
+        "screen_missing_info_confirmation_button_done"
+    const val screen_missing_info_confirmation_display_all_set =
+        "screen_missing_info_confirmation_display_all_set"
 
     const val screen_view_document_refresh_button_text = "screen_view_document_refresh_button_text"
     const val screen_view_document_file_size_not_fine = "screen_view_document_file_size_not_fine"
-    const val screen_view_document_otp_message_first_part = "screen_view_document_otp_message_first_part"
-    const val screen_view_document_otp_message_second_part = "screen_view_document_otp_message_second_part"
+    const val screen_view_document_otp_message_first_part =
+        "screen_view_document_otp_message_first_part"
+    const val screen_view_document_otp_message_second_part =
+        "screen_view_document_otp_message_second_part"
 
 //    Upload document dialogue
 
@@ -2629,4 +2645,24 @@ object Strings {
         "screen_upload_document_display_text_alert_got_it"
     const val screen_upload_document_item_subtitle: String =
         "screen_upload_document_item_subtitle"
+
+    //KFS notification Screen
+    const val screen_kfs_notification_nothanks_label: String =
+        "screen_kfs_notification_nothanks_label"
+    const val screen_kfs_notification_inapp_notification: String =
+        "screen_kfs_notification_inapp_notification"
+    const val screen_kfs_notification_email_notification: String =
+        "screen_kfs_notification_email_notification"
+    const val screen_kfs_notification_sms_notification: String =
+        "screen_kfs_notification_sms_notification"
+    const val screen_kfs_notification_accept_all_notification_label: String =
+        "screen_kfs_notification_accept_all_notification_label"
+    const val screen_kfs_notification_descrip: String =
+        "screen_kfs_notification_descrip"
+    const val screen_kfs_notification_title: String =
+        "screen_kfs_notification_title"
+    const val screen_kfs_notification_accept_no_notification_note: String =
+        "screen_kfs_notification_accept_no_notification_note"
+    const val screen_kfs_notification_accept_no_notification_label: String =
+        "screen_kfs_notification_accept_no_notification_label"
 }
