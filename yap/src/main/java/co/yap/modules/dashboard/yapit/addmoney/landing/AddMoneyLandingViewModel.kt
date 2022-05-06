@@ -3,11 +3,11 @@ package co.yap.modules.dashboard.yapit.addmoney.landing
 import android.app.Application
 import co.yap.R
 import co.yap.config.FeatureFlagIds
+import co.yap.config.FeatureFlagToggle
 import co.yap.modules.dashboard.yapit.addmoney.main.AddMoneyBaseViewModel
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
-import co.yap.yapcore.helpers.SharedPreferenceManager
 import com.liveperson.infra.utils.Utils.getResources
 
 class AddMoneyLandingViewModel(application: Application) :
@@ -36,15 +36,21 @@ class AddMoneyLandingViewModel(application: Application) :
         val list = mutableListOf<AddMoneyLandingOptions>()
         for (i in 0..4) {
             if (i == 0) {
-                if (isEasyTransferEnabled())
-                    list.add(
-                        AddMoneyLandingOptions(
-                            Constants.ADD_MONEY_INSTANT_BANK_TRANSFER,
-                            name = getResources().getStringArray(R.array.yap_it_add_money_title)[i],
-                            description = getResources().getStringArray(R.array.yap_it_add_money_desc)[i],
-                            image = getResources().getStringArray(R.array.yap_it_add_money_drawable)[i]
+                FeatureFlagToggle().isFeatureEnable(
+                    context,
+                    FeatureFlagIds.LeanTechPayments().lean_tech_payments
+                ) { hasFlag ->
+                    if (hasFlag) {
+                        list.add(
+                            AddMoneyLandingOptions(
+                                Constants.ADD_MONEY_INSTANT_BANK_TRANSFER,
+                                name = getResources().getStringArray(R.array.yap_it_add_money_title)[i],
+                                description = getResources().getStringArray(R.array.yap_it_add_money_desc)[i],
+                                image = getResources().getStringArray(R.array.yap_it_add_money_drawable)[i]
+                            )
                         )
-                    )
+                    }
+                }
             } else {
                 list.add(
                     AddMoneyLandingOptions(
@@ -65,9 +71,4 @@ class AddMoneyLandingViewModel(application: Application) :
         }
         return list
     }
-
-    fun isEasyTransferEnabled() = SharedPreferenceManager.getInstance(context).getValueBoolien(
-        FeatureFlagIds.LeanTechPayments().lean_tech_payments,
-        false
-    )
 }

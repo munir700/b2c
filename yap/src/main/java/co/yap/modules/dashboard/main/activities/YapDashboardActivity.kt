@@ -29,6 +29,8 @@ import androidx.viewpager.widget.ViewPager
 import co.yap.BR
 import co.yap.R
 import co.yap.billpayments.dashboard.BillPaymentsHomeActivity
+import co.yap.config.FeatureFlagIds
+import co.yap.config.FeatureFlagToggle
 import co.yap.databinding.ActivityYapDashboardBinding
 import co.yap.databinding.DialogChangeUnverifiedEmailBinding
 import co.yap.modules.dashboard.cards.analytics.main.activities.CardAnalyticsActivity
@@ -60,8 +62,6 @@ import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.enums.FeatureSet
 import co.yap.yapcore.firebase.FirebaseEvent
 import co.yap.yapcore.firebase.trackEventWithScreenName
-import co.yap.yapcore.flagsmith.ToggleFeature
-import co.yap.yapcore.flagsmith.getFeatureFlagClient
 import co.yap.yapcore.helpers.ExtraKeys
 import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.helpers.permissions.PermissionHelper
@@ -102,12 +102,11 @@ class YapDashboardActivity :
         setupPager()
         addObservers()
         addListeners()
-        getFeatureFlagClient.hasFeature(ToggleFeature.BILL_PAYMENTS.flag) { hasFlag ->
-            launch {
-//                if (hasFlag) {
-                setupNewYapButtons(hasFlag)
-//                }
-            }
+        FeatureFlagToggle().isFeatureEnable(
+            context,
+            FeatureFlagIds.BillPayment().bill_payments
+        ) { hasFlag ->
+            setupNewYapButtons(hasFlag)
         }
         lifecycleScope.launch {
             delay(100)

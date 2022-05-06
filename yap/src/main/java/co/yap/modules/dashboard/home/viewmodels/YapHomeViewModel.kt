@@ -3,6 +3,8 @@ package co.yap.modules.dashboard.home.viewmodels
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import co.yap.app.YAPApplication
+import co.yap.config.FeatureFlagIds
+import co.yap.config.FeatureFlagToggle
 import co.yap.modules.dashboard.home.enums.EnumWidgetTitles
 import co.yap.modules.dashboard.home.filters.models.TransactionFilters
 import co.yap.modules.dashboard.home.interfaces.IYapHome
@@ -25,8 +27,6 @@ import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.CardDeliveryStatus
 import co.yap.yapcore.enums.CardStatus
 import co.yap.yapcore.enums.PaymentCardStatus
-import co.yap.yapcore.flagsmith.ToggleFeature
-import co.yap.yapcore.flagsmith.getFeatureFlagClient
 import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.NotificationHelper
 import co.yap.yapcore.helpers.extentions.getFormattedDate
@@ -363,9 +363,10 @@ class YapHomeViewModel(application: Application) :
         launch {
             when (val response = transactionsRepository.requestCategoryBarData()) {
                 is RetroApiResponse.Success -> {
-                    try{
+                    try {
                         this.monthData?.postValue(response.data.categoryBarData.monthData)
-                    }catch (e:Exception){}
+                    } catch (e: Exception) {
+                    }
                 }
                 is RetroApiResponse.Error -> {
 
@@ -379,19 +380,20 @@ class YapHomeViewModel(application: Application) :
             when (val response = customerRepository.getDashboardWidget()) {
                 is RetroApiResponse.Success -> {
                     response.data.data?.let {
-                        getFeatureFlagClient.hasFeature(ToggleFeature.BILL_PAYMENTS.flag) { hasFlag ->
-                            launch {
-                                if (hasFlag) {
-                                    widgetList = it
-                                    dashboardWidgetList.postValue(getFilteredList(it))
-                                } else {
-                                    val updatedList = it.toMutableList()
-                                    val index = updatedList.map { it.name }
-                                        .indexOf(EnumWidgetTitles.BILLS.title)
-                                    updatedList.removeAt(index)
-                                    widgetList = updatedList
-                                    dashboardWidgetList.postValue(getFilteredList(updatedList))
-                                }
+                        FeatureFlagToggle().isFeatureEnable(
+                            context,
+                            FeatureFlagIds.BillPayment().bill_payments
+                        ) { hasFlag ->
+                            if (hasFlag) {
+                                widgetList = it
+                                dashboardWidgetList.postValue(getFilteredList(it))
+                            } else {
+                                val updatedList = it.toMutableList()
+                                val index = updatedList.map { it.name }
+                                    .indexOf(EnumWidgetTitles.BILLS.title)
+                                updatedList.removeAt(index)
+                                widgetList = updatedList
+                                dashboardWidgetList.postValue(getFilteredList(updatedList))
                             }
                         }
                     }
@@ -403,9 +405,9 @@ class YapHomeViewModel(application: Application) :
         }
     }
 
-    private fun getFilteredList(widgetList: MutableList<WidgetData>) =  widgetList.run {
-            this.filter { it.status == true}.toMutableList().also {
-                it.add(WidgetData(id = -1, name = "Edit"))
-            }
+    private fun getFilteredList(widgetList: MutableList<WidgetData>) = widgetList.run {
+        this.filter { it.status == true }.toMutableList().also {
+            it.add(WidgetData(id = -1, name = "Edit"))
+        }
     }
 }
