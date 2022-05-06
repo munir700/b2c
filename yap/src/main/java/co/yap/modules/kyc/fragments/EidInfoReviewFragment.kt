@@ -27,14 +27,20 @@ import co.yap.widgets.State
 import co.yap.widgets.Status
 import co.yap.yapcore.constants.RequestCodes.REQUEST_UQUDO
 import co.yap.yapcore.enums.AlertType
+import co.yap.yapcore.enums.SystemConfigurations
 import co.yap.yapcore.firebase.FirebaseEvent
 import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.DateUtils.getAge
 import co.yap.yapcore.helpers.Utils.hideKeyboard
+import co.yap.yapcore.helpers.customAlertDialog
 import co.yap.yapcore.helpers.alert
 import co.yap.yapcore.helpers.extentions.deleteTempFolder
+import co.yap.yapcore.helpers.extentions.parseToInt
 import co.yap.yapcore.helpers.showAlertDialogAndExitApp
+import co.yap.yapcore.leanplum.KYCEvents
+import co.yap.yapcore.leanplum.trackEvent
 import co.yap.yapcore.managers.SessionManager
+import com.yap.core.extensions.finish
 
 class EidInfoReviewFragment :
     KYCChildFragment<FragmentEidInfoReviewBinding, IEidInfoReview.ViewModel>(),
@@ -63,6 +69,8 @@ class EidInfoReviewFragment :
         viewModel.parentViewModel?.uqudoManager?.getPayloadData()?.let { identity ->
             viewModel.populateUqudoState(identity = identity)
         } ?: viewModel.requestAllAPIs(true)
+        viewModel.state.eidExpireLimitDays.value =
+            SessionManager.systemConfiguration.value?.get(SystemConfigurations.EID_EXPIRE_LIMIT_DAYS.key)?.value?.parseToInt()
     }
 
     private fun addObservers() {
@@ -79,7 +87,7 @@ class EidInfoReviewFragment :
                     }
                 })
 
-            state.AgeLimit?.observe(viewLifecycleOwner, Observer { limit ->
+            state.ageLimit?.observe(viewLifecycleOwner, Observer { limit ->
                 parentViewModel?.uqudoManager?.getDateOfBirth()?.let { dateOfBirth ->
                     state.isDateOfBirthValid.set(
                         getAge(dateOfBirth) >= limit
@@ -179,13 +187,16 @@ class EidInfoReviewFragment :
             REQUEST_UQUDO -> {
                 val uqudoJWT = data?.getStringExtra("data")
                 if (uqudoJWT.isNullOrBlank().not()) {
+                    trackEvent(KYCEvents.EID_SCAN_END.type)
                     viewModel.parentViewModel?.uqudoManager?.decodeEncodedUqudoToken(
                         uqudoJWT ?: ""
                     ) {
                         viewModel.eidStateLiveData.postValue(State.success(""))
                     }
                 } else if (viewModel.parentViewModel?.uqudoManager?.getPayloadData() != null && uqudoJWT.isNullOrBlank()) {
+                    trackEvent(KYCEvents.EID_SCAN_FAIL.type)
                 } else {
+                    trackEvent(KYCEvents.EID_SCAN_FAIL.type)
                     if (viewModel.parentViewModel?.uqudoManager?.getPayloadData() == null || viewModel.parentViewModel?.comingFrom?.value.isNullOrBlank()
                             .not()
                     ) navigateBack() else requireActivity().finish()
@@ -202,7 +213,7 @@ class EidInfoReviewFragment :
             eidStateLiveData.removeObservers(viewLifecycleOwner)
             parentViewModel?.uqudoManager?.getUqudoAccessToken()
                 ?.removeObservers(viewLifecycleOwner)
-            state.AgeLimit?.removeObservers(viewLifecycleOwner)
+            state.ageLimit?.removeObservers(viewLifecycleOwner)
         }
         super.onDestroyView()
     }
@@ -246,6 +257,7 @@ class EidInfoReviewFragment :
         with(viewModel.parentViewModel?.uqudoManager) {
             if (this?.isAccessTokenExpired() == true) viewModel.requestAllAPIs(false)
             else this?.initiateUqudoScanning()?.let { intent ->
+              trackEvent(KYCEvents.EID_SCAN_STARTED.type)
                 startActivityForResult(intent, REQUEST_UQUDO)
             }
         }
@@ -390,7 +402,22 @@ class EidInfoReviewFragment :
                 ) {
                     initializeUqudoScanner()
                 }
+                EidInfoEvents.EVENT_EID_ABOUT_TO_EXPIRY_DATE_ISSUE.eventId -> showAboutToExpireDialogue()
             }
+        }
+    }
+
+    private fun showAboutToExpireDialogue() {
+        context?.let { it ->
+            it.customAlertDialog(
+                title = getString(R.string.expiry_dialogue_title_oops),
+                message = getString(R.string.expiry_dialogue_message),
+                positiveButton = getString(R.string.common_text_ok),
+                cancelable = false,
+                positiveCallback = {
+                   navigateBack()
+                }
+            )
         }
     }
 }

@@ -92,7 +92,7 @@
                         android:layout_marginBottom="@dimen/_2sdp"
                         android:contentDescription="@string/empty_string"
                         app:setFlagDrawable="@{viewModel.state.otpDataModel.logoData!=null ?viewModel.state.otpDataModel.logoData.beneficiaryCountry:`` }"
-                        tools:background="@drawable/bitmap" />
+                        tools:background="@drawable/flag_ae" />
 
                 </FrameLayout>
             </RelativeLayout>

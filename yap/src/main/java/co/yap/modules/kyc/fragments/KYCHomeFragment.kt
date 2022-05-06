@@ -16,6 +16,8 @@ import co.yap.translation.Strings
 import co.yap.yapcore.enums.AccountStatus
 import co.yap.yapcore.firebase.FirebaseEvent
 import co.yap.yapcore.firebase.trackEventWithScreenName
+import co.yap.yapcore.leanplum.KYCEvents
+import co.yap.yapcore.leanplum.trackEvent
 import co.yap.yapcore.managers.SessionManager
 
 class KYCHomeFragment : KYCChildFragment<FragmentKycHomeBinding,IKYCHome.ViewModel>(), IKYCHome.View {
@@ -30,6 +32,7 @@ class KYCHomeFragment : KYCChildFragment<FragmentKycHomeBinding,IKYCHome.ViewMod
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         trackEventWithScreenName(FirebaseEvent.SCAN_ID)
+        trackEvent(KYCEvents.SCAN_ID.type)
 //        requireActivity().firebaseTagManagerEvent(FirebaseTagManagerModel(action = FirebaseEvents.SCAN_ID.event))
         shouldSkipScreen()
         addObservers()

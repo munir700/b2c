@@ -104,6 +104,15 @@
         <item name="alpha">0.7</item>
     </style>
 
+    <style name="Yap.Widget.TextInputLayout.PrefixForCurrency" parent="">
+        <item name="android:textSize">@dimen/text_size_h3</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="prefixTextColor">@color/darkSlateBlueFaded</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:lineSpacingExtra">8sp</item>
+        <item name="android:textColor">@color/greyDark</item>
+    </style>
+
     <style name="Yap.App.Widget.TextInputLayout.Filled.Drawable" parent="Widget.MaterialComponents.TextInputLayout.FilledBox">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>

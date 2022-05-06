@@ -18,6 +18,8 @@ import co.yap.yapcore.helpers.DateUtils.nextYear
 import co.yap.yapcore.helpers.SingletonHolder
 import co.yap.yapcore.helpers.extentions.saveEidTemp
 import co.yap.yapcore.helpers.jwtparser.JWT
+import co.yap.yapcore.leanplum.KYCEvents
+import co.yap.yapcore.leanplum.trackEvent
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.model.GlideUrl
 import com.bumptech.glide.load.model.LazyHeaders
@@ -131,11 +133,13 @@ class UqudoScannerManager private constructor(val context: Context) : IUqudoMana
             )
             { isFrontImageDownloaded, msg ->
                 if (isFrontImageDownloaded) {
+                    trackEvent(KYCEvents.SCAN_FRONT.type)
                     downloadImageWithGlide(
                         payload.documents[0].scan?.backImageId ?: "",
                         "${fetchDocumentFrontDate()?.identityNumber}Back", BACK_IMAGE_RESOURCE_PATH
                     ) { isBackImageDownloaded, msg ->
                         if (isBackImageDownloaded) {
+                            trackEvent(KYCEvents.SCAN_BACK.type)
                             success.invoke(true, msg)
                         } else {
                             success.invoke(false, msg)

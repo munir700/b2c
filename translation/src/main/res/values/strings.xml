@@ -68,6 +68,7 @@
     <string name="default_regex_validation_message">The field value does not match the
         required format.
     </string>
+    <string name="common_button_text_share">Share</string>
     <!--Validation Error Messages End-->
     <string name="error_message_phone_email_validation">Invalid Email or Phone format</string>
     <string name="common_display_text_on_hold_limit_error">You have exceeded your limit for held on transactions, please enter an amount less than %1s</string>
@@ -534,7 +535,7 @@
     <string name="screen_more_detail_display_text_account">Account</string>
     <string name="screen_more_detail_display_text_copied_to_clipboard">Copied to clipboard</string>
     <string name="screen_more_atm_cdm">ATM &amp; CDM</string>
-    <string name="screen_more_invite_a_friend">Invite a friend</string>
+    <string name="screen_more_invite_a_friend">Refer a friend</string>
     <string name="screen_more_help_and_support">Help and support</string>
     <string name="screen_more_subscription">Subscriptions</string>
     <string name="screen_more_gifts">Gifts</string>
@@ -933,7 +934,6 @@
     <string name="screen_add_topup_bank_bic_label_text">SWIFT/BIC</string>
     <string name="screen_add_topup_bank_account_number_label_text">Account number</string>
     <string name="screen_add_topup_bank_address_label_text">Bank &amp; Address</string>
-    <string name="screen_add_topup_bank_core_btn_label_text">Share</string>
 
     <!--Screen add top up card -->
     <string name="screen_add_topup_card_display_text_title">Enter your card details</string>
@@ -1068,7 +1068,6 @@
     <string name="screen_yap_house_hold_success_display_text_share_email">Email address</string>
     <string name="screen_yap_house_hold_success_display_text_share_mobile_no">Mobile number</string>
     <string name="screen_yap_house_hold_success_display_text_share_pass_code">Temporary passcode</string>
-    <string name="screen_yap_house_hold_success_button_text_share">Share</string>
     <string name="screen_yap_house_hold_success_button_text_goto_house_hold">Go to Household</string>
 
     <!-- YAP Household Card Confirm payment screen -->
@@ -1164,11 +1163,18 @@
     <string name="screen_your_achievements_display_text_toolbar_title">Your achievements</string>
 
 
+<!--    &lt;!&ndash;  Invite a friend screen  &ndash;&gt;-->
+<!--    <string name="screen_invite_friend_text_title">Spread the word</string>-->
+<!--    <string name="screen_invite_friend_text_reward">Tell your friends about us!</string>-->
+<!--    <string name="screen_invite_friend_text_referal_reward">Life is better when you YAP together! That\'s not all, your friends will also get AED 50.</string>-->
+<!--    <string name="screen_invite_friend_text_referal_code">Share your referral link</string>-->
+<!--    <string name="screen_invite_friend_display_text_share_url">Connect with me on YAP! An innovative digital banking app that gives you total control of your finances.\n\n%1s</string>-->
+
     <!--  Invite a friend screen  -->
-    <string name="screen_invite_friend_display_text_title">Refer a friend</string>
-    <string name="screen_invite_friend_display_text_reward">Tell your friends about us!</string>
-    <string name="screen_invite_friend_display_text_referal_reward">Sharing is sweet, and it’s even better when you do it with friends. Send this special link to your special people so they change the way they bank too!</string>
-    <string name="screen_invite_friend_display_text_referal_code">Share your referral link</string>
+    <string name="screen_invite_friend_text_title">Refer a friend</string>
+    <string name="screen_invite_friend_text_reward">Tell your friends about us!</string>
+    <string name="screen_invite_friend_text_referal_reward">Sharing is sweet, and it’s even better when you do it with friends. Send this special link to your special people so they change the way they bank too!</string>
+    <string name="screen_invite_friend_text_referal_code">Share your referral link</string>
     <string name="screen_invite_friend_button_share">Share</string>
     <string name="screen_invite_friend_display_text_share_url">Connect with me on YAP! An innovative digital banking app that gives you total control of your finances.\n\n%1s</string>
 
@@ -1486,7 +1492,7 @@
     <string name="screen_employment_information_selection_display_text_we_only_ask_this_for_administrative_purpose">We only ask you this questions for administrative purpose. It does not impact your ability to sign up to a YAP account. </string>
     <string name="screen_employment_information_selection_display_button_text_next">Next</string>
     <string name="screen_employment_information_dialog_display_text_heading">Why do we ask about your total monthly income?</string>
-    <string name="screen_employment_information_dialog_display_text_subheading">There is no minimum monthly income requirement to sign up to YAP. We only ask this question for compliance purposes to safeguard your account</string>
+    <string name="screen_employment_information_dialog_display_text_subheading">We ask this question for compliance purposes to safeguard your account</string>
     <string name="screen_employment_information_dialog_button_text_close">Close</string>
     <string name="screen_employment_information_cash_dialog_display_text_heading">For those people who still use cash, how much cash will you add to YAP per month?</string>
     <string name="screen_employment_information_cash_dialog_display_text_subheading">We are asking about CASH only that would be deposited in a bank machine.  We only ask this question for compliance purposes to safeguard your account.</string>
@@ -1712,4 +1718,13 @@
     <string name="screen_view_document_file_size_not_fine">Your file size is too big. Please upload a file less than 25MB to proceed</string>
 
     <string name="country_encoded_base64">W3sKImlzb0NvdW50cnlDb2RlM0RpZ2l0IjoiUEFLIiwKImlzb0NvdW50cnlDb2RlMkRpZ2l0IjoiUEsiLAoibmFtZSI6IiAgIFBha2lzdGFuIn0sCnsKImlzb0NvdW50cnlDb2RlM0RpZ2l0IjoiQVJFIiwKImlzb0NvdW50cnlDb2RlMkRpZ2l0IjoiQUUiLAoibmFtZSI6IlVuaXRlZCBBcmFiIEVtaXJhdGVzIn0sCnsKImlzb0NvdW50cnlDb2RlM0RpZ2l0IjoiR0hBIiwKImlzb0NvdW50cnlDb2RlMkRpZ2l0IjoiR0giLAoibmFtZSI6IkdoYW5hIn0KXQ==</string>
+
+    <!-- EID expiry not accept -->
+    <string name="expiry_dialogue_title_oops">Oops!</string>
+    <string name="expiry_dialogue_message"> Looks like your Emirates ID is about to expire. Please renew and re-scan your ID in order to continue.</string>
+
+    <!--  Error message on Employment Questioner-->
+    <string name="enter_greater_salary_amount">Please enter an amount greater than AED 1000</string>
+    <string name="enter_greater_deposit_amount">Please enter minimum AED 1000 to proceed</string>
+
 </resources>

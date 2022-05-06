@@ -1464,8 +1464,8 @@ object Strings {
         "screen_add_topup_bank_account_number_label_text"
     const val screen_add_topup_bank_address_label_text: String =
         "screen_add_topup_bank_address_label_text"
-    const val screen_add_topup_bank_core_btn_label_text: String =
-        "screen_add_topup_bank_core_btn_label_text"
+    const val common_button_text_share: String =
+        "common_button_text_share"
 
 
     //Screen add top up card
@@ -1690,8 +1690,6 @@ object Strings {
         "screen_yap_house_hold_success_display_text_share_pass_code"
     const val screen_yap_house_hold_success_display_text_share_mobile_no: String =
         "screen_yap_house_hold_success_display_text_share_mobile_no"
-    const val screen_yap_house_hold_success_button_text_share: String =
-        "screen_yap_house_hold_success_button_text_share"
     const val screen_yap_house_hold_success_button_text_goto_house_hold: String =
         "screen_yap_house_hold_success_button_text_goto_house_hold"
 
@@ -1831,16 +1829,14 @@ object Strings {
         "screen_notification_listing_display_text_toolbar_title"
 
     //    Invite a friend screen
-    const val screen_invite_friend_display_text_title: String =
-        "screen_invite_friend_display_text_title"
-    const val screen_invite_friend_display_text_reward: String =
-        "screen_invite_friend_display_text_reward"
-    const val screen_invite_friend_display_text_referal_reward: String =
-        "screen_invite_friend_display_text_referal_reward"
-    const val screen_invite_friend_display_text_referal_code: String =
-        "screen_invite_friend_display_text_referal_code"
-    const val screen_invite_friend_button_share: String =
-        "screen_invite_friend_button_share"
+    const val screen_invite_friend_text_title: String =
+        "screen_invite_friend_text_title"
+    const val screen_invite_friend_text_reward: String =
+        "screen_invite_friend_text_reward"
+    const val screen_invite_friend_text_referal_reward: String =
+        "screen_invite_friend_text_referal_reward"
+    const val screen_invite_friend_text_referal_code: String =
+        "screen_invite_friend_text_referal_code"
     const val screen_invite_friend_display_text_share_url: String =
         "screen_invite_friend_display_text_share_url"
 
@@ -2639,4 +2635,16 @@ object Strings {
         "screen_upload_document_display_text_alert_got_it"
     const val screen_upload_document_item_subtitle: String =
         "screen_upload_document_item_subtitle"
+
+    //      EID expiry not accept
+    const val expiry_dialogue_title_oops: String =
+        "expiry_dialogue_title_oops"
+    const val expiry_dialogue_message: String =
+        "expiry_dialogue_message"
+
+    //     Error message on Employment Questioner
+    const val enter_greater_salary_amount: String =
+        "enter_greater_salary_amount"
+    const val enter_greater_deposit_amount: String =
+        "enter_greater_deposit_amount"
 }
