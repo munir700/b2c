@@ -9,5 +9,5 @@ import co.yap.yapcore.BaseState
 class KfsNotificationState : BaseState(), IKfsNotification.State {
     override var valid: ObservableBoolean = ObservableBoolean(false)
     override var notificationMap: MutableMap<NotificationType, Boolean?> = mutableMapOf()
-    override var isNotificationSaved: MutableLiveData<Boolean> = MutableLiveData(false)
+    override var isNotificationSaved: MutableLiveData<Boolean> = MutableLiveData(true)
 }

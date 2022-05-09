@@ -103,6 +103,7 @@ class KfsNotificationFragment :
 
     private fun addObservers() {
         viewModel.clickEvent.observe(viewLifecycleOwner, clickListenerHandler)
+
         getViewBinding().rb2.setOnCheckedChangeListener(this)
         getViewBinding().rb1.setOnCheckedChangeListener(this)
         getViewBinding().cb1.setOnCheckedChangeListener(this)
@@ -110,11 +111,11 @@ class KfsNotificationFragment :
         getViewBinding().cb3.setOnCheckedChangeListener(this)
     }
 private fun onBoardUser(){
-    viewModel.signUp {
-        if (viewModel.state.isNotificationSaved.value == true) navigateBack()
-        else viewModel.saveNotificationSettings { saved ->
-            if (saved) navigateBack()
-        }
+    if (viewModel.state.isNotificationSaved.value == true) viewModel.signUp {
+        if (viewModel.state.isNotificationSaved.value == true)  navigateBack() else showToast("Sorry we are unable to save your Notification Settings please try again.")
+    }
+    else viewModel.saveNotificationSettings(true) { saved ->
+        if (saved) navigateBack()
     }
 }
     override fun onDestroyView() {

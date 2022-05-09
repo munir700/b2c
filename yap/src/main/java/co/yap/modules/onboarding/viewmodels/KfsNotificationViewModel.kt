@@ -22,6 +22,7 @@ import co.yap.yapcore.helpers.extentions.toast
 import co.yap.yapcore.leanplum.SignupEvents
 import co.yap.yapcore.leanplum.trackEvent
 import co.yap.yapcore.leanplum.trackKfsWithAttributes
+import kotlinx.coroutines.delay
 import java.util.*
 
 class KfsNotificationViewModel(application: Application) :
@@ -120,7 +121,8 @@ class KfsNotificationViewModel(application: Application) :
                     trackEventWithScreenName(FirebaseEvent.SIGNUP_EMAIL)
                     SharedPreferenceManager.getInstance(context)
                         .saveUserNameWithEncryption(parentViewModel?.onboardingData?.email ?: "")
-                    saveNotificationSettings { isNotificationSaved ->
+                    state.isNotificationSaved.value = false
+                    saveNotificationSettings(false) { isNotificationSaved ->
                         state.isNotificationSaved.value = isNotificationSaved
                         success.invoke()
                     }
@@ -136,8 +138,9 @@ class KfsNotificationViewModel(application: Application) :
         }
     }
 
-    fun saveNotificationSettings(success: (isSaved: Boolean) -> Unit) {
+    fun saveNotificationSettings(showLoader : Boolean, success: (isSaved: Boolean) -> Unit) {
         launch {
+            if (showLoader) state.loading = true
             when (val response = notificationRepository.saveNotificationSettings(
                 NotificationSettings(
                     emailEnabled = state.notificationMap[NotificationType.EMAIL_NOTIFICATION]
