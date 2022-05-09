@@ -253,6 +253,9 @@ object Constants {
     // KYC Amendments
     const val CONFIRMATION_DESCRIPTION = "CONFIRMATION_DESCRIPTION"
 
+    //SYSTEM CONFIGURATION
+    const val SYSTEM_CONFIGURATION = "SYSTEM_CONFIGURATION"
+
     // Lean Screens
     const val ONBOARD_USER_LEAN = "ONBOARD_USER_LEAN"
     const val CUSTOMER_ID_LEAN = "CUSTOMER_ID_LEAN"

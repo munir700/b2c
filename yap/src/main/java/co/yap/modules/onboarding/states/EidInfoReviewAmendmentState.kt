@@ -58,7 +58,7 @@ class EidInfoReviewAmendmentState : BaseState(), IEidInfoReviewAmendment.State {
             field = value
             notifyPropertyChanged(BR.expiryDate)
         }
-
+    override var eidExpireLimitDays: MutableLiveData<Int> = MutableLiveData()
     @get:Bindable
     override var fullNameValid: Boolean = false
         set(value) {

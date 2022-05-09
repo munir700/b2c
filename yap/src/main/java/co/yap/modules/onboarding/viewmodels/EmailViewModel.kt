@@ -29,8 +29,10 @@ import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.toast
 import co.yap.yapcore.leanplum.SignupEvents
 import co.yap.yapcore.leanplum.trackEvent
+import co.yap.yapcore.leanplum.trackEventWithAttributes
 import co.yap.yapcore.managers.SessionManager
 import co.yap.yapcore.managers.saveUserDetails
+import co.yap.yapcore.managers.setCrashlyticsUser
 import kotlinx.coroutines.delay
 import java.util.*
 import java.util.concurrent.TimeUnit
@@ -205,10 +207,12 @@ class EmailViewModel(application: Application) :
             when (val response = repository.getAccountInfo()) {
                 is RetroApiResponse.Success -> {
                     if (response.data.data.isNotEmpty()) {
+                        SessionManager.getSystemConfigurationInfo(context)
                         val accountInfo: AccountInfo = response.data.data[0]
                         parentViewModel?.onboardingData?.ibanNumber = accountInfo.iban
                         delay(500)
                         SessionManager.user = accountInfo
+                        SessionManager.user.setCrashlyticsUser()
                         context.saveUserDetails(
                             SessionManager.user?.currentCustomer?.mobileNo,
                             CountryCode.UAE.countryCode,
@@ -217,6 +221,7 @@ class EmailViewModel(application: Application) :
                             )
                         )
                         SessionManager.setupDataSetForBlockedFeatures(SessionManager.card.value)
+                        trackEventWithAttributes(SessionManager.user)
                         state.valid = true
                         state.isWaiting = accountInfo.isWaiting
                         state.loading = false

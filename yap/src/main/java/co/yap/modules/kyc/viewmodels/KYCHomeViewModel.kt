@@ -47,7 +47,7 @@ class KYCHomeViewModel(application: Application) : KYCChildViewModel<IKYCHome.St
             state.loading = true
             when (val response = repository.getDocuments()) {
                 is RetroApiResponse.Success -> {
-                    response.data.data?.let {
+                    response.data.data?.filter { it.documentType == "EMIRATES_ID" }?.let {
                         if (it.isNotEmpty()) state.eidScanStatus = DocScanStatus.DOCS_UPLOADED
                     }
                     state.loading = false

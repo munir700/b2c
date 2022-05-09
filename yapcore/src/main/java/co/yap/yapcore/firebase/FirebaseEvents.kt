@@ -46,7 +46,7 @@ enum class FirebaseEvent(val event: String?, val screenName: String?) {
 
     /**	Users clicks next after entering name	*/
     SIGNUP_NAME(
-        "	signup_name",
+        "signup_name",
         "Name_01c"
     ),
 
@@ -58,7 +58,7 @@ enum class FirebaseEvent(val event: String?, val screenName: String?) {
 
     /**	User clicks next after successful email input	*/
     SIGNUP_EMAIL_SUCCESS(
-        "	signup_email_success",
+        "signup_email_success",
         "Email_01d"
     ),
 
@@ -82,7 +82,7 @@ enum class FirebaseEvent(val event: String?, val screenName: String?) {
 
     /**	User clicks on 'Skip and go to dashboard' button in the Scan id screen	*/
     CLICK_SKIP_EID(
-        "	click_skip_eid	",
+        "click_skip_eid	",
         "Verification_Process_01a"
     ),
 

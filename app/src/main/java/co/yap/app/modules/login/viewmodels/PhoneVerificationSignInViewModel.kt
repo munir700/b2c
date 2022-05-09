@@ -32,6 +32,7 @@ import co.yap.yapcore.helpers.extentions.getColors
 import co.yap.yapcore.leanplum.trackEventWithAttributes
 import co.yap.yapcore.managers.SessionManager
 import co.yap.yapcore.managers.saveUserDetails
+import co.yap.yapcore.managers.setCrashlyticsUser
 
 class PhoneVerificationSignInViewModel(application: Application) :
     MainChildViewModel<IPhoneVerificationSignIn.State>(application),
@@ -166,8 +167,10 @@ class PhoneVerificationSignInViewModel(application: Application) :
             when (val response = customersRepository.getAccountInfo()) {
                 is RetroApiResponse.Success -> {
                     if (response.data.data.isNotEmpty()) {
+                        SessionManager.getSystemConfigurationInfo(context)
                         SessionManager.user = response.data.data[0]
                         accountInfo.postValue(response.data.data[0])
+                        SessionManager.user.setCrashlyticsUser()
                         context.saveUserDetails(
                             SessionManager.user?.currentCustomer?.mobileNo,
                             CountryCode.UAE.countryCode,

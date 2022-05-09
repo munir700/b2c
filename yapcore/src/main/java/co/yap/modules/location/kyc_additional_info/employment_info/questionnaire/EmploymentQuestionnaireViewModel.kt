@@ -319,9 +319,8 @@ class EmploymentQuestionnaireViewModel(application: Application) :
                     ?.containsError?.set(false)
             }
         }
-
-       validator?.isValidate?.value =
-            isValid && salaryAmount.parseToDouble() >= depositAmount.parseToDouble()
+        validator?.isValidate?.value =
+            isValid && salaryAmount.parseToDouble() > depositAmount.parseToDouble() && validator?.isValidate?.value == true
     }
 
     override fun hasKeyInAmendmentMap(key: String?): Boolean {
@@ -449,7 +448,7 @@ class EmploymentQuestionnaireViewModel(application: Application) :
                 EmploymentInfoRequest(
                     employmentStatus = status.name,
                     companyName = getDataForPosition(0).getAnswer(),
-                    typeOfSelfEmployment= selfEmploymentTypes().find {
+                    typeOfSelfEmployment = selfEmploymentTypes().find {
                         it.employmentType == getDataForPosition(
                             1
                         ).getAnswer().trim()
@@ -522,7 +521,7 @@ class EmploymentQuestionnaireViewModel(application: Application) :
                         } else if (employmentStatus == EmploymentStatus.OTHER) {
                             selectedQuestionItemPosition = 0
                             val objQuestion = getDataForPosition(selectedQuestionItemPosition)
-                            objQuestion.question.answer.set(res.employmentTypeValue?:"")
+                            objQuestion.question.answer.set(res.employmentTypeValue ?: "")
                             questionsList[selectedQuestionItemPosition] = objQuestion
                             if (objQuestion.question.questionType == QuestionType.DROP_DOWN_FIELD)
                                 objQuestion.question.previousValue.set(objQuestion.question.answer.get())
@@ -542,13 +541,13 @@ class EmploymentQuestionnaireViewModel(application: Application) :
 
     override fun onValidationSuccess(validator: Validator) {
         super.onValidationSuccess(validator)
-       // state.ruleValid = true
-      //  validate()
+        // state.ruleValid = true
+        //  validate()
     }
 
     override fun onValidationError(validator: Validator) {
         super.onValidationError(validator)
-       // state.ruleValid = false
+        // state.ruleValid = false
     }
 
     //check if Amendment exist or not
