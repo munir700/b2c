@@ -7,4 +7,5 @@ class Document {
     @SerializedName("imageText") var imageText: String? = ""
     @SerializedName("documentType") var documentType: String? = ""
     @SerializedName("pages") var pages: List<DocumentPage>? = arrayListOf()
+    @SerializedName("documentType") var documentType: String? = ""
 }

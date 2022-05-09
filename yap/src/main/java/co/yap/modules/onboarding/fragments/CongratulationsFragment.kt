@@ -76,11 +76,6 @@ class CongratulationsFragment : OnboardingChildFragment<FragmentOnboardingCongra
         val display = activity?.windowManager?.defaultDisplay
         display?.getRectSize(windowSize)
         rootContainer.children.forEach { it.alpha = 0f }
-
-        SessionManager.onAccountInfoSuccess.observe(this, Observer {
-            if (it)
-                viewModel.trackEventWithAttributes(SessionManager.user)
-        })
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

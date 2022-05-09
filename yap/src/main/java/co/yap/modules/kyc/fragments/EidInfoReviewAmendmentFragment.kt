@@ -30,15 +30,18 @@ import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.constants.RequestCodes.REQUEST_UQUDO
 import co.yap.yapcore.enums.AlertType
+import co.yap.yapcore.enums.SystemConfigurations
 import co.yap.yapcore.firebase.FirebaseEvent
 import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.*
 import co.yap.yapcore.helpers.extentions.deleteTempFolder
 import co.yap.yapcore.helpers.extentions.launchBottomSheet
 import co.yap.yapcore.helpers.extentions.launchSheet
+import co.yap.yapcore.helpers.extentions.parseToInt
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.SessionManager
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog
+import com.yap.core.extensions.finish
 import java.util.*
 
 
@@ -69,6 +72,8 @@ class EidInfoReviewAmendmentFragment :
         viewModel.parentViewModel?.uqudoManager?.getPayloadData()?.let { identity ->
             viewModel.populateUqudoState(identity = identity)
         } ?: viewModel.requestAllAPIs(true)
+        viewModel.state.eidExpireLimitDays.value =
+            SessionManager.systemConfiguration.value?.get(SystemConfigurations.EID_EXPIRE_LIMIT_DAYS.key)?.value?.parseToInt()
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -532,6 +537,7 @@ class EidInfoReviewAmendmentFragment :
                 ) {
                     initializeUqudoScanner()
                 }
+                EidInfoEvents.EVENT_EID_ABOUT_TO_EXPIRY_DATE_ISSUE.eventId -> showAboutToExpireDialogue()
             }
         }
     }
@@ -540,5 +546,19 @@ class EidInfoReviewAmendmentFragment :
         viewModel.clickEvent.removeObserver(clickEventObserver)
         viewModel.eidStateLiveData.removeObservers(this)
         viewModel.uqudoResponse.removeObservers(this)
+    }
+
+    private fun showAboutToExpireDialogue() {
+        context?.let { it ->
+            it.customAlertDialog(
+                title = getString(R.string.expiry_dialogue_title_oops),
+                message = getString(R.string.expiry_dialogue_message),
+                positiveButton = getString(R.string.common_text_ok),
+                cancelable = false,
+                positiveCallback = {
+                   navigateBack()
+                }
+            )
+        }
     }
 }

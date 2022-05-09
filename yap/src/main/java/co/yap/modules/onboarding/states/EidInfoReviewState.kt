@@ -63,7 +63,7 @@ class EidInfoReviewState : BaseState(), IEidInfoReview.State {
         }
 
     override var expiryDate: MutableLiveData<String> = MutableLiveData()
-
+    override var eidExpireLimitDays: MutableLiveData<Int> = MutableLiveData()
     @get:Bindable
     override var fullNameValid: Boolean = false
         set(value) {
@@ -102,7 +102,7 @@ class EidInfoReviewState : BaseState(), IEidInfoReview.State {
     }
 
     override var isDateOfBirthValid: ObservableBoolean = ObservableBoolean(false)
-    override var AgeLimit: MutableLiveData<Int>? = MutableLiveData()
+    override var ageLimit: MutableLiveData<Int>? = MutableLiveData()
     override var isCountryUS: Boolean = false
     override var showMiddleName: MutableLiveData<Boolean> = MutableLiveData()
     override var eidImageDownloaded: MutableLiveData<State> = MutableLiveData()

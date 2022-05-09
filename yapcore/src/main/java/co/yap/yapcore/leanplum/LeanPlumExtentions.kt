@@ -18,7 +18,7 @@ import com.leanplum.Leanplum
 import com.leanplum.callbacks.VariablesChangedCallback
 import java.text.SimpleDateFormat
 
-fun Fragment.trackEvent(eventName: String, value: String = "") {
+fun trackEvent(eventName: String, value: String = "") {
     fireEventWithAttribute(eventName, value)
 }
 
@@ -148,7 +148,10 @@ private fun trackAttributes(
         info[UserAttributes().sMS_MarketingConsent] = smsNotifications ?: false
         info[UserAttributes().email_MarketingConsent] = emailNotifications ?: false
         info[UserAttributes().in_AppMessage_MarketingConsent] = inappNotifications ?: false
-        it.uuid?.let { Leanplum.setUserAttributes(it, info) }
+        it.uuid?.let {  uuid ->
+            Leanplum.setUserAttributes(uuid, info)
+            Leanplum.setUserId(uuid)
+        }
         Leanplum.forceContentUpdate(object : VariablesChangedCallback() {
             override fun variablesChanged() {
 

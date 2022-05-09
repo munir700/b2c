@@ -41,6 +41,7 @@ import java.util.*
 object CustomersRepository : BaseRepository(), CustomersApi {
 
     const val URL_SIGN_UP = "/customers/api/profile"
+    const val URL_SYSTEM_CONFIGURATION = "/customers/api/system-configuration"
     const val URL_GET_SIGN_UP_COUNTRIES = "/customers/api/sign-up/countries"
     const val URL_SEND_VERIFICATION_EMAIL = "/customers/api/sign-up/email"
     const val URL_ACCOUNT_INFO = "/customers/api/accounts"
@@ -184,6 +185,9 @@ object CustomersRepository : BaseRepository(), CustomersApi {
         }
         return response
     }
+
+    override suspend fun getSystemConfigurations(): RetroApiResponse<BaseListResponse<SystemConfigurationInfo>> =
+        executeSafely(call = { api.getSystemConfigurations() })
 
     override suspend fun sendVerificationEmail(verificationEmailRequest: SendVerificationEmailRequest): RetroApiResponse<OtpValidationResponse> =
         executeSafely(call = { api.sendVerificationEmail(verificationEmailRequest) })

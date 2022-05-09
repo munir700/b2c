@@ -358,7 +358,7 @@ class YapDashboardActivity :
                 viewModel.isUnverifiedScreenNotVisible.value = true
             }
         }
-        // TODO check this crash fix code
+        // TODO check this crash fix code App crash here version 202
         if (!isFinishing)
             dialog.show()
     }
