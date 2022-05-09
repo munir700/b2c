@@ -85,7 +85,7 @@
                         android:onClick="@{(v) -> viewModel.handlePressOnButton(v.id)}"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_goneMarginTop="@dimen/margin_extra_large"
-                        app:text="@{Strings.screen_add_topup_bank_core_btn_label_text}" />
+                        app:text="@{Strings.common_button_text_share}" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 

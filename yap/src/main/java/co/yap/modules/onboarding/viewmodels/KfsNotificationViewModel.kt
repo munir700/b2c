@@ -96,7 +96,10 @@ class KfsNotificationViewModel(application: Application) :
                     parentViewModel?.onboardingData?.passcode,
                     parentViewModel?.onboardingData?.accountType.toString(),
                     token = parentViewModel?.onboardingData?.token,
-                    kfsAcceptedTimeStamp = DateUtils.getCurrentDateWithFormat(DateUtils.SERVER_DATE_FULL_FORMAT, TimeZone.getTimeZone("UTC"))
+                    kfsAcceptedTimeStamp = DateUtils.getCurrentDateWithFormat(
+                        DateUtils.SERVER_DATE_FULL_FORMAT,
+                        TimeZone.getTimeZone("UTC")
+                    )
                 )
             )) {
                 is RetroApiResponse.Success -> {
@@ -117,7 +120,8 @@ class KfsNotificationViewModel(application: Application) :
                     trackEventWithScreenName(FirebaseEvent.SIGNUP_EMAIL)
                     SharedPreferenceManager.getInstance(context)
                         .saveUserNameWithEncryption(parentViewModel?.onboardingData?.email ?: "")
-                    saveNotificationSettings {
+                    saveNotificationSettings { isNotificationSaved ->
+                        state.isNotificationSaved.value = isNotificationSaved
                         success.invoke()
                     }
                 }
@@ -132,7 +136,7 @@ class KfsNotificationViewModel(application: Application) :
         }
     }
 
-    fun saveNotificationSettings(success: () -> Unit) {
+    fun saveNotificationSettings(success: (isSaved: Boolean) -> Unit) {
         launch {
             when (val response = notificationRepository.saveNotificationSettings(
                 NotificationSettings(
@@ -153,11 +157,12 @@ class KfsNotificationViewModel(application: Application) :
                         state.notificationMap[NotificationType.EMAIL_NOTIFICATION] ?: false,
                         state.notificationMap[NotificationType.IN_APP_NOTIFICATION] ?: false
                     )
-                    success.invoke()
+                    success.invoke(true)
                     state.loading = false
                 }
                 is RetroApiResponse.Error -> {
                     state.loading = false
+                    success.invoke(false)
                     state.toast = response.error.message
                 }
             }
@@ -179,11 +184,10 @@ class KfsNotificationViewModel(application: Application) :
     }
 
 
-    fun isAnyOfNotificationSelected(): Boolean = state.notificationMap?.let { it ->
-        it[NotificationType.SMS_NOTIFICATION] == true
-                || it[NotificationType.EMAIL_NOTIFICATION] == true
-                || it[NotificationType.IN_APP_NOTIFICATION] == true
-    }
+    fun isAnyOfNotificationSelected(): Boolean =
+        state.notificationMap[NotificationType.SMS_NOTIFICATION] == true
+                || state.notificationMap[NotificationType.EMAIL_NOTIFICATION] == true
+                || state.notificationMap[NotificationType.IN_APP_NOTIFICATION] == true
 
     fun isOptTrue() =
         state.notificationMap[NotificationType.NONE_NOTIFICATION] == false && isAnyOfNotificationSelected()
