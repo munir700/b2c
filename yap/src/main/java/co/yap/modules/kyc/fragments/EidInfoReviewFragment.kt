@@ -197,9 +197,9 @@ class EidInfoReviewFragment :
                     trackEvent(KYCEvents.EID_SCAN_FAIL.type)
                 } else {
                     trackEvent(KYCEvents.EID_SCAN_FAIL.type)
-                    if (viewModel.parentViewModel?.uqudoManager?.getPayloadData() == null || viewModel.parentViewModel?.comingFrom?.value.isNullOrBlank()
-                            .not()
-                    ) navigateBack() else requireActivity().finish()
+                    if (viewModel.parentViewModel?.uqudoManager?.getPayloadData() == null && viewModel.parentViewModel?.comingFrom?.value.isNullOrBlank().not()
+                    ) navigateBack()
+                    else requireActivity().finish()
                 }
             }
             else -> viewModel.parentViewModel?.finishKyc?.value = DocumentsResponse(false)
