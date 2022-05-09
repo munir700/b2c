@@ -85,11 +85,9 @@ class KfsNotificationFragment :
         }
     }
 
-    private val clickListenerHandler = Observer<Int> { id ->
+    private val clickListenerHandler = Observer<Int> {
         if (viewModel.state.notificationMap[NotificationType.NONE_NOTIFICATION] == true) showAlertDialog()
-        else viewModel.signUp {
-            navigateBack()
-        }
+        else  onBoardUser()
     }
 
     fun showAlertDialog() {
@@ -98,9 +96,7 @@ class KfsNotificationFragment :
             message = getString(Strings.screen_kfs_notification_accept_no_notification_note),
             positiveButton = getString(Strings.common_text_ok),
             positiveCallback = {
-                viewModel.signUp {
-                    navigateBack()
-                }
+                onBoardUser()
             },
         )
     }
@@ -113,7 +109,14 @@ class KfsNotificationFragment :
         getViewBinding().cb2.setOnCheckedChangeListener(this)
         getViewBinding().cb3.setOnCheckedChangeListener(this)
     }
-
+private fun onBoardUser(){
+    viewModel.signUp {
+        if (viewModel.state.isNotificationSaved.value == true) navigateBack()
+        else viewModel.saveNotificationSettings { saved ->
+            if (saved) navigateBack()
+        }
+    }
+}
     override fun onDestroyView() {
         super.onDestroyView()
         viewModel.clickEvent.removeObserver(clickListenerHandler)
