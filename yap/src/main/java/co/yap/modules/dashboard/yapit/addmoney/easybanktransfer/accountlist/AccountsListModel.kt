@@ -4,6 +4,6 @@ import co.yap.networking.leanteach.responsedtos.accountlistmodel.LeanCustomerAcc
 import co.yap.networking.leanteach.responsedtos.banklistmodels.BankListMainModel
 
 data class AccountsListModel(
-    val leanCustomerAccounts: LeanCustomerAccounts?,
-    val bankListMainModel: BankListMainModel
+    val leanCustomerAccounts: LeanCustomerAccounts? = null,
+    val bankListMainModel: BankListMainModel? = null
 )

@@ -24,7 +24,6 @@ import co.yap.widgets.Status
 import co.yap.widgets.loading.CircularProgressBar
 import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.helpers.extentions.startFragmentForResult
-import co.yap.yapcore.helpers.extentions.toast
 import co.yap.yapcore.helpers.spannables.color
 import co.yap.yapcore.helpers.spannables.getText
 import co.yap.yapcore.interfaces.OnItemClickListener
@@ -42,7 +41,6 @@ class AccountListFragment :
         super.onViewCreated(view, savedInstanceState)
         viewDataBinding.lifecycleOwner = this
         viewModel.setMultiState()
-        viewModel.onboardUser()
         setObserver()
         setTextWithFormat()
     }
@@ -57,32 +55,11 @@ class AccountListFragment :
     private val listener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
             if (data is AccountsListModel && data.leanCustomerAccounts != null)
-                if (data.bankListMainModel.status == Constants.ACTIVE_STATUS) {
-                    //this case will be handled when user will come in this screen after adding account
-                    arguments?.let { bundle ->
-                        bundle.getParcelable<LeanOnBoardModel>(co.yap.yapcore.constants.Constants.ONBOARD_USER_LEAN)
-                            ?.let {
-                                it.customerId?.let { cus_id ->
-                                    it.destinationId?.let { des_id ->
-                                        startTopUp(
-                                            data,
-                                            cus_id,
-                                            des_id
-                                        )
-                                    }
-                                }
-                            }
-                    } //this case will be handled when user already have an account
-                        ?: viewModel.customerId?.let { cus_id ->
-                            viewModel.leanOnBoardModel.value?.destinationId
-                                ?.let { des_id ->
-                                    startTopUp(
-                                        data,
-                                        cus_id,
-                                        des_id
-                                    )
-                                }
-                        }
+                if (data.bankListMainModel?.status == Constants.ACTIVE_STATUS) {
+                    viewModel.leanCustomerAccounts = data
+                    viewModel.isListClicked = true
+                    viewModel.onboardUser()
+
                 }
         }
     }
@@ -105,8 +82,10 @@ class AccountListFragment :
 
     private fun onBoardObserver() {
         viewModel.leanOnBoardModel.observe(viewLifecycleOwner) {
-            if (it?.customerId.isNullOrEmpty().not()) {
-                viewModel.customerId = it.customerId
+            if (viewModel.isListClicked) {
+                startTopUpFlow()
+            } else {
+                startBankFragment()
             }
         }
     }
@@ -115,22 +94,8 @@ class AccountListFragment :
         viewModel.clickEvent.observe(viewLifecycleOwner) {
             when (it) {
                 R.id.btnLinkAccount -> {
-                    if (viewModel.customerId.isNullOrEmpty().not()) {
-                        startFragmentForResult<BankListFragment>(
-                            fragmentName = BankListFragment::class.java.name,
-                            bundle = bundleOf(
-                                co.yap.yapcore.constants.Constants.ONBOARD_USER_LEAN to viewModel.leanOnBoardModel.value
-                            ),
-                            showToolBar = true,
-                            toolBarTitle = Translator.getString(
-                                requireContext(),
-                                Strings.screen_lean_bank_list_add_an_account
-                            )
-                        ) { resultCode, _ ->
-                            if (resultCode == Activity.RESULT_OK)
-                                viewModel.setMultiState()
-                        }
-                    } else toast("No customer ID found")
+                    viewModel.isListClicked = false
+                    viewModel.onboardUser()
                 }
             }
         }
@@ -181,5 +146,51 @@ class AccountListFragment :
                     "zero fees!"
                 )
             )
+    }
+
+    fun startBankFragment() {
+        startFragmentForResult<BankListFragment>(
+            fragmentName = BankListFragment::class.java.name,
+            bundle = bundleOf(
+                co.yap.yapcore.constants.Constants.ONBOARD_USER_LEAN to viewModel.leanOnBoardModel.value
+            ),
+            showToolBar = true,
+            toolBarTitle = Translator.getString(
+                requireContext(),
+                Strings.screen_lean_bank_list_add_an_account
+            )
+        ) { resultCode, _ ->
+            if (resultCode == Activity.RESULT_OK)
+                viewModel.setMultiState()
+        }
+    }
+
+
+    private fun startTopUpFlow() {
+        //this case will be handled when user will come in this screen after adding account
+        arguments?.let { bundle ->
+            bundle.getParcelable<LeanOnBoardModel>(co.yap.yapcore.constants.Constants.ONBOARD_USER_LEAN)
+                ?.let {
+                    it.customerId?.let { cus_id ->
+                        it.destinationId?.let { des_id ->
+                            startTopUp(
+                                viewModel.leanCustomerAccounts,
+                                cus_id,
+                                des_id
+                            )
+                        }
+                    }
+                }
+        } //this case will be handled when user already have an account
+            ?: viewModel.leanOnBoardModel.value?.customerId?.let { cus_id ->
+                viewModel.leanOnBoardModel.value?.destinationId
+                    ?.let { des_id ->
+                        startTopUp(
+                            viewModel.leanCustomerAccounts,
+                            cus_id,
+                            des_id
+                        )
+                    }
+            }
     }
 }

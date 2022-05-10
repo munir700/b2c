@@ -20,7 +20,9 @@ class AccountListViewModel(application: Application) :
     override val leanOnBoardModel: MutableLiveData<LeanOnBoardModel> = MutableLiveData()
     override val clickEvent: SingleClickEvent = SingleClickEvent()
     override var accountList: MutableLiveData<MutableList<AccountsListModel>> = MutableLiveData()
-    override var customerId: String? = ""
+    override var isListClicked: Boolean = false
+    override var leanCustomerAccounts: AccountsListModel = AccountsListModel()
+
     override fun handlePressOnView(id: Int) {
         clickEvent.setValue(id)
     }
