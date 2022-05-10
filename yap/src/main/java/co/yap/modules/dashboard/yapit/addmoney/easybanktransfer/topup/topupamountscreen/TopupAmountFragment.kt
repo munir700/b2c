@@ -22,7 +22,6 @@ import com.google.android.material.snackbar.Snackbar
 import com.uxcam.UXCam
 import me.leantech.link.android.Lean
 
-//adjust resize need to be added when required activity is created
 class TopupAmountFragment :
     AddMoneyBaseFragment<FragmentTopupAmountBinding, ITopupAmount.ViewModel>(),
     ITopupAmount.View {
