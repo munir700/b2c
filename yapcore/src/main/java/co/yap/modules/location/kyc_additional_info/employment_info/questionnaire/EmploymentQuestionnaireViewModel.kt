@@ -320,7 +320,7 @@ class EmploymentQuestionnaireViewModel(application: Application) :
             }
         }
         validator?.isValidate?.value =
-            isValid && salaryAmount.parseToDouble() >= depositAmount.parseToDouble() && validator?.isValidate?.value == true
+            isValid && salaryAmount.parseToDouble() > depositAmount.parseToDouble() && validator?.isValidate?.value == true
     }
 
     override fun hasKeyInAmendmentMap(key: String?): Boolean {
