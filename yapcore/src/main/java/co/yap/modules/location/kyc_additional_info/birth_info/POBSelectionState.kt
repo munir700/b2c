@@ -20,6 +20,7 @@ class POBSelectionState : BaseState(), IPOBSelection.State {
         }
 
     override var selectedCountry: ObservableField<Country?> = ObservableField()
+    override var selectedCity: ObservableField<String?> = ObservableField()
     override var selectedSecondCountry: ObservableField<Country?> = ObservableField()
     override var valid: ObservableField<Boolean> = ObservableField(false)
     override var isDualNational: ObservableBoolean = ObservableBoolean()
