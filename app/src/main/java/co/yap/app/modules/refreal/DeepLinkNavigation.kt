@@ -158,8 +158,8 @@ class DeepLinkNavigation private constructor(private val activity: YapDashboardA
                     )
                 }
                 DeepLinkFlow.CARDS.flowId -> {
-                    activity.getViewBinding().bottomNav.selectedItemId = R.id.yapCards
-                    activity.getViewBinding().viewPager.setCurrentItem(2, false)
+                    activity.viewDataBinding.bottomNav.selectedItemId = R.id.yapCards
+                    activity.viewDataBinding.viewPager.setCurrentItem(2, false)
                 }
                 DeepLinkFlow.QR_CODE.flowId -> {
                     QRCodeFragment {}.show(activity.supportFragmentManager, "")
@@ -184,7 +184,7 @@ class DeepLinkNavigation private constructor(private val activity: YapDashboardA
                     }
                 }
                 DeepLinkFlow.YAP_STORE.flowId -> {
-                    activity.getViewBinding().bottomNav.selectedItemId = R.id.yapStore
+                    activity.viewDataBinding.bottomNav.selectedItemId = R.id.yapStore
                     // activity.getViewBinding().viewPager.setCurrentItem(1, false)
                 }
                 DeepLinkFlow.TRANSACTION_DETAILS.flowId -> {

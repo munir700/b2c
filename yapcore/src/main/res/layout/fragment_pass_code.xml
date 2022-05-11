@@ -14,6 +14,7 @@
         <import type="android.view.View" />
 
         <import type="co.yap.yapcore.R" />
+
         <import type="co.yap.yapcore.helpers.Utils" />
 
     </data>
@@ -39,8 +40,7 @@
             app:leftIconVisibility="@{true}"
             app:onClick="@{viewModel::onToolBarClick}"
             app:rightIcon="@{R.drawable.ic_settings}"
-            app:rightIconVisibility="@{false}"
-            />
+            app:rightIconVisibility="@{false}" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvTitle"
@@ -48,10 +48,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_medium"
+            android:layout_marginTop="@dimen/margin_large"
             android:layout_marginEnd="@dimen/margin_medium"
             android:gravity="center"
             android:lineSpacingExtra="0dp"
-            android:layout_marginTop="@dimen/margin_large"
             android:text="@{viewModel.state.title}"
             android:textAlignment="center"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -66,61 +66,58 @@
             app:componentDialerError='@{viewModel.state.dialerError}'
             app:dialer_max_length="4"
             app:dialer_pass_code="passcode"
-            app:layout_constraintBottom_toTopOf="@+id/clTermsAndConditions"
+            app:layout_constraintBottom_toTopOf="@id/llTermsAndConditionsContainer"
             app:layout_constraintTop_toBottomOf="@id/tvTitle"
             app:passcodeTextWatcher="@{viewModel.state.getTextWatcher()}" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/clTermsAndConditions"
-            android:layout_width="match_parent"
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/llTermsAndConditionsContainer"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/margin_medium"
+            android:gravity="center"
+            android:orientation="horizontal"
             android:visibility="@{viewModel.state.needTermsConditions ? View.VISIBLE : View.GONE}"
-            app:layout_constraintBottom_toTopOf="@+id/btnAction">
+            app:layout_constraintBottom_toTopOf="@+id/btnAction"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
 
-            <TextView
-                android:id="@+id/tvTermsAndConditionsTitle"
-                style="@style/AMicroGrey"
-                android:layout_width="match_parent"
+            <androidx.appcompat.widget.AppCompatCheckBox
+                android:id="@+id/cbTermsAndConditions"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_medium"
+                android:layout_marginEnd="@dimen/margin_medium"
+                android:buttonTint="@color/checkbox_selector_tint"
+                android:checked="@{viewModel.state.isAgreed}"
                 android:gravity="center"
-                android:textAlignment="center"
-                android:textSize="@dimen/text_size_h2"
-                app:layout_constraintBottom_toTopOf="@+id/tvTermsAndConditions"
-                app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:text="@{Strings.screen_confirm_card_pin_display_title_terms_and_conditions}"
-                tools:text="@string/screen_confirm_card_pin_display_title_terms_and_conditions" />
+                android:onClick="@{(v)->viewModel.handlePressView(v.id)}"
+                android:scaleX="1.3"
+                android:scaleY="1.3" />
 
             <TextView
                 android:id="@+id/tvTermsAndConditions"
-                style="@style/AMicroGrey"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:onClick="@{(v)-> viewModel.handlePressView(v.id)}"
-                android:textAlignment="center"
-                android:textColor="?attr/colorPrimaryAttr"
-                android:textSize="@dimen/text_size_h2"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvTermsAndConditionsTitle"
-                app:text="@{Strings.screen_confirm_card_pin_display_text_terms_and_conditions}"
-                tools:text="@string/screen_confirm_card_pin_display_text_terms_and_conditions" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                android:layout_marginEnd="@dimen/margin_medium"
+                app:layout_constraintBottom_toBottomOf="@+id/cbTermsAndConditions"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/cbTermsAndConditions"
+                app:layout_constraintTop_toTopOf="@+id/cbTermsAndConditions"
+                tools:text="@string/screen_confirm_card_pin_terms_condition_note" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
 
         <co.yap.widgets.CoreButton
             android:id="@+id/btnAction"
             style="@style/RectangleBtnStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:btn_size="small"
             android:layout_marginBottom="@dimen/margin_normal_large"
             android:gravity="center"
             android:onClick="@{(v)-> viewModel.handlePressView(v.id)}"
             android:text="@{viewModel.state.buttonTitle}"
             android:textColor="@color/colorWhite"
+            app:btn_size="small"
             app:enableCoreButton="@{viewModel.state.valid}"
             app:layout_constraintBottom_toTopOf="@+id/tvForgotPasscode"
             app:layout_constraintLeft_toLeftOf="parent"

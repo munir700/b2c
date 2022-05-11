@@ -169,4 +169,5 @@ interface CustomersApi {
     suspend fun getEmploymentInfo(): RetroApiResponse<BaseResponse<EmploymentInfoAmendmentResponse>>
     suspend fun getAllDocumentsForEmploymentAmendment(): RetroApiResponse<BaseListResponse<DocumentResponse>>
     suspend fun getAppCountries(): RetroApiResponse<BaseListResponse<Country>>
+    suspend fun getKeyFactStatement(): RetroApiResponse<TaxInfoResponse>
 }
