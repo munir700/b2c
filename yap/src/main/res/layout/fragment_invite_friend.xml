@@ -41,12 +41,12 @@
 
             <TextView
                 android:id="@+id/tvInviteTitle"
-                style="@style/Title3"
+                style="@style/ATitle2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_extra_large"
+                android:layout_marginStart="@dimen/margin_large"
                 android:layout_marginTop="@dimen/margin_small"
-                android:layout_marginEnd="@dimen/margin_extra_large"
+                android:layout_marginEnd="@dimen/margin_large"
                 android:gravity="center"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -56,8 +56,8 @@
 
             <ImageView
                 android:id="@+id/ivInvite"
-                android:layout_width="@dimen/_160sdp"
-                android:layout_height="@dimen/_160sdp"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_180sdp"
                 android:layout_marginTop="@dimen/margin_extra_large"
                 android:src="@drawable/invite_a_friend"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -69,8 +69,8 @@
                 style="@style/ARegularGrey"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_extra_large"
-                android:layout_marginEnd="@dimen/margin_extra_large"
+                android:layout_marginStart="@dimen/margin_large"
+                android:layout_marginEnd="@dimen/margin_large"
                 android:gravity="center"
                 app:layout_constraintBottom_toTopOf="@+id/tvReferralCode"
                 app:layout_constraintEnd_toEndOf="parent"

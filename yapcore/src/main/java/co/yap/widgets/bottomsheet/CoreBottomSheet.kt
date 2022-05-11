@@ -8,7 +8,6 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.viewbinding.ViewBindings
 import co.yap.networking.coreitems.CoreBottomSheetData
 import co.yap.yapcore.BR
 import co.yap.yapcore.R
@@ -84,6 +83,7 @@ open class CoreBottomSheet(
                 }
             }
         }
+        getBinding().lySearchView.etSearch.hint = configuration.searchHint ?: "Search country"
         getBinding().rvBottomSheet.layoutManager = LinearLayoutManager(context)
         val params = getBinding().rvBottomSheet.layoutParams as ConstraintLayout.LayoutParams
         params.height =

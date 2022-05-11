@@ -121,6 +121,51 @@
 
                 </co.yap.widgets.CollapsedColoredHintTextInputLayout>
 
+                <co.yap.widgets.CollapsedColoredHintTextInputLayout
+                    android:id="@+id/tvSelectCity"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_small"
+                    android:gravity="center_vertical"
+                    android:hint="@string/screen_place_of_birth_display_text_select_city_of_birth"
+                    android:textColorHint="@color/greyDark"
+                    app:hintTextAppearance="@style/LabelTextStyl"
+                    app:hintTextColor="@color/greyDark"
+                    app:layout_constraintEnd_toEndOf="@+id/tvSelectCountry"
+                    app:layout_constraintStart_toStartOf="@+id/tvSelectCountry"
+                    app:layout_constraintTop_toBottomOf="@+id/tvSelectCountry"
+                    tools:text="@string/screen_place_of_birth_display_text_select_city_of_birth">
+
+                    <co.yap.widgets.edittext.EditTextRichDrawable
+                        android:id="@+id/bCities"
+                        style="@style/Small"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:afterTextChanged="@{(text) -> viewModel.state.validate()}"
+                        android:gravity="center_vertical"
+                        android:hint="@string/screen_place_of_birth_display_text_city_of_birth_hint"
+                        android:imeOptions="actionDone"
+                        android:maxLength="50"
+                        android:onClick="@{(v) -> viewModel.handleOnPressView(v.id)}"
+                        android:singleLine="true"
+                        android:tag="CityofBirth"
+                        android:text='@{viewModel.state.selectedCity}'
+                        android:textColor="@{viewModel.state.selectedCity == null ? @color/greyDark : @color/colorPrimaryDark}"
+                        android:theme="@style/Theme.EditText.Primary"
+                        app:compoundDrawableHeight="@dimen/_26sdp"
+                        app:compoundDrawableWidth="@dimen/_26sdp"
+                        app:disableEmoji="true"
+                        app:disableSpaces="true"
+                        app:drawableEndVector="@drawable/iv_drown_down_grey"
+                        app:editable="@{false}"
+                        app:enableError="@{true}"
+                        app:highlightAmendmentField="@{true}"
+                        app:isNotNeedToCheckWithPrevious="@{true}"
+                        app:missingFieldMap="@{viewModel.parentViewModel.amendmentMap}"
+                        app:previousValue="@{viewModel.state.previousCityOfBirth}"
+                        app:validateEmpty="@{true}" />
+
+                </co.yap.widgets.CollapsedColoredHintTextInputLayout>
 
                 <co.yap.widgets.CollapsedColoredHintTextInputLayout
                     android:id="@+id/tvCityHeading"
@@ -131,52 +176,38 @@
                     android:layout_marginEnd="0dp"
                     android:drawablePadding="0dp"
                     android:hint="@string/screen_place_of_birth_display_text_city_of_birth"
-                    android:paddingTop="@dimen/margin_normal"
                     android:textColorHint="@color/colorPlaceHolderGrey"
+                    android:visibility="@{viewModel.state.selectedCity.equals(`Other`)? View.VISIBLE : View.GONE }"
                     app:hintTextAppearance="@style/LabelTextStyl"
                     app:hintTextColor="@color/colorPlaceHolderGrey"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="@+id/fwPlaceOfBirth"
-                    app:layout_constraintTop_toBottomOf="@+id/fwPlaceOfBirth">
-
-                    <!--<androidx.appcompat.widget.AppCompatEditText
-                        android:id="@+id/etCityOfBirth"
-                        style="@style/Regular"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:backgroundTint="@color/greyLight"
-                        android:imeOptions="actionDone"
-                        android:maxLength="50"
-                        android:maxLines="1"
-                        android:singleLine="true"
-                        android:text="@={viewModel.state.cityOfBirth}"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="@+id/textView"
-                        app:layout_constraintTop_toBottomOf="@+id/textView" />-->
-
+                    app:layout_constraintStart_toStartOf="@+id/tvSelectCity"
+                    app:layout_constraintTop_toBottomOf="@+id/tvSelectCity"
+                    tools:text="@string/screen_place_of_birth_display_text_city_of_birth">
 
                     <co.yap.widgets.edittext.EditTextRichDrawable
                         android:id="@+id/etCityOfBirth"
                         style="@style/Small"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:afterTextChanged="@{(text) -> viewModel.state.validate()}"
+                        android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz "
+                        android:hint="@string/screen_place_of_birth_display_text_type_city_of_birth_hint"
                         android:imeOptions="actionDone"
                         android:maxLength="50"
                         android:singleLine="true"
-                        android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz "
-                        android:afterTextChanged="@{(text) -> viewModel.state.validate()}"
                         android:tag="CityofBirth"
                         android:text="@={viewModel.state.cityOfBirth}"
                         android:theme="@style/Theme.EditText.Primary"
-                        app:enableError="@{true}"
                         app:disableEmoji="true"
                         app:disableSpaces="true"
+                        app:enableError="@{true}"
                         app:highlightAmendmentField="@{true}"
                         app:isNotNeedToCheckWithPrevious="@{true}"
                         app:missingFieldMap="@{viewModel.parentViewModel.amendmentMap}"
                         app:previousValue="@{viewModel.state.previousCityOfBirth}"
                         app:validateEmpty="@{true}"
-                        tools:text="@string/screen_place_of_birth_display_text_city_of_birth" />
+                        tools:text="@string/screen_place_of_birth_display_text_type_city_of_birth_hint" />
                 </co.yap.widgets.CollapsedColoredHintTextInputLayout>
 
                 <androidx.appcompat.widget.AppCompatTextView

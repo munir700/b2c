@@ -1171,9 +1171,9 @@
 <!--    <string name="screen_invite_friend_display_text_share_url">Connect with me on YAP! An innovative digital banking app that gives you total control of your finances.\n\n%1s</string>-->
 
     <!--  Invite a friend screen  -->
-    <string name="screen_invite_friend_text_title">Refer a friend</string>
-    <string name="screen_invite_friend_text_reward">Tell your friends about us!</string>
-    <string name="screen_invite_friend_text_referal_reward">Sharing is sweet, and it’s even better when you do it with friends. Send this special link to your special people so they change the way they bank too!</string>
+    <string name="screen_invite_friend_text_title">Spread the word</string>
+    <string name="screen_invite_friend_text_reward">Refer a friend and get AED 25</string>
+    <string name="screen_invite_friend_text_referal_reward">Life is better when you YAP together! That’s not all, your friends will also get AED 50.</string>
     <string name="screen_invite_friend_text_referal_code">Share your referral link</string>
     <string name="screen_invite_friend_button_share">Share</string>
     <string name="screen_invite_friend_display_text_share_url">Connect with me on YAP! An innovative digital banking app that gives you total control of your finances.\n\n%1s</string>
@@ -1189,6 +1189,11 @@
     <string name="screen_place_of_birth_display_text_description">Just a few more details about you, as per \nyour passport.</string>
     <string name="screen_place_of_birth_display_text_select_country">Select country</string>
     <string name="screen_place_of_birth_display_text_city_of_birth">City of birth</string>
+    <string name="screen_place_of_birth_display_text_select_city_of_birth">Select city of birth</string>
+    <string name="screen_place_of_birth_display_text_city_of_birth_hint">Enter city name</string>
+    <string name="screen_place_of_birth_display_text_select_city">Select city</string>
+    <string name="screen_place_of_birth_display_text_search_city">Search city</string>
+    <string name="screen_place_of_birth_display_text_type_city_of_birth_hint">Type city here as per your passport</string>
     <string name="screen_place_of_birth_display_text_are_you_a_dual_national">Are you a dual national?</string>
     <string name="screen_place_of_birth_display_text_nationality_as_per_eid">Nationality as per EID</string>
     <string name="screen_place_of_birth_display_text_add_second_country">Add second country</string>

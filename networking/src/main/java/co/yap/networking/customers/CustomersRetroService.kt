@@ -1,5 +1,6 @@
 package co.yap.networking.customers
 
+import co.yap.networking.customers.models.CityModel
 import co.yap.networking.customers.models.dashboardwidget.UpdateWidgetResponse
 import co.yap.networking.customers.models.dashboardwidget.WidgetData
 import co.yap.networking.customers.requestdtos.*
@@ -185,6 +186,9 @@ interface CustomersRetroService {
 
     @GET(CustomersRepository.URL_GET_ALL_COUNTRIES)
     suspend fun getAllCountries(): Response<CountryModel>
+
+    @GET(CustomersRepository.URL_GET_ALL_CitIES)
+    suspend fun getAllCities(@Path("country-code") countryCode: String): Response<CityModel>
 
     @POST(CustomersRepository.URL_ADD_BENEFICIARY)
     suspend fun addBeneficiary(@Body beneficiary: Beneficiary): Response<AddBeneficiaryResponseDTO>

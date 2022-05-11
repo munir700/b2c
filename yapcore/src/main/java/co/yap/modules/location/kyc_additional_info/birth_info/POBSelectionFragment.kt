@@ -11,7 +11,10 @@ import co.yap.countryutils.country.Country
 import co.yap.modules.dummy.ActivityNavigator
 import co.yap.modules.dummy.NavigatorProvider
 import co.yap.modules.location.fragments.LocationChildFragment
+import co.yap.networking.coreitems.CoreBottomSheetData
 import co.yap.translation.Strings
+import co.yap.widgets.bottomsheet.BottomSheetConfiguration
+import co.yap.widgets.bottomsheet.CoreBottomSheet
 import co.yap.yapcore.BR
 import co.yap.yapcore.R
 import co.yap.yapcore.constants.Constants
@@ -21,7 +24,9 @@ import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.extentions.launchBottomSheet
 import co.yap.yapcore.interfaces.OnItemClickListener
 
-class POBSelectionFragment : LocationChildFragment<FragmentPlaceOfBirthSelectionBinding ,IPOBSelection.ViewModel>(), IPOBSelection.View {
+class POBSelectionFragment :
+    LocationChildFragment<FragmentPlaceOfBirthSelectionBinding, IPOBSelection.ViewModel>(),
+    IPOBSelection.View {
     private lateinit var mNavigator: ActivityNavigator
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_place_of_birth_selection
@@ -53,11 +58,18 @@ class POBSelectionFragment : LocationChildFragment<FragmentPlaceOfBirthSelection
 
     override fun addObservers() {
         viewModel.clickEvent.observe(this, clickObserver)
+        viewModel.populateCitiesSpinnerData.observe(this, citiesObserver)
         viewModel.state.dualNationalityOption.observe(this, Observer {
             getDataBindingView<FragmentPlaceOfBirthSelectionBinding>().optionsSpinner.setSelection(
                 it
             )
         })
+    }
+
+    private val citiesObserver = Observer<ArrayList<String>> {
+        it?.let {
+                openCitiesBottomSheet()
+        }
     }
 
     private val clickObserver = Observer<Int> {
@@ -89,6 +101,27 @@ class POBSelectionFragment : LocationChildFragment<FragmentPlaceOfBirthSelection
                     countriesList = viewModel.parentViewModel?.countries
                 )
             }
+            R.id.bCities -> {
+                when {
+                    viewModel.state.selectedCountry.get() != null -> {
+                        when {
+                            viewModel.populateCitiesSpinnerData.value.isNullOrEmpty() -> {
+                                viewModel.state.selectedCountry.get()?.isoCountryCode2Digit.let { countryCode ->
+                                    viewModel.getAllCities(
+                                        countryCode ?: ""
+                                    )
+                                }
+                            }
+                            else -> {
+                                openCitiesBottomSheet()
+                            }
+                        }
+                    }
+                    else -> {
+                        showToast("Kindly select country first")
+                    }
+                }
+            }
             R.id.bSecondcountry -> {
                 this.launchBottomSheet(
                     itemClickListener = selectSecondCountryItemClickListener,
@@ -103,6 +136,23 @@ class POBSelectionFragment : LocationChildFragment<FragmentPlaceOfBirthSelection
     private val selectCountryItemClickListener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
             viewModel.state.selectedCountry.set(data as Country)
+            viewModel.populateCitiesSpinnerData.value = null
+            viewModel.state.selectedCity.set("")
+            viewModel.state.cityOfBirth.set("")
+        }
+    }
+    private val selectCitiesItemClickListener = object : OnItemClickListener {
+        override fun onItemClick(view: View, data: Any, pos: Int) {
+            when {
+                (data as CoreBottomSheetData).subTitle.equals("Other") -> {
+                    viewModel.state.selectedCity.set((data).subTitle)
+                    viewModel.state.cityOfBirth.set("")
+                }
+                else -> {
+                    viewModel.state.selectedCity.set((data).subTitle)
+                    viewModel.state.cityOfBirth.set((data).subTitle)
+                }
+            }
         }
     }
     private val selectSecondCountryItemClickListener = object : OnItemClickListener {
@@ -132,11 +182,37 @@ class POBSelectionFragment : LocationChildFragment<FragmentPlaceOfBirthSelection
 
     override fun removeObservers() {
         viewModel.clickEvent.removeObserver(clickObserver)
+        viewModel.populateCitiesSpinnerData.removeObserver(citiesObserver)
     }
 
     override fun onDestroy() {
         super.onDestroy()
         removeObservers()
+    }
+
+    private fun openCitiesBottomSheet() {
+        val finalList: ArrayList<CoreBottomSheetData> = arrayListOf()
+        viewModel.populateCitiesSpinnerData.value?.let { list ->
+            list.mapTo(finalList) { item ->
+                CoreBottomSheetData(
+                    subTitle = item.trim()
+                )
+            }
+        }
+        this.childFragmentManager.let {
+            val coreBottomSheet = CoreBottomSheet(
+                selectCitiesItemClickListener,
+                bottomSheetItems = finalList,
+                viewType = Constants.VIEW_ITEM_WITHOUT_SEPARATOR,
+                configuration = BottomSheetConfiguration(
+                    heading = getString(Strings.screen_place_of_birth_display_text_select_city),
+                    showSearch = true,
+                    showHeaderSeparator = true,
+                    searchHint = getString(Strings.screen_place_of_birth_display_text_search_city)
+                )
+            )
+            coreBottomSheet.show(it, "")
+        }
     }
 
     private fun navigateToAmendmentSuccess() {
