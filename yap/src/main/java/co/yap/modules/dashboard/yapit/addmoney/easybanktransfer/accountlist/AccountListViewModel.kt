@@ -26,8 +26,7 @@ class AccountListViewModel(application: Application) :
     override fun handlePressOnView(id: Int) {
         clickEvent.setValue(id)
     }
-
-    //will change them in parallel call
+    
     override fun onboardUser() {
         launch {
             when (val response = leanTechRepository.onBoardUser()) {
