@@ -37,12 +37,9 @@ fun Application.initializeAdjustSdk(configManager: BuildConfigManager?) {
             ProductFlavour.PROD.flavour -> {
                 Adjust.setEnabled(true)
                 config.setAppSecret(3, 1746894148, 2040383572, 1770588342, 2016748378)
-//                config.setAppSecret(1, 325677892, 77945854, 746350982, 870707894) // Old Signature
-                config.setDefaultTracker("6hpplis")
+                config.setDefaultTracker("n44w5ee")
                 config.setEventBufferingEnabled(true)
                 config.setPreinstallTrackingEnabled(true)
-
-
             }
             ProductFlavour.PREPROD.flavour -> {
                 Adjust.setEnabled(true)
