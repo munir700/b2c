@@ -15,7 +15,6 @@ interface IPOBSelection {
     interface View : IBase.View<ViewModel> {
         fun addObservers()
         fun removeObservers()
-        fun getBinding(): FragmentPlaceOfBirthSelectionBinding
     }
 
     interface ViewModel : IBase.ViewModel<State> {

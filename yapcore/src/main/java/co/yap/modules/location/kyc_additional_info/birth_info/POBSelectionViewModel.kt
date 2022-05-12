@@ -108,7 +108,7 @@ class POBSelectionViewModel(application: Application) :
                 when (response) {
                     is RetroApiResponse.Success -> {
                         response.data.data?.let {
-                            it.add(0,"Other")
+                            it.add(0, "Other")
                             populateCitiesSpinnerData.postValue(it)
                         }
                         state.viewState.value = false
@@ -131,21 +131,19 @@ class POBSelectionViewModel(application: Application) :
                     state.previousEidNationality.set(null)
                     state.previousSelectedSecondCountry.set(null)
                     state.isDualNational.set(false)
-                    validateForm()
                 } else {
                     state.isDualNational.set(true)
                     state.eidNationality.set(parentViewModel?.countries?.first { it.isoCountryCode2Digit == SessionManager.homeCountry2Digit }
                         ?.getName())
-                    validateForm()
                 }
             }
+            validateForm()
         }
     }
 
     override fun validateForm() {
         launch {
             delay(500)
-            state.validate()
             validator?.toValidate()
         }
     }
@@ -156,7 +154,10 @@ class POBSelectionViewModel(application: Application) :
             when (val response = repository.saveBirthInfo(
                 BirthInfoRequest(
                     countryOfBirth = state.selectedCountry.get()?.getName()?.trim() ?: "",
-                    cityOfBirth = state.cityOfBirth.get() ?: "",
+                    cityOfBirth = when {
+                        state.selectedCity.get().equals("Other") -> state.cityOfBirth.get()?.trim() ?: ""
+                        else -> state.selectedCity.get()?.trim() ?: ""
+                    },
                     isDualNationality = state.isDualNational.get(),
                     dualNationality = state.selectedSecondCountry.get()?.isoCountryCode2Digit ?: "",
                     isAmendment = isFromAmendment()
@@ -192,7 +193,6 @@ class POBSelectionViewModel(application: Application) :
                         state.previousSelectedCountry.set(it.getName())
                     }
                     state.selectedCity.set(response.data.data?.cityOfBirth ?: "")
-                    state.cityOfBirth.set(response.data.data?.cityOfBirth ?: "")
                     state.previousCityOfBirth.set(response.data.data?.cityOfBirth)
                     state.isDualNational.set(response.data.data?.isDualNationality ?: false)
                     if (!state.isDualNational.get()) {

@@ -139,30 +139,27 @@ class POBSelectionFragment :
             viewModel.populateCitiesSpinnerData.value = null
             viewModel.state.selectedCity.set("")
             viewModel.state.cityOfBirth.set("")
+            viewModel.validateForm()
         }
     }
     private val selectCitiesItemClickListener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
             when {
                 (data as CoreBottomSheetData).subTitle.equals("Other") -> {
-                    viewModel.state.selectedCity.set((data).subTitle)
                     viewModel.state.cityOfBirth.set("")
+                    viewModel.state.selectedCity.set((data).subTitle)
                 }
                 else -> {
                     viewModel.state.selectedCity.set((data).subTitle)
-                    viewModel.state.cityOfBirth.set((data).subTitle)
                 }
             }
+            viewModel.validateForm()
         }
     }
     private val selectSecondCountryItemClickListener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
             viewModel.state.selectedSecondCountry.set(data as Country)
         }
-    }
-
-    override fun getBinding(): FragmentPlaceOfBirthSelectionBinding {
-        return (viewDataBinding as FragmentPlaceOfBirthSelectionBinding)
     }
 
     private fun skipPOBSelectionFragment() {
@@ -188,6 +185,7 @@ class POBSelectionFragment :
     override fun onDestroy() {
         super.onDestroy()
         removeObservers()
+        viewModel.validator = null
     }
 
     private fun openCitiesBottomSheet() {
