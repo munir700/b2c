@@ -12,7 +12,7 @@ import dagger.Module
 import dagger.Provides
 
 @Module
-(includes = [CoreModule::class, YapModule::class , HouseHoldModule::class])
+/*(includes = [CoreModule::class, YapModule::class , HouseHoldModule::class])*/
 class AppModule {
 
     @Provides

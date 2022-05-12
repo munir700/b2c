@@ -51,17 +51,26 @@ import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasActivityInjector
 import dagger.android.support.DaggerApplication
 import com.uxcam.UXCam
+import dagger.android.HasAndroidInjector
+import dagger.hilt.EntryPoint
+import dagger.hilt.InstallIn
+import dagger.hilt.android.EntryPointAccessors
+import dagger.hilt.android.HiltAndroidApp
+import dagger.hilt.components.SingletonComponent
 import timber.log.Timber
 import java.util.*
 import javax.inject.Inject
 
-
-class AAPApplication : HouseHoldApplication(), NavigatorProvider, HasActivityInjector {
-    @Inject
-    lateinit var activityInjector: DispatchingAndroidInjector<Activity>
+@HiltAndroidApp
+class AAPApplication : HouseHoldApplication(), NavigatorProvider ,HasAndroidInjector {
+  /*  @Inject
+    lateinit var androidInjector: DispatchingAndroidInjector<Any>*/
     lateinit var sAppComponent: AppComponent
     lateinit var originalSign: AppSignature
 
+    /*override fun androidInjector(): AndroidInjector<Any> {
+        return androidInjector
+    }*/
     private external fun signatureKeysFromJNI(
         name: String,
         flavour: String,
@@ -77,7 +86,7 @@ class AAPApplication : HouseHoldApplication(), NavigatorProvider, HasActivityInj
 
     override fun onCreate() {
         super.onCreate()
-        sAppComponent = AppInjector.init(this)
+       // sAppComponent = AppInjector.init(this)
         initFireBase()
         originalSign =
             signatureKeysFromJNI(
@@ -254,7 +263,19 @@ class AAPApplication : HouseHoldApplication(), NavigatorProvider, HasActivityInj
 
     }
 
+    // This Entry point will provide the AndroidInjector
+    @EntryPoint
+    @InstallIn(SingletonComponent::class)
+    interface ApplicationInjector : AndroidInjector<AAPApplication>
+
     override fun applicationInjector(): AndroidInjector<out DaggerApplication> {
+        // Get the application injector from the Entry point
+        return EntryPointAccessors.fromApplication(
+            this,
+            ApplicationInjector::class.java
+        )
+    }
+    /*override fun applicationInjector(): AndroidInjector<out DaggerApplication> {
         return if (!this::sAppComponent.isInitialized) {
             sAppComponent = AppInjector.init(this)
             sAppComponent
@@ -262,9 +283,8 @@ class AAPApplication : HouseHoldApplication(), NavigatorProvider, HasActivityInj
             sAppComponent
         }
 
-    }
+    }*/
 
-    override fun activityInjector() = activityInjector
     private fun getAppDataForNetwork(configManager: BuildConfigManager?): AppData {
         return AppData(
             flavor = configManager?.flavor ?: "",

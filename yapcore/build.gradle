@@ -1,4 +1,10 @@
+apply plugin: 'dagger.hilt.android.plugin'
+apply plugin: 'kotlin-kapt'
 android {
+    defaultConfig {
+        //TODO: remove this after migration to Hilt of HouseHold Module
+        javaCompileOptions.annotationProcessorOptions.arguments['dagger.hilt.disableModulesHaveInstallInCheck'] = 'true'
+    }
     sourceSets {
         main {
             res {
@@ -30,4 +36,6 @@ dependencies {
             add(it.configuration, it.dependency)
         }
     }
+    implementation "com.google.dagger:hilt-android:2.38.1"
+    kapt "com.google.dagger:hilt-android-compiler:2.38.1"
 }

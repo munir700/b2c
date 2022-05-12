@@ -7,7 +7,10 @@ import co.yap.yapcore.dagger.di.module.fragment.FragmentInjectorsModule
 import co.yap.yapcore.dagger.di.qualifiers.ActivityScope
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 
+@InstallIn(SingletonComponent::class)
 @Module
 abstract class ActivityInjectorsModule {
 

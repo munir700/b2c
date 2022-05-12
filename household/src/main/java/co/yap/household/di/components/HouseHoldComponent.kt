@@ -1,18 +1,19 @@
 package co.yap.household.di.components
 
-import co.yap.household.di.module.HouseHoldModule
-import co.yap.modules.di.module.NetworkModule
-import co.yap.modules.di.module.activity.ActivityInjectorsModule
-import co.yap.modules.di.module.fragment.FragmentInjectorsModule
-import co.yap.yapcore.dagger.di.components.CoreComponent
-import dagger.BindsInstance
-import dagger.Component
+import dagger.Module
 import dagger.android.AndroidInjectionModule
-import dagger.android.AndroidInjector
 import dagger.android.support.AndroidSupportInjectionModule
-import dagger.android.support.DaggerApplication
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 
 //@FeatureScope
+@Module(
+    includes = [AndroidInjectionModule::class,
+        AndroidSupportInjectionModule::class]
+)
+@InstallIn(SingletonComponent::class)
+interface HouseHoldComponent
+/*
 @Component(
     modules = [
         AndroidInjectionModule::class,
@@ -30,4 +31,4 @@ interface HouseHoldComponent : AndroidInjector<DaggerApplication> {
         fun coreComponent(coreComponent: CoreComponent): Builder
         fun build(): HouseHoldComponent
     }
-}
+}*/

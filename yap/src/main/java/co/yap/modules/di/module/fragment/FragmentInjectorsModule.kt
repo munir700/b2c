@@ -65,8 +65,12 @@ import co.yap.modules.subaccounts.paysalary.transfer.confirmation.HHIbanSendMone
 import co.yap.yapcore.dagger.di.qualifiers.FragmentScope
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
+import io.reactivex.Single
 
 @Module
+@InstallIn(SingletonComponent::class)
 abstract class FragmentInjectorsModule {
     @ContributesAndroidInjector(modules = [SubAccountDashBoardModule::class])
     @FragmentScope

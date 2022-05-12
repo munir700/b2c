@@ -43,6 +43,8 @@ import co.yap.modules.dashboard.store.household.subscriptionselection.Subscripti
 import co.yap.yapcore.dagger.di.qualifiers.FragmentScope
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 
 @Module
 abstract class FragmentInjectorsModule {

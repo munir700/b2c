@@ -7,35 +7,24 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import co.yap.app.AAPApplication
-import co.yap.household.di.components.DaggerHouseHoldComponent
-import co.yap.household.di.components.HouseHoldComponent
-import co.yap.household.di.components.HouseHoldComponentProvider
-import co.yap.modules.di.components.DaggerYapComponent
-import co.yap.modules.di.components.YapComponent
-import co.yap.modules.di.components.YapComponentProvider
-
-import co.yap.yapcore.dagger.di.components.CoreComponent
-import co.yap.yapcore.dagger.di.components.CoreComponentProvider
-import co.yap.yapcore.dagger.di.components.DaggerCoreComponent
 import co.yap.yapcore.dagger.di.components.Injectable
 import dagger.android.AndroidInjection
 import dagger.android.support.AndroidSupportInjection
-import dagger.android.support.DaggerApplication
 import dagger.android.support.HasSupportFragmentInjector
 
 /**
  * Helper class to automatically inject fragments if they implement [Injectable].
  */
-object AppInjector : HouseHoldComponentProvider, CoreComponentProvider, YapComponentProvider {
-    private lateinit var coreComponent: CoreComponent
-    private lateinit var holdComponent: HouseHoldComponent
-    private lateinit var yapComponent: YapComponent
-    fun init(application: AAPApplication): AppComponent {
+object AppInjector /*: HouseHoldComponentProvider, CoreComponentProvider, YapComponentProvider*/ {
+    /* private lateinit var coreComponent: CoreComponent
+     private lateinit var holdComponent: HouseHoldComponent
+     private lateinit var yapComponent: YapComponent*/
+  /*  fun init(application: AAPApplication): AppComponent {
         val component = DaggerAppComponent.builder()
             .application(application)
-            .coreComponent(provideCoreComponent(application))
-            .houseHoldComponent(provideHouseHoldComponent())
-            .yapComponent(provideYapComponent())
+            *//* .coreComponent(provideCoreComponent(application))
+             .houseHoldComponent(provideHouseHoldComponent())
+             .yapComponent(provideYapComponent())*//*
             .build()
         component.inject(application)
 
@@ -72,7 +61,7 @@ object AppInjector : HouseHoldComponentProvider, CoreComponentProvider, YapCompo
         })
 
         return component
-    }
+    }*/
 
     private fun handleActivity(activity: Activity) {
         if (activity is HasSupportFragmentInjector || activity is Injectable) {
@@ -95,6 +84,7 @@ object AppInjector : HouseHoldComponentProvider, CoreComponentProvider, YapCompo
         }
     }
 
+/*
     override fun provideYapComponent(): YapComponent {
         if (!this::yapComponent.isInitialized) {
             yapComponent = DaggerYapComponent
@@ -113,6 +103,7 @@ object AppInjector : HouseHoldComponentProvider, CoreComponentProvider, YapCompo
         return holdComponent
     }
 
+
     override fun provideCoreComponent(application: DaggerApplication): CoreComponent {
         if (!this::coreComponent.isInitialized) {
             coreComponent = DaggerCoreComponent
@@ -121,5 +112,5 @@ object AppInjector : HouseHoldComponentProvider, CoreComponentProvider, YapCompo
         }
         return coreComponent
     }
-
+*/
 }

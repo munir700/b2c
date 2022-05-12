@@ -19,6 +19,7 @@ buildscript {
         classpath 'com.google.gms:google-services:4.3.4'  // Google Services plugin
         classpath 'com.android.tools.build:gradle:4.2.2'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath "com.google.dagger:hilt-android-gradle-plugin:2.38.1"
         classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$navigationVersion"
 //        classpath 'gradle.plugin.dev.arunkumar:scabbard-gradle-plugin:0.2.0'
         // NOTE: Do not place your application dependencies here; they belong
@@ -42,7 +43,7 @@ allprojects {
     afterEvaluate {
         extensions.findByName('kapt')?.arguments {
             arg("dagger.formatGeneratedSource", "disabled")
-            arg("dagger.gradle.incremental", "enabled")
+           // arg("dagger.gradle.incremental", "enabled")
         }
     }
 }
