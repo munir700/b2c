@@ -47,6 +47,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 
 @Module
+@InstallIn(SingletonComponent::class)
 abstract class FragmentInjectorsModule {
     @ContributesAndroidInjector(modules = [KycSuccessModule::class])
     abstract fun KycSuccessFragmentInjector(): KycSuccessFragment

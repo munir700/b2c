@@ -11,9 +11,12 @@ import co.yap.networking.messages.MessagesRepository
 import co.yap.networking.transactions.TransactionsRepository
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
 @Module
+@InstallIn(SingletonComponent::class)
 class NetworkModule {
     @Provides
     @Singleton
