@@ -35,7 +35,7 @@
     <string-array name="yap_it_add_money_title">
         <item>Instant bank transfer</item>
         <item>Bank Transfer</item>
-        <item>QR cod</item>
+        <item>QR code</item>
         <item>Credit or debit card</item>
         <item>Cash or cheque</item>
     </string-array>
