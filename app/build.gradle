@@ -48,8 +48,8 @@ android {
 
     productFlavors {
         live {
-            versionCode 205
-            versionName "2.0.5"
+            versionCode 207
+            versionName "2.0.7"
             applicationId "com.yap.banking"
             resValue "string", "app_name", "YAP"
             resValue "bool", "enabled_crash", "true"
