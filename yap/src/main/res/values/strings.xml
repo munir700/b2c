@@ -45,7 +45,7 @@
         <item>Share your account details</item>
         <item>Share your unique payment code</item>
         <item>Link a card and top up</item>
-        <item>Link a card and top up with it</item>
+        <item>Find an ATM/CDM near you</item>
     </string-array>
 
     <string-array name="yap_it_add_money_drawable">
