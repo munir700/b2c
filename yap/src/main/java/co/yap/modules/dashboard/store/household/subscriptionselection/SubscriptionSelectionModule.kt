@@ -1,5 +1,6 @@
 package co.yap.modules.dashboard.store.household.subscriptionselection
 
+import android.content.Context
 import co.yap.R
 import co.yap.modules.onboarding.models.WelcomeContent
 import co.yap.translation.Strings
@@ -10,16 +11,20 @@ import co.yap.yapcore.dagger.di.qualifiers.FragmentScope
 import co.yap.yapcore.dagger.di.qualifiers.ViewModelInjection
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
+import dagger.hilt.components.SingletonComponent
 
 @Module
-class SubscriptionSelectionModule : BaseFragmentModule<SubscriptionSelectionFragment>() {
+@InstallIn(SingletonComponent::class)
+class SubscriptionSelectionModule /*: BaseFragmentModule<SubscriptionSelectionFragment>() */{
 
-    @Provides
+   /* @Provides
     @ViewModelInjection
     fun provideMyCardVM(
         fragment: SubscriptionSelectionFragment,
         viewModelProvider: InjectionViewModelProvider<SubscriptionSelectionVM>
-    ): SubscriptionSelectionVM = viewModelProvider.get(fragment, SubscriptionSelectionVM::class)
+    ): SubscriptionSelectionVM = viewModelProvider.get(fragment, SubscriptionSelectionVM::class)*/
 
     @Provides
     fun provideMyCardTransactionsAdapter(list: ArrayList<WelcomeContent>) =
@@ -28,43 +33,42 @@ class SubscriptionSelectionModule : BaseFragmentModule<SubscriptionSelectionFrag
             null
         )
 
-    @Provides
+/*    @Provides
     @FragmentScope
-    fun provideMyCardState(): ISubscriptionSelection.State = SubscriptionSelectionState()
+    fun provideMyCardState(): ISubscriptionSelection.State = SubscriptionSelectionState()*/
 
 
     @Provides
-    @FragmentScope
-    fun generateB2CPages(context: SubscriptionSelectionFragment): ArrayList<WelcomeContent> {
+    fun  generateB2CPages(@ApplicationContext context: Context): ArrayList<WelcomeContent> {
         val content1 = WelcomeContent(
             getString(
-                context.requireContext(),
+                context,
                 Strings.screen_welcome_b2c_display_text_page1_title
             ),
             getString(
-                context.requireContext(),
+                context,
                 Strings.screen_yap_house_hold_success_display_text_pager_color
             ),
             R.drawable.image_yap_household_card
         )
         val content2 = WelcomeContent(
             getString(
-                context.requireContext(),
+                context,
                 Strings.screen_welcome_b2c_display_text_page2_title
             ),
             getString(
-                context.requireContext(),
+                context,
                 Strings.screen_yap_house_hold_success_display_text_pager_schedule_payments
             ),
             R.drawable.image_yap_household_salary
         )
         val content3 = WelcomeContent(
             getString(
-                context.requireContext(),
+                context,
                 Strings.screen_welcome_b2c_display_text_page3_title
             ),
             getString(
-                context.requireContext(),
+                context,
                 Strings.screen_yap_house_hold_success_display_text_pager_schedule_pots
             ),
             R.drawable.image_hosue_hold_track_expenses

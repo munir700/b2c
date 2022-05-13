@@ -12,15 +12,17 @@ import co.yap.networking.transactions.responsedtos.transaction.RemittanceFeeResp
 import co.yap.translation.Strings
 import co.yap.widgets.radiocus.PresetRadioGroup
 import co.yap.yapcore.constants.Constants
-import co.yap.yapcore.dagger.base.viewmodel.DaggerBaseViewModel
 import co.yap.yapcore.enums.PackageType
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
+import co.yap.yapcore.hilt.base.viewmodel.HiltBaseViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import javax.inject.Inject
 
-class SubscriptionSelectionVM @Inject constructor(override var state: ISubscriptionSelection.State) :
-    DaggerBaseViewModel<ISubscriptionSelection.State>(), ISubscriptionSelection.ViewModel {
+@HiltViewModel
+class SubscriptionSelectionVM @Inject constructor(override var state: SubscriptionSelectionState) :
+    HiltBaseViewModel<ISubscriptionSelection.State>(), ISubscriptionSelection.ViewModel {
     override val repository: TransactionsApi = TransactionsRepository
     private var monthlyFee: Double? = 0.0
     private var yearlyFee: Double? = 0.0

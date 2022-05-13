@@ -2,11 +2,11 @@ package co.yap.modules.dashboard.store.household.subscriptionselection
 
 import android.content.Context
 import android.os.Bundle
-import android.text.SpannableStringBuilder
 import android.view.View
 import android.view.WindowManager
 import androidx.core.os.bundleOf
 import androidx.databinding.ViewDataBinding
+import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import co.yap.BR
 import co.yap.R
@@ -28,18 +28,20 @@ import co.yap.yapcore.BaseViewHolder
 import co.yap.yapcore.adjust.AdjustEvents
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.dagger.base.interfaces.ManageToolBarListener
-import co.yap.yapcore.dagger.base.navigation.BaseNavViewModelFragment
 import co.yap.yapcore.helpers.confirm
 import co.yap.yapcore.helpers.extentions.startFragment
 import co.yap.yapcore.helpers.spannables.kpan.span
+import co.yap.yapcore.hilt.base.navigation.BaseNavViewModelFragmentV2
 import co.yap.yapcore.leanplum.HHSubscriptionEvents
 import co.yap.yapcore.leanplum.HHUserOnboardingEvents
 import co.yap.yapcore.leanplum.trackEvent
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_house_hold_subscription_selction.*
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class SubscriptionSelectionFragment :
-    BaseNavViewModelFragment<FragmentHouseHoldSubscriptionSelctionBinding, ISubscriptionSelection.State, SubscriptionSelectionVM>() {
+    BaseNavViewModelFragmentV2<FragmentHouseHoldSubscriptionSelctionBinding, ISubscriptionSelection.State, SubscriptionSelectionVM>() {
     @Inject
     lateinit var adapter: Adapter
 
@@ -70,33 +72,45 @@ class SubscriptionSelectionFragment :
     override fun onClick(id: Int) {
         when (id) {
             R.id.btnGetStarted -> {
-                if (!state.plansList.value.isNullOrEmpty()) {
+                if (!viewModel.state.plansList.value.isNullOrEmpty()) {
                     confirm(
                         message = span {
-                            span(getString(
-                                screen_yap_house_hold_subscription_selection_confirm_message_text,
-                                state.plansList.value?.get(state.selectedPlanPosition.value ?: 0)?.type!!,
-                                getString(screen_yap_house_hold_subscription_selection_display_text_months)
-                            )){
+                            span(
+                                getString(
+                                    screen_yap_house_hold_subscription_selection_confirm_message_text,
+                                    viewModel.state.plansList.value?.get(
+                                        viewModel.state.selectedPlanPosition.value ?: 0
+                                    )?.type!!,
+                                    getString(
+                                        screen_yap_house_hold_subscription_selection_display_text_months
+                                    )
+                                )
+                            ) {
                                 textColor = requireContext().getColor(R.color.semi_dark)
                             }
                             span(getString(screen_household_set_pin_terms_and_conditions_text)) {
                                 onClick = {
                                     startFragment(
-                                        fragmentName = WebViewFragment::class.java.name, bundle = bundleOf(
+                                        fragmentName = WebViewFragment::class.java.name,
+                                        bundle = bundleOf(
                                             Constants.PAGE_URL to Constants.URL_TERMS_CONDITION
-                                        ), showToolBar = false
+                                        ),
+                                        showToolBar = false
                                     )
                                 }
                                 textColor = requireContext().getColor(R.color.semi_dark)
                                 textDecorationLine = "underline"
                             }
                         },
-                        title = if (state.selectedPlanPosition.value == 0) "${viewModel.state.monthlyFee.value} ${getString(
-                            screen_yap_house_hold_subscription_selection_display_text_per_month
-                        )}" else "${viewModel.state.annuallyFee.value} ${getString(
-                            screen_yap_house_hold_subscription_selection_display_text_per_year
-                        )}",
+                        title = if (viewModel.state.selectedPlanPosition.value == 0) "${viewModel.state.monthlyFee.value} ${
+                            getString(
+                                screen_yap_house_hold_subscription_selection_display_text_per_month
+                            )
+                        }" else "${viewModel.state.annuallyFee.value} ${
+                            getString(
+                                screen_yap_house_hold_subscription_selection_display_text_per_year
+                            )
+                        }",
                         positiveButton = getString(common_button_confirm),
                         negativeButton = getString(common_button_cancel), callback = {
                             trackAdjustPlatformEvent(AdjustEvents.HOUSE_HOLD_MAIN_SUB_PLAN_CONFIRM.type)
@@ -105,8 +119,8 @@ class SubscriptionSelectionFragment :
                             navigateForwardWithAnimation(
                                 SubscriptionSelectionFragmentDirections.actionSubscriptionSelectionFragmentToHHAddUserNameFragment(),
                                 bundleOf(
-                                    HouseHoldPlan::class.java.name to state.plansList.value,
-                                    Constants.POSITION to state.selectedPlanPosition.value
+                                    HouseHoldPlan::class.java.name to viewModel.state.plansList.value,
+                                    Constants.POSITION to viewModel.state.selectedPlanPosition.value
                                 ), null
                             )
                         }, negativeCallback = {}
@@ -131,4 +145,6 @@ class SubscriptionSelectionFragment :
         override fun getViewModel(viewType: Int) = SubscriptionSelectionItemVM()
         override fun getVariableId() = BR.content
     }
+
+    override val viewModel: SubscriptionSelectionVM by viewModels()
 }
