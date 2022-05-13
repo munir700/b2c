@@ -5,6 +5,7 @@ import co.yap.networking.customers.responsedtos.sendmoney.Currency
 import co.yap.networking.models.ApiResponse
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
+import java.util.*
 
 @Parcelize
 class AccountInfo(
@@ -83,6 +84,7 @@ class AccountInfo(
     @SerializedName("isWaiting")
     var isWaiting: Boolean = false,
     @SerializedName("amendmentStatus")
-    var amendmentStatus: String? = null
-
+    var amendmentStatus: String? = null,
+    @SerializedName("kfsAcceptedTimeStamp")
+    val kfsAcceptedTimeStamp : String? = null
 ) :ApiResponse(), Parcelable

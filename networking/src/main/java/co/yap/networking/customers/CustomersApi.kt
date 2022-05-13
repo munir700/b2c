@@ -1,5 +1,6 @@
 package co.yap.networking.customers
 
+import co.yap.networking.customers.models.CityModel
 import co.yap.networking.customers.models.dashboardwidget.UpdateWidgetResponse
 import co.yap.networking.customers.models.dashboardwidget.WidgetData
 import co.yap.networking.customers.requestdtos.*
@@ -77,6 +78,7 @@ interface CustomersApi {
     suspend fun getAllBeneficiaries(): RetroApiResponse<GetAllBeneficiaryResponse>
     suspend fun getCountries(): RetroApiResponse<CountryModel>
     suspend fun getAllCountries(): RetroApiResponse<CountryModel>
+    suspend fun getAllCities(countryCode: String): RetroApiResponse<CityModel>
     suspend fun addBeneficiary(beneficiary: Beneficiary): RetroApiResponse<AddBeneficiaryResponseDTO>
     suspend fun validateBeneficiary(beneficiary: Beneficiary): RetroApiResponse<ApiResponse>
     suspend fun editBeneficiary(beneficiary: Beneficiary?): RetroApiResponse<ApiResponse>
@@ -167,4 +169,5 @@ interface CustomersApi {
     suspend fun getEmploymentInfo(): RetroApiResponse<BaseResponse<EmploymentInfoAmendmentResponse>>
     suspend fun getAllDocumentsForEmploymentAmendment(): RetroApiResponse<BaseListResponse<DocumentResponse>>
     suspend fun getAppCountries(): RetroApiResponse<BaseListResponse<Country>>
+    suspend fun getKeyFactStatement(): RetroApiResponse<TaxInfoResponse>
 }

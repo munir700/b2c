@@ -180,6 +180,7 @@
     <string name="screen_onboarding_confirm_card_name_display_name_length_text">We can only print 26 characters on the card, so if you have a long name, we suggest you use initials where possible.</string>
     <string name="screen_onboarding_confirm_card_name_edit_full_name_text">I’d like to edit my name</string>
     <string name="screen_onboarding_confirm_card_name_btn_name_fine_text">This is fine!</string>
+    <string name="screen_onboarding_confirm_card_name_kfs_text">By continuing, you approve YAP to issue and deliver your YAP Debit Card.</string>
 
     <!-- System permission screen -->
     <string name="screen_system_permission_text_title">Use Touch ID to log in to your account?</string>
@@ -303,12 +304,13 @@
     <string name="screen_confirm_card_pin_display_text_title">Enter that one more time to confirm</string>
     <string name="screen_confirm_onboarding_create_passcode_display_title_terms_and_conditions">By creating a passcode you agree to our</string>
     <string name="screen_confirm_card_pin_display_title_terms_and_conditions">By creating a PIN you agree to our</string>
-    <string name="screen_confirm_card_pin_display_text_terms_and_conditions">terms &amp; conditions</string>
+    <string name="screen_confirm_card_pin_display_text_terms_and_conditions">Terms &amp; conditions</string>
+    <string name="screen_confirm_card_pin_display_text_key_fact_statement">Key Fact Statement</string>
     <string name="screen_confirm_card_pin_button_create_pin">Set PIN</string>
     <string name="screen_confirm_card_pin_display_text_error_sequence">PIN cannot be a straight sequence</string>
     <string name="screen_confirm_card_pin_display_text_error_same_digits">PIN cannot be of same digits</string>
     <string name="screen_confirm_card_pin_display_text_error_pins_not_same">This doesn\'t match the previously entered PIN</string>
-    <string name="screen_confirm_card_pin_terms_condition_note">By creating a PIN you agree to our \n<b> %1s </b> </string>
+    <string name="screen_confirm_card_pin_terms_condition_note">I have read and agree to the YAP %s and %s</string>
 
     <!-- Set card PIN success screen -->
     <string name="screen_set_card_pin_success_display_text_title">You’re all set!\nTime to top up</string>
@@ -555,6 +557,7 @@
     <string name="screen_profile_settings_display_text_app_notifications">App notifications</string>
     <string name="screen_profile_settings_display_text_about_us">About us</string>
     <string name="screen_profile_settings_display_terms_and_conditions">Terms and conditions</string>
+    <string name="screen_profile_settings_display_key_fact_statement">Key Fact Statement</string>
     <string name="screen_profile_settings_display_fees_and_pricing_plans">Fees &amp; pricing plans</string>
     <string name="screen_profile_settings_display_text_instagram">Instagram</string>
     <string name="screen_profile_settings_display_text_twitter">Twitter</string>
@@ -1145,7 +1148,10 @@
 
     <!--    Notification settings screen-->
     <string name="screen_notification_settings_display_text_toolbar_title">Notification settings</string>
+    <string name="screen_notification_settings_display_text_promotion_title">Offers and promotions</string>
+    <string name="screen_notification_settings_display_text_promotion_subtitle">Switch on/off the type notification you want to receive</string>
     <string name="screen_notification_settings_display_text_in_app_notifications">In-app notifications</string>
+    <string name="screen_notification_settings_display_text_all_notifications">All</string>
     <string name="screen_notification_settings_display_text_sms_notifications">SMS notifications</string>
     <string name="screen_notification_settings_display_text_email_notifications">Email notifications</string>
 
@@ -1163,17 +1169,10 @@
     <string name="screen_your_achievements_display_text_toolbar_title">Your achievements</string>
 
 
-<!--    &lt;!&ndash;  Invite a friend screen  &ndash;&gt;-->
-<!--    <string name="screen_invite_friend_text_title">Spread the word</string>-->
-<!--    <string name="screen_invite_friend_text_reward">Tell your friends about us!</string>-->
-<!--    <string name="screen_invite_friend_text_referal_reward">Life is better when you YAP together! That\'s not all, your friends will also get AED 50.</string>-->
-<!--    <string name="screen_invite_friend_text_referal_code">Share your referral link</string>-->
-<!--    <string name="screen_invite_friend_display_text_share_url">Connect with me on YAP! An innovative digital banking app that gives you total control of your finances.\n\n%1s</string>-->
-
     <!--  Invite a friend screen  -->
-    <string name="screen_invite_friend_text_title">Refer a friend</string>
-    <string name="screen_invite_friend_text_reward">Tell your friends about us!</string>
-    <string name="screen_invite_friend_text_referal_reward">Sharing is sweet, and it’s even better when you do it with friends. Send this special link to your special people so they change the way they bank too!</string>
+    <string name="screen_invite_friend_text_title">Spread the word</string>
+    <string name="screen_invite_friend_text_reward">Refer a friend and get AED 25</string>
+    <string name="screen_invite_friend_text_referal_reward">Life is better when you YAP together! That’s not all, your friends will also get AED 50.</string>
     <string name="screen_invite_friend_text_referal_code">Share your referral link</string>
     <string name="screen_invite_friend_button_share">Share</string>
     <string name="screen_invite_friend_display_text_share_url">Connect with me on YAP! An innovative digital banking app that gives you total control of your finances.\n\n%1s</string>
@@ -1189,6 +1188,11 @@
     <string name="screen_place_of_birth_display_text_description">Just a few more details about you, as per \nyour passport.</string>
     <string name="screen_place_of_birth_display_text_select_country">Select country</string>
     <string name="screen_place_of_birth_display_text_city_of_birth">City of birth</string>
+    <string name="screen_place_of_birth_display_text_select_city_of_birth">Select city of birth</string>
+    <string name="screen_place_of_birth_display_text_city_of_birth_hint">Enter city name</string>
+    <string name="screen_place_of_birth_display_text_select_city">Select city</string>
+    <string name="screen_place_of_birth_display_text_search_city">Search city</string>
+    <string name="screen_place_of_birth_display_text_type_city_of_birth_hint">Type city here as per your passport</string>
     <string name="screen_place_of_birth_display_text_are_you_a_dual_national">Are you a dual national?</string>
     <string name="screen_place_of_birth_display_text_nationality_as_per_eid">Nationality as per EID</string>
     <string name="screen_place_of_birth_display_text_add_second_country">Add second country</string>
@@ -1722,4 +1726,14 @@
     <string name="enter_greater_salary_amount">Please enter an amount greater than AED 1000</string>
     <string name="enter_greater_deposit_amount">Please enter minimum AED 1000 to proceed</string>
 
+
+    <string name="screen_kfs_notification_nothanks_label">No thanks, I don\’t mind missing out on the amazing offers from YAP.</string>
+    <string name="screen_kfs_notification_inapp_notification">In App Notifications</string>
+    <string name="screen_kfs_notification_email_notification">Email Notifications</string>
+    <string name="screen_kfs_notification_sms_notification">SMS Notifications</string>
+    <string name="screen_kfs_notification_title">Get the latest</string>
+    <string name="screen_kfs_notification_descrip">We’d love to send you exclusive offers and promotions from YAP. We’ll always treat your personal details with the utmost care.</string>
+    <string name="screen_kfs_notification_accept_all_notification_label">Yes please, I\’d like to hear from YAP on the following channels:</string>
+    <string name="screen_kfs_notification_accept_no_notification_label">You\’ll miss out</string>
+    <string name="screen_kfs_notification_accept_no_notification_note">"Are you sure you want to miss out on all the latest offers &amp; promotions? You can always change your preferences later in the app."</string>
 </resources>

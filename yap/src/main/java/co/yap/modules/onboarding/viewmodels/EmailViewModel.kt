@@ -5,6 +5,7 @@ import android.os.Build
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
 import co.yap.R
+import co.yap.modules.onboarding.enums.OnboardingPhase
 import co.yap.modules.onboarding.interfaces.IEmail
 import co.yap.modules.onboarding.models.CountryCode
 import co.yap.modules.onboarding.states.EmailState
@@ -12,17 +13,15 @@ import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.requestdtos.DemographicDataRequest
 import co.yap.networking.customers.requestdtos.SaveReferalRequest
 import co.yap.networking.customers.requestdtos.SendVerificationEmailRequest
-import co.yap.networking.customers.requestdtos.SignUpRequest
 import co.yap.networking.customers.responsedtos.AccountInfo
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
+import co.yap.networking.notification.NotificationsApi
+import co.yap.networking.notification.NotificationsRepository
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.SingleLiveEvent
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.Constants.KEY_APP_UUID
-import co.yap.yapcore.constants.Constants.KEY_IS_USER_LOGGED_IN
-import co.yap.yapcore.firebase.FirebaseEvent
-import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.toast
@@ -44,10 +43,12 @@ class EmailViewModel(application: Application) :
     override val nextButtonPressEvent: SingleClickEvent = SingleClickEvent()
     override val animationStartEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
     override val repository: CustomersRepository = CustomersRepository
+    val notificationRepository: NotificationsApi = NotificationsRepository
+
 
     override fun onResume() {
         super.onResume()
-        setProgress(80)
+        setProgress(70)
     }
 
     override fun onCreate() {
@@ -58,10 +59,10 @@ class EmailViewModel(application: Application) :
     }
 
     override fun handlePressOnNext() {
-        if (state.emailTitle == getString(R.string.screen_email_verification_display_text_title)) {
-            nextButtonPressEvent.setValue(EVENT_POST_DEMOGRAPHIC)
-        } else {
-            nextButtonPressEvent.setValue(EVENT_POST_VERIFICATION_EMAIL)
+        when {
+            state.emailTitle == getString(R.string.screen_email_verification_display_text_title) -> nextButtonPressEvent.setValue(OnboardingPhase.EVENT_POST_DEMOGRAPHIC.id)
+            parentViewModel?.onboardingData?.email.isNullOrBlank() -> nextButtonPressEvent.postValue(OnboardingPhase.EVENT_POST_VERIFICATION_EMAIL.id)
+            else -> nextButtonPressEvent.setValue(OnboardingPhase.NOTIFICATION_KFS_FLOW.id)
         }
     }
 
@@ -72,72 +73,21 @@ class EmailViewModel(application: Application) :
             )
     }
 
-
-    private fun signUp() {
-        launch {
-            state.refreshField = true
-            when (val response = repository.signUp(
-                SignUpRequest(
-                    parentViewModel?.onboardingData?.firstName,
-                    parentViewModel?.onboardingData?.lastName,
-                    parentViewModel?.onboardingData?.countryCode,
-                    parentViewModel?.onboardingData?.mobileNo,
-                    state.twoWayTextWatcher,
-                    parentViewModel?.onboardingData?.passcode,
-                    parentViewModel?.onboardingData?.accountType.toString(),
-                    token = parentViewModel?.onboardingData?.token
-                )
-            )) {
-                is RetroApiResponse.Success -> {
-                    SharedPreferenceManager.getInstance(context).save(
-                        KEY_IS_USER_LOGGED_IN,
-                        true
-                    )
-
-                    parentViewModel?.onboardingData?.passcode?.let { passCode ->
-                        SharedPreferenceManager.getInstance(context).savePassCodeWithEncryption(passCode)
-                    } ?: toast(context, "Invalid pass code")
-
-                    trackEvent(SignupEvents.SIGN_UP_EMAIL.type, state.twoWayTextWatcher)
-                    trackEventWithScreenName(FirebaseEvent.SIGNUP_EMAIL)
-                    SharedPreferenceManager.getInstance(context).saveUserNameWithEncryption(state.twoWayTextWatcher)
-                    setVerificationLabel()
-                    state.setSuccessUI()
-                    state.loading = false
-                    requestSaveReferral()
-                }
-
-                is RetroApiResponse.Error -> {
-                    state.loading = false
-                    state.emailError = response.error.message
-                    parentViewModel?.state?.emailError = true
-                }
-            }
-        }
-    }
-
-    private fun setVerificationLabel() {
+    fun setVerificationLabel() {
         state.emailTitle = getString(R.string.screen_email_verification_display_text_title)
         state.emailBtnTitle = getString(R.string.common_button_next)
         state.deactivateField = false
-
-        val screen_email_verification_b2c_display_text_email_sent: String =
-            getString(R.string.screen_email_verification_b2c_display_text_email_sent)
-        val screen_email_verification_b2c_display_text_email_confirmation: String =
-            getString(R.string.screen_email_verification_b2c_display_text_email_confirmation)
-        val screen_email_verification_b2b_display_text_email_sent: String =
-            getString(R.string.screen_email_verification_b2b_display_text_email_sent)
-        val screen_email_verification_b2b_display_text_email_confirmation: String =
-            getString(R.string.screen_email_verification_b2b_display_text_email_confirmation)
-
-        val verificationText: String =
-            parentViewModel?.onboardingData?.firstName + ", " + screen_email_verification_b2c_display_text_email_sent + " " + state.twoWayTextWatcher + "\n" + "\n" + screen_email_verification_b2c_display_text_email_confirmation
+        val verificationText =
+            "${parentViewModel?.onboardingData?.firstName} , ${getString(R.string.screen_email_verification_b2c_display_text_email_sent)}  ${state.twoWayTextWatcher} \n \n  ${
+                getString(R.string.screen_email_verification_b2c_display_text_email_confirmation)
+            }"
         state.emailVerificationTitle = verificationText
-
         // mark that we have completed all verification stuff to handle proper back navigation
         state.verificationCompleted = true
         setProgress(100)
         animationStartEvent.value = true
+        state.setSuccessUI()
+        requestSaveReferral()
     }
 
     override fun sendVerificationEmail() {
@@ -160,14 +110,15 @@ class EmailViewModel(application: Application) :
                 }
                 is RetroApiResponse.Success -> {
                     parentViewModel?.onboardingData?.token = response.data.token
-                    signUp()
+                    parentViewModel?.onboardingData?.email = state.twoWayTextWatcher
+                    state.loading = false
+                    nextButtonPressEvent.postValue(OnboardingPhase.NOTIFICATION_KFS_FLOW.id)
                 }
             }
         }
     }
 
     override fun postDemographicData() {
-
         val deviceId: String? =
             SharedPreferenceManager.getInstance(context).getValueString(KEY_APP_UUID)
         launch {
@@ -224,7 +175,7 @@ class EmailViewModel(application: Application) :
                         state.valid = true
                         state.isWaiting = accountInfo.isWaiting
                         state.loading = false
-                        nextButtonPressEvent.setValue(EVENT_NAVIGATE_NEXT)
+                        nextButtonPressEvent.setValue(OnboardingPhase.EVENT_NAVIGATE_NEXT.id)
                     }
                 }
                 is RetroApiResponse.Error -> {
@@ -242,7 +193,8 @@ class EmailViewModel(application: Application) :
         return TextView.OnEditorActionListener { v, actionId, event ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 if (state.valid) {
-                    handlePressOnNext()
+                    nextButtonPressEvent.postValue(OnboardingPhase.EVENT_POST_VERIFICATION_EMAIL.id)
+                    //  handlePressOnNext()
                 }
             }
             false
@@ -264,4 +216,5 @@ class EmailViewModel(application: Application) :
             }
         }
     }
+
 }

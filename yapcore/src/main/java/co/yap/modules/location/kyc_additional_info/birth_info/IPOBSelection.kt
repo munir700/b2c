@@ -15,7 +15,6 @@ interface IPOBSelection {
     interface View : IBase.View<ViewModel> {
         fun addObservers()
         fun removeObservers()
-        fun getBinding(): FragmentPlaceOfBirthSelectionBinding
     }
 
     interface ViewModel : IBase.ViewModel<State> {
@@ -23,7 +22,9 @@ interface IPOBSelection {
         fun saveDOBInfo(success: () -> Unit)
         var clickEvent: SingleClickEvent
         var populateSpinnerData: MutableLiveData<ArrayList<Country>>
+        var populateCitiesSpinnerData: MutableLiveData<ArrayList<String>>
         fun getAllCountries()
+        fun getAllCities(countryCode: String)
         val dualNatioanlitySpinnerItemClickListener: OnItemClickListener
         val dualNationalityQuestionOptions: ArrayList<String>
         fun canSkipFragment(): Boolean
@@ -36,6 +37,7 @@ interface IPOBSelection {
         var cityOfBirth: ObservableField<String>
         var valid: ObservableField<Boolean>
         var selectedCountry: ObservableField<Country?>
+        var selectedCity: ObservableField<String?>
         var selectedSecondCountry: ObservableField<Country?>
         var eidNationality: ObservableField<String>
         var isDualNational: ObservableBoolean

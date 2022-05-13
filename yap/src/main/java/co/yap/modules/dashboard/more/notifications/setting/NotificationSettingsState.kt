@@ -5,6 +5,14 @@ import co.yap.BR
 import co.yap.yapcore.BaseState
 
 class NotificationSettingsState : BaseState(), INotificationSettings.State {
+
+    @get:Bindable
+    override var allNotificationsAllowed: Boolean = false
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.allNotificationsAllowed)
+        }
+
     @get:Bindable
     override var inAppNotificationsAllowed: Boolean? = true
         set(value) {
@@ -25,4 +33,6 @@ class NotificationSettingsState : BaseState(), INotificationSettings.State {
             field = value
             notifyPropertyChanged(BR.emailNotificationsAllowed)
         }
+
+    override var pushNotificationsAllowed: Boolean? = false
 }

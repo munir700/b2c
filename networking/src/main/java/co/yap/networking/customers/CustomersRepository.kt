@@ -4,6 +4,7 @@ import androidx.annotation.NonNull
 import co.yap.networking.BaseRepository
 import co.yap.networking.CookiesManager
 import co.yap.networking.RetroNetwork
+import co.yap.networking.customers.models.CityModel
 import co.yap.networking.customers.models.dashboardwidget.UpdateWidgetResponse
 import co.yap.networking.customers.models.dashboardwidget.WidgetData
 import co.yap.networking.customers.requestdtos.*
@@ -18,7 +19,6 @@ import co.yap.networking.customers.responsedtos.documents.ConfigureEIDResponse
 import co.yap.networking.customers.responsedtos.documents.EIDDocumentsResponse
 import co.yap.networking.customers.responsedtos.documents.GetMoreDocumentsResponse
 import co.yap.networking.customers.responsedtos.documents.UqudoTokenResponse
-import co.yap.networking.customers.responsedtos.employment_amendment.Document
 import co.yap.networking.customers.responsedtos.employment_amendment.DocumentResponse
 import co.yap.networking.customers.responsedtos.employment_amendment.EmploymentInfoAmendmentResponse
 import co.yap.networking.customers.responsedtos.employmentinfo.IndustrySegmentsResponse
@@ -87,6 +87,7 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     const val URL_SEARCH_BANKS = "/customers/api/other_bank/query"
     const val URL_VALIDATE_BENEFICIARY = "customers/api/validate/bank-transfer/beneficiary-details"
     const val URL_GET_ALL_COUNTRIES = "customers/api/countries"
+    const val URL_GET_ALL_CitIES = "customers/api/countries/cities/{country-code}"
     const val URL_GET_ALL_DOCUMENT_FOR_EMPLOYMENT = "customers/api/employment-document-criteria"
 
     val URL_GET_TRANSFER_REASONS = "/transactions/api/product-codes/{product-code}/purpose-reasons"
@@ -120,6 +121,7 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     const val URL_CITIES = "customers/api/cities"
     const val URL_TAX_REASONS = "customers/api/tin-reasons"
     const val URL_GET_QR_CONTACT = "customers/api/customers-info"
+    const val URL_KEY_FACTS_STATEMENT = "customers/api/customer-documents-kfs-statement-url"
 
     /*
    * Url's that comes from admin repo
@@ -164,6 +166,7 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     const val URL_GET_AMENDMENT_FIELDS = "customers/api/amendment-fields"
     const val URL_GET_CUSTOMER_KYC_DOCUMENTS = "customers/api/v2/documents"
     const val URL_UPDATE_PASSPORT_AMENDMENT = "customers/api/kyc-amendments/passport"
+
     //Uqudo API
     const val URL_GET_UQUDO_AUTH_TOKEN = "customers/api/uqudo/get-token"
 
@@ -379,6 +382,8 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     override suspend fun getCountries() = executeSafely(call = { api.getCountries() })
 
     override suspend fun getAllCountries() = executeSafely(call = { api.getAllCountries() })
+
+    override suspend fun getAllCities(countryCode: String): RetroApiResponse<CityModel> = executeSafely(call = { api.getAllCities(countryCode) })
 
     override suspend fun addBeneficiary(beneficiary: Beneficiary): RetroApiResponse<AddBeneficiaryResponseDTO> =
         executeSafely(call = { api.addBeneficiary(beneficiary) })
@@ -712,4 +717,7 @@ object CustomersRepository : BaseRepository(), CustomersApi {
 
     override suspend fun getAppCountries(): RetroApiResponse<BaseListResponse<Country>> =
         executeSafely { api.getAppCountries() }
+
+    override suspend fun getKeyFactStatement(): RetroApiResponse<TaxInfoResponse> =
+        executeSafely(call = { api.getKeyFactStatement() })
 }

@@ -1,4 +1,4 @@
-package co.yap.modules.onboarding.states
+package co.yap.app.modules.phoneverification
 
 import android.annotation.SuppressLint
 import android.app.Application
@@ -14,9 +14,7 @@ import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import co.yap.BR
-import co.yap.modules.onboarding.interfaces.IMobile
 import co.yap.modules.onboarding.models.CountryCode
-import co.yap.modules.onboarding.viewmodels.MobileViewModel
 import co.yap.widgets.mobile.CountryCodePicker
 import co.yap.yapcore.BaseState
 import co.yap.yapcore.R
@@ -54,8 +52,8 @@ class MobileState(application: Application, var viewModel: MobileViewModel) : Ba
     override var mobile: String = ""
         set(value) {
             field = value
-            if (viewModel.parentViewModel?.isPhoneNumberEntered?.value == false) {
-                viewModel.parentViewModel?.isPhoneNumberEntered?.value = true
+            if (viewModel.isPhoneNumberEntered.value == false) {
+                viewModel.isPhoneNumberEntered.value = true
                 trackEvent(SignupEvents.SIGN_UP_START.type)
             }
             if (mobile.length < 9) {
@@ -193,6 +191,12 @@ class MobileState(application: Application, var viewModel: MobileViewModel) : Ba
         }
 
     }
-    override var countryCode: MutableLiveData<String> = MutableLiveData(CountryCode.UAE.countryCode ?: "")
+
+    override var countryCode: MutableLiveData<String> =
+        MutableLiveData(CountryCode.UAE.countryCode ?: "")
     override var mobileNumber: MutableLiveData<String> = MutableLiveData("")
+
+    override var totalProgress: ObservableField<Int> = ObservableField(100)
+
+    override var currentProgress: ObservableField<Int> = ObservableField(0)
 }
