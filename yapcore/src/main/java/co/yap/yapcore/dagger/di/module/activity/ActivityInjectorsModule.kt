@@ -14,7 +14,7 @@ import dagger.hilt.components.SingletonComponent
 @Module
 abstract class ActivityInjectorsModule {
 
-    @ActivityScope
+   /* @ActivityScope
     @ContributesAndroidInjector(modules = [NavHostPresenterModule::class, MvvmNavHostModule::class, FragmentInjectorsModule::class])
-    abstract fun NavHostPresenterActivityInjector(): NavHostPresenterActivity
+    abstract fun NavHostPresenterActivityInjector(): NavHostPresenterActivity*/
 }

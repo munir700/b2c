@@ -1,15 +1,12 @@
 package co.yap.app
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentActivity
-import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import co.yap.app.di.component.AppComponent
-import co.yap.app.di.component.AppInjector
 import co.yap.app.modules.login.activities.VerifyPassCodePresenterActivity
 import co.yap.app.modules.refreal.DeepLinkNavigation
 import co.yap.household.app.HouseHoldApplication
@@ -29,7 +26,6 @@ import co.yap.yapcore.config.BuildConfigManager
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.Constants.EXTRA
 import co.yap.yapcore.constants.Constants.KEY_APP_UUID
-import co.yap.yapcore.constants.Constants.THEME_YAP
 import co.yap.yapcore.dagger.base.navigation.host.NAVIGATION_Graph_ID
 import co.yap.yapcore.dagger.base.navigation.host.NavHostPresenterActivity
 import co.yap.yapcore.enums.YAPThemes
@@ -46,12 +42,10 @@ import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.leanplum.Leanplum
 import com.leanplum.LeanplumActivityHelper
-import dagger.android.AndroidInjector
-import dagger.android.DispatchingAndroidInjector
-import dagger.android.HasActivityInjector
-import dagger.android.support.DaggerApplication
 import com.uxcam.UXCam
+import dagger.android.AndroidInjector
 import dagger.android.HasAndroidInjector
+import dagger.android.support.DaggerApplication
 import dagger.hilt.EntryPoint
 import dagger.hilt.InstallIn
 import dagger.hilt.android.EntryPointAccessors
@@ -59,12 +53,11 @@ import dagger.hilt.android.HiltAndroidApp
 import dagger.hilt.components.SingletonComponent
 import timber.log.Timber
 import java.util.*
-import javax.inject.Inject
 
 @HiltAndroidApp
-class AAPApplication : HouseHoldApplication(), NavigatorProvider ,HasAndroidInjector {
-  /*  @Inject
-    lateinit var androidInjector: DispatchingAndroidInjector<Any>*/
+class AAPApplication : HouseHoldApplication(), NavigatorProvider, HasAndroidInjector {
+    /*  @Inject
+      lateinit var androidInjector: DispatchingAndroidInjector<Any>*/
     lateinit var sAppComponent: AppComponent
     lateinit var originalSign: AppSignature
 
@@ -86,7 +79,7 @@ class AAPApplication : HouseHoldApplication(), NavigatorProvider ,HasAndroidInje
 
     override fun onCreate() {
         super.onCreate()
-       // sAppComponent = AppInjector.init(this)
+        // sAppComponent = AppInjector.init(this)
         initFireBase()
         originalSign =
             signatureKeysFromJNI(
@@ -255,7 +248,7 @@ class AAPApplication : HouseHoldApplication(), NavigatorProvider ,HasAndroidInje
             }
 
             override fun startHouseHoldModule(activity: FragmentActivity) {
-                activity.launchActivity<NavHostPresenterActivity>() {
+                activity.launchActivity<NavHostPresenterActivity> {
                     putExtra(NAVIGATION_Graph_ID, co.yap.app.R.navigation.hh_main_nav_graph)
                 }
             }
@@ -307,7 +300,7 @@ class AAPApplication : HouseHoldApplication(), NavigatorProvider ,HasAndroidInje
     }
 
     private fun initUxCam(configManager: BuildConfigManager?) {
-        if(!BuildConfig.DEBUG){
+        if (!BuildConfig.DEBUG) {
             UXCam.startWithKey(configManager?.uxCamKey)
         }
     }

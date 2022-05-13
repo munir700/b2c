@@ -1,4 +1,4 @@
-package co.yap.yapcore.dagger.base.navigation
+package co.yap.yapcore.hilt.base.navigation
 
 import android.os.Bundle
 import android.view.MenuItem
@@ -11,19 +11,19 @@ import androidx.navigation.*
 import co.yap.yapcore.IBase
 import co.yap.yapcore.R
 import co.yap.yapcore.constants.Constants.EXTRA
-import co.yap.yapcore.dagger.base.BaseViewModelActivity
-import co.yap.yapcore.dagger.base.MvvmNavHostFragment
 import co.yap.yapcore.dagger.base.interfaces.ManageToolBarListener
-import co.yap.yapcore.dagger.base.viewmodel.DaggerBaseViewModel
 import co.yap.yapcore.helpers.extentions.addExtras
 import co.yap.yapcore.helpers.extentions.bindView
 import co.yap.yapcore.helpers.extentions.plus
+import co.yap.yapcore.hilt.base.MvvmNavHostFragmentV2
+import co.yap.yapcore.hilt.base.viewmodel.BaseViewModelActivityV2
+import co.yap.yapcore.hilt.base.viewmodel.HiltBaseViewModel
 
 /**
  * A base BaseNavViewModel Activity with built-in support for Android X Navigation Concept and ViewModel.
  */
-abstract class BaseNavViewModelActivity<VB : ViewDataBinding, S : IBase.State, VM : DaggerBaseViewModel<S>> :
-    BaseViewModelActivity<VB, S, VM>(), ManageToolBarListener {
+abstract class BaseNavViewModelActivityV2<VB : ViewDataBinding, S : IBase.State, VM : HiltBaseViewModel<S>> :
+    BaseViewModelActivityV2<VB, S, VM>(), ManageToolBarListener {
 
     /**
      * Used to obtain the exact id of the navigation graph to be used by this activity.
@@ -52,7 +52,7 @@ abstract class BaseNavViewModelActivity<VB : ViewDataBinding, S : IBase.State, V
      */
     protected open var startDestinationInput: Bundle? = Bundle()
     protected open var extrasBundle = Bundle()
-    private var navHostFragment: MvvmNavHostFragment? = null
+    private var navHostFragment: MvvmNavHostFragmentV2? = null
 
     @CallSuper
     override fun init(savedInstanceState: Bundle?) {
@@ -136,7 +136,7 @@ abstract class BaseNavViewModelActivity<VB : ViewDataBinding, S : IBase.State, V
             field?.let { viewModel.state.toolbarTitle = it }
 
         }
-    override var toolBarVisibility: Boolean? = false
+    override var toolBarVisibility: Boolean? = true
         set(value) {
             field = value
             field?.let { viewModel.state.toolsBarVisibility = it }
@@ -177,7 +177,7 @@ abstract class BaseNavViewModelActivity<VB : ViewDataBinding, S : IBase.State, V
     private fun initNavigationGraph() {
         try {
             navHostFragment =
-                supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as MvvmNavHostFragment?
+                supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as MvvmNavHostFragmentV2?
             navHostFragment?.navController?.apply {
                 graph = navInflater.inflate(navigationGraphId).also {
                     it.startDestination =
