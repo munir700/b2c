@@ -10,14 +10,14 @@ import dagger.Provides
 @Module
 class HouseHoldLandingModule : BaseFragmentModule<HouseHoldLandingFragment>() {
 
-    @Provides
+/*    @Provides
     @ViewModelInjection
     fun provideHouseHoldLandingVM(
         fragment: HouseHoldLandingFragment,
         viewModelProvider: InjectionViewModelProvider<HouseHoldLandingVM>
-    ): HouseHoldLandingVM = viewModelProvider.get(fragment, HouseHoldLandingVM::class)
+    ): HouseHoldLandingVM = viewModelProvider.get(fragment, HouseHoldLandingVM::class)*/
 
-    @Provides
+ /*   @Provides
     @FragmentScope
-    fun provideHouseholdHomeState(): IHouseHoldLanding.State = HouseHoldLandingState()
+    fun provideHouseholdHomeState(): IHouseHoldLanding.State = HouseHoldLandingState()*/
 }

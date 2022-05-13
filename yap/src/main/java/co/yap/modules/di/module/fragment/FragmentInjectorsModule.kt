@@ -2,8 +2,6 @@ package co.yap.modules.di.module.fragment
 
 import co.yap.modules.dashboard.store.household.contact.HHAddUserContactFragment
 import co.yap.modules.dashboard.store.household.contact.HHAddUserContactModule
-import co.yap.modules.dashboard.store.household.landing.HouseHoldLandingFragment
-import co.yap.modules.dashboard.store.household.landing.HouseHoldLandingModule
 import co.yap.modules.dashboard.store.household.success.HHAddUserSuccessFragment
 import co.yap.modules.dashboard.store.household.success.HHAddUserSuccessModule
 import co.yap.modules.dashboard.store.household.userinfo.HHAddUserNameFragment
@@ -67,7 +65,6 @@ import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import io.reactivex.Single
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -122,9 +119,9 @@ abstract class FragmentInjectorsModule {
     @FragmentScope
     abstract fun editFuturePaymentFragmentInjector(): EditFuturePaymentFragment
 
-    @ContributesAndroidInjector(modules = [HouseHoldLandingModule::class])
+/*    @ContributesAndroidInjector(modules = [HouseHoldLandingModule::class])
     @FragmentScope
-    abstract fun houseHoldLandingFragmentInjector(): HouseHoldLandingFragment
+    abstract fun houseHoldLandingFragmentInjector(): HouseHoldLandingFragment*/
 
     @ContributesAndroidInjector(modules = [HHAddUserNameModule::class])
     @FragmentScope
