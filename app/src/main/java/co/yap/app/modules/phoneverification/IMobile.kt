@@ -1,12 +1,12 @@
-package co.yap.modules.onboarding.interfaces
+package co.yap.app.modules.phoneverification
 
 import android.graphics.drawable.Drawable
 import android.widget.EditText
 import android.widget.TextView
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import co.yap.modules.onboarding.models.OnboardingData
 import co.yap.modules.onboarding.models.UserVerifierProvider
 import co.yap.networking.customers.responsedtos.sendmoney.Country
 import co.yap.yapcore.IBase
@@ -29,6 +29,9 @@ interface IMobile {
         val countriesList:MutableLiveData<ArrayList<Country>?>
         val userVerified: MutableLiveData<String>
          val userVerifier: UserVerifierProvider
+        val isPhoneNumberEntered: MutableLiveData<Boolean>
+        var onboardingData: OnboardingData
+
     }
 
     interface State : IBase.State {
@@ -42,6 +45,8 @@ interface IMobile {
         var mobileNoLength: Int
         var countryCode: MutableLiveData<String>
         var mobileNumber: MutableLiveData<String>
+        var totalProgress: ObservableField<Int>
+        var currentProgress: ObservableField<Int>
 
     }
 }

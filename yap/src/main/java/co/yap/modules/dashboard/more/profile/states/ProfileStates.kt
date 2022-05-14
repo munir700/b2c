@@ -7,6 +7,7 @@ import androidx.databinding.Bindable
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import androidx.databinding.library.baseAdapters.BR
+import androidx.lifecycle.MutableLiveData
 import co.yap.modules.dashboard.more.profile.intefaces.IProfile
 import co.yap.yapcore.BaseState
 
@@ -60,4 +61,6 @@ class ProfileStates : BaseState(), IProfile.State {
 
     override var isShowErrorIcon: ObservableField<Boolean> = ObservableField(false)
     override var isNotificationsEnabled: ObservableBoolean = ObservableBoolean(false)
+    override var kfsAcceptedTimeStamp: MutableLiveData<Boolean> = MutableLiveData(false)
+
 }

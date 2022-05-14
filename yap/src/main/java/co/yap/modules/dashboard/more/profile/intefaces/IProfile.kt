@@ -3,13 +3,13 @@ package co.yap.modules.dashboard.more.profile.intefaces
 import android.net.Uri
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
+import androidx.lifecycle.MutableLiveData
 import co.yap.app.YAPApplication
 import co.yap.networking.authentication.AuthRepository
 import co.yap.widgets.bottomsheet.BottomSheetItem
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 import java.io.File
-import java.util.*
 
 interface IProfile {
     interface State : IBase.State {
@@ -19,8 +19,8 @@ interface IProfile {
         var imageUri: Uri
         var buildVersionDetail: String?
         var isShowErrorIcon: ObservableField<Boolean>
-        var isNotificationsEnabled : ObservableBoolean
-
+        var isNotificationsEnabled: ObservableBoolean
+        var kfsAcceptedTimeStamp: MutableLiveData<Boolean>
     }
 
     interface ViewModel : IBase.ViewModel<State> {
@@ -34,7 +34,8 @@ interface IProfile {
         fun logout()
         fun requestRemoveProfilePicture(apiRes: (Boolean) -> Unit)
         fun getUploadProfileOptions(isShowRemovePhoto: Boolean): ArrayList<BottomSheetItem>
-        fun getNotificationScreenValues(isGranted : Boolean)
+        fun getNotificationScreenValues(isGranted: Boolean)
+        fun fetchKeyFactStatementUrl(success: (url: String) -> Unit)
     }
 
     interface View : IBase.View<ViewModel> {

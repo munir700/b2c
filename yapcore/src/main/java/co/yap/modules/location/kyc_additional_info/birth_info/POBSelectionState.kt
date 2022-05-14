@@ -20,6 +20,7 @@ class POBSelectionState : BaseState(), IPOBSelection.State {
         }
 
     override var selectedCountry: ObservableField<Country?> = ObservableField()
+    override var selectedCity: ObservableField<String?> = ObservableField()
     override var selectedSecondCountry: ObservableField<Country?> = ObservableField()
     override var valid: ObservableField<Boolean> = ObservableField(false)
     override var isDualNational: ObservableBoolean = ObservableBoolean()
@@ -31,11 +32,7 @@ class POBSelectionState : BaseState(), IPOBSelection.State {
     override var previousSelectedSecondCountry: ObservableField<String?> = ObservableField()
 
     override fun validate() {
-        valid.set(
-            StringUtils.validateRegix(
-                cityOfBirth.get() ?: "",
-                "^([a-zA-Z\\u0080-\\u024F]+(?:. |-| |'))*[a-zA-Z\\u0080-\\u024F]+", 2
-            ) && selectedCountry.get() != null && (isDualNational.get() == (selectedSecondCountry.get() != null))
+        valid.set(selectedCountry.get() != null && (isDualNational.get() == (selectedSecondCountry.get() != null))
         )
     }
 }
