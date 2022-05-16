@@ -30,7 +30,7 @@ class CreateNewPasscodeFragment :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel.state.forgotTextVisibility = false
-        viewModel.setLayoutVisibility(false)
+        viewModel.setTermsAndConditionView(false)
         viewModel.setTitles(
             title = getString(Strings.screen_create_passcode_display_text_title),
             buttonTitle = getString(Strings.screen_create_new_passcode_button_text)
