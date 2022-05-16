@@ -9,7 +9,7 @@ import dagger.Provides
 
 @Module
 class HHAddUserNameModule : BaseFragmentModule<HHAddUserNameFragment>() {
-    @Provides
+/*    @Provides
     @ViewModelInjection
     @FragmentScope
     fun provideAddHHGetUserNameVM(
@@ -19,5 +19,5 @@ class HHAddUserNameModule : BaseFragmentModule<HHAddUserNameFragment>() {
 
     @Provides
     @FragmentScope
-    fun provideHHAddUserNameState(): IHHAddUserName.State = HHAddUserNameState()
+    fun provideHHAddUserNameState(): IHHAddUserName.State = HHAddUserNameState()*/
 }

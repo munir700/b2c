@@ -123,9 +123,9 @@ abstract class FragmentInjectorsModule {
     @FragmentScope
     abstract fun houseHoldLandingFragmentInjector(): HouseHoldLandingFragment*/
 
-    @ContributesAndroidInjector(modules = [HHAddUserNameModule::class])
+ /*   @ContributesAndroidInjector(modules = [HHAddUserNameModule::class])
     @FragmentScope
-    abstract fun hhAddUserNameFragmentInjector(): HHAddUserNameFragment
+    abstract fun hhAddUserNameFragmentInjector(): HHAddUserNameFragment*/
 
     @ContributesAndroidInjector(modules = [HHAddUserSuccessModule::class])
     @FragmentScope

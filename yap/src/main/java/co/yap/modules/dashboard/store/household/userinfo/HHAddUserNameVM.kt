@@ -2,16 +2,17 @@ package co.yap.modules.dashboard.store.household.userinfo
 
 import android.os.Bundle
 import androidx.navigation.NavController
-import co.yap.yapcore.dagger.base.viewmodel.DaggerBaseViewModel
 import co.yap.yapcore.helpers.validation.IValidator
 import co.yap.yapcore.helpers.validation.Validator
+import co.yap.yapcore.hilt.base.viewmodel.HiltBaseViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
-class HHAddUserNameVM @Inject constructor(
-    override val state: IHHAddUserName.State,
-    override var validator: Validator?
-) :
-    DaggerBaseViewModel<IHHAddUserName.State>(), IHHAddUserName.ViewModel, IValidator {
+@HiltViewModel
+class HHAddUserNameVM @Inject constructor(override val state: HHAddUserNameState) :
+    HiltBaseViewModel<IHHAddUserName.State>(), IHHAddUserName.ViewModel, IValidator {
+    //TODO: Add this dependency in Hilt Graph after migration completes.
+    override var validator: Validator? = Validator(null)
     override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?) {
     }
 
