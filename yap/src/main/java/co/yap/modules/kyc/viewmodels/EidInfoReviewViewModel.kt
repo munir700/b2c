@@ -423,7 +423,7 @@ class EidInfoReviewViewModel(application: Application) :
                 }
             }
             state.isCountryUS =
-                getCountryCode(documentFront?.nationality ?: "").contains(countryName ?: "US")
+                getCountryCode(documentBack?.nationality ?: "").contains(countryName ?: "US")
         }
     }
 
@@ -441,7 +441,9 @@ class EidInfoReviewViewModel(application: Application) :
     }
 
     private fun getCountryCode(countryName: String): String =
-        Locale.getISOCountries().find { Locale("", it).displayCountry == countryName } ?: ""
+        Locale.getISOCountries().find { Locale("", it).isO3Country == countryName }
+            ?: Locale.getISOCountries().find { Locale("", it).displayCountry == countryName } ?: ""
+
 
     override fun navigateToConfirmNameFragment(navigate: () -> Unit) {
         parentViewModel?.state?.let { parentState ->
