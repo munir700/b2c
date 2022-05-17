@@ -20,16 +20,21 @@ import co.yap.yapcore.helpers.showTextUpdatedAbleSnackBar
 import co.yap.yapcore.helpers.spannables.underline
 import co.yap.yapcore.helpers.validation.IValidator
 import co.yap.yapcore.helpers.validation.Validator
+import co.yap.yapcore.hilt.base.viewmodel.HiltBaseViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
+@HiltViewModel
 class EnterSalaryAmountVM @Inject constructor(
-    override var state: IEnterSalaryAmount.State,
-    override var validator: Validator?
+    override var state: EnterSalaryAmountState
 ) :
-    DaggerBaseViewModel<IEnterSalaryAmount.State>(), IEnterSalaryAmount.ViewModel, IValidator {
+
+    HiltBaseViewModel<IEnterSalaryAmount.State>(), IEnterSalaryAmount.ViewModel, IValidator {
     private val repository: TransactionsApi = TransactionsRepository
     override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?) {
     }
+
+    override var validator: Validator? = Validator(null)
 
     override fun fetchExtras(extras: Bundle?) {
         super.fetchExtras(extras)

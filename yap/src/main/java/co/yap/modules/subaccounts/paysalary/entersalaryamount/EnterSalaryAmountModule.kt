@@ -8,7 +8,7 @@ import dagger.Module
 import dagger.Provides
 
 @Module
-class EnterSalaryAmountModule : BaseFragmentModule<EnterSalaryAmountFragment>() {
+class EnterSalaryAmountModule {}/*: BaseFragmentModule<EnterSalaryAmountFragment>() {
     @Provides
     @ViewModelInjection
     fun provideSubAccountDashBoardVM(
@@ -19,4 +19,4 @@ class EnterSalaryAmountModule : BaseFragmentModule<EnterSalaryAmountFragment>() 
     @Provides
     @FragmentScope
     fun provideSubAccountDashBoardState(): IEnterSalaryAmount.State = EnterSalaryAmountState()
-}
+}*/
