@@ -5,8 +5,9 @@ import co.yap.networking.customers.requestdtos.HouseholdOnboardRequest
 import co.yap.networking.household.responsedtos.HouseHoldPlan
 import co.yap.yapcore.BaseState
 import co.yap.yapcore.managers.SessionManager
+import javax.inject.Inject
 
-class HouseHoldConfirmPaymentState : BaseState(), IHouseHoldConfirmPayment.State {
+class HouseHoldConfirmPaymentState @Inject constructor(): BaseState(), IHouseHoldConfirmPayment.State {
     override var onBoardRequest: MutableLiveData<HouseholdOnboardRequest>? = MutableLiveData()
     override var plansList: MutableLiveData<ArrayList<HouseHoldPlan>>? = MutableLiveData()
     override var selectedPlan: MutableLiveData<HouseHoldPlan>? = MutableLiveData()

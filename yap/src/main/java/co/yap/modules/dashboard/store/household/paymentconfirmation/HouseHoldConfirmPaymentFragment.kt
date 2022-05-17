@@ -2,6 +2,7 @@ package co.yap.modules.dashboard.store.household.paymentconfirmation
 
 import android.os.Bundle
 import androidx.core.os.bundleOf
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import co.yap.R
 import co.yap.databinding.FragmentHouseHoldCofirmPaymentBinding
@@ -16,10 +17,15 @@ import co.yap.yapcore.helpers.extentions.getCurrencyPopMenu
 import co.yap.yapcore.helpers.extentions.launchActivityForResult
 import co.yap.yapcore.helpers.extentions.plus
 import co.yap.yapcore.helpers.livedata.GetAccountBalanceLiveData
+import co.yap.yapcore.hilt.base.navigation.BaseNavViewModelFragmentV2
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_house_hold_cofirm_payment.*
 
+@AndroidEntryPoint
 class HouseHoldConfirmPaymentFragment :
-    BaseNavViewModelFragment<FragmentHouseHoldCofirmPaymentBinding, IHouseHoldConfirmPayment.State, HouseHoldConfirmPaymentVM>() {
+    BaseNavViewModelFragmentV2<FragmentHouseHoldCofirmPaymentBinding, IHouseHoldConfirmPayment.State, HouseHoldConfirmPaymentVM>() {
+
+    override val viewModel: HouseHoldConfirmPaymentVM by viewModels()
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_house_hold_cofirm_payment
     private var householdPlanPopMenu: PopupMenu? = null
@@ -27,7 +33,7 @@ class HouseHoldConfirmPaymentFragment :
         super.postExecutePendingBindings(savedInstanceState)
         initComponents()
         GetAccountBalanceLiveData.get().observe(this, Observer {
-            state.availableBalance?.value = it?.availableBalance
+            viewModel.state.availableBalance?.value = it?.availableBalance
         })
     }
 
@@ -39,14 +45,14 @@ class HouseHoldConfirmPaymentFragment :
 
             R.id.tvTopUp -> launchActivityForResult<TopUpLandingActivity>(completionHandler = { resultCode, data ->
                 GetAccountBalanceLiveData.get().observe(this, Observer {
-                    state.availableBalance?.value = it?.availableBalance
+                    viewModel.state.availableBalance?.value = it?.availableBalance
                 })
             })
             R.id.confirmButton -> {
                 viewModel.addHouseholdUser {
                     navigateForwardWithAnimation(
                         HouseHoldConfirmPaymentFragmentDirections.actionHouseHoldConfirmPaymentFragmentToHHAddUserSuccessFragment(),
-                        arguments?.plus(bundleOf(HouseholdOnboardRequest::class.java.name to state.onBoardRequest?.value))
+                        arguments?.plus(bundleOf(HouseholdOnboardRequest::class.java.name to viewModel.state.onBoardRequest?.value))
                     )
                 }
             }
@@ -65,15 +71,16 @@ class HouseHoldConfirmPaymentFragment :
 
     private fun getHouseholdPlans(): List<PopupMenuItem> {
         val popMenuHouseholdPlansList = ArrayList<PopupMenuItem>()
-        state.plansList?.value?.forEach { item -> popMenuHouseholdPlansList.add(PopupMenuItem("${item.type} - ${item.amount}")) }
+        viewModel.state.plansList?.value?.forEach { item -> popMenuHouseholdPlansList.add(PopupMenuItem("${item.type} - ${item.amount}")) }
         return popMenuHouseholdPlansList
     }
 
     private val popupItemClickListener =
         OnMenuItemClickListener<PopupMenuItem?> { position, _ ->
             householdPlanPopMenu?.selectedPosition = position
-            state.selectedPlan?.value = state.plansList?.value?.get(position)
+            viewModel.state.selectedPlan?.value = viewModel.state.plansList?.value?.get(position)
         }
 
     override fun onBackPressed(): Boolean = false
+    
 }

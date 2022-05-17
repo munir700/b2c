@@ -8,7 +8,7 @@ import dagger.Module
 import dagger.Provides
 
 @Module
-class HouseHoldConfirmPaymentModule : BaseFragmentModule<HouseHoldConfirmPaymentFragment>() {
+class HouseHoldConfirmPaymentModule {/*: BaseFragmentModule<HouseHoldConfirmPaymentFragment>() {
     @Provides
     @ViewModelInjection
     fun provideHouseHoldConfirmPaymentVM(
@@ -20,5 +20,5 @@ class HouseHoldConfirmPaymentModule : BaseFragmentModule<HouseHoldConfirmPayment
     @Provides
     @FragmentScope
     fun provideHouseHoldConfirmPaymentState(): IHouseHoldConfirmPayment.State =
-        HouseHoldConfirmPaymentState()
+        HouseHoldConfirmPaymentState()*/
 }

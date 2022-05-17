@@ -11,15 +11,18 @@ import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.dagger.base.viewmodel.DaggerBaseViewModel
 import co.yap.yapcore.enums.AccountType
 import co.yap.yapcore.enums.PackageType
+import co.yap.yapcore.hilt.base.viewmodel.HiltBaseViewModel
 import co.yap.yapcore.leanplum.HHSubscriptionEvents
 import co.yap.yapcore.leanplum.trackEvent
 import co.yap.yapcore.leanplum.trackEventWithAttributes
 import co.yap.yapcore.managers.SessionManager
+import dagger.hilt.android.lifecycle.HiltViewModel
 import java.util.*
 import javax.inject.Inject
 
-class HouseHoldConfirmPaymentVM @Inject constructor(override var state: IHouseHoldConfirmPayment.State) :
-    DaggerBaseViewModel<IHouseHoldConfirmPayment.State>(), IHouseHoldConfirmPayment.ViewModel {
+@HiltViewModel
+class HouseHoldConfirmPaymentVM @Inject constructor(override var state: HouseHoldConfirmPaymentState) :
+    HiltBaseViewModel<IHouseHoldConfirmPayment.State>(), IHouseHoldConfirmPayment.ViewModel {
 
     override var repository: CustomersApi = CustomersRepository
 
