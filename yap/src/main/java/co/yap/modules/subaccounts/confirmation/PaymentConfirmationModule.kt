@@ -9,7 +9,7 @@ import dagger.Provides
 
 
 @Module
-class PaymentConfirmationModule:BaseFragmentModule<PaymentConfirmationFragment>() {
+class PaymentConfirmationModule{/*:BaseFragmentModule<PaymentConfirmationFragment>() {
 
     @Provides
     @ViewModelInjection
@@ -20,5 +20,5 @@ class PaymentConfirmationModule:BaseFragmentModule<PaymentConfirmationFragment>(
 
     @Provides
     @FragmentScope
-    fun providePaymentConfirmationState(): IPaymentConfirmation.State = PaymentConfirmationState()
+    fun providePaymentConfirmationState(): IPaymentConfirmation.State = PaymentConfirmationState()*/
 }
