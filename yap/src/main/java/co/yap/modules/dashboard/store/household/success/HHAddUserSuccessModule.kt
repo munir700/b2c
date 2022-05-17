@@ -8,7 +8,7 @@ import dagger.Module
 import dagger.Provides
 
 @Module
-class HHAddUserSuccessModule : BaseFragmentModule<HHAddUserSuccessFragment>() {
+class HHAddUserSuccessModule{ /*: BaseFragmentModule<HHAddUserSuccessFragment>() {
     @Provides
     @ViewModelInjection
     @FragmentScope
@@ -19,5 +19,5 @@ class HHAddUserSuccessModule : BaseFragmentModule<HHAddUserSuccessFragment>() {
 
     @Provides
     @FragmentScope
-    fun provideHHAddUserNameState(): IHHAddUserSuccess.State = HHAddUserSuccessState()
+    fun provideHHAddUserNameState(): IHHAddUserSuccess.State = HHAddUserSuccessState()*/
 }
