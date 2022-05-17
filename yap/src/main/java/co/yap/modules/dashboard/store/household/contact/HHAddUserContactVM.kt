@@ -7,27 +7,28 @@ import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.requestdtos.HouseholdOnboardRequest
 import co.yap.networking.customers.requestdtos.VerifyHouseholdMobileRequest
 import co.yap.networking.models.RetroApiResponse
-import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
 import co.yap.widgets.State
-import co.yap.widgets.Status
-import co.yap.yapcore.SingleClickEvent
-import co.yap.yapcore.dagger.base.viewmodel.DaggerBaseViewModel
+import co.yap.yapcore.dagger.di.qualifiers.ApplicationContext
 import co.yap.yapcore.helpers.validation.IValidator
 import co.yap.yapcore.helpers.validation.Validator
+import co.yap.yapcore.hilt.base.viewmodel.HiltBaseViewModel
 import co.yap.yapcore.leanplum.HHSubscriptionEvents
 import co.yap.yapcore.leanplum.trackEvent
+import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
+@HiltViewModel
 class HHAddUserContactVM @Inject constructor(
-    override val state: IHHAddUserContact.State,
-    override var validator: Validator?
+    override val state: HHAddUserContactState
 ) :
-    DaggerBaseViewModel<IHHAddUserContact.State>(), IHHAddUserContact.ViewModel, IValidator {
+    HiltBaseViewModel<IHHAddUserContact.State>(), IHHAddUserContact.ViewModel, IValidator {
     private val repository: CustomersApi = CustomersRepository
     override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?) {
     }
 
-    override fun fetchExtras(extras: Bundle?) {
+    override var validator: Validator?= Validator(null)
+
+    override fun fetchExtras(@ApplicationContext extras: Bundle?) {
         super.fetchExtras(extras)
         extras?.let {
             state.request?.value = it.getParcelable(HouseholdOnboardRequest::class.java.name)
@@ -64,4 +65,7 @@ class HHAddUserContactVM @Inject constructor(
             state.loading = false
         }
     }
+
+
+
 }

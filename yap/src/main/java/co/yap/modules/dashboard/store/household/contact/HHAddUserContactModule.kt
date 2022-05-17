@@ -8,9 +8,9 @@ import dagger.Module
 import dagger.Provides
 
 @Module
-class HHAddUserContactModule : BaseFragmentModule<HHAddUserContactFragment>() {
+class HHAddUserContactModule /*: BaseFragmentModule<HHAddUserContactFragment>()*/ {
 
-    @Provides
+   /* @Provides
     @ViewModelInjection
     @FragmentScope
     fun provideHHAddUserContactVM(
@@ -20,5 +20,5 @@ class HHAddUserContactModule : BaseFragmentModule<HHAddUserContactFragment>() {
 
     @Provides
     @FragmentScope
-    fun provideHHAddUserNameState(): IHHAddUserContact.State = HHAddUserContactState()
+    fun provideHHAddUserNameState(): IHHAddUserContact.State = HHAddUserContactState()*/
 }
