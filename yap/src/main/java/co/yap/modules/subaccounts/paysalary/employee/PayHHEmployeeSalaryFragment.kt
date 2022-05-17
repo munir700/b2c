@@ -1,6 +1,7 @@
 package co.yap.modules.subaccounts.paysalary.employee
 
 import android.os.Bundle
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import co.yap.BR
 import co.yap.R
@@ -11,16 +12,22 @@ import co.yap.translation.Strings
 import co.yap.yapcore.dagger.base.navigation.BackNavigationResult
 import co.yap.yapcore.dagger.base.navigation.BackNavigationResultListener
 import co.yap.yapcore.dagger.base.navigation.BaseNavViewModelFragment
+import co.yap.yapcore.hilt.base.navigation.BaseNavViewModelFragmentV2
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class PayHHEmployeeSalaryFragment :
-    BaseNavViewModelFragment<FragmentPayHhemployeeSalaryBinding, IPayHHEmployeeSalary.State, PayHHEmployeeSalaryVM>(),
+    BaseNavViewModelFragmentV2<FragmentPayHhemployeeSalaryBinding, IPayHHEmployeeSalary.State, PayHHEmployeeSalaryVM>(),
     BackNavigationResultListener {
     override fun getBindingVariable() = BR.payHHEmployeeSalaryVM
 
     override fun getLayoutId() = R.layout.fragment_pay_hhemployee_salary
+
+    override val viewModel: PayHHEmployeeSalaryVM by viewModels()
+
     override fun getToolBarTitle() = getString(
         Strings.screen_household_pay_salary_screen_display_text_title,
-        state.subAccount.value?.getFullName() ?: ""
+        viewModel.state.subAccount.value?.getFullName() ?: ""
     )
 
     override fun onClick(id: Int) {
@@ -28,7 +35,7 @@ class PayHHEmployeeSalaryFragment :
             R.id.btnPayNow -> {
                 arguments?.putParcelable(
                     SalaryTransaction::class.simpleName,
-                    state.lastTransaction?.value
+                    viewModel.state.lastTransaction?.value
                 )
                 navigateForwardWithAnimation(
                     PayHHEmployeeSalaryFragmentDirections.actionPayHHEmployeeSalaryFragmentToEnterSalaryAmountFragment(),
@@ -37,12 +44,12 @@ class PayHHEmployeeSalaryFragment :
             }
             R.id.llScheduleOnce -> {
                 arguments?.remove(SchedulePayment::class.simpleName)
-                state.futureTransaction?.value?.let {
+                viewModel.state.futureTransaction?.value?.let {
                     arguments?.putParcelable(
                         SchedulePayment::class.simpleName, it
                     )
                 }
-                state.futureTransaction?.value?.nextProcessingDate?.let {
+                viewModel.state.futureTransaction?.value?.nextProcessingDate?.let {
                     navigateForwardWithAnimation(
                         PayHHEmployeeSalaryFragmentDirections.actionPayHHEmployeeSalaryFragmentToEditFuturePaymentFragment(),
                         arguments
@@ -56,7 +63,7 @@ class PayHHEmployeeSalaryFragment :
             R.id.llMakeRecurring -> {
                 arguments?.remove(SchedulePayment::class.simpleName)
                 arguments?.putParcelable(SchedulePayment::class.simpleName, null)
-                state.recurringTransaction?.value?.let {
+                viewModel.state.recurringTransaction?.value?.let {
                     arguments?.putParcelable(
                         SchedulePayment::class.simpleName, it
                     )
@@ -70,7 +77,7 @@ class PayHHEmployeeSalaryFragment :
     }
 
     override fun onNavigationResult(result: BackNavigationResult) {
-        state.subAccount.value?.let {
+        viewModel.state.subAccount.value?.let {
             viewModel.getSchedulePayment(it.accountUuid)
             viewModel.getLastTransaction(it.accountUuid)
         }

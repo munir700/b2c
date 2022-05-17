@@ -10,10 +10,13 @@ import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.household.TransactionsHHApi
 import co.yap.networking.transactions.household.TransactionsHHRepository
 import co.yap.yapcore.dagger.base.viewmodel.DaggerBaseViewModel
+import co.yap.yapcore.hilt.base.viewmodel.HiltBaseViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
-class PayHHEmployeeSalaryVM @Inject constructor(override val state: IPayHHEmployeeSalary.State) :
-    DaggerBaseViewModel<IPayHHEmployeeSalary.State>(), IPayHHEmployeeSalary.ViewModel {
+@HiltViewModel
+class PayHHEmployeeSalaryVM @Inject constructor(override val state: PayHHEmployeeSalaryState) :
+    HiltBaseViewModel<IPayHHEmployeeSalary.State>(), IPayHHEmployeeSalary.ViewModel {
     override var customersHHRepository: CustomerHHApi = CustomersHHRepository
     override var transactionsHHRepository: TransactionsHHApi = TransactionsHHRepository
     override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?) {

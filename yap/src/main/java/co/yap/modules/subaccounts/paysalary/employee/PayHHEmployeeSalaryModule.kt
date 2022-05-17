@@ -8,7 +8,7 @@ import dagger.Module
 import dagger.Provides
 
 @Module
-class PayHHEmployeeSalaryModule:BaseFragmentModule<PayHHEmployeeSalaryFragment>() {
+class PayHHEmployeeSalaryModule{/*:BaseFragmentModule<PayHHEmployeeSalaryFragment>() {
 
     @Provides
     @ViewModelInjection
@@ -19,5 +19,5 @@ class PayHHEmployeeSalaryModule:BaseFragmentModule<PayHHEmployeeSalaryFragment>(
 
     @Provides
     @FragmentScope
-    fun providePayHHEmployeeSalaryState(): IPayHHEmployeeSalary.State = PayHHEmployeeSalaryState()
+    fun providePayHHEmployeeSalaryState(): IPayHHEmployeeSalary.State = PayHHEmployeeSalaryState()*/
 }
