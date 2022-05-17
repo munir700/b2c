@@ -2,6 +2,7 @@ package co.yap.modules.subaccounts.paysalary.subscription
 
 import android.os.Bundle
 import android.view.Gravity
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import co.yap.BR
 import co.yap.R
@@ -10,15 +11,19 @@ import co.yap.translation.Strings
 import co.yap.widgets.MultiStateView
 import co.yap.widgets.State
 import co.yap.widgets.Status
-import co.yap.yapcore.dagger.base.navigation.BaseNavViewModelFragment
 import co.yap.yapcore.helpers.showSnackBar
+import co.yap.yapcore.hilt.base.navigation.BaseNavViewModelFragmentV2
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_subscription.*
 
 
+@AndroidEntryPoint
 class SubscriptionFragment :
-    BaseNavViewModelFragment<FragmentSubscriptionBinding, ISubscription.State, SubscriptionVM>() {
+    BaseNavViewModelFragmentV2<FragmentSubscriptionBinding, ISubscription.State, SubscriptionVM>() {
 
     override fun getBindingVariable() = BR.viewModel
+
+    override val viewModel: SubscriptionVM by viewModels()
 
     override fun getLayoutId() = R.layout.fragment_subscription
     override fun getToolBarTitle() = getString(Strings.screen_household_subscription_title)

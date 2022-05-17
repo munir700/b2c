@@ -9,7 +9,7 @@ import dagger.Provides
 
 
 @Module
-class SubscriptionModule : BaseFragmentModule<SubscriptionFragment>() {
+class SubscriptionModule{ /*: BaseFragmentModule<SubscriptionFragment>() {
 
     @Provides
     @ViewModelInjection
@@ -20,5 +20,5 @@ class SubscriptionModule : BaseFragmentModule<SubscriptionFragment>() {
 
     @Provides
     @FragmentScope
-    fun provideSubscriptionState(): ISubscription.State = SubscriptionState()
+    fun provideSubscriptionState(): ISubscription.State = SubscriptionState()*/
 }

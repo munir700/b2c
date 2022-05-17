@@ -11,12 +11,15 @@ import co.yap.translation.Strings
 import co.yap.widgets.State
 import co.yap.yapcore.dagger.base.viewmodel.DaggerBaseViewModel
 import co.yap.yapcore.helpers.confirm
+import co.yap.yapcore.hilt.base.viewmodel.HiltBaseViewModel
 import co.yap.yapcore.leanplum.HHUserActivityEvents
 import co.yap.yapcore.leanplum.trackEvent
+import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
-class SubscriptionVM @Inject constructor(override val state: ISubscription.State) :
-    DaggerBaseViewModel<ISubscription.State>(), ISubscription.ViewModel {
+@HiltViewModel
+class SubscriptionVM @Inject constructor(override val state: SubscriptionState) :
+    HiltBaseViewModel<ISubscription.State>(), ISubscription.ViewModel {
     override var customersRepository: CustomersHHRepository = CustomersHHRepository
     override var subscriptionCancelled: MutableLiveData<Boolean> = MutableLiveData(false)
 
