@@ -3,6 +3,7 @@ package co.yap.modules.subaccounts.paysalary.profile.cardholderprofile
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import co.yap.BR
 import co.yap.R
@@ -11,12 +12,17 @@ import co.yap.widgets.MultiStateView
 import co.yap.widgets.State
 import co.yap.widgets.Status
 import co.yap.yapcore.dagger.base.navigation.BaseNavViewModelFragment
+import co.yap.yapcore.hilt.base.navigation.BaseNavViewModelFragmentV2
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_hh_profile.*
 
+@AndroidEntryPoint
 class HHProfileFragment :
-    BaseNavViewModelFragment<FragmentHhProfileBinding, IHHProfile.State, HHProfileVM>() {
+    BaseNavViewModelFragmentV2<FragmentHhProfileBinding, IHHProfile.State, HHProfileVM>() {
 
     override fun getBindingVariable() = BR.viewModel
+
+    override val viewModel: HHProfileVM by viewModels()
 
     override fun getLayoutId() = R.layout.fragment_hh_profile
     override fun getToolBarTitle() = "Card holder's profile"

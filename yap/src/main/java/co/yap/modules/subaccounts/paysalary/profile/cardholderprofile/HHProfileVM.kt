@@ -8,10 +8,13 @@ import co.yap.networking.customers.household.responsedtos.SubAccount
 import co.yap.networking.models.RetroApiResponse
 import co.yap.widgets.State
 import co.yap.yapcore.dagger.base.viewmodel.DaggerBaseViewModel
+import co.yap.yapcore.hilt.base.viewmodel.HiltBaseViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
-class HHProfileVM @Inject constructor(override val state: IHHProfile.State) :
-    DaggerBaseViewModel<IHHProfile.State>() {
+@HiltViewModel
+class HHProfileVM @Inject constructor(override val state: HHProfileState) :
+    HiltBaseViewModel<IHHProfile.State>() {
     private val repository: CustomerHHApi = CustomersHHRepository
     override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?) {
         bundle?.let {

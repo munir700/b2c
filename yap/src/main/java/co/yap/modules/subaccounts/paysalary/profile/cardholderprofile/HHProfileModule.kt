@@ -8,7 +8,7 @@ import dagger.Module
 import dagger.Provides
 
 @Module
-class HHProfileModule : BaseFragmentModule<HHProfileFragment>() {
+class HHProfileModule {/*: BaseFragmentModule<HHProfileFragment>() {
     @Provides
     @ViewModelInjection
     fun provideHHProfileVM(
@@ -18,5 +18,5 @@ class HHProfileModule : BaseFragmentModule<HHProfileFragment>() {
 
     @Provides
     @FragmentScope
-    fun provideSubscriptionState(): IHHProfile.State = HHProfileState()
+    fun provideSubscriptionState(): IHHProfile.State = HHProfileState()*/
 }
