@@ -1,6 +1,7 @@
 package co.yap.modules.subaccounts.account.dashboard
 
 import co.yap.yapcore.BaseState
+import javax.inject.Inject
 
-class SubAccountDashBoardState: BaseState(), ISubAccountDashBoard.State {
+class SubAccountDashBoardState @Inject constructor(): BaseState(), ISubAccountDashBoard.State {
 }

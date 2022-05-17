@@ -9,9 +9,10 @@ import dagger.Module
 import dagger.Provides
 
 @Module
+
 class SubAccountDashBoardModule : BaseFragmentModule<SubAccountDashBoardFragment>() {
 
-    @Provides
+   /* @Provides
     @ViewModelInjection
     fun provideSubAccountDashBoardVM(
         fragment: SubAccountDashBoardFragment,
@@ -20,7 +21,7 @@ class SubAccountDashBoardModule : BaseFragmentModule<SubAccountDashBoardFragment
 
     @Provides
     @FragmentScope
-    fun provideSubAccountDashBoardState(): ISubAccountDashBoard.State = SubAccountDashBoardState()
+    fun provideSubAccountDashBoardState(): ISubAccountDashBoard.State = SubAccountDashBoardState()*/
 
     @Provides
     fun provideSubAccountDashBoardPagerAdapter(

@@ -7,10 +7,13 @@ import co.yap.modules.dashboard.cards.analytics.fragments.CardAnalyticsFragment
 import co.yap.modules.subaccounts.account.card.SubAccountCardFragment
 import co.yap.yapcore.adapters.SectionsPagerAdapter
 import co.yap.yapcore.dagger.base.viewmodel.DaggerBaseViewModel
+import co.yap.yapcore.hilt.base.viewmodel.HiltBaseViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
-class SubAccountDashBoardVM @Inject constructor(override var state: ISubAccountDashBoard.State) :
-    DaggerBaseViewModel<ISubAccountDashBoard.State>(), ISubAccountDashBoard.ViewModel {
+@HiltViewModel
+class SubAccountDashBoardVM @Inject constructor(override var state: SubAccountDashBoardState) :
+    HiltBaseViewModel<ISubAccountDashBoard.State>(), ISubAccountDashBoard.ViewModel {
     val adapter = ObservableField<SectionsPagerAdapter>()
     override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?) {
         adapter.get()?.addFragmentInfo<SubAccountCardFragment>("Cards")
