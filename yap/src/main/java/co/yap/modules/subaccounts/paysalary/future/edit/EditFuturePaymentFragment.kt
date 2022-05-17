@@ -1,5 +1,6 @@
 package co.yap.modules.subaccounts.paysalary.future.edit
 
+import androidx.fragment.app.viewModels
 import co.yap.BR
 import co.yap.R
 import co.yap.databinding.FragmentEditFuturePaymentBinding
@@ -10,21 +11,26 @@ import co.yap.networking.customers.household.requestdtos.SchedulePayment
 import co.yap.translation.Strings
 import co.yap.yapcore.dagger.base.navigation.BaseNavViewModelFragment
 import co.yap.yapcore.helpers.confirm
+import co.yap.yapcore.hilt.base.navigation.BaseNavViewModelFragmentV2
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class EditFuturePaymentFragment :
-    BaseNavViewModelFragment<FragmentEditFuturePaymentBinding, IFuturePayment.State, FuturePaymentVM>() {
+    BaseNavViewModelFragmentV2<FragmentEditFuturePaymentBinding, IFuturePayment.State, FuturePaymentVM>() {
     override fun getBindingVariable() = BR.futurePaymentVM
     override fun getLayoutId() = R.layout.fragment_edit_future_payment
     override fun getToolBarTitle() =
         getString(Strings.screen_household_future_payment_screen_tool_bar_text)
+
+    override val viewModel: FuturePaymentVM by viewModels()
 
     override fun onClick(id: Int) {
         when (id) {
             viewModel.GO_TO_CONFIRMATION -> {
                 arguments?.putParcelable(
                     SchedulePayment::class.java.simpleName, SchedulePayment(
-                        amount = state.amount.value,
-                        nextProcessingDate = state.date.value
+                        amount = viewModel.state.amount.value,
+                        nextProcessingDate = viewModel.state.date.value
                     )
                 )
                 navigateForwardWithAnimation(
@@ -33,7 +39,7 @@ class EditFuturePaymentFragment :
                 )
             }
             R.id.tvCancel -> {
-                state.futureTransaction?.value?.let {
+                viewModel.state.futureTransaction?.value?.let {
                     confirm(
                         message = "Are you sure you want to cancel this scheduled salary?",
                         title = ""

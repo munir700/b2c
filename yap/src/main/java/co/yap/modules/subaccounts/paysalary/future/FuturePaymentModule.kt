@@ -8,7 +8,7 @@ import dagger.Module
 import dagger.Provides
 
 @Module
-class FuturePaymentModule : BaseFragmentModule<FuturePaymentFragment>() {
+class FuturePaymentModule {/*: BaseFragmentModule<FuturePaymentFragment>() {
 
     @Provides
     @ViewModelInjection
@@ -23,5 +23,5 @@ class FuturePaymentModule : BaseFragmentModule<FuturePaymentFragment>() {
 
     @Provides
     @FragmentScope
-    fun provideFuturePaymentState(): IFuturePayment.State = FuturePaymentState()
+    fun provideFuturePaymentState(): IFuturePayment.State = FuturePaymentState()*/
 }

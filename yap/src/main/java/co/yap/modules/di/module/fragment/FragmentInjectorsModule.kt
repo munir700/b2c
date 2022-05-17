@@ -111,13 +111,13 @@ abstract class FragmentInjectorsModule {
     @ContributesAndroidInjector(modules = [HHIbanSendMoneyConfirmationModule::class])
     abstract fun hHIbanSendMoneyConfirmationFragmentInjector(): HHIbanSendMoneyConfirmationFragment
 
-    @ContributesAndroidInjector(modules = [FuturePaymentModule::class])
+    /*@ContributesAndroidInjector(modules = [FuturePaymentModule::class])
     @FragmentScope
-    abstract fun futurePaymentFragmentInjector(): FuturePaymentFragment
-
+    abstract fun futurePaymentFragmentInjector(): FuturePaymentFragment*/
+/*
     @ContributesAndroidInjector(modules = [EditFuturePaymentModule::class])
     @FragmentScope
-    abstract fun editFuturePaymentFragmentInjector(): EditFuturePaymentFragment
+    abstract fun editFuturePaymentFragmentInjector(): EditFuturePaymentFragment*/
 
 /*    @ContributesAndroidInjector(modules = [HouseHoldLandingModule::class])
     @FragmentScope
@@ -127,13 +127,13 @@ abstract class FragmentInjectorsModule {
     @FragmentScope
     abstract fun hhAddUserNameFragmentInjector(): HHAddUserNameFragment*/
 
-    @ContributesAndroidInjector(modules = [HHAddUserSuccessModule::class])
+    /*@ContributesAndroidInjector(modules = [HHAddUserSuccessModule::class])
     @FragmentScope
     abstract fun hHAddUserSuccessFragmentInjector(): HHAddUserSuccessFragment
 
     @ContributesAndroidInjector(modules = [HHAddUserContactModule::class])
     @FragmentScope
-    abstract fun hHAddUserContactFragmentInjector(): HHAddUserContactFragment
+    abstract fun hHAddUserContactFragmentInjector(): HHAddUserContactFragment*/
 
     @ContributesAndroidInjector(modules = [YapStoreModule::class])
     @FragmentScope

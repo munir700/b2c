@@ -11,7 +11,7 @@ import dagger.Module
 import dagger.Provides
 
 @Module
-class EditFuturePaymentModule : BaseFragmentModule<EditFuturePaymentFragment>() {
+class EditFuturePaymentModule {/*: BaseFragmentModule<EditFuturePaymentFragment>() {
     @Provides
     @ViewModelInjection
     fun provideEditFuturePaymentVM(
@@ -25,5 +25,5 @@ class EditFuturePaymentModule : BaseFragmentModule<EditFuturePaymentFragment>() 
 
     @Provides
     @FragmentScope
-    fun provideEditFuturePaymentState(): IFuturePayment.State = FuturePaymentState()
+    fun provideEditFuturePaymentState(): IFuturePayment.State = FuturePaymentState()*/
 }

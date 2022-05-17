@@ -5,8 +5,9 @@ import androidx.lifecycle.MutableLiveData
 import co.yap.networking.customers.household.requestdtos.SchedulePayment
 import co.yap.networking.customers.household.responsedtos.SubAccount
 import co.yap.yapcore.BaseState
+import javax.inject.Inject
 
-class FuturePaymentState : BaseState(), IFuturePayment.State {
+class FuturePaymentState @Inject constructor() : BaseState(), IFuturePayment.State {
     override var date: MutableLiveData<String> = MutableLiveData()
     override var subAccount: MutableLiveData<SubAccount> = MutableLiveData()
     override var amount: MutableLiveData<String> = MutableLiveData()

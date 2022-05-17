@@ -27,17 +27,21 @@ import co.yap.yapcore.helpers.showTextUpdatedAbleSnackBar
 import co.yap.yapcore.helpers.spannables.underline
 import co.yap.yapcore.helpers.validation.IValidator
 import co.yap.yapcore.helpers.validation.Validator
+import co.yap.yapcore.hilt.base.viewmodel.HiltBaseViewModel
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog
+import dagger.hilt.android.lifecycle.HiltViewModel
 import java.util.*
 import javax.inject.Inject
 
-class FuturePaymentVM @Inject constructor(override val state: IFuturePayment.State,
-                                          override var validator: Validator?) :
-    DaggerBaseViewModel<IFuturePayment.State>(), IFuturePayment.ViewModel,IValidator {
+@HiltViewModel
+class FuturePaymentVM @Inject constructor(override val state: FuturePaymentState) :
+    HiltBaseViewModel<IFuturePayment.State>(), IFuturePayment.ViewModel,IValidator {
     private val calendar = Calendar.getInstance()
     private val repository: CustomerHHApi = CustomersHHRepository
     override var fragmentManager: FragmentManager? = null
     override val clickEvent = SingleClickEvent()
+    override var validator: Validator? = Validator(null)
+
     override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?) {
         calendar.add(Calendar.DATE, 1)
     }
