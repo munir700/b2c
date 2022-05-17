@@ -8,8 +8,9 @@ import co.yap.networking.customers.household.requestdtos.SchedulePayment
 import co.yap.networking.customers.household.responsedtos.SalaryTransaction
 import co.yap.networking.customers.household.responsedtos.SubAccount
 import co.yap.yapcore.BaseState
+import javax.inject.Inject
 
-class RecurringPaymentState : BaseState(), IRecurringPayment.State {
+class RecurringPaymentState @Inject constructor(): BaseState(), IRecurringPayment.State {
     override var date: MutableLiveData<String> = MutableLiveData()
     override var schedulePayment: MutableLiveData<SchedulePayment> = MutableLiveData()
     override var subAccount: MutableLiveData<SubAccount> = MutableLiveData()

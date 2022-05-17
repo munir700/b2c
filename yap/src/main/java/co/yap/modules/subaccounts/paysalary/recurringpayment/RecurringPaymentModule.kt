@@ -8,7 +8,7 @@ import dagger.Module
 import dagger.Provides
 
 @Module
-class RecurringPaymentModule : BaseFragmentModule<RecurringPaymentFragment>() {
+class RecurringPaymentModule {}/*: BaseFragmentModule<RecurringPaymentFragment>() {
 
     @Provides
     @ViewModelInjection
@@ -24,4 +24,4 @@ class RecurringPaymentModule : BaseFragmentModule<RecurringPaymentFragment>() {
     @Provides
     @FragmentScope
     fun provideSubAccountDashBoardState(): IRecurringPayment.State = RecurringPaymentState()
-}
+}*/

@@ -25,14 +25,18 @@ import co.yap.yapcore.helpers.showTextUpdatedAbleSnackBar
 import co.yap.yapcore.helpers.spannables.underline
 import co.yap.yapcore.helpers.validation.IValidator
 import co.yap.yapcore.helpers.validation.Validator
+import co.yap.yapcore.hilt.base.viewmodel.HiltBaseViewModel
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog
+import dagger.hilt.android.lifecycle.HiltViewModel
 import java.util.*
 import javax.inject.Inject
 
+@HiltViewModel
 class RecurringPaymentVM @Inject constructor(
-    override var state: IRecurringPayment.State, override var validator: Validator?
+    override var state: RecurringPaymentState
 ) :
-    DaggerBaseViewModel<IRecurringPayment.State>(), IRecurringPayment.ViewModel, IValidator {
+    HiltBaseViewModel<IRecurringPayment.State>(), IRecurringPayment.ViewModel, IValidator {
+    override var validator: Validator? = Validator(null)
     private val repository: CustomerHHApi = CustomersHHRepository
     private val calendar = Calendar.getInstance()
     override var fragmentManager: FragmentManager? = null

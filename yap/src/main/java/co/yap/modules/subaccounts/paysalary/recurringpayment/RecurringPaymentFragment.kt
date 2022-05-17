@@ -1,5 +1,6 @@
 package co.yap.modules.subaccounts.paysalary.recurringpayment
 
+import androidx.fragment.app.viewModels
 import co.yap.BR
 import co.yap.R
 import co.yap.databinding.FragmentRecurringPaymentBinding
@@ -8,21 +9,25 @@ import co.yap.networking.customers.household.requestdtos.SchedulePayment
 import co.yap.translation.Strings
 import co.yap.yapcore.dagger.base.navigation.BaseNavViewModelFragment
 import co.yap.yapcore.helpers.confirm
+import co.yap.yapcore.hilt.base.navigation.BaseNavViewModelFragmentV2
 import co.yap.yapcore.leanplum.HHUserActivityEvents
 import co.yap.yapcore.leanplum.trackEvent
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class RecurringPaymentFragment :
-    BaseNavViewModelFragment<FragmentRecurringPaymentBinding, IRecurringPayment.State, RecurringPaymentVM>() {
+    BaseNavViewModelFragmentV2<FragmentRecurringPaymentBinding, IRecurringPayment.State, RecurringPaymentVM>() {
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_recurring_payment
+    override val viewModel: RecurringPaymentVM by viewModels()
 
     override fun getToolBarTitle() = getString(Strings.screen_household_recurring_payment_title)
 
     override fun onClick(id: Int) {
-        state.schedulePayment.value?.nextProcessingDate = state.date.value
+        viewModel.state.schedulePayment.value?.nextProcessingDate = viewModel.state.date.value
         arguments?.putParcelable(
             SchedulePayment::class.java.simpleName,
-            state.schedulePayment.value
+            viewModel.state.schedulePayment.value
         )
         when (id) {
             viewModel.GO_TO_CONFIRMATION -> {
@@ -33,7 +38,7 @@ class RecurringPaymentFragment :
                 )
             }
             R.id.tvCancel -> {
-                state.recurringTransaction?.value?.let {
+                viewModel.state.recurringTransaction?.value?.let {
                     confirm(
                         message = "Are you sure you want to cancel this recurring salary?",
                         title = ""
