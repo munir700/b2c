@@ -15,9 +15,9 @@ import dagger.Provides
 
 
 @Module
-class HHSalaryProfileModule : BaseFragmentModule<HHSalaryProfileFragment>() {
+class HHSalaryProfileModule /*: BaseFragmentModule<HHSalaryProfileFragment>()*/ {
 
-    @Provides
+    /*@Provides
     @ViewModelInjection
     fun provideHHSalaryProfileVM(
         fragment: HHSalaryProfileFragment,
@@ -26,7 +26,7 @@ class HHSalaryProfileModule : BaseFragmentModule<HHSalaryProfileFragment>() {
 
     @Provides
     @FragmentScope
-    fun provideHHSalaryProfileState(): IHHSalaryProfile.State = HHSalaryProfileState()
+    fun provideHHSalaryProfileState(): IHHSalaryProfile.State = HHSalaryProfileState()*/
 
     @Provides
     fun provideHHSalaryProfileTransfersAdapter() =

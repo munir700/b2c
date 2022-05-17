@@ -5,8 +5,9 @@ import androidx.lifecycle.MutableLiveData
 import co.yap.networking.customers.household.responsedtos.HouseHoldLastNextSalary
 import co.yap.networking.customers.household.responsedtos.SubAccount
 import co.yap.yapcore.BaseState
+import javax.inject.Inject
 
-class HHSalaryProfileState : BaseState(), IHHSalaryProfile.State {
+class HHSalaryProfileState @Inject constructor(): BaseState(), IHHSalaryProfile.State {
 
     override var filterCount: ObservableField<Int> = ObservableField()
     override var isTransEmpty: ObservableField<Boolean> = ObservableField(true)

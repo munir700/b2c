@@ -54,3 +54,4 @@ wallet/src/main/res/raw/tav_private_key.pem
 *.apk
 /fastlane/report.xml
 wallet/src/main/res/raw/tav_private_key_apple.pem
+/.idea/*

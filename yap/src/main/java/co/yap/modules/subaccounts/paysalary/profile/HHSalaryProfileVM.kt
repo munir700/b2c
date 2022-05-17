@@ -14,10 +14,13 @@ import co.yap.networking.transactions.household.TransactionsHHRepository
 import co.yap.networking.transactions.requestdtos.HomeTransactionsRequest
 import co.yap.widgets.State
 import co.yap.yapcore.dagger.base.viewmodel.BaseRecyclerAdapterVM
+import co.yap.yapcore.hilt.base.viewmodel.BaseRecyclerAdapterVMV2
+import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
-class HHSalaryProfileVM @Inject constructor(override val state: IHHSalaryProfile.State) :
-    BaseRecyclerAdapterVM<PaySalaryModel, IHHSalaryProfile.State>(), IHHSalaryProfile.ViewModel {
+@HiltViewModel
+class HHSalaryProfileVM @Inject constructor(override val state: HHSalaryProfileState) :
+    BaseRecyclerAdapterVMV2<PaySalaryModel, IHHSalaryProfile.State>(), IHHSalaryProfile.ViewModel {
     override var customersHHRepository: CustomerHHApi = CustomersHHRepository
     override var transactionsHHRepository: TransactionsHHApi = TransactionsHHRepository
     override val transactionAdapter: ObservableField<HHSalaryProfileTransfersAdapter>? =
