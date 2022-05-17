@@ -21,16 +21,18 @@ import co.yap.yapcore.helpers.showTextUpdatedAbleSnackBar
 import co.yap.yapcore.helpers.spannables.underline
 import co.yap.yapcore.helpers.validation.IValidator
 import co.yap.yapcore.helpers.validation.Validator
+import co.yap.yapcore.hilt.base.viewmodel.HiltBaseViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
+@HiltViewModel
 class HHIbanSendMoneyVM @Inject constructor(
-    override val state: IHHIbanSendMoney.State,
-    override var validator: Validator?
+    override val state: HHIbanSendMoneyState
 ) :
-    DaggerBaseViewModel<IHHIbanSendMoney.State>(), IHHIbanSendMoney.ViewModel, IValidator {
+    HiltBaseViewModel<IHHIbanSendMoney.State>(), IHHIbanSendMoney.ViewModel, IValidator {
     override var transactionsRepository: TransactionsHHApi = TransactionsHHRepository
     override val clickEvent: SingleClickEvent = SingleClickEvent()
-
+    override var validator: Validator? = Validator(null)
     override fun handleOnClick(id: Int) {
     }
 

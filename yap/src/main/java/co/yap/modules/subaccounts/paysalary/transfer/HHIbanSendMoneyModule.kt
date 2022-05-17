@@ -7,7 +7,7 @@ import dagger.Module
 import dagger.Provides
 
 @Module
-class HHIbanSendMoneyModule : BaseFragmentModule<HHIbanSendMoneyFragment>() {
+class HHIbanSendMoneyModule{} /*: BaseFragmentModule<HHIbanSendMoneyFragment>() {
 
     @Provides
     @ViewModelInjection
@@ -18,4 +18,4 @@ class HHIbanSendMoneyModule : BaseFragmentModule<HHIbanSendMoneyFragment>() {
 
     @Provides
     fun provideHHIbanSendMoneyState(): IHHIbanSendMoney.State = HHIbanSendMoneyState()
-}
+}*/

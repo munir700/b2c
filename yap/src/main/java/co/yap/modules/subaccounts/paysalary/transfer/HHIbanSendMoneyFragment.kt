@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import androidx.core.os.bundleOf
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import co.yap.BR
 import co.yap.R
@@ -13,13 +14,17 @@ import co.yap.networking.transactions.household.requestdtos.IbanSendMoneyRequest
 import co.yap.yapcore.dagger.base.navigation.BaseNavViewModelFragment
 import co.yap.yapcore.helpers.extentions.plus
 import co.yap.yapcore.helpers.livedata.GetAccountBalanceLiveData
+import co.yap.yapcore.hilt.base.navigation.BaseNavViewModelFragmentV2
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_hhiban_send_money.*
 
+@AndroidEntryPoint
 class HHIbanSendMoneyFragment :
-    BaseNavViewModelFragment<FragmentHhibanSendMoneyBinding, IHHIbanSendMoney.State, HHIbanSendMoneyVM>() {
+    BaseNavViewModelFragmentV2<FragmentHhibanSendMoneyBinding, IHHIbanSendMoney.State, HHIbanSendMoneyVM>() {
     override fun getBindingVariable() = BR.viewModel
     override fun getLayoutId() = R.layout.fragment_hhiban_send_money
-    override fun getToolBarTitle() = state.subAccount.value?.getFullName()
+    override val viewModel: HHIbanSendMoneyVM by viewModels()
+    override fun getToolBarTitle() = viewModel.state.subAccount.value?.getFullName()
     override fun postExecutePendingBindings(savedInstanceState: Bundle?) {
         super.postExecutePendingBindings(savedInstanceState)
         GetAccountBalanceLiveData.get().observe(this, Observer { response ->
