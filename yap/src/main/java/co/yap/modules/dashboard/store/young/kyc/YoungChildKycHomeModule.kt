@@ -8,7 +8,7 @@ import dagger.Module
 import dagger.Provides
 
 @Module
-class YoungChildKycHomeModule : BaseFragmentModule<YoungChildKycHomeFragment>() {
+class YoungChildKycHomeModule {}/*: BaseFragmentModule<YoungChildKycHomeFragment>() {
 
     @Provides
     @ViewModelInjection
@@ -20,4 +20,4 @@ class YoungChildKycHomeModule : BaseFragmentModule<YoungChildKycHomeFragment>() 
     @Provides
     @FragmentScope
     fun provideYoungChildKycState(): IYoungChildKycHome.State = YoungChildKycHomeState()
-}
+}*/

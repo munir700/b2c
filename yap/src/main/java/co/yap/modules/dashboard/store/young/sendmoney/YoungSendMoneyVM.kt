@@ -11,13 +11,16 @@ import co.yap.yapcore.helpers.showTextUpdatedAbleSnackBar
 import co.yap.yapcore.helpers.spannables.underline
 import co.yap.yapcore.helpers.validation.IValidator
 import co.yap.yapcore.helpers.validation.Validator
+import co.yap.yapcore.hilt.base.viewmodel.HiltBaseViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
+@HiltViewModel
 class YoungSendMoneyVM @Inject constructor(
-    override val state: IYoungSendMoney.State,
-    override var validator: Validator?
-) : DaggerBaseViewModel<IYoungSendMoney.State>(), IYoungSendMoney.ViewModel,
+    override val state: YoungSendMoneyState
+) : HiltBaseViewModel<IYoungSendMoney.State>(), IYoungSendMoney.ViewModel,
     IValidator {
+    override var validator: Validator? = Validator(null)
     override fun onAmountChange(amount: CharSequence, start: Int, before: Int, count: Int) {
         if (amount.parseToDouble() > GetAccountBalanceLiveData.cardBalance.value?.availableBalance.parseToDouble()) {
             context.showTextUpdatedAbleSnackBar(
