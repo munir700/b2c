@@ -7,9 +7,12 @@ import co.yap.yapcore.dagger.di.qualifiers.FragmentScope
 import co.yap.yapcore.dagger.di.qualifiers.ViewModelInjection
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 
 @Module
-class YoungCardEditDetailsModule  : BaseFragmentModule<YoungCardEditDetailsFragment>(){
+@InstallIn(SingletonComponent::class)
+class YoungCardEditDetailsModule { /*: BaseFragmentModule<YoungCardEditDetailsFragment>(){
     @Provides
     @ViewModelInjection
     fun provideCardEditDetailsVM(
@@ -20,7 +23,7 @@ class YoungCardEditDetailsModule  : BaseFragmentModule<YoungCardEditDetailsFragm
     @Provides
     @FragmentScope
     fun provideCardEditDetailsState(): IYoungCardEditDetails.State = YoungCardEditDetailsState()
-
+*/
     @Provides
     fun provideCardEditDetailsAdapter() = YoungCardEditAdapter(getHouseHoldCards(), null)
 
