@@ -10,14 +10,15 @@ import dagger.Module
 import dagger.Provides
 
 @Module
-class YoungCardSuccessModule : BaseFragmentModule<YoungCardSuccessFragment>(){
+class YoungCardSuccessModule {}/*: BaseFragmentModule<YoungCardSuccessFragment>() {
     @Provides
     @ViewModelInjection
     fun provideCardSuccessVM(
         fragment: YoungCardSuccessFragment,
         viewModelProvider: InjectionViewModelProvider<YoungCardSuccessVM>
     ): YoungCardSuccessVM = viewModelProvider.get(fragment, YoungCardSuccessVM::class)
+
     @Provides
     @FragmentScope
     fun provideCardSuccessState(): IYoungCardSuccess.State = YoungCardSuccessState()
-}
+}*/
