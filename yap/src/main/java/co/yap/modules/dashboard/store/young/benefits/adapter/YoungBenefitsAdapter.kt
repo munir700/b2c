@@ -6,8 +6,9 @@ import androidx.databinding.ViewDataBinding
 import androidx.navigation.NavController
 import co.yap.yapcore.BaseRVAdapter
 import co.yap.yapcore.BaseViewHolder
+import javax.inject.Inject
 
-class YoungBenefitsAdapter(
+class YoungBenefitsAdapter @Inject constructor(
     mBenefitList: MutableList<YoungBenefitsModel>,
     navigation: NavController?
 ) :
