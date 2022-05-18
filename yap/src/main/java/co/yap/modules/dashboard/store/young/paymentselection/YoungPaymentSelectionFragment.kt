@@ -1,6 +1,7 @@
 package co.yap.modules.dashboard.store.young.paymentselection
 
 import androidx.core.os.bundleOf
+import androidx.fragment.app.viewModels
 import co.yap.BR
 import co.yap.R
 import co.yap.databinding.FragmentYoungPaymentSelectionBinding
@@ -11,10 +12,15 @@ import co.yap.yapcore.dagger.base.navigation.BaseNavViewModelFragment
 import co.yap.yapcore.helpers.confirm
 import co.yap.yapcore.helpers.extentions.startFragment
 import co.yap.yapcore.helpers.spannables.kpan.span
+import co.yap.yapcore.hilt.base.navigation.BaseNavViewModelFragmentV2
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class YoungPaymentSelectionFragment :
-    BaseNavViewModelFragment<FragmentYoungPaymentSelectionBinding, IYoungPaymentSelection.State, YoungPaymentSelectionVM>() {
+    BaseNavViewModelFragmentV2<FragmentYoungPaymentSelectionBinding, IYoungPaymentSelection.State, YoungPaymentSelectionVM>() {
     override fun getBindingVariable() = BR.viewModel
+    override val viewModel: YoungPaymentSelectionVM by viewModels()
+
     override fun getLayoutId() = R.layout.fragment_young_payment_selection
     override fun getToolBarTitle() =
         getString(Strings.screen_yap_young_payment_selection_display_text_title)
@@ -22,14 +28,14 @@ class YoungPaymentSelectionFragment :
     override fun onClick(id: Int) {
         when (id) {
             R.id.confirmButton -> {
-                if (!state.plansList.value.isNullOrEmpty()) {
+                if (!viewModel.state.plansList.value.isNullOrEmpty()) {
                     confirm(
                         message = span {
                             span(
                                 getString(
                                     Strings.screen_yap_house_hold_subscription_selection_confirm_message_text,
-                                    state.plansList.value?.get(
-                                        state.selectedPlanPosition.value ?: 0
+                                    viewModel.state.plansList.value?.get(
+                                        viewModel.state.selectedPlanPosition.value ?: 0
                                     )?.type!!,
                                     getString(Strings.screen_yap_house_hold_subscription_selection_display_text_months)
                                 )
@@ -50,7 +56,7 @@ class YoungPaymentSelectionFragment :
                                 textDecorationLine = "underline"
                             }
                         },
-                        title = if (state.selectedPlanPosition.value == 0) "${viewModel.state.monthlyFee.value} ${getString(
+                        title = if (viewModel.state.selectedPlanPosition.value == 0) "${viewModel.state.monthlyFee.value} ${getString(
                             Strings.screen_yap_house_hold_subscription_selection_display_text_per_month
                         )}" else "${viewModel.state.annuallyFee.value} ${getString(
                             Strings.screen_yap_house_hold_subscription_selection_display_text_per_year
@@ -60,7 +66,7 @@ class YoungPaymentSelectionFragment :
                             navigateForwardWithAnimation(
                                 YoungPaymentSelectionFragmentDirections.actionYoungPaymentSelectionFragmentToYoungPaymentConfirmationFragment(),
                                 bundleOf(
-                                    Constants.POSITION to state.selectedPlanPosition.value
+                                    Constants.POSITION to viewModel.state.selectedPlanPosition.value
                                 ), null
                             )
                         }, negativeCallback = {}

@@ -8,7 +8,7 @@ import dagger.Module
 import dagger.Provides
 
 @Module
-class YoungPaymentSelectionModule : BaseFragmentModule<YoungPaymentSelectionFragment>() {
+class YoungPaymentSelectionModule {}/*: BaseFragmentModule<YoungPaymentSelectionFragment>() {
     @Provides
     @ViewModelInjection
     fun provideYoungPaymentSelectionVM(
@@ -21,3 +21,4 @@ class YoungPaymentSelectionModule : BaseFragmentModule<YoungPaymentSelectionFrag
     fun provideYoungPaymentSelectionState(): IYoungPaymentSelection.State =
         YoungPaymentSelectionState()
 }
+*/

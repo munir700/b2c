@@ -8,7 +8,7 @@ import dagger.Module
 import dagger.Provides
 
 @Module
-class YoungPaymentConfirmationModule : BaseFragmentModule<YoungPaymentConfirmationFragment>() {
+class YoungPaymentConfirmationModule {}/*: BaseFragmentModule<YoungPaymentConfirmationFragment>() {
     @Provides
     @ViewModelInjection
     fun provideConfirmationSuccessVM(
@@ -20,4 +20,4 @@ class YoungPaymentConfirmationModule : BaseFragmentModule<YoungPaymentConfirmati
     @FragmentScope
     fun provideConfirmationSuccessState(): IYoungPaymentConfirmation.State =
         YoungPaymentConfirmationState()
-}
+}*/

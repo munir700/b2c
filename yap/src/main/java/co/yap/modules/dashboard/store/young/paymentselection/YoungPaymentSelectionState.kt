@@ -3,8 +3,9 @@ package co.yap.modules.dashboard.store.young.paymentselection
 import androidx.lifecycle.MutableLiveData
 import co.yap.networking.household.responsedtos.HouseHoldPlan
 import co.yap.yapcore.BaseState
+import javax.inject.Inject
 
-class YoungPaymentSelectionState : BaseState(), IYoungPaymentSelection.State {
+class YoungPaymentSelectionState  @Inject constructor(): BaseState(), IYoungPaymentSelection.State {
     override var selectedPlanPosition: MutableLiveData<Int> = MutableLiveData(-1)
     override var amount: MutableLiveData<String> = MutableLiveData()
     override var monthlyFee: MutableLiveData<String> = MutableLiveData("AED 0.00")

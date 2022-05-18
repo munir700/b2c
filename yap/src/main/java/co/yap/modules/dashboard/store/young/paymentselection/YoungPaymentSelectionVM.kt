@@ -14,12 +14,15 @@ import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.dagger.base.viewmodel.DaggerBaseViewModel
 import co.yap.yapcore.enums.PackageType
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
+import co.yap.yapcore.hilt.base.viewmodel.HiltBaseViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import javax.inject.Inject
 
-class YoungPaymentSelectionVM @Inject constructor(override val state: IYoungPaymentSelection.State) :
-    DaggerBaseViewModel<IYoungPaymentSelection.State>(), IYoungPaymentSelection.ViewModel {
+@HiltViewModel
+class YoungPaymentSelectionVM @Inject constructor(override val state: YoungPaymentSelectionState) :
+    HiltBaseViewModel<IYoungPaymentSelection.State>(), IYoungPaymentSelection.ViewModel {
     private var monthlyFee: Double? = 0.0
     private var yearlyFee: Double? = 0.0
     override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?) {
