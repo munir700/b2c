@@ -8,7 +8,7 @@ import dagger.Module
 import dagger.Provides
 
 @Module
-class YoungSendMoneySuccessModule : BaseFragmentModule<YoungSendMoneySuccessFragment>() {
+class YoungSendMoneySuccessModule{}/* : BaseFragmentModule<YoungSendMoneySuccessFragment>() {
 
     @Provides
     @ViewModelInjection
@@ -21,4 +21,4 @@ class YoungSendMoneySuccessModule : BaseFragmentModule<YoungSendMoneySuccessFrag
     @FragmentScope
     fun provideYoungSendMoneySuccessState(): IYoungSendMoneySuccess.State =
         YoungSendMoneySuccessState()
-}
+}*/
