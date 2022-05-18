@@ -9,7 +9,7 @@ import dagger.Module
 import dagger.Provides
 
 @Module
-class YoungSubAccountModule : BaseFragmentModule<YoungSubAccountsFragment>() {
+class YoungSubAccountModule {}/*: BaseFragmentModule<YoungSubAccountsFragment>() {
 
     @Provides
     @ViewModelInjection
@@ -25,4 +25,4 @@ class YoungSubAccountModule : BaseFragmentModule<YoungSubAccountsFragment>() {
     @Provides
     fun provideSubAccountAdapter(fragment: YoungSubAccountsFragment) =
         SectionsPagerAdapter(fragment.requireActivity(), fragment.childFragmentManager)
-}
+}*/

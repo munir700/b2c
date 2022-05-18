@@ -1,6 +1,7 @@
 package co.yap.modules.dashboard.store.young.subaccounts
 
 import co.yap.yapcore.BaseState
+import javax.inject.Inject
 
-class YoungSubAccountState : BaseState(), IYoungSubAccounts.State {
+class YoungSubAccountState @Inject constructor() : BaseState(), IYoungSubAccounts.State {
 }
