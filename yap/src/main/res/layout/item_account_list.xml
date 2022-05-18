@@ -73,7 +73,7 @@
             android:layout_marginEnd="@dimen/margin_medium"
             android:gravity="start"
             android:lineSpacingExtra="0dp"
-            android:text="@{viewModel.item.leanCustomerAccounts.iban}"
+            android:text="@{viewModel.item.leanCustomerAccounts.accountNumber}"
             app:layout_constraintBottom_toBottomOf="@+id/imgIcon"
             app:layout_constraintEnd_toStartOf="@+id/ivArrow"
             app:layout_constraintStart_toEndOf="@+id/imgIcon"
