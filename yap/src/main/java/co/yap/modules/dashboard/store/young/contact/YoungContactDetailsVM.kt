@@ -5,15 +5,17 @@ import androidx.navigation.NavController
 import co.yap.yapcore.dagger.base.viewmodel.DaggerBaseViewModel
 import co.yap.yapcore.helpers.validation.IValidator
 import co.yap.yapcore.helpers.validation.Validator
+import co.yap.yapcore.hilt.base.viewmodel.HiltBaseViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
+@HiltViewModel
 class YoungContactDetailsVM @Inject constructor(
-    override val state: IYoungContactDetails.State,
-    override var validator: Validator?
-) : DaggerBaseViewModel<IYoungContactDetails.State>(), IYoungContactDetails.ViewModel, IValidator {
+    override val state: YoungContactDetailsState
+) : HiltBaseViewModel<IYoungContactDetails.State>(), IYoungContactDetails.ViewModel, IValidator {
     override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?) {
     }
-
+    override var validator: Validator? = Validator( null)
     override fun handleOnClick(id: Int) {
     }
 }

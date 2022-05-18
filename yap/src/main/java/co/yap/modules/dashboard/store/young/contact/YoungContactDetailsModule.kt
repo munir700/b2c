@@ -8,7 +8,7 @@ import dagger.Module
 import dagger.Provides
 
 @Module
-class YoungContactDetailsModule : BaseFragmentModule<YoungContactDetailsFragment>() {
+class YoungContactDetailsModule{}/* : BaseFragmentModule<YoungContactDetailsFragment>() {
     @Provides
     @ViewModelInjection
     fun provideContactDetailsVM(
@@ -20,3 +20,4 @@ class YoungContactDetailsModule : BaseFragmentModule<YoungContactDetailsFragment
     @FragmentScope
     fun provideContactDetailsState(): IYoungContactDetails.State = YoungContactDetailsState()
 }
+*/
