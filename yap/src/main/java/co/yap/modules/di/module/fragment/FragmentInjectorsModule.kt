@@ -69,7 +69,7 @@ import dagger.hilt.components.SingletonComponent
 @Module
 @InstallIn(SingletonComponent::class)
 abstract class FragmentInjectorsModule {
-    @ContributesAndroidInjector(modules = [SubAccountDashBoardModule::class])
+    /*@ContributesAndroidInjector(modules = [SubAccountDashBoardModule::class])
     @FragmentScope
     abstract fun subAccountDashBoardFragmentInjector(): SubAccountDashBoardFragment
 
@@ -110,7 +110,7 @@ abstract class FragmentInjectorsModule {
 
     @ContributesAndroidInjector(modules = [HHIbanSendMoneyConfirmationModule::class])
     abstract fun hHIbanSendMoneyConfirmationFragmentInjector(): HHIbanSendMoneyConfirmationFragment
-
+*/
     /*@ContributesAndroidInjector(modules = [FuturePaymentModule::class])
     @FragmentScope
     abstract fun futurePaymentFragmentInjector(): FuturePaymentFragment*/
