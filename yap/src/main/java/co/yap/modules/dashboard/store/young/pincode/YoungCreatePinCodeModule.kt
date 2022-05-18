@@ -8,7 +8,7 @@ import dagger.Module
 import dagger.Provides
 
 @Module
-class YoungCreatePinCodeModule: BaseFragmentModule<YoungCreatePinCodeFragment>() {
+class YoungCreatePinCodeModule{}/*: BaseFragmentModule<YoungCreatePinCodeFragment>() {
     @Provides
     @ViewModelInjection
     fun provideYoungCreatePinCodeVM(
@@ -19,4 +19,4 @@ class YoungCreatePinCodeModule: BaseFragmentModule<YoungCreatePinCodeFragment>()
     @Provides
     @FragmentScope
     fun provideCreatePinCodeState(): IYoungPinCode.State = YoungCreatePinCodeState()
-}
+}*/

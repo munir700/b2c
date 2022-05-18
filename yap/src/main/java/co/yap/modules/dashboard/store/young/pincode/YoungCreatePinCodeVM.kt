@@ -8,12 +8,17 @@ import co.yap.yapcore.dagger.base.viewmodel.DaggerBaseViewModel
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.helpers.validation.IValidator
 import co.yap.yapcore.helpers.validation.Validator
+import co.yap.yapcore.hilt.base.viewmodel.HiltBaseViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
+@HiltViewModel
 class YoungCreatePinCodeVM @Inject constructor(
-    override val state: IYoungPinCode.State, override var validator: Validator?
+    override val state: YoungCreatePinCodeState
 ) :
-    DaggerBaseViewModel<IYoungPinCode.State>(), IYoungPinCode.ViewModel, IValidator {
+    HiltBaseViewModel<IYoungPinCode.State>(), IYoungPinCode.ViewModel, IValidator {
+
+    override var validator: Validator? = Validator(null)
 
     override fun handleOnClick(id: Int) {
     }
