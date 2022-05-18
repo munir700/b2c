@@ -4,18 +4,23 @@ import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
 import android.widget.CompoundButton
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.MutableLiveData
 import co.yap.BR
 import co.yap.R
 import co.yap.databinding.FragmentYoungConfirmRelationshipBinding
 import co.yap.translation.Strings
 import co.yap.yapcore.dagger.base.navigation.BaseNavViewModelFragment
+import co.yap.yapcore.hilt.base.navigation.BaseNavViewModelFragmentV2
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_young_confirm_relationship.*
 
+@AndroidEntryPoint
 class YoungConfirmRelationshipFragment :
-    BaseNavViewModelFragment<FragmentYoungConfirmRelationshipBinding, IYoungConfirmRelationship.State, YoungConfirmRelationshipVM>(),
+    BaseNavViewModelFragmentV2<FragmentYoungConfirmRelationshipBinding, IYoungConfirmRelationship.State, YoungConfirmRelationshipVM>(),
     AdapterView.OnItemSelectedListener {
     override fun getBindingVariable() = BR.viewModel
+    override val viewModel: YoungConfirmRelationshipVM by viewModels()
     override fun getLayoutId() = R.layout.fragment_young_confirm_relationship
     override fun toolBarVisibility() = true
     override fun getToolBarTitle() =

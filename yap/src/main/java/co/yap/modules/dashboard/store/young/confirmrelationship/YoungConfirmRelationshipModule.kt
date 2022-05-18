@@ -8,7 +8,7 @@ import dagger.Module
 import dagger.Provides
 
 @Module
-class YoungConfirmRelationshipModule: BaseFragmentModule<YoungConfirmRelationshipFragment>() {
+class YoungConfirmRelationshipModule{}/*: BaseFragmentModule<YoungConfirmRelationshipFragment>() {
     @Provides
     @ViewModelInjection
     fun provideYoungConfirmRelationshipVM(
@@ -19,4 +19,4 @@ class YoungConfirmRelationshipModule: BaseFragmentModule<YoungConfirmRelationshi
     @Provides
     @FragmentScope
     fun provideContactDetailsState(): IYoungConfirmRelationship.State = YoungConfirmRelationshipState()
-}
+}*/

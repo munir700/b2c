@@ -7,14 +7,18 @@ import co.yap.yapcore.dagger.base.viewmodel.DaggerBaseViewModel
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.validation.IValidator
 import co.yap.yapcore.helpers.validation.Validator
+import co.yap.yapcore.hilt.base.viewmodel.HiltBaseViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
+@HiltViewModel
 class YoungConfirmRelationshipVM @Inject constructor(
-    override val state: IYoungConfirmRelationship.State,
-    override var validator: Validator?
+    override val state: YoungConfirmRelationshipState
 ) :
-    DaggerBaseViewModel<IYoungConfirmRelationship.State>(), IYoungConfirmRelationship.ViewModel,
+    HiltBaseViewModel<IYoungConfirmRelationship.State>(), IYoungConfirmRelationship.ViewModel,
     IValidator {
+    override var validator: Validator? = Validator(null)
+
 
     override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?) {
     }
