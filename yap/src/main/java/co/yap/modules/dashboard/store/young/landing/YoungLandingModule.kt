@@ -8,7 +8,7 @@ import dagger.Module
 import dagger.Provides
 
 @Module
-class YoungLandingModule : BaseFragmentModule<YoungLandingFragment>() {
+class YoungLandingModule{}/* : BaseFragmentModule<YoungLandingFragment>() {
 
     @Provides
     @ViewModelInjection
@@ -20,4 +20,4 @@ class YoungLandingModule : BaseFragmentModule<YoungLandingFragment>() {
     @Provides
     @FragmentScope
     fun provideYoungLandingState(): IYoungLanding.State = YoungLandingState()
-}
+}*/
