@@ -8,7 +8,7 @@ import dagger.Module
 import dagger.Provides
 
 @Module
-class OnBoardingHouseHoldModule : BaseActivityModule<OnBoardingHouseHoldActivity>() {
+class OnBoardingHouseHoldModule{ /*: BaseActivityModule<OnBoardingHouseHoldActivity>() {
     @Provides
     @ViewModelInjection
     fun provideOnBoardingHouseHoldVM(
@@ -22,5 +22,5 @@ class OnBoardingHouseHoldModule : BaseActivityModule<OnBoardingHouseHoldActivity
 
     @Provides
     @ActivityScope
-    fun provideOnBoardingHouseHoldActivityState(): OnBoardingHouseHoldState = OnBoardingHouseHoldState()
+    fun provideOnBoardingHouseHoldActivityState(): OnBoardingHouseHoldState = OnBoardingHouseHoldState()*/
 }

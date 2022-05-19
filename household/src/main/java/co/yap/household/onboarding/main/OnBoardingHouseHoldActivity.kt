@@ -5,6 +5,7 @@ import android.graphics.Rect
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import androidx.activity.viewModels
 import androidx.core.animation.addListener
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
@@ -20,12 +21,18 @@ import co.yap.yapcore.enums.AccountStatus
 import co.yap.yapcore.helpers.AnimationUtils
 import co.yap.yapcore.helpers.extentions.dimen
 import co.yap.yapcore.helpers.extentions.launchActivity
+import co.yap.yapcore.hilt.base.navigation.BaseNavViewModelActivityV2
 import co.yap.yapcore.managers.SessionManager
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_onboarding_houe_hold.*
 
+@AndroidEntryPoint
 class OnBoardingHouseHoldActivity :
-    BaseNavViewModelActivity<ActivityOnboardingHoueHoldBinding, IOnBoardingHouseHold.State, OnBoardingHouseHoldVM>(),
+    BaseNavViewModelActivityV2<ActivityOnboardingHoueHoldBinding, IOnBoardingHouseHold.State, OnBoardingHouseHoldVM>(),
     IOnBoardingHouseHold.View {
+
+    override val viewModel: OnBoardingHouseHoldVM by viewModels()
+
     override val navigationGraphId: Int
         get() = intent?.getIntExtra(NAVIGATION_Graph_ID, 0) ?: 0
     override val navigationGraphStartDestination: Int
@@ -108,8 +115,8 @@ class OnBoardingHouseHoldActivity :
         arguments: Bundle?
     ) {
         arguments?.let {
-            state.currentProgress.value = it.getInt(INDEX, 0)
-            tbProgressBar.post { tbProgressBar.progress = state.currentProgress.value!! }
+            viewModel.state.currentProgress.value = it.getInt(INDEX, 0)
+            tbProgressBar.post { tbProgressBar.progress = viewModel.state.currentProgress.value!! }
 
         }
         if (destination?.id == R.id.HHOnBoardingSuccessFragment) {

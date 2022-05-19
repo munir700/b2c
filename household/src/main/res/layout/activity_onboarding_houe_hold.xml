@@ -66,7 +66,7 @@
 
         <fragment
             android:id="@+id/nav_host_fragment"
-            android:name="co.yap.yapcore.dagger.base.MvvmNavHostFragment"
+            android:name="co.yap.yapcore.hilt.base.MvvmNavHostFragmentV2"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
