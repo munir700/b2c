@@ -44,7 +44,5 @@ class LeanSdkInitializer : LifecycleEventObserver {
     }
 
     private fun getSandBoxValue() =
-        !(YAPApplication.configManager?.flavor.equals(ProductFlavour.PROD.flavour) || YAPApplication.configManager?.flavor.equals(
-            ProductFlavour.PREPROD.flavour
-        ))
+        !(YAPApplication.configManager?.flavor.equals(ProductFlavour.PROD.flavour))
 }
