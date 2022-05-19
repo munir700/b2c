@@ -10,11 +10,14 @@ import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.adapters.SectionsPagerAdapter
 import co.yap.yapcore.dagger.base.viewmodel.DaggerBaseViewModel
 import co.yap.yapcore.helpers.extentions.share
+import co.yap.yapcore.hilt.base.viewmodel.HiltBaseViewModel
 import co.yap.yapcore.managers.SessionManager
+import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
-class HouseHoldDashBoardVM @Inject constructor(override var state: IHouseholdDashboard.State) :
-    DaggerBaseViewModel<IHouseholdDashboard.State>(),
+@HiltViewModel
+class HouseHoldDashBoardVM @Inject constructor(override var state: HouseholdDashboardState) :
+    HiltBaseViewModel<IHouseholdDashboard.State>(),
     IHouseholdDashboard.ViewModel {
     override val adapter = ObservableField<SectionsPagerAdapter>()
     override val profilePictureAdapter = ObservableField<ProfilePictureAdapter>()
