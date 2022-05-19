@@ -9,13 +9,16 @@ import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.dagger.base.viewmodel.DaggerBaseViewModel
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.hilt.base.viewmodel.HiltBaseViewModel
 import co.yap.yapcore.leanplum.HHUserOnboardingEvents
 import co.yap.yapcore.leanplum.trackEvent
 import co.yap.yapcore.managers.SessionManager
+import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
-class HHSetPinVM @Inject constructor(override var state: IHHSetPin.State) :
-    DaggerBaseViewModel<IHHSetPin.State>(), IHHSetPin.ViewModel,
+@HiltViewModel
+class HHSetPinVM @Inject constructor(override var state: HHSetPinState) :
+    HiltBaseViewModel<IHHSetPin.State>(), IHHSetPin.ViewModel,
     IRepositoryHolder<CardsRepository> {
 
     override var mobileNumber: String = ""

@@ -8,7 +8,7 @@ import dagger.Module
 import dagger.Provides
 
 @Module
-class HHSetPinModule : BaseFragmentModule<HHSetPinFragment>() {
+class HHSetPinModule{}/* : BaseFragmentModule<HHSetPinFragment>() {
     @Provides
     @ViewModelInjection
     fun provideSetPinVM(
@@ -20,4 +20,4 @@ class HHSetPinModule : BaseFragmentModule<HHSetPinFragment>() {
     @FragmentScope
     fun provideHHSetPinState(): IHHSetPin.State =
         HHSetPinState()
-}
+}*/

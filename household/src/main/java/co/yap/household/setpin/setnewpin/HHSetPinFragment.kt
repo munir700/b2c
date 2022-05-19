@@ -2,6 +2,7 @@ package co.yap.household.setpin.setnewpin
 
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import co.yap.household.BR
 import co.yap.household.R
@@ -9,12 +10,17 @@ import co.yap.household.databinding.FragmentHhSetPinBinding
 import co.yap.translation.Strings
 import co.yap.widgets.numberkeyboard.NumberKeyboard
 import co.yap.yapcore.dagger.base.navigation.BaseNavViewModelFragment
+import co.yap.yapcore.hilt.base.navigation.BaseNavViewModelFragmentV2
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.include_layout_number_keyboard.*
 
+@AndroidEntryPoint
 class HHSetPinFragment :
-    BaseNavViewModelFragment<FragmentHhSetPinBinding, IHHSetPin.State, HHSetPinVM>(),
+    BaseNavViewModelFragmentV2<FragmentHhSetPinBinding, IHHSetPin.State, HHSetPinVM>(),
     NumberKeyboard.NumberKeyboardListener {
     override fun getBindingVariable(): Int = BR.viewModel
+    override val viewModel: HHSetPinVM by viewModels()
+
     override fun getLayoutId(): Int = R.layout.fragment_hh_set_pin
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -31,7 +37,7 @@ class HHSetPinFragment :
                     HHSetPinFragmentDirections.actionSetCardPinFragment2ToConfirmCardPinFragment2(
                         SetPinDataModel(
                             screenType = "confirmPin",
-                            pinCode = state.pinCode.value.toString(),
+                            pinCode = viewModel.state.pinCode.value.toString(),
                             setPinTitle = getString(Strings.screen_household_set_pin_text_confirm_pin_title),
                             termsAndConditionVisibility = true,
                             buttonTitle = getString(Strings.screen_household_set_pin_text_button_title),
@@ -50,8 +56,8 @@ class HHSetPinFragment :
     }
 
     override fun onNumberClicked(number: Int, numbers: String) {
-        state.pinCode.value = numbers
-        state.dialerError.value = ""
+        viewModel.state.pinCode.value = numbers
+        viewModel.state.dialerError.value = ""
     }
 
     override fun onLeftAuxButtonClicked() {}
