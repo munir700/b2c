@@ -12,15 +12,18 @@ import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.dagger.base.viewmodel.DaggerBaseViewModel
 import co.yap.yapcore.enums.AccountType
 import co.yap.yapcore.enums.AlertType
+import co.yap.yapcore.hilt.base.viewmodel.HiltBaseViewModel
 import co.yap.yapcore.leanplum.trackEventWithAttributes
 import co.yap.yapcore.managers.SessionManager
+import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
+@HiltViewModel
 class HHOnBoardingCardSelectionVM @Inject constructor(
-    override val state: IHHOnBoardingCardSelection.State,
+    override val state: HHOnBoardingCardSelectionState,
     private val repository: CardsApi, private val customerRepository: CustomerHHApi
 ) :
-    DaggerBaseViewModel<IHHOnBoardingCardSelection.State>(), IHHOnBoardingCardSelection.ViewModel {
+    HiltBaseViewModel<IHHOnBoardingCardSelection.State>(), IHHOnBoardingCardSelection.ViewModel {
     override val adapter: ObservableField<CardSelectionAdapter>? = ObservableField()
 
     override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?) {

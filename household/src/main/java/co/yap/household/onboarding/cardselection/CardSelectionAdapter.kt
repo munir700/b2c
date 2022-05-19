@@ -10,8 +10,9 @@ import co.yap.networking.customers.responsedtos.HouseHoldCardsDesign
 import co.yap.yapcore.BaseRVAdapter
 import co.yap.yapcore.BaseViewHolder
 import co.yap.yapcore.helpers.extentions.dimen
+import javax.inject.Inject
 
-class CardSelectionAdapter(mValue: MutableList<HouseHoldCardsDesign>, navigation: NavController?) :
+class CardSelectionAdapter @Inject constructor(mValue: MutableList<HouseHoldCardsDesign>, navigation: NavController?) :
     BaseRVAdapter<HouseHoldCardsDesign, CardSelectionItemVM, CardSelectionAdapter.ViewHolder>(
         mValue,
         navigation

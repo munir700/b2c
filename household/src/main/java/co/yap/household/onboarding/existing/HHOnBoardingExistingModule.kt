@@ -8,7 +8,8 @@ import dagger.Module
 import dagger.Provides
 
 @Module
-class HHOnBoardingExistingModule : BaseFragmentModule<HHOnBoardingExistingFragment>() {
+class HHOnBoardingExistingModule{}
+/* : BaseFragmentModule<HHOnBoardingExistingFragment>() {
 
     @Provides
     @ViewModelInjection
@@ -21,4 +22,4 @@ class HHOnBoardingExistingModule : BaseFragmentModule<HHOnBoardingExistingFragme
     @FragmentScope
     fun provideHHOnBoardingExistingState(): IHHOnBoardingExisting.State =
         HHOnBoardingExistingState()
-}
+}*/

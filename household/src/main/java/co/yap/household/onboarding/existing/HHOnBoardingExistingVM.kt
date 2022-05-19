@@ -6,13 +6,16 @@ import co.yap.networking.customers.CustomersApi
 import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.dagger.base.viewmodel.DaggerBaseViewModel
+import co.yap.yapcore.hilt.base.viewmodel.HiltBaseViewModel
 import co.yap.yapcore.managers.SessionManager
+import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
+@HiltViewModel
 class HHOnBoardingExistingVM @Inject constructor(
-    override val state: IHHOnBoardingExisting.State,
+    override val state: HHOnBoardingExistingState,
     private val repository: CustomersApi
-) : DaggerBaseViewModel<IHHOnBoardingExisting.State>(), IHHOnBoardingExisting.ViewModel {
+) : HiltBaseViewModel<IHHOnBoardingExisting.State>(), IHHOnBoardingExisting.ViewModel {
     override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?) {
     }
     override fun subAccountInvitationStatus(

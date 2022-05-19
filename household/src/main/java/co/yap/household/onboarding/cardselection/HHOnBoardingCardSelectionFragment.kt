@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import co.yap.household.BR
 import co.yap.household.R
@@ -23,18 +24,23 @@ import co.yap.yapcore.dagger.base.navigation.host.NAVIGATION_Graph_ID
 import co.yap.yapcore.dagger.base.navigation.host.NAVIGATION_Graph_START_DESTINATION_ID
 import co.yap.yapcore.dagger.base.navigation.host.NavHostPresenterActivity
 import co.yap.yapcore.helpers.extentions.*
+import co.yap.yapcore.hilt.base.navigation.BaseNavViewModelFragmentV2
 import co.yap.yapcore.leanplum.HHUserOnboardingEvents
 import co.yap.yapcore.leanplum.trackEvent
 import co.yap.yapcore.managers.SessionManager
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_hhon_boarding_card_selection.*
 import javax.inject.Inject
 
 
+@AndroidEntryPoint
 class HHOnBoardingCardSelectionFragment :
-    BaseNavViewModelFragment<FragmentHhonBoardingCardSelectionBinding, IHHOnBoardingCardSelection.State, HHOnBoardingCardSelectionVM>(),
+    BaseNavViewModelFragmentV2<FragmentHhonBoardingCardSelectionBinding, IHHOnBoardingCardSelection.State, HHOnBoardingCardSelectionVM>(),
     TabLayout.OnTabSelectedListener {
+    override val viewModel: HHOnBoardingCardSelectionVM by viewModels()
+
     @Inject
     lateinit var adapter: CardSelectionAdapter
     private var tabViews = ArrayList<CircleView>()
@@ -59,7 +65,7 @@ class HHOnBoardingCardSelectionFragment :
                     resources.getDimensionPixelOffset(R.dimen._40sdp)
                 )
             )
-            state.cardDesigns?.observe(this@HHOnBoardingCardSelectionFragment, Observer {
+            viewModel.state.cardDesigns?.observe(this@HHOnBoardingCardSelectionFragment, Observer {
                 TabLayoutMediator(tabLayout, this,
                     TabLayoutMediator.TabConfigurationStrategy { tab, position ->
                         val view =
@@ -78,7 +84,7 @@ class HHOnBoardingCardSelectionFragment :
                         tabLayout?.addOnTabSelectedListener(this@HHOnBoardingCardSelectionFragment)
                         tabViews.add(view)
                         onTabSelected(tabLayout.getTabAt(0))
-                        state.designCode?.value =
+                        viewModel.state.designCode?.value =
                             this@HHOnBoardingCardSelectionFragment.adapter.getData()[0].designCode
                         tab.customView = view
                     }).attach()
@@ -113,10 +119,10 @@ class HHOnBoardingCardSelectionFragment :
                                 } else if (it.getBooleanExtra(Constants.skipped, false)) {
                                     trackEvent(HHUserOnboardingEvents.ONBOARDING_NEW_HH_USER_EID_DECLINED.type)
                                     if (status == KYCAction.ACTION_EID_FAILED.name)
-                                        navigateForward(
+                                       /* navigateForward(
                                             HHOnBoardingCardSelectionFragmentDirections.toHHOnBoardingInvalidEidFragment(),
                                             arguments
-                                        )
+                                        )*/
                                     else
                                         launchActivity<NavHostPresenterActivity>(clearPrevious = true) {
                                             putExtra(
@@ -138,7 +144,7 @@ class HHOnBoardingCardSelectionFragment :
                 launchAddressSelection(false)
             }
             R.id.btnConfirmLocation -> {
-                state.address?.value?.let { address ->
+                viewModel.state.address?.value?.let { address ->
                     viewModel.signupToFss(
                         SignUpFss(
                             designCode = adapter.getData()[tabLayout.selectedTabPosition].designCode,
@@ -166,19 +172,19 @@ class HHOnBoardingCardSelectionFragment :
                 LocationSelectionActivity.SUB_HEADING,
                 "Make sure you are available at the below address"
             )
-            putExtra(Constants.ADDRESS, state.address?.value ?: Address())
+            putExtra(Constants.ADDRESS, viewModel.state.address?.value ?: Address())
             putExtra(LocationSelectionActivity.IS_ON_BOARDING, false)
         }, completionHandler = { resultCode, data ->
             if (resultCode == Activity.RESULT_OK) {
                 data?.getParcelableExtra<Address>(Constants.ADDRESS)?.apply {
-                    state.address?.value = this
+                    viewModel.state.address?.value = this
                 }
                 val success =
                     data?.getValue(Constants.ADDRESS_SUCCESS, ExtraType.BOOLEAN.name) as? Boolean
-                state.address?.value?.let { selectedAddress ->
+                viewModel.state.address?.value?.let { selectedAddress ->
                     success?.let { success ->
                         if (success && gotoNext) {
-                            //selectedAddress.designCode = viewModel.state.designCode
+                            //selectedAddress.designCode = viewModel.viewModel.state.designCode
                             viewModel.orderHouseHoldPhysicalCardRequest(selectedAddress) {
                                 if (it) {
                                     navigateForward(
@@ -206,7 +212,7 @@ class HHOnBoardingCardSelectionFragment :
 
     override fun onTabSelected(tab: TabLayout.Tab?) {
         tab?.let {
-            state.designCode?.value =
+            viewModel.state.designCode?.value =
                 adapter.getData()[it.position].designCode// (tab.tag as HouseHoldCardsDesign).designCode
             tabViews[it.position].borderWidth = 6f
             tabViews[it.position].borderColor = Color.parseColor("#88848D")

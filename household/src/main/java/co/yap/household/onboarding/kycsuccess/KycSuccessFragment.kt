@@ -1,6 +1,7 @@
 package co.yap.household.onboarding.kycsuccess
 
 import android.os.Bundle
+import androidx.fragment.app.viewModels
 import co.yap.household.BR
 import co.yap.household.R
 import co.yap.household.databinding.FragmentKycSuccessBinding
@@ -11,14 +12,19 @@ import co.yap.yapcore.dagger.base.navigation.host.NAVIGATION_Graph_ID
 import co.yap.yapcore.dagger.base.navigation.host.NAVIGATION_Graph_START_DESTINATION_ID
 import co.yap.yapcore.dagger.base.navigation.host.NavHostPresenterActivity
 import co.yap.yapcore.helpers.extentions.launchActivity
+import co.yap.yapcore.hilt.base.navigation.BaseNavViewModelFragmentV2
 import co.yap.yapcore.managers.SessionManager
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_kyc_success.*
 
+@AndroidEntryPoint
 class KycSuccessFragment :
-    BaseNavViewModelFragment<FragmentKycSuccessBinding, IKycSuccess.State, KycSuccessVM>() {
+    BaseNavViewModelFragmentV2<FragmentKycSuccessBinding, IKycSuccess.State, KycSuccessVM>() {
     override fun setDisplayHomeAsUpEnabled() = false
     override fun toolBarVisibility() = false
     override fun getBindingVariable() = BR.kycSuccessVM
+
+    override val viewModel: KycSuccessVM by viewModels()
 
     override fun getLayoutId() = R.layout.fragment_kyc_success
 

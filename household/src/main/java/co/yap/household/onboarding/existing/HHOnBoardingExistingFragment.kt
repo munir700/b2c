@@ -1,7 +1,6 @@
 package co.yap.household.onboarding.existing
 
-import android.os.Bundle
-import androidx.lifecycle.Observer
+import androidx.fragment.app.viewModels
 import co.yap.household.BR
 import co.yap.household.R
 import co.yap.household.databinding.FragmentHhonBoardingExistingBinding
@@ -12,10 +11,16 @@ import co.yap.yapcore.enums.YAPThemes
 import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.helpers.extentions.switchTheme
 import co.yap.yapcore.helpers.extentions.toCamelCase
+import co.yap.yapcore.hilt.base.navigation.BaseNavViewModelFragmentV2
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class HHOnBoardingExistingFragment :
-    BaseNavViewModelFragment<FragmentHhonBoardingExistingBinding, IHHOnBoardingExisting.State, HHOnBoardingExistingVM>() {
+    BaseNavViewModelFragmentV2<FragmentHhonBoardingExistingBinding, IHHOnBoardingExisting.State, HHOnBoardingExistingVM>() {
     override fun getBindingVariable() = BR.viewModel
+
+    override val viewModel: HHOnBoardingExistingVM by viewModels()
+
     override fun getLayoutId() = R.layout.fragment_hhon_boarding_existing
     override fun toolBarVisibility() = false
 

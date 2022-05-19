@@ -7,11 +7,14 @@ import co.yap.yapcore.dagger.di.qualifiers.FragmentScope
 import co.yap.yapcore.dagger.di.qualifiers.ViewModelInjection
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 
 @Module
-class HHOnBoardingCardSelectionModule : BaseFragmentModule<HHOnBoardingCardSelectionFragment>() {
+@InstallIn(SingletonComponent::class)
+class HHOnBoardingCardSelectionModule /*: BaseFragmentModule<HHOnBoardingCardSelectionFragment>()*/ {
 
-    @Provides
+   /* @Provides
     @ViewModelInjection
     fun provideHHOnBoardingCardSelectionVM(
         fragment: HHOnBoardingCardSelectionFragment,
@@ -22,7 +25,7 @@ class HHOnBoardingCardSelectionModule : BaseFragmentModule<HHOnBoardingCardSelec
     @Provides
     @FragmentScope
     fun provideHHOnBoardingCardSelectionState(): IHHOnBoardingCardSelection.State =
-        HHOnBoardingCardSelectionState()
+        HHOnBoardingCardSelectionState()*/
 
     @Provides
     fun provideCardSelectionAdapter() =

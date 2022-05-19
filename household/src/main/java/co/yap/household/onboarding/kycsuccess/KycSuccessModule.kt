@@ -7,7 +7,7 @@ import dagger.Module
 import dagger.Provides
 
 @Module
-class KycSuccessModule : BaseFragmentModule<KycSuccessFragment>() {
+class KycSuccessModule{}/* : BaseFragmentModule<KycSuccessFragment>() {
 
     @Provides
     @ViewModelInjection
@@ -18,4 +18,4 @@ class KycSuccessModule : BaseFragmentModule<KycSuccessFragment>() {
 
     @Provides
     fun provideHouseholdHomeState(): IKycSuccess.State = KycSuccessState()
-}
+}*/
