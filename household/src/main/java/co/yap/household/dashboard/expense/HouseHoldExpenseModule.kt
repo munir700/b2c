@@ -8,7 +8,7 @@ import dagger.Module
 import dagger.Provides
 
 @Module
-class HouseHoldExpenseModule : BaseFragmentModule<HouseHoldExpenseFragment>() {
+class HouseHoldExpenseModule{} /*: BaseFragmentModule<HouseHoldExpenseFragment>() {
     @Provides
     @ViewModelInjection
     fun provideHouseHoldExpenseVM(
@@ -20,3 +20,4 @@ class HouseHoldExpenseModule : BaseFragmentModule<HouseHoldExpenseFragment>() {
     @FragmentScope
     fun provideHouseHoldExpenseState(): IHouseHoldExpense.State = HouseHoldExpenseState()
 }
+*/
