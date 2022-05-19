@@ -8,7 +8,7 @@ import dagger.Module
 import dagger.Provides
 
 @Module
-class HHSetPinSuccessModule : BaseFragmentModule<HHSetPinSuccessFragment>() {
+class HHSetPinSuccessModule/* : BaseFragmentModule<HHSetPinSuccessFragment>() {
 
     @Provides
     @ViewModelInjection
@@ -23,4 +23,4 @@ class HHSetPinSuccessModule : BaseFragmentModule<HHSetPinSuccessFragment>() {
         HHSetPinSuccessState()
 
 
-}
+}*/
