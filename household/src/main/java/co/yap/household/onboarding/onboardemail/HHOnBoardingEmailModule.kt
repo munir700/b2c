@@ -8,7 +8,7 @@ import dagger.Module
 import dagger.Provides
 
 @Module
-class HHOnBoardingEmailModule : BaseFragmentModule<HHOnBoardingEmailFragment>() {
+class HHOnBoardingEmailModule {}/*: BaseFragmentModule<HHOnBoardingEmailFragment>() {
 
     @Provides
     @ViewModelInjection
@@ -21,4 +21,4 @@ class HHOnBoardingEmailModule : BaseFragmentModule<HHOnBoardingEmailFragment>() 
     @FragmentScope
     fun provideHHOnBoardingEmailState(): IHHOnBoardingEmail.State =
         HHOnBoardingEmailState()
-}
+}*/

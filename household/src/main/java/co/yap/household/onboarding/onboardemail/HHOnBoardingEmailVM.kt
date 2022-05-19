@@ -9,19 +9,22 @@ import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.dagger.base.viewmodel.DaggerBaseViewModel
 import co.yap.yapcore.helpers.validation.IValidator
 import co.yap.yapcore.helpers.validation.Validator
+import co.yap.yapcore.hilt.base.viewmodel.HiltBaseViewModel
 import co.yap.yapcore.leanplum.HHUserOnboardingEvents
 import co.yap.yapcore.leanplum.trackEvent
 import co.yap.yapcore.leanplum.trackEventWithAttributes
 import co.yap.yapcore.managers.SessionManager
+import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
+@HiltViewModel
 class HHOnBoardingEmailVM @Inject constructor(
-    override val state: IHHOnBoardingEmail.State,
-    override var validator: Validator?, private val repository: CustomersApi
-) : DaggerBaseViewModel<IHHOnBoardingEmail.State>(), IHHOnBoardingEmail.ViewModel, IValidator {
+    override val state: HHOnBoardingEmailState,
+    private val repository: CustomersApi
+) : HiltBaseViewModel<IHHOnBoardingEmail.State>(), IHHOnBoardingEmail.ViewModel, IValidator {
     override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?) {
     }
-
+    override var validator: Validator? = Validator(null)
     override fun handleOnClick(id: Int) {
     }
 
