@@ -8,7 +8,7 @@ import dagger.Module
 import dagger.Provides
 
 @Module
-class HHOnBoardingMobileModule : BaseFragmentModule<HHOnBoardingMobileFragment>() {
+class HHOnBoardingMobileModule{} /*: BaseFragmentModule<HHOnBoardingMobileFragment>() {
 
     @Provides
     @ViewModelInjection
@@ -22,3 +22,4 @@ class HHOnBoardingMobileModule : BaseFragmentModule<HHOnBoardingMobileFragment>(
     fun provideHHOnBoardingMobileState(): IHHOnBoardingMobile.State =
         HHOnBoardingMobileState()
 }
+*/
