@@ -8,11 +8,14 @@ import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.dagger.base.viewmodel.DaggerBaseViewModel
 import co.yap.yapcore.enums.CardType
+import co.yap.yapcore.hilt.base.viewmodel.HiltBaseViewModel
 import co.yap.yapcore.managers.SessionManager
+import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
-class HHSetPinCardReviewVM @Inject constructor(override val state: IHHSetPinCardReview.State) :
-    DaggerBaseViewModel<IHHSetPinCardReview.State>(), IHHSetPinCardReview.ViewModel,
+@HiltViewModel
+class HHSetPinCardReviewVM @Inject constructor(override val state: HHSetPinCardReviewState) :
+    HiltBaseViewModel<IHHSetPinCardReview.State>(), IHHSetPinCardReview.ViewModel,
     IRepositoryHolder<CardsRepository> {
     override val repository: CardsRepository = CardsRepository
 

@@ -1,6 +1,7 @@
 package co.yap.household.setpin.setpinstart
 
 import android.os.Bundle
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import co.yap.household.BR
 import co.yap.household.R
@@ -8,10 +9,14 @@ import co.yap.household.databinding.FragmentHhSetPinCardReviewBinding
 import co.yap.household.setpin.setnewpin.SetPinDataModel
 import co.yap.translation.Strings
 import co.yap.yapcore.dagger.base.navigation.BaseNavViewModelFragment
+import co.yap.yapcore.hilt.base.navigation.BaseNavViewModelFragmentV2
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class HHSetPinCardReviewFragment :
-    BaseNavViewModelFragment<FragmentHhSetPinCardReviewBinding, IHHSetPinCardReview.State, HHSetPinCardReviewVM>() {
+    BaseNavViewModelFragmentV2<FragmentHhSetPinCardReviewBinding, IHHSetPinCardReview.State, HHSetPinCardReviewVM>() {
     override fun getBindingVariable(): Int = BR.viewModel
+    override val viewModel: HHSetPinCardReviewVM by viewModels()
 
     override fun getLayoutId(): Int = R.layout.fragment_hh_set_pin_card_review
 

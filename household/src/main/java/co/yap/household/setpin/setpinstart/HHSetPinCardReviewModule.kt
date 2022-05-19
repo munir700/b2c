@@ -8,7 +8,7 @@ import dagger.Module
 import dagger.Provides
 
 @Module
-class HHSetPinCardReviewModule : BaseFragmentModule<HHSetPinCardReviewFragment>() {
+class HHSetPinCardReviewModule {}/*: BaseFragmentModule<HHSetPinCardReviewFragment>() {
 
     @Provides
     @ViewModelInjection
@@ -23,4 +23,4 @@ class HHSetPinCardReviewModule : BaseFragmentModule<HHSetPinCardReviewFragment>(
         HHSetPinCardReviewState()
 
 
-}
+}*/
