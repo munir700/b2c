@@ -8,7 +8,7 @@ import dagger.Module
 import dagger.Provides
 
 @Module
-class HHOnBoardingSuccessModule : BaseFragmentModule<HHOnBoardingSuccessFragment>() {
+class HHOnBoardingSuccessModule {}/*: BaseFragmentModule<HHOnBoardingSuccessFragment>() {
 
     @Provides
     @ViewModelInjection
@@ -21,4 +21,4 @@ class HHOnBoardingSuccessModule : BaseFragmentModule<HHOnBoardingSuccessFragment
     @FragmentScope
     fun provideHHOnBoardingSuccessState(): IHHOnBoardingSuccess.State =
         HHOnBoardingSuccessState()
-}
+}*/

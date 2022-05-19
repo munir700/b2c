@@ -8,6 +8,7 @@ import android.os.Handler
 import android.os.Looper
 import android.view.animation.AccelerateInterpolator
 import androidx.core.view.children
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import co.yap.household.BR
 import co.yap.household.R
@@ -16,16 +17,21 @@ import co.yap.yapcore.AdjustEvents.Companion.trackAdjustPlatformEvent
 import co.yap.yapcore.adjust.AdjustEvents
 import co.yap.yapcore.dagger.base.navigation.BaseNavViewModelFragment
 import co.yap.yapcore.helpers.AnimationUtils
+import co.yap.yapcore.hilt.base.navigation.BaseNavViewModelFragmentV2
 import co.yap.yapcore.leanplum.HHUserOnboardingEvents
 import co.yap.yapcore.leanplum.trackEvent
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_hhonboarding_success.*
 
+@AndroidEntryPoint
 class HHOnBoardingSuccessFragment :
-    BaseNavViewModelFragment<FragmentHhonboardingSuccessBinding, IHHOnBoardingSuccess.State, HHOnBoardingSuccessVM>() {
+    BaseNavViewModelFragmentV2<FragmentHhonboardingSuccessBinding, IHHOnBoardingSuccess.State, HHOnBoardingSuccessVM>() {
     private val windowSize: Rect = Rect()
     override fun getBindingVariable() = BR.viewModel
     override fun getLayoutId() = R.layout.fragment_hhonboarding_success
     override fun setDisplayHomeAsUpEnabled() = false
+    override val viewModel: HHOnBoardingSuccessVM by viewModels()
+
     override fun postExecutePendingBindings(savedInstanceState: Bundle?) {
         super.postExecutePendingBindings(savedInstanceState)
         setBackButtonDispatcher()
