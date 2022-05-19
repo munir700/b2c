@@ -6,13 +6,16 @@ import co.yap.networking.messages.MessagesApi
 import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.dagger.base.viewmodel.DaggerBaseViewModel
+import co.yap.yapcore.hilt.base.viewmodel.HiltBaseViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
+@HiltViewModel
 class HHOnBoardingInvalidEidVM @Inject constructor(
-    override val state: IHHOnBoardingInvalidEid.State,
+    override val state: HHOnBoardingInvalidEidState,
     private val repository: MessagesApi
 ) :
-    DaggerBaseViewModel<IHHOnBoardingInvalidEid.State>(), IHHOnBoardingInvalidEid.ViewModel {
+    HiltBaseViewModel<IHHOnBoardingInvalidEid.State>(), IHHOnBoardingInvalidEid.ViewModel {
 
     override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?) {
         getHelpDeskPhone()

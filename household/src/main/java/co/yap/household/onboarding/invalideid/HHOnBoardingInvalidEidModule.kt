@@ -8,7 +8,7 @@ import dagger.Module
 import dagger.Provides
 
 @Module
-class HHOnBoardingInvalidEidModule : BaseFragmentModule<HHOnBoardingInvalidEidFragment>() {
+class HHOnBoardingInvalidEidModule {}/*: BaseFragmentModule<HHOnBoardingInvalidEidFragment>() {
 
     @Provides
     @ViewModelInjection
@@ -22,3 +22,4 @@ class HHOnBoardingInvalidEidModule : BaseFragmentModule<HHOnBoardingInvalidEidFr
     fun provideHHOnBoardingInvalidEidState(): IHHOnBoardingInvalidEid.State =
         HHOnBoardingInvalidEidState()
 }
+*/
