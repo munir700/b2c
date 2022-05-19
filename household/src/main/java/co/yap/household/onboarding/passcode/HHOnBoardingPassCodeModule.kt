@@ -8,7 +8,7 @@ import dagger.Module
 import dagger.Provides
 
 @Module
-class HHOnBoardingPassCodeModule : BaseFragmentModule<HHOnBoardingPassCodeFragment>() {
+class HHOnBoardingPassCodeModule/* : BaseFragmentModule<HHOnBoardingPassCodeFragment>() {
     @Provides
     @ViewModelInjection
     fun provideHHOnBoardingWelcomeVM(
@@ -20,4 +20,4 @@ class HHOnBoardingPassCodeModule : BaseFragmentModule<HHOnBoardingPassCodeFragme
     @FragmentScope
     fun provideHHOnBoardingSuccessState(): IHHOnBoardingPassCode.State =
         HHOnBoardingPassCodeState()
-}
+}*/

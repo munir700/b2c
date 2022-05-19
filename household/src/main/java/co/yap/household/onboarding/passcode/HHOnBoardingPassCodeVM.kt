@@ -7,16 +7,19 @@ import co.yap.networking.customers.requestdtos.CreatePassCodeRequest
 import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.dagger.base.viewmodel.DaggerBaseViewModel
+import co.yap.yapcore.hilt.base.viewmodel.HiltBaseViewModel
 import co.yap.yapcore.leanplum.HHUserOnboardingEvents
 import co.yap.yapcore.leanplum.trackEvent
 import co.yap.yapcore.managers.SessionManager
+import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
+@HiltViewModel
 class HHOnBoardingPassCodeVM @Inject constructor(
-    override val state: IHHOnBoardingPassCode.State,
+    override val state: HHOnBoardingPassCodeState,
     private val repository: CustomersApi
 ) :
-    DaggerBaseViewModel<IHHOnBoardingPassCode.State>(), IHHOnBoardingPassCode.ViewModel {
+    HiltBaseViewModel<IHHOnBoardingPassCode.State>(), IHHOnBoardingPassCode.ViewModel {
     override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?) {
     }
 
