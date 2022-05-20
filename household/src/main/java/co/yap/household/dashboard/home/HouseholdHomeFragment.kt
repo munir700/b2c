@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.core.os.bundleOf
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.household.BR
@@ -35,25 +36,36 @@ import co.yap.yapcore.dagger.base.navigation.host.NavHostPresenterActivity
 import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.helpers.livedata.GetAccountBalanceLiveData
 import co.yap.yapcore.helpers.livedata.GetAccountInfoLiveData
+import co.yap.yapcore.hilt.base.navigation.BaseNavViewModelFragmentV2
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.SessionManager
+import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class HouseholdHomeFragment :
-    BaseNavViewModelFragment<FragmentHouseholdHomeBinding, IHouseholdHome.State, HouseHoldHomeVM>() {
-    @Inject
-    lateinit var mNotificationAdapter: HHNotificationAdapter
+    BaseNavViewModelFragmentV2<FragmentHouseholdHomeBinding, IHouseholdHome.State, HouseHoldHomeVM>() {
 
-    @Inject
-    lateinit var mAdapter: HomeTransactionAdapter
+    val mNotificationAdapter: HHNotificationAdapter by lazy {
+        HHNotificationAdapter(mutableListOf(), null, null)
+    }
 
-    @Inject
-    lateinit var mWrappedAdapter: RecyclerView.Adapter<*>
+   val mAdapter: HomeTransactionAdapter by lazy {
+       HomeTransactionAdapter(emptyMap(), mRecyclerViewExpandableItemManager)
 
-    @Inject
-    lateinit var mRecyclerViewExpandableItemManager: RecyclerViewExpandableItemManager
+   }
+
+    private val  mWrappedAdapter: RecyclerView.Adapter<*> by lazy {
+        mRecyclerViewExpandableItemManager.createWrappedAdapter(mAdapter)
+    }
+
+    private val mRecyclerViewExpandableItemManager: RecyclerViewExpandableItemManager by lazy {
+        RecyclerViewExpandableItemManager(null)
+    }
 
     override fun getBindingVariable() = BR.viewModel
+    override val viewModel: HouseHoldHomeVM by viewModels()
+
     override fun getLayoutId() = R.layout.fragment_household_home
     override fun postExecutePendingBindings(savedInstanceState: Bundle?) {
         super.postExecutePendingBindings(savedInstanceState)
@@ -61,7 +73,7 @@ class HouseholdHomeFragment :
         setHasOptionsMenu(true)
         GetAccountBalanceLiveData.get()
             .observe(this, Observer {
-                state.availableBalance?.value = it?.availableBalance
+                viewModel.state.availableBalance?.value = it?.availableBalance
                 mViewDataBinding.lyInclude.firstIndicator.setLabel2(it?.availableBalance.toFormattedCurrency() ?: "")
             })
         intRecyclersView()
@@ -169,10 +181,10 @@ class HouseholdHomeFragment :
                                         ExtraType.BOOLEAN.name
                                     ) as? Boolean
                                 data?.getParcelableExtra<Address>(Constants.ADDRESS)?.apply {
-                                    state.address?.value = this
+                                    viewModel.state.address?.value = this
                                 }
 
-                                state.address?.value?.let { selectedAddress ->
+                                viewModel.state.address?.value?.let { selectedAddress ->
                                     success?.let { success ->
                                         if (success) {
                                             GetAccountInfoLiveData.get()
@@ -225,25 +237,25 @@ class HouseholdHomeFragment :
                     putExtra(
                         TransactionFiltersActivity.KEY_FILTER_TXN_FILTERS,
                         TransactionFilters(
-                            state.transactionRequest?.amountStartRange,
-                            state.transactionRequest?.amountEndRange,
-                            incomingTxn = state.transactionRequest?.txnType == MANUAL_CREDIT,
-                            outgoingTxn = state.transactionRequest?.txnType == MANUAL_DEBIT,
-                            totalAppliedFilter = state.transactionRequest?.totalAppliedFilter ?: 0
+                            viewModel.state.transactionRequest?.amountStartRange,
+                            viewModel.state.transactionRequest?.amountEndRange,
+                            incomingTxn = viewModel.state.transactionRequest?.txnType == MANUAL_CREDIT,
+                            outgoingTxn = viewModel.state.transactionRequest?.txnType == MANUAL_DEBIT,
+                            totalAppliedFilter = viewModel.state.transactionRequest?.totalAppliedFilter ?: 0
                         )
                     )
                 }, completionHandler = { resultCode, data ->
                     if (resultCode == Activity.RESULT_OK) {
                         data?.getParcelableExtra<TransactionFilters?>("txnRequest")?.apply {
-                            state.transactionRequest?.number = 0
-                            state.transactionRequest?.size = REQUEST_PAGE_SIZE
-                            state.transactionRequest?.txnType = getTxnType()
-                            state.transactionRequest?.amountStartRange = amountStartRange
-                            state.transactionRequest?.amountEndRange = amountEndRange
-                            state.transactionRequest?.title = null
-                            state.transactionRequest?.totalAppliedFilter =
+                            viewModel.state.transactionRequest?.number = 0
+                            viewModel.state.transactionRequest?.size = REQUEST_PAGE_SIZE
+                            viewModel.state.transactionRequest?.txnType = getTxnType()
+                            viewModel.state.transactionRequest?.amountStartRange = amountStartRange
+                            viewModel.state.transactionRequest?.amountEndRange = amountEndRange
+                            viewModel.state.transactionRequest?.title = null
+                            viewModel.state.transactionRequest?.totalAppliedFilter =
                                 totalAppliedFilter
-                            viewModel.requestTransactions(state.transactionRequest, false)
+                            viewModel.requestTransactions(viewModel.state.transactionRequest, false)
                         }
                     }
                 })
@@ -252,7 +264,7 @@ class HouseholdHomeFragment :
     }
 
     fun onCloseClick(notification: HomeNotification) {
-        state.showNotification.value = false
+        viewModel.state.showNotification.value = false
     }
 
     override fun setHomeAsUpIndicator() = R.drawable.ic_search_white

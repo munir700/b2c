@@ -23,15 +23,17 @@ import co.yap.yapcore.helpers.DateUtils.FORMAT_DATE_MON_YEAR
 import co.yap.yapcore.helpers.DateUtils.SERVER_DATE_FORMAT
 import co.yap.yapcore.helpers.DateUtils.UTC
 import co.yap.yapcore.helpers.NotificationHelper
+import co.yap.yapcore.hilt.base.viewmodel.HiltBaseViewModel
 import co.yap.yapcore.leanplum.trackEventWithAttributes
 import co.yap.yapcore.managers.SessionManager
+import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
+@HiltViewModel
 class HouseHoldHomeVM @Inject constructor(
-    override var state: IHouseholdHome.State,
-    private val repository: TransactionsRepository,
-    private val expandableItemManager: RecyclerViewExpandableItemManager
-) : DaggerBaseViewModel<IHouseholdHome.State>(), IHouseholdHome.ViewModel {
+    override var state: HouseholdHomeState,
+    private val repository: TransactionsRepository
+) : HiltBaseViewModel<IHouseholdHome.State>(), IHouseholdHome.ViewModel {
     private val cardsRepository: CardsApi = CardsRepository
     override var transactionAdapter: ObservableField<HomeTransactionAdapter>? = ObservableField()
     override var notificationAdapter = ObservableField<HHNotificationAdapter>()

@@ -10,8 +10,9 @@ import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionLi
 import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.widgets.State
 import co.yap.yapcore.BaseState
+import javax.inject.Inject
 
-class HouseholdHomeState : BaseState(), IHouseholdHome.State {
+class HouseholdHomeState @Inject constructor(): BaseState(), IHouseholdHome.State {
     override var showNotification: MutableLiveData<Boolean> = MutableLiveData(true)
     override val transactionList: ObservableField<MutableList<HomeTransactionListData>> =
         ObservableField(mutableListOf())

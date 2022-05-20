@@ -10,7 +10,7 @@ import dagger.Module
 import dagger.Provides
 
 @Module
-class HouseHoldHomeModule : BaseFragmentModule<HouseholdHomeFragment>() {
+class HouseHoldHomeModule {}/*: BaseFragmentModule<HouseholdHomeFragment>() {
     @Provides
     @ViewModelInjection
     fun provideHouseHoldHomeVM(
@@ -49,3 +49,4 @@ class HouseHoldHomeModule : BaseFragmentModule<HouseholdHomeFragment>() {
         mRecyclerViewExpandableItemManager: RecyclerViewExpandableItemManager
     ): RecyclerView.Adapter<*> = mRecyclerViewExpandableItemManager.createWrappedAdapter(adapter)
 }
+*/
