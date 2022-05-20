@@ -29,9 +29,9 @@ import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.alert
 import co.yap.yapcore.helpers.countryCodeForRegion
 import co.yap.yapcore.helpers.extentions.openPlayStore
+import co.yap.yapcore.helpers.extentions.safeNavigate
 import com.yap.ghana.ui.auth.main.GhAuthenticationActivity
 import com.yap.yappakistan.ui.auth.main.AuthenticationActivity
-import kotlinx.coroutines.delay
 
 class SplashFragment : MainChildFragment<FragmentSplashBinding, ISplash.ViewModel>(), ISplash.View {
     private var animatorSet: AnimatorSet? = null
@@ -130,7 +130,8 @@ class SplashFragment : MainChildFragment<FragmentSplashBinding, ISplash.ViewMode
                 KEY_IS_FIRST_TIME_USER,
                 false
             )
-            findNavController().navigate(R.id.action_splashFragment_to_accountSelectionFragment)
+            findNavController()
+                .safeNavigate(SplashFragmentDirections.actionSplashFragmentToAccountSelectionFragment())
         } else {
             val sharedPreferenceManager = SharedPreferenceManager.getInstance(requireContext())
             if (sharedPreferenceManager.getValueBoolien(
@@ -159,10 +160,8 @@ class SplashFragment : MainChildFragment<FragmentSplashBinding, ISplash.ViewMode
                     sharedPreferenceManager.save(KEY_COUNTRY_CODE, null)
                 }
             }
-            launch {
-                delay(10)
-                findNavController().navigate(R.id.action_splashFragment_to_loginFragment)
-            }
+            findNavController()
+                .safeNavigate(SplashFragmentDirections.actionSplashFragmentToLoginFragment())
         }
     }
 
