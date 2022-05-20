@@ -231,6 +231,8 @@ object Strings {
         "screen_onboarding_confirm_card_name_edit_full_name_text"
     const val screen_onboarding_confirm_card_name_btn_name_fine_text: String =
         "screen_onboarding_confirm_card_name_btn_name_fine_text"
+    const val screen_onboarding_confirm_card_name_kfs_text: String =
+        "screen_onboarding_confirm_card_name_kfs_text"
 
     //System permission screen
     const val screen_system_permission_text_title: String = "screen_system_permission_text_title"
@@ -438,6 +440,8 @@ object Strings {
         "screen_confirm_card_pin_display_title_terms_and_conditions"
     const val screen_confirm_card_pin_display_text_terms_and_conditions: String =
         "screen_confirm_card_pin_display_text_terms_and_conditions"
+    const val screen_confirm_card_pin_display_text_key_fact_statement: String =
+        "screen_confirm_card_pin_display_text_key_fact_statement"
     const val screen_confirm_card_pin_button_create_pin: String =
         "screen_confirm_card_pin_button_create_pin"
     const val screen_confirm_card_pin_display_text_error_sequence: String =
@@ -845,6 +849,8 @@ object Strings {
         "screen_profile_settings_display_text_about_us"
     const val screen_profile_settings_display_terms_and_conditions: String =
         "screen_profile_settings_display_terms_and_conditions"
+    const val screen_profile_settings_display_key_fact_statement: String =
+        "screen_profile_settings_display_key_fact_statement"
     const val screen_profile_settings_display_fees_and_pricing_plans: String =
         "screen_profile_settings_display_fees_and_pricing_plans"
     const val screen_profile_settings_display_text_instagram: String =
@@ -1814,6 +1820,12 @@ object Strings {
     //    Notification settings screen
     const val screen_notification_settings_display_text_toolbar_title: String =
         "screen_notification_settings_display_text_toolbar_title"
+    const val screen_notification_settings_display_text_promotion_title: String =
+        "screen_notification_settings_display_text_promotion_title"
+    const val screen_notification_settings_display_text_promotion_subtitle: String =
+        "screen_notification_settings_display_text_promotion_subtitle"
+    const val screen_notification_settings_display_text_all_notifications: String =
+        "screen_notification_settings_display_text_all_notifications"
     const val screen_notification_settings_display_text_in_app_notifications: String =
         "screen_notification_settings_display_text_in_app_notifications"
     const val screen_notification_settings_display_text_sms_notifications: String =
@@ -1875,6 +1887,16 @@ object Strings {
         "screen_place_of_birth_display_text_select_country"
     const val screen_place_of_birth_display_text_city_of_birth: String =
         "screen_place_of_birth_display_text_city_of_birth"
+    const val screen_place_of_birth_display_text_select_city_of_birth: String =
+        "screen_place_of_birth_display_text_select_city_of_birth"
+    const val screen_place_of_birth_display_text_type_city_of_birth_hint: String =
+        "screen_place_of_birth_display_text_type_city_of_birth_hint"
+    const val screen_place_of_birth_display_text_city_of_birth_hint: String =
+        "screen_place_of_birth_display_text_city_of_birth_hint"
+    const val screen_place_of_birth_display_text_select_city: String =
+        "screen_place_of_birth_display_text_select_city"
+    const val screen_place_of_birth_display_text_search_city: String =
+        "screen_place_of_birth_display_text_search_city"
     const val screen_place_of_birth_display_text_are_you_a_dual_national: String =
         "screen_place_of_birth_display_text_are_you_a_dual_national"
     const val screen_place_of_birth_display_text_nationality_as_per_eid: String =
@@ -2632,7 +2654,8 @@ object Strings {
     const val screen_view_document_otp_message_second_part =
         "screen_view_document_otp_message_second_part"
 
-    //    Upload document dialogue
+//    Upload document dialogue
+
     const val screen_upload_document_display_text_alert_title: String =
         "screen_upload_document_display_text_alert_title"
     const val screen_upload_document_display_text_alert_message: String =
@@ -2653,6 +2676,26 @@ object Strings {
         "enter_greater_salary_amount"
     const val enter_greater_deposit_amount: String =
         "enter_greater_deposit_amount"
+
+    //KFS notification Screen
+    const val screen_kfs_notification_nothanks_label: String =
+        "screen_kfs_notification_nothanks_label"
+    const val screen_kfs_notification_inapp_notification: String =
+        "screen_kfs_notification_inapp_notification"
+    const val screen_kfs_notification_email_notification: String =
+        "screen_kfs_notification_email_notification"
+    const val screen_kfs_notification_sms_notification: String =
+        "screen_kfs_notification_sms_notification"
+    const val screen_kfs_notification_accept_all_notification_label: String =
+        "screen_kfs_notification_accept_all_notification_label"
+    const val screen_kfs_notification_descrip: String =
+        "screen_kfs_notification_descrip"
+    const val screen_kfs_notification_title: String =
+        "screen_kfs_notification_title"
+    const val screen_kfs_notification_accept_no_notification_note: String =
+        "screen_kfs_notification_accept_no_notification_note"
+    const val screen_kfs_notification_accept_no_notification_label: String =
+        "screen_kfs_notification_accept_no_notification_label"
 
     //Lean -Easy Bank Transfer- Welcome Screen
     const val screen_lean_welcome_screen_title =

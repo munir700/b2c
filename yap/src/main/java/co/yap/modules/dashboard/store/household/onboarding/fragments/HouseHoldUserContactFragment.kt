@@ -12,7 +12,6 @@ import co.yap.modules.dashboard.store.household.onboarding.interfaces.IHouseHold
 import co.yap.modules.dashboard.store.household.onboarding.viewmodels.HouseHoldUserContactViewModel
 import co.yap.yapcore.helpers.showSnackBar
 import kotlinx.android.synthetic.main.fragment_house_hold_user_contact_info.*
-import kotlinx.android.synthetic.main.fragment_mobile.etMobileNumber
 
 class HouseHoldUserContactFragment : BaseOnBoardingFragment<FragmentHouseHoldUserContactInfoBinding,IHouseHoldUserContact.ViewModel>(),
     IHouseHoldUserContact.View {

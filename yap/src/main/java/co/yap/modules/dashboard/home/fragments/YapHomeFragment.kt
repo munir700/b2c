@@ -42,6 +42,8 @@ import co.yap.modules.dashboard.home.viewmodels.YapHomeViewModel
 import co.yap.modules.dashboard.main.activities.YapDashboardActivity
 import co.yap.modules.dashboard.main.fragments.YapDashboardChildFragment
 import co.yap.modules.dashboard.main.viewmodels.YapDashBoardViewModel
+import co.yap.modules.dashboard.more.home.fragments.InviteFriendFragment
+import co.yap.modules.dashboard.more.profile.fragments.PersonalDetailsFragment
 import co.yap.modules.dashboard.more.yapforyou.activities.YAPForYouActivity
 import co.yap.modules.dashboard.transaction.detail.TransactionDetailsActivity
 import co.yap.modules.dashboard.transaction.search.TransactionSearchFragment
@@ -213,6 +215,13 @@ class YapHomeFragment : YapDashboardChildFragment<FragmentDashboardHomeBinding,I
                 R.id.imgWidget -> {
                     if (data is WidgetData) {
                         when (data.name) {
+                            EnumWidgetTitles.REFER_A_FRIEND.title -> {
+                                trackEventWithScreenName(FirebaseEvent.CLICK_INVITE_FRIEND)
+                                startFragment(
+                                    InviteFriendFragment::class.java.name, false,
+                                    bundleOf()
+                                )
+                            }
                             EnumWidgetTitles.ADD_MONEY.title -> {
                                 launchActivity<AddMoneyActivity>(type = FeatureSet.TOP_UP)
                             }

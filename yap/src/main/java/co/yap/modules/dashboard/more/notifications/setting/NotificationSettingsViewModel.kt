@@ -6,6 +6,7 @@ import co.yap.networking.notification.NotificationsApi
 import co.yap.networking.notification.NotificationsRepository
 import co.yap.networking.notification.responsedtos.NotificationSettings
 import co.yap.yapcore.BaseViewModel
+import co.yap.yapcore.leanplum.trackKfsWithAttributes
 import kotlinx.coroutines.delay
 
 class NotificationSettingsViewModel(application: Application) :
@@ -15,7 +16,6 @@ class NotificationSettingsViewModel(application: Application) :
         NotificationSettingsState()
     override val repository: NotificationsApi = NotificationsRepository
 
-
     override fun getNotificationSettings(onComplete: (Boolean) -> Unit) {
         launch {
             state.loading = true
@@ -24,6 +24,12 @@ class NotificationSettingsViewModel(application: Application) :
                     state.emailNotificationsAllowed = response.data.data?.emailEnabled
                     state.inAppNotificationsAllowed = response.data.data?.inAppEnabled
                     state.smsNotificationsAllowed = response.data.data?.smsEnabled
+                    state.pushNotificationsAllowed = response.data.data?.pushNotificationEnabled
+                    trackKfsWithAttributes(
+                        state.smsNotificationsAllowed ?: false,
+                        state.emailNotificationsAllowed ?: false,
+                        state.inAppNotificationsAllowed ?: false
+                    )
                     state.loading = false
                     delay(100)
                     onComplete.invoke(true)
@@ -42,12 +48,18 @@ class NotificationSettingsViewModel(application: Application) :
             state.loading = true
             when (val response = repository.saveNotificationSettings(
                 NotificationSettings(
-                    state.emailNotificationsAllowed,
-                    state.inAppNotificationsAllowed,
-                    state.smsNotificationsAllowed
+                    emailEnabled = state.emailNotificationsAllowed,
+                    inAppEnabled = state.inAppNotificationsAllowed,
+                    smsEnabled = state.smsNotificationsAllowed,
+                    optIn = state.allNotificationsAllowed
                 )
             )) {
                 is RetroApiResponse.Success -> {
+                    trackKfsWithAttributes(
+                        state.smsNotificationsAllowed ?: false,
+                        state.emailNotificationsAllowed ?: false,
+                        state.inAppNotificationsAllowed ?: false
+                    )
                     state.loading = false
                 }
                 is RetroApiResponse.Error -> {
