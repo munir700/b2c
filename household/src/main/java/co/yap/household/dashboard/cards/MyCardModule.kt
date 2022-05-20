@@ -13,10 +13,13 @@ import co.yap.yapcore.dagger.di.qualifiers.ViewModelInjection
 import com.arthurivanets.bottomsheets.sheets.model.Option
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import java.util.*
 
 @Module
-class MyCardModule : BaseFragmentModule<MyCardFragment>() {
+class MyCardModule {
+    /*: BaseFragmentModule<MyCardFragment>() {
     @Provides
     @ViewModelInjection
     fun provideMyCardVM(
@@ -44,9 +47,8 @@ class MyCardModule : BaseFragmentModule<MyCardFragment>() {
         adapter: HomeTransactionAdapter,
         mRecyclerViewExpandableItemManager: RecyclerViewExpandableItemManager
     ): RecyclerView.Adapter<*> = mRecyclerViewExpandableItemManager.createWrappedAdapter(adapter)
+*/
 
-    @Provides
-    @FragmentScope
     fun provideOptionsList(context: MyCardFragment): ArrayList<Option> {
         return ArrayList<Option>().apply {
             add(

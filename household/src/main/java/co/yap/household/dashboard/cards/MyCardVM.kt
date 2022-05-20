@@ -27,15 +27,18 @@ import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.cancelAllSnackBar
 import co.yap.yapcore.helpers.extentions.dimen
 import co.yap.yapcore.helpers.showTextUpdatedAbleSnackBar
+import co.yap.yapcore.hilt.base.viewmodel.HiltBaseViewModel
 import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
+import dagger.hilt.android.lifecycle.HiltViewModel
 import org.json.JSONObject
 import javax.inject.Inject
 
+@HiltViewModel
 class MyCardVM @Inject constructor(
-    override var state: IMyCard.State,
+    override var state: MyCardState,
     private val repository: TransactionsRepository
-) : DaggerBaseViewModel<IMyCard.State>(), IMyCard.ViewModel {
+) : HiltBaseViewModel<IMyCard.State>(), IMyCard.ViewModel {
     private val cardsRepository: CardsApi = CardsRepository
     override val transactionAdapter: ObservableField<HomeTransactionAdapter>? = ObservableField()
 

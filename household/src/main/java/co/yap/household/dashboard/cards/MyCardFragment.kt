@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.household.BR
 import co.yap.household.R
@@ -20,28 +21,36 @@ import co.yap.yapcore.helpers.extentions.dimen
 import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.helpers.extentions.toast
 import co.yap.yapcore.helpers.showCardDetailsPopup
+import co.yap.yapcore.hilt.base.navigation.BaseNavViewModelFragmentV2
 import com.arthurivanets.bottomsheets.ktx.actionPickerConfig
 import com.arthurivanets.bottomsheets.ktx.showActionPickerBottomSheet
 import com.arthurivanets.bottomsheets.sheets.listeners.OnItemSelectedListener
 import com.arthurivanets.bottomsheets.sheets.model.Option
+import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class MyCardFragment :
-    BaseNavViewModelFragment<FragmentMyCardBinding, IMyCard.State, MyCardVM>() {
+    BaseNavViewModelFragmentV2<FragmentMyCardBinding, IMyCard.State, MyCardVM>() {
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_my_card
+    override val viewModel: MyCardVM by viewModels()
 
-    @Inject
-    lateinit var optionList: ArrayList<Option>
+   val optionList: ArrayList<Option> by lazy {
+       MyCardModule().provideOptionsList(this)
+   }
 
-    @Inject
-    lateinit var mAdapter: HomeTransactionAdapter
+    val mAdapter: HomeTransactionAdapter by lazy {
+        HomeTransactionAdapter(emptyMap(), mRecyclerViewExpandableItemManager)
+    }
 
-    @Inject
-    lateinit var mWrappedAdapter: RecyclerView.Adapter<*>
+   val mWrappedAdapter: RecyclerView.Adapter<*> by lazy {
+       mRecyclerViewExpandableItemManager.createWrappedAdapter(mAdapter)
+   }
 
-    @Inject
-    lateinit var mRecyclerViewExpandableItemManager: RecyclerViewExpandableItemManager
+    val mRecyclerViewExpandableItemManager: RecyclerViewExpandableItemManager by lazy {
+        RecyclerViewExpandableItemManager(null)
+    }
 
     override fun postExecutePendingBindings(savedInstanceState: Bundle?) {
         super.postExecutePendingBindings(savedInstanceState)
@@ -91,7 +100,7 @@ class MyCardFragment :
     }
 
     private fun showBottomSheet() {
-        state.cardStatus.value?.let { cardStatus ->
+        viewModel.state.cardStatus.value?.let { cardStatus ->
             optionList[1] = Option().setTitle(
                 cardStatus
             )
