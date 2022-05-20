@@ -116,7 +116,7 @@ class YapHomeViewModel(application: Application) :
                             val closingBalanceOfTheDay = transactionList[0].balanceAfter ?: 0.0
                             closingBalanceArray.add(closingBalanceOfTheDay)
 
-                            var transactionModel = HomeTransactionListData(
+                            val transactionModel = HomeTransactionListData(
                                 "Type",
                                 SessionManager.getDefaultCurrency(),
                                 /* transactionsDay.key!!*/
@@ -203,6 +203,8 @@ class YapHomeViewModel(application: Application) :
             val closingBalanceOfTheDay: Double = contentsList[0].balanceAfter ?: 0.0
             closingBalanceArray.add(closingBalanceOfTheDay)
 
+            val creationDate = contentsList[0].creationDate
+
             val transactionModel = HomeTransactionListData(
                 "Type",
                 SessionManager.getDefaultCurrency(),
@@ -220,16 +222,16 @@ class YapHomeViewModel(application: Application) :
                 response.data.data.sort,
                 response.data.data.totalElements,
                 response.data.data.totalPages,
-                contentsList[0].creationDate.toString(),
+                creationDate,
                 monthYear = DateUtils.getMonthWithYear(
                     SimpleDateFormat(DateUtils.SERVER_DATE_FORMAT).parse(
-                        contentsList[0].creationDate.toString()
+                        creationDate
                     )
                 ),
-                dateForBalance = DateUtils.changeZoneAndFormatDateWithDay(contentsList[0].creationDate.toString()),
-                suffixForDay = DateUtils.getSuffixFromDate(contentsList[0].creationDate.toString()),
+                dateForBalance = DateUtils.changeZoneAndFormatDateWithDay(creationDate.toString()),
+                suffixForDay = DateUtils.getSuffixFromDate(creationDate.toString()),
                 balanceYear = DateUtils.getYearFromDate(
-                    contentsList[0].creationDate.toString(),
+                    creationDate.toString(),
                     true,
                     ","
                 )

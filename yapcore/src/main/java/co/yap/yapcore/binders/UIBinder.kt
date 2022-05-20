@@ -1179,7 +1179,7 @@ object UIBinder {
     @JvmStatic
     fun setDateWithSuperScript(
         textView: TextView,
-        year: String,
+        year: String?,
         strText: String,
         superscriptText: String
     ) {
@@ -1200,7 +1200,7 @@ object UIBinder {
             superscriptText.indexOf(superscriptText) + superscriptText.length,
             Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
         )
-        textView.text = spannableStringBuilderPreText.append(spannableStringBuilder).append(year)
+        textView.text = spannableStringBuilderPreText.append(spannableStringBuilder).append(year?:"")
     }
 
     /*
