@@ -5,6 +5,7 @@ import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.core.os.bundleOf
 import androidx.databinding.ViewDataBinding
+import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import co.yap.household.BR
 import co.yap.household.R
@@ -23,21 +24,29 @@ import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.dagger.base.navigation.BaseNavViewModelFragment
 import co.yap.yapcore.firebase.FirebaseEvent
 import co.yap.yapcore.firebase.trackEventWithScreenName
+import co.yap.yapcore.helpers.ThemeColorUtils
 import co.yap.yapcore.helpers.extentions.dimen
 import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.helpers.extentions.startFragment
+import co.yap.yapcore.hilt.base.navigation.BaseNavViewModelFragmentV2
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.SessionManager
+import com.leanplum.Leanplum
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_house_hold_more.*
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class HouseHoldMoreFragment :
-    BaseNavViewModelFragment<FragmentHouseHoldMoreBinding, IHouseHoldMore.State, HouseHoldMoreVM>() {
-    @Inject
-    lateinit var adapter: Adapter
+    BaseNavViewModelFragmentV2<FragmentHouseHoldMoreBinding, IHouseHoldMore.State, HouseHoldMoreVM>() {
+     val adapter: Adapter by lazy {
+         Adapter(HouseHoldMoreModule().provideMoreOptions(requireContext()), null)
+     }
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_house_hold_more
     override fun toolBarVisibility() = false
+    override val viewModel: HouseHoldMoreVM by viewModels()
+
     override fun postExecutePendingBindings(savedInstanceState: Bundle?) {
         super.postExecutePendingBindings(savedInstanceState)
         viewModel.adapter.set(adapter)
@@ -102,7 +111,7 @@ class HouseHoldMoreFragment :
         activity?.finish()
     }
 
-    class Adapter(mValue: MutableList<MoreOption>, navigation: NavController?) :
+    class Adapter @Inject constructor (mValue: MutableList<MoreOption>, navigation: NavController?) :
         BaseRVAdapter<MoreOption, HHMoreItemVM, BaseViewHolder<MoreOption, HHMoreItemVM>>(
             mValue,
             navigation
@@ -117,4 +126,5 @@ class HouseHoldMoreFragment :
         override fun getViewModel(viewType: Int) = HHMoreItemVM()
         override fun getVariableId() = BR.viewModel
     }
+
 }

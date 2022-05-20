@@ -1,6 +1,7 @@
 package co.yap.household.dashboard.more
 
 import co.yap.yapcore.BaseState
+import javax.inject.Inject
 
-class HouseHoldMoreState : BaseState(), IHouseHoldMore.State {
+class HouseHoldMoreState @Inject constructor() : BaseState(), IHouseHoldMore.State {
 }

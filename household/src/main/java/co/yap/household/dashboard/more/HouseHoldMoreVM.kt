@@ -9,10 +9,13 @@ import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.dagger.base.viewmodel.BaseRecyclerAdapterVM
 import co.yap.yapcore.helpers.SharedPreferenceManager
+import co.yap.yapcore.hilt.base.viewmodel.BaseRecyclerAdapterVMV2
+import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
-class HouseHoldMoreVM @Inject constructor(override val state: IHouseHoldMore.State) :
-    BaseRecyclerAdapterVM<MoreOption, IHouseHoldMore.State>(), IHouseHoldMore.ViewModel,
+@HiltViewModel
+class HouseHoldMoreVM @Inject constructor(override val state: HouseHoldMoreState) :
+    BaseRecyclerAdapterVMV2<MoreOption, IHouseHoldMore.State>(), IHouseHoldMore.ViewModel,
     IRepositoryHolder<AuthRepository> {
     override val repository: AuthRepository = AuthRepository
 
