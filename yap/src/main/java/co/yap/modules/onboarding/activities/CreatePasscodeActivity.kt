@@ -38,7 +38,7 @@ class CreatePasscodeActivity : BaseBindingActivity<FragmentPassCodeBinding, IPas
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.setLayoutVisibility(true)
+        viewModel.setTermsAndConditionView(true)
         with(viewModel.state) {
             forgotTextVisibility = false
             title = getString(Strings.screen_create_passcode_display_heading)

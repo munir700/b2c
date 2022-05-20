@@ -83,8 +83,12 @@ class PassCodeViewModel(application: Application) : BaseViewModel<IPassCode.Stat
         }
     }
 
-    override fun setLayoutVisibility(visibility: Boolean?) {
-        state.needTermsConditions = visibility
+    override fun setTermsAndConditionView(isVisible: Boolean) {
+        with(state) {
+            needTermsConditions = isVisible
+            if (!isVisible)
+                isAgreed = true
+        }
     }
 
     override fun forgotPassCodeRequest(success: () -> Unit) {

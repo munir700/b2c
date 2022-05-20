@@ -14,7 +14,8 @@ import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.databinding.FragmentPassCodeBinding
 
-class VerifyCurrentPasscodeFragment : BaseBindingFragment<FragmentPassCodeBinding,IPassCode.ViewModel>(), IPassCode.View {
+class VerifyCurrentPasscodeFragment :
+    BaseBindingFragment<FragmentPassCodeBinding, IPassCode.ViewModel>(), IPassCode.View {
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_pass_code
     override val viewModel: IPassCode.ViewModel
@@ -22,10 +23,13 @@ class VerifyCurrentPasscodeFragment : BaseBindingFragment<FragmentPassCodeBindin
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.setTitles(
-            title = getString(Strings.screen_current_passcode_display_text_heading),
-            buttonTitle = getString(Strings.screen_current_card_pin_display_button_next)
-        )
+        viewModel.apply {
+            setTermsAndConditionView(false)
+            setTitles(
+                title = getString(Strings.screen_current_passcode_display_text_heading),
+                buttonTitle = getString(Strings.screen_current_card_pin_display_button_next)
+            )
+        }
         setObservers()
     }
 
@@ -61,7 +65,7 @@ class VerifyCurrentPasscodeFragment : BaseBindingFragment<FragmentPassCodeBindin
     }
 
     private fun getBinding(): FragmentPassCodeBinding {
-        return (viewDataBinding as FragmentPassCodeBinding)
+        return viewDataBinding
     }
 
 }
