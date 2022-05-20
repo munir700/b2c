@@ -29,6 +29,8 @@ import androidx.viewpager.widget.ViewPager
 import co.yap.BR
 import co.yap.R
 import co.yap.billpayments.dashboard.BillPaymentsHomeActivity
+import co.yap.config.FeatureFlagIds
+import co.yap.config.FeatureFlagToggle
 import co.yap.databinding.ActivityYapDashboardBinding
 import co.yap.databinding.DialogChangeUnverifiedEmailBinding
 import co.yap.modules.dashboard.cards.analytics.main.activities.CardAnalyticsActivity
@@ -43,7 +45,7 @@ import co.yap.modules.dashboard.more.notifications.setting.NotificationSettingsF
 import co.yap.modules.dashboard.store.fragments.YapStoreFragment
 import co.yap.modules.dashboard.unverifiedemail.UnVerifiedEmailActivity
 import co.yap.modules.dashboard.yapit.addmoney.main.AddMoneyActivity
-import co.yap.modules.dashboard.yapit.sendmoney.landing.SendMoneyDashboardActivity
+import co.yap.modules.dashboard.yapit.sendmoney.landing.SendMoneyLinearDashboardFragment
 import co.yap.modules.dummy.ActivityNavigator
 import co.yap.modules.dummy.NavigatorProvider
 import co.yap.modules.others.fragmentpresenter.activities.FragmentPresenterActivity
@@ -61,8 +63,6 @@ import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.enums.FeatureSet
 import co.yap.yapcore.firebase.FirebaseEvent
 import co.yap.yapcore.firebase.trackEventWithScreenName
-import co.yap.yapcore.flagsmith.ToggleFeature
-import co.yap.yapcore.flagsmith.getFeatureFlagClient
 import co.yap.yapcore.helpers.ExtraKeys
 import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.helpers.permissions.PermissionHelper
@@ -103,12 +103,11 @@ class YapDashboardActivity :
         setupPager()
         addObservers()
         addListeners()
-        getFeatureFlagClient.hasFeature(ToggleFeature.BILL_PAYMENTS.flag) { hasFlag ->
-            launch {
-//                if (hasFlag) {
-                setupNewYapButtons(hasFlag)
-//                }
-            }
+        FeatureFlagToggle().isFeatureEnable(
+            context,
+            FeatureFlagIds.BillPayment().bill_payments
+        ) { hasFlag ->
+            setupNewYapButtons(hasFlag)
         }
         lifecycleScope.launch {
             delay(100)
@@ -170,7 +169,7 @@ class YapDashboardActivity :
                 when (subActionButtonId) {
                     1 -> {
                         trackEventWithScreenName(FirebaseEvent.CLICK_ACTIONS_SENDMONEY)
-                        launchActivity<SendMoneyDashboardActivity>(type = FeatureSet.SEND_MONEY)
+                        startFragment<SendMoneyLinearDashboardFragment>(fragmentName = SendMoneyLinearDashboardFragment::class.java.name,bundle = bundleOf() ,type = FeatureSet.SEND_MONEY)
                     }
 
                     2 -> {

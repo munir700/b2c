@@ -8,6 +8,7 @@ import co.yap.R
 import co.yap.app.main.MainChildViewModel
 import co.yap.app.modules.login.interfaces.IPhoneVerificationSignIn
 import co.yap.app.modules.login.states.PhoneVerificationSignInState
+import co.yap.config.FeatureFlagCall
 import co.yap.modules.onboarding.models.CountryCode
 import co.yap.modules.otp.getOtpMessageFromComposer
 import co.yap.networking.authentication.AuthRepository
@@ -180,6 +181,10 @@ class PhoneVerificationSignInViewModel(application: Application) :
                         trackEventWithAttributes(
                             SessionManager.user
                         )
+                        setFeatureFlagCall(
+                            SessionManager.user?.currentCustomer?.email,
+                            SessionManager.user?.currentCustomer?.customerId
+                        )
                     }
                     state.loading = false
                 }
@@ -200,4 +205,7 @@ class PhoneVerificationSignInViewModel(application: Application) :
         }
     }
 
+    override fun setFeatureFlagCall(email: String?, customerId: String?) {
+        launch { FeatureFlagCall(context).getFeatureFlag(email, customerId) }
+    }
 }

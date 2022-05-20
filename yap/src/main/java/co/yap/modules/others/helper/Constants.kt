@@ -28,4 +28,8 @@ object Constants {
     const val REQUEST_CODE = "requestCode"
     const val START_REQUEST_CODE = 101
     const val INVALID_OLD_PIN: String = "PT3101"
+
+    //Lean Statuses
+    const val ACTIVE_STATUS = "ACTIVE"
+    const val SUCCESS_STATUS = "SUCCESS"
 }

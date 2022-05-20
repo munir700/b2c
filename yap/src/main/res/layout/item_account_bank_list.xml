@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="co.yap.modules.dashboard.yapit.addmoney.easybanktransfer.accountlist.AccountBankListItemViewModel" />
+
+        <import type="co.yap.translation.Strings" />
+
+        <import type="android.view.View" />
+
+        <import type="co.yap.R" />
+
+        <import type="co.yap.yapcore.helpers.Utils" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clMain"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="@dimen/margin_medium"
+        android:paddingTop="@dimen/margin_normal_large"
+        android:paddingEnd="@dimen/margin_medium"
+        android:paddingBottom="@dimen/margin_normal_large"
+        app:sensitiveViews="@{Utils.getViewsList(tvBankName)}">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvBankName"
+            style="@style/RegularPrimary"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/margin_medium"
+            android:gravity="start"
+            android:lineSpacingExtra="0dp"
+            android:text="@{viewModel.item.bankListMainModel.name}"
+            app:layout_constraintEnd_toStartOf="@+id/labelAccount"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed"
+            tools:text="Abu Dhabi Commercial Bank (ADCB)" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/labelAccount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/transparent_round"
+            android:backgroundTint="@color/orange_light_background"
+            android:gravity="center"
+            android:textColor="@color/orange_dark_text"
+            android:textSize="@dimen/_10sdp"
+            android:visibility="@{viewModel.item.bankListMainModel.status.equals(`ACTIVE`) ? View.GONE:View.VISIBLE}"
+            app:layout_constraintBottom_toBottomOf="@+id/tvBankName"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tvBankName"
+            app:text="@{Strings.screen_lean_account_list_pending}"
+            tools:text="@string/screen_lean_account_list_pending" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
