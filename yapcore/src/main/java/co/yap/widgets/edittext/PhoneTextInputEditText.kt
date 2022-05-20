@@ -21,8 +21,11 @@ class PhoneTextInputEditText : TextInputEditText {
         get() = this.mPrefix
         set(prefix) {
             this.mPrefix = prefix
-            if (mPrefix?.isNotBlank()!!)
-                mask(mPrefix)
+            mPrefix?.apply {
+                if (isNotBlank()) {
+                    mask(mPrefix)
+                }
+            }
             invalidate()
         }
     var mask: String? = null
