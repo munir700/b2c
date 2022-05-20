@@ -195,6 +195,7 @@ object Constants {
     const val ADD_MONEY_BANK_TRANSFER: Int = 4
     const val ADD_MONEY_CASH_OR_CHEQUE: Int = 5
     const val ADD_MONEY_QR_CODE: Int = 6
+    const val ADD_MONEY_INSTANT_BANK_TRANSFER: Int = 7
 
     //Analytics
     const val TRANSACTION_DETAIL = "TxnAnalytics_Model"
@@ -256,4 +257,11 @@ object Constants {
 
     //SYSTEM CONFIGURATION
     const val SYSTEM_CONFIGURATION = "SYSTEM_CONFIGURATION"
+
+    // Lean Screens
+    const val ONBOARD_USER_LEAN = "ONBOARD_USER_LEAN"
+    const val CUSTOMER_ID_LEAN = "CUSTOMER_ID_LEAN"
+    const val DESTINATION_ID_LEAN = "DESTINATION_ID_LEAN"
+    const val MODEL_LEAN = "MODEL_LEAN"
+    const val MODEL_BANK_LEAN = "MODEL_BANK_LEAN"
 }

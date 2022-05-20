@@ -22,6 +22,7 @@ import co.yap.networking.customers.responsedtos.documents.UqudoTokenResponse
 import co.yap.networking.customers.responsedtos.employment_amendment.DocumentResponse
 import co.yap.networking.customers.responsedtos.employment_amendment.EmploymentInfoAmendmentResponse
 import co.yap.networking.customers.responsedtos.employmentinfo.IndustrySegmentsResponse
+import co.yap.networking.customers.responsedtos.featureflag.FeatureFlagResponse
 import co.yap.networking.customers.responsedtos.sendmoney.*
 import co.yap.networking.customers.responsedtos.tax.TaxInfoResponse
 import co.yap.networking.customers.responsedtos.taxinfoamendment.TaxInfoAmendmentResponse
@@ -174,6 +175,11 @@ object CustomersRepository : BaseRepository(), CustomersApi {
         "customers/api/eida-data"
     const val URL_GET_EMPLOYMENT_INFORMATION =
         "customers/api/profile/employment-information"
+
+    //Feature Flag
+    const val URL_GET_FEATURE_FLAG =
+        "yapsuper/feature/YAP-UAE-B2C/customer/{customer_id}/email/{email}"
+
     private val api: CustomersRetroService =
         RetroNetwork.createService(CustomersRetroService::class.java)
 
@@ -720,4 +726,10 @@ object CustomersRepository : BaseRepository(), CustomersApi {
 
     override suspend fun getKeyFactStatement(): RetroApiResponse<TaxInfoResponse> =
         executeSafely(call = { api.getKeyFactStatement() })
+
+    override suspend fun getFeatureFlag(
+        customer_id: String,
+        email: String
+    ): RetroApiResponse<BaseResponse<FeatureFlagResponse>> =
+        executeSafely { api.getFeatureFlag(customer_id, email) }
 }

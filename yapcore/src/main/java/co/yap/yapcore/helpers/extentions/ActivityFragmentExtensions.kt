@@ -308,21 +308,26 @@ fun <T : Fragment> FragmentActivity.startFragment(
     bundle: Bundle = Bundle(),
     requestCode: Int = -1,
     showToolBar: Boolean = false,
-    toolBarTitle: String = ""
+    toolBarTitle: String = "",
+    type: FeatureSet = FeatureSet.NONE
 ) {
-    val intent = Intent(this, FrameActivity::class.java)
-    intent.putExtra(FRAGMENT_CLASS, fragmentName)
-    intent.putExtra(SHOW_TOOLBAR, showToolBar)
-    intent.putExtra(TOOLBAR_TITLE, toolBarTitle)
-    intent.putExtra(EXTRA, bundle)
-    if (requestCode > 0) {
-        startActivityForResult(intent, requestCode)
+    if (FeatureProvisioning.getFeatureProvisioning(type)) {
+        showBlockedFeatureAlert(this as BaseActivity<*>, type)
     } else {
-        startActivity(intent)
-    }
+        val intent = Intent(this, FrameActivity::class.java)
+        intent.putExtra(FRAGMENT_CLASS, fragmentName)
+        intent.putExtra(SHOW_TOOLBAR, showToolBar)
+        intent.putExtra(TOOLBAR_TITLE, toolBarTitle)
+        intent.putExtra(EXTRA, bundle)
+        if (requestCode > 0) {
+            startActivityForResult(intent, requestCode)
+        } else {
+            startActivity(intent)
+        }
 
-    if (clearAllPrevious) {
-        finish()
+        if (clearAllPrevious) {
+            finish()
+        }
     }
 }
 
@@ -332,21 +337,28 @@ fun Fragment.startFragment(
     bundle: Bundle = Bundle(),
     requestCode: Int = -1,
     showToolBar: Boolean = false,
-    toolBarTitle: String = ""
+    toolBarTitle: String = "",
+    homeAsUpIndicator: Int = -1,
+    type: FeatureSet = FeatureSet.NONE
 ) {
-    val intent = Intent(requireActivity(), FrameActivity::class.java)
-    intent.putExtra(FRAGMENT_CLASS, fragmentName)
-    intent.putExtra(EXTRA, bundle)
-    intent.putExtra(SHOW_TOOLBAR, showToolBar)
-    intent.putExtra(TOOLBAR_TITLE, toolBarTitle)
-    if (requestCode > 0) {
-        startActivityForResult(intent, requestCode)
+    if (FeatureProvisioning.getFeatureProvisioning(type)) {
+        showBlockedFeatureAlert(this as BaseActivity<*>, type)
     } else {
-        startActivity(intent)
-    }
+        val intent = Intent(requireActivity(), FrameActivity::class.java)
+        intent.putExtra(FRAGMENT_CLASS, fragmentName)
+        intent.putExtra(EXTRA, bundle)
+        intent.putExtra(SHOW_TOOLBAR, showToolBar)
+        intent.putExtra(TOOLBAR_TITLE, toolBarTitle)
+        intent.putExtra(TOOLBAR_BACK_ICON, homeAsUpIndicator)
+        if (requestCode > 0) {
+            startActivityForResult(intent, requestCode)
+        } else {
+            startActivity(intent)
+        }
 
-    if (clearAllPrevious) {
-        requireActivity().finish()
+        if (clearAllPrevious) {
+            requireActivity().finish()
+        }
     }
 }
 

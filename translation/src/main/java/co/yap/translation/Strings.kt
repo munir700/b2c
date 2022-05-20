@@ -1235,7 +1235,8 @@ object Strings {
         "screen_send_money_home_label"
     const val screen_send_show_recent: String =
         "screen_send_show_recent"
-
+    const val screen_send_money_display_permission_text: String =
+        "screen_send_money_display_permission_text"
 
     //     Add Beneficiary
     const val screen_add_beneficiary_display_text_title: String =
@@ -2057,6 +2058,18 @@ object Strings {
         "screen_fragment_yap_it_add_money_text_qr_code"
     const val screen_yap_analytics_detail_transaction_count: String =
         "screen_yap_analytics_detail_transaction_count"
+    const val screen_fragment_yap_it_add_money_instant_bank_transfer_title: String =
+        "screen_fragment_yap_it_add_money_instant_bank_transfer_title"
+    const val screen_fragment_yap_it_add_money_instant_bank_transfer_description: String =
+        "screen_fragment_yap_it_add_money_instant_bank_transfer_description"
+    const val screen_fragment_yap_it_add_money_text_bank_transfer_description: String =
+        "screen_fragment_yap_it_add_money_text_bank_transfer_description"
+    const val screen_fragment_yap_it_add_money_text_qr_code_description: String =
+        "screen_fragment_yap_it_add_money_text_qr_code_description"
+    const val screen_fragment_yap_it_add_money_text_top_via_card_description: String =
+        "screen_fragment_yap_it_add_money_text_top_via_card_description"
+    const val screen_fragment_yap_it_add_money_text_cash_or_cheque_description: String =
+        "screen_fragment_yap_it_add_money_text_cash_or_cheque_description"
 
     // yap it QR Code screen
     const val screen_fragment_yap_it_qr_code_share_my_code: String =
@@ -2683,4 +2696,46 @@ object Strings {
         "screen_kfs_notification_accept_no_notification_note"
     const val screen_kfs_notification_accept_no_notification_label: String =
         "screen_kfs_notification_accept_no_notification_label"
+
+    //Lean -Easy Bank Transfer- Welcome Screen
+    const val screen_lean_welcome_screen_title =
+        "screen_lean_welcome_screen_title"
+    const val screen_lean_welcome_screen_welcome_to_open_banking =
+        "screen_lean_welcome_screen_welcome_to_open_banking"
+    const val screen_lean_welcome_screen_connect_one_of_your_existing_bank =
+        "screen_lean_welcome_screen_connect_one_of_your_existing_bank"
+    const val screen_lean_welcome_screen_link_an_account =
+        "screen_lean_welcome_screen_link_an_account"
+
+    //Lean -Easy Bank Transfer- Bank List
+    const val screen_lean_bank_list_add_an_account =
+        "screen_lean_bank_list_add_an_account"
+    const val screen_lean_bank_list_select_a_bank =
+        "screen_lean_bank_list_select_a_bank"
+    const val screen_lean_bank_list_choose_bank =
+        "screen_lean_bank_list_choose_bank"
+
+    //Lean -Easy Bank Transfer- Account List
+    const val screen_lean_account_list_select_an_account =
+        "screen_lean_account_list_select_an_account"
+    const val screen_lean_account_list_choose_an_account =
+        "screen_lean_account_list_choose_an_account"
+    const val screen_lean_account_list_pending =
+        "screen_lean_account_list_pending"
+    const val screen_lean_account_list_link_new_account =
+        "screen_lean_account_list_link_new_account"
+
+    //Lean -Easy Bank Transfer-Topup amount
+    const val screen_lean_topup_amount_toolbar_title =
+        "screen_lean_topup_amount_toolbar_title"
+    const val screen_lean_topup_text_enter_amount_to_topup =
+        "screen_lean_topup_text_enter_amount_to_topup"
+    const val screen_lean_topup_text_min_max_error =
+        "screen_lean_topup_text_min_max_error"
+
+    //Lean -Easy Bank Transfer-Payment-Successful
+    const val screen_lean_topup_payment_successful_title =
+        "screen_lean_topup_payment_successful_title"
+    const val screen_lean_topup_payment_successful_new_balance_text: String =
+        "screen_lean_topup_payment_successful_new_balance_text"
 }

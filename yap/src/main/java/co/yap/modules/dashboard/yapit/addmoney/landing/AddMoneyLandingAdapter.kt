@@ -11,7 +11,8 @@ import co.yap.yapcore.BaseBindingRecyclerAdapter
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.interfaces.OnItemClickListener
-
+@Deprecated(message = "Deprecating this class as it was customized with dimensions for width and height",
+    replaceWith = ReplaceWith("AddMoneyLinearDashboardAdapter.kt"))
 class AddMoneyLandingAdapter(
     context: Context,
     private val list: MutableList<AddMoneyLandingOptions>

@@ -16,10 +16,11 @@ import co.yap.networking.customers.responsedtos.currency.CurrenciesResponse
 import co.yap.networking.customers.responsedtos.documents.ConfigureEIDResponse
 import co.yap.networking.customers.responsedtos.documents.EIDDocumentsResponse
 import co.yap.networking.customers.responsedtos.documents.GetMoreDocumentsResponse
-import co.yap.networking.customers.responsedtos.employment_amendment.DocumentResponse
 import co.yap.networking.customers.responsedtos.documents.UqudoTokenResponse
+import co.yap.networking.customers.responsedtos.employment_amendment.DocumentResponse
 import co.yap.networking.customers.responsedtos.employment_amendment.EmploymentInfoAmendmentResponse
 import co.yap.networking.customers.responsedtos.employmentinfo.IndustrySegmentsResponse
+import co.yap.networking.customers.responsedtos.featureflag.FeatureFlagResponse
 import co.yap.networking.customers.responsedtos.sendmoney.*
 import co.yap.networking.customers.responsedtos.tax.TaxInfoResponse
 import co.yap.networking.customers.responsedtos.taxinfoamendment.TaxInfoAmendmentResponse
@@ -418,4 +419,11 @@ interface CustomersRetroService {
     //Key Facts Statement
     @GET(CustomersRepository.URL_KEY_FACTS_STATEMENT)
     suspend fun getKeyFactStatement(): Response<TaxInfoResponse>
+
+    //feature flag
+    @GET(CustomersRepository.URL_GET_FEATURE_FLAG)
+    suspend fun getFeatureFlag(
+        @Path("customer_id") customer_id: String,
+        @Path("email") email: String
+    ): Response<BaseResponse<FeatureFlagResponse>>
 }

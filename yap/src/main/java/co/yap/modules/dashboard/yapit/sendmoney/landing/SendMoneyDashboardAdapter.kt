@@ -11,7 +11,8 @@ import co.yap.modules.dashboard.yapit.sendmoney.main.SendMoneyOptions
 import co.yap.yapcore.BaseBindingRecyclerAdapter
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.interfaces.OnItemClickListener
-
+@Deprecated(message = "Deprecating this class as it was customized with dimensions for width and height",
+    replaceWith = ReplaceWith("SendMoneyDashboardLinearAdapter.kt"))
 class SendMoneyDashboardAdapter(
     context: Context,
     private val list: MutableList<SendMoneyOptions>

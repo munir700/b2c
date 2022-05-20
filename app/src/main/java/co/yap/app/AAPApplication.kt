@@ -99,7 +99,8 @@ class AAPApplication : YAPApplication(), NavigatorProvider {
             spayServiceId = originalSign.spayServiceId,
             flagSmithAPIKey = originalSign.flagSmithAPIKey,
             uxCamKey = originalSign.uxCamKey,
-            checkoutKey = originalSign.checkoutKey
+            checkoutKey = originalSign.checkoutKey,
+            leanOpenBanking = originalSign.leanOpenBanking
         )
         initAllModules()
         SecurityHelper(this, originalSign, object : SignatureValidator {

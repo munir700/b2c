@@ -6,6 +6,8 @@ import kotlinx.android.parcel.Parcelize
 
 @Keep
 @Parcelize
+@Deprecated(message = "Deprecating this class as it was customized with the flag at top left corner, we are no longer in need of that functionality",
+    replaceWith = ReplaceWith("SendMoneyLinearOptions.kt"))
 data class SendMoneyOptions(
     var name: String,
     val image: Int,
