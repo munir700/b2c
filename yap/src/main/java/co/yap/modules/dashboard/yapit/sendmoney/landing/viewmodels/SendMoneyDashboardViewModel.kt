@@ -22,6 +22,10 @@ import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.helpers.extentions.parseRecentItems
 import co.yap.yapcore.managers.SessionManager
 
+@Deprecated(
+    message = "Deprecating this class as we want to use change recyclerview content with new" +
+            "implementation", replaceWith = ReplaceWith("SendMoneyLinearDashboardViewModel.kt")
+)
 class SendMoneyDashboardViewModel(application: Application) :
     BaseViewModel<ISendMoneyDashboard.State>(application),
     ISendMoneyDashboard.ViewModel, IRepositoryHolder<CustomersRepository> {

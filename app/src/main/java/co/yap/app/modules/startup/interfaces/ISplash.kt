@@ -15,7 +15,7 @@ interface ISplash {
 
     interface ViewModel : IBase.ViewModel<State> {
         val splashComplete: SingleLiveEvent<Boolean>
-        var appUpdate: SingleLiveEvent<AppUpdate>
+        var appUpdate: SingleLiveEvent<AppUpdate?>
         var countriesList:ArrayList<Country>
         fun getAppUpdate()
         fun getAppConfigurations()

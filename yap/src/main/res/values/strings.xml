@@ -5,4 +5,54 @@
     <string name="top_up">Top up</string>
     <string name="send_money">Send money</string>
     <string name="uq_api_base_url" templateMergeStrategy="preserve" translatable="false" />
+
+    <!-- YAP It Send Money-->
+    <string-array name="yap_it_send_money_title">
+        <item>YAP 2 YAP</item>
+        <item>QR code</item>
+        <item>Local Bank</item>
+        <item>Home Country</item>
+        <item>International transfer</item>
+    </string-array>
+
+    <string-array name="yap_it_send_money_desc">
+        <item>Send money instantly to a \nYAP user</item>
+        <item>Scan a YAP QR code and pay</item>
+        <item>Send money to a local UAE \nbank account</item>
+        <item>Send money back home</item>
+        <item>Send money to a global bank</item>
+    </string-array>
+
+    <string-array name="yap_it_send_money_drawable">
+        <item>yap_to_yap</item>
+        <item>qr_code</item>
+        <item>AE</item>
+        <item>0</item>
+        <item>international_transfer</item>
+    </string-array>
+
+    <!-- YAP It Add Money-->
+    <string-array name="yap_it_add_money_title">
+        <item>Instant bank transfer</item>
+        <item>Bank Transfer</item>
+        <item>QR code</item>
+        <item>Credit or debit card</item>
+        <item>Cash or cheque</item>
+    </string-array>
+
+    <string-array name="yap_it_add_money_desc">
+        <item>Link your existing bank accounts</item>
+        <item>Share your account details</item>
+        <item>Share your unique payment code</item>
+        <item>Link a card and top up</item>
+        <item>Find an ATM/CDM near you</item>
+    </string-array>
+
+    <string-array name="yap_it_add_money_drawable">
+        <item>instant_bank_transfer</item>
+        <item>bank_transfer</item>
+        <item>qr_code</item>
+        <item>credit_debit</item>
+        <item>cash</item>
+    </string-array>
 </resources>

@@ -29,7 +29,7 @@ class SplashViewModel(application: Application) : MainChildViewModel<ISplash.Sta
     private val customersRepository: CustomersRepository = CustomersRepository
 
     override val splashComplete: SingleLiveEvent<Boolean> = SingleLiveEvent()
-    override var appUpdate: SingleLiveEvent<AppUpdate> = SingleLiveEvent()
+    override var appUpdate: SingleLiveEvent<AppUpdate?> = SingleLiveEvent()
     override var countriesList: ArrayList<Country> = arrayListOf()
     override fun onCreate() {
         super.onCreate()

@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="co.yap.modules.dashboard.yapit.addmoney.easybanktransfer.accountlist.AccountListItemViewModel" />
+
+        <import type="co.yap.translation.Strings" />
+
+        <import type="android.view.View" />
+
+        <import type="co.yap.R" />
+
+        <import type="co.yap.yapcore.helpers.Utils" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clMain"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:alpha="@{viewModel.item.bankListMainModel.status.equals(`ACTIVE`) ? 255.0f:0.5f}"
+        android:paddingStart="@dimen/margin_normal"
+        android:paddingTop="@dimen/margin_normal"
+        android:paddingEnd="@dimen/margin_normal"
+        android:paddingBottom="@dimen/margin_normal"
+        app:sensitiveViews="@{Utils.getViewsList(imgIcon,tvAccountName,tvAccountNumber)}">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/imgIcon"
+            android:layout_width="@dimen/_40sdp"
+            android:layout_height="@dimen/_40sdp"
+            android:layout_marginBottom="@dimen/margin_small"
+            android:contentDescription="@string/empty_string"
+            app:bgColor="@{viewModel.item.bankListMainModel.mainColor}"
+            app:fullName="@{viewModel.item.bankListMainModel.name}"
+            app:imageSize="@{R.dimen._64sdp}"
+            app:imageUrl="@{viewModel.item.bankListMainModel.logo}"
+            app:initialTextColor="@{R.color.white}"
+            app:initialTextSize="@{R.dimen.text_size_h4}"
+            app:isUrlRound="@{false}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:shapeAppearanceOverlay="@style/circleImageView" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvAccountName"
+            style="@style/Small"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_normal"
+            android:layout_marginEnd="@dimen/margin_medium"
+            android:gravity="start"
+            android:lineSpacingExtra="0dp"
+            android:text="@{viewModel.item.leanCustomerAccounts.accountName}"
+            app:layout_constraintBottom_toTopOf="@+id/tvAccountNumber"
+            app:layout_constraintEnd_toStartOf="@+id/ivArrow"
+            app:layout_constraintStart_toEndOf="@+id/imgIcon"
+            app:layout_constraintTop_toTopOf="@+id/imgIcon"
+            app:layout_constraintVertical_chainStyle="packed"
+            tools:text="Abu Dhabi Commercial Bank (ADCB)" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvAccountNumber"
+            style="@style/MicroGrey"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_normal"
+            android:layout_marginEnd="@dimen/margin_medium"
+            android:gravity="start"
+            android:lineSpacingExtra="0dp"
+            android:text="@{viewModel.item.leanCustomerAccounts.accountNumber}"
+            app:layout_constraintBottom_toBottomOf="@+id/imgIcon"
+            app:layout_constraintEnd_toStartOf="@+id/ivArrow"
+            app:layout_constraintStart_toEndOf="@+id/imgIcon"
+            app:layout_constraintTop_toBottomOf="@+id/tvAccountName"
+            app:layout_constraintVertical_chainStyle="packed"
+            tools:text="Abu Dhabi Commercial Bank (ADCB)" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivArrow"
+            android:layout_width="@dimen/_25sdp"
+            android:layout_height="@dimen/_25sdp"
+            android:src="@drawable/ic_chevron_right"
+            android:tint="@color/colorPrimaryDark"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
