@@ -18,6 +18,7 @@ import co.yap.app.modules.startup.interfaces.ISplash
 import co.yap.app.modules.startup.viewmodels.SplashViewModel
 import co.yap.modules.onboarding.models.CountryCode
 import co.yap.modules.onboarding.models.LoadConfig
+import co.yap.networking.customers.responsedtos.AppUpdate
 import co.yap.yapcore.animations.animators.ScaleAnimator
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.Constants.KEY_COUNTRY_CODE
@@ -30,6 +31,7 @@ import co.yap.yapcore.helpers.alert
 import co.yap.yapcore.helpers.countryCodeForRegion
 import co.yap.yapcore.helpers.extentions.openPlayStore
 import com.yap.ghana.ui.auth.main.GhAuthenticationActivity
+import com.yap.updatemanager.InAppUpdateManager
 import com.yap.yappakistan.ui.auth.main.AuthenticationActivity
 import kotlinx.coroutines.delay
 
@@ -41,8 +43,12 @@ class SplashFragment : MainChildFragment<FragmentSplashBinding, ISplash.ViewMode
 
     private lateinit var pkIntent: Intent
     private lateinit var ghIntent: Intent
-
+    private lateinit var inAppUpdateManager: InAppUpdateManager
     override val viewModel: SplashViewModel by viewModels()
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        inAppUpdateManager = InAppUpdateManager(this, this)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -68,11 +74,27 @@ class SplashFragment : MainChildFragment<FragmentSplashBinding, ISplash.ViewMode
             System.currentTimeMillis().toString()
         )
         viewModel.appUpdate.observe(this, Observer {
-            if (it != null && it.androidForceUpdate && Utils.checkForUpdate(
-                    BuildConfig.VERSION_NAME,
-                    it.androidAppVersionNumber
-                )
-            ) {
+            it?.let {
+                updateApp(it)
+            } ?: playAnimationAndMoveNext()
+        })
+    }
+
+    private fun updateApp(appUpdate: AppUpdate) {
+        if (appUpdate.androidForceUpdate && Utils.checkForUpdate(
+                BuildConfig.VERSION_NAME,
+                appUpdate.androidAppVersionNumber
+            )
+        ) {
+            if (appUpdate.inAppUpdateFeature != null && appUpdate.inAppUpdateFeature == true) {
+                inAppUpdateManager.isUpdateAvailable(InAppUpdateManager.IMMEDIATE) {
+                    if (it) {
+                        inAppUpdateManager.start(InAppUpdateManager.IMMEDIATE)
+                    } else {
+                        playAnimationAndMoveNext()
+                    }
+                }
+            } else {
                 requireContext().alert(
                     getString(R.string.screen_splash_display_text_force_update),
                     getString(R.string.screen_splash_button_force_update),
@@ -82,11 +104,12 @@ class SplashFragment : MainChildFragment<FragmentSplashBinding, ISplash.ViewMode
                     requireContext().openPlayStore()
                     requireActivity().finish()
                 }
-            } else {
-                playAnimationAndMoveNext()
             }
-        })
+        } else {
+            playAnimationAndMoveNext()
+        }
     }
+
 
     private fun playAnimationAndMoveNext() {
         initPkGhana()
@@ -229,5 +252,15 @@ class SplashFragment : MainChildFragment<FragmentSplashBinding, ISplash.ViewMode
         animatorSet = null
         viewModel.splashComplete.removeObservers(this)
         super.onDestroyView()
+    }
+
+    /**
+     * Immediate update type page is not uncloseable
+     * Just recall startUpdate at onActivityResult
+     */
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        inAppUpdateManager.onActivityResult(requestCode, resultCode)
+        super.onActivityResult(requestCode, resultCode, data)
     }
 }

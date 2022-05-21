@@ -4,6 +4,7 @@ import android.app.Application
 import co.yap.app.main.MainChildViewModel
 import co.yap.app.modules.startup.interfaces.ISplash
 import co.yap.app.modules.startup.states.SplashState
+import co.yap.networking.UNKNOWN_HOSE_EXCEPTION_CODE
 import co.yap.networking.authentication.AuthRepository
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.responsedtos.AppUpdate
@@ -29,7 +30,7 @@ class SplashViewModel(application: Application) : MainChildViewModel<ISplash.Sta
     private val customersRepository: CustomersRepository = CustomersRepository
 
     override val splashComplete: SingleLiveEvent<Boolean> = SingleLiveEvent()
-    override var appUpdate: SingleLiveEvent<AppUpdate> = SingleLiveEvent()
+    override var appUpdate: SingleLiveEvent<AppUpdate?> = SingleLiveEvent()
     override var countriesList: ArrayList<Country> = arrayListOf()
     override fun onCreate() {
         super.onCreate()
@@ -61,9 +62,15 @@ class SplashViewModel(application: Application) : MainChildViewModel<ISplash.Sta
     fun loadCookies() {
         launch {
             when (val response = repository.getCSRFToken()) {
-                is RetroApiResponse.Success -> splashComplete.value = true
+                is RetroApiResponse.Success -> {
+                    if (response.data.code != UNKNOWN_HOSE_EXCEPTION_CODE)
+                        splashComplete.value = true
+                    else {
+                        response.data.msg?.let { state.toast = it }
+                    }
+                }
                 is RetroApiResponse.Error -> {
-                    getDownTime(if (response.error.statusCode == 504) "Sorry, that doesn't look right.Please try again in sometime." else response.error.message)
+                    getDownTime(if (response.error.statusCode == 504) response.error.message else response.error.message)
                 }
             }
         }
@@ -102,20 +109,6 @@ class SplashViewModel(application: Application) : MainChildViewModel<ISplash.Sta
                 countries is RetroApiResponse.Success && appUpdates is RetroApiResponse.Success -> {
                     countries.data.data?.let {
                         countriesList = ArrayList(it)
-//                        countriesList.add(
-//                            Country(
-//                                isoCountryCode2Digit = "PK",
-//                                name = "Pakistan",
-//                                isoCountryCode3Digit = "PAK"
-//                            )
-//                        )
-//                        countriesList.add(
-//                            Country(
-//                                isoCountryCode2Digit = "GH",
-//                                name = "Ghana",
-//                                isoCountryCode3Digit = "GHA"
-//                            )
-//                        )
                         SharedPreferenceManager.getInstance(context)
                             .save(KEY_COUNTRIES_LIST, countriesList.listToJson<Country>() ?: "")
                     }
@@ -128,7 +121,6 @@ class SplashViewModel(application: Application) : MainChildViewModel<ISplash.Sta
                     }
                 }
             }
-            //responses(countries, appUpdates)
         }
     }
 }
