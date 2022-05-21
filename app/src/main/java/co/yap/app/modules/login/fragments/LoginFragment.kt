@@ -209,7 +209,7 @@ class LoginFragment : MainChildFragment<FragmentLogInBinding, ILogin.ViewModel>(
                 viewModel.state.mobileNumber.value ?: "",
                 isAccountBlocked = false
             )
-        NavHostFragment.findNavController(this).navigate(action)
+        NavHostFragment.findNavController(this).safeNavigate(action)
         viewModel.state.mobileNumber.value = ""
     }
 

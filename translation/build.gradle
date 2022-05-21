@@ -12,9 +12,9 @@ dependencies {
     }
 
     // app specific dependencies
-    project.translationDependencies.each {
-        add(it.configuration, it.dependency)
-    }
+//    project.translationDependencies.each {
+//        add(it.configuration, it.dependency)
+//    }
 
     if (JavaVersion.current().ordinal() >= JavaVersion.VERSION_1_9.ordinal()) {
         project.kaptBindingDependencies.each {

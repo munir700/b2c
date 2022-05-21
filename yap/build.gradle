@@ -16,7 +16,7 @@ dependencies {
     project.testDependencies.each {
         add(it.configuration, it.dependency)
     }
-
+    implementation "me.leantech:link-sdk-android:2.1.3"
     //shared dependencies to all modules
     project.commonDependencies.each {
         add(it.configuration, it.dependency, it.options)

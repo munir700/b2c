@@ -5,6 +5,7 @@ import android.os.Build
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
 import co.yap.R
+import co.yap.config.FeatureFlagCall
 import co.yap.modules.onboarding.enums.OnboardingPhase
 import co.yap.modules.onboarding.interfaces.IEmail
 import co.yap.modules.onboarding.models.CountryCode
@@ -177,6 +178,11 @@ class EmailViewModel(application: Application) :
                         state.loading = false
                         nextButtonPressEvent.setValue(OnboardingPhase.EVENT_NAVIGATE_NEXT.id)
                     }
+                    setFeatureFlagCall(
+                        SessionManager.user?.currentCustomer?.email,
+                        SessionManager.user?.currentCustomer?.customerId
+                    )
+
                 }
                 is RetroApiResponse.Error -> {
                     state.valid = true
@@ -217,4 +223,7 @@ class EmailViewModel(application: Application) :
         }
     }
 
+    override fun setFeatureFlagCall(email: String?, customerId: String?) {
+        launch { FeatureFlagCall(context).getFeatureFlag(email, customerId) }
+    }
 }

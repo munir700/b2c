@@ -18,7 +18,8 @@ data class AppSignature(
     var spayServiceId: String?,
     var flagSmithAPIKey: String?,
     var uxCamKey: String?,
-    var checkoutKey: String?
+    var checkoutKey: String?,
+    var leanOpenBanking: String?
 ) {
 
     override fun equals(other: Any?): Boolean {
