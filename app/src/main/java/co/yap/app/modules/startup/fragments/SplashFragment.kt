@@ -32,6 +32,7 @@ import co.yap.yapcore.helpers.extentions.openPlayStore
 import co.yap.yapcore.helpers.extentions.safeNavigate
 import com.yap.ghana.ui.auth.main.GhAuthenticationActivity
 import com.yap.yappakistan.ui.auth.main.AuthenticationActivity
+import kotlinx.coroutines.delay
 
 class SplashFragment : MainChildFragment<FragmentSplashBinding, ISplash.ViewModel>(), ISplash.View {
     private var animatorSet: AnimatorSet? = null
@@ -160,11 +161,13 @@ class SplashFragment : MainChildFragment<FragmentSplashBinding, ISplash.ViewMode
                     sharedPreferenceManager.save(KEY_COUNTRY_CODE, null)
                 }
             }
-            findNavController()
-                .safeNavigate(SplashFragmentDirections.actionSplashFragmentToLoginFragment())
+            launch {
+                delay(10)
+                findNavController()
+                    .safeNavigate(SplashFragmentDirections.actionSplashFragmentToLoginFragment())
+            }
         }
     }
-
 
     private fun initPkGhana() {
         val sharedPreferenceManager = SharedPreferenceManager.getInstance(requireContext())
