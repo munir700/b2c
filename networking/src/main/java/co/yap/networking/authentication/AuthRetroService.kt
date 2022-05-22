@@ -3,6 +3,7 @@ package co.yap.networking.authentication
 import co.yap.networking.authentication.requestdtos.LoginRequest
 import co.yap.networking.notification.requestdtos.FCMTokenRequest
 import co.yap.networking.authentication.requestdtos.TokenRefreshRequest
+import co.yap.networking.authentication.responsedtos.CSRFTokenResponse
 import co.yap.networking.authentication.responsedtos.LoginResponse
 import co.yap.networking.notification.responsedtos.MsTokenResponse
 import co.yap.networking.models.ApiResponse
@@ -16,7 +17,7 @@ interface AuthRetroService {
 
     // Get CSRF Token
     @GET(AuthRepository.URL_GET_CSRF_TOKEN)
-    suspend fun getCSRFToken(): Response<ApiResponse>
+    suspend fun getCSRFToken(): Response<CSRFTokenResponse>
 
     // Refresh JWT Token
     @POST(AuthRepository.URL_GET_JWT_TOKEN)

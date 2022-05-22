@@ -28,5 +28,7 @@ data class  AppUpdate(
     @SerializedName("updatedBy")
     var updatedBy: String,
     @SerializedName("updatedOn")
-    var updatedOn: String
+    var updatedOn: String,
+    @SerializedName("inAppUpdateFeature")
+    var inAppUpdateFeature: Boolean?=false
 )

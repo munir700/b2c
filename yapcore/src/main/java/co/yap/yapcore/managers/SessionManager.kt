@@ -19,6 +19,7 @@ import co.yap.networking.notification.NotificationsRepository
 import co.yap.networking.notification.requestdtos.FCMTokenRequest
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.constants.Constants.KEY_IS_USER_LOGGED_IN
 import co.yap.yapcore.constants.Constants.SYSTEM_CONFIGURATION
 import co.yap.yapcore.enums.*
 import co.yap.yapcore.firebase.getFCMToken
@@ -384,11 +385,12 @@ fun AccountInfo?.setCrashlyticsUser() {
             accountInfo.currentCustomer.customerId ?: ""
         )
         val crashlytics = Firebase.crashlytics
-        crashlytics.setUserId(accountInfo.uuid ?: "")
         crashlytics.setCustomKeys {
             key("customerId", accountInfo.currentCustomer.customerId ?: "")
             key("Email", accountInfo.currentCustomer.email ?: "")
-            key("CustomerUuid", accountInfo.currentCustomer.uuid ?: "")
+            key("CustomerUuid", accountInfo.currentCustomer.uuid ?: "beforeLogin")
+            key("AccountUuid", accountInfo.uuid ?: "beforeLogin")
+            key(KEY_IS_USER_LOGGED_IN,true)
         }
     }
 }

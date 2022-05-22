@@ -23,7 +23,7 @@
 
         <checkRepackaging                   v="1"/>
         <exitOnRepackaging                  v="1"/>
-        <queryAllPackagesPermission         v="1" />
+        <queryAllPackagesPermission         v="0" />
         <!-- <exitOnRepackagingURL               v=""/> -->
 
 
@@ -60,7 +60,7 @@
 
         <checkDeveloperOptions              v="0"/>
         
-        <checkUntrustedInstaller            v="1"/>
+        <checkUntrustedInstaller            v="0"/>
 
         <!-- Google Play -->
         <addTrustedInstallerSigner       v="3c66420dc7a9e3714f531cae00ccd779e20dfb1c9c40113bf66416f41e366501"/>
