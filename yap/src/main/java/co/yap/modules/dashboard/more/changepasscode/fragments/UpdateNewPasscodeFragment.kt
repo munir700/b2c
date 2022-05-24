@@ -32,6 +32,7 @@ class UpdateNewPasscodeFragment : ChangePasscodeBaseFragment<FragmentPassCodeBin
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel.setTermsAndConditionView(false)
         getBinding().dialer.upDatedDialerPad(viewModel.state.passCode)
         getBinding().dialer.hideFingerprintView()
     }
