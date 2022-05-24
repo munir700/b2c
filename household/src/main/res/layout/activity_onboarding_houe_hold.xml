@@ -64,7 +64,7 @@
             </androidx.appcompat.widget.LinearLayoutCompat>
         </androidx.appcompat.widget.Toolbar>
 
-        <fragment
+        <androidx.fragment.app.FragmentContainerView
             android:id="@+id/nav_host_fragment"
             android:name="co.yap.yapcore.hilt.base.MvvmNavHostFragmentV2"
             android:layout_width="match_parent"

@@ -12,12 +12,12 @@ import co.yap.yapcore.IBase
 import co.yap.yapcore.R
 import co.yap.yapcore.constants.Constants.EXTRA
 import co.yap.yapcore.dagger.base.BaseViewModelActivity
-import co.yap.yapcore.dagger.base.MvvmNavHostFragment
 import co.yap.yapcore.dagger.base.interfaces.ManageToolBarListener
 import co.yap.yapcore.dagger.base.viewmodel.DaggerBaseViewModel
 import co.yap.yapcore.helpers.extentions.addExtras
 import co.yap.yapcore.helpers.extentions.bindView
 import co.yap.yapcore.helpers.extentions.plus
+import co.yap.yapcore.hilt.base.MvvmNavHostFragmentV2
 
 /**
  * A base BaseNavViewModel Activity with built-in support for Android X Navigation Concept and ViewModel.
@@ -52,7 +52,7 @@ abstract class BaseNavViewModelActivity<VB : ViewDataBinding, S : IBase.State, V
      */
     protected open var startDestinationInput: Bundle? = Bundle()
     protected open var extrasBundle = Bundle()
-    private var navHostFragment: MvvmNavHostFragment? = null
+    private var navHostFragment: MvvmNavHostFragmentV2? = null
 
     @CallSuper
     override fun init(savedInstanceState: Bundle?) {
@@ -177,7 +177,7 @@ abstract class BaseNavViewModelActivity<VB : ViewDataBinding, S : IBase.State, V
     private fun initNavigationGraph() {
         try {
             navHostFragment =
-                supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as MvvmNavHostFragment?
+                supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as MvvmNavHostFragmentV2?
             navHostFragment?.navController?.apply {
                 graph = navInflater.inflate(navigationGraphId).also {
                     it.startDestination =

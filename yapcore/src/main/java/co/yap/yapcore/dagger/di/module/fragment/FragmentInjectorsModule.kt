@@ -1,16 +1,16 @@
 package co.yap.yapcore.dagger.di.module.fragment
 
-import co.yap.yapcore.dagger.base.MvvmNavHostFragment
+//import co.yap.yapcore.dagger.base.MvvmNavHostFragment
 import co.yap.yapcore.dagger.base.MvvmNavHostModule
 import dagger.Module
-import dagger.android.ContributesAndroidInjector
+//import dagger.android.ContributesAndroidInjector
 
 
 @Module
 abstract class FragmentInjectorsModule {
 
-    @ContributesAndroidInjector(modules = [MvvmNavHostModule::class])
-    abstract fun MvvmNavHostFragmentInjector(): MvvmNavHostFragment
+    /*@ContributesAndroidInjector(modules = [MvvmNavHostModule::class])
+    abstract fun MvvmNavHostFragmentInjector(): MvvmNavHostFragment*/
 
 //    @Binds
 //    @IntoMap
