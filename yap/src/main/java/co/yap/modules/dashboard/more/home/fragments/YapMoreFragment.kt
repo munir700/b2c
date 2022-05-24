@@ -6,8 +6,8 @@ import android.view.View
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
 import co.yap.databinding.FragmentMoreHomeBinding
@@ -47,36 +47,67 @@ import co.yap.yapcore.managers.SessionManager
 import com.leanplum.Leanplum
 import com.liveperson.infra.configuration.Configuration.getDimension
 
+class YapMoreFragment : YapDashboardChildFragment<FragmentMoreHomeBinding, IMoreHome.ViewModel>(),
+    IMoreHome.View {
 
-class YapMoreFragment : YapDashboardChildFragment<FragmentMoreHomeBinding,IMoreHome.ViewModel>(), IMoreHome.View {
-
-    lateinit var adapter: YapMoreAdaptor
+    val yapMoreAdapter: YapMoreAdaptor? by lazy {
+        context?.let { YapMoreAdaptor(it, viewModel.getMoreOptions()) }
+    }
     override fun getBindingVariable(): Int = BR.viewModel
     private var tourStep: TourSetup? = null
 
     override fun getLayoutId(): Int = R.layout.fragment_more_home
 
-    override val viewModel: IMoreHome.ViewModel
-        get() = ViewModelProviders.of(this).get(MoreHomeViewModel::class.java)
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setObservers()
-    }
+    override val viewModel: MoreHomeViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setObservers()
         initComponents()
         setupRecycleView()
+        viewModel.getTransactionsNotificationsCount()
+    }
+
+
+    fun countNotifications(transactionCount: Int?): Int {
+        val leanPlumNotificationCount = Leanplum.getInbox().unreadCount()
+        val prefsNotificationCount = NotificationHelper.getNotifications(
+            SessionManager.user,
+            SessionManager.card.value,
+            requireContext()
+        ).size
+        val transactionsCount = transactionCount ?: 0
+        return leanPlumNotificationCount.plus(prefsNotificationCount).plus(transactionsCount)
+    }
+
+    fun handleNotificationData(transactionCount: Int?) {
+       yapMoreAdapter?.let { adapter->
+           adapter.apply {
+               if (getDataList().isNotEmpty()) {
+                   val item = getDataForPosition(0)
+                   item.apply {
+                       badgeCount = countNotifications(transactionCount)
+                       hasBadge = badgeCount > 0
+                   }.also {
+                       viewModel.badgeCount.set(it.badgeCount.toString())
+                       viewModel.hasBadge.set(it.hasBadge)
+                       setItemAt(0, it)
+                   }
+               }
+           }
+
+        }
     }
 
     override fun onResume() {
         super.onResume()
         initComponents()
-        updateNotificationCounter()
     }
 
-    private fun updateNotificationCounter() {
+    /**
+     * Deprecated Code of UpdateNotificationCounter with Callback Approach
+     */
+/*    private fun updateNotificationCounter() {
 //        Leanplum.forceContentUpdate()
         if (::adapter.isInitialized) {
             if (!adapter.getDataList().isNullOrEmpty()) {
@@ -104,28 +135,30 @@ class YapMoreFragment : YapDashboardChildFragment<FragmentMoreHomeBinding,IMoreH
                 adapter.setItemAt(0, item)
             }
         }
-    }
+    }*/
 
     private fun initComponents() {
-        getBinding().tvName.text =
-            SessionManager.user?.currentCustomer?.getFullName()
+        with(viewDataBinding) {
+            tvName.text =
+                SessionManager.user?.currentCustomer?.getFullName()
 
-        val ibanSpan = SpannableString("IBAN ${SessionManager.user?.iban?.maskIbanNumber()}")
-        getBinding().tvIban.text = Utils.setSpan(
-            0,
-            4,
-            ibanSpan,
-            ContextCompat.getColor(requireContext(), R.color.colorPrimaryDark)
-        )
-
-        SessionManager.user?.bank?.swiftCode?.let {
-            val bicSpan = SpannableString("BIC $it")
-            getBinding().tvBic.text = Utils.setSpan(
+            val ibanSpan = SpannableString("IBAN ${SessionManager.user?.iban?.maskIbanNumber()}")
+            tvIban.text = Utils.setSpan(
                 0,
-                3,
-                bicSpan,
+                4,
+                ibanSpan,
                 ContextCompat.getColor(requireContext(), R.color.colorPrimaryDark)
             )
+
+            SessionManager.user?.bank?.swiftCode?.let {
+                val bicSpan = SpannableString("BIC $it")
+                tvBic.text = Utils.setSpan(
+                    0,
+                    3,
+                    bicSpan,
+                    ContextCompat.getColor(requireContext(), R.color.colorPrimaryDark)
+                )
+            }
         }
 
     }
@@ -136,23 +169,29 @@ class YapMoreFragment : YapDashboardChildFragment<FragmentMoreHomeBinding,IMoreH
     }
 
     private fun setupRecycleView() {
-        adapter = YapMoreAdaptor(requireContext(), viewModel.getMoreOptions())
-        getBinding().recyclerOptions.adapter = adapter
-
-        getBinding().recyclerOptions.addItemDecoration(
-            SpaceGridItemDecoration(
-                dimen(R.dimen.margin_normal) ?: 16, 3, true
-            )
-        )
-        getBinding().recyclerOptions.itemAnimator?.changeDuration = 0
-        adapter.allowFullItemClickListener = true
-        adapter.setItemListener(listener)
+        with(viewDataBinding) {
+            recyclerOptions.apply {
+                adapter = yapMoreAdapter
+                itemAnimator?.changeDuration = 0
+                addItemDecoration(
+                    SpaceGridItemDecoration(dimen(R.dimen.margin_normal), 3, true)
+                )
+            }
+            yapMoreAdapter?.let { adapter ->
+                adapter.apply {
+                    allowFullItemClickListener = true
+                    setItemListener(listener)
+                }
+            }
+        }
     }
 
     override fun setObservers() {
-        viewModel.clickEvent.observe(this, observer)
+        viewModel.notificationCountData.observe(viewLifecycleOwner, ::handleNotificationData)
+        viewModel.clickEvent.observe(viewLifecycleOwner, observer)
         if (context is YapDashboardActivity) {
-            (context as YapDashboardActivity).viewModel.isYapMoreFragmentVisible.observe(this,
+            (context as YapDashboardActivity).viewModel.isYapMoreFragmentVisible.observe(
+                viewLifecycleOwner,
                 Observer { isMoreFragmentVisible ->
                     if (isMoreFragmentVisible) {
                         tourStep =
@@ -231,7 +270,7 @@ class YapMoreFragment : YapDashboardChildFragment<FragmentMoreHomeBinding,IMoreH
         val list = ArrayList<GuidedTourViewDetail>()
         list.add(
             GuidedTourViewDetail(
-                getBinding().btnBankDetails,
+                viewDataBinding.btnBankDetails,
                 title = getString(Strings.screen_more_detail_display_text_tour_bank_details_heading),
                 description = getString(Strings.screen_more_detail_display_text_tour_bank_details_description),
                 padding = -getDimension(R.dimen._45sdp),
@@ -303,9 +342,4 @@ class YapMoreFragment : YapDashboardChildFragment<FragmentMoreHomeBinding,IMoreH
                 "Bank: ${viewModel.list[3].subContent}\n" +
                 "Address: ${viewModel.list[5].subContent}\n"
     }
-
-    override fun getBinding(): FragmentMoreHomeBinding {
-        return viewDataBinding as FragmentMoreHomeBinding
-    }
-
 }
