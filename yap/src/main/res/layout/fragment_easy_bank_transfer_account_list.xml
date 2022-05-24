@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="co.yap.modules.dashboard.yapit.addmoney.easybanktransfer.accountlist.AccountListViewModel" />
+
+        <import type="co.yap.translation.Strings" />
+
+        <import type="co.yap.widgets.Status" />
+
+        <import type="android.view.View" />
+
+        <import type="co.yap.yapcore.R" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layoutMain"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <co.yap.widgets.MultiStateView
+            android:id="@+id/multiStateView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="@color/white"
+            app:layout_constraintBottom_toTopOf="@+id/btnLinkAccount"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:msv_emptyView="@layout/layout_easy_bank_transfer_welcome"
+            app:msv_loadingView="@layout/layout_loading_view_for_view_document"
+            app:msv_viewState="loading"
+            app:viewState="@{viewModel.state.stateLiveData}">
+
+           <include
+               layout="@layout/layout_easy_bank_transfer_account_list"/>
+
+        </co.yap.widgets.MultiStateView>
+
+        <co.yap.widgets.CoreButton
+            android:id="@+id/btnLinkAccount"
+            style="@style/FragmentsBtnStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/margin_large"
+            android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
+            android:visibility="@{viewModel.state.stateLiveData.status == Status.LOADING ? View.GONE : View.VISIBLE}"
+            app:btn_size="large"
+            app:enableCoreButton="@{true}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:text="@{viewModel.state.StateLiveData.status == Status.EMPTY? Strings.screen_lean_welcome_screen_link_an_account:Strings.screen_lean_account_list_link_new_account}"
+            tools:text="@string/screen_lean_welcome_screen_link_an_account" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

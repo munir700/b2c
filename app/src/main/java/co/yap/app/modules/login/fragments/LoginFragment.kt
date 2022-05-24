@@ -48,7 +48,7 @@ class LoginFragment : MainChildFragment<FragmentLogInBinding, ILogin.ViewModel>(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        getDataBindingView<FragmentLogInBinding>().lifecycleOwner = this
+        viewDataBinding.lifecycleOwner = this
 //        setTouchListener()
         initiatePreference()
         configureWindow()
@@ -59,7 +59,7 @@ class LoginFragment : MainChildFragment<FragmentLogInBinding, ILogin.ViewModel>(
     private fun configureWindow() {
         requireActivity().window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
         requireActivity().window.clearFlags(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
-        getDataBindingView<FragmentLogInBinding>().tlPhoneNumber.requestFocusForField()
+        viewDataBinding.tlPhoneNumber.requestFocusForField()
     }
 
     private fun initiatePreference() {
@@ -100,7 +100,7 @@ class LoginFragment : MainChildFragment<FragmentLogInBinding, ILogin.ViewModel>(
                 viewModel.state.countryCode.value =
                     if (it.isBlank()) CountryCode.UAE.countryCode else it
 //                viewModel.state.countryCode.value?.replace("+", "")
-                getDataBindingView<FragmentLogInBinding>().tlPhoneNumber.setStartIconDrawable(
+                viewDataBinding.tlPhoneNumber.setStartIconDrawable(
                     requireContext().getDropDownIconByName(
                         getCountryCodeForRegion(
                             viewModel.state.countryCode.value?.replace("+", "")?.parseToInt() ?: 971
@@ -112,12 +112,12 @@ class LoginFragment : MainChildFragment<FragmentLogInBinding, ILogin.ViewModel>(
                 sharedPreferenceManager.getValueString(KEY_MOBILE_NO)
                     ?.let {
                         viewModel.state.mobile.value = it
-                        getDataBindingView<FragmentLogInBinding>().etMobileNumber.setText(viewModel.state.mobile.value)
-                        if (getDataBindingView<FragmentLogInBinding>().etMobileNumber.length() > 1)
+                        viewDataBinding.etMobileNumber.setText(viewModel.state.mobile.value)
+                        if (viewDataBinding.etMobileNumber.length() > 1)
                             launch {
                                 delay(2)
-                                getDataBindingView<FragmentLogInBinding>().etMobileNumber.setSelection(
-                                    getDataBindingView<FragmentLogInBinding>().etMobileNumber.length()
+                                viewDataBinding.etMobileNumber.setSelection(
+                                    viewDataBinding.etMobileNumber.length()
                                 )
                             }
 
@@ -167,7 +167,7 @@ class LoginFragment : MainChildFragment<FragmentLogInBinding, ILogin.ViewModel>(
             requireContext().saveUserDetails(
                 mobileNo,
                 it,
-                getDataBindingView<FragmentLogInBinding>().swRemember.isChecked
+                viewDataBinding.swRemember.isChecked
             )
             launchPkGhana(it, mobileNo)
         })
@@ -202,14 +202,14 @@ class LoginFragment : MainChildFragment<FragmentLogInBinding, ILogin.ViewModel>(
         requireContext().saveUserDetails(
             viewModel.state.mobileNumber.value,
             viewModel.state.countryCode.value,
-            getDataBindingView<FragmentLogInBinding>().swRemember.isChecked
+            viewDataBinding.swRemember.isChecked
         )
         val action =
             LoginFragmentDirections.actionLoginFragmentToVerifyPasscodeFragment(
                 viewModel.state.mobileNumber.value ?: "",
                 isAccountBlocked = false
             )
-        NavHostFragment.findNavController(this).navigate(action)
+        NavHostFragment.findNavController(this).safeNavigate(action)
         viewModel.state.mobileNumber.value = ""
     }
 
@@ -218,7 +218,7 @@ class LoginFragment : MainChildFragment<FragmentLogInBinding, ILogin.ViewModel>(
         when (id) {
             R.id.btnLogIn -> {
                 val countryCode =
-                    getDataBindingView<FragmentLogInBinding>().tlPhoneNumber.prefixText.toString()
+                    viewDataBinding.tlPhoneNumber.prefixText.toString()
                 val mobileNo =
                     viewModel.state.mobile.value?.filter { it.isWhitespace().not() }?.trim()
                         ?: ""
@@ -230,13 +230,13 @@ class LoginFragment : MainChildFragment<FragmentLogInBinding, ILogin.ViewModel>(
                         viewModel.validateUsername { error ->
                             if (error.isEmpty()
                                     .not()
-                            ) getDataBindingView<FragmentLogInBinding>().tlPhoneNumber.error =
+                            ) viewDataBinding.tlPhoneNumber.error =
                                 error else navigateToPassCode()
                         }
                     }
                     else -> {
                         viewModel.verifyUser(countryCode, mobileNo) { error ->
-                            getDataBindingView<FragmentLogInBinding>().tlPhoneNumber.error =
+                            viewDataBinding.tlPhoneNumber.error =
                                 error
                         }
                     }
@@ -262,14 +262,14 @@ class LoginFragment : MainChildFragment<FragmentLogInBinding, ILogin.ViewModel>(
     private val selectCountryItemClickListener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
             if (data is CoreBottomSheetData) {
-                getDataBindingView<FragmentLogInBinding>().tlPhoneNumber.setStartIconDrawable(
+                viewDataBinding.tlPhoneNumber.setStartIconDrawable(
                     requireContext().getDropDownIconByName(
                         data.key ?: "AE"
                     )
                 )
                 viewModel.state.mobile.value = ""
                 viewModel.state.countryCode.value = data.content.toString()
-                getDataBindingView<FragmentLogInBinding>().tlPhoneNumber.requestFocusForField()
+                viewDataBinding.tlPhoneNumber.requestFocusForField()
 
             }
         }
@@ -277,8 +277,8 @@ class LoginFragment : MainChildFragment<FragmentLogInBinding, ILogin.ViewModel>(
 
     @SuppressLint("ClickableViewAccessibility")
     private fun setTouchListener() {
-        getDataBindingView<FragmentLogInBinding>().etMobileNumber.setTouchListener {
-            getDataBindingView<FragmentLogInBinding>().tlPhoneNumber.hideKeyboard()
+        viewDataBinding.etMobileNumber.setTouchListener {
+            viewDataBinding.tlPhoneNumber.hideKeyboard()
             val list = SharedPreferenceManager.getInstance(requireContext())
                 .getValueString(Constants.KEY_COUNTRIES_LIST)?.jsonToList()
             if (list.isNullOrEmpty().not()) {

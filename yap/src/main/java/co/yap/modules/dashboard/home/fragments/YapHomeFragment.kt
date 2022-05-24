@@ -49,7 +49,7 @@ import co.yap.modules.dashboard.transaction.detail.TransactionDetailsActivity
 import co.yap.modules.dashboard.transaction.search.TransactionSearchFragment
 import co.yap.modules.dashboard.widgets.WidgetFragment
 import co.yap.modules.dashboard.yapit.addmoney.main.AddMoneyActivity
-import co.yap.modules.dashboard.yapit.sendmoney.landing.SendMoneyDashboardActivity
+import co.yap.modules.dashboard.yapit.sendmoney.landing.SendMoneyLinearDashboardFragment
 import co.yap.modules.kyc.activities.DocumentsDashboardActivity
 import co.yap.modules.kyc.amendments.missinginfo.MissingInfoFragment
 import co.yap.modules.location.activities.LocationSelectionActivity
@@ -93,11 +93,7 @@ import com.google.android.material.appbar.AppBarLayout.OnOffsetChangedListener
 import com.liveperson.infra.configuration.Configuration.getDimension
 import com.yarolegovich.discretescrollview.transform.Pivot
 import com.yarolegovich.discretescrollview.transform.ScaleTransformer
-import kotlinx.android.synthetic.main.content_fragment_yap_home_new.*
-import kotlinx.android.synthetic.main.content_fragment_yap_home_new.view.*
 import kotlinx.android.synthetic.main.fragment_dashboard_home.*
-import kotlinx.android.synthetic.main.fragment_dashboard_home.view.*
-import kotlinx.android.synthetic.main.toolbaar_home_fragment.view.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.GlobalScope
@@ -105,7 +101,6 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
 
 //TODO("We need to refactor the this fragment because this fragment contains a lot of code regarding transaction graph bars")
 class YapHomeFragment : YapDashboardChildFragment<FragmentDashboardHomeBinding,IYapHome.ViewModel>(), IYapHome.View,
@@ -231,7 +226,10 @@ class YapHomeFragment : YapDashboardChildFragment<FragmentDashboardHomeBinding,I
                                 launchActivity<AddMoneyActivity>(type = FeatureSet.TOP_UP)
                             }
                             EnumWidgetTitles.SEND_MONEY.title -> {
-                                launchActivity<SendMoneyDashboardActivity>(type = FeatureSet.SEND_MONEY)
+                                startFragment(
+                                    fragmentName = SendMoneyLinearDashboardFragment::class.java.name,
+                                    type = FeatureSet.SEND_MONEY
+                                )
                             }
                             EnumWidgetTitles.QR_CODE.title -> {
                                 (activity as YapDashboardActivity).openQRCodeFragment()

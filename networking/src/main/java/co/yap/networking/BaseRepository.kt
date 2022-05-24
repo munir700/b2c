@@ -10,9 +10,11 @@ import org.json.JSONException
 import org.json.JSONObject
 import retrofit2.Response
 import java.net.ConnectException
+import java.net.UnknownHostException
 import com.google.gson.stream.MalformedJsonException as MalformedJsonException1
 
 const val MALFORMED_JSON_EXCEPTION_CODE = 0
+const val UNKNOWN_HOSE_EXCEPTION_CODE = 900001
 
 abstract class BaseRepository : IRepository {
 
@@ -42,13 +44,22 @@ abstract class BaseRepository : IRepository {
                     exception.localizedMessage
                 )
             )
-        } catch (exception: ConnectException) {
+        }
+        catch (exception: ConnectException) {
             Firebase.crashlytics.recordException(exception)
 
             return RetroApiResponse.Error(
-                ApiError(0, defaultConnectionErrorMessage)
+                ApiError(UNKNOWN_HOSE_EXCEPTION_CODE, defaultConnectionErrorMessage)
             )
-        } catch (exception: Exception) {
+        }
+        catch (exception: UnknownHostException) {
+            Firebase.crashlytics.recordException(exception)
+
+            return RetroApiResponse.Error(
+                ApiError(UNKNOWN_HOSE_EXCEPTION_CODE, defaultConnectionErrorMessage)
+            )
+        }
+        catch (exception: Exception) {
             Firebase.crashlytics.recordException(exception)
 
             return RetroApiResponse.Error(

@@ -8,6 +8,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.yapcore.interfaces.OnItemClickListener
 
+@Deprecated(message = "This adapter is deprecated. Don't use it in any case. Soon we will remove this class",
+    replaceWith = ReplaceWith("BaseRVAdapter.kt"))
 abstract class BaseBindingRecyclerAdapter<T : Any, VH : RecyclerView.ViewHolder>() :
     RecyclerView.Adapter<VH>() {
 
