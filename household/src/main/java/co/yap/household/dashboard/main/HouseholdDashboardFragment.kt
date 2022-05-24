@@ -19,6 +19,7 @@ import co.yap.modules.dashboard.main.activities.YapDashboardActivity
 import co.yap.modules.dashboard.more.cdm.CdmMapFragment
 import co.yap.modules.dashboard.more.help.fragments.HelpSupportFragment
 import co.yap.modules.dashboard.more.main.activities.MoreActivity
+import co.yap.modules.dashboard.yapit.sendmoney.landing.SendMoneyDashboardActivity
 import co.yap.modules.sidemenu.ProfilePictureAdapter
 import co.yap.networking.customers.responsedtos.AccountInfo
 import co.yap.sendmoney.home.main.SMBeneficiaryParentActivity
@@ -159,7 +160,7 @@ class HouseholdDashboardFragment :
     override fun onMenuClosed(menu: FloatingActionMenu, subActionButtonId: Int) {
         when (subActionButtonId) {
             1 -> {
-                launchActivity<SMBeneficiaryParentActivity>(type = FeatureSet.SEND_MONEY)
+                launchActivity<SendMoneyDashboardActivity>(type = FeatureSet.SEND_MONEY)
             }
 
             2 -> {
