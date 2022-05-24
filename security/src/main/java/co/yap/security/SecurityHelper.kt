@@ -65,7 +65,6 @@ class SecurityHelper(
                         sslPin3 = "",
                         sslHost = "",
                         spayServiceId = "",
-                        flagSmithAPIKey = "",
                         uxCamKey = "",
                         checkoutKey = "",
                         leanOpenBanking = ""
