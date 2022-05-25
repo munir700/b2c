@@ -135,11 +135,11 @@ abstract class FragmentInjectorsModule {
     @FragmentScope
     abstract fun hHAddUserContactFragmentInjector(): HHAddUserContactFragment*/
 
-    @ContributesAndroidInjector(modules = [YapStoreModule::class])
+    /*@ContributesAndroidInjector(modules = [YapStoreModule::class])
     @FragmentScope
-    abstract fun yapStoreFragmentInjector(): YapStoreFragment
+    abstract fun yapStoreFragmentInjector(): YapStoreFragment*/
 
-    @ContributesAndroidInjector(modules = [YoungLandingModule::class])
+    /*@ContributesAndroidInjector(modules = [YoungLandingModule::class])
     @FragmentScope
     abstract fun youngLandingFragmentInjector(): YoungLandingFragment
 
@@ -189,5 +189,5 @@ abstract class FragmentInjectorsModule {
 
     @ContributesAndroidInjector(modules = [YoungCreatePinCodeModule::class])
     @FragmentScope
-    abstract fun youngCreatePinCodeFragmentInjector(): YoungCreatePinCodeFragment
+    abstract fun youngCreatePinCodeFragmentInjector(): YoungCreatePinCodeFragment*/
 }

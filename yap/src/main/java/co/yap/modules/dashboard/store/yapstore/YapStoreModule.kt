@@ -9,10 +9,13 @@ import co.yap.yapcore.dagger.di.qualifiers.ViewModelInjection
 import co.yap.yapcore.enums.YAPThemes
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 
 @Module
-class YapStoreModule : BaseFragmentModule<YapStoreFragment>() {
-    @Provides
+@InstallIn(SingletonComponent::class)
+class YapStoreModule /*: BaseFragmentModule<YapStoreFragment>()*/ {
+   /* @Provides
     @ViewModelInjection
     fun provideYapStoreVM(
         fragment: YapStoreFragment,
@@ -21,10 +24,9 @@ class YapStoreModule : BaseFragmentModule<YapStoreFragment>() {
 
     @Provides
     @FragmentScope
-    fun provideYapStoreState(): IYapStore.State = YapStoreState()
+    fun provideYapStoreState(): IYapStore.State = YapStoreState()*/
 
     @Provides
-    @FragmentScope
     fun provideYapStoreAdapter() = YapStoreFragment.Adapter(getStoreList(), null)
 
     private fun getStoreList(): MutableList<Store> {
