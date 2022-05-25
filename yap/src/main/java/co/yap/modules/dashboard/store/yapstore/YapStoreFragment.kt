@@ -3,6 +3,7 @@ package co.yap.modules.dashboard.store.yapstore
 import android.os.Bundle
 import android.view.View
 import androidx.databinding.ViewDataBinding
+import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import co.yap.BR
 import co.yap.R
@@ -16,12 +17,16 @@ import co.yap.yapcore.dagger.base.navigation.host.NAVIGATION_Graph_ID
 import co.yap.yapcore.dagger.base.navigation.host.NAVIGATION_Graph_START_DESTINATION_ID
 import co.yap.yapcore.dagger.base.navigation.host.NavHostPresenterActivity
 import co.yap.yapcore.helpers.extentions.launchActivity
+import co.yap.yapcore.hilt.base.fragment.BaseRecyclerViewFragmentV2
 import co.yap.yapcore.managers.SessionManager
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class YapStoreFragment :
-    BaseRecyclerViewFragment<FragmentYapStoreBinding, IYapStore.State, YapStoreVM, YapStoreFragment.Adapter, Store>() {
+    BaseRecyclerViewFragmentV2<FragmentYapStoreBinding, IYapStore.State, YapStoreVM, YapStoreFragment.Adapter, Store>() {
     override fun getBindingVariable() = BR.viewModel
     override fun getLayoutId() = R.layout.fragment_yap_store_v2
+    override val viewModel: YapStoreVM by viewModels()
     override fun postExecutePendingBindings(savedInstanceState: Bundle?) {
         super.postExecutePendingBindings(savedInstanceState)
         setRefreshEnabled(false)
