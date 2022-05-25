@@ -21,7 +21,7 @@
             app:toolbarTitle="@{navHostPresenterVM.state.toolbarTitle}"
             app:toolsBarVisibility="@{navHostPresenterVM.state.toolsBarVisibility}" />
 
-        <androidx.fragment.app.FragmentContainerView
+        <fragment
             android:id="@+id/nav_host_fragment"
             android:name="co.yap.yapcore.hilt.base.MvvmNavHostFragmentV2"
             android:layout_width="match_parent"

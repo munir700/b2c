@@ -30,7 +30,7 @@
             app:rightIconVisibility="@{viewModel.state.toolBarRightIconVisibility}"
             app:titleString="@{viewModel.state.toolbarTitle}" />
 
-        <androidx.fragment.app.FragmentContainerView
+        <fragment
             android:id="@+id/add_money_nav_host_fragment"
             android:name="androidx.navigation.fragment.NavHostFragment"
             android:layout_width="match_parent"

@@ -33,7 +33,7 @@
             app:rightIconVisibility="@{viewModel.state.tootlBarBadgeVisibility}"
             app:titleString="@{viewModel.state.toolbarTitle}" />
 
-        <androidx.fragment.app.FragmentContainerView
+        <fragment
             android:id="@+id/main_more_nav_host_fragment"
             android:name="androidx.navigation.fragment.NavHostFragment"
             android:layout_width="match_parent"

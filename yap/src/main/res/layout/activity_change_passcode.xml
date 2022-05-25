@@ -30,7 +30,7 @@
             app:onClick="@{viewModel::onToolBarClick}"
             app:titleTranslator="@{viewModel.state.toolBarTitle}"
             />
-        <androidx.fragment.app.FragmentContainerView
+        <fragment
             android:id="@+id/change_passcode_nav_host_fragment"
             android:name="androidx.navigation.fragment.NavHostFragment"
             android:layout_width="match_parent"

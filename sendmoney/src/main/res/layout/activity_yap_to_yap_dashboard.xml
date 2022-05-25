@@ -42,7 +42,7 @@
             android:elevation="@dimen/_20sdp"
             app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
-        <androidx.fragment.app.FragmentContainerView
+        <fragment
             android:id="@+id/main_nav_host_fragment"
             android:name="androidx.navigation.fragment.NavHostFragment"
             android:layout_width="match_parent"

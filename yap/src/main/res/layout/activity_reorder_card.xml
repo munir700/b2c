@@ -21,7 +21,7 @@
             android:id="@+id/toolbar"
             layout="@layout/layout_toolbar_reorder_card"
             app:viewModel="@{viewModel}" />
-        <androidx.fragment.app.FragmentContainerView
+        <fragment
             android:id="@+id/main_reorder_card_nav_host_fragment"
             android:name="androidx.navigation.fragment.NavHostFragment"
             android:layout_width="match_parent"

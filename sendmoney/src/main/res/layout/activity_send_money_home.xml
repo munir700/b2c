@@ -39,7 +39,7 @@
             app:rightTitle="@{viewModel.state.rightButtonText}"
             />
 
-        <androidx.fragment.app.FragmentContainerView
+        <fragment
             android:id="@+id/send_money_nav_host_fragment"
             android:name="androidx.navigation.fragment.NavHostFragment"
             android:layout_width="match_parent"
