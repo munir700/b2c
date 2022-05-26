@@ -37,7 +37,6 @@ import com.yap.ghana.ui.auth.main.GhAuthenticationActivity
 import com.yap.yappakistan.ui.auth.main.AuthenticationActivity
 import kotlinx.coroutines.delay
 
-
 class LoginFragment : MainChildFragment<FragmentLogInBinding, ILogin.ViewModel>(), ILogin.View {
 
     override fun getBindingVariable(): Int = BR.viewModel
@@ -120,8 +119,6 @@ class LoginFragment : MainChildFragment<FragmentLogInBinding, ILogin.ViewModel>(
                                     viewDataBinding.etMobileNumber.length()
                                 )
                             }
-
-
                     }
             }
         }
@@ -198,52 +195,53 @@ class LoginFragment : MainChildFragment<FragmentLogInBinding, ILogin.ViewModel>(
         }
     }
 
-    private fun navigateToPassCode() {
+    private fun navigateToPassCode(formattedMobileNumber: String) {
         requireContext().saveUserDetails(
-            viewModel.state.mobileNumber.value,
+            formattedMobileNumber,
             viewModel.state.countryCode.value,
             viewDataBinding.swRemember.isChecked
         )
         val action =
             LoginFragmentDirections.actionLoginFragmentToVerifyPasscodeFragment(
-                viewModel.state.mobileNumber.value ?: "",
+                formattedMobileNumber,
                 isAccountBlocked = false
             )
         NavHostFragment.findNavController(this).safeNavigate(action)
-        viewModel.state.mobileNumber.value = ""
     }
-
 
     private val clickListenerHandler = Observer<Int> { id ->
         when (id) {
             R.id.btnLogIn -> {
-                val countryCode =
-                    viewDataBinding.tlPhoneNumber.prefixText.toString()
-                val mobileNo =
-                    viewModel.state.mobile.value?.filter { it.isWhitespace().not() }?.trim()
-                        ?: ""
-                when (countryCode) {
-                    CountryCode.UAE.countryCode -> {
-                        viewModel.state.mobileNumber.value = Utils.verifyUsername(
-                            mobileNo
-                        )
-                        viewModel.validateUsername { error ->
-                            if (error.isEmpty()
-                                    .not()
-                            ) viewDataBinding.tlPhoneNumber.error =
-                                error else navigateToPassCode()
+                /** To avoid to pass the null mobile number to solve the following issues:
+                 * - User does not exists
+                 * - Destination OTP is not correct
+                 */
+                viewModel.state.mobile.value?.let { mobileNumber ->
+                    when (val countryCode = viewDataBinding.tlPhoneNumber.prefixText.toString()) {
+                        CountryCode.UAE.countryCode -> {
+                            // Formatting the mobile number then pass to the validateUser Api
+                            mobileNumber.filter { it.isWhitespace().not() }.trim().also {
+                                Utils.verifyUsername(it).also { formattedMobileNumber ->
+                                    // Validate the user by mobile number ( /customers/api/verify-user?username=585558544 )
+                                    viewModel.validateUsername(formattedMobileNumber) { error ->
+                                        if (error.isEmpty().not())
+                                            viewDataBinding.tlPhoneNumber.error = error
+                                        else
+                                            navigateToPassCode(formattedMobileNumber)
+                                    }
+                                }
+                            }
                         }
-                    }
-                    else -> {
-                        viewModel.verifyUser(countryCode, mobileNo) { error ->
-                            viewDataBinding.tlPhoneNumber.error =
-                                error
+                        else -> {
+                            //Used by other Apps other than Dubai(UAE)
+                            viewModel.verifyUser(countryCode, mobileNumber) { error ->
+                                viewDataBinding.tlPhoneNumber.error = error
+                            }
                         }
                     }
                 }
             }
             R.id.tvSignUp -> findNavController().navigate(R.id.action_loginFragment_to_accountSelectionFragment)
-
         }
     }
 

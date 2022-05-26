@@ -49,12 +49,12 @@ class LoginViewModel(application: Application) :
         }
     }
 
-    fun validateUsername(success: (errorMessage: String) -> Unit) {
+    fun validateUsername(mobileNumber: String, success: (errorMessage: String) -> Unit) {
         launch {
             state.loading = true
 
             when (val response =
-                customersRepository.verifyUsername(state.mobileNumber.value ?: "")) {
+                customersRepository.verifyUsername(mobileNumber)) {
                 is RetroApiResponse.Success -> {
                     if (response.data.data) {
                         //  parentViewModel?.signingInData?.clientId = state.twoWayTextWatcher
