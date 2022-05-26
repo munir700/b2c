@@ -33,6 +33,7 @@ class UpdateConfirmPasscodeFragment : ChangePasscodeBaseFragment<FragmentPassCod
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setObservers()
+        viewModel.setTermsAndConditionView(false)
         viewModel.setTitles(
             title = getString(Strings.screen_confirm_passcode_display_text_heading),
             buttonTitle = getString(Strings.screen_current_card_pin_display_button_next)
