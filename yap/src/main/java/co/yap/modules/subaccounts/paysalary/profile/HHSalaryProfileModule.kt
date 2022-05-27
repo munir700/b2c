@@ -6,10 +6,6 @@ import co.yap.modules.subaccounts.paysalary.profile.adapter.HHSalaryProfileTrans
 import co.yap.modules.subaccounts.paysalary.profile.adapter.SalarySetupAdapter
 import co.yap.translation.Strings
 import co.yap.widgets.advrecyclerview.expandable.RecyclerViewExpandableItemManager
-import co.yap.yapcore.dagger.di.InjectionViewModelProvider
-import co.yap.yapcore.dagger.di.module.fragment.BaseFragmentModule
-import co.yap.yapcore.dagger.di.qualifiers.FragmentScope
-import co.yap.yapcore.dagger.di.qualifiers.ViewModelInjection
 import dagger.Module
 import dagger.Provides
 
@@ -35,14 +31,14 @@ class HHSalaryProfileModule /*: BaseFragmentModule<HHSalaryProfileFragment>()*/ 
         )
 
     @Provides
-    @FragmentScope
+    /*@FragmentScope*/
     fun provideWrappedAdapter(
         adapter: HHSalaryProfileTransfersAdapter,
         mRecyclerViewExpandableItemManager: RecyclerViewExpandableItemManager
     ): RecyclerView.Adapter<*> = mRecyclerViewExpandableItemManager.createWrappedAdapter(adapter)
 
     @Provides
-    @FragmentScope
+   /* @FragmentScope*/
     fun provideRecyclerViewExpandableItemManager() =
         RecyclerViewExpandableItemManager(null)
 

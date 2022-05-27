@@ -12,7 +12,6 @@ import co.yap.networking.transactions.household.TransactionsHHRepository
 import co.yap.networking.transactions.household.requestdtos.IbanSendMoneyRequest
 import co.yap.widgets.State
 import co.yap.yapcore.SingleClickEvent
-import co.yap.yapcore.dagger.base.viewmodel.DaggerBaseViewModel
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.helpers.cancelAllSnackBar
 import co.yap.yapcore.helpers.extentions.parseToDouble

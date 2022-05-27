@@ -6,16 +6,12 @@ import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.LifecycleOwner
 import co.yap.yapcore.BaseActivity
-import co.yap.yapcore.dagger.base.BaseViewModelFragment
-import co.yap.yapcore.dagger.di.FragmentKey
 import co.yap.yapcore.dagger.di.qualifiers.ActivityContext
 import co.yap.yapcore.dagger.di.qualifiers.ActivityFragmentManager
 import co.yap.yapcore.dagger.di.qualifiers.ChildFragmentManager
 import co.yap.yapcore.helpers.validation.Validator
-import dagger.Binds
 import dagger.Module
 import dagger.Provides
-import dagger.multibindings.IntoMap
 
 
 /**
@@ -46,10 +42,10 @@ abstract class BaseFragmentModule<in T : Fragment> {
         return activity.supportFragmentManager
     }
 
-    @Provides
+   /* @Provides
     fun provideBaseActivity(fragment: T): BaseActivity<*> {
         return (fragment as BaseViewModelFragment<*, *, *>).getBaseActivity()
-    }
+    }*/
     @Provides
     fun provideValidator(): Validator {
         return Validator(null)

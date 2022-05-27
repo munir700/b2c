@@ -3,10 +3,7 @@ package co.yap.modules.dashboard.store.young.card
 import android.os.Bundle
 import androidx.databinding.ObservableField
 import androidx.navigation.NavController
-import co.yap.networking.cards.CardsRepository.getHouseHoldCardsDesign
 import co.yap.networking.customers.responsedtos.HouseHoldCardsDesign
-import co.yap.networking.models.RetroApiResponse
-import co.yap.yapcore.dagger.base.viewmodel.DaggerBaseViewModel
 import co.yap.yapcore.enums.AccountType
 import co.yap.yapcore.helpers.validation.IValidator
 import co.yap.yapcore.helpers.validation.Validator

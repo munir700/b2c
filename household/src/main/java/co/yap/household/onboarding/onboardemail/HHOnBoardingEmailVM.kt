@@ -5,8 +5,6 @@ import androidx.navigation.NavController
 import co.yap.networking.customers.CustomersApi
 import co.yap.networking.customers.requestdtos.AddHouseholdEmailRequest
 import co.yap.networking.models.RetroApiResponse
-import co.yap.yapcore.SingleClickEvent
-import co.yap.yapcore.dagger.base.viewmodel.DaggerBaseViewModel
 import co.yap.yapcore.helpers.validation.IValidator
 import co.yap.yapcore.helpers.validation.Validator
 import co.yap.yapcore.hilt.base.viewmodel.HiltBaseViewModel

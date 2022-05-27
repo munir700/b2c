@@ -2,8 +2,6 @@ package co.yap.household.onboarding.main
 
 import androidx.lifecycle.MutableLiveData
 import co.yap.yapcore.IBase
-import co.yap.yapcore.SingleClickEvent
-import co.yap.yapcore.dagger.base.viewmodel.DaggerBaseViewModel
 
 interface IOnBoardingHouseHold {
     interface View{

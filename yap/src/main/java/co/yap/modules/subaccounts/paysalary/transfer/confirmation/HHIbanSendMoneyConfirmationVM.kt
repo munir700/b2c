@@ -4,7 +4,6 @@ import android.os.Bundle
 import androidx.navigation.NavController
 import co.yap.networking.customers.household.responsedtos.SubAccount
 import co.yap.networking.transactions.household.requestdtos.IbanSendMoneyRequest
-import co.yap.yapcore.dagger.base.viewmodel.DaggerBaseViewModel
 import co.yap.yapcore.hilt.base.viewmodel.HiltBaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject

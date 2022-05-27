@@ -7,7 +7,6 @@ import co.yap.R
 import co.yap.databinding.FragmentHhAddUserContactBinding
 import co.yap.networking.customers.requestdtos.HouseholdOnboardRequest
 import co.yap.translation.Strings
-import co.yap.yapcore.dagger.base.navigation.BaseNavViewModelFragment
 import co.yap.yapcore.helpers.extentions.plus
 import co.yap.yapcore.hilt.base.navigation.BaseNavViewModelFragmentV2
 import dagger.hilt.android.AndroidEntryPoint

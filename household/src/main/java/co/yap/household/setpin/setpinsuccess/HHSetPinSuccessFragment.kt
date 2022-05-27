@@ -7,7 +7,7 @@ import co.yap.household.R
 import co.yap.household.databinding.FragmentHhSetPinSuccessBinding
 import co.yap.yapcore.AdjustEvents.Companion.trackAdjustPlatformEvent
 import co.yap.yapcore.adjust.AdjustEvents
-import co.yap.yapcore.dagger.base.navigation.BaseNavViewModelFragment
+
 import co.yap.yapcore.dagger.base.navigation.host.NAVIGATION_Graph_ID
 import co.yap.yapcore.dagger.base.navigation.host.NavHostPresenterActivity
 import co.yap.yapcore.helpers.extentions.launchActivity

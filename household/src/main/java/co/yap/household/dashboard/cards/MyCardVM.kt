@@ -14,24 +14,18 @@ import co.yap.networking.cards.responsedtos.Card
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
 import co.yap.networking.transactions.requestdtos.HomeTransactionsRequest
-import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.widgets.State
 import co.yap.widgets.advrecyclerview.pagination.PaginatedRecyclerView
-import co.yap.yapcore.SingleClickEvent
-import co.yap.yapcore.dagger.base.viewmodel.DaggerBaseViewModel
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.helpers.DateUtils
-import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.cancelAllSnackBar
 import co.yap.yapcore.helpers.extentions.dimen
 import co.yap.yapcore.helpers.showTextUpdatedAbleSnackBar
 import co.yap.yapcore.hilt.base.viewmodel.HiltBaseViewModel
 import com.google.android.material.snackbar.Snackbar
-import com.google.gson.Gson
 import dagger.hilt.android.lifecycle.HiltViewModel
-import org.json.JSONObject
 import javax.inject.Inject
 
 @HiltViewModel

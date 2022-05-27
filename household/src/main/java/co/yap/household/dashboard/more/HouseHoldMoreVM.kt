@@ -7,7 +7,6 @@ import co.yap.networking.authentication.AuthRepository
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.constants.Constants
-import co.yap.yapcore.dagger.base.viewmodel.BaseRecyclerAdapterVM
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.hilt.base.viewmodel.BaseRecyclerAdapterVMV2
 import dagger.hilt.android.lifecycle.HiltViewModel

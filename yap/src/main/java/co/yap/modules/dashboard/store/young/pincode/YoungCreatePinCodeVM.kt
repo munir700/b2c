@@ -4,7 +4,6 @@ import android.os.Bundle
 import androidx.navigation.NavController
 import co.yap.networking.cards.CardsRepository.getUserAddressRequest
 import co.yap.networking.models.RetroApiResponse
-import co.yap.yapcore.dagger.base.viewmodel.DaggerBaseViewModel
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.helpers.validation.IValidator
 import co.yap.yapcore.helpers.validation.Validator

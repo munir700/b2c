@@ -6,7 +6,6 @@ import co.yap.networking.cards.CardsRepository
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
-import co.yap.yapcore.dagger.base.viewmodel.DaggerBaseViewModel
 import co.yap.yapcore.enums.CardType
 import co.yap.yapcore.hilt.base.viewmodel.HiltBaseViewModel
 import co.yap.yapcore.managers.SessionManager

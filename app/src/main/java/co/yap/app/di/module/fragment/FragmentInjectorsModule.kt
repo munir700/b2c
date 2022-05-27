@@ -1,6 +1,7 @@
 package co.yap.app.di.module.fragment
 
 
+/*
 import dagger.Module
 
 @Module
@@ -10,4 +11,4 @@ import dagger.Module
 abstract class FragmentInjectorsModule {
 
 
-}
+}*/

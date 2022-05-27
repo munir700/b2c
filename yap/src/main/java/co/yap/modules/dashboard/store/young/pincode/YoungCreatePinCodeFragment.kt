@@ -9,7 +9,7 @@ import co.yap.databinding.FragmentYoungCreatePincodeBinding
 import co.yap.modules.location.activities.LocationSelectionActivity
 import co.yap.networking.cards.responsedtos.Address
 import co.yap.yapcore.constants.Constants
-import co.yap.yapcore.dagger.base.navigation.BaseNavViewModelFragment
+
 import co.yap.yapcore.helpers.extentions.ExtraType
 import co.yap.yapcore.helpers.extentions.getValue
 import co.yap.yapcore.helpers.extentions.launchActivityForResult

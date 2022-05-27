@@ -1,3 +1,4 @@
+/*
 package co.yap.yapcore.dagger.base.navigation
 
 import android.os.Bundle
@@ -48,13 +49,15 @@ abstract class BaseNavViewModelFragment<VB : ViewDataBinding, S : IBase.State, V
     override fun setDisplayHomeAsUpEnabled(): Boolean? = true
     override fun setHomeAsUpIndicator() = R.drawable.ic_back_arrow_left
 
-    /**
+    */
+/**
      * Navigates to the specified destination screen.
      *
      * @param destinationId the id of the destination screen (either the new Activity or Fragment)
      * @param extras the extra arguments to be passed to the destination screen
      * @param navigationExtras
-     */
+     *//*
+
     fun navigate(
         @IdRes destinationId: Int,
         extras: Bundle? = null,
@@ -68,12 +71,14 @@ abstract class BaseNavViewModelFragment<VB : ViewDataBinding, S : IBase.State, V
         )
     }
 
-    /**
+    */
+/**
      * Navigates to the specified destination screen.
      *
      * @param directions the direction that leads to the destiantion screen.
      * @param navigationExtras
-     */
+     *//*
+
     protected fun navigate(directions: NavDirections, navigationExtras: Navigator.Extras? = null) {
         navigationExtras?.let { navExtras ->
             findNavController().navigate(directions, navExtras)
@@ -82,9 +87,11 @@ abstract class BaseNavViewModelFragment<VB : ViewDataBinding, S : IBase.State, V
         }
     }
 
-    /**
+    */
+/**
      * Navigates back (pops the back stack) to the previous [MvvmFragment] on the stack.
-     */
+     *//*
+
     protected fun navigateBack() {
         findNavController().popBackStack()
     }
@@ -200,4 +207,4 @@ abstract class BaseNavViewModelFragment<VB : ViewDataBinding, S : IBase.State, V
         }
         return backStackPopped
     }
-}
+}*/

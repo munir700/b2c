@@ -29,7 +29,7 @@ import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.Constants.MANUAL_CREDIT
 import co.yap.yapcore.constants.Constants.MANUAL_DEBIT
 import co.yap.yapcore.constants.RequestCodes
-import co.yap.yapcore.dagger.base.navigation.BaseNavViewModelFragment
+
 import co.yap.yapcore.dagger.base.navigation.host.NAVIGATION_Graph_ID
 import co.yap.yapcore.dagger.base.navigation.host.NAVIGATION_Graph_START_DESTINATION_ID
 import co.yap.yapcore.dagger.base.navigation.host.NavHostPresenterActivity

@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package co.yap.yapcore.dagger.di.components
+/*package co.yap.yapcore.dagger.di.components
 
-/**
+*//**
  * Marks an activity / fragment injectable.
  * reference: Google Android Open Source Project
- */
-interface Injectable
+ *//*
+interface Injectable*/

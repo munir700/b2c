@@ -1,10 +1,8 @@
 package co.yap.modules.subaccounts.account.dashboard
 
+/*
 import co.yap.yapcore.adapters.SectionsPagerAdapter
-import co.yap.yapcore.dagger.di.InjectionViewModelProvider
 import co.yap.yapcore.dagger.di.module.fragment.BaseFragmentModule
-import co.yap.yapcore.dagger.di.qualifiers.FragmentScope
-import co.yap.yapcore.dagger.di.qualifiers.ViewModelInjection
 import dagger.Module
 import dagger.Provides
 
@@ -12,7 +10,8 @@ import dagger.Provides
 
 class SubAccountDashBoardModule : BaseFragmentModule<SubAccountDashBoardFragment>() {
 
-   /* @Provides
+   */
+/* @Provides
     @ViewModelInjection
     fun provideSubAccountDashBoardVM(
         fragment: SubAccountDashBoardFragment,
@@ -21,11 +20,12 @@ class SubAccountDashBoardModule : BaseFragmentModule<SubAccountDashBoardFragment
 
     @Provides
     @FragmentScope
-    fun provideSubAccountDashBoardState(): ISubAccountDashBoard.State = SubAccountDashBoardState()*/
+    fun provideSubAccountDashBoardState(): ISubAccountDashBoard.State = SubAccountDashBoardState()*//*
+
 
     @Provides
     fun provideSubAccountDashBoardPagerAdapter(
         fragment: SubAccountDashBoardFragment
     ) = SectionsPagerAdapter(fragment.requireActivity(), fragment.childFragmentManager)
 
-}
+}*/

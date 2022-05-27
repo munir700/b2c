@@ -1,3 +1,4 @@
+/*
 package co.yap.yapcore.dagger.base
 
 import android.os.Bundle
@@ -21,10 +22,12 @@ import co.yap.yapcore.interfaces.OnItemClickListener
 import javax.inject.Inject
 
 
+*/
 /**
  * Created by Muhammad Irfan Arshad
  *
- */
+ *//*
+
 abstract class BaseRecyclerViewFragment<VB : ViewDataBinding, S : IBase.State, VM : BaseRecyclerAdapterVM<T, S>,
         A : BaseRVAdapter<T, *, *>, T : ApiResponse>
     : BaseNavViewModelFragment<VB, S, VM>(), MultiStateView.OnReloadListener, UiRefreshable,
@@ -38,9 +41,11 @@ abstract class BaseRecyclerViewFragment<VB : ViewDataBinding, S : IBase.State, V
     private val refreshLayout: YapSwipeRefreshLayout? by bindView(R.id.refreshLayout)
     val stateLayout: MultiStateView? by bindView(R.id.multiStateView)
 
-    /**
+    */
+/**
      * if return false in child fragment then child fragment should need implement owen [RecyclerView]
-     */
+     *//*
+
     var setupRecyclerView = true
     override fun postExecutePendingBindings(savedInstanceState: Bundle?) {
         super.postExecutePendingBindings(savedInstanceState)
@@ -130,4 +135,4 @@ abstract class BaseRecyclerViewFragment<VB : ViewDataBinding, S : IBase.State, V
     override fun onItemClick(view: View, data: Any, pos: Int) {
 
     }
-}
+}*/

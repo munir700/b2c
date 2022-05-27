@@ -10,7 +10,6 @@ import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsApi
 import co.yap.networking.transactions.TransactionsRepository
 import co.yap.networking.transactions.requestdtos.PaySalaryNowRequest
-import co.yap.yapcore.dagger.base.viewmodel.DaggerBaseViewModel
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.helpers.cancelAllSnackBar
 import co.yap.yapcore.helpers.extentions.parseToDouble

@@ -12,7 +12,6 @@ import co.yap.networking.store.responsedtos.Store
 import co.yap.yapcore.BaseRVAdapter
 import co.yap.yapcore.BaseViewHolder
 import co.yap.yapcore.SingleClickEvent
-import co.yap.yapcore.dagger.base.BaseRecyclerViewFragment
 import co.yap.yapcore.dagger.base.navigation.host.NAVIGATION_Graph_ID
 import co.yap.yapcore.dagger.base.navigation.host.NAVIGATION_Graph_START_DESTINATION_ID
 import co.yap.yapcore.dagger.base.navigation.host.NavHostPresenterActivity

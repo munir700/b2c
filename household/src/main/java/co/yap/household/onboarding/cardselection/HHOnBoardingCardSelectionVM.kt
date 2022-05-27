@@ -9,7 +9,6 @@ import co.yap.networking.customers.household.CustomerHHApi
 import co.yap.networking.customers.household.requestdtos.SignUpFss
 import co.yap.networking.customers.responsedtos.HouseHoldCardsDesign
 import co.yap.networking.models.RetroApiResponse
-import co.yap.yapcore.dagger.base.viewmodel.DaggerBaseViewModel
 import co.yap.yapcore.enums.AccountType
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.hilt.base.viewmodel.HiltBaseViewModel

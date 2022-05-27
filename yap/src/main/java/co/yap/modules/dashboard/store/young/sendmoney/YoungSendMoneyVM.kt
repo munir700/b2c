@@ -3,7 +3,6 @@ package co.yap.modules.dashboard.store.young.sendmoney
 import android.os.Bundle
 import android.view.View
 import androidx.navigation.NavController
-import co.yap.yapcore.dagger.base.viewmodel.DaggerBaseViewModel
 import co.yap.yapcore.helpers.cancelAllSnackBar
 import co.yap.yapcore.helpers.extentions.parseToDouble
 import co.yap.yapcore.helpers.livedata.GetAccountBalanceLiveData

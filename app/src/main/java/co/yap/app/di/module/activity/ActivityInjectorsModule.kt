@@ -1,4 +1,5 @@
 package co.yap.app.di.module.activity
+/*
 
 import co.yap.modules.di.module.activity.ActivityInjectorsModule
 import dagger.Module
@@ -9,4 +10,4 @@ import dagger.Module
         co.yap.yapcore.dagger.di.module.activity.ActivityInjectorsModule::class]
 )
 abstract class ActivityInjectorsModule {
-}
+}*/

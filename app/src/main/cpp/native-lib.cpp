@@ -137,7 +137,7 @@ Java_co_yap_app_AAPApplication_signatureKeysFromJNI(JNIEnv *env, jobject /*this*
 #endif
 #ifdef HHQA
 //    api_endpoint = "https://qa-hh.yap.co/";
-    api_endpoint = "https://s1.yap.co/";
+    api_endpoint = "https://s2.yap.co/";
     adjustAppToken = "am0wjeshw5xc";
     sslPin1 = "sha256/e5L5CAoQjV0HFzAnunk1mPHVx1HvPxcfJYI0UtLyBwY=";
     sslPin2 = "sha256/JSMzqOOrtyOT1kmau6zKhgT676hGgczD5VMdRMyJZFA=";
@@ -146,6 +146,12 @@ Java_co_yap_app_AAPApplication_signatureKeysFromJNI(JNIEnv *env, jobject /*this*
     sha1Encoded = "";
     md5Encoded = "";
     sha256Encoded = "";
+    spayServiceId = "9f2b7fca270c4f3c81d99e";
+    flagSmithAPIKey = "Ci4xvVedB8dBPYZGJR5qXf";
+    sha1Encoded = "ODU6OUY6NjM6N0M6NjI6N0I6Qjc6N0E6MDg6RTQ6OEI6MDY6OUU6M0U6MkQ6RTU6MEQ6OEM6Mjg6MjU=";
+    md5Encoded = "MDg6NzM6ODQ6RTI6NEM6NTc6RTU6MUU6OEY6ODU6RTM6OTg6MUM6NDM6Qjg6NEE=";
+    sha256Encoded = "ODY6QTE6MzQ6NEU6RkM6OTQ6M0I6NzA6Mjk6MjE6OUU6M0I6NzA6MzM6NDI6RUM6M0M6NjI6M0E6MkI6MEU6N0M6QkM6MDc6RTU6N0Q6M0M6Mjk6RTg6MkE6Q0Y6NTM=";
+    uxCamKey = "7z7psf07jm1kjoz";
 #endif
 
     const char *appId = env->GetStringUTFChars(applicationId, 0);

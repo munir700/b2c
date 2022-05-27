@@ -8,7 +8,7 @@ import co.yap.databinding.FragmentYoungPaymentSelectionBinding
 import co.yap.modules.webview.WebViewFragment
 import co.yap.translation.Strings
 import co.yap.yapcore.constants.Constants
-import co.yap.yapcore.dagger.base.navigation.BaseNavViewModelFragment
+
 import co.yap.yapcore.helpers.confirm
 import co.yap.yapcore.helpers.extentions.startFragment
 import co.yap.yapcore.helpers.spannables.kpan.span

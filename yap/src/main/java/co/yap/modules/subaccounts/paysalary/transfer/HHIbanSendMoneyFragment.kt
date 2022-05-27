@@ -11,7 +11,7 @@ import co.yap.R
 import co.yap.databinding.FragmentHhibanSendMoneyBinding
 import co.yap.networking.customers.household.requestdtos.SchedulePayment
 import co.yap.networking.transactions.household.requestdtos.IbanSendMoneyRequest
-import co.yap.yapcore.dagger.base.navigation.BaseNavViewModelFragment
+
 import co.yap.yapcore.helpers.extentions.plus
 import co.yap.yapcore.helpers.livedata.GetAccountBalanceLiveData
 import co.yap.yapcore.hilt.base.navigation.BaseNavViewModelFragmentV2

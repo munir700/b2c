@@ -11,7 +11,6 @@ import co.yap.networking.transactions.responsedtos.transaction.RemittanceFeeResp
 import co.yap.translation.Strings
 import co.yap.widgets.radiocus.PresetRadioGroup
 import co.yap.yapcore.constants.Constants
-import co.yap.yapcore.dagger.base.viewmodel.DaggerBaseViewModel
 import co.yap.yapcore.enums.PackageType
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.hilt.base.viewmodel.HiltBaseViewModel

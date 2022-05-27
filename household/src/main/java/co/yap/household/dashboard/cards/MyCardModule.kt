@@ -1,20 +1,10 @@
 package co.yap.household.dashboard.cards
 
-import androidx.recyclerview.widget.RecyclerView
 import co.yap.household.R
-import co.yap.household.dashboard.home.HomeTransactionAdapter
 import co.yap.translation.Strings
 import co.yap.translation.Translator.getString
-import co.yap.widgets.advrecyclerview.expandable.RecyclerViewExpandableItemManager
-import co.yap.yapcore.dagger.di.InjectionViewModelProvider
-import co.yap.yapcore.dagger.di.module.fragment.BaseFragmentModule
-import co.yap.yapcore.dagger.di.qualifiers.FragmentScope
-import co.yap.yapcore.dagger.di.qualifiers.ViewModelInjection
 import com.arthurivanets.bottomsheets.sheets.model.Option
 import dagger.Module
-import dagger.Provides
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
 import java.util.*
 
 @Module

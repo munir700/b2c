@@ -7,7 +7,7 @@ import co.yap.databinding.FragmentRecurringPaymentBinding
 import co.yap.modules.others.helper.Constants.EVENT_GO_BACK
 import co.yap.networking.customers.household.requestdtos.SchedulePayment
 import co.yap.translation.Strings
-import co.yap.yapcore.dagger.base.navigation.BaseNavViewModelFragment
+
 import co.yap.yapcore.helpers.confirm
 import co.yap.yapcore.hilt.base.navigation.BaseNavViewModelFragmentV2
 import co.yap.yapcore.leanplum.HHUserActivityEvents

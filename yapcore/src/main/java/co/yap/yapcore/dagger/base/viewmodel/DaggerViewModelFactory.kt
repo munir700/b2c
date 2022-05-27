@@ -1,5 +1,6 @@
 package co.yap.yapcore.dagger.base.viewmodel
 
+/*
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import javax.inject.Inject
@@ -17,4 +18,4 @@ class DaggerViewModelFactory @Inject constructor(private val viewModelsMap: Map<
             throw RuntimeException(e)
         }
     }
-}
+}*/

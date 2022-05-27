@@ -6,7 +6,7 @@ import co.yap.BR
 import co.yap.R
 import co.yap.databinding.FragmentYoungSendMoneySuccessBinding
 import co.yap.translation.Strings.screen_domestic_funds_transfer_display_text_title
-import co.yap.yapcore.dagger.base.navigation.BaseNavViewModelFragment
+
 import co.yap.yapcore.dagger.base.navigation.host.NAVIGATION_Graph_ID
 import co.yap.yapcore.dagger.base.navigation.host.NAVIGATION_Graph_START_DESTINATION_ID
 import co.yap.yapcore.dagger.base.navigation.host.NavHostPresenterActivity

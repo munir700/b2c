@@ -1,3 +1,4 @@
+/*
 package co.yap.yapcore.dagger.base
 
 import android.app.Fragment
@@ -20,10 +21,12 @@ import dagger.android.HasFragmentInjector
 import dagger.android.support.HasSupportFragmentInjector
 import javax.inject.Inject
 
+*/
 /**
  * Created by Muhammad Irfan Arshad
  *
- */
+ *//*
+
 
 abstract class BaseViewModelActivity<VB : ViewDataBinding, S : IBase.State, VM : DaggerBaseViewModel<S>> :
     BaseBindingActivity<VM>(), HasFragmentInjector, HasSupportFragmentInjector,
@@ -48,9 +51,11 @@ abstract class BaseViewModelActivity<VB : ViewDataBinding, S : IBase.State, VM :
     @Inject
     lateinit var state: S
 
-    /**
+    */
+/**
      * Gets called when it's the right time for you to inject the dependencies.
-     */
+     *//*
+
     override fun injectDependencies() {
         AndroidInjection.inject(this)
     }
@@ -81,3 +86,4 @@ abstract class BaseViewModelActivity<VB : ViewDataBinding, S : IBase.State, VM :
         super.onDestroy()
     }
 }
+*/

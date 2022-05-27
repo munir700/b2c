@@ -7,6 +7,7 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import androidx.core.os.bundleOf
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.BR
 import co.yap.R
@@ -17,26 +18,28 @@ import co.yap.widgets.State
 import co.yap.widgets.advrecyclerview.animator.DraggableItemAnimator
 import co.yap.widgets.advrecyclerview.draggable.RecyclerViewDragDropManager
 import co.yap.widgets.advrecyclerview.utils.WrapperAdapterUtils
-import co.yap.yapcore.dagger.base.BaseRecyclerViewFragment
 import co.yap.yapcore.dagger.base.navigation.host.NAVIGATION_Graph_ID
 import co.yap.yapcore.dagger.base.navigation.host.NAVIGATION_Graph_START_DESTINATION_ID
 import co.yap.yapcore.dagger.base.navigation.host.NavHostPresenterActivity
 import co.yap.yapcore.enums.AccountType
 import co.yap.yapcore.enums.PartnerBankStatus
 import co.yap.yapcore.helpers.Utils.setLightStatusBar
-import co.yap.yapcore.helpers.Utils.setStatusBarColor
 import co.yap.yapcore.helpers.alert
 import co.yap.yapcore.helpers.confirm
 import co.yap.yapcore.helpers.extentions.launchActivity
+import co.yap.yapcore.hilt.base.fragment.BaseRecyclerViewFragmentV2
 import com.daimajia.androidanimations.library.Techniques
 import com.daimajia.androidanimations.library.YoYo
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.item_sub_account_card.*
 
 
+@AndroidEntryPoint
 class SubAccountCardFragment :
-    BaseRecyclerViewFragment<FragmentSubAccountCardBinding, ISubAccountCard.State, SubAccountCardVM,
+    BaseRecyclerViewFragmentV2<FragmentSubAccountCardBinding, ISubAccountCard.State, SubAccountCardVM,
             SubAccountAdapter, SubAccount>(), RecyclerViewDragDropManager.OnItemDragEventListener {
     private var mWrappedAdapter: RecyclerView.Adapter<*>? = null
+    override val viewModel: SubAccountCardVM by viewModels()
     private var mRecyclerViewDragDropManager: RecyclerViewDragDropManager? = null
     override fun getBindingVariable() = BR.subAccountCardVM
     override fun getLayoutId() = R.layout.fragment_sub_account_card

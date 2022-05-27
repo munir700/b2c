@@ -9,7 +9,7 @@ import co.yap.modules.subaccounts.paysalary.future.FuturePaymentVM
 import co.yap.modules.subaccounts.paysalary.future.IFuturePayment
 import co.yap.networking.customers.household.requestdtos.SchedulePayment
 import co.yap.translation.Strings
-import co.yap.yapcore.dagger.base.navigation.BaseNavViewModelFragment
+
 import co.yap.yapcore.helpers.confirm
 import co.yap.yapcore.hilt.base.navigation.BaseNavViewModelFragmentV2
 import dagger.hilt.android.AndroidEntryPoint

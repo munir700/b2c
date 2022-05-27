@@ -13,9 +13,7 @@ import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionLi
 import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.widgets.State
 import co.yap.widgets.Status
-import co.yap.widgets.advrecyclerview.expandable.RecyclerViewExpandableItemManager
 import co.yap.widgets.advrecyclerview.pagination.PaginatedRecyclerView
-import co.yap.yapcore.dagger.base.viewmodel.DaggerBaseViewModel
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.CardType
 import co.yap.yapcore.helpers.DateUtils
