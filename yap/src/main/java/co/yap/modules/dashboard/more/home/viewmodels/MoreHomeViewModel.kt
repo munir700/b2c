@@ -3,6 +3,8 @@ package co.yap.modules.dashboard.more.home.viewmodels
 import android.app.Application
 import androidx.core.content.ContextCompat
 import androidx.databinding.ObservableField
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import co.yap.R
 import co.yap.modules.dashboard.more.home.interfaces.IMoreHome
 import co.yap.modules.dashboard.more.home.models.MoreOption
@@ -29,6 +31,9 @@ class MoreHomeViewModel(application: Application) :
     override var badgeCount: ObservableField<String> = ObservableField("")
     override var hasBadge: ObservableField<Boolean> = ObservableField(false)
     override val list: MutableList<CoreBottomSheetData> = mutableListOf()
+
+    private val _notificationCountData = MutableLiveData<Int?>()
+    override val notificationCountData: LiveData<Int?> = _notificationCountData
 
     override fun onResume() {
         super.onResume()
@@ -119,17 +124,15 @@ class MoreHomeViewModel(application: Application) :
         return list
     }
 
-    override fun getTransactionsNotificationsCount(onComplete: (Int?) -> Unit) {
-        launch {
-            when (val response = NotificationsRepository.getTransactionsNotificationsCount()) {
-                is RetroApiResponse.Success -> {
-                    onComplete.invoke(response.data.data?.parseToInt())
-                }
-                is RetroApiResponse.Error -> {
-                    onComplete.invoke(0)
 
+    override fun getTransactionsNotificationsCount() {
+        launch {
+            val notificationCount =
+                when (val response = NotificationsRepository.getTransactionsNotificationsCount()) {
+                    is RetroApiResponse.Success -> response.data.data?.parseToInt()
+                    is RetroApiResponse.Error -> 0
                 }
-            }
+            _notificationCountData.value = notificationCount
         }
     }
 
