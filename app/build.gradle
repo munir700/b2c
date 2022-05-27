@@ -65,8 +65,8 @@ android {
         }
 
         Preprod {
-            versionCode 173
-            versionName "2.7.3"
+            versionCode 194
+            versionName "2.7.7"
             applicationId "com.yap.banking.preprod"
             resValue "string", "app_name", "YAP Preprod"
             resValue "bool", "enabled_crash", "true"
