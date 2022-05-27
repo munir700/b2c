@@ -23,12 +23,10 @@ import co.yap.modules.dashboard.more.main.activities.MoreActivity
 import co.yap.modules.dashboard.yapit.sendmoney.landing.SendMoneyDashboardActivity
 import co.yap.modules.sidemenu.ProfilePictureAdapter
 import co.yap.networking.customers.responsedtos.AccountInfo
-import co.yap.sendmoney.home.main.SMBeneficiaryParentActivity
 import co.yap.translation.Strings
 import co.yap.widgets.arcmenu.FloatingActionMenu
 import co.yap.widgets.arcmenu.animation.SlideInAnimationHandler
 import co.yap.yapcore.adapters.SectionsPagerAdapter
-import co.yap.yapcore.dagger.base.navigation.BaseNavViewModelFragment
 import co.yap.yapcore.enums.AccountType
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.FeatureSet
@@ -63,7 +61,7 @@ class HouseholdDashboardFragment:
 
     private var actionMenu: FloatingActionMenu? = null
 
-    val actionMenuBuilder: FloatingActionMenu.Builder by lazy {
+   val actionMenuBuilder: FloatingActionMenu.Builder by lazy {
         FloatingActionMenu.Builder(requireActivity())
             .setStartAngle(0)
             .setEndAngle(-180).setRadius(requireContext().dimen(R.dimen._69sdp))

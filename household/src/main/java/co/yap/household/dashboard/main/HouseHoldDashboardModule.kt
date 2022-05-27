@@ -1,28 +1,21 @@
 package co.yap.household.dashboard.main
 
-import android.app.Activity
-import androidx.fragment.app.FragmentActivity
-import androidx.fragment.app.FragmentManager
 import co.yap.household.R
 import co.yap.modules.sidemenu.ProfilePictureAdapter
 import co.yap.widgets.arcmenu.FloatingActionMenu
 import co.yap.widgets.arcmenu.animation.SlideInAnimationHandler
-import co.yap.yapcore.adapters.SectionsPagerAdapter
-import co.yap.yapcore.dagger.di.InjectionViewModelProvider
-import co.yap.yapcore.dagger.di.module.fragment.BaseFragmentModule
-import co.yap.yapcore.dagger.di.qualifiers.ChildFragmentManager
-import co.yap.yapcore.dagger.di.qualifiers.FragmentScope
-import co.yap.yapcore.dagger.di.qualifiers.ViewModelInjection
 import co.yap.yapcore.helpers.extentions.dimen
 import co.yap.yapcore.managers.SessionManager
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.components.FragmentComponent
+import dagger.hilt.android.scopes.FragmentScoped
 import dagger.hilt.components.SingletonComponent
 
 @Module
 @InstallIn(SingletonComponent::class)
-class HouseHoldDashboardModule /*: BaseFragmentModule<HouseholdDashboardFragment>()*/ {
+class HouseHoldDashboardModule /*: BaseFragmentModule<HouseholdDashboardFragment>() */{
 
     /*@Provides
     @ViewModelInjection
