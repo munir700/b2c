@@ -65,7 +65,6 @@ class YapMoreFragment : YapDashboardChildFragment<FragmentMoreHomeBinding, IMore
         setObservers()
         initComponents()
         setupRecycleView()
-        viewModel.getTransactionsNotificationsCount()
     }
 
 
@@ -102,6 +101,7 @@ class YapMoreFragment : YapDashboardChildFragment<FragmentMoreHomeBinding, IMore
     override fun onResume() {
         super.onResume()
         initComponents()
+        viewModel.getTransactionsNotificationsCount()
     }
 
     /**
@@ -163,11 +163,10 @@ class YapMoreFragment : YapDashboardChildFragment<FragmentMoreHomeBinding, IMore
 
     }
 
-    override fun onDestroy() {
+    override fun onDestroyView() {
         removeObservers()
-        super.onDestroy()
+        super.onDestroyView()
     }
-
     private fun setupRecycleView() {
         with(viewDataBinding) {
             recyclerOptions.apply {
