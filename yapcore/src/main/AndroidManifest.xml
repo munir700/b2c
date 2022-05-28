@@ -23,6 +23,7 @@
         <activity
             android:name="co.yap.modules.frame.FrameActivity"
             android:screenOrientation="portrait"
+            android:exported="false"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".dagger.base.navigation.host.NavHostPresenterActivity"
@@ -31,47 +32,25 @@
         <activity
             android:name="co.yap.modules.frame.FrameDialogActivity"
             android:configChanges="screenSize|keyboard"
+            android:exported="false"
             android:theme="@style/myDialog" />
         <activity
             android:name="co.yap.modules.setcardpin.activities.SetCardPinWelcomeActivity"
+            android:exported="false"
             android:screenOrientation="portrait" />
         <activity
             android:name="co.yap.modules.pdf.PDFActivity"
+            android:exported="false"
             android:screenOrientation="portrait" />
 
         <activity
             android:name="co.yap.modules.location.activities.LocationSelectionActivity"
             android:screenOrientation="portrait"
+            android:exported="false"
             android:windowSoftInputMode="adjustResize" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
     </application>
-    <queries>
-        <intent>
-            <action android:name="android.intent.action.VIEW" />
-            <data android:scheme="https" />
-        </intent>
-        <intent>
-            <action android:name="android.intent.action.SEND" />
-            <data android:mimeType="image/jpeg" />
-        </intent>
-        <!--For Documents query-->
-        <intent>
-            <action android:name="android.intent.action.GET_CONTENT" />
-            <category android:name="android.intent.category.OPENABLE" />
-            <data android:mimeType="image/*" />
-        </intent>
-        <!--For Images query-->
-        <intent>
-            <action android:name="android.intent.action.PICK" />
-
-            <data android:mimeType="image/*" />
-        </intent>
-        <intent>
-            <action android:name="android.intent.action.DIAL" />
-            <data android:scheme="tel" />
-        </intent>
-    </queries>
 </manifest>

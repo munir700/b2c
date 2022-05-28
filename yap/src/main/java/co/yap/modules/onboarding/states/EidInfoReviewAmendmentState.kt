@@ -6,18 +6,14 @@ import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import co.yap.countryutils.country.Country
 import co.yap.modules.onboarding.interfaces.IEidInfoReviewAmendment
+import co.yap.widgets.State
 import co.yap.yapcore.BaseState
 import com.digitify.identityscanner.BR
 import java.util.*
 
 class EidInfoReviewAmendmentState : BaseState(), IEidInfoReviewAmendment.State {
 
-    @get:Bindable
-    override var citizenNumber: String = ""
-        set(value) {
-            field = value
-            notifyPropertyChanged(BR.citizenNumber)
-        }
+    override var citizenNumber: MutableLiveData<String> = MutableLiveData()
 
     @get:Bindable
     override var caption: String = ""
@@ -62,7 +58,7 @@ class EidInfoReviewAmendmentState : BaseState(), IEidInfoReviewAmendment.State {
             field = value
             notifyPropertyChanged(BR.expiryDate)
         }
-
+    override var eidExpireLimitDays: MutableLiveData<Int> = MutableLiveData()
     @get:Bindable
     override var fullNameValid: Boolean = false
         set(value) {
@@ -91,12 +87,7 @@ class EidInfoReviewAmendmentState : BaseState(), IEidInfoReviewAmendment.State {
             notifyPropertyChanged(BR.genderValid)
         }
 
-    @get:Bindable
-    override var expiryDateValid: Boolean = false
-        set(value) {
-            field = value
-            notifyPropertyChanged(BR.expiryDateValid)
-        }
+    override var expiryDateValid: MutableLiveData<Boolean> = MutableLiveData()
 
     @get:Bindable
     override var valid: Boolean = true
@@ -172,4 +163,5 @@ class EidInfoReviewAmendmentState : BaseState(), IEidInfoReviewAmendment.State {
     override var isCountryUS: Boolean = false
     override var countryName: ObservableField<String> = ObservableField()
     override var errorScreenVisited: Boolean = false
+    override var eidImageDownloaded: MutableLiveData<State> = MutableLiveData()
 }

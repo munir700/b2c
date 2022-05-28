@@ -8,6 +8,8 @@ import co.yap.R
 import co.yap.app.main.MainChildViewModel
 import co.yap.app.modules.login.interfaces.IPhoneVerificationSignIn
 import co.yap.app.modules.login.states.PhoneVerificationSignInState
+import co.yap.config.FeatureFlagCall
+import co.yap.modules.onboarding.models.CountryCode
 import co.yap.modules.otp.getOtpMessageFromComposer
 import co.yap.networking.authentication.AuthRepository
 import co.yap.networking.customers.CustomersRepository
@@ -29,6 +31,8 @@ import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.getColors
 import co.yap.yapcore.leanplum.trackEventWithAttributes
 import co.yap.yapcore.managers.SessionManager
+import co.yap.yapcore.managers.saveUserDetails
+import co.yap.yapcore.managers.setCrashlyticsUser
 
 class PhoneVerificationSignInViewModel(application: Application) :
     MainChildViewModel<IPhoneVerificationSignIn.State>(application),
@@ -77,12 +81,12 @@ class PhoneVerificationSignInViewModel(application: Application) :
                         KEY_IS_USER_LOGGED_IN,
                         true
                     )
-                    SessionManager.isRemembered.value?.let {
-                        sharedPreferenceManager.save(Constants.KEY_IS_REMEMBER, it)
-                    }
+//                    SessionManager.isRemembered.value?.let {
+//                        sharedPreferenceManager.save(Constants.KEY_IS_REMEMBER, it)
+//                    }
 
                     sharedPreferenceManager.savePassCodeWithEncryption(state.passcode)
-                    sharedPreferenceManager.saveUserNameWithEncryption(state.username)
+//                    sharedPreferenceManager.saveUserNameWithEncryption(state.username)
                     postDemographicData()
                 }
                 is RetroApiResponse.Error -> {
@@ -163,11 +167,25 @@ class PhoneVerificationSignInViewModel(application: Application) :
             when (val response = customersRepository.getAccountInfo()) {
                 is RetroApiResponse.Success -> {
                     if (response.data.data.isNotEmpty()) {
+                        SessionManager.getSystemConfigurationInfo(context)
                         SessionManager.usersList?.value = response.data.data as ArrayList
                         SessionManager.user = SessionManager.getCurrentUser()
-                        SessionManager.setupDataSetForBlockedFeatures(SessionManager.card.value)
-                        trackEventWithAttributes(SessionManager.user)
+                        SessionManager.user.setCrashlyticsUser()
+                        context.saveUserDetails(
+                            SessionManager.user?.currentCustomer?.mobileNo,
+                            CountryCode.UAE.countryCode,
+                            SharedPreferenceManager.getInstance(context).getValueBoolien(
+                                Constants.KEY_IS_REMEMBER, true
+                            )
+                        )
+                        trackEventWithAttributes(
+                            SessionManager.user
+                        )
                         accountInfo.postValue(SessionManager.user)
+                        setFeatureFlagCall(
+                            SessionManager.user?.currentCustomer?.email,
+                            SessionManager.user?.currentCustomer?.customerId
+                        )
                     }
                     state.loading = false
                 }
@@ -186,5 +204,9 @@ class PhoneVerificationSignInViewModel(application: Application) :
                 state.isOtpBlocked.set(false)
             }
         }
+    }
+
+    override fun setFeatureFlagCall(email: String?, customerId: String?) {
+        launch { FeatureFlagCall(context).getFeatureFlag(email, customerId) }
     }
 }

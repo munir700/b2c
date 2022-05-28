@@ -4,11 +4,13 @@ import android.app.Application
 import android.content.Context
 import android.graphics.drawable.Drawable
 import androidx.databinding.Bindable
+import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import co.yap.BR
 import co.yap.app.R
 import co.yap.app.modules.login.interfaces.ILogin
+import co.yap.modules.onboarding.models.CountryCode
 import co.yap.yapcore.BaseState
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.isValidPhoneNumber
@@ -26,12 +28,7 @@ class LoginState(application: Application) : BaseState(), ILogin.State {
 
     override var emailError: MutableLiveData<String> = MutableLiveData("")
 
-    @get:Bindable
-    override var valid: Boolean = false
-        set(value) {
-            field = value
-            notifyPropertyChanged(BR.valid)
-        }
+    override var valid: ObservableBoolean = ObservableBoolean(false)
 
 
     fun validate(): Boolean {
@@ -80,15 +77,22 @@ class LoginState(application: Application) : BaseState(), ILogin.State {
 
     private fun setDefaultUI() {
         refreshField = true
-        valid = false
+        valid.set(false)
         drawbleRight = null
     }
 
     private fun setSuccessUI() {
         refreshField = true
-        valid = true
+        valid.set(true)
         emailError.value = ""
         drawbleRight = context.resources.getDrawable(R.drawable.path, null)
     }
+
+    override var isError: ObservableBoolean = ObservableBoolean()
+    override var isRemember: ObservableBoolean = ObservableBoolean(true)
+    override var countryCode: MutableLiveData<String> =
+        MutableLiveData("")
+    override var mobile: MutableLiveData<String> = MutableLiveData()
+    override var mobileNumber: MutableLiveData<String> = MutableLiveData("")
 
 }

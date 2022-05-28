@@ -16,7 +16,7 @@ import co.yap.yapcore.helpers.extentions.setTransactionImage
 import co.yap.yapcore.helpers.showReceiptSuccessDialog
 import co.yap.yapcore.interfaces.OnItemClickListener
 
-class TransactionFeedbackFragment : BaseBindingFragment<ITransactionFeedback.ViewModel>(),
+class TransactionFeedbackFragment : BaseBindingFragment<FragmentTransactionFeedbackBinding,ITransactionFeedback.ViewModel>(),
     ITransactionFeedback.View {
     override fun getBindingVariable(): Int = BR.viewModel
 

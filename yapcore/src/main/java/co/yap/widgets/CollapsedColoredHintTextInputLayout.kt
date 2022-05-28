@@ -10,54 +10,39 @@ import androidx.annotation.Keep
 import androidx.core.content.ContextCompat
 import co.yap.yapcore.R
 import co.yap.yapcore.helpers.extentions.isEmpty
-import com.google.android.material.internal.CollapsingTextHelper
 import com.google.android.material.textfield.TextInputLayout
 import java.lang.reflect.InvocationTargetException
 import java.lang.reflect.Method
 
-
 @Keep
-class CollapsedColoredHintTextInputLayout @JvmOverloads constructor(
-    context: Context,
-    attrs: AttributeSet? = null,
-    defStyleAttr: Int = 0
-) : TextInputLayout(context, attrs, defStyleAttr) {
+open class CollapsedColoredHintTextInputLayout : TextInputLayout {
     private var collapseHintMethod: Method? = null
     private var hintTextColorNormal = 0
     private var hintTextColorSelected = 0
     private var bounds: Rect? = null
     private var recalculateMethod: Method? = null
-    private var setCollapsedBounds: Method? = null
     private var collapsingTextHelper: Any? = null
     private var drawablePadding: Int = -1
 
-    init {
+    constructor(context: Context) : super(context) {
         init()
-        attrs?.let { initializeCustomAttrs(context, it) }
-
     }
 
-//    constructor(context: Context) : super(context) {
-//        init()
-//    }
-//
-//    @JvmOverloads
-//    constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {
-//        init()
-//        initializeCustomAttrs(context, attrs)
-//    }
-//
-//    @JvmOverloads
-//    constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(
-//        context,
-//        attrs,
-//        defStyleAttr
-//    ) {
-//        init()
-//        initializeCustomAttrs(context, attrs)
-//    }
+    constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {
+        init()
+        initializeCustomAttrs(context, attrs)
+    }
 
-    fun init() {
+    constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(
+        context,
+        attrs,
+        defStyleAttr
+    ) {
+        init()
+        initializeCustomAttrs(context, attrs)
+    }
+
+    private fun init() {
         initForHint()
         isHintAnimationEnabled = false
         try {
@@ -179,12 +164,11 @@ class CollapsedColoredHintTextInputLayout @JvmOverloads constructor(
             collapsingTextHelper = cthField.get(this)
 
             //Search in private class the other component to create a view
-           // CollapsingTextHelper::class.java.getDeclaredField(COLLAPSED_BOUNDS)public final android.graphics.Rect com.google.android.material.internal.CollapsingTextHelper.collapsedBounds
-            val boundsField = collapsingTextHelper?.javaClass?.getDeclaredField("collapsedBounds")
+            val boundsField = collapsingTextHelper?.javaClass?.getDeclaredField(COLLAPSED_BOUNDS)
             boundsField?.isAccessible = true
             bounds = boundsField?.get(collapsingTextHelper) as Rect
             // setCollapsedBounds = collapsingTextHelper?.javaClass?.getDeclaredMethod(SETCollapsedBounds , Rect::class.javaPrimitiveType)
-            recalculateMethod = collapsingTextHelper?.javaClass?.getDeclaredMethod("recalculate")
+            recalculateMethod = collapsingTextHelper?.javaClass?.getDeclaredMethod(RECALCULATE)
 
         } catch (e: NoSuchFieldException) {
             collapsingTextHelper = null

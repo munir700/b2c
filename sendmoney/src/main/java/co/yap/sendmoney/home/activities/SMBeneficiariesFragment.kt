@@ -39,10 +39,9 @@ import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.SessionManager
 import com.nikhilpanju.recyclerviewenhanced.RecyclerTouchListener
-import kotlinx.android.synthetic.main.layout_beneficiaries.*
-import kotlinx.android.synthetic.main.layout_item_beneficiary.*
 
-class SMBeneficiariesFragment : SMBeneficiaryParentBaseFragment<ISMBeneficiaries.ViewModel>(),
+class SMBeneficiariesFragment :
+    SMBeneficiaryParentBaseFragment<ActivitySendMoneyLandingBinding, ISMBeneficiaries.ViewModel>(),
     ISMBeneficiaries.View {
 
     private var onTouchListener: RecyclerTouchListener? = null
@@ -107,18 +106,23 @@ class SMBeneficiariesFragment : SMBeneficiaryParentBaseFragment<ISMBeneficiaries
     private fun initSwipeListener() {
         activity?.let { activity ->
             onTouchListener =
-                RecyclerTouchListener(activity, getBinding().layoutBeneficiaries.rvAllBeneficiaries)
+                RecyclerTouchListener(
+                    activity,
+                    viewDataBinding.layoutBeneficiaries.rvAllBeneficiaries
+                )
                     .setClickable(
                         object : RecyclerTouchListener.OnRowClickListener {
                             override fun onRowClicked(position: Int) {
                                 viewModel.clickEvent.setPayload(
                                     SingleClickEvent.AdaptorPayLoadHolder(
-                                        foregroundContainer,
+                                        viewDataBinding.layoutBeneficiaries.rvAllBeneficiaries.findViewById(
+                                            R.id.foregroundContainer
+                                        ),
                                         getAdaptor().getDataForPosition(position),
                                         position
                                     )
                                 )
-                                viewModel.clickEvent.setValue(foregroundContainer.id)
+                                viewModel.clickEvent.setValue(R.id.foregroundContainer)
                             }
 
                             override fun onIndependentViewClicked(
@@ -140,7 +144,9 @@ class SMBeneficiariesFragment : SMBeneficiaryParentBaseFragment<ISMBeneficiaries
                         )
                         viewModel.clickEvent.setValue(viewID)
                     }
-            rvAllBeneficiaries.addOnItemTouchListener(onTouchListener!!)
+            viewDataBinding.layoutBeneficiaries.rvAllBeneficiaries.addOnItemTouchListener(
+                onTouchListener!!
+            )
         }
     }
 
@@ -186,11 +192,19 @@ class SMBeneficiariesFragment : SMBeneficiaryParentBaseFragment<ISMBeneficiaries
 
     override fun onResume() {
         super.onResume()
-        onTouchListener?.let { rvAllBeneficiaries.addOnItemTouchListener(it) }
+        onTouchListener?.let {
+            viewDataBinding.layoutBeneficiaries.rvAllBeneficiaries.addOnItemTouchListener(
+                it
+            )
+        }
     }
 
     override fun onPause() {
-        onTouchListener?.let { rvAllBeneficiaries.removeOnItemTouchListener(it) }
+        onTouchListener?.let {
+            viewDataBinding.layoutBeneficiaries.rvAllBeneficiaries.removeOnItemTouchListener(
+                it
+            )
+        }
         super.onPause()
     }
 
@@ -309,10 +323,6 @@ class SMBeneficiariesFragment : SMBeneficiaryParentBaseFragment<ISMBeneficiaries
         return viewModel.beneficiariesAdapter
     }
 
-    private fun getBinding(): ActivitySendMoneyLandingBinding {
-        return (viewDataBinding as ActivitySendMoneyLandingBinding)
-    }
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         data?.let {
@@ -345,8 +355,9 @@ class SMBeneficiariesFragment : SMBeneficiaryParentBaseFragment<ISMBeneficiaries
                                 }
                                 else -> {
                                     viewModel.parentViewModel?.requestAllBeneficiaries(
-                                    viewModel.state.sendMoneyType.get() ?: ""
-                                )}
+                                        viewModel.state.sendMoneyType.get() ?: ""
+                                    )
+                                }
                             }
                         }
                     }

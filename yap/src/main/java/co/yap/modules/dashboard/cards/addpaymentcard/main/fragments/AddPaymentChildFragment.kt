@@ -2,7 +2,8 @@ package co.yap.modules.dashboard.cards.addpaymentcard.main.fragments
 
 import android.os.Bundle
 import androidx.annotation.IdRes
-import androidx.lifecycle.ViewModelProviders
+import androidx.databinding.ViewDataBinding
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavDirections
 import co.yap.modules.dashboard.cards.addpaymentcard.main.viewmodels.AddPaymentCardViewModel
 import co.yap.modules.dashboard.cards.addpaymentcard.main.viewmodels.AddPaymentChildViewModel
@@ -10,13 +11,14 @@ import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.IBase
 
 
-abstract class AddPaymentChildFragment<V : IBase.ViewModel<*>> : BaseBindingFragment<V>() {
+abstract class AddPaymentChildFragment<VB : ViewDataBinding, V : IBase.ViewModel<*>> :
+    BaseBindingFragment<VB, V>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (viewModel is AddPaymentChildViewModel<*>) {
             (viewModel as AddPaymentChildViewModel<*>).parentViewModel =
-                ViewModelProviders.of(activity!!).get(AddPaymentCardViewModel::class.java)
+                ViewModelProvider(requireActivity()).get(AddPaymentCardViewModel::class.java)
         }
     }
 

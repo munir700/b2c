@@ -160,7 +160,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:onClick="@{(v) -> viewModel.handlePressOnButtonClick(v.id)}"
-                android:text="@string/screen_phone_number_button_send"
+                android:text="@string/common_button_next"
                 app:btn_size="small"
                 app:enableCoreButton="@{viewModel.state.valid}"
                 app:layout_constraintBottom_toBottomOf="parent"

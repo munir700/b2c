@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
+import co.yap.databinding.FragmentLostOrStolenCardBinding
 import co.yap.modules.dashboard.cards.reportcard.activities.ReportLostOrStolenCardActivity.Companion.reportCardSuccess
 import co.yap.modules.dashboard.cards.reportcard.interfaces.IRepostOrStolenCard
 import co.yap.modules.dashboard.cards.reportcard.viewmodels.ReportLostOrStolenCardViewModels
@@ -24,7 +25,7 @@ import co.yap.translation.Translator
 import kotlinx.android.synthetic.main.fragment_lost_or_stolen_card.*
 
 class ReportLostOrStolenCardFragment :
-    ReportOrLOstCardChildFragment<IRepostOrStolenCard.ViewModel>(), IRepostOrStolenCard.View {
+    ReportOrLOstCardChildFragment<FragmentLostOrStolenCardBinding,IRepostOrStolenCard.ViewModel>(), IRepostOrStolenCard.View {
     val REASON_DAMAGE: Int = 2
     val REASON_LOST_STOLEN: Int = 4
 

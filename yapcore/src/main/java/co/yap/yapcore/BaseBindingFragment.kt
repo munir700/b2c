@@ -15,9 +15,10 @@ import kotlinx.coroutines.launch
 import androidx.fragment.app.Fragment
 import co.yap.yapcore.dagger.base.interfaces.CanFetchExtras
 
-abstract class BaseBindingFragment<V : IBase.ViewModel<*>> : BaseFragment<V>(),CanFetchExtras {
+abstract class BaseBindingFragment<VB : ViewDataBinding, V : IBase.ViewModel<*>> :
+    BaseFragment<V>(),CanFetchExtras {
 
-    lateinit var viewDataBinding: ViewDataBinding
+    open lateinit var viewDataBinding: VB
     /**
      * Indicates whether the current [BaseBindingFragment]'s content view is initialized or not.
      */

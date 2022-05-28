@@ -4,14 +4,17 @@ import co.yap.networking.interfaces.IRepository
 import co.yap.networking.models.ApiError
 import co.yap.networking.models.ApiResponse
 import co.yap.networking.models.RetroApiResponse
-import com.google.firebase.crashlytics.FirebaseCrashlytics
+import com.google.firebase.crashlytics.ktx.crashlytics
+import com.google.firebase.ktx.Firebase
 import org.json.JSONException
 import org.json.JSONObject
 import retrofit2.Response
 import java.net.ConnectException
+import java.net.UnknownHostException
 import com.google.gson.stream.MalformedJsonException as MalformedJsonException1
 
 const val MALFORMED_JSON_EXCEPTION_CODE = 0
+const val UNKNOWN_HOSE_EXCEPTION_CODE = 900001
 
 abstract class BaseRepository : IRepository {
 
@@ -33,7 +36,7 @@ abstract class BaseRepository : IRepository {
             return RetroApiResponse.Error(detectError(response))
 
         } catch (exception: MalformedJsonException1) {
-            FirebaseCrashlytics.getInstance().recordException(exception)
+            Firebase.crashlytics.recordException(exception)
 
             return RetroApiResponse.Error(
                 ApiError(
@@ -41,14 +44,23 @@ abstract class BaseRepository : IRepository {
                     exception.localizedMessage
                 )
             )
-        } catch (exception: ConnectException) {
-            FirebaseCrashlytics.getInstance().recordException(exception)
+        }
+        catch (exception: ConnectException) {
+            Firebase.crashlytics.recordException(exception)
 
             return RetroApiResponse.Error(
-                ApiError(0, defaultConnectionErrorMessage)
+                ApiError(UNKNOWN_HOSE_EXCEPTION_CODE, defaultConnectionErrorMessage)
             )
-        } catch (exception: Exception) {
-            FirebaseCrashlytics.getInstance().recordException(exception)
+        }
+        catch (exception: UnknownHostException) {
+            Firebase.crashlytics.recordException(exception)
+
+            return RetroApiResponse.Error(
+                ApiError(UNKNOWN_HOSE_EXCEPTION_CODE, defaultConnectionErrorMessage)
+            )
+        }
+        catch (exception: Exception) {
+            Firebase.crashlytics.recordException(exception)
 
             return RetroApiResponse.Error(
                 ApiError(
@@ -109,7 +121,7 @@ abstract class BaseRepository : IRepository {
                         return ServerError(0, error)
                     }
                 } catch (e: JSONException) {
-                    FirebaseCrashlytics.getInstance().recordException(e)
+                    Firebase.crashlytics.recordException(e)
                     ServerError(code, defaultErrorMessage)
                 }
             }

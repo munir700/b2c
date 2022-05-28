@@ -16,17 +16,16 @@ import co.yap.yapcore.helpers.extentions.onClick
 import co.yap.yapcore.interfaces.OnItemClickListener
 
 
-abstract class BaseRVAdapter<T:Any, VM : BaseListItemViewModel<T>, VH : BaseViewHolder<T, VM>>
-(
-        var datas: MutableList<T>,
-        private var navigation: NavController?
+abstract class BaseRVAdapter<T : Any, VM : BaseListItemViewModel<T>, VH : BaseViewHolder<T, VM>>
+    (
+    var datas: MutableList<T>,
+    private var navigation: NavController?
 ) :
-        RecyclerView.Adapter<VH>() {
-
+    RecyclerView.Adapter<VH>() {
     @Nullable
     var onItemClickListener: OnItemClickListener? = null
     var onChildViewClickListener: ((view: View, position: Int, data: T?) -> Unit)? =
-            null
+        null
 
     override fun getItemCount() = datas.count()
 
@@ -36,16 +35,16 @@ abstract class BaseRVAdapter<T:Any, VM : BaseListItemViewModel<T>, VH : BaseView
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
-        val viewModel = createViewModel(viewType)
+        val viewModel = createViewModel( viewType)
         val view = LayoutInflater.from(parent.context).inflate(getLayoutId(viewType), parent, false)
         val mDataBinding = DataBindingUtil.bind<ViewDataBinding>(view)
         mDataBinding?.setVariable(getVariableId(), viewModel)
         val holder: VH = getViewHolder(view, viewModel, mDataBinding!!, viewType)
         holder.onClick { view, position, type ->
             onItemClickListener?.onItemClick(
-                    view,
-                    datas[holder.adapterPosition],
-                    holder.adapterPosition
+                view,
+                datas[holder.adapterPosition],
+                holder.adapterPosition
             )
         }
         return holder
@@ -82,7 +81,7 @@ abstract class BaseRVAdapter<T:Any, VM : BaseListItemViewModel<T>, VH : BaseView
         notifyDataSetChanged()
     }
 
-    fun setData(@Nullable newData: MutableList<T>) {
+   open fun setData(@Nullable newData: MutableList<T>) {
         if (this.datas !== newData) {
             this.datas = newData
         }
@@ -96,7 +95,7 @@ abstract class BaseRVAdapter<T:Any, VM : BaseListItemViewModel<T>, VH : BaseView
         notifyDataSetChanged()
     }
 
-    fun removeAllItems() {
+    open fun removeAll() {
         this.datas.clear()
         notifyDataSetChanged()
     }

@@ -10,13 +10,14 @@ import co.yap.modules.location.fragments.LocationChildFragment
 import co.yap.translation.Strings
 import co.yap.yapcore.BR
 import co.yap.yapcore.R
+import co.yap.yapcore.databinding.FragmentEmploymentStatusSelectionBinding
 import co.yap.yapcore.enums.EmploymentStatus
 import co.yap.yapcore.helpers.ButtonType
 import co.yap.yapcore.helpers.ExtraKeys
 import co.yap.yapcore.helpers.extentions.showInfoDialog
 
 class EmploymentStatusSelectionFragment :
-    LocationChildFragment<IEmploymentStatusSelection.ViewModel>(),
+    LocationChildFragment<FragmentEmploymentStatusSelectionBinding , IEmploymentStatusSelection.ViewModel>(),
     IEmploymentStatusSelection.View {
     override fun getBindingVariable(): Int = BR.viewModel
 

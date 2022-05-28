@@ -1,5 +1,6 @@
 package co.yap.networking.customers
 
+import co.yap.networking.customers.models.CityModel
 import co.yap.networking.customers.models.dashboardwidget.UpdateWidgetResponse
 import co.yap.networking.customers.models.dashboardwidget.WidgetData
 import co.yap.networking.customers.requestdtos.*
@@ -15,8 +16,11 @@ import co.yap.networking.customers.responsedtos.currency.CurrenciesResponse
 import co.yap.networking.customers.responsedtos.documents.ConfigureEIDResponse
 import co.yap.networking.customers.responsedtos.documents.EIDDocumentsResponse
 import co.yap.networking.customers.responsedtos.documents.GetMoreDocumentsResponse
+import co.yap.networking.customers.responsedtos.documents.UqudoTokenResponse
+import co.yap.networking.customers.responsedtos.employment_amendment.DocumentResponse
 import co.yap.networking.customers.responsedtos.employment_amendment.EmploymentInfoAmendmentResponse
 import co.yap.networking.customers.responsedtos.employmentinfo.IndustrySegmentsResponse
+import co.yap.networking.customers.responsedtos.featureflag.FeatureFlagResponse
 import co.yap.networking.customers.responsedtos.sendmoney.*
 import co.yap.networking.customers.responsedtos.tax.TaxInfoResponse
 import co.yap.networking.customers.responsedtos.taxinfoamendment.TaxInfoAmendmentResponse
@@ -38,6 +42,10 @@ interface CustomersRetroService {
     // User sign up request
     @POST(CustomersRepository.URL_SIGN_UP)
     suspend fun signUp(@Body signUpRequest: SignUpRequest): Response<SignUpResponse>
+
+    //get System configuration settings
+    @GET(CustomersRepository.URL_SYSTEM_CONFIGURATION)
+    suspend fun getSystemConfigurations(): Response<BaseListResponse<SystemConfigurationInfo>>
 
     // In onboarding send verification email to verify uer
     @POST(CustomersRepository.URL_SEND_VERIFICATION_EMAIL)
@@ -79,6 +87,23 @@ interface CustomersRetroService {
         @Part("gender") gender: RequestBody,
         @Part("identityNo") identityNo: RequestBody,
         @Part("isAmendment") isAmendment: RequestBody
+    ): Response<ApiResponse>
+
+    @Multipart
+    @POST(CustomersRepository.URL_SAVE_EMPLOYMENT_INFO_WITH_DOCUMENTS)
+    suspend fun submitEmploymentInfoWithDocument(
+        @Part files: List<MultipartBody.Part>,
+        @Part documentTypes: List<MultipartBody.Part>?,
+        @Part businessCountries: List<MultipartBody.Part>?,
+        @Part("companyName") companyName: RequestBody?,
+        @Part("employerName") employerName: RequestBody?,
+        @Part("employmentStatus") employmentStatus: RequestBody?,
+        @Part("employmentType") employmentType: RequestBody?,
+        @Part("expectedMonthlyCredit") expectedMonthlyCredit: RequestBody?,
+        @Part industrySubSegmentCodes: List<MultipartBody.Part>?,
+        @Part("monthlySalary") monthlySalary: RequestBody?,
+        @Part("sponsorName") sponsorName: RequestBody?,
+        @Part("typeOfSelfEmployment") typeOfSelfEmployment: RequestBody?
     ): Response<ApiResponse>
 
     // Get Documents
@@ -164,6 +189,9 @@ interface CustomersRetroService {
 
     @GET(CustomersRepository.URL_GET_ALL_COUNTRIES)
     suspend fun getAllCountries(): Response<CountryModel>
+
+    @GET(CustomersRepository.URL_GET_ALL_CitIES)
+    suspend fun getAllCities(@Path("country-code") countryCode: String): Response<CityModel>
 
     @POST(CustomersRepository.URL_ADD_BENEFICIARY)
     suspend fun addBeneficiary(@Body beneficiary: Beneficiary): Response<AddBeneficiaryResponseDTO>
@@ -383,4 +411,27 @@ interface CustomersRetroService {
         @Part("passportIssueDate") passportIssueDate: RequestBody,
         @Part("passportExpiryDate") passportExpiryDate: RequestBody
     ): Response<ApiResponse>
+
+    @GET(CustomersRepository.URL_GET_EMPLOYMENT_INFORMATION)
+    suspend fun getEmploymentInfo(): Response<BaseResponse<EmploymentInfoAmendmentResponse>>
+
+    @GET(CustomersRepository.URL_GET_ALL_DOCUMENT_FOR_EMPLOYMENT)
+    suspend fun getAllDocumentsForEmploymentAmendment(): Response<BaseListResponse<DocumentResponse>>
+    //Get Uqudo Token
+    @GET(CustomersRepository.URL_GET_UQUDO_AUTH_TOKEN)
+    suspend fun getUqudoAuthToken(): Response<BaseResponse<UqudoTokenResponse>>
+
+    @GET(CustomersRepository.URL_GET_SIGN_UP_COUNTRIES)
+    suspend fun getAppCountries(): Response<BaseListResponse<Country>>
+
+    //Key Facts Statement
+    @GET(CustomersRepository.URL_KEY_FACTS_STATEMENT)
+    suspend fun getKeyFactStatement(): Response<TaxInfoResponse>
+
+    //feature flag
+    @GET(CustomersRepository.URL_GET_FEATURE_FLAG)
+    suspend fun getFeatureFlag(
+        @Path("customer_id") customer_id: String,
+        @Path("email") email: String
+    ): Response<BaseResponse<FeatureFlagResponse>>
 }

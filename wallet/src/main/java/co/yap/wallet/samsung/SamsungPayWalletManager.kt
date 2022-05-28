@@ -31,8 +31,8 @@ class SamsungPayWalletManager private constructor(private val context: Context) 
             override fun onSuccess(status: Int, walletData: Bundle?) {
                 walletData?.let {
                     if (status == SamsungPay.ERROR_NONE) {
-                        val clientDeviceId = it.getString(SamsungPay.DEVICE_ID)
-                        val clientWalletAccountId = it.getString(SamsungPay.WALLET_USER_ID)
+//                        val clientDeviceId = it.getString(SamsungPay.DEVICE_ID)
+//                        val clientWalletAccountId = it.getString(SamsungPay.WALLET_USER_ID)
                         response.invoke(status, walletData, State.success(""))
                     }
                 }

@@ -13,6 +13,7 @@ import co.yap.networking.cards.responsedtos.CardBalance
 import co.yap.networking.customers.CustomersApi
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.responsedtos.AccountInfo
+import co.yap.networking.customers.responsedtos.SystemConfigurationInfo
 import co.yap.networking.customers.responsedtos.currency.CurrencyData
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
@@ -21,6 +22,8 @@ import co.yap.networking.notification.requestdtos.FCMTokenRequest
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleLiveEvent
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.constants.Constants.KEY_IS_USER_LOGGED_IN
+import co.yap.yapcore.constants.Constants.SYSTEM_CONFIGURATION
 import co.yap.yapcore.enums.*
 import co.yap.yapcore.firebase.getFCMToken
 import co.yap.yapcore.helpers.AuthUtils
@@ -28,6 +31,13 @@ import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.getBlockedFeaturesList
 import co.yap.yapcore.helpers.extentions.getUserAccessRestrictions
+import co.yap.yapcore.helpers.extentions.listToJson
+import com.google.firebase.analytics.ktx.analytics
+import com.google.firebase.crashlytics.ktx.crashlytics
+import com.google.firebase.crashlytics.ktx.setCustomKeys
+import com.google.firebase.ktx.Firebase
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import com.liveperson.infra.auth.LPAuthenticationParams
 import com.liveperson.messaging.sdk.api.LivePerson
 import com.liveperson.messaging.sdk.api.callbacks.LogoutLivePersonCallback
@@ -47,8 +57,8 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
             field = value
             userLiveData.postValue(value)
         }
-    var userLiveData: MutableLiveData<AccountInfo> = MutableLiveData<AccountInfo>()
     var switchProfile: SingleLiveEvent<Boolean> = SingleLiveEvent()
+    var userLiveData: MutableLiveData<AccountInfo?> = MutableLiveData()
     var userAddress: Address? = null
 
     //    @Deprecated("must use co.yap.yapcore.helpers.livedata.GetAccountBalanceLiveData")
@@ -57,12 +67,15 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
     var eidStatus: EIDStatus = EIDStatus.NOT_SET
     var helpPhoneNumber: String = "+971600551214"
     var onAccountInfoSuccess: MutableLiveData<Boolean> = MutableLiveData()
+    var tempLoginState: MutableLiveData<Boolean> = MutableLiveData()
     private val currencies: MutableLiveData<ArrayList<CurrencyData>> = MutableLiveData()
     private val countries: MutableLiveData<ArrayList<Country>> = MutableLiveData()
     var isRemembered: MutableLiveData<Boolean> = MutableLiveData(true)
     private const val DEFAULT_CURRENCY: String = "AED"
-    var isFounder: MutableLiveData<Boolean> = MutableLiveData(false)
+    var isFounder: MutableLiveData<Boolean?> = MutableLiveData(false)
     var deepLinkFlowId: MutableLiveData<String?> = MutableLiveData(null)
+    var systemConfiguration: MutableLiveData<MutableMap<String?, SystemConfigurationInfo>> =
+        MutableLiveData()
     val homeCountry2Digit: String
         get() {
             return if (user?.currentCustomer?.homeCountry?.count() == 3) countries.value?.find { it.isoCountryCode3Digit == user?.currentCustomer?.homeCountry }?.isoCountryCode2Digit
@@ -78,7 +91,7 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
         GlobalScope.launch(Dispatchers.IO) {
             when (val apiResponse = customerRepository.getAllCurrenciesConfigs()) {
                 is RetroApiResponse.Success -> {
-                    currencies.postValue(apiResponse.data.curriencies)
+                    currencies.postValue(apiResponse.data.curriencies ?: arrayListOf())
                     response.invoke(true, apiResponse.data.curriencies ?: arrayListOf())
                 }
 
@@ -142,6 +155,31 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
 
                 is RetroApiResponse.Error -> {
                     onAccountInfoSuccess.postValue(false)
+                }
+            }
+        }
+    }
+
+    fun getSystemConfigurationInfo(context: Context) {
+        GlobalScope.launch(Dispatchers.IO) {
+            when (val response = customerRepository.getSystemConfigurations()) {
+                is RetroApiResponse.Success -> {
+                    response.data.data.let { list ->
+                        val listArray = ArrayList(list)
+                        SharedPreferenceManager.getInstance(context).save(
+                            SYSTEM_CONFIGURATION,
+                            Gson().toJson(listArray)
+                        )
+                        systemConfiguration.postValue(
+                            convertSystemConfigurationInfoIntoMap(
+                                SharedPreferenceManager.getInstance(context)
+                                    .getValueString(SYSTEM_CONFIGURATION)
+                            )
+                        )
+                    }
+                }
+                is RetroApiResponse.Error -> {
+                    getSystemConfigurationInfo(context)
                 }
             }
         }
@@ -308,7 +346,7 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
 
     fun getDefaultCurrency() = DEFAULT_CURRENCY
 
-    fun sendFcmTokenToServer(deviceId:String? , success: () -> Unit = {}) {
+    fun sendFcmTokenToServer(deviceId: String?, success: () -> Unit = {}) {
         getFCMToken() {
             it?.let { token ->
                 GlobalScope.launch {
@@ -331,6 +369,31 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
         }
     }
 
+    fun getAppCountries(
+        context: Context,
+        completionHandler: ((result: ArrayList<co.yap.networking.customers.responsedtos.sendmoney.Country>?, msg: String?) -> Unit)? = null
+    ) {
+        GlobalScope.launch {
+            when (val response = customerRepository.getAppCountries()) {
+                is RetroApiResponse.Success -> {
+                    response.data.data?.let {
+                        val list = ArrayList(it)
+                        SharedPreferenceManager.getInstance(context)
+                            .save(
+                                Constants.KEY_COUNTRIES_LIST,
+                                list.listToJson<co.yap.networking.customers.responsedtos.sendmoney.Country>()
+                                    ?: ""
+                            )
+                        completionHandler?.invoke(list, null)
+
+                    }
+                }
+                is RetroApiResponse.Error -> {
+                    completionHandler?.invoke(null, response.error.message)
+                }
+            }
+        }
+    }
     fun shouldGoToHousehold(): Boolean {
         val yapUser = getYapUser()
         val householdUser = getHouseholdUser()
@@ -346,7 +409,48 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
 
 }
 
+fun Context.saveUserDetails(mobile: String?, countryCode: String?, isRemember: Boolean?) {
+    SharedPreferenceManager.getInstance(this).save(Constants.KEY_IS_REMEMBER, isRemember ?: true)
+    SharedPreferenceManager.getInstance(this)
+        .save(Constants.KEY_MOBILE_NO, mobile ?: "")
+    SharedPreferenceManager.getInstance(this)
+        .save(Constants.KEY_COUNTRY_CODE, countryCode ?: "")
+}
+
 fun Context?.isUserLogin() = this?.let {
     SharedPreferenceManager.getInstance(it)
         .getValueBoolien(Constants.KEY_IS_USER_LOGGED_IN, false) && SessionManager.user != null
+}
+
+fun convertSystemConfigurationInfoIntoMap(jsonString: String?): MutableMap<String?, SystemConfigurationInfo> =
+    if (jsonString.isNullOrBlank().not()) {
+        try {
+            val type =
+                object : TypeToken<java.util.ArrayList<SystemConfigurationInfo?>?>() {}.type
+            val list: ArrayList<SystemConfigurationInfo> = Gson().fromJson(
+                jsonString,
+                type
+            )
+            list.associateBy({ it.key }, { it }).toMutableMap()
+        } catch (e: Exception) {
+            mutableMapOf()
+        }
+    } else mutableMapOf()
+
+fun AccountInfo?.setCrashlyticsUser() {
+    this?.let { accountInfo ->
+        Firebase.analytics.setUserId(accountInfo.uuid ?: "")
+        Firebase.analytics.setUserProperty(
+            "customerId",
+            accountInfo.currentCustomer.customerId ?: ""
+        )
+        val crashlytics = Firebase.crashlytics
+        crashlytics.setCustomKeys {
+            key("customerId", accountInfo.currentCustomer.customerId ?: "")
+            key("Email", accountInfo.currentCustomer.email ?: "")
+            key("CustomerUuid", accountInfo.currentCustomer.uuid ?: "beforeLogin")
+            key("AccountUuid", accountInfo.uuid ?: "beforeLogin")
+            key(KEY_IS_USER_LOGGED_IN,true)
+        }
+    }
 }

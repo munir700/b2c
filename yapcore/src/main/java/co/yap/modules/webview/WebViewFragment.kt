@@ -2,20 +2,15 @@ package co.yap.modules.webview
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.graphics.Bitmap
-import android.net.Uri
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.MotionEvent
 import android.view.View
-import android.webkit.WebChromeClient
-import android.webkit.WebResourceRequest
-import android.webkit.WebView
-import android.webkit.WebViewClient
+import android.webkit.*
 import android.widget.ProgressBar
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import co.yap.translation.Strings
 import co.yap.widgets.AdvancedWebView
 import co.yap.yapcore.BR
@@ -23,13 +18,13 @@ import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.R
 import co.yap.yapcore.constants.Constants.PAGE_URL
 import co.yap.yapcore.constants.Constants.TOOLBAR_TITLE
+import co.yap.yapcore.databinding.FragmentWebviewBinding
 import co.yap.yapcore.helpers.extentions.makeCall
 import co.yap.yapcore.helpers.extentions.sendEmail
 import co.yap.yapcore.helpers.permissions.PermissionHelper
-import kotlinx.android.synthetic.main.fragment_webview.*
 
-
-class WebViewFragment : BaseBindingFragment<IWebViewFragment.ViewModel>(), IWebViewFragment.View,
+class WebViewFragment : BaseBindingFragment<FragmentWebviewBinding, IWebViewFragment.ViewModel>(),
+    IWebViewFragment.View,
     AdvancedWebView.Listener, View.OnKeyListener {
     override fun getBindingVariable() = BR.webViewFragmentViewModel
 
@@ -39,7 +34,7 @@ class WebViewFragment : BaseBindingFragment<IWebViewFragment.ViewModel>(), IWebV
     var permissionHelper: PermissionHelper? = null
 
     override val viewModel: IWebViewFragment.ViewModel
-        get() = ViewModelProviders.of(this).get(WebViewFragmentViewModel::class.java)
+        get() = ViewModelProvider(this).get(WebViewFragmentViewModel::class.java)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -58,15 +53,11 @@ class WebViewFragment : BaseBindingFragment<IWebViewFragment.ViewModel>(), IWebV
 
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-    }
-
     override fun onToolBarClick(id: Int) {
         when (id) {
             R.id.ivLeftIcon -> {
-                if (webView.canGoBack()) {
-                    webView.goBack()
+                if (viewDataBinding.webView.canGoBack()) {
+                    viewDataBinding.webView.goBack()
                 } else {
                     activity?.finish()
                 }
@@ -75,50 +66,53 @@ class WebViewFragment : BaseBindingFragment<IWebViewFragment.ViewModel>(), IWebV
     }
 
     private fun initAdvanceWebView() {
-        webView?.setListener(activity, this)
-        webView?.setGeolocationEnabled(false)
-        webView?.setMixedContentAllowed(true)
-        webView?.setCookiesEnabled(true)
-        webView?.setThirdPartyCookiesEnabled(true)
-        webView?.setOnKeyListener(this)
-        webView?.webViewClient = object : WebViewClient() {
+        viewDataBinding.webView.setListener(activity, this)
+        viewDataBinding.webView.setGeolocationEnabled(false)
+        viewDataBinding.webView.setMixedContentAllowed(true)
+        viewDataBinding.webView.setCookiesEnabled(true)
+        viewDataBinding.webView.setThirdPartyCookiesEnabled(true)
+        viewDataBinding.webView.setOnKeyListener(this)
+        viewDataBinding.webView.webViewClient = object : WebViewClient() {
             override fun onPageFinished(view: WebView, url: String) {
-                progressBar?.let {
-                    it.visibility = ProgressBar.GONE
-                }
+                if (view.title.equals(""))
+                    view.reload()
+                viewDataBinding.progressBar.visibility = ProgressBar.GONE
             }
         }
-        webView?.webChromeClient = object : WebChromeClient() {
+        viewDataBinding.webView.webChromeClient = object : WebChromeClient() {
+            override fun onProgressChanged(view: WebView?, newProgress: Int) {
+                super.onProgressChanged(view, newProgress)
+                updateProgress(newProgress)
+
+            }
 
             override fun onReceivedTitle(view: WebView, title: String) {
                 super.onReceivedTitle(view, title)
-                progressBar?.let {
-                    it.visibility = ProgressBar.GONE
-                }
+                viewDataBinding.progressBar.visibility = ProgressBar.GONE
             }
 
         }
-        webView?.addHttpHeader("X-Requested-With", "")
-        webView?.loadUrl(pageUrl ?: "")
+        viewDataBinding.webView.addHttpHeader("X-Requested-With", "")
+        viewDataBinding.webView.loadUrl(pageUrl ?: "")
     }
 
+    private fun updateProgress(newProgress: Int) {
+        with(viewDataBinding.progressBar) {
+            progress = newProgress
+            visibility = if (newProgress < 100) ProgressBar.VISIBLE else ProgressBar.GONE
+        }
+    }
 
     override fun onPageStarted(url: String?, favicon: Bitmap?) {
-        progressBar?.let {
-            it.visibility = ProgressBar.VISIBLE
-        }
+        viewDataBinding.progressBar.visibility = ProgressBar.VISIBLE
     }
 
     override fun onPageFinished(url: String?) {
-        progressBar?.let {
-            it.visibility = ProgressBar.GONE
-        }
+        viewDataBinding.progressBar.visibility = ProgressBar.GONE
     }
 
     override fun onPageError(errorCode: Int, description: String?, failingUrl: String?) {
-        progressBar?.let {
-            it.visibility = ProgressBar.GONE
-        }
+        viewDataBinding.progressBar.visibility = ProgressBar.GONE
     }
 
     override fun onDownloadRequested(
@@ -136,17 +130,16 @@ class WebViewFragment : BaseBindingFragment<IWebViewFragment.ViewModel>(), IWebV
     }
 
     override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean {
-        if (request?.url.toString().startsWith("tel:")) {
-            requireContext().makeCall(request?.url.toString().replaceFirst("tel:",""))
+        if (request?.url.toString().startsWith("mailto")) {
+            requireContext().sendEmail(
+                email = request?.url.toString().replaceFirst("mailto:", "")
+            )
             return true
         } else {
-            if (request?.url.toString().startsWith("mailto")) {
-                requireContext().sendEmail(
-                    email = request?.url.toString().replaceFirst("mailto:", "")
-                )
+            if (request?.url.toString().startsWith("tel:")) {
+                requireContext().makeCall(request?.url.toString().replaceFirst("tel:", ""))
                 return true
             }
-
         }
         return false
     }
@@ -154,23 +147,23 @@ class WebViewFragment : BaseBindingFragment<IWebViewFragment.ViewModel>(), IWebV
     @SuppressLint("NewApi")
     override fun onResume() {
         super.onResume()
-        webView?.onResume()
+        viewDataBinding.webView.onResume()
     }
 
     @SuppressLint("NewApi")
     override fun onPause() {
-        webView?.onPause()
+        viewDataBinding.webView.onPause()
         super.onPause()
     }
 
     override fun onDestroy() {
-        webView?.onDestroy()
+        viewDataBinding.webView.onDestroy()
         super.onDestroy()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
         super.onActivityResult(requestCode, resultCode, intent)
-        webView?.onActivityResult(requestCode, resultCode, intent)
+        viewDataBinding.webView.onActivityResult(requestCode, resultCode, intent)
     }
 
     private fun checkPermission(url: String?, suggestedFilename: String?) {
@@ -218,9 +211,9 @@ class WebViewFragment : BaseBindingFragment<IWebViewFragment.ViewModel>(), IWebV
     override fun onKey(v: View?, keyCode: Int, event: KeyEvent?): Boolean {
         if (keyCode == KeyEvent.KEYCODE_BACK
             && event?.action == MotionEvent.ACTION_UP
-            && webView.canGoBack()
+            && viewDataBinding.webView.canGoBack()
         ) {
-            webView.goBack()
+            viewDataBinding.webView.goBack()
             return true
         }
         return false

@@ -11,10 +11,11 @@ import co.yap.modules.setcardpin.viewmodels.SetCardPinSuccessViewModel
 import co.yap.yapcore.BR
 import co.yap.yapcore.R
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.databinding.FragmentSetCardPinSuccessBinding
 import co.yap.yapcore.firebase.FirebaseEvent
 import co.yap.yapcore.firebase.trackEventWithScreenName
 
-class SetCardPinSuccessFragment : SetPinChildFragment<ISetCardPinSuccess.ViewModel>(),
+class SetCardPinSuccessFragment : SetPinChildFragment<FragmentSetCardPinSuccessBinding,ISetCardPinSuccess.ViewModel>(),
     ISetCardPinSuccess.View {
 
     override fun getBindingVariable(): Int = BR.viewModel

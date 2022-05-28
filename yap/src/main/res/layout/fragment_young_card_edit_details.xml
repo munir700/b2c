@@ -91,7 +91,7 @@
                 android:layout_marginBottom="@dimen/margin_medium_large"
                 app:enableCoreButton="@{viewModel.validator.isValidate}"
                 android:onClick="@{(v)-> viewModel.handlePressOnView(v.id)}"
-                android:text="@{Translator.INSTANCE.getString(context,Strings.screen_phone_number_button_send,viewModel.state.childName)}"
+                android:text="@{Translator.INSTANCE.getString(context,Strings.common_button_next,viewModel.state.childName)}"
                 app:layout_constraintBottom_toBottomOf="parent" />
         </androidx.appcompat.widget.LinearLayoutCompat>
 

@@ -13,6 +13,7 @@ object Strings {
     const val common_button_submit: String = "common_button_submit"
     const val common_text_thanks: String = "common_text_thanks"
     const val common_text_hey: String = "common_text_hey"
+    const val common_text_ok: String = "common_text_ok"
 
     const val common_display_text_error_no_internet: String =
         "common_display_text_error_no_internet"
@@ -21,6 +22,7 @@ object Strings {
     const val common_button_cancel: String = "common_button_cancel"
     const val common_button_settings: String = "common_button_settings"
     const val common_button_save: String = "common_button_save"
+    const val common_text_employment_status: String = "common_text_employment_status"
     const val common_button_activate: String = "common_button_activate"
     const val common_button_delete: String = "common_button_delete"
     const val common_text_currency_type: String = "common_text_currency_type"
@@ -140,7 +142,6 @@ object Strings {
         "screen_phone_number_display_text_title"
     const val screen_phone_number_display_text_error: String =
         "screen_phone_number_display_text_error"
-    const val screen_phone_number_button_send: String = "screen_phone_number_button_send"
 
     //Phone number verification screen
     const val screen_verify_phone_number_display_text_sub_title: String =
@@ -230,6 +231,8 @@ object Strings {
         "screen_onboarding_confirm_card_name_edit_full_name_text"
     const val screen_onboarding_confirm_card_name_btn_name_fine_text: String =
         "screen_onboarding_confirm_card_name_btn_name_fine_text"
+    const val screen_onboarding_confirm_card_name_kfs_text: String =
+        "screen_onboarding_confirm_card_name_kfs_text"
 
     //System permission screen
     const val screen_system_permission_text_title: String = "screen_system_permission_text_title"
@@ -408,54 +411,9 @@ object Strings {
         "screen_b2c_eid_info_review_display_text_select_gender"
 
     // KYC SDK
-    const val idenetity_scanner_sdk_screen_scanner_display_text_step_1: String =
-        "idenetity_scanner_sdk_screen_scanner_display_text_step_1"
-    const val idenetity_scanner_sdk_screen_scanner_display_text_step_2: String =
-        "idenetity_scanner_sdk_screen_scanner_display_text_step_2"
-    const val idenetity_scanner_sdk_screen_scanner_display_text_front_side: String =
-        "idenetity_scanner_sdk_screen_scanner_display_text_front_side"
-    const val idenetity_scanner_sdk_screen_scanner_display_text_back_side: String =
-        "idenetity_scanner_sdk_screen_scanner_display_text_back_side"
-    const val idenetity_scanner_sdk_screen_scanner_button_scan: String =
-        "idenetity_scanner_sdk_screen_scanner_button_scan"
-    const val idenetity_scanner_sdk_screen_scanner_display_text_glare: String =
-        "idenetity_scanner_sdk_screen_scanner_display_text_glare"
-    const val idenetity_scanner_sdk_screen_review_info_button_rescan: String =
-        "idenetity_scanner_sdk_screen_review_info_button_rescan"
-    const val idenetity_scanner_sdk_screen_review_info_button_next: String =
-        "idenetity_scanner_sdk_screen_review_info_button_next"
+
     const val idenetity_scanner_sdk_screen_review_info_button_done: String =
         "idenetity_scanner_sdk_screen_review_info_button_done"
-    const val idenetity_scanner_sdk_screen_review_info_display_text_review: String =
-        "idenetity_scanner_sdk_screen_review_info_display_text_review"
-    const val idenetity_scanner_sdk_screen_review_info_display_text_error_emirates_id_front: String =
-        "idenetity_scanner_sdk_screen_review_info_display_text_error_emirates_id_front"
-    const val idenetity_scanner_sdk_screen_review_info_display_text_error_emirates_id_back: String =
-        "idenetity_scanner_sdk_screen_review_info_display_text_error_emirates_id_back"
-    const val idenetity_scanner_sdk_screen_review_info_display_text_error_not_readable: String =
-        "idenetity_scanner_sdk_screen_review_info_display_text_error_not_readable"
-    const val idenetity_scanner_sdk_screen_review_info_display_text_error_face: String =
-        "idenetity_scanner_sdk_screen_review_info_display_text_error_face"
-    const val idenetity_scanner_sdk_screen_review_info_display_text_error_invalid_document: String =
-        "idenetity_scanner_sdk_screen_review_info_display_text_error_invalid_document"
-    const val idenetity_scanner_sdk_screen_review_info_display_text_error_detecting_document: String =
-        "idenetity_scanner_sdk_screen_review_info_display_text_error_detecting_document"
-    const val idenetity_scanner_sdk_screen_review_info_display_text_error_saving_file: String =
-        "idenetity_scanner_sdk_screen_review_info_display_text_error_saving_file"
-    const val idenetity_scanner_sdk_screen_review_info_display_text_error_saving_cropped_file: String =
-        "idenetity_scanner_sdk_screen_review_info_display_text_error_saving_cropped_file"
-    const val idenetity_scanner_sdk_screen_review_info_display_text_capture_process_complete: String =
-        "idenetity_scanner_sdk_screen_review_info_display_text_capture_process_complete"
-    const val identity_scanner_sdk_screen_scanner_glare_error: String =
-        "identity_scanner_sdk_screen_scanner_glare_error"
-    const val identity_scanner_sdk_screen_scanner_nationality_name_detection_error: String =
-        "identity_scanner_sdk_screen_scanner_nationality_name_detection_error"
-    const val identity_scanner_sdk_screen_scanner_mrz_error: String =
-        "identity_scanner_sdk_screen_scanner_mrz_error"
-    const val identity_scanner_sdk_screen_scanner_object_detection_error: String =
-        "identity_scanner_sdk_screen_scanner_object_detection_error"
-    const val identity_scanner_sdk_screen_scanner_overlay_instruction_title: String =
-        "identity_scanner_sdk_screen_scanner_overlay_instruction_title"
 
     //Set card PIN welcome screen
     const val screen_set_card_pin_welcome_display_text_title: String =
@@ -482,6 +440,8 @@ object Strings {
         "screen_confirm_card_pin_display_title_terms_and_conditions"
     const val screen_confirm_card_pin_display_text_terms_and_conditions: String =
         "screen_confirm_card_pin_display_text_terms_and_conditions"
+    const val screen_confirm_card_pin_display_text_key_fact_statement: String =
+        "screen_confirm_card_pin_display_text_key_fact_statement"
     const val screen_confirm_card_pin_button_create_pin: String =
         "screen_confirm_card_pin_button_create_pin"
     const val screen_confirm_card_pin_display_text_error_sequence: String =
@@ -498,6 +458,8 @@ object Strings {
         "screen_set_card_pin_success_display_text_title"
     const val screen_set_card_pin_success_display_text_description: String =
         "screen_set_card_pin_success_display_text_description"
+    const val screen_view_document_refresh_text_description: String =
+        "screen_view_document_refresh_text_description"
     const val screen_set_card_pin_success_button_create_pin: String =
         "screen_set_card_pin_success_button_create_pin"
     const val screen_set_card_pin_success_button_create_pin_later: String =
@@ -644,6 +606,8 @@ object Strings {
     // add spare cards Benefit detail Screen
     const val screen_add_spare_card_completion_display_text_complete_transaction_virtual: String =
         "screen_add_spare_card_completion_display_text_complete_transaction_virtual"
+    const val screen_employment_document_updation_completion_display_text_complete: String =
+        "screen_employment_document_updation_completion_display_text_complete"
     const val screen_add_spare_card_completion_display_text_delivery_info: String =
         "screen_add_spare_card_completion_display_text_delivery_info"
     const val screen_add_spare_card_completion_display_text_complete_transaction: String =
@@ -865,6 +829,10 @@ object Strings {
         "screen_profile_settings_display_text_profile"
     const val screen_profile_settings_display_text_personal_detail: String =
         "screen_profile_settings_display_text_personal_detail"
+    const val screen_profile_settings_display_text_employment_information: String =
+        "screen_profile_settings_display_text_employment_information"
+    const val screen_employment_information_display_right_toolbar_text: String =
+        "screen_employment_information_display_right_toolbar_text"
     const val screen_profile_settings_display_text_view: String =
         "screen_profile_settings_display_text_view"
     const val screen_profile_settings_display_text_change: String =
@@ -881,6 +849,8 @@ object Strings {
         "screen_profile_settings_display_text_about_us"
     const val screen_profile_settings_display_terms_and_conditions: String =
         "screen_profile_settings_display_terms_and_conditions"
+    const val screen_profile_settings_display_key_fact_statement: String =
+        "screen_profile_settings_display_key_fact_statement"
     const val screen_profile_settings_display_fees_and_pricing_plans: String =
         "screen_profile_settings_display_fees_and_pricing_plans"
     const val screen_profile_settings_display_text_instagram: String =
@@ -895,6 +865,8 @@ object Strings {
         "screen_profile_settings_display_text_like_us"
     const val screen_profile_settings_display_text_logout: String =
         "screen_profile_settings_display_text_logout"
+    const val screen_profile_settings_display_toast_text_account_not_active: String =
+        "screen_profile_settings_display_toast_text_account_not_active"
 
 //update photo bottom sheet
 
@@ -1263,7 +1235,8 @@ object Strings {
         "screen_send_money_home_label"
     const val screen_send_show_recent: String =
         "screen_send_show_recent"
-
+    const val screen_send_money_display_permission_text: String =
+        "screen_send_money_display_permission_text"
 
     //     Add Beneficiary
     const val screen_add_beneficiary_display_text_title: String =
@@ -1498,8 +1471,8 @@ object Strings {
         "screen_add_topup_bank_account_number_label_text"
     const val screen_add_topup_bank_address_label_text: String =
         "screen_add_topup_bank_address_label_text"
-    const val screen_add_topup_bank_core_btn_label_text: String =
-        "screen_add_topup_bank_core_btn_label_text"
+    const val common_button_text_share: String =
+        "common_button_text_share"
 
 
     //Screen add top up card
@@ -1731,8 +1704,6 @@ object Strings {
         "screen_yap_house_hold_success_display_text_share_pass_code"
     const val screen_yap_house_hold_success_display_text_share_mobile_no: String =
         "screen_yap_house_hold_success_display_text_share_mobile_no"
-    const val screen_yap_house_hold_success_button_text_share: String =
-        "screen_yap_house_hold_success_button_text_share"
     const val screen_yap_house_hold_success_button_text_goto_house_hold: String =
         "screen_yap_house_hold_success_button_text_goto_house_hold"
 
@@ -1866,6 +1837,12 @@ object Strings {
     //    Notification settings screen
     const val screen_notification_settings_display_text_toolbar_title: String =
         "screen_notification_settings_display_text_toolbar_title"
+    const val screen_notification_settings_display_text_promotion_title: String =
+        "screen_notification_settings_display_text_promotion_title"
+    const val screen_notification_settings_display_text_promotion_subtitle: String =
+        "screen_notification_settings_display_text_promotion_subtitle"
+    const val screen_notification_settings_display_text_all_notifications: String =
+        "screen_notification_settings_display_text_all_notifications"
     const val screen_notification_settings_display_text_in_app_notifications: String =
         "screen_notification_settings_display_text_in_app_notifications"
     const val screen_notification_settings_display_text_sms_notifications: String =
@@ -1882,16 +1859,14 @@ object Strings {
         "screen_notification_listing_display_text_toolbar_title"
 
     //    Invite a friend screen
-    const val screen_invite_friend_display_text_title: String =
-        "screen_invite_friend_display_text_title"
-    const val screen_invite_friend_display_text_reward: String =
-        "screen_invite_friend_display_text_reward"
-    const val screen_invite_friend_display_text_referal_reward: String =
-        "screen_invite_friend_display_text_referal_reward"
-    const val screen_invite_friend_display_text_referal_code: String =
-        "screen_invite_friend_display_text_referal_code"
-    const val screen_invite_friend_button_share: String =
-        "screen_invite_friend_button_share"
+    const val screen_invite_friend_text_title: String =
+        "screen_invite_friend_text_title"
+    const val screen_invite_friend_text_reward: String =
+        "screen_invite_friend_text_reward"
+    const val screen_invite_friend_text_referal_reward: String =
+        "screen_invite_friend_text_referal_reward"
+    const val screen_invite_friend_text_referal_code: String =
+        "screen_invite_friend_text_referal_code"
     const val screen_invite_friend_display_text_share_url: String =
         "screen_invite_friend_display_text_share_url"
 
@@ -2165,6 +2140,16 @@ object Strings {
         "screen_place_of_birth_display_text_select_country"
     const val screen_place_of_birth_display_text_city_of_birth: String =
         "screen_place_of_birth_display_text_city_of_birth"
+    const val screen_place_of_birth_display_text_select_city_of_birth: String =
+        "screen_place_of_birth_display_text_select_city_of_birth"
+    const val screen_place_of_birth_display_text_type_city_of_birth_hint: String =
+        "screen_place_of_birth_display_text_type_city_of_birth_hint"
+    const val screen_place_of_birth_display_text_city_of_birth_hint: String =
+        "screen_place_of_birth_display_text_city_of_birth_hint"
+    const val screen_place_of_birth_display_text_select_city: String =
+        "screen_place_of_birth_display_text_select_city"
+    const val screen_place_of_birth_display_text_search_city: String =
+        "screen_place_of_birth_display_text_search_city"
     const val screen_place_of_birth_display_text_are_you_a_dual_national: String =
         "screen_place_of_birth_display_text_are_you_a_dual_national"
     const val screen_place_of_birth_display_text_nationality_as_per_eid: String =
@@ -2428,6 +2413,18 @@ object Strings {
         "screen_fragment_yap_it_add_money_text_qr_code"
     const val screen_yap_analytics_detail_transaction_count: String =
         "screen_yap_analytics_detail_transaction_count"
+    const val screen_fragment_yap_it_add_money_instant_bank_transfer_title: String =
+        "screen_fragment_yap_it_add_money_instant_bank_transfer_title"
+    const val screen_fragment_yap_it_add_money_instant_bank_transfer_description: String =
+        "screen_fragment_yap_it_add_money_instant_bank_transfer_description"
+    const val screen_fragment_yap_it_add_money_text_bank_transfer_description: String =
+        "screen_fragment_yap_it_add_money_text_bank_transfer_description"
+    const val screen_fragment_yap_it_add_money_text_qr_code_description: String =
+        "screen_fragment_yap_it_add_money_text_qr_code_description"
+    const val screen_fragment_yap_it_add_money_text_top_via_card_description: String =
+        "screen_fragment_yap_it_add_money_text_top_via_card_description"
+    const val screen_fragment_yap_it_add_money_text_cash_or_cheque_description: String =
+        "screen_fragment_yap_it_add_money_text_cash_or_cheque_description"
 
     // yap it QR Code screen
     const val screen_fragment_yap_it_qr_code_share_my_code: String =
@@ -2757,6 +2754,11 @@ object Strings {
         "screen_employment_questionnaire_display_text__bottom_sheet_title_segments"
     const val screen_employment_questionnaire_display_text__bottom_sheet_title_self_employment =
         "screen_employment_questionnaire_display_text__bottom_sheet_title_self_employment"
+    const val screen_employment_type_display_text_bottom_sheet_title =
+        "screen_employment_type_display_text_bottom_sheet_title"
+    const val screen_employment_type_display_text_account_blocked =
+        "screen_employment_type_display_text_account_blocked"
+
 
     //Dashboard Widgets and Edit Screen
     const val screen_dashboard_widget_edit_hide_text =
@@ -2995,7 +2997,100 @@ object Strings {
     const val screen_missing_info_review_required = "screen_missing_info_review_required"
 
     // KYC Amendments/ Missing Info Confirmation Screen
-    const val screen_missing_info_confirmation_button_done = "screen_missing_info_confirmation_button_done"
-    const val screen_missing_info_confirmation_display_all_set = "screen_missing_info_confirmation_display_all_set"
+    const val screen_missing_info_confirmation_button_done =
+        "screen_missing_info_confirmation_button_done"
+    const val screen_missing_info_confirmation_display_all_set =
+        "screen_missing_info_confirmation_display_all_set"
 
+    const val screen_view_document_refresh_button_text = "screen_view_document_refresh_button_text"
+    const val screen_view_document_file_size_not_fine = "screen_view_document_file_size_not_fine"
+    const val screen_view_document_otp_message_first_part =
+        "screen_view_document_otp_message_first_part"
+    const val screen_view_document_otp_message_second_part =
+        "screen_view_document_otp_message_second_part"
+
+//    Upload document dialogue
+
+    const val screen_upload_document_display_text_alert_title: String =
+        "screen_upload_document_display_text_alert_title"
+    const val screen_upload_document_display_text_alert_message: String =
+        "screen_upload_document_display_text_alert_message"
+    const val screen_upload_document_display_text_alert_got_it: String =
+        "screen_upload_document_display_text_alert_got_it"
+    const val screen_upload_document_item_subtitle: String =
+        "screen_upload_document_item_subtitle"
+
+    //      EID expiry not accept
+    const val expiry_dialogue_title_oops: String =
+        "expiry_dialogue_title_oops"
+    const val expiry_dialogue_message: String =
+        "expiry_dialogue_message"
+
+    //     Error message on Employment Questioner
+    const val enter_greater_salary_amount: String =
+        "enter_greater_salary_amount"
+    const val enter_greater_deposit_amount: String =
+        "enter_greater_deposit_amount"
+
+    //KFS notification Screen
+    const val screen_kfs_notification_nothanks_label: String =
+        "screen_kfs_notification_nothanks_label"
+    const val screen_kfs_notification_inapp_notification: String =
+        "screen_kfs_notification_inapp_notification"
+    const val screen_kfs_notification_email_notification: String =
+        "screen_kfs_notification_email_notification"
+    const val screen_kfs_notification_sms_notification: String =
+        "screen_kfs_notification_sms_notification"
+    const val screen_kfs_notification_accept_all_notification_label: String =
+        "screen_kfs_notification_accept_all_notification_label"
+    const val screen_kfs_notification_descrip: String =
+        "screen_kfs_notification_descrip"
+    const val screen_kfs_notification_title: String =
+        "screen_kfs_notification_title"
+    const val screen_kfs_notification_accept_no_notification_note: String =
+        "screen_kfs_notification_accept_no_notification_note"
+    const val screen_kfs_notification_accept_no_notification_label: String =
+        "screen_kfs_notification_accept_no_notification_label"
+
+    //Lean -Easy Bank Transfer- Welcome Screen
+    const val screen_lean_welcome_screen_title =
+        "screen_lean_welcome_screen_title"
+    const val screen_lean_welcome_screen_welcome_to_open_banking =
+        "screen_lean_welcome_screen_welcome_to_open_banking"
+    const val screen_lean_welcome_screen_connect_one_of_your_existing_bank =
+        "screen_lean_welcome_screen_connect_one_of_your_existing_bank"
+    const val screen_lean_welcome_screen_link_an_account =
+        "screen_lean_welcome_screen_link_an_account"
+
+    //Lean -Easy Bank Transfer- Bank List
+    const val screen_lean_bank_list_add_an_account =
+        "screen_lean_bank_list_add_an_account"
+    const val screen_lean_bank_list_select_a_bank =
+        "screen_lean_bank_list_select_a_bank"
+    const val screen_lean_bank_list_choose_bank =
+        "screen_lean_bank_list_choose_bank"
+
+    //Lean -Easy Bank Transfer- Account List
+    const val screen_lean_account_list_select_an_account =
+        "screen_lean_account_list_select_an_account"
+    const val screen_lean_account_list_choose_an_account =
+        "screen_lean_account_list_choose_an_account"
+    const val screen_lean_account_list_pending =
+        "screen_lean_account_list_pending"
+    const val screen_lean_account_list_link_new_account =
+        "screen_lean_account_list_link_new_account"
+
+    //Lean -Easy Bank Transfer-Topup amount
+    const val screen_lean_topup_amount_toolbar_title =
+        "screen_lean_topup_amount_toolbar_title"
+    const val screen_lean_topup_text_enter_amount_to_topup =
+        "screen_lean_topup_text_enter_amount_to_topup"
+    const val screen_lean_topup_text_min_max_error =
+        "screen_lean_topup_text_min_max_error"
+
+    //Lean -Easy Bank Transfer-Payment-Successful
+    const val screen_lean_topup_payment_successful_title =
+        "screen_lean_topup_payment_successful_title"
+    const val screen_lean_topup_payment_successful_new_balance_text: String =
+        "screen_lean_topup_payment_successful_new_balance_text"
 }

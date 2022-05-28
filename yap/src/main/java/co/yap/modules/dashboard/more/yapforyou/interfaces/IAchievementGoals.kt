@@ -10,7 +10,6 @@ import co.yap.yapcore.SingleClickEvent
 interface IAchievementGoals {
 
     interface View : IBase.View<ViewModel> {
-        fun getBinding(): FragmentAchievementGoalsBinding
     }
 
     interface ViewModel : IBase.ViewModel<State> {

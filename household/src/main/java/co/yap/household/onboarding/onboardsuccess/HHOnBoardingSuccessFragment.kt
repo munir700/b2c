@@ -21,7 +21,6 @@ import co.yap.yapcore.hilt.base.navigation.BaseNavViewModelFragmentV2
 import co.yap.yapcore.leanplum.HHUserOnboardingEvents
 import co.yap.yapcore.leanplum.trackEvent
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.fragment_hhonboarding_success.*
 
 @AndroidEntryPoint
 class HHOnBoardingSuccessFragment :
@@ -37,7 +36,7 @@ class HHOnBoardingSuccessFragment :
         setBackButtonDispatcher()
         val display = activity?.windowManager?.defaultDisplay
         display?.getRectSize(windowSize)
-        rootContainer.children.forEach { it.alpha = 0f }
+        viewDataBinding.rootContainer.children.forEach { it.alpha = 0f }
         Handler(Looper.getMainLooper()).postDelayed({ runAnimations() }, 500)
         trackAdjustPlatformEvent(AdjustEvents.ONBOARDING_NEW_HH_USER_SIGNUP.type)
         trackEvent(HHUserOnboardingEvents.ONBOARDING_NEW_HH_USER_SIGN_UP.type)
@@ -59,23 +58,23 @@ class HHOnBoardingSuccessFragment :
         AnimationUtils.runSequentially(
             titleAnimation(),
             AnimationUtils.runTogether(
-                AnimationUtils.jumpInAnimation(ivCard),
-                AnimationUtils.jumpInAnimation(btnCompleteVerification).apply { startDelay = 300 }
+                AnimationUtils.jumpInAnimation(viewDataBinding.ivCard),
+                AnimationUtils.jumpInAnimation(viewDataBinding.btnCompleteVerification).apply { startDelay = 300 }
             )
         ).start()
     }
 
     private fun titleAnimation(): AnimatorSet {
-        val titleOriginalPosition = tvTitle.y
-        val subTitleOriginalPosition = tvSubTitle.y
-        val titleMidScreenPosition = (windowSize.height() / 2 - (tvTitle.height)).toFloat()
+        val titleOriginalPosition = viewDataBinding.tvTitle.y
+        val subTitleOriginalPosition = viewDataBinding.tvSubTitle.y
+        val titleMidScreenPosition = (windowSize.height() / 2 - (viewDataBinding.tvTitle.height)).toFloat()
         val subTitleMidScreenPosition = (windowSize.height() / 2 + 40).toFloat()
 
         // move to center position instantly without animation
         val moveToCenter = AnimationUtils.runTogether(
-            AnimationUtils.slideVertical(tvTitle, 0, titleOriginalPosition, titleMidScreenPosition),
+            AnimationUtils.slideVertical(viewDataBinding.tvTitle, 0, titleOriginalPosition, titleMidScreenPosition),
             AnimationUtils.slideVertical(
-                tvSubTitle,
+                viewDataBinding.tvSubTitle,
                 0,
                 subTitleOriginalPosition,
                 subTitleMidScreenPosition
@@ -84,19 +83,19 @@ class HHOnBoardingSuccessFragment :
 
         // appear with alpha and scale animation
         val appearance = AnimationUtils.runTogether(
-            AnimationUtils.outOfTheBoxAnimation(tvTitle),
-            AnimationUtils.outOfTheBoxAnimation(tvSubTitle).apply { startDelay = 100 }
+            AnimationUtils.outOfTheBoxAnimation(viewDataBinding.tvTitle),
+            AnimationUtils.outOfTheBoxAnimation(viewDataBinding.tvSubTitle).apply { startDelay = 100 }
         )
 
         val moveFromCenterToTop = AnimationUtils.runTogether(
             AnimationUtils.slideVertical(
-                view = tvTitle,
+                view = viewDataBinding.tvTitle,
                 from = titleMidScreenPosition,
                 to = titleOriginalPosition,
                 interpolator = AccelerateInterpolator()
             ),
             AnimationUtils.slideVertical(
-                view = tvSubTitle,
+                view = viewDataBinding.tvSubTitle,
                 from = subTitleMidScreenPosition,
                 to = subTitleOriginalPosition,
                 interpolator = AccelerateInterpolator()

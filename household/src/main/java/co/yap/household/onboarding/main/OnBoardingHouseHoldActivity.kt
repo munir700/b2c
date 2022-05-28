@@ -24,7 +24,6 @@ import co.yap.yapcore.hilt.base.navigation.BaseNavViewModelActivityV2
 import co.yap.yapcore.managers.SessionManager
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.migration.OptionalInject
-import kotlinx.android.synthetic.main.activity_onboarding_houe_hold.*
 
 @OptionalInject
 @AndroidEntryPoint
@@ -107,7 +106,7 @@ class OnBoardingHouseHoldActivity :
     }
 
     override fun onVerificationComplete(isCompleted: Boolean) {
-        tbProgressBar.progress = 100
+        viewDataBinding.tbProgressBar.progress = 100
     }
 
     override fun onDestinationChanged(
@@ -117,11 +116,11 @@ class OnBoardingHouseHoldActivity :
     ) {
         arguments?.let {
             viewModel.state.currentProgress.value = it.getInt(INDEX, 0)
-            tbProgressBar.post { tbProgressBar.progress = viewModel.state.currentProgress.value!! }
+            viewDataBinding.tbProgressBar.post { viewDataBinding.tbProgressBar.progress = viewModel.state.currentProgress.value!! }
 
         }
         if (destination?.id == R.id.HHOnBoardingSuccessFragment) {
-            toolbar.setBackgroundColor(getColor(R.color.colorLightPinkBackground))
+            viewDataBinding.toolbar.setBackgroundColor(getColor(R.color.colorLightPinkBackground))
             Handler(Looper.getMainLooper()).postDelayed({
                 toolbarAnimation().apply {
                     addListener(onEnd = {
@@ -136,17 +135,17 @@ class OnBoardingHouseHoldActivity :
         val windowSize = Rect()
         windowManager.defaultDisplay.getRectSize(windowSize)
         val checkBtnEndPosition =
-            (windowSize.width() / 2) - (tbBtnCheck.width / 2) - dimen(R.dimen._10sdp)
-        tbBtnCheck.isEnabled = true
+            (windowSize.width() / 2) - (viewDataBinding.tbBtnCheck.width / 2) - dimen(R.dimen._10sdp)
+        viewDataBinding.tbBtnCheck.isEnabled = true
         return AnimationUtils.runSequentially(
-            AnimationUtils.pulse(tbBtnCheck),
+            AnimationUtils.pulse(viewDataBinding.tbBtnCheck),
             AnimationUtils.runTogether(
-                AnimationUtils.fadeOut(ivBack, 200),
-                AnimationUtils.fadeOut(tbProgressBar, 200)
+                AnimationUtils.fadeOut(viewDataBinding.ivBack, 200),
+                AnimationUtils.fadeOut(viewDataBinding.tbProgressBar, 200)
             ),
             AnimationUtils.slideHorizontal(
-                view = tbBtnCheck,
-                from = tbBtnCheck.x,
+                view = viewDataBinding.tbBtnCheck,
+                from = viewDataBinding.tbBtnCheck.x,
                 to = checkBtnEndPosition.toFloat(),
                 duration = 500
             )

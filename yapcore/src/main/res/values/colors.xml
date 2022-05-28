@@ -19,9 +19,11 @@
     <color name="grey">#c9c8d8</color>
     <color name="palegrey">#c9c8d8</color>
     <color name="red">#d32f2f</color>
+    <color name="semi_white_80">#b8ffffff</color>
     <color name="greyDark">#9391b1</color>
     <color name="greyDarkOpacity16">#299391B1</color>
     <color name="greyLight">#dae0f0</color>
+    <color name="greyLineChoosetakePhotoBottomSheet">#3C3C435C</color>
     <color name="greySoft">#5cdae0f0</color>
     <color name="darkSlateBlueFaded">#802F2067</color>
     <color name="darkBlue">#9890b9</color>
@@ -45,7 +47,7 @@
     <color name="disabledPurple">#297c4dff</color>
     <color name="subMenuColor">#4DD8D8D8</color>
     <color name="analyticsGraphColor">#66A682FF</color>
-
+    <color name="black">#333232</color>
     <color name="colorSecondaryGreen">#00b9ae</color>
     <color name="colorSecondaryOrange">#F57F17</color>
     <color name="colorSecondaryBlue">#478DF4</color>
@@ -108,8 +110,10 @@
 
     <color name="textDarkColor">#1a1423</color>
     <color name="colorLightPinkBackground">#FFE3E0</color>
+    <color name="semi_dark">#80000000</color>
 
     <color name="colorAccentHouseHold">#fc6253</color>
+    <color name="textInputBackgroundColor">#E8E9F6</color>
     <color name="colorAccentLightHouseHold">#fee3e0</color>
 
     <!--    d32f2f-->
@@ -181,4 +185,22 @@
     <color name="teal_green">#44d389</color>
     <color name="colorPurple">#712ce2</color>
     <color name="primary_purple_diffused">#EDE6FF</color>
+    <color name="uq_custom_progress_text">#272262</color>
+
+    <color name="dialogue_alert_button_text">#007AFF</color>
+    <color name="dialogue_alert_details_text">#000000</color>
+    <color name="dialogue_alert_bg">#F2F2F2</color>
+    <color name="dialogue_divider">#3C3C435C</color>
+
+
+    <!--    upload document dialogue-->
+
+    <color name="upload_dialogue_alert_button_text">#007AFF</color>
+    <color name="upload_dialogue_alert_details_text">#000000</color>
+    <color name="upload_dialogue_alert_bg">#F2F2F2</color>
+    <color name="take_photo_bg">#F5F5F5</color>
+
+    <!--lean-->
+    <color name="orange_light_background">#FFEFD9</color>
+    <color name="orange_dark_text">#F57F18</color>
 </resources>

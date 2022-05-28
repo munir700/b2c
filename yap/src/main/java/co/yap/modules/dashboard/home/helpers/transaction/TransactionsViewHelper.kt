@@ -304,164 +304,156 @@ class TransactionsViewHelper(
                     val layoutManager = recyclerView.layoutManager as LinearLayoutManager
                     val position = layoutManager.findFirstVisibleItemPosition()
                     if (transactionsView.lyInclude.multiStateView.rvTransaction.adapter is TransactionsHeaderAdapter) {
-                        if ((transactionsView.lyInclude.multiStateView.rvTransaction.adapter as TransactionsHeaderAdapter).getDataList().size > 0) {
-                            if (!checkScroll) {
-                                transactionsView.layoutBalance.tvAvailableBalance.text =
-                                    viewModel.state.availableBalance
-                                        .getAvailableBalanceWithFormat()
-                                transactionsView.layoutBalance.tvBalanceTitle.text =
-                                    Translator.getString(
-                                        context,
-                                        R.string.screen_fragment_yap_home_todays_balance
-                                    )
-                                visibleMonth =
-                                    viewModel.transactionsLiveData.value?.get(position)?.monthYear.toString()
+                        viewModel.transactionsLiveData.value?.takeIf { it.isNotEmpty() }?.apply {
 
-                                val filterd: List<MonthData>? =
-                                    viewModel.monthData?.value?.filter { monthData -> monthData.date == visibleMonth }
-                                filterd?.let {
-                                    if (filterd.isNotEmpty()) {
-                                        filteredList =
-                                            filterd[0].categories
-                                        if (filteredList.isNotEmpty()) {
-                                            updateData(
-                                                transactionsView.customCategoryBar,
-                                                filteredList,
-                                                SimpleDateFormat(DateUtils.SERVER_DATE_FORMAT).parse(
-                                                    viewModel.transactionsLiveData.value?.get(
-                                                        position
-                                                    )?.originalDate
-                                                ).toString(),
-                                                Constants.DEFAULT_MODE,
-                                                false
-                                            )
-                                            transactionsView.customCategoryBar.visibility =
-                                                View.VISIBLE
-                                        } else {
-                                            setCategoryWithZero()
-                                        }
-                                    } else {
-                                        setCategoryWithZero()
-                                    }
-                                } ?: setCategoryWithZero()
-                                currentMode = Constants.DEFAULT_MODE
-                            } else {
-                                //new month
-                                if (viewModel.transactionsLiveData.value?.get(position)?.monthYear.isNullOrBlank()) {
-                                    viewModel.transactionsLiveData.value?.get(position)?.monthYear =
-                                        visibleMonth
-                                }
-                                if (viewModel.transactionsLiveData.value?.get(position)?.monthYear.toString() != visibleMonth) {
-
-                                    val filterd: List<MonthData>? =
-                                        viewModel.monthData?.value?.filter { monthData ->
-                                            monthData.date == viewModel.transactionsLiveData.value?.get(
-                                                position
-                                            )?.monthYear.toString()
-                                        }
-                                    filterd?.let {
-                                        if (filterd.isNotEmpty()) {
-                                            filteredList =
-                                                filterd[0].categories
-
-                                            if (filteredList.isNotEmpty()) {
-                                                updateData(
-                                                    transactionsView.customCategoryBar,
-                                                    filteredList,
-                                                    SimpleDateFormat(DateUtils.SERVER_DATE_FORMAT).parse(
-                                                        viewModel.transactionsLiveData.value?.get(
-                                                            position
-                                                        )?.originalDate
-                                                    ).toString(),
-                                                    Constants.COLLAPSE_MODE,
-                                                    false
-                                                )
-                                                transactionsView.customCategoryBar.visibility =
-                                                    View.VISIBLE
-                                                currentMode = Constants.COLLAPSE_MODE
-
-                                            } else {
-                                                setCategoryWithZero()
-                                            }
-                                        } else {
-                                            setCategoryWithZero()
-                                        }
-
-                                    } ?: setCategoryWithZero()
-
-                                    visibleMonth =
-                                        viewModel.transactionsLiveData.value?.get(position)?.monthYear.toString()
-                                } else if (currentMode != Constants.COLLAPSE_MODE && viewModel.transactionsLiveData.value?.get(
-                                        position
-                                    )?.monthYear.toString() == visibleMonth
-                                ) {
-                                    //only collapse
-                                    val filterd: List<MonthData>? =
-                                        viewModel.monthData?.value?.filter { monthData ->
-                                            monthData.date == viewModel.transactionsLiveData.value?.get(
-                                                position
-                                            )?.monthYear.toString()
-                                        }
-                                    filterd?.let {
-                                        if (filterd.isNotEmpty()) {
-                                            filteredList =
-                                                filterd[0].categories
-
-                                            if (filteredList.isNotEmpty()) {
-                                                updateData(
-                                                    transactionsView.customCategoryBar,
-                                                    filteredList,
-                                                    SimpleDateFormat(DateUtils.SERVER_DATE_FORMAT).parse(
-                                                        viewModel.transactionsLiveData.value?.get(
-                                                            position
-                                                        )?.originalDate
-                                                    ).toString(),
-                                                    Constants.COLLAPSE_MODE,
-                                                    false
-                                                )
-                                                transactionsView.customCategoryBar.visibility =
-                                                    View.VISIBLE
-                                            } else {
-                                                setCategoryWithZero()
-                                            }
-                                        } else {
-                                            setCategoryWithZero()
-                                        }
-
-                                    } ?: setCategoryWithZero()
-
-                                    currentMode = Constants.COLLAPSE_MODE
-
-                                }
-                                transactionsView.layoutBalance.tvAvailableBalance.text =
-                                    if (position == 0) viewModel.state.availableBalance.getAvailableBalanceWithFormat() else
-                                        (transactionsView.lyInclude.multiStateView.rvTransaction.adapter as TransactionsHeaderAdapter).getDataForPosition(
-                                            position
-                                        ).closingBalance.toString().getAvailableBalanceWithFormat()
-                                if (DateUtils.isToday(
-                                        viewModel.transactionsLiveData.value?.get(
-                                            position
-                                        )?.originalDate.toString(), "yyyy-MM-dd", TIME_ZONE_Default
-                                    )
-                                ) {
+                            if ((transactionsView.lyInclude.multiStateView.rvTransaction.adapter as TransactionsHeaderAdapter).getDataList().size > 0) {
+                                if (!checkScroll) {
+                                    transactionsView.layoutBalance.tvAvailableBalance.text =
+                                        viewModel.state.availableBalance
+                                            .getAvailableBalanceWithFormat()
                                     transactionsView.layoutBalance.tvBalanceTitle.text =
                                         Translator.getString(
                                             context,
                                             R.string.screen_fragment_yap_home_todays_balance
                                         )
+                                    visibleMonth =
+                                        this[position].monthYear.toString()
+
+                                    val filterd: List<MonthData>? =
+                                        viewModel.monthData?.value?.filter { monthData -> monthData.date == visibleMonth }
+                                    filterd?.let {
+                                        if (filterd.isNotEmpty()) {
+                                            filteredList =
+                                                filterd[0].categories
+                                            if (filteredList.isNotEmpty()) {
+                                                updateData(
+                                                    transactionsView.customCategoryBar,
+                                                    filteredList,
+                                                    SimpleDateFormat(DateUtils.SERVER_DATE_FORMAT).parse(
+                                                        this[position].originalDate
+                                                    ).toString(),
+                                                    Constants.DEFAULT_MODE,
+                                                    false
+                                                )
+                                                transactionsView.customCategoryBar.visibility =
+                                                    View.VISIBLE
+                                            } else {
+                                                setCategoryWithZero()
+                                            }
+                                        } else {
+                                            setCategoryWithZero()
+                                        }
+                                    } ?: setCategoryWithZero()
+                                    currentMode = Constants.DEFAULT_MODE
                                 } else {
-                                    UIBinder.setDateWithSuperScript(
-                                        transactionsView.layoutBalance.tvBalanceTitle,
-                                        (transactionsView.lyInclude.multiStateView.rvTransaction.adapter as TransactionsHeaderAdapter).getDataForPosition(
-                                            position
-                                        ).balanceYear ?: "",
-                                        (transactionsView.lyInclude.multiStateView.rvTransaction.adapter as TransactionsHeaderAdapter).getDataForPosition(
-                                            position
-                                        ).dateForBalance ?: "",
-                                        (transactionsView.lyInclude.multiStateView.rvTransaction.adapter as TransactionsHeaderAdapter).getDataForPosition(
-                                            position
-                                        ).suffixForDay ?: ""
-                                    )
+                                    //new month
+                                    if (this[position].monthYear.isNullOrBlank()) {
+                                        this[position].monthYear =
+                                            visibleMonth
+                                    }
+                                    if (this[position].monthYear.toString() != visibleMonth) {
+
+                                        val filterd: List<MonthData>? =
+                                            viewModel.monthData?.value?.filter { monthData ->
+                                                monthData.date == this[position].monthYear.toString()
+                                            }
+                                        filterd?.let {
+                                            if (filterd.isNotEmpty()) {
+                                                filteredList =
+                                                    filterd[0].categories
+
+                                                if (filteredList.isNotEmpty()) {
+                                                    updateData(
+                                                        transactionsView.customCategoryBar,
+                                                        filteredList,
+                                                        SimpleDateFormat(DateUtils.SERVER_DATE_FORMAT).parse(
+                                                            this[position].originalDate
+                                                        ).toString(),
+                                                        Constants.COLLAPSE_MODE,
+                                                        false
+                                                    )
+                                                    transactionsView.customCategoryBar.visibility =
+                                                        View.VISIBLE
+                                                    currentMode = Constants.COLLAPSE_MODE
+
+                                                } else {
+                                                    setCategoryWithZero()
+                                                }
+                                            } else {
+                                                setCategoryWithZero()
+                                            }
+
+                                        } ?: setCategoryWithZero()
+
+                                        visibleMonth =
+                                            this[position].monthYear.toString()
+                                    } else if (currentMode != Constants.COLLAPSE_MODE && this[position].monthYear.toString() == visibleMonth
+                                    ) {
+                                        //only collapse
+                                        val filterd: List<MonthData>? =
+                                            viewModel.monthData?.value?.filter { monthData ->
+                                                monthData.date == this[position].monthYear.toString()
+                                            }
+                                        filterd?.let {
+                                            if (filterd.isNotEmpty()) {
+                                                filteredList =
+                                                    filterd[0].categories
+
+                                                if (filteredList.isNotEmpty()) {
+                                                    updateData(
+                                                        transactionsView.customCategoryBar,
+                                                        filteredList,
+                                                        SimpleDateFormat(DateUtils.SERVER_DATE_FORMAT).parse(
+                                                            this[position].originalDate
+                                                        ).toString(),
+                                                        Constants.COLLAPSE_MODE,
+                                                        false
+                                                    )
+                                                    transactionsView.customCategoryBar.visibility =
+                                                        View.VISIBLE
+                                                } else {
+                                                    setCategoryWithZero()
+                                                }
+                                            } else {
+                                                setCategoryWithZero()
+                                            }
+
+                                        } ?: setCategoryWithZero()
+
+                                        currentMode = Constants.COLLAPSE_MODE
+
+                                    }
+                                    transactionsView.layoutBalance.tvAvailableBalance.text =
+                                        if (position == 0) viewModel.state.availableBalance.getAvailableBalanceWithFormat() else
+                                            (transactionsView.lyInclude.multiStateView.rvTransaction.adapter as TransactionsHeaderAdapter).getDataForPosition(
+                                                position
+                                            ).closingBalance.toString()
+                                                .getAvailableBalanceWithFormat()
+                                    if (DateUtils.isToday(
+                                            this[position].originalDate.toString(),
+                                            "yyyy-MM-dd",
+                                            TIME_ZONE_Default
+                                        )
+                                    ) {
+                                        transactionsView.layoutBalance.tvBalanceTitle.text =
+                                            Translator.getString(
+                                                context,
+                                                R.string.screen_fragment_yap_home_todays_balance
+                                            )
+                                    } else {
+                                        UIBinder.setDateWithSuperScript(
+                                            transactionsView.layoutBalance.tvBalanceTitle,
+                                            (transactionsView.lyInclude.multiStateView.rvTransaction.adapter as TransactionsHeaderAdapter).getDataForPosition(
+                                                position
+                                            ).balanceYear ?: "",
+                                            (transactionsView.lyInclude.multiStateView.rvTransaction.adapter as TransactionsHeaderAdapter).getDataForPosition(
+                                                position
+                                            ).dateForBalance ?: "",
+                                            (transactionsView.lyInclude.multiStateView.rvTransaction.adapter as TransactionsHeaderAdapter).getDataForPosition(
+                                                position
+                                            ).suffixForDay ?: ""
+                                        )
+                                    }
                                 }
                             }
                         }

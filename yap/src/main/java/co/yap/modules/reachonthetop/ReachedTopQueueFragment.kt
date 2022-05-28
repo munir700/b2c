@@ -4,10 +4,11 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
+import co.yap.databinding.FragmentReachedQueueTopBinding
 import co.yap.modules.dashboard.main.activities.YapDashboardActivity
 import co.yap.modules.kyc.activities.DocumentsDashboardActivity
 import co.yap.modules.location.activities.LocationSelectionActivity
@@ -32,16 +33,15 @@ import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.Player.REPEAT_MODE_OFF
 import com.google.android.exoplayer2.source.TrackGroupArray
 import com.google.android.exoplayer2.trackselection.TrackSelectionArray
-import kotlinx.android.synthetic.main.fragment_reached_queue_top.*
 
-class ReachedTopQueueFragment : BaseBindingFragment<IReachedQueueTop.ViewModel>(),
+class ReachedTopQueueFragment :
+    BaseBindingFragment<FragmentReachedQueueTopBinding, IReachedQueueTop.ViewModel>(),
     IReachedQueueTop.View {
     override fun getBindingVariable(): Int = BR.viewModel
 
     override fun getLayoutId() = R.layout.fragment_reached_queue_top
 
-    override val viewModel: IReachedQueueTop.ViewModel
-        get() = ViewModelProviders.of(this).get(ReachedQueueTopViewModel::class.java)
+    override val viewModel: ReachedQueueTopViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -63,11 +63,11 @@ class ReachedTopQueueFragment : BaseBindingFragment<IReachedQueueTop.ViewModel>(
 
 
     override fun setCardAnimation() {
-        andExoPlayerView.setSource(R.raw.yap_card_animation)
-        andExoPlayerView?.player?.repeatMode = REPEAT_MODE_OFF
-        andExoPlayerView.setExoPlayerCallBack(object : ExoPlayerCallBack {
+        viewDataBinding.andExoPlayerView.setSource(R.raw.yap_card_animation)
+        viewDataBinding.andExoPlayerView.player?.repeatMode = REPEAT_MODE_OFF
+        viewDataBinding.andExoPlayerView.setExoPlayerCallBack(object : ExoPlayerCallBack {
             override fun onError() {
-                andExoPlayerView.setSource(R.raw.yap_card_animation)
+                viewDataBinding.andExoPlayerView.setSource(R.raw.yap_card_animation)
             }
 
             override fun onTracksChanged(
@@ -81,7 +81,7 @@ class ReachedTopQueueFragment : BaseBindingFragment<IReachedQueueTop.ViewModel>(
 
             override fun onPlayerStateChanged(playWhenReady: Boolean, playbackState: Int) {
                 if (playbackState == Player.STATE_READY) {
-                    andExoPlayerView.visibility = View.VISIBLE
+                    viewDataBinding.andExoPlayerView.visibility = View.VISIBLE
                 }
             }
 
@@ -166,8 +166,8 @@ class ReachedTopQueueFragment : BaseBindingFragment<IReachedQueueTop.ViewModel>(
         activity?.let {
             SharedPreferenceManager.getInstance(it.applicationContext)
                 .getValueString(Constants.KEY_APP_UUID)?.apply {
-                SessionManager.sendFcmTokenToServer(this)
-            }
+                    SessionManager.sendFcmTokenToServer(this)
+                }
         }
         startActivity(Intent(requireContext(), YapDashboardActivity::class.java))
         activity?.finishAffinity()

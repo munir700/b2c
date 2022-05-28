@@ -62,7 +62,7 @@
                     android:id="@+id/flag_img"
                     android:layout_width="@dimen/_20sdp"
                     android:layout_height="@dimen/_20sdp"
-                    android:background="@drawable/bitmap"
+                    android:background="@drawable/flag_ae"
                     app:src="@{viewModel.state.flagDrawableResId}" />
 
                 <TextView

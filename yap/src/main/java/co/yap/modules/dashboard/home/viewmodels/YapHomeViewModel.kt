@@ -3,6 +3,8 @@ package co.yap.modules.dashboard.home.viewmodels
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import co.yap.app.YAPApplication
+import co.yap.config.FeatureFlagIds
+import co.yap.config.FeatureFlagToggle
 import co.yap.modules.dashboard.home.enums.EnumWidgetTitles
 import co.yap.modules.dashboard.home.filters.models.TransactionFilters
 import co.yap.modules.dashboard.home.interfaces.IYapHome
@@ -26,8 +28,6 @@ import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.CardDeliveryStatus
 import co.yap.yapcore.enums.CardStatus
 import co.yap.yapcore.enums.PaymentCardStatus
-import co.yap.yapcore.flagsmith.ToggleFeature
-import co.yap.yapcore.flagsmith.getFeatureFlagClient
 import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.NotificationHelper
 import co.yap.yapcore.helpers.extentions.getFormattedDate
@@ -118,7 +118,7 @@ class YapHomeViewModel(application: Application) :
                             val closingBalanceOfTheDay = transactionList[0].balanceAfter ?: 0.0
                             closingBalanceArray.add(closingBalanceOfTheDay)
 
-                            var transactionModel = HomeTransactionListData(
+                            val transactionModel = HomeTransactionListData(
                                 "Type",
                                 SessionManager.getDefaultCurrency(),
                                 /* transactionsDay.key!!*/
@@ -205,6 +205,8 @@ class YapHomeViewModel(application: Application) :
             val closingBalanceOfTheDay: Double = contentsList[0].balanceAfter ?: 0.0
             closingBalanceArray.add(closingBalanceOfTheDay)
 
+            val creationDate = contentsList[0].creationDate
+
             val transactionModel = HomeTransactionListData(
                 "Type",
                 SessionManager.getDefaultCurrency(),
@@ -222,23 +224,23 @@ class YapHomeViewModel(application: Application) :
                 response.data.data.sort,
                 response.data.data.totalElements,
                 response.data.data.totalPages,
-                contentsList[0].creationDate.toString(),
+                creationDate,
                 monthYear = DateUtils.getMonthWithYear(
                     SimpleDateFormat(DateUtils.SERVER_DATE_FORMAT).parse(
-                        contentsList[0].creationDate.toString()
+                        creationDate
                     )
                 ),
-                dateForBalance = DateUtils.changeZoneAndFormatDateWithDay(contentsList[0].creationDate.toString()),
-                suffixForDay = DateUtils.getSuffixFromDate(contentsList[0].creationDate.toString()),
+                dateForBalance = DateUtils.changeZoneAndFormatDateWithDay(creationDate.toString()),
+                suffixForDay = DateUtils.getSuffixFromDate(creationDate.toString()),
                 balanceYear = DateUtils.getYearFromDate(
-                    contentsList[0].creationDate.toString(),
+                    creationDate.toString(),
                     true,
                     ","
                 )
             )
             transactionModelData.add(transactionModel)
             MAX_CLOSING_BALANCE =
-                closingBalanceArray.max() ?: 0.0
+                closingBalanceArray.maxOrNull() ?: 0.0
         }
         return transactionModelData
     }
@@ -412,19 +414,20 @@ class YapHomeViewModel(application: Application) :
             when (val response = customerRepository.getDashboardWidget()) {
                 is RetroApiResponse.Success -> {
                     response.data.data?.let {
-                        getFeatureFlagClient.hasFeature(ToggleFeature.BILL_PAYMENTS.flag) { hasFlag ->
-                            launch {
-                                if (hasFlag) {
-                                    widgetList = it
-                                    dashboardWidgetList.postValue(getFilteredList(it))
-                                } else {
-                                    val updatedList = it.toMutableList()
-                                    val index = updatedList.map { it.name }
-                                        .indexOf(EnumWidgetTitles.BILLS.title)
-                                    updatedList.removeAt(index)
-                                    widgetList = updatedList
-                                    dashboardWidgetList.postValue(getFilteredList(updatedList))
-                                }
+                        FeatureFlagToggle().isFeatureEnable(
+                            context,
+                            FeatureFlagIds.BillPayment().bill_payments
+                        ) { hasFlag ->
+                            if (hasFlag) {
+                                widgetList = it
+                                dashboardWidgetList.postValue(getFilteredList(it))
+                            } else {
+                                val updatedList = it.toMutableList()
+                                val index = updatedList.map { it.name }
+                                    .indexOf(EnumWidgetTitles.BILLS.title)
+                                updatedList.removeAt(index)
+                                widgetList = updatedList
+                                dashboardWidgetList.postValue(getFilteredList(updatedList))
                             }
                         }
                     }

@@ -18,7 +18,9 @@ class InjectionViewModelProvider<VM : DaggerBaseViewModel<*>> @Inject constructo
 
     @Suppress("UNCHECKED_CAST")
     private val viewModelFactory = object : ViewModelProvider.Factory {
-        override fun <T : ViewModel?> create(modelClass: Class<T>) = lazyViewModel.get() as T
+//        override fun <T : ViewModel?> create(modelClass: Class<T>) = lazyViewModel.get() as T
+        override fun <T : ViewModel> create(modelClass: Class<T>)  =lazyViewModel.get() as T
+
     }
 
     fun <ACTIVITY : FragmentActivity> get(activity: ACTIVITY, viewModelClass: KClass<VM>) =

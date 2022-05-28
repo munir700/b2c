@@ -26,7 +26,8 @@ import co.yap.yapcore.helpers.extentions.getValue
 import co.yap.yapcore.helpers.extentions.startFragmentForResult
 import co.yap.yapcore.managers.SessionManager
 
-class ConfirmNewCardPinFragment : BaseBindingFragment<IPin.ViewModel>(), IPin.View {
+class ConfirmNewCardPinFragment : BaseBindingFragment<FragmentPinBinding, IPin.ViewModel>(),
+    IPin.View {
     private val args: ConfirmNewCardPinFragmentArgs by navArgs()
 
     override val viewModel: IPin.ViewModel
@@ -96,8 +97,8 @@ class ConfirmNewCardPinFragment : BaseBindingFragment<IPin.ViewModel>(), IPin.Vi
 
     private fun startOtpFragment() {
         startFragmentForResult<GenericOtpFragment>(
-            GenericOtpFragment::class.java.name,
-            bundleOf(
+            fragmentName = GenericOtpFragment::class.java.name,
+            bundle = bundleOf(
                 OtpDataModel::class.java.name to OtpDataModel(
                     OTPActions.FORGOT_CARD_PIN.name,
                     SessionManager.user?.currentCustomer?.getFormattedPhoneNumber(requireContext())

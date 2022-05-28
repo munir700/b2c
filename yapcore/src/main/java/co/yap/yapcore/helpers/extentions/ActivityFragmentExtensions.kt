@@ -20,22 +20,18 @@ import co.yap.modules.frame.FrameDialogActivity
 import co.yap.networking.coreitems.CoreBottomSheetData
 import co.yap.translation.Strings
 import co.yap.translation.Translator
-import co.yap.widgets.bottomsheet.BottomSheet
-import co.yap.widgets.bottomsheet.BottomSheetConfiguration
-import co.yap.widgets.bottomsheet.BottomSheetItem
-import co.yap.widgets.bottomsheet.CoreBottomSheet
 import co.yap.widgets.bottomsheet.*
 import co.yap.widgets.bottomsheet.bottomsheet_with_initials.CoreInitialsBottomSheet
 import co.yap.widgets.guidedtour.TourSetup
 import co.yap.widgets.guidedtour.models.GuidedTourViewDetail
 import co.yap.yapcore.BaseActivity
-import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.R
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.Constants.EXTRA
 import co.yap.yapcore.constants.Constants.FRAGMENT_CLASS
 import co.yap.yapcore.constants.Constants.SHOW_TOOLBAR
+import co.yap.yapcore.constants.Constants.TOOLBAR_BACK_ICON
 import co.yap.yapcore.constants.Constants.TOOLBAR_TITLE
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.dagger.base.interfaces.CanFetchExtras
@@ -219,22 +215,22 @@ inline fun <reified T : Any> Context.intent(body: Intent.() -> Unit): Intent {
 }
 
 fun showBlockedFeatureAlert(context: Activity, type: FeatureSet) {
-    val blockedMessage=
-    when (type) {
-        FeatureSet.PAY_BILL_PAYMENT, FeatureSet.EDIT_BILL_PAYMENT, FeatureSet.ADD_BILL_PAYMENT -> {
-            Translator.getString(
-                context,
-                Strings.common_display_text_feature_blocked_bill_payment_error
-            )
-        }
-        else -> {
-         SessionManager.user?.getBlockedMessage(
-                key = FeatureProvisioning.getUserAccessRestriction(type),
-                context = context
-            )
-        }
+    val blockedMessage =
+        when (type) {
+            FeatureSet.PAY_BILL_PAYMENT, FeatureSet.EDIT_BILL_PAYMENT, FeatureSet.ADD_BILL_PAYMENT -> {
+                Translator.getString(
+                    context,
+                    Strings.common_display_text_feature_blocked_bill_payment_error
+                )
+            }
+            else -> {
+                SessionManager.user?.getBlockedMessage(
+                    key = FeatureProvisioning.getUserAccessRestriction(type),
+                    context = context
+                )
+            }
 
-    }
+        }
 
     context.showAlertDialogAndExitApp(
         message = blockedMessage,
@@ -337,21 +333,26 @@ inline fun <reified T : Fragment> FragmentActivity.startFragment(
     bundle: Bundle = Bundle(),
     requestCode: Int = -1,
     showToolBar: Boolean = false,
-    toolBarTitle: String = ""
+    toolBarTitle: String = "",
+    type: FeatureSet = FeatureSet.NONE
 ) {
-    val intent = Intent(this, FrameActivity::class.java)
-    intent.putExtra(FRAGMENT_CLASS, T::class.java.name)
-    intent.putExtra(SHOW_TOOLBAR, showToolBar)
-    intent.putExtra(TOOLBAR_TITLE, toolBarTitle)
-    intent.putExtra(EXTRA, bundle)
-    if (requestCode > 0) {
-        startActivityForResult(intent, requestCode)
+    if (FeatureProvisioning.getFeatureProvisioning(type)) {
+        showBlockedFeatureAlert(this as BaseActivity<*>, type)
     } else {
-        startActivity(intent)
-    }
+        val intent = Intent(this, FrameActivity::class.java)
+        intent.putExtra(FRAGMENT_CLASS, T::class.java.name)
+        intent.putExtra(SHOW_TOOLBAR, showToolBar)
+        intent.putExtra(TOOLBAR_TITLE, toolBarTitle)
+        intent.putExtra(EXTRA, bundle)
+        if (requestCode > 0) {
+            startActivityForResult(intent, requestCode)
+        } else {
+            startActivity(intent)
+        }
 
-    if (clearAllPrevious) {
-        finish()
+        if (clearAllPrevious) {
+            finish()
+        }
     }
 }
 //fun <T : Fragment> FragmentActivity.startFragment(
@@ -384,21 +385,28 @@ fun Fragment.startFragment(
     bundle: Bundle = Bundle(),
     requestCode: Int = -1,
     showToolBar: Boolean = false,
-    toolBarTitle: String = ""
+    toolBarTitle: String = "",
+    homeAsUpIndicator: Int = -1,
+    type: FeatureSet = FeatureSet.NONE
 ) {
-    val intent = Intent(requireActivity(), FrameActivity::class.java)
-    intent.putExtra(FRAGMENT_CLASS, fragmentName)
-    intent.putExtra(EXTRA, bundle)
-    intent.putExtra(SHOW_TOOLBAR, showToolBar)
-    intent.putExtra(TOOLBAR_TITLE, toolBarTitle)
-    if (requestCode > 0) {
-        startActivityForResult(intent, requestCode)
+    if (FeatureProvisioning.getFeatureProvisioning(type)) {
+        showBlockedFeatureAlert(this as BaseActivity<*>, type)
     } else {
-        startActivity(intent)
-    }
+        val intent = Intent(requireActivity(), FrameActivity::class.java)
+        intent.putExtra(FRAGMENT_CLASS, fragmentName)
+        intent.putExtra(EXTRA, bundle)
+        intent.putExtra(SHOW_TOOLBAR, showToolBar)
+        intent.putExtra(TOOLBAR_TITLE, toolBarTitle)
+        intent.putExtra(TOOLBAR_BACK_ICON, homeAsUpIndicator)
+        if (requestCode > 0) {
+            startActivityForResult(intent, requestCode)
+        } else {
+            startActivity(intent)
+        }
 
-    if (clearAllPrevious) {
-        requireActivity().finish()
+        if (clearAllPrevious) {
+            requireActivity().finish()
+        }
     }
 }
 
@@ -408,6 +416,7 @@ fun <T : Fragment> FragmentActivity.startFragmentForResult(
     bundle: Bundle = Bundle(),
     showToolBar: Boolean = false,
     toolBarTitle: String = "",
+    homeAsUpIndicator: Int = -1,
     completionHandler: ((resultCode: Int, data: Intent?) -> Unit)? = null
 ) {
     val intent = Intent(this, FrameActivity::class.java)
@@ -415,6 +424,7 @@ fun <T : Fragment> FragmentActivity.startFragmentForResult(
         intent.putExtra(FRAGMENT_CLASS, fragmentName)
         intent.putExtra(EXTRA, bundle)
         intent.putExtra(SHOW_TOOLBAR, showToolBar)
+        intent.putExtra(TOOLBAR_BACK_ICON, homeAsUpIndicator)
         intent.putExtra(TOOLBAR_TITLE, toolBarTitle)
         (this as AppCompatActivity).startForResult(intent) { result ->
             completionHandler?.invoke(result.resultCode, result.data)
@@ -505,8 +515,6 @@ inline fun <reified T : BaseViewModel<*>> Fragment.viewModel(
     vm.body()
     return vm
 }
-
-fun BaseBindingFragment<*>.close() = fragmentManager?.popBackStack()
 
 /**
  *

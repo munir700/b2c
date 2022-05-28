@@ -7,7 +7,6 @@ import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import co.yap.networking.models.ApiResponse
 import co.yap.widgets.*
 import co.yap.yapcore.BaseRVAdapter
@@ -16,10 +15,10 @@ import co.yap.yapcore.R
 import co.yap.yapcore.dagger.base.interfaces.UiRefreshable
 import co.yap.yapcore.dagger.base.navigation.BaseNavViewModelFragment
 import co.yap.yapcore.dagger.base.viewmodel.BaseRecyclerAdapterVM
-import co.yap.yapcore.helpers.extentions.bindView
-import co.yap.yapcore.helpers.extentions.dimen
 import co.yap.yapcore.interfaces.OnItemClickListener
 import javax.inject.Inject
+import co.yap.yapcore.helpers.extentions.bindView
+import co.yap.yapcore.helpers.extentions.dimen
 
 
 */
@@ -39,7 +38,7 @@ abstract class BaseRecyclerViewFragment<VB : ViewDataBinding, S : IBase.State, V
 
     val recyclerView: RecyclerView? by bindView(R.id.recyclerView)
     private val refreshLayout: YapSwipeRefreshLayout? by bindView(R.id.refreshLayout)
-    val stateLayout: MultiStateView? by bindView(R.id.multiStateView)
+    val stateLayout: MultiStateView? by bindView<MultiStateView>(R.id.multiStateView)
 
     */
 /**

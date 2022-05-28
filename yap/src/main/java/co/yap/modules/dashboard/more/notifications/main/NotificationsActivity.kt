@@ -3,6 +3,7 @@ package co.yap.modules.dashboard.more.notifications.main
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
+import co.yap.databinding.ActivityNotificationBinding
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.IFragmentHolder
 import co.yap.yapcore.defaults.DefaultNavigator
@@ -10,7 +11,7 @@ import co.yap.yapcore.defaults.INavigator
 import co.yap.yapcore.interfaces.BackPressImpl
 import co.yap.yapcore.interfaces.IBaseNavigator
 
-class NotificationsActivity : BaseBindingActivity<INotifications.ViewModel>(),
+class NotificationsActivity : BaseBindingActivity<ActivityNotificationBinding,INotifications.ViewModel>(),
     INotifications.View, INavigator, IFragmentHolder {
     override val navigator: IBaseNavigator
         get() = DefaultNavigator(

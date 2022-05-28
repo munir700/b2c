@@ -21,7 +21,9 @@ data class BuildConfigManager(
     var sslHost: String?,
     var spayServiceId: String?,
     var flagSmithAPIKey: String?,
-    var uxCamKey: String?
+    var uxCamKey: String?,
+    var checkoutKey: String?,
+    var leanOpenBanking: String?
 ) {
 
     fun isReleaseBuild(): Boolean = buildType == "release"
@@ -103,7 +105,7 @@ data class BuildConfigManager(
     }
 
     override fun toString(): String {
-        return "BuildConfigManager(md5=$md5, sha1=$sha1, sha256=$sha256, leanPlumSecretKey=$leanPlumSecretKey, leanPlumKey=$leanPlumKey, adjustToken=$adjustToken, baseUrl=$baseUrl, buildType=$buildType, flavor=$flavor, versionName=$versionName, versionCode=$versionCode, applicationId=$applicationId, hasValidSignature=$hasValidSignature, sslPin1=$sslPin1, sslPin2=$sslPin2, sslPin3=$sslPin3, sslHost=$sslHost, uxCamKey=$uxCamKey)"
+        return "BuildConfigManager(md5=$md5, sha1=$sha1, sha256=$sha256, leanPlumSecretKey=$leanPlumSecretKey, leanPlumKey=$leanPlumKey, adjustToken=$adjustToken, baseUrl=$baseUrl, buildType=$buildType, flavor=$flavor, versionName=$versionName, versionCode=$versionCode, applicationId=$applicationId, hasValidSignature=$hasValidSignature, sslPin1=$sslPin1, sslPin2=$sslPin2, sslPin3=$sslPin3, sslHost=$sslHost, uxCamKey=$uxCamKey , leanOpenBanking = $leanOpenBanking)"
     }
 
 }

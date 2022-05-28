@@ -18,16 +18,17 @@ interface IPassCode {
         fun isValidPassCode(): Boolean
         fun updatePassCodeRequest(success: () -> Unit)
         fun forgotPassCodeRequest(success: () -> Unit)
-        fun createForgotPassCodeOtp(success: (username:String) -> Unit)
+        fun createForgotPassCodeOtp(success: (username: String) -> Unit)
         fun isUserLoggedIn(): Boolean
         fun setTitles(title: String, buttonTitle: String)
-        fun setLayoutVisibility(visibility : Boolean?)
+        fun setTermsAndConditionView(isVisible: Boolean)
     }
 
     interface State : IBase.State {
         var passCode: String
         var dialerError: String
         var valid: Boolean
+        var isAgreed: Boolean
         fun getTextWatcher(): TextWatcher
         var title: String
         var buttonTitle: String

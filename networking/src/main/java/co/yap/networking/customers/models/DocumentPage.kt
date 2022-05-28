@@ -5,4 +5,6 @@ import com.google.gson.annotations.SerializedName
 class DocumentPage {
     @SerializedName("pageNo") var pageNo: Int? = -1
     @SerializedName("imageURL") var imageURL: String? = ""
+    @SerializedName("contentType") var contentType: String? = ""
+    @SerializedName("fileName") var fileName: String? = ""
 }

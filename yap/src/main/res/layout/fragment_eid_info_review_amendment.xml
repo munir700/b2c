@@ -43,7 +43,16 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_back" />
         </FrameLayout>
-
+        <co.yap.widgets.MultiStateView
+            android:id="@+id/multiStateView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            app:msv_animateViewChanges="true"
+            app:msv_emptyView="@layout/layout_empty_view_no_results"
+            app:msv_errorView="@layout/layout_error_view"
+            app:msv_loadingView="@layout/layout_loading_view"
+            app:msv_viewState="loading">
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -629,5 +638,6 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
+        </co.yap.widgets.MultiStateView>
     </LinearLayout>
 </layout>

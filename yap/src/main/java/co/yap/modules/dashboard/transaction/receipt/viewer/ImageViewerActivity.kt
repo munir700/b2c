@@ -8,15 +8,15 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.viewpager2.widget.ViewPager2
 import co.yap.BR
 import co.yap.R
+import co.yap.databinding.ActivityImagePreviewerBinding
 import co.yap.networking.transactions.responsedtos.ReceiptModel
 import co.yap.translation.Strings
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.helpers.ExtraKeys
 import co.yap.yapcore.helpers.confirm
 import co.yap.yapcore.helpers.extentions.shareImage
-import kotlinx.android.synthetic.main.activity_image_previewer.*
 
-class ImageViewerActivity : BaseBindingActivity<IImageViewer.ViewModel>(), IImageViewer.View {
+class ImageViewerActivity : BaseBindingActivity<ActivityImagePreviewerBinding,IImageViewer.ViewModel>(), IImageViewer.View {
 
     override fun getBindingVariable(): Int = BR.viewModel
 
@@ -29,7 +29,7 @@ class ImageViewerActivity : BaseBindingActivity<IImageViewer.ViewModel>(), IImag
         super.onCreate(savedInstanceState)
         viewModel.clickEvent.observe(this, clickEvent)
         setDataArguments(intent)
-        viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+        viewDataBinding.viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 viewModel.receiptId =
                     viewModel.imagesViewerAdapter.getDataForPosition(position).receiptId
@@ -50,8 +50,8 @@ class ImageViewerActivity : BaseBindingActivity<IImageViewer.ViewModel>(), IImag
                 viewModel.imagesViewerAdapter.getDataList().indexOf(selectedReceipt)
 
             viewModel.state.imageReceiptTitle?.set("receipt ${currentImagePos.plus(1)}")
-            viewPager.currentItem = currentImagePos
-            viewPager.setCurrentItem(currentImagePos,false)
+            viewDataBinding.viewPager.currentItem = currentImagePos
+            viewDataBinding.viewPager.setCurrentItem(currentImagePos,false)
             viewModel.receiptId = selectedReceipt?.receiptId?:""
         } else {
             finish()
@@ -62,7 +62,7 @@ class ImageViewerActivity : BaseBindingActivity<IImageViewer.ViewModel>(), IImag
         when (it) {
             R.id.ivActionShare -> {
                 shareImage(
-                    viewPager,
+                    viewDataBinding.viewPager,
                     imageName = shareReceiptImageName,
                     chooserTitle = shareReceiptTitle
                 )
@@ -85,7 +85,7 @@ class ImageViewerActivity : BaseBindingActivity<IImageViewer.ViewModel>(), IImag
                 if (viewModel.imagesViewerAdapter.itemCount == 1) {
                     setResult()
                 } else {
-                    viewModel.imagesViewerAdapter.removeItemAt(viewPager.currentItem)
+                    viewModel.imagesViewerAdapter.removeItemAt(viewDataBinding.viewPager.currentItem)
                 }
             }
         }

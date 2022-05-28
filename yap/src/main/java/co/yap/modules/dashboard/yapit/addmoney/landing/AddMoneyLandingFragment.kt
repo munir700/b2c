@@ -5,16 +5,18 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.core.os.bundleOf
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
 import co.yap.databinding.FragmentAddMoneyLandingBinding
 import co.yap.modules.dashboard.more.cdm.CdmMapFragment
+import co.yap.modules.dashboard.yapit.addmoney.easybanktransfer.accountlist.AccountListFragment
 import co.yap.modules.dashboard.yapit.addmoney.main.AddMoneyBaseFragment
 import co.yap.modules.dashboard.yapit.topup.cardslisting.TopUpBeneficiariesActivity
 import co.yap.modules.dashboard.yapit.topup.topupbankdetails.TopUpBankDetailsFragment
 import co.yap.translation.Strings
+import co.yap.translation.Translator
 import co.yap.widgets.SpaceGridItemDecoration
 import co.yap.widgets.qrcode.QRCodeFragment
 import co.yap.yapcore.constants.Constants
@@ -27,14 +29,14 @@ import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.helpers.extentions.startFragment
 import co.yap.yapcore.interfaces.OnItemClickListener
 
-class AddMoneyLandingFragment : AddMoneyBaseFragment<IAddMoneyLanding.ViewModel>(),
+class AddMoneyLandingFragment :
+    AddMoneyBaseFragment<FragmentAddMoneyLandingBinding, IAddMoneyLanding.ViewModel>(),
     IAddMoneyLanding.View {
     override fun getBindingVariable(): Int = BR.viewModel
 
     override fun getLayoutId(): Int = R.layout.fragment_add_money_landing
 
-    override val viewModel: IAddMoneyLanding.ViewModel
-        get() = ViewModelProviders.of(this).get(AddMoneyLandingViewModel::class.java)
+    override val viewModel: AddMoneyLandingViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,13 +57,12 @@ class AddMoneyLandingFragment : AddMoneyBaseFragment<IAddMoneyLanding.ViewModel>
     }
 
     private fun setupRecycleView() {
-        getBinding().recyclerOptions.addItemDecoration(
+        viewDataBinding.recyclerOptions.addItemDecoration(
             SpaceGridItemDecoration(
-                dimen(R.dimen.margin_normal_large), 2, true
+                dimen(R.dimen.margin_normal_large), 1, true
             )
         )
-        viewModel.landingAdapter.allowFullItemClickListener = true
-        viewModel.landingAdapter.setItemListener(listener)
+        viewModel.landingAdapter.onItemClickListener = listener
     }
 
     private val listener = object : OnItemClickListener {
@@ -74,6 +75,17 @@ class AddMoneyLandingFragment : AddMoneyBaseFragment<IAddMoneyLanding.ViewModel>
 
     private val observer = Observer<Int> {
         when (it) {
+            Constants.ADD_MONEY_INSTANT_BANK_TRANSFER -> {
+                //add firebase event
+                startFragment(
+                    fragmentName = AccountListFragment::class.java.name, showToolBar = true,
+                    toolBarTitle = Translator.getString(
+                        requireContext(),
+                        Strings.screen_lean_welcome_screen_title
+                    ),
+                    homeAsUpIndicator = R.drawable.ic_close
+                )
+            }
             Constants.ADD_MONEY_TOP_UP_VIA_CARD -> {
                 trackEventWithScreenName(FirebaseEvent.CLICK_TOPUP_CARD)
                 launchActivity<TopUpBeneficiariesActivity>(requestCode = RequestCodes.REQUEST_SHOW_BENEFICIARY) {
@@ -129,9 +141,5 @@ class AddMoneyLandingFragment : AddMoneyBaseFragment<IAddMoneyLanding.ViewModel>
                 }
             }
         }
-    }
-
-    override fun getBinding(): FragmentAddMoneyLandingBinding {
-        return viewDataBinding as FragmentAddMoneyLandingBinding
     }
 }

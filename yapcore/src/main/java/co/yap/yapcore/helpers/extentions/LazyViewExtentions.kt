@@ -32,7 +32,7 @@ private fun <T> unsafeLazy(initializer: () -> T) = lazy(LazyThreadSafetyMode.NON
 
 fun <ViewT : View> Fragment.bindView(@IdRes idRes: Int): ReadOnlyProperty<Fragment, ViewT> {
     return FragmentBinder(this) {
-        it.view!!.findViewById<ViewT>(idRes)
+        it.requireView().findViewById<ViewT>(idRes)
     }
 }
 

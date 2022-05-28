@@ -74,7 +74,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewModel>(),
+class PaymentCardDetailActivity : BaseBindingActivity<ActivityPaymentCardDetailBinding,IPaymentCardDetail.ViewModel>(),
     IPaymentCardDetail.View, CardClickListener {
 
     private lateinit var primaryCardBottomSheet: PrimaryCardBottomSheet

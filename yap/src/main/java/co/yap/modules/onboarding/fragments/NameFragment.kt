@@ -1,43 +1,43 @@
 package co.yap.modules.onboarding.fragments
 
 import android.os.Bundle
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
+import co.yap.databinding.FragmentNameBinding
 import co.yap.modules.onboarding.interfaces.IName
 import co.yap.modules.onboarding.viewmodels.NameViewModel
 import co.yap.yapcore.firebase.FirebaseEvent
 import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.leanplum.SignupEvents
 import co.yap.yapcore.leanplum.trackEvent
-import kotlinx.android.synthetic.main.fragment_name.*
 
-class NameFragment : OnboardingChildFragment<IName.ViewModel>(), IName.View {
+class NameFragment : OnboardingChildFragment<FragmentNameBinding, IName.ViewModel>(), IName.View {
 
     override fun getBindingVariable(): Int = BR.viewModel
 
     override fun getLayoutId(): Int = R.layout.fragment_name
 
-    override val viewModel: IName.ViewModel
-        get() = ViewModelProviders.of(this).get(NameViewModel::class.java)
+    override val viewModel: NameViewModel by viewModels()
+    //  get() = ViewModelProvider(this).get(NameViewModel::class.java)
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel.nextButtonPressEvent.observe(this, nextButtonObserver)
         viewModel.state.firstNameError.observe(viewLifecycleOwner, Observer {
             if (!it.isNullOrBlank()) {
-                etFirstName.settingUIForError(it)
+                viewDataBinding.etFirstName.settingUIForError(it)
             } else {
-                etFirstName.settingUIForNormal()
+                viewDataBinding.etFirstName.settingUIForNormal()
             }
         })
 
         viewModel.state.lastNameError.observe(viewLifecycleOwner, Observer {
             if (!it.isNullOrBlank()) {
-                etLastName.settingUIForError(it)
+                viewDataBinding.etLastName.settingUIForError(it)
             } else {
-                etLastName.settingUIForNormal()
+                viewDataBinding.etLastName.settingUIForNormal()
             }
         })
     }

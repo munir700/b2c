@@ -3,10 +3,12 @@ package co.yap.yapcore.helpers.extentions
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.media.MediaScannerConnection
 import android.net.Uri
 import android.os.Environment
+import android.text.TextUtils
 import android.view.View
 import androidx.core.content.FileProvider
 import co.yap.app.YAPApplication
@@ -34,6 +36,24 @@ fun Context.createTempFile(extension: String): File {
     }
     val time = System.currentTimeMillis().toString()
     return File(dir, "${time}.$extension")
+}
+
+fun Context.createTempFileForBrowse(extension: String): File {
+    val dir = File(this.filesDir, "yapFiles")
+    if (!dir.exists()) {
+        dir.mkdirs()
+        dir.mkdir()
+    }
+    val time = System.currentTimeMillis().toString()
+    return File(dir, "${time}.$extension")
+}
+
+fun File.copyTo(file: File) {
+    inputStream().use { input ->
+        file.outputStream().use { output ->
+            input.copyTo(output)
+        }
+    }
 }
 
 @Throws(IOException::class)
@@ -170,4 +190,38 @@ fun getCurrentDateTime(): String { // need to re verify
     val date =
         DateUtils.dateToString(currentCalendar.time, "dd-mm-yyyy", DateUtils.TIME_ZONE_Default)
     return date
+}
+
+fun Context.saveEidTemp(fileName:String,bitmap: Bitmap): String? {
+    val file = this.createTempFileWithName(fileName,"jpg")
+    try {
+        val out = FileOutputStream(file)
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 90, out)
+        out.flush()
+        out.close()
+        return file.absolutePath
+    } catch (e: Exception) {
+        e.printStackTrace()
+    }
+    return null
+}
+
+fun String?.isValidFile(filePath: String?): Boolean {
+    return this?.let { if (TextUtils.isEmpty(it)) false else File(it).exists() } ?: false
+//    returnurn
+}
+
+fun getBitmapFromStorage(filePath: String?): Bitmap? {
+    return BitmapFactory.decodeFile(filePath)
+}
+
+fun Context.getFilePrivately()=this.createTempFile("jpg")
+
+fun Context.createTempFileWithName(fileName:String,extension: String): File {
+    val dir = File(this.filesDir, "yapTemp")
+    if (!dir.exists()) {
+        dir.mkdirs()
+        dir.mkdir()
+    }
+    return File(dir, "${fileName}.$extension")
 }

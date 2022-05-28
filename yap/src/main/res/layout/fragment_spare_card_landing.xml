@@ -43,7 +43,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:lottie_autoPlay="false"
-                    app:lottie_fileName="card_stack.json"
+                    app:lottie_url="https://assets7.lottiefiles.com/packages/lf20_qwpz2guu.json"
                     app:lottie_loop="false" />
 
                 <ImageView

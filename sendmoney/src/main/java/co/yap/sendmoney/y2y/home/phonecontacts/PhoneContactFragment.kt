@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import co.yap.networking.customers.requestdtos.Contact
 import co.yap.networking.customers.responsedtos.sendmoney.IBeneficiary
 import co.yap.repositories.InviteFriendRepository
@@ -21,7 +20,8 @@ import co.yap.yapcore.helpers.Utils.getBody
 import co.yap.yapcore.helpers.extentions.share
 import co.yap.yapcore.interfaces.OnItemClickListener
 
-class PhoneContactFragment : Y2YBaseFragment<IPhoneContact.ViewModel>(), IPhoneContact.View {
+class PhoneContactFragment :
+    Y2YBaseFragment<FragmentPhoneContactsBinding, IPhoneContact.ViewModel>(), IPhoneContact.View {
     private lateinit var skeleton: Skeleton
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_phone_contacts
@@ -37,25 +37,27 @@ class PhoneContactFragment : Y2YBaseFragment<IPhoneContact.ViewModel>(), IPhoneC
 
     private fun initComponents() {
         viewModel.adaptor.setItemListener(listener)
-        skeleton = getBinding().recycler.applySkeleton(
+        skeleton = viewDataBinding.recycler.applySkeleton(
             R.layout.layout_item_contacts_shimmer,
             5
         )
     }
 
     private fun setObservers() {
-        viewModel.state.stateLiveData?.observe(this, Observer { handleShimmerState(it) })
-        viewModel.parentViewModel?.yapContactLiveData?.observe(this, Observer {
+        viewModel.state.stateLiveData?.observe(
+            viewLifecycleOwner,
+            Observer { handleShimmerState(it) })
+        viewModel.parentViewModel?.yapContactLiveData?.observe(viewLifecycleOwner, Observer {
             viewModel.adaptor.setList(it)
             if (!it.isNullOrEmpty())
                 viewModel.adaptor.filter.filter(viewModel.parentViewModel?.searchQuery?.value)
             viewModel.state.stateLiveData?.value =
                 if (it.isNullOrEmpty()) State.error(null) else State.success(null)
         })
-        viewModel.parentViewModel?.searchQuery?.observe(this, Observer {
+        viewModel.parentViewModel?.searchQuery?.observe(viewLifecycleOwner, Observer {
             viewModel.adaptor.filter.filter(it)
         })
-        viewModel.adaptor.filterCount.observe(this, Observer {
+        viewModel.adaptor.filterCount.observe(viewLifecycleOwner, Observer {
             if (it == 0 && viewModel.parentViewModel?.isSearching?.value == true && !viewModel.state.isNoContacts.get()) {
                 viewModel.state.stateLiveData?.value = State.empty(null)
             } else {
@@ -111,9 +113,5 @@ class PhoneContactFragment : Y2YBaseFragment<IPhoneContact.ViewModel>(), IPhoneC
                 skeleton.showOriginal()
             }
         }
-    }
-
-    private fun getBinding(): FragmentPhoneContactsBinding {
-        return (viewDataBinding as FragmentPhoneContactsBinding)
     }
 }

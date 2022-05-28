@@ -12,7 +12,6 @@ import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.extentions.startFragment
 import co.yap.yapcore.hilt.base.navigation.BaseNavViewModelFragmentV2
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.fragment_hhonboarding_mobile.*
 
 
 @AndroidEntryPoint
@@ -26,9 +25,9 @@ class HHOnBoardingMobileFragment :
 
     override fun postExecutePendingBindings(savedInstanceState: Bundle?) {
         super.postExecutePendingBindings(savedInstanceState)
-        dialer.showDialerPassCodeView = false
-        dialer.setInPutEditText(etPhoneNumber)
-        dialer.hideFingerprintView()
+        viewDataBinding.dialer.showDialerPassCodeView = false
+        viewDataBinding.dialer.setInPutEditText(viewDataBinding.etPhoneNumber)
+        viewDataBinding.dialer.hideFingerprintView()
     }
 
     override fun onClick(id: Int) {

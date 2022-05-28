@@ -18,13 +18,13 @@ import com.leanplum.Leanplum
 import com.leanplum.callbacks.VariablesChangedCallback
 import java.text.SimpleDateFormat
 
-fun Fragment.trackEvent(eventName: String, value: String = "") {
-    fireEventWithAttribute(eventName, value)
-}
-fun Activity.trackEvent(eventName: String, value: String = "") {
+fun trackEvent(eventName: String, value: String = "") {
     fireEventWithAttribute(eventName, value)
 }
 
+fun Activity.trackEvent(eventName: String, value: String = "") {
+    fireEventWithAttribute(eventName, value)
+}
 
 fun ViewModel.trackEvent(eventName: String, value: String = "") {
     fireEventWithAttribute(eventName, value)
@@ -104,41 +104,56 @@ fun ViewModel.trackEventWithAttributes(
     )
 }
 
+fun ViewModel.trackKfsWithAttributes(
+    smsNotifications: Boolean? = false,
+    emailNotifications: Boolean? = false,
+    inAppNotifications: Boolean? = false
+) {
+    trackKFSAttributes(
+        smsNotifications,
+        emailNotifications,
+        inAppNotifications
+    )
+}
+
 fun trackEventWithAttributes(
-        user: AccountInfo?,
-        signup_length: String? = null,
-        account_active: String? = null,
-        context: Context? = null,
-        eidExpire: Boolean = false,
-        eidExpireDate: String = "",
-        city: String? = null
+    user: AccountInfo?,
+    signup_length: String? = null,
+    account_active: String? = null,
+    context: Context? = null,
+    eidExpire: Boolean = false,
+    eidExpireDate: String = "",
+    city: String? = null
 ) {
     trackAttributes(
-            user,
-            signup_length,
-            account_active,
-            context,
-            eidExpire,
-            eidExpireDate, city
+        user,
+        signup_length,
+        account_active,
+        context,
+        eidExpire,
+        eidExpireDate, city
     )
 }
 
 private fun trackAttributes(
-        user: AccountInfo?,
-        signup_length: String? = null,
-        account_active: String? = null,
-        context: Context? = null,
-        eidExpire: Boolean = false,
-        eidExpireDate: String = "",
-        city: String?,
-        isMainUser: Boolean = false,
-        isAccountActive: Boolean = false,
-        accountActiveMonthly: Boolean = false,
-        emailVerified: Boolean = false,
-        phoneNumberVerified: Boolean = false,
-        account_cancel_timestamp: String? = null,
-        expense_pots: String? = null,
-        card_color: String? = null
+    user: AccountInfo?,
+    signup_length: String? = null,
+    account_active: String? = null,
+    context: Context? = null,
+    eidExpire: Boolean = false,
+    eidExpireDate: String = "",
+    city: String?,
+    isMainUser: Boolean = false,
+    isAccountActive: Boolean = false,
+    accountActiveMonthly: Boolean = false,
+    emailVerified: Boolean = false,
+    phoneNumberVerified: Boolean = false,
+    account_cancel_timestamp: String? = null,
+    expense_pots: String? = null,
+    card_color: String? = null,
+    smsNotifications: Boolean? = false,
+    emailNotifications: Boolean? = false,
+    inappNotifications: Boolean? = false
 ) {
     user?.let { it ->
         val info: HashMap<String, Any> = HashMap()
@@ -170,7 +185,9 @@ private fun trackAttributes(
             info[UserAttributes().customerId] = customerId
             Firebase.analytics.setUserId(customerId)
         }
-        it.uuid?.let { Leanplum.setUserAttributes(it, info) }
+        info[UserAttributes().sMS_MarketingConsent] = smsNotifications ?: false
+        info[UserAttributes().email_MarketingConsent] = emailNotifications ?: false
+        info[UserAttributes().in_AppMessage_MarketingConsent] = inappNotifications ?: false
         info[UserAttributes().isMainUser] = isMainUser
         info[UserAttributes().isAccountActive] = isAccountActive
         info[UserAttributes().accountActiveMonthly] = accountActiveMonthly
@@ -180,12 +197,32 @@ private fun trackAttributes(
         expense_pots?.let { info[UserAttributes().expense_pots] = it }
         card_color?.let { info[UserAttributes().expense_pots] = it }
 
+        it.uuid?.let {  uuid ->
+            Leanplum.setUserAttributes(uuid, info)
+            Leanplum.setUserId(uuid)
+        }
         Leanplum.forceContentUpdate(object : VariablesChangedCallback() {
             override fun variablesChanged() {
 
             }
         })
     }
+}
+
+private fun trackKFSAttributes(
+    smsNotifications: Boolean? = false,
+    emailNotifications: Boolean? = false,
+    inappNotifications: Boolean? = false
+) {
+    val info: HashMap<String, Any> = HashMap()
+    info[UserAttributes().sMS_MarketingConsent] = smsNotifications ?: false
+    info[UserAttributes().email_MarketingConsent] = emailNotifications ?: false
+    info[UserAttributes().in_AppMessage_MarketingConsent] = inappNotifications ?: false
+    Leanplum.forceContentUpdate(object : VariablesChangedCallback() {
+        override fun variablesChanged() {
+
+        }
+    })
 }
 
 @SuppressLint("SimpleDateFormat")
@@ -210,10 +247,11 @@ fun getFormattedDate(creationDate: String?): String {
 
 private fun isBioMetricEnabled(context: Context?): Boolean {
     return context?.let {
-        return@let (BiometricUtil.hasBioMetricFeature(it) && SharedPreferenceManager.getInstance(it).getValueBoolien(
-            KEY_TOUCH_ID_ENABLED,
-            false
-        ))
+        return@let (BiometricUtil.hasBioMetricFeature(it) && SharedPreferenceManager.getInstance(it)
+            .getValueBoolien(
+                KEY_TOUCH_ID_ENABLED,
+                false
+            ))
 
     } ?: false
 }
@@ -260,7 +298,6 @@ fun deleteLeanPlumMessage(messageId: String?) {
             val message = Leanplum.getInbox().messageForId(it)
             message.remove()
         }
-
     } catch (e: Exception) {
     }
 }

@@ -11,7 +11,7 @@ import co.yap.modules.dashboard.store.cardplans.interfaces.IPrimeMetalCard
 import co.yap.modules.dashboard.store.cardplans.viewmodels.PrimeMetalCardViewModel
 import co.yap.yapcore.constants.Constants
 
-class MetalCardFragment : CardPlansBaseFragment<IPrimeMetalCard.ViewModel>(), IPrimeMetalCard.View {
+class MetalCardFragment : CardPlansBaseFragment<FragmentPrimeMetalCardBinding,IPrimeMetalCard.ViewModel>(), IPrimeMetalCard.View {
     override fun getBindingVariable(): Int = BR.viewModel
 
     override fun getLayoutId(): Int = R.layout.fragment_prime_metal_card

@@ -5,6 +5,7 @@ import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import co.yap.billpayments.BR
 import co.yap.billpayments.R
+import co.yap.billpayments.databinding.ActivityBillPaymentsHomeBinding
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.IFragmentHolder
 import co.yap.yapcore.defaults.DefaultNavigator
@@ -13,7 +14,7 @@ import co.yap.yapcore.interfaces.BackPressImpl
 import co.yap.yapcore.interfaces.IBaseNavigator
 import com.uxcam.UXCam
 
-class BillPaymentsHomeActivity : BaseBindingActivity<IBillPayments.ViewModel>(), INavigator,
+class BillPaymentsHomeActivity : BaseBindingActivity<ActivityBillPaymentsHomeBinding,IBillPayments.ViewModel>(), INavigator,
     IFragmentHolder {
     override fun getBindingVariable(): Int = BR.viewModel
 

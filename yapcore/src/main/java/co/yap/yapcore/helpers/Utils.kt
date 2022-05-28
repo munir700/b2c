@@ -821,7 +821,7 @@ object Utils {
         val time = DateUtils.getCurrentDateWithFormat(SERVER_DATE_FULL_FORMAT)
         return (when (YAPApplication.configManager?.flavor) {
             ProductFlavour.PROD.flavour -> {
-                "https://gqvg.adj.st?adjust_t=n44w5ee_6hpplis&${Constants.REFERRAL_ID}=$userId&${Constants.REFERRAL_TIME}=${time.trim()}"
+                "https://gqvg.adj.st?adjust_t=n44w5ee&${Constants.REFERRAL_ID}=$userId&${Constants.REFERRAL_TIME}=${time.trim()}"
             }
             ProductFlavour.PREPROD.flavour -> {
                 "https://7s29.adj.st?adjust_t=v3jlxlh_oo71763&${Constants.REFERRAL_ID}=$userId&${Constants.REFERRAL_TIME}=${time.trim()}"

@@ -14,12 +14,11 @@ import co.yap.yapcore.managers.isUserLogin
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-abstract class BaseBindingActivity<V : IBase.ViewModel<*>> : BaseActivity<V>() {
+abstract class BaseBindingActivity<VB : ViewDataBinding, V : IBase.ViewModel<*>> : BaseActivity<V>() {
 
-    open lateinit var viewDataBinding: ViewDataBinding
-
+    open lateinit var viewDataBinding: VB
     /**
-     * Indicates whether the current [BaseBindingActivity]'s content view is initialized or not.
+     * Indicates whether the current [BaseBindingFragment]'s content view is initialized or not.
      */
     var isViewCreated = false
         private set
@@ -40,6 +39,12 @@ abstract class BaseBindingActivity<V : IBase.ViewModel<*>> : BaseActivity<V>() {
         performDataBinding(savedInstanceState)
         if (shouldShowChatChatOverLay() == true)
             initializeChatOverLayButton()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (shouldShowChatChatOverLay() == true)
+            getCountUnreadMessage()
     }
 
     private fun restartApp() {

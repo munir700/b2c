@@ -6,6 +6,7 @@ import java.text.DateFormat
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
+import java.util.concurrent.TimeUnit
 
 object DateUtils {
     const val DEFAULT_DATE_FORMAT: String = "dd/MM/yyyy"
@@ -601,6 +602,11 @@ object DateUtils {
         }
     }
 
+    fun expiryDateValidWithLimitedDays(expiryDate: Date, limitedDays: Int): Boolean {
+        return TimeUnit.MILLISECONDS.toDays(expiryDate.time - Calendar.getInstance().timeInMillis)
+            .toInt()
+            .let { it > limitedDays }
+    }
 
     fun dayDiff(date1: Date, date2: Date) = (date2.time - date1.time) / 86400000
     fun dayDiffFromCurrent(date: Date): Long {

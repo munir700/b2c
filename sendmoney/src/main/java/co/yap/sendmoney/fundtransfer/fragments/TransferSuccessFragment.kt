@@ -23,7 +23,7 @@ import co.yap.yapcore.leanplum.HHTransactionsEvents
 import co.yap.yapcore.leanplum.trackEvent
 
 
-class TransferSuccessFragment : BeneficiaryFundTransferBaseFragment<ITransferSuccess.ViewModel>(),
+class TransferSuccessFragment : BeneficiaryFundTransferBaseFragment<FragmentTransferSuccessBinding,ITransferSuccess.ViewModel>(),
     ITransferSuccess.View {
 
     override fun getBindingVariable(): Int = BR.viewModel
@@ -36,7 +36,7 @@ class TransferSuccessFragment : BeneficiaryFundTransferBaseFragment<ITransferSuc
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         if (activity is BeneficiaryFundTransferActivity) {
-            getBindings().flTransactionComplete.visibility = View.VISIBLE
+            viewDataBinding.flTransactionComplete.visibility = View.VISIBLE
             setData()
         }
     }
@@ -223,11 +223,6 @@ class TransferSuccessFragment : BeneficiaryFundTransferBaseFragment<ITransferSuc
 //        }
 //        return false
 //    }
-
-    private fun getBindings(): FragmentTransferSuccessBinding {
-        return viewDataBinding as FragmentTransferSuccessBinding
-    }
-
     override fun onStart() {
         super.onStart()
         activity?.let { Utils.setStatusBarColor(it, ThemeColorUtils.colorStatusBarSuccessAttribute(requireContext())) }

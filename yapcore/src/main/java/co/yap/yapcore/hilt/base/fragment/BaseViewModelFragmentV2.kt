@@ -21,7 +21,7 @@ import kotlin.properties.Delegates
  * Created by Safi ur Rehman
  */
 abstract class BaseViewModelFragmentV2<VB : ViewDataBinding, S : IBase.State, VM : HiltBaseViewModel<S>> :
-    BaseBindingFragment<VM>(), CanHandleOnClick {
+    BaseBindingFragment<VB, VM>(), CanHandleOnClick {
 
     lateinit var mActivity: BaseActivity<*>
     lateinit var mViewDataBinding: VB

@@ -5,7 +5,9 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
+import co.yap.databinding.ActivityOnboardingNavigationBinding
 import co.yap.modules.onboarding.interfaces.IOnboarding
+import co.yap.modules.onboarding.models.OnboardingData
 import co.yap.modules.onboarding.viewmodels.OnboardingViewModel
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.IFragmentHolder
@@ -14,11 +16,13 @@ import co.yap.yapcore.defaults.INavigator
 import co.yap.yapcore.enums.AccountType
 import co.yap.yapcore.firebase.FirebaseEvent
 import co.yap.yapcore.firebase.trackEventWithScreenName
+import co.yap.yapcore.helpers.ExtraKeys
 import co.yap.yapcore.interfaces.BackPressImpl
 import co.yap.yapcore.interfaces.IBaseNavigator
 
-class OnboardingActivity : BaseBindingActivity<IOnboarding.ViewModel>(), INavigator,
-        IFragmentHolder {
+class OnboardingActivity :
+    BaseBindingActivity<ActivityOnboardingNavigationBinding, IOnboarding.ViewModel>(), INavigator,
+    IFragmentHolder {
 
     override fun getBindingVariable(): Int = BR.viewModel
 
@@ -32,8 +36,7 @@ class OnboardingActivity : BaseBindingActivity<IOnboarding.ViewModel>(), INaviga
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.onboardingData.accountType = getAccountType()
-
+        getIntentData()
         viewModel.backButtonPressEvent.observe(this, backButtonObserver)
     }
 
@@ -42,11 +45,11 @@ class OnboardingActivity : BaseBindingActivity<IOnboarding.ViewModel>(), INaviga
         super.onDestroy()
     }
 
-    private fun getAccountType(): AccountType {
-        if (intent.getSerializableExtra(getString(R.string.arg_account_type)) == null) {
-            return AccountType.B2C_ACCOUNT
-        } else {
-            return intent.getSerializableExtra(getString(R.string.arg_account_type)) as AccountType
+    private fun getIntentData() {
+        viewModel.onboardingData.accountType = AccountType.B2C_ACCOUNT
+        if (intent.hasExtra(ExtraKeys.ON_BOARDING_DATA.name)){
+            viewModel.onboardingData =
+                intent.getSerializableExtra(ExtraKeys.ON_BOARDING_DATA.name) as OnboardingData
         }
     }
 

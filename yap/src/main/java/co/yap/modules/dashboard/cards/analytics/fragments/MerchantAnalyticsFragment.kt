@@ -17,7 +17,7 @@ import co.yap.networking.transactions.responsedtos.TxnAnalytic
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.interfaces.OnItemClickListener
 
-class MerchantAnalyticsFragment : CardAnalyticsBaseFragment<IMerchantAnalytics.ViewModel>(),
+class MerchantAnalyticsFragment : CardAnalyticsBaseFragment<FragmentMerchantAnalyticsBinding,IMerchantAnalytics.ViewModel>(),
     IMerchantAnalytics.View {
     override fun getBindingVariable(): Int = BR.viewModel
 

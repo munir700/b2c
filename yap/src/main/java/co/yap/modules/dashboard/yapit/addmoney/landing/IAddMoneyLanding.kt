@@ -6,14 +6,13 @@ import co.yap.yapcore.SingleClickEvent
 
 interface IAddMoneyLanding {
     interface View : IBase.View<ViewModel> {
-        fun getBinding(): FragmentAddMoneyLandingBinding
         fun setObservers()
         fun removeObservers()
     }
 
     interface ViewModel : IBase.ViewModel<State> {
         val clickEvent: SingleClickEvent
-        val landingAdapter: AddMoneyLandingAdapter
+        val landingAdapter: AddMoneyLinearDashboardAdapter
         fun handlePressOnView(id: Int)
         fun getAddMoneyOptions(): MutableList<AddMoneyLandingOptions>
     }

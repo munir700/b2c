@@ -1,5 +1,6 @@
 package co.yap.networking.customers
 
+import co.yap.networking.customers.models.CityModel
 import co.yap.networking.customers.models.dashboardwidget.UpdateWidgetResponse
 import co.yap.networking.customers.models.dashboardwidget.WidgetData
 import co.yap.networking.customers.requestdtos.*
@@ -13,8 +14,11 @@ import co.yap.networking.customers.responsedtos.currency.CurrenciesByCodeRespons
 import co.yap.networking.customers.responsedtos.currency.CurrenciesResponse
 import co.yap.networking.customers.responsedtos.documents.ConfigureEIDResponse
 import co.yap.networking.customers.responsedtos.documents.EIDDocumentsResponse
+import co.yap.networking.customers.responsedtos.documents.UqudoTokenResponse
+import co.yap.networking.customers.responsedtos.employment_amendment.DocumentResponse
 import co.yap.networking.customers.responsedtos.employment_amendment.EmploymentInfoAmendmentResponse
 import co.yap.networking.customers.responsedtos.employmentinfo.IndustrySegmentsResponse
+import co.yap.networking.customers.responsedtos.featureflag.FeatureFlagResponse
 import co.yap.networking.customers.responsedtos.sendmoney.*
 import co.yap.networking.customers.responsedtos.tax.TaxInfoResponse
 import co.yap.networking.customers.responsedtos.taxinfoamendment.TaxInfoAmendmentResponse
@@ -32,6 +36,7 @@ import retrofit2.http.Body
 
 interface CustomersApi {
     suspend fun signUp(signUpRequest: SignUpRequest): RetroApiResponse<SignUpResponse>
+    suspend fun getSystemConfigurations(): RetroApiResponse<BaseListResponse<SystemConfigurationInfo>>
     suspend fun sendVerificationEmail(verificationEmailRequest: SendVerificationEmailRequest): RetroApiResponse<OtpValidationResponse>
     suspend fun getAccountInfo(): RetroApiResponse<AccountInfoResponse>
     suspend fun postDemographicData(demographicDataRequest: DemographicDataRequest): RetroApiResponse<ApiResponse>
@@ -73,6 +78,7 @@ interface CustomersApi {
     suspend fun getAllBeneficiaries(): RetroApiResponse<GetAllBeneficiaryResponse>
     suspend fun getCountries(): RetroApiResponse<CountryModel>
     suspend fun getAllCountries(): RetroApiResponse<CountryModel>
+    suspend fun getAllCities(countryCode: String): RetroApiResponse<CityModel>
     suspend fun addBeneficiary(beneficiary: Beneficiary): RetroApiResponse<AddBeneficiaryResponseDTO>
     suspend fun validateBeneficiary(beneficiary: Beneficiary): RetroApiResponse<ApiResponse>
     suspend fun editBeneficiary(beneficiary: Beneficiary?): RetroApiResponse<ApiResponse>
@@ -126,6 +132,12 @@ interface CustomersApi {
     suspend fun getTourGuides(): RetroApiResponse<TourGuideResponse>
     suspend fun getAdditionalInfoRequired(): RetroApiResponse<AdditionalInfoResponse>
     suspend fun uploadAdditionalDocuments(uploadAdditionalInfo: UploadAdditionalInfo): RetroApiResponse<ApiResponse>
+    suspend fun saveEmploymentInfoWithDocument(
+        employmentInfoRequest: EmploymentInfoRequest,
+        files: ArrayList<MultipartBody.Part>,
+        documentTypeList: ArrayList<String>
+    ): RetroApiResponse<ApiResponse>
+
     suspend fun uploadAdditionalQuestion(uploadAdditionalInfo: UploadAdditionalInfo): RetroApiResponse<ApiResponse>
     suspend fun sendInviteFriend(sendInviteFriendRequest: SendInviteFriendRequest): RetroApiResponse<ApiResponse>
     suspend fun submitAdditionalInfo(uploadAdditionalInfo: UploadAdditionalInfo): RetroApiResponse<ApiResponse>
@@ -154,4 +166,15 @@ interface CustomersApi {
     suspend fun deleteBill(id: String): RetroApiResponse<ApiResponse>
     suspend fun editBiller(editBillerRequest: EditBillerRequest): RetroApiResponse<ApiResponse>
     suspend fun getEIDConfigurations(): RetroApiResponse<BaseResponse<ConfigureEIDResponse>>
+    suspend fun getUqudoAuthToken(): RetroApiResponse<BaseResponse<UqudoTokenResponse>>
+    suspend fun getEmploymentInfo(): RetroApiResponse<BaseResponse<EmploymentInfoAmendmentResponse>>
+    suspend fun getAllDocumentsForEmploymentAmendment(): RetroApiResponse<BaseListResponse<DocumentResponse>>
+    suspend fun getAppCountries(): RetroApiResponse<BaseListResponse<Country>>
+    suspend fun getKeyFactStatement(): RetroApiResponse<TaxInfoResponse>
+
+    //Feature Flag
+    suspend fun getFeatureFlag(
+        customer_id: String,
+        email: String
+    ): RetroApiResponse<BaseResponse<FeatureFlagResponse>>
 }

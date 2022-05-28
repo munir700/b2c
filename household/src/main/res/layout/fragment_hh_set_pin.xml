@@ -29,6 +29,7 @@
             tools:text="@string/screen_set_card_pin_display_text_title" />
 
         <include
+            android:id="@+id/includeDialer"
             layout="@layout/include_layout_number_keyboard"
             android:layout_width="match_parent"
             android:layout_height="0dp"

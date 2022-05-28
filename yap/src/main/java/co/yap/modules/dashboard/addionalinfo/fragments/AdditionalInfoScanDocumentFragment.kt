@@ -18,19 +18,19 @@ import co.yap.modules.dashboard.addionalinfo.interfaces.IAdditionalInfoScanDocum
 import co.yap.modules.dashboard.addionalinfo.model.AdditionalDocumentImage
 import co.yap.modules.dashboard.addionalinfo.viewmodels.AdditionalInfoScanDocumentViewModel
 import co.yap.widgets.guidedtour.description.locationOnScreen
+import co.yap.yapcore.helpers.extentions.getFilePrivately
 import co.yap.yapcore.helpers.extentions.startFragmentForResult
 import co.yap.yapcore.helpers.rx.Task
 import com.digitify.identityscanner.camera.CameraException
 import com.digitify.identityscanner.camera.CameraListener
 import com.digitify.identityscanner.camera.CameraOptions
 import com.digitify.identityscanner.camera.PictureResult
-import com.digitify.identityscanner.utils.ImageUtils
 import id.zelory.compressor.overWrite
 import java.io.File
 
 
 class AdditionalInfoScanDocumentFragment :
-    AdditionalInfoBaseFragment<IAdditionalInfoScanDocument.ViewModel>(),
+    AdditionalInfoBaseFragment<FragmentAdditionalInfoScanDocumentBinding,IAdditionalInfoScanDocument.ViewModel>(),
     IAdditionalInfoScanDocument.View, CameraListener {
     override fun getBindingVariable(): Int = BR.viewModel
 
@@ -46,8 +46,8 @@ class AdditionalInfoScanDocumentFragment :
     }
 
     private fun setUpCamera() {
-        getBindings().camera.setLifecycleOwner(this)
-        getBindings().camera.addCameraListener(this)
+        viewDataBinding.camera.setLifecycleOwner(this)
+        viewDataBinding.camera.addCameraListener(this)
     }
 
     override fun onToolBarClick(id: Int) {
@@ -59,10 +59,6 @@ class AdditionalInfoScanDocumentFragment :
                 capturePicture()
             }
         }
-    }
-
-    private fun getBindings(): FragmentAdditionalInfoScanDocumentBinding {
-        return viewDataBinding as FragmentAdditionalInfoScanDocumentBinding
     }
 
     override fun onCameraOpened(options: CameraOptions) {
@@ -77,7 +73,7 @@ class AdditionalInfoScanDocumentFragment :
 
     override fun onPictureTaken(result: PictureResult) {
         result.toFile(
-            ImageUtils.getFilePrivately(activity) ?: File(result.toString())
+            requireContext().getFilePrivately()
         ) { file: File? -> file?.let { cropImage(it) } ?: showToast("Invalid image") }
 //        result.toBitmap(getScreenWidth(), getScreenHeight()){
 //                bitmap: Bitmap? ->
@@ -90,8 +86,8 @@ class AdditionalInfoScanDocumentFragment :
         setOrientation(fileImage.absolutePath, bitmap) { bitmap ->
             val cropBitmap: Bitmap = Bitmap.createBitmap(
                 bitmap,
-                (getBindings().ivOverLay.locationOnScreen.x).toInt(),
-                (getBindings().ivOverLay.locationOnScreen.y).toInt(),
+                (viewDataBinding.ivOverLay.locationOnScreen.x),
+                (viewDataBinding.ivOverLay.locationOnScreen.y),
                 getWidth(bitmap),
                 getHeight(bitmap)
             )
@@ -104,23 +100,23 @@ class AdditionalInfoScanDocumentFragment :
 
     private fun getWidth(bitmap: Bitmap?): Int {
         val width =
-            getBindings().ivOverLay.measuredWidth + getBindings().ivOverLay.locationOnScreen.x + 160
+            viewDataBinding.ivOverLay.measuredWidth + viewDataBinding.ivOverLay.locationOnScreen.x + 160
         return if (width <= bitmap?.width ?: 0)
-            getBindings().ivOverLay.measuredWidth + 160
+            viewDataBinding.ivOverLay.measuredWidth + 160
         else {
             val diff = width - (bitmap?.width ?: 0)
-            (getBindings().ivOverLay.measuredWidth + 160) - diff
+            (viewDataBinding.ivOverLay.measuredWidth + 160) - diff
         }
     }
 
     private fun getHeight(bitmap: Bitmap?): Int {
         val height =
-            getBindings().ivOverLay.measuredHeight + getBindings().ivOverLay.locationOnScreen.y + 160
+            viewDataBinding.ivOverLay.measuredHeight + viewDataBinding.ivOverLay.locationOnScreen.y + 160
         return if (height <= bitmap?.height ?: 0)
-            getBindings().ivOverLay.measuredHeight + 160
+            viewDataBinding.ivOverLay.measuredHeight + 160
         else {
             val diff = height - (bitmap?.height ?: 0)
-            (getBindings().ivOverLay.measuredHeight + 160) - diff
+            (viewDataBinding.ivOverLay.measuredHeight + 160) - diff
         }
     }
 
@@ -166,12 +162,12 @@ class AdditionalInfoScanDocumentFragment :
         grantResults: IntArray
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        getBindings().camera.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        viewDataBinding.camera.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
 
     private fun capturePicture() {
-        if (getBindings().camera.isTakingPicture) return
-        getBindings().camera.takePictureSnapshot()
+        if (viewDataBinding.camera.isTakingPicture) return
+        viewDataBinding.camera.takePictureSnapshot()
     }
 
 

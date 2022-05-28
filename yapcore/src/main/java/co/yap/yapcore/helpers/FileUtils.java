@@ -310,7 +310,10 @@ public class FileUtils {
                 final String type = split[0];
 
                 if ("primary".equalsIgnoreCase(type)) {
-                    return Environment.getExternalStorageDirectory() + "/" + split[1];
+                    if (isAndroid11) {
+                        return Filer.INSTANCE.copyFileToInternalStorage(context, uri, "yapTemp");
+                    } else
+                        return Environment.getExternalStorageDirectory() + "/" + split[1];
                 } else if ("home".equalsIgnoreCase(type)) {
                     return Environment.getExternalStorageDirectory() + "/documents/" + split[1];
                 }

@@ -31,7 +31,8 @@ import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.FeatureProvisioning
 import com.google.android.material.tabs.TabLayout
 
-class PrepaidPayBillFragment : PayBillMainBaseFragment<IPrepaidPayBill.ViewModel>(),
+class PrepaidPayBillFragment :
+    PayBillMainBaseFragment<FragmentPrepaidPayBillBinding, IPrepaidPayBill.ViewModel>(),
     IPrepaidPayBill.View, CompoundButton.OnCheckedChangeListener {
 
     override fun getBindingVariable(): Int = BR.viewModel
@@ -41,8 +42,9 @@ class PrepaidPayBillFragment : PayBillMainBaseFragment<IPrepaidPayBill.ViewModel
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setObservers()
-        getViewBinding().swAutoPayment.setOnCheckedChangeListener(this)
-        getViewBinding().swBillReminder.setOnCheckedChangeListener(this)
+
+        viewDataBinding.swAutoPayment.setOnCheckedChangeListener(this)
+        viewDataBinding.swBillReminder.setOnCheckedChangeListener(this)
         initTabLayout()
         initReminderTabLayout()
         setEditTextWatcher()
@@ -55,20 +57,20 @@ class PrepaidPayBillFragment : PayBillMainBaseFragment<IPrepaidPayBill.ViewModel
             viewModel.parentViewModel?.billModel?.value?.billerInfo?.skuInfos?.first()?.amount == "0.0"
         ) {
             viewModel.setMinMaxLimitForPrepaid(viewModel.parentViewModel?.billModel?.value as ViewBillModel)
-            getViewBinding().etAmount.isClickable = true
-            getViewBinding().etAmount.isEnabled = true
-            getViewBinding().rvSkus.visibility = View.GONE
+            viewDataBinding.etAmount.isClickable = true
+            viewDataBinding.etAmount.isEnabled = true
+            viewDataBinding.rvSkus.visibility = View.GONE
         } else {
-            getViewBinding().etAmount.isClickable = false
-            getViewBinding().etAmount.isEnabled = false
+            viewDataBinding.etAmount.isClickable = false
+            viewDataBinding.etAmount.isEnabled = false
         }
     }
 
     private fun setEditTextWatcher() {
-        getViewBinding().etAmount.afterTextChanged {
+        viewDataBinding.etAmount.afterTextChanged {
             if (it.isNotBlank()) {
                 viewModel.state.amount = it
-                if (getViewBinding().etAmount.isEnabled)
+                if (viewDataBinding.etAmount.isEnabled)
                     viewModel.checkOnTextChangeValidation(viewModel.state.amount.parseToDouble())
                 else
                     viewModel.state.valid.set(true)
@@ -80,7 +82,7 @@ class PrepaidPayBillFragment : PayBillMainBaseFragment<IPrepaidPayBill.ViewModel
     }
 
     private fun setRadioGroup() {
-        getViewBinding().raAirtimData.setOnCheckedChangeListener { group, checkedId ->
+        viewDataBinding.raAirtimData.setOnCheckedChangeListener { _, checkedId ->
             resetAmountValueOnChange()
             if (checkedId == R.id.btnAirtime) {
                 viewModel.setSkuInfos(SkuInfoType.Airtime().airtime)
@@ -91,13 +93,13 @@ class PrepaidPayBillFragment : PayBillMainBaseFragment<IPrepaidPayBill.ViewModel
     }
 
     private fun resetAmountValueOnChange() {
-        getViewBinding().etAmount.setText("0.00")
+        viewDataBinding.etAmount.setText("0.00")
         viewModel.state.valid.set(false)
         cancelAllSnackBar()
     }
 
     private fun initTabLayout() {
-        getViewBinding().iAutoPayment.tabLayout.addOnTabSelectedListener(object :
+        viewDataBinding.iAutoPayment.tabLayout.addOnTabSelectedListener(object :
             TabLayout.OnTabSelectedListener {
             override fun onTabReselected(tab: TabLayout.Tab?) {
             }
@@ -135,7 +137,7 @@ class PrepaidPayBillFragment : PayBillMainBaseFragment<IPrepaidPayBill.ViewModel
     }
 
     private fun initReminderTabLayout() {
-        getViewBinding().iBillReminder.tabLayout.addOnTabSelectedListener(object :
+        viewDataBinding.iBillReminder.tabLayout.addOnTabSelectedListener(object :
             TabLayout.OnTabSelectedListener {
             override fun onTabReselected(tab: TabLayout.Tab?) {
             }
@@ -178,7 +180,7 @@ class PrepaidPayBillFragment : PayBillMainBaseFragment<IPrepaidPayBill.ViewModel
     override fun setObservers() {
         viewModel.clickEvent.observe(this, clickEvent)
         viewModel.adapter.setItemListener(skuListener)
-        viewModel.editBillerError.observe(viewLifecycleOwner, Observer { errorCode ->
+        viewModel.editBillerError.observe(viewLifecycleOwner, { errorCode ->
             errorCode?.let {
                 requireContext().customAlertDialog(
                     topIconResId = R.drawable.ic_error_info_primary,
@@ -223,7 +225,7 @@ class PrepaidPayBillFragment : PayBillMainBaseFragment<IPrepaidPayBill.ViewModel
 
     private val skuListener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
-            getViewBinding().etAmount.setText((data as SkuCatalogs).amount.toFormattedCurrency())
+            viewDataBinding.etAmount.setText((data as SkuCatalogs).amount.toFormattedCurrency())
             viewModel.selectedSku = data
         }
     }
@@ -301,10 +303,6 @@ class PrepaidPayBillFragment : PayBillMainBaseFragment<IPrepaidPayBill.ViewModel
         }
     }
 
-    override fun getViewBinding(): FragmentPrepaidPayBillBinding {
-        return viewDataBinding as FragmentPrepaidPayBillBinding
-    }
-
     override fun removeObservers() {
         viewModel.clickEvent.removeObservers(this)
         viewModel.editBillerError.removeObservers(this)
@@ -321,7 +319,7 @@ class PrepaidPayBillFragment : PayBillMainBaseFragment<IPrepaidPayBill.ViewModel
             viewModel.parentViewModel?.billModel?.value?.reminderFrequency
                 ?: ReminderType.ThreeDays().rdays
         )
-        getViewBinding().iBillReminder.tabLayout.getTabAt(index)?.select()
+        viewDataBinding.iBillReminder.tabLayout.getTabAt(index)?.select()
     }
 
     fun updateTabsReminderSelection(totalDays: Int): Int {

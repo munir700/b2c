@@ -224,7 +224,7 @@ class CustomCategoryBar(context: Context, attrs: AttributeSet) : ConstraintLayou
     private fun setFirstSegment(
         position: Int,
         categorySegmentData: Categories,
-        linearLayout: ConstraintLayout
+        constraintLayout: ConstraintLayout
     ) {
 
         //add image
@@ -244,7 +244,7 @@ class CustomCategoryBar(context: Context, attrs: AttributeSet) : ConstraintLayou
             }
         }
         imageView.id = View.generateViewId()
-        linearLayout.addView(imageView, 0)
+        constraintLayout.addView(imageView, 0)
 
         //add textview
         val textView = TextView(context)
@@ -256,18 +256,29 @@ class CustomCategoryBar(context: Context, attrs: AttributeSet) : ConstraintLayou
         textView.setTextAppearance(R.style.AMicroGrey)
         textView.setTextColor(Color.WHITE)
         textView.id = position
-        linearLayout.addView(textView, 1)
+        constraintLayout.addView(textView, 1)
 
         val constraintSet = ConstraintSet()
-        constraintSet.clone(linearLayout)
+        constraintSet.clone(constraintLayout)
         constraintSet.connect(
             imageView.id,
             ConstraintSet.START,
-            linearLayout.id,
+            constraintLayout.id,
             ConstraintSet.START,
             context.dimen(R.dimen._3sdp)
         )
-        constraintSet.centerVertically(imageView.id, linearLayout.id)
+        constraintSet.connect(
+            imageView.id,
+            ConstraintSet.TOP,
+            constraintLayout.id,
+            ConstraintSet.TOP
+        )
+        constraintSet.connect(
+            imageView.id,
+            ConstraintSet.BOTTOM,
+            constraintLayout.id,
+            ConstraintSet.BOTTOM
+        )
         constraintSet.connect(
             textView.id,
             ConstraintSet.START,
@@ -275,8 +286,19 @@ class CustomCategoryBar(context: Context, attrs: AttributeSet) : ConstraintLayou
             ConstraintSet.END,
             context.dimen(R.dimen._3sdp)
         )
-        constraintSet.centerVertically(textView.id, linearLayout.id)
-        constraintSet.applyTo(linearLayout)
+        constraintSet.connect(
+            textView.id,
+            ConstraintSet.TOP,
+            constraintLayout.id,
+            ConstraintSet.TOP
+        )
+        constraintSet.connect(
+            textView.id,
+            ConstraintSet.BOTTOM,
+            constraintLayout.id,
+            ConstraintSet.BOTTOM
+        )
+        constraintSet.applyTo(constraintLayout)
         if (categorySegmentData.categoryWisePercentage == 0f) {
             textView.visibility = View.GONE
             imageView.visibility = View.GONE

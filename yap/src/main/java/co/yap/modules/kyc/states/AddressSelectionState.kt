@@ -146,7 +146,7 @@ class AddressSelectionState(application: Application) : BaseState(), IAddressSel
 
     @get:Bindable
     override var nextActionBtnText: String =
-        Translator.getString(application, R.string.screen_phone_number_button_send)
+        Translator.getString(application, R.string.common_button_next)
         set(value) {
             field = value
             notifyPropertyChanged(BR.nextActionBtnText)

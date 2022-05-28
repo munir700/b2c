@@ -6,7 +6,7 @@ import android.view.*
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
-import androidx.lifecycle.ViewModelProviders
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import co.yap.networking.coreitems.CoreBottomSheetData
 import co.yap.yapcore.BR
@@ -31,8 +31,7 @@ open class CoreBottomSheet(
     private val buttonClickListener: View.OnClickListener? = null
 ) : BottomSheetDialogFragment(), ICoreBottomSheet.View, IAnimationComplete {
     lateinit var viewDataBinding: ViewDataBinding
-    override val viewModel: CoreBottomSheetViewModel
-        get() = ViewModelProviders.of(this).get(CoreBottomSheetViewModel::class.java)
+    override val viewModel: CoreBottomSheetViewModel by viewModels()
 
     open val adapter: CoreBottomSheetAdapter by lazy {
         CoreBottomSheetAdapter(bottomSheetItems, viewType, this)
@@ -89,6 +88,7 @@ open class CoreBottomSheet(
                 }
             }
         }
+        getBinding().lySearchView.etSearch.hint = configuration.searchHint ?: "Search country"
         getBinding().rvBottomSheet.layoutManager = LinearLayoutManager(context)
         val params = getBinding().rvBottomSheet.layoutParams as ConstraintLayout.LayoutParams
         params.height =
@@ -150,7 +150,5 @@ open class CoreBottomSheet(
             iAnimationComplete?.onAnimationComplete(isComplete)
         }
     }
-
     private fun getBinding() = viewDataBinding as LayoutBottomSheetBinding
-
 }

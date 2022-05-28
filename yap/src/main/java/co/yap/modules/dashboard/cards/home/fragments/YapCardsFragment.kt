@@ -55,11 +55,8 @@ import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.FeatureProvisioning
 import co.yap.yapcore.managers.SessionManager
 import com.liveperson.infra.configuration.Configuration.getDimension
-import kotlinx.android.synthetic.main.card_list_layout_include.view.*
-import kotlinx.android.synthetic.main.card_swipe_layout_include.view.*
-import kotlinx.android.synthetic.main.fragment_yap_cards.*
 
-class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapCards.View,
+class YapCardsFragment : YapDashboardChildFragment<FragmentYapCardsBinding,IYapCards.ViewModel>(), IYapCards.View,
     SwipeUpClick {
 
     private var tourStep: TourSetup? = null
@@ -93,7 +90,7 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
         observeValues()
         setupPager()
         intRecyclersView()
-        toolbar?.findViewById<AppCompatImageView>(R.id.ivRightIcon)?.imageTintList =
+        viewDataBinding.toolbar.findViewById<AppCompatImageView>(R.id.ivRightIcon)?.imageTintList =
             ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.colorPrimary))
         mNavigator = (activity?.applicationContext as NavigatorProvider).provideNavigator()
         getDataBindingView<FragmentYapCardsBinding>().lifecycleOwner = this
@@ -131,12 +128,12 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
             })
         viewModel.state.isListView.observe(viewLifecycleOwner, Observer { isList ->
             if (isList) {
-                cardListLayout?.visibility = View.VISIBLE
+                viewDataBinding.cardListLayout.layoutCardList.visibility = View.VISIBLE
                 initArguments()
-                cardSwipeLayout?.visibility = View.GONE
+                viewDataBinding.cardSwipeLayout.clMain.visibility = View.GONE
             } else {
-                cardSwipeLayout?.visibility = View.VISIBLE
-                cardListLayout?.visibility = View.GONE
+                viewDataBinding.cardSwipeLayout.clMain.visibility = View.VISIBLE
+                viewDataBinding.cardListLayout.layoutCardList.visibility = View.GONE
 
             }
         })
@@ -144,8 +141,8 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
 
     private fun setupPager() {
         //getCardAdaptor() = YapCardsAdaptor(requireContext(), mutableListOf())
-        cardSwipeLayout?.viewPager2?.adapter = viewModel.adapter
-        cardSwipeLayout?.viewPager2?.let {
+        viewDataBinding.cardSwipeLayout.viewPager2?.adapter = viewModel.adapter
+        viewDataBinding.cardSwipeLayout.viewPager2?.let {
             with(it) {
                 clipToPadding = false
                 clipChildren = false
@@ -154,7 +151,7 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
         }
         val pageMarginPx = Utils.getDimensionInPercent(requireContext(), true, 14)
         val offsetPx = Utils.getDimensionInPercent(requireContext(), true, 14)
-        cardSwipeLayout?.viewPager2?.setPageTransformer { page, position ->
+        viewDataBinding.cardSwipeLayout?.viewPager2?.setPageTransformer { page, position ->
             val viewPager = page.parent.parent as ViewPager2
             val offset = position * -(2 * offsetPx + pageMarginPx)
             if (viewPager.orientation == ViewPager2.ORIENTATION_HORIZONTAL) {
@@ -181,7 +178,7 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                 viewModel.clickEvent.setValue(view.id)
             }
         })
-        cardSwipeLayout?.viewPager2?.registerOnPageChangeCallback(pageChangedCallBack)
+        viewDataBinding.cardSwipeLayout?.viewPager2?.registerOnPageChangeCallback(pageChangedCallBack)
     }
 
     val observer = Observer<Int> {
@@ -544,7 +541,7 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
 
     private fun setViewsArray(): ArrayList<GuidedTourViewDetail> {
         val list = ArrayList<GuidedTourViewDetail>()
-        val toolBarView: View? = toolbar?.findViewById(R.id.ivRightIcon)
+        val toolBarView: View? = viewDataBinding.toolbar.findViewById(R.id.ivRightIcon)
         toolBarView?.let { toolBarRightIcon ->
             list.add(
                 GuidedTourViewDetail(
@@ -673,7 +670,7 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                 }.toMutableMap()
             }
         }
-        cardListLayout.recyclerView.apply {
+        viewDataBinding.cardListLayout.recyclerView.apply {
             adapter = mWrappedAdapter
             viewModel.cardAdapter?.set(mAdapter)
             mAdapter.setData(viewModel.state.cardMap)
@@ -682,7 +679,7 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
 
     private fun intRecyclersView() {
         mRecyclerViewExpandableItemManager.defaultGroupsExpandedState = true
-        cardListLayout.recyclerView.apply {
+        viewDataBinding.cardListLayout.recyclerView.apply {
             addItemDecoration(StickyHeaderItemDecoration())
             mRecyclerViewExpandableItemManager.attachRecyclerView(this)
             setHasFixedSize(true)

@@ -893,4 +893,8 @@
         <attr name="rtdrawableDisableEmoji" format="boolean" />
         <attr name="disableSpaces" format="boolean" />
     </declare-styleable>
+
+    <declare-styleable name="PhoneTextInputEditText">
+        <attr name="p_showHint" format="boolean" />
+    </declare-styleable>
 </resources>

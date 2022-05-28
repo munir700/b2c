@@ -4,11 +4,12 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import co.yap.networking.customers.requestdtos.SMCoolingPeriodRequest
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.sendmoney.BR
 import co.yap.sendmoney.R
+import co.yap.sendmoney.databinding.ActivityBeneficiaryCashTransferBinding
 import co.yap.sendmoney.fundtransfer.interfaces.IBeneficiaryFundTransfer
 import co.yap.sendmoney.fundtransfer.models.TransferFundData
 import co.yap.sendmoney.fundtransfer.viewmodels.BeneficiaryFundTransferViewModel
@@ -25,12 +26,10 @@ import co.yap.yapcore.helpers.updateSnackBarText
 import co.yap.yapcore.helpers.*
 import co.yap.yapcore.interfaces.BackPressImpl
 import co.yap.yapcore.interfaces.IBaseNavigator
-import co.yap.yapcore.managers.SessionManager
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.android.synthetic.main.activity_beneficiary_cash_transfer.*
 
-
-class BeneficiaryFundTransferActivity : BaseBindingActivity<IBeneficiaryFundTransfer.ViewModel>(),
+class BeneficiaryFundTransferActivity :
+    BaseBindingActivity<ActivityBeneficiaryCashTransferBinding, IBeneficiaryFundTransfer.ViewModel>(),
     IFragmentHolder, INavigator {
 
     override fun getBindingVariable(): Int = BR.viewModel
@@ -38,7 +37,7 @@ class BeneficiaryFundTransferActivity : BaseBindingActivity<IBeneficiaryFundTran
     override fun getLayoutId(): Int = R.layout.activity_beneficiary_cash_transfer
 
     override val viewModel: IBeneficiaryFundTransfer.ViewModel
-        get() = ViewModelProviders.of(this).get(BeneficiaryFundTransferViewModel::class.java)
+        get() = ViewModelProvider(this).get(BeneficiaryFundTransferViewModel::class.java)
     override val navigator: IBaseNavigator
         get() = DefaultNavigator(
             this@BeneficiaryFundTransferActivity,
@@ -63,7 +62,7 @@ class BeneficiaryFundTransferActivity : BaseBindingActivity<IBeneficiaryFundTran
             if (it.isShown) {
                 it.updateSnackBarText(errorMessage)
             }
-        } ?: clFTSnackbar.showSnackBar(
+        } ?: viewDataBinding.clFTSnackbar.showSnackBar(
             msg = errorMessage,
             viewBgColor = R.color.errorLightBackground,
             colorOfMessage = R.color.error, duration = Snackbar.LENGTH_INDEFINITE, marginTop = 0

@@ -5,14 +5,17 @@ import android.graphics.Rect
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.view.View
 import android.widget.ImageView
 import androidx.core.animation.addListener
 import androidx.core.os.bundleOf
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
+import co.yap.databinding.FragmentEmailBinding
 import co.yap.modules.onboarding.activities.OnboardingActivity
+import co.yap.modules.onboarding.enums.OnboardingPhase
 import co.yap.modules.onboarding.interfaces.IEmail
 import co.yap.modules.onboarding.viewmodels.EmailViewModel
 import co.yap.widgets.AnimatingProgressBar
@@ -22,7 +25,7 @@ import co.yap.yapcore.helpers.AnimationUtils
 import co.yap.yapcore.helpers.ExtraKeys
 
 
-class EmailFragment : OnboardingChildFragment<IEmail.ViewModel>() {
+class EmailFragment : OnboardingChildFragment<FragmentEmailBinding, IEmail.ViewModel>() {
 
     private val windowSize: Rect = Rect() // to hold the size of the visible window
 
@@ -30,16 +33,29 @@ class EmailFragment : OnboardingChildFragment<IEmail.ViewModel>() {
 
     override fun getLayoutId(): Int = R.layout.fragment_email
 
-    override val viewModel: IEmail.ViewModel
-        get() = ViewModelProviders.of(this).get(EmailViewModel::class.java)
+    override val viewModel: EmailViewModel by viewModels()
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         val display = activity?.windowManager?.defaultDisplay
         display?.getRectSize(windowSize)
 
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        addObservers()
+    }
+
+    private fun addObservers() {
         viewModel.nextButtonPressEvent.observe(this, nextButtonObserver)
         viewModel.animationStartEvent.observe(this, Observer { startAnimation() })
+        viewModel.parentViewModel?.state?.notificationAction?.value?.let {
+            viewModel.nextButtonPressEvent.postValue(it.id)
+        }
+        if (viewModel.parentViewModel?.emailError?.value.isNullOrBlank()
+                .not()
+        ) viewModel.state.emailError = viewModel.parentViewModel?.emailError?.value ?: ""
     }
 
     override fun onDestroyView() {
@@ -50,7 +66,9 @@ class EmailFragment : OnboardingChildFragment<IEmail.ViewModel>() {
 
     private val nextButtonObserver = Observer<Int> {
         when (it) {
-            viewModel.EVENT_NAVIGATE_NEXT -> {
+            OnboardingPhase.NOTIFICATION_KFS_FLOW.id -> navigate(R.id.action_emailFragment_to_kfsNotificationFragment)
+            OnboardingPhase.NOTIFICATION_SELECTED.id -> if (viewModel.ifAnyNotificationSelected()) viewModel.setVerificationLabel()
+            OnboardingPhase.EVENT_NAVIGATE_NEXT.id -> {
                 trackEventWithScreenName(FirebaseEvent.SIGNUP_EMAIL_SUCCESS)
                 val bundle = bundleOf(ExtraKeys.IS_WAITING.name to viewModel.state.isWaiting)
                 navigate(
@@ -58,12 +76,9 @@ class EmailFragment : OnboardingChildFragment<IEmail.ViewModel>() {
                     args = bundle
                 )
             }
-            viewModel.EVENT_POST_VERIFICATION_EMAIL -> {
-                viewModel.sendVerificationEmail()
-            }
-            viewModel.EVENT_POST_DEMOGRAPHIC -> {
-                viewModel.postDemographicData()
-            }
+            OnboardingPhase.EVENT_POST_VERIFICATION_EMAIL.id -> viewModel.sendVerificationEmail()
+            OnboardingPhase.EVENT_POST_DEMOGRAPHIC.id -> viewModel.postDemographicData()
+
         }
     }
 
