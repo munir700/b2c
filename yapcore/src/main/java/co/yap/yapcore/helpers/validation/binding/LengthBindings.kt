@@ -6,6 +6,7 @@ import co.yap.yapcore.R
 import co.yap.yapcore.helpers.validation.rule.EmptyRule
 import co.yap.yapcore.helpers.validation.rule.MaxLengthRule
 import co.yap.yapcore.helpers.validation.rule.MinLengthRule
+import co.yap.yapcore.helpers.validation.rule.MinValueRule
 import co.yap.yapcore.helpers.validation.util.EditTextHandler
 import co.yap.yapcore.helpers.validation.util.ErrorMessageHelper
 import co.yap.yapcore.helpers.validation.util.ViewTagHelper
@@ -89,6 +90,32 @@ object LengthBindings {
             R.id.validator_rule,
             view,
             EmptyRule(view, empty, handledErrorMessage, enableError)
+        )
+    }
+
+    @BindingAdapter(
+        value = ["validateMinimumValue", "validateMaxLengthMessage", "validateMaxLengthAutoDismiss", "enableError"],
+        requireAll = false
+    )
+    @JvmStatic
+    fun bindingMinimumValue(
+        view: TextView?,
+        validateMinimumValue: String,
+        errorMessage: String?,
+        autoDismiss: Boolean,
+        enableError: Boolean
+    ) {
+        if (autoDismiss) {
+            EditTextHandler.disableErrorOnChanged(view)
+        }
+        val handledErrorMessage = ErrorMessageHelper.getStringOrDefault(
+            view,
+            errorMessage, R.string.error_message_date_validation
+        )
+        ViewTagHelper.appendValue(
+            R.id.validator_rule,
+            view,
+            MinValueRule(view, validateMinimumValue, handledErrorMessage, enableError)
         )
     }
 }

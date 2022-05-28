@@ -29,7 +29,14 @@ enum class KYCEvents(val type: String) {
     CARD_ACTIVE("account_active"),
     KYC_ID_CONFIRMED("KYC_ID confirmed"),
     EID_EXPIRE("eid_expired"),
-    EID_EXPIRE_DATE("eid_expiry_date")
+    EID_EXPIRE_DATE("eid_expiry_date"),
+    EID_SCAN_STARTED("eid_scan_start"),
+    EID_SCAN_END("eid_scan_end"),
+    EID_SUBMIT("eid_scan_submit"),
+    EID_SCAN_FAIL("eid_scan_fail"),
+    SCAN_ID("kyc_scanid"),
+    SCAN_FRONT("scan_front"),
+    SCAN_BACK("scan_back")
 }
 
 @Keep
@@ -70,8 +77,10 @@ enum class SendMoneyEvents(val type: String) {
 
 @Keep
 enum class MoreB2CEvents(val type: String) {
-    OPEN_ATM_MAP("open_atm_map")
+    OPEN_ATM_MAP("open_atm_map"),
+    UAE_REFERRALS("uae_referrals")
 }
+
 
 @Keep
 enum class SignInEvents(val type: String) {

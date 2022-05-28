@@ -102,14 +102,27 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/margin_small"
+                android:layout_marginTop="@dimen/margin_normal"
                 android:gravity="center_horizontal"
                 android:textColor="@color/colorHeatherTwo"
                 android:textSize="@dimen/text_size_h2"
-                app:layout_constraintBottom_toTopOf="@+id/btnNext"
+                app:layout_constraintBottom_toTopOf="@+id/tvkfsNote"
                 app:layout_constraintTop_toBottomOf="@+id/ctCardName"
-                app:layout_constraintVertical_bias="0.85"
+                app:layout_constraintVertical_bias="0.1"
                 app:text="@{Strings.screen_edit_card_name_display_description}"
                 tools:text="@string/screen_edit_card_name_display_description" />
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvkfsNote"
+                style="@style/MicroGrey"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_small"
+                android:gravity="center_horizontal"
+                android:textColor="@color/colorHeatherTwo"
+                android:layout_marginHorizontal="@dimen/margin_normal_large"
+                app:layout_constraintBottom_toTopOf="@+id/btnNext"
+                app:text="@{Strings.screen_onboarding_confirm_card_name_kfs_text}"
+                tools:text="@string/screen_onboarding_confirm_card_name_kfs_text" />
 
             <co.yap.widgets.CoreButton
                 android:id="@+id/btnNext"
@@ -127,7 +140,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:text="@{Strings.screen_phone_number_button_send}" />
+                app:text="@{Strings.common_button_next}" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 </layout>

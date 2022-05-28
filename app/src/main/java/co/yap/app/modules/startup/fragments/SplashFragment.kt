@@ -2,56 +2,62 @@ package co.yap.app.modules.startup.fragments
 
 import android.animation.Animator
 import android.animation.AnimatorSet
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import co.yap.app.BR
 import co.yap.app.BuildConfig
 import co.yap.app.R
+import co.yap.app.databinding.FragmentSplashBinding
 import co.yap.app.main.MainChildFragment
 import co.yap.app.modules.startup.interfaces.ISplash
 import co.yap.app.modules.startup.viewmodels.SplashViewModel
+import co.yap.modules.onboarding.models.CountryCode
+import co.yap.modules.onboarding.models.LoadConfig
+import co.yap.networking.customers.responsedtos.AppUpdate
 import co.yap.yapcore.animations.animators.ScaleAnimator
+import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.constants.Constants.KEY_COUNTRY_CODE
 import co.yap.yapcore.constants.Constants.KEY_IMAGE_LOADING_TIME
 import co.yap.yapcore.constants.Constants.KEY_IS_FIRST_TIME_USER
-import co.yap.yapcore.dagger.base.navigation.host.NAVIGATION_Graph_ID
-import co.yap.yapcore.dagger.base.navigation.host.NAVIGATION_Graph_START_DESTINATION_ID
-import co.yap.yapcore.dagger.base.navigation.host.NavHostPresenterActivity
+import co.yap.yapcore.constants.Constants.KEY_MOBILE_NO
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.alert
-import co.yap.yapcore.helpers.extentions.launchActivity
+import co.yap.yapcore.helpers.countryCodeForRegion
 import co.yap.yapcore.helpers.extentions.openPlayStore
-import kotlinx.android.synthetic.main.fragment_splash.*
+import co.yap.yapcore.helpers.extentions.safeNavigate
+import com.yap.ghana.ui.auth.main.GhAuthenticationActivity
+import com.yap.updatemanager.InAppUpdateManager
+import com.yap.yappakistan.ui.auth.main.AuthenticationActivity
+import kotlinx.coroutines.delay
 
-class SplashFragment : MainChildFragment<ISplash.ViewModel>(), ISplash.View {
+class SplashFragment : MainChildFragment<FragmentSplashBinding, ISplash.ViewModel>(), ISplash.View {
     private var animatorSet: AnimatorSet? = null
 
     override fun getBindingVariable() = BR.viewModel
     override fun getLayoutId() = R.layout.fragment_splash
 
-    override val viewModel: SplashViewModel
-        get() = ViewModelProviders.of(this).get(SplashViewModel::class.java)
+    private lateinit var pkIntent: Intent
+    private lateinit var ghIntent: Intent
+    private lateinit var inAppUpdateManager: InAppUpdateManager
+    override val viewModel: SplashViewModel by viewModels()
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        inAppUpdateManager = InAppUpdateManager(this, this)
+    }
 
     override fun performDataBinding(savedInstanceState: Bundle?) {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-//        launchActivity<NavHostPresenterActivity>(clearPrevious = true) {
-//            putExtra(NAVIGATION_Graph_ID, R.navigation.add_house_hold_user_navigation)
-//            putExtra(
-//                NAVIGATION_Graph_START_DESTINATION_ID,
-//                R.id.HHOnBoardingCardSelectionFragment
-//            )
-//        }
-
         animatorSet = AnimatorSet()
-        viewModel.state.downTime.observe(viewLifecycleOwner, Observer {downTime->
+        viewModel.state.downTime.observe(viewLifecycleOwner, Observer { downTime ->
             requireActivity().alert(
                 message = downTime.downTimeMessage ?: "",
                 positiveButton = if (downTime.isDown == true) getString(android.R.string.ok) else getString(
@@ -65,18 +71,34 @@ class SplashFragment : MainChildFragment<ISplash.ViewModel>(), ISplash.View {
             }
         })
         viewModel.splashComplete.observe(this, Observer {
-            if (it) viewModel.getAppUpdate()
+            if (it) viewModel.getAppConfigurations()
         })
         SharedPreferenceManager.getInstance(requireContext()).save(
             KEY_IMAGE_LOADING_TIME,
             System.currentTimeMillis().toString()
         )
         viewModel.appUpdate.observe(this, Observer {
-            if (it != null && it.androidForceUpdate && Utils.checkForUpdate(
-                    BuildConfig.VERSION_NAME,
-                    it.androidAppVersionNumber
-                )
-            ) {
+            it?.let {
+                updateApp(it)
+            } ?: playAnimationAndMoveNext()
+        })
+    }
+
+    private fun updateApp(appUpdate: AppUpdate) {
+        if (appUpdate.androidForceUpdate && Utils.checkForUpdate(
+                BuildConfig.VERSION_NAME,
+                appUpdate.androidAppVersionNumber
+            )
+        ) {
+            if (appUpdate.inAppUpdateFeature != null && appUpdate.inAppUpdateFeature == true) {
+                inAppUpdateManager.isUpdateAvailable(InAppUpdateManager.IMMEDIATE) {
+                    if (it) {
+                        inAppUpdateManager.start(InAppUpdateManager.IMMEDIATE)
+                    } else {
+                        playAnimationAndMoveNext()
+                    }
+                }
+            } else {
                 requireContext().alert(
                     getString(R.string.screen_splash_display_text_force_update),
                     getString(R.string.screen_splash_button_force_update),
@@ -86,17 +108,27 @@ class SplashFragment : MainChildFragment<ISplash.ViewModel>(), ISplash.View {
                     requireContext().openPlayStore()
                     requireActivity().finish()
                 }
-            } else {
-                playAnimationAndMoveNext()
             }
-        })
+        } else {
+            playAnimationAndMoveNext()
+        }
     }
 
+
     private fun playAnimationAndMoveNext() {
+        initPkGhana()
         val scaleLogo =
-            ScaleAnimator(1.0f, 150.0f, AccelerateDecelerateInterpolator()).with(ivLogo, 1500)
+            ScaleAnimator(
+                1.0f,
+                150.0f,
+                AccelerateDecelerateInterpolator()
+            ).with(viewDataBinding.ivLogo, 1500)
         val scaleDot =
-            ScaleAnimator(1.0f, 150.0f, AccelerateDecelerateInterpolator()).with(ivDot, 1500)
+            ScaleAnimator(
+                1.0f,
+                150.0f,
+                AccelerateDecelerateInterpolator()
+            ).with(viewDataBinding.ivDot, 1500)
         scaleDot.startDelay = 400
 
         animatorSet?.play(scaleLogo)?.with(scaleDot)
@@ -125,9 +157,88 @@ class SplashFragment : MainChildFragment<ISplash.ViewModel>(), ISplash.View {
                 KEY_IS_FIRST_TIME_USER,
                 false
             )
-            findNavController().navigate(R.id.action_splashFragment_to_accountSelectionFragment)
+            findNavController()
+                .safeNavigate(SplashFragmentDirections.actionSplashFragmentToAccountSelectionFragment())
         } else {
-            findNavController().navigate(R.id.action_splashFragment_to_loginFragment)
+            val sharedPreferenceManager = SharedPreferenceManager.getInstance(requireContext())
+            if (sharedPreferenceManager.getValueBoolien(
+                    Constants.KEY_IS_USER_LOGGED_IN,
+                    false
+                )
+            ) {
+                val savedCountryCode = sharedPreferenceManager.getValueString(KEY_COUNTRY_CODE)
+                val countryCode = savedCountryCode?.run {
+                    viewModel.countriesList.find {
+                        it.isoCountryCode2Digit?.countryCodeForRegion() == this
+                    }?.isoCountryCode2Digit?.countryCodeForRegion()
+                }
+
+                countryCode?.let {
+                    if (it != CountryCode.UAE.countryCode) {
+                        launchPkGhana(
+                            it
+                        )
+                    } else {
+                        //sharedPreferenceManager.save(Constants.KEY_IS_USER_LOGGED_IN, false)
+                    }
+                } ?: run {
+                    // sharedPreferenceManager.save(Constants.KEY_IS_USER_LOGGED_IN, false)
+                    sharedPreferenceManager.save(KEY_MOBILE_NO, "")
+                    sharedPreferenceManager.save(KEY_COUNTRY_CODE, null)
+                }
+            }
+            launch {
+                delay(10)
+                findNavController()
+                    .safeNavigate(SplashFragmentDirections.actionSplashFragmentToLoginFragment())
+            }
+        }
+    }
+
+    private fun initPkGhana() {
+        val sharedPreferenceManager = SharedPreferenceManager.getInstance(requireContext())
+        if (sharedPreferenceManager.getValueBoolien(
+                Constants.KEY_IS_USER_LOGGED_IN,
+                false
+            )
+        ) {
+            sharedPreferenceManager.getValueString(
+                KEY_COUNTRY_CODE, CountryCode.UAE.countryCode ?: ""
+            )?.let {
+                if (it != CountryCode.UAE.countryCode) {
+                    val mobileNo = sharedPreferenceManager.getValueString(Constants.KEY_MOBILE_NO)
+                        ?.replace(" ", "")
+
+                    when (it) {
+                        CountryCode.PAK.countryCode -> {
+                            LoadConfig(requireContext()).initYapRegion(it)
+                            pkIntent = Intent(requireContext(), AuthenticationActivity::class.java)
+                            pkIntent.putExtra("countryCode", it)
+                            pkIntent.putExtra("mobileNo", mobileNo ?: "")
+                            pkIntent.putExtra("isAccountBlocked", false)
+                        }
+                        CountryCode.GHANA.countryCode -> {
+                            LoadConfig(requireContext()).initYapRegion(it)
+                            ghIntent =
+                                Intent(requireContext(), GhAuthenticationActivity::class.java)
+                            ghIntent.putExtra("countryCode", it)
+                            ghIntent.putExtra("mobileNo", mobileNo ?: "")
+                            ghIntent.putExtra("isAccountBlocked", false)
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private fun launchPkGhana(countryCode: String) {
+        when (countryCode) {
+            CountryCode.GHANA.countryCode -> {
+                startActivity(ghIntent)
+            }
+            CountryCode.PAK.countryCode -> {
+                startActivity(pkIntent)
+            }
         }
     }
 
@@ -146,5 +257,15 @@ class SplashFragment : MainChildFragment<ISplash.ViewModel>(), ISplash.View {
         animatorSet = null
         viewModel.splashComplete.removeObservers(this)
         super.onDestroyView()
+    }
+
+    /**
+     * Immediate update type page is not uncloseable
+     * Just recall startUpdate at onActivityResult
+     */
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        inAppUpdateManager.onActivityResult(requestCode, resultCode)
+        super.onActivityResult(requestCode, resultCode, data)
     }
 }

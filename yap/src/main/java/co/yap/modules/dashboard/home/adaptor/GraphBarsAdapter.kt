@@ -15,7 +15,7 @@ import co.yap.yapcore.BaseBindingRecyclerAdapter
 import co.yap.yapcore.helpers.extentions.dimen
 import co.yap.yapcore.helpers.extentions.getScreenWidth
 import kotlinx.android.synthetic.main.item_bar_chart_v2.view.*
-
+@Deprecated("Dashboard Graph No used anymore")
 class GraphBarsAdapter(
     private val listItems: MutableList<HomeTransactionListData>,
     val viewModel: IYapHome.ViewModel

@@ -7,17 +7,17 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.app.R
-import co.yap.app.constants.Constants
+import co.yap.app.databinding.FragmentVerifyPasscodeBinding
 import co.yap.app.main.MainActivity
 import co.yap.app.main.MainChildFragment
 import co.yap.app.modules.login.interfaces.IVerifyPasscode
 import co.yap.app.modules.login.viewmodels.VerifyPasscodeViewModel
-import co.yap.household.onboarding.main.OnBoardingHouseHoldActivity
 import co.yap.modules.dashboard.main.activities.YapDashboardActivity
+import co.yap.household.onboarding.main.OnBoardingHouseHoldActivity
 import co.yap.modules.kyc.amendments.missinginfo.MissingInfoFragment
 import co.yap.modules.onboarding.fragments.WaitingListFragment
 import co.yap.modules.others.helper.Constants.REQUEST_CODE
@@ -56,9 +56,9 @@ import co.yap.yapcore.leanplum.SignInEvents
 import co.yap.yapcore.leanplum.trackEvent
 import co.yap.yapcore.leanplum.trackEventInFragments
 import co.yap.yapcore.managers.SessionManager
-import kotlinx.android.synthetic.main.fragment_verify_passcode.*
+import co.yap.yapcore.constants.Constants
 
-class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), BiometricCallback,
+class VerifyPasscodeFragment : MainChildFragment<FragmentVerifyPasscodeBinding , IVerifyPasscode.ViewModel>(), BiometricCallback,
     IVerifyPasscode.View, NumberKeyboardListener {
 
     private lateinit var mBiometricManagerX: BiometricManagerX
@@ -68,7 +68,7 @@ class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), B
     override fun getLayoutId(): Int = R.layout.fragment_verify_passcode
 
     override val viewModel: VerifyPasscodeViewModel
-        get() = ViewModelProviders.of(this).get(VerifyPasscodeViewModel::class.java)
+        get() = ViewModelProvider(this)[VerifyPasscodeViewModel::class.java]
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -78,14 +78,15 @@ class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), B
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         shardPrefs = SharedPreferenceManager.getInstance(requireContext())
-        dialer.hideFingerprintView()
+        viewDataBinding.dialer.hideFingerprintView()
+        hideKeyboard()
         receiveData()
         updateUUID()
         bioMetricLogic()
         onbackPressLogic()
-        dialer.setNumberKeyboardListener(this)
-        dialer.upDatedDialerPad(viewModel.state.passcode)
-        dialer.removeError()
+        viewDataBinding.dialer.setNumberKeyboardListener(this)
+        viewDataBinding.dialer.upDatedDialerPad(viewModel.state.passcode)
+        viewDataBinding.dialer.removeError()
     }
 
     private fun addObservers() {
@@ -99,7 +100,7 @@ class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), B
     private fun receiveData() {
         arguments?.let { it ->
             viewModel.state.username = VerifyPasscodeFragmentArgs.fromBundle(it).username
-            if (VerifyPasscodeFragmentArgs.fromBundle(it).isAccountBlocked) {
+             if (VerifyPasscodeFragmentArgs.fromBundle(it).isAccountBlocked) {
                 viewModel.showAccountBlockedError(getString(Strings.screen_verify_passcode_text_account_locked))
             }
 
@@ -109,6 +110,10 @@ class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), B
             viewModel.state.verifyPassCodeEnum =
                 it.getString(REQUEST_CODE, VerifyPassCodeEnum.ACCESS_ACCOUNT.name)
         }
+//        shardPrefs?.getValueString(KEY_MOBILE_NO)?.let {
+//            var mobileNo= it
+//        }
+
     }
 
     private fun updateUUID() {
@@ -134,13 +139,13 @@ class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), B
                     false
                 ) == true && shardPrefs?.getDecryptedPassCode() != null
             ) {
-                dialer.showFingerprintView()
+                viewDataBinding.dialer.showFingerprintView()
                 showFingerprintDialog()
             } else {
-                dialer.hideFingerprintView()
+                viewDataBinding.dialer.hideFingerprintView()
             }
         }
-        dialer.setNumberKeyboardListener(object : NumberKeyboardListener {
+        viewDataBinding.dialer.setNumberKeyboardListener(object : NumberKeyboardListener {
             override fun onLeftButtonClicked() {
                 showFingerprintDialog()
             }
@@ -148,7 +153,7 @@ class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), B
     }
 
     private fun onbackPressLogic() {
-        ivBackBtn.setOnClickListener {
+        viewDataBinding.ivBackBtn.setOnClickListener {
             if ((VerifyPassCodeEnum.valueOf(viewModel.state.verifyPassCodeEnum) == VerifyPassCodeEnum.VERIFY)) {
                 activity?.onBackPressed()
             } else {
@@ -168,7 +173,7 @@ class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), B
 
     override fun onStart() {
         super.onStart()
-        dialer.reset()
+        viewDataBinding.dialer.reset()
     }
 
     override fun onResume() {
@@ -189,8 +194,8 @@ class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), B
 
     private fun startOtpFragment(name: String) {
         startFragmentForResult<GenericOtpFragment>(
-            GenericOtpFragment::class.java.name,
-            bundleOf(
+            fragmentName = GenericOtpFragment::class.java.name,
+            bundle = bundleOf(
                 OtpDataModel::class.java.name to OtpDataModel(
                     otpAction = OTPActions.FORGOT_PASS_CODE.name,
                     mobileNumber = viewModel.mobileNumber,
@@ -211,9 +216,7 @@ class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), B
                     "mobile",
                     ExtraType.STRING.name
                 ) as? String) ?: ""
-
                 token?.let {
-
                     val action =
                         VerifyPasscodeFragmentDirections.actionVerifyPasscodeFragmentToForgotPasscodeNavigation(
                             viewModel.mobileNumber,
@@ -254,7 +257,7 @@ class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), B
         when (it) {
             R.id.btnVerifyPasscode -> {
                 viewModel.isFingerprintLogin = false
-                viewModel.state.passcode = dialer.getText()
+                viewModel.state.passcode =  viewDataBinding.dialer.getText()
                 if (!isUserLoginIn()) {
                     setUsername()
                 } else {
@@ -305,7 +308,7 @@ class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), B
                 }
             }
         } else {
-            dialer.startAnimation()
+            viewDataBinding.dialer.startAnimation()
         }
     }
 
@@ -511,7 +514,7 @@ class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), B
 
         shardPrefs?.getDecryptedPassCode()?.let { passedCode ->
             viewModel.state.passcode = passedCode
-            dialer.upDatedDialerPad(viewModel.state.passcode)
+            viewDataBinding.dialer.upDatedDialerPad(viewModel.state.passcode)
         }
 
         shardPrefs?.getDecryptedUserName()
@@ -528,7 +531,7 @@ class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), B
     }
 
     override fun onNumberClicked(number: Int, text: String) {
-        viewModel.state.passcode = dialer.getText()
+        viewModel.state.passcode =  viewDataBinding.dialer.getText()
     }
 
     override fun onLeftButtonClicked() {

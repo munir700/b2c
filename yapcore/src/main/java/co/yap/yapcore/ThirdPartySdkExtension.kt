@@ -2,9 +2,16 @@ package co.yap.yapcore
 
 import android.app.Activity
 import android.app.Application
+import android.net.UrlQuerySanitizer
 import android.os.Bundle
+import co.yap.yapcore.adjust.ReferralInfo
 import co.yap.yapcore.config.BuildConfigManager
+import co.yap.yapcore.constants.Constants.KEY_COUNTRY_CODE
+import co.yap.yapcore.constants.Constants.REFERRAL_COUNTRY_ISO_CODE
+import co.yap.yapcore.constants.Constants.REFERRAL_ID
+import co.yap.yapcore.constants.Constants.REFERRAL_TIME
 import co.yap.yapcore.enums.ProductFlavour
+import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.managers.SessionManager
 import com.adjust.sdk.Adjust
 import com.adjust.sdk.AdjustConfig
@@ -21,21 +28,18 @@ fun Application.initializeAdjustSdk(configManager: BuildConfigManager?) {
 
     configManager?.let { configurations ->
         val config = AdjustConfig(
-                this,
-                configurations.adjustToken,
-                if (configurations.isReleaseBuild()) AdjustConfig.ENVIRONMENT_PRODUCTION else AdjustConfig.ENVIRONMENT_SANDBOX
+            this,
+            configurations.adjustToken,
+            if (configurations.isReleaseBuild()) AdjustConfig.ENVIRONMENT_PRODUCTION else AdjustConfig.ENVIRONMENT_SANDBOX
         )
 
         when (configurations.flavor) {
             ProductFlavour.PROD.flavour -> {
                 Adjust.setEnabled(true)
                 config.setAppSecret(3, 1746894148, 2040383572, 1770588342, 2016748378)
-//                config.setAppSecret(1, 325677892, 77945854, 746350982, 870707894) // Old Signature
-                config.setDefaultTracker("6hpplis")
+                config.setDefaultTracker("n44w5ee")
                 config.setEventBufferingEnabled(true)
                 config.setPreinstallTrackingEnabled(true)
-
-
             }
             ProductFlavour.PREPROD.flavour -> {
                 Adjust.setEnabled(true)
@@ -67,7 +71,17 @@ fun Application.initializeAdjustSdk(configManager: BuildConfigManager?) {
         config.setOnEventTrackingFailedListener { }
         config.setOnSessionTrackingSucceededListener { }
         config.setOnSessionTrackingFailedListener { }
-        config.setOnDeeplinkResponseListener { true }
+        config.setOnDeeplinkResponseListener { deepLink ->
+            deepLink?.let { uri ->
+                val sharedPref = SharedPreferenceManager.getInstance(this)
+                val customerId = UrlQuerySanitizer(uri.toString()).getValue(REFERRAL_ID)
+                val time = UrlQuerySanitizer(uri.toString()).getValue(REFERRAL_TIME)
+                val countryISOCode = UrlQuerySanitizer(uri.toString()).getValue(KEY_COUNTRY_CODE)
+                sharedPref.setReferralInfo(ReferralInfo(customerId, time))
+                sharedPref.save(REFERRAL_COUNTRY_ISO_CODE, countryISOCode)
+            }
+            false
+        }
         config.setOnAttributionChangedListener { attribution ->
         }
 

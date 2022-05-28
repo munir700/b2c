@@ -33,6 +33,7 @@ import co.yap.yapcore.managers.SessionManager
 import com.bumptech.glide.Glide
 import id.zelory.compressor.Compressor
 import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import java.io.File
@@ -66,6 +67,7 @@ class ProfileSettingsViewModel(application: Application) :
 
     override fun onCreate() {
         super.onCreate()
+        state.kfsAcceptedTimeStamp.value = SessionManager.user?.kfsAcceptedTimeStamp.isNullOrBlank().not()
         toggleToolBarVisibility(false)
         state.isNotificationsEnabled.set(NotificationManagerCompat.from(context)
             .areNotificationsEnabled())
@@ -117,7 +119,7 @@ class ProfileSettingsViewModel(application: Application) :
             if (file.sizeInMb() < 25) {
                 state.loading = true
                 val reqFile =
-                    RequestBody.create(MediaType.parse("image/${file.extension}"), file)
+                    RequestBody.create("image/${file.extension}".toMediaTypeOrNull(), file)
                 val multiPartImageFile: MultipartBody.Part =
                     MultipartBody.Part.createFormData("profile-picture", file.name, reqFile)
                 when (val response = repository.uploadProfilePicture(multiPartImageFile)) {
@@ -270,6 +272,23 @@ class ProfileSettingsViewModel(application: Application) :
                 trackEventWithScreenName(FirebaseEvent.DECLINE_NOTIFICATIONS)
                 SharedPreferenceManager.getInstance(context).save(ENABLE_LEAN_PLUM_NOTIFICATIONS, false)
                 state.isNotificationsEnabled.set(isGranted)
+            }
+        }
+    }
+
+    override fun fetchKeyFactStatementUrl(success: (url: String) -> Unit) {
+        launch {
+            state.loading = true
+            // Add KeyFacts Api
+            when (val res =repository.getKeyFactStatement()) {
+                is RetroApiResponse.Success -> {
+                    state.loading = false
+                    val resp = res.data.pdf
+                    success.invoke(resp?:"")
+                }
+                is RetroApiResponse.Error -> {
+                    state.loading = false
+                }
             }
         }
     }

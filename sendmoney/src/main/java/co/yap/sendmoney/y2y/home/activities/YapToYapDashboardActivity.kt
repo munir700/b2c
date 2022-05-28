@@ -23,7 +23,8 @@ import co.yap.yapcore.interfaces.BackPressImpl
 import co.yap.yapcore.interfaces.IBaseNavigator
 import com.google.android.material.snackbar.Snackbar
 
-class YapToYapDashboardActivity : BaseBindingActivity<IY2Y.ViewModel>(), INavigator,
+class YapToYapDashboardActivity :
+    BaseBindingActivity<ActivityYapToYapDashboardBinding, IY2Y.ViewModel>(), INavigator,
     IFragmentHolder {
 
     override fun getBindingVariable(): Int = BR.viewModel
@@ -50,7 +51,7 @@ class YapToYapDashboardActivity : BaseBindingActivity<IY2Y.ViewModel>(), INaviga
         )
         viewModel.position = intent.getIntExtra(ExtraKeys.Y2Y_BENEFICIARY_POSITION.name, 0)
         viewModel.errorEvent.observe(this, errorEvent)
-        getBindings().main.setOnTouchListener { _, _ ->
+        viewDataBinding.main.setOnTouchListener { _, _ ->
             val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             imm.hideSoftInputFromWindow(currentFocus?.windowToken, 0)
         }
@@ -69,7 +70,7 @@ class YapToYapDashboardActivity : BaseBindingActivity<IY2Y.ViewModel>(), INaviga
                 onBackPressed()
             }
             R.id.ivRightIcon -> {
-                if (getBindings().toolbar.rightIcon == R.drawable.ic_close) {
+                if (viewDataBinding.toolbar.rightIcon == R.drawable.ic_close) {
                     finish()
                 } else {
                     InviteFriendRepository().inviteAFriend()
@@ -84,7 +85,7 @@ class YapToYapDashboardActivity : BaseBindingActivity<IY2Y.ViewModel>(), INaviga
             if (it.isShown) {
                 it.updateSnackBarText(errorMessage)
             }
-        } ?: getBindings().clSnackBar.showSnackBar(
+        } ?: viewDataBinding.clSnackBar.showSnackBar(
             msg = errorMessage,
             viewBgColor = R.color.errorLightBackground,
             colorOfMessage = R.color.error, duration = Snackbar.LENGTH_INDEFINITE, marginTop = 0
@@ -105,9 +106,5 @@ class YapToYapDashboardActivity : BaseBindingActivity<IY2Y.ViewModel>(), INaviga
     override fun onDestroy() {
         super.onDestroy()
         viewModel.errorEvent.removeObservers(this)
-    }
-
-    fun getBindings(): ActivityYapToYapDashboardBinding {
-        return viewDataBinding as ActivityYapToYapDashboardBinding
     }
 }

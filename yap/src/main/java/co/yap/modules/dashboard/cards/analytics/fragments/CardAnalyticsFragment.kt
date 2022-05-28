@@ -22,7 +22,6 @@ import co.yap.widgets.pieview.*
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.firebase.FirebaseEvent
 import co.yap.yapcore.firebase.trackEventWithScreenName
-import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.helpers.spannables.color
@@ -31,12 +30,10 @@ import co.yap.yapcore.leanplum.AnalyticsEvents
 import co.yap.yapcore.leanplum.trackEvent
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
-import java.text.SimpleDateFormat
-import java.util.*
-import kotlin.collections.ArrayList
 
 //TODO(" This fragment contains a lot of commenting code of merchant graph which is hide now and merchant graph is also not clickable.")
-class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel>(),
+class CardAnalyticsFragment :
+    CardAnalyticsBaseFragment<FragmentCardAnalyticsBinding, ICardAnalytics.ViewModel>(),
     ICardAnalytics.View, OnChartValueSelectedListener {
 
     lateinit var chart: PieChart
@@ -363,7 +360,7 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
                 }*/
             }
         }
-       // getBindingView().ivPieView.cropImage = false
+        // getBindingView().ivPieView.cropImage = false
         if (!viewModel.parentViewModel?.categoryAnalyticsItemLiveData?.value.isNullOrEmpty()) {
             getBindingView().ivPieViewImage.visibility = View.VISIBLE
             val txnItem =

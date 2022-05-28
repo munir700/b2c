@@ -15,14 +15,10 @@ import kotlinx.coroutines.launch
 import androidx.fragment.app.Fragment
 import co.yap.yapcore.dagger.base.interfaces.CanFetchExtras
 
-abstract class BaseBindingFragment<V : IBase.ViewModel<*>> : BaseFragment<V>(),CanFetchExtras {
+abstract class BaseBindingFragment<VB : ViewDataBinding, V : IBase.ViewModel<*>> :
+    BaseFragment<V>(),CanFetchExtras {
 
-    lateinit var viewDataBinding: ViewDataBinding
-    /**
-     * Indicates whether the current [BaseBindingFragment]'s content view is initialized or not.
-     */
-    var isViewCreated = false
-        private set
+    open lateinit var viewDataBinding: VB
 
     override fun onCreate(savedInstanceState: Bundle?) {
         // dependencies will be injected only once (based on the state of the content view)

@@ -13,9 +13,10 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import co.yap.app.BR
 import co.yap.app.R
-import co.yap.app.constants.Constants
+import co.yap.app.databinding.FragmentBiometricPermissionBinding
 import co.yap.app.modules.login.interfaces.ISystemPermission
 import co.yap.app.modules.login.viewmodels.SystemPermissionViewModel
+import co.yap.modules.dashboard.main.activities.YapDashboardActivity
 import co.yap.household.onboarding.main.OnBoardingHouseHoldActivity
 import co.yap.modules.dashboard.main.activities.YapDashboardActivity
 import co.yap.modules.kyc.amendments.missinginfo.MissingInfoFragment
@@ -23,7 +24,9 @@ import co.yap.modules.webview.WebViewFragment
 import co.yap.networking.customers.responsedtos.AccountInfo
 import co.yap.networking.customers.responsedtos.AmendmentStatus
 import co.yap.yapcore.BaseBindingFragment
+import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.RequestCodes.REQUEST_NOTIFICATION_SETTINGS
+import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.dagger.base.navigation.host.NAVIGATION_Graph_ID
 import co.yap.yapcore.dagger.base.navigation.host.NAVIGATION_Graph_START_DESTINATION_ID
 import co.yap.yapcore.dagger.base.navigation.host.NavHostPresenterActivity
@@ -35,7 +38,7 @@ import co.yap.yapcore.helpers.livedata.SwitchProfileLiveData
 import co.yap.yapcore.managers.SessionManager
 
 @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
-class SystemPermissionFragment : BaseBindingFragment<ISystemPermission.ViewModel>(),
+class SystemPermissionFragment : BaseBindingFragment<FragmentBiometricPermissionBinding, ISystemPermission.ViewModel>(),
     ISystemPermission.View {
 
     override fun getBindingVariable(): Int = BR.viewModel

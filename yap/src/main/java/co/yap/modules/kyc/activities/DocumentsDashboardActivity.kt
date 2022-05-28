@@ -8,7 +8,9 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import co.yap.BR
 import co.yap.R
+import co.yap.databinding.ActivityDocumentsDashboardBinding
 import co.yap.modules.kyc.interfaces.IDocumentsDashboard
+import co.yap.modules.kyc.uqudo.UqudoScannerManager
 import co.yap.modules.kyc.viewmodels.DocumentsDashboardViewModel
 import co.yap.networking.customers.responsedtos.documents.GetMoreDocumentsResponse
 import co.yap.yapcore.BaseBindingActivity
@@ -16,6 +18,7 @@ import co.yap.yapcore.IFragmentHolder
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.defaults.DefaultNavigator
 import co.yap.yapcore.defaults.INavigator
+import co.yap.yapcore.helpers.ExtraKeys
 import co.yap.yapcore.helpers.extentions.ExtraType
 import co.yap.yapcore.helpers.extentions.deleteTempFolder
 import co.yap.yapcore.helpers.extentions.getValue
@@ -23,9 +26,10 @@ import co.yap.yapcore.interfaces.BackPressImpl
 import co.yap.yapcore.interfaces.IBaseNavigator
 import kotlinx.android.synthetic.main.activity_documents_dashboard.*
 import kotlinx.android.synthetic.main.layout_kyc_progress_toolbar.view.*
-import java.io.File
 
-class DocumentsDashboardActivity : BaseBindingActivity<IDocumentsDashboard.ViewModel>(), INavigator,
+class DocumentsDashboardActivity :
+    BaseBindingActivity<ActivityDocumentsDashboardBinding, IDocumentsDashboard.ViewModel>(),
+    INavigator,
     IFragmentHolder {
 
     override val viewModel: IDocumentsDashboard.ViewModel
@@ -41,15 +45,24 @@ class DocumentsDashboardActivity : BaseBindingActivity<IDocumentsDashboard.ViewM
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         //this should be only first time
+        viewModel.uqudoManager = UqudoScannerManager.getInstance(this)
+        viewModel.uqudoManager?.initializeUqudo()
         viewModel.name.value = intent.getValue(Constants.name, ExtraType.STRING.name) as? String
         viewModel.amendmentMap =
             intent.getSerializableExtra(Constants.KYC_AMENDMENT_MAP) as? HashMap<String?, List<String>?>
         viewModel.skipFirstScreen.value =
             intent.getValue(Constants.data, ExtraType.BOOLEAN.name) as? Boolean
+        viewModel.state.hideParentToolbar.value =
+            intent?.getBooleanExtra(ExtraKeys.HIDE_KYC_PARENT_TOOLBAR.name, false)
         viewModel.showProgressBar.value = intent?.getBooleanExtra("GO_ERROR", true)
+        viewModel.comingFrom.value = intent?.getStringExtra("from")
         viewModel.document =
             intent.getParcelableExtra("document") as? GetMoreDocumentsResponse.Data.CustomerDocument.DocumentInformation
-        if (intent?.getBooleanExtra("PersonalDetails", false) == true) {
+        if (intent?.getBooleanExtra(
+                "PersonalDetails",
+                false
+            ) == true || viewModel.state.hideParentToolbar.value == true
+        ) {
             progressBar.visibility = View.GONE
         }
         addObserver()
@@ -58,9 +71,6 @@ class DocumentsDashboardActivity : BaseBindingActivity<IDocumentsDashboard.ViewM
     private fun addObserver() {
         viewModel.clickEvent.observe(this, clickEventObserver)
         viewModel.finishKyc.observe(this, Observer {
-            viewModel.paths.forEach { filePath ->
-                File(filePath).deleteRecursively()
-            }
             goToDashBoard(
                 success = it.success,
                 skippedPress = !it.success,
@@ -99,15 +109,11 @@ class DocumentsDashboardActivity : BaseBindingActivity<IDocumentsDashboard.ViewM
         val fragment = supportFragmentManager.findFragmentById(R.id.kyc_host_fragment)
         viewModel.skipFirstScreen.value?.let {
             if (it) {
-                viewModel.paths.forEach { filePath ->
-                    File(filePath).deleteRecursively()
-                }
+                viewModel.uqudoManager?.deleteEidImages()
                 super.onBackPressed()
             } else {
                 if (!BackPressImpl(fragment).onBackPressed()) {
-                    viewModel.paths.forEach { filePath ->
-                        File(filePath).deleteRecursively()
-                    }
+                    viewModel.uqudoManager?.deleteEidImages()
                 }
                 super.onBackPressed()
             }
@@ -115,9 +121,7 @@ class DocumentsDashboardActivity : BaseBindingActivity<IDocumentsDashboard.ViewM
     }
 
     override fun onDestroy() {
-        viewModel.paths.forEach { filePath ->
-            File(filePath).deleteRecursively()
-        }
+        viewModel.uqudoManager?.deleteEidImages()
         context.deleteTempFolder()
         super.onDestroy()
     }

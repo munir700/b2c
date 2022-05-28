@@ -24,7 +24,7 @@ import co.yap.yapcore.managers.SessionManager
 import com.liveperson.infra.CampaignInfo
 import com.uxcam.UXCam
 
-class HelpSupportFragment : MoreBaseFragment<IHelpSupport.ViewModel>(), IHelpSupport.View {
+class HelpSupportFragment : MoreBaseFragment<FragmentHelpSupportBinding, IHelpSupport.ViewModel>(), IHelpSupport.View {
 
     lateinit var adapter: HelpSupportAdaptor
 

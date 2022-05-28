@@ -5,12 +5,13 @@ import android.view.View
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
+import co.yap.databinding.FragmentAdditionalInfoEmploymentBinding
 import co.yap.modules.dashboard.addionalinfo.interfaces.IAdditionalInfoEmployment
 import co.yap.modules.dashboard.addionalinfo.viewmodels.AdditionalInfoEmploymentViewModel
 import co.yap.yapcore.interfaces.OnItemClickListener
 
 class AdditionalInfoEmploymentFragment :
-    AdditionalInfoBaseFragment<IAdditionalInfoEmployment.ViewModel>(),
+    AdditionalInfoBaseFragment<FragmentAdditionalInfoEmploymentBinding,IAdditionalInfoEmployment.ViewModel>(),
     IAdditionalInfoEmployment.View {
     override fun getBindingVariable(): Int = BR.viewModel
 

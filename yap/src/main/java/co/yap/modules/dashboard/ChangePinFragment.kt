@@ -7,13 +7,14 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
+import co.yap.databinding.FragmentChangePinBinding
 import co.yap.modules.dashboard.cards.paymentcarddetail.activities.ChangeCardPinActivity
 import co.yap.modules.dashboard.cards.paymentcarddetail.forgotcardpin.activities.ForgotCardPinActivity
 import co.yap.networking.cards.requestdtos.ChangeCardPinRequest
 import co.yap.yapcore.BaseBindingFragment
 
 
-class ChangePinFragment : BaseBindingFragment<IChangePin.ViewModel>(), IChangePin.View {
+class ChangePinFragment : BaseBindingFragment<FragmentChangePinBinding,IChangePin.ViewModel>(), IChangePin.View {
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_change_pin
     var cardSerialNumber: String = ""

@@ -14,7 +14,7 @@ import co.yap.modules.dashboard.more.main.activities.MoreActivity
 import co.yap.modules.dashboard.more.notifications.main.NotificationsActivity
 import co.yap.modules.dashboard.more.yapforyou.activities.YAPForYouActivity
 import co.yap.modules.dashboard.transaction.detail.TransactionDetailsActivity
-import co.yap.modules.dashboard.yapit.sendmoney.landing.SendMoneyDashboardActivity
+import co.yap.modules.dashboard.yapit.sendmoney.landing.SendMoneyLinearDashboardFragment
 import co.yap.modules.dashboard.yapit.topup.cardslisting.TopUpBeneficiariesActivity
 import co.yap.modules.kyc.activities.DocumentsDashboardActivity
 import co.yap.modules.others.fragmentpresenter.activities.FragmentPresenterActivity
@@ -158,8 +158,8 @@ class DeepLinkNavigation private constructor(private val activity: YapDashboardA
                     )
                 }
                 DeepLinkFlow.CARDS.flowId -> {
-                    activity.getViewBinding().bottomNav.selectedItemId = R.id.yapCards
-                    activity.getViewBinding().viewPager.setCurrentItem(2, false)
+                    activity.viewDataBinding.bottomNav.selectedItemId = R.id.yapCards
+                    activity.viewDataBinding.viewPager.setCurrentItem(2, false)
                 }
                 DeepLinkFlow.QR_CODE.flowId -> {
                     QRCodeFragment {}.show(activity.supportFragmentManager, "")
@@ -173,7 +173,7 @@ class DeepLinkNavigation private constructor(private val activity: YapDashboardA
                     }
                 }
                 DeepLinkFlow.SEND_MONEY.flowId -> {
-                    activity.launchActivity<SendMoneyDashboardActivity>(type = FeatureSet.SEND_MONEY)
+                    activity.startFragment<SendMoneyLinearDashboardFragment>(fragmentName = SendMoneyLinearDashboardFragment::class.java.name,type = FeatureSet.SEND_MONEY)
                 }
                 DeepLinkFlow.TOP_UP.flowId -> {
                     activity.launchActivity<TopUpBeneficiariesActivity>(requestCode = RequestCodes.REQUEST_SHOW_BENEFICIARY) {
@@ -184,7 +184,7 @@ class DeepLinkNavigation private constructor(private val activity: YapDashboardA
                     }
                 }
                 DeepLinkFlow.YAP_STORE.flowId -> {
-                    activity.getViewBinding().bottomNav.selectedItemId = R.id.yapStore
+                    activity.viewDataBinding.bottomNav.selectedItemId = R.id.yapStore
                     // activity.getViewBinding().viewPager.setCurrentItem(1, false)
                 }
                 DeepLinkFlow.TRANSACTION_DETAILS.flowId -> {

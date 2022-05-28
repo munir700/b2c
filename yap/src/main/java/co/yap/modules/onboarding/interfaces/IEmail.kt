@@ -11,12 +11,6 @@ interface IEmail {
     interface View : IBase.View<ViewModel>
 
     interface ViewModel : IBase.ViewModel<State> {
-        val EVENT_POST_DEMOGRAPHIC: Int
-            get() = 1
-        val EVENT_POST_VERIFICATION_EMAIL: Int
-            get() = 2
-        val EVENT_NAVIGATE_NEXT: Int
-            get() = 3
         val nextButtonPressEvent: SingleClickEvent
         val animationStartEvent: SingleLiveEvent<Boolean>
         fun handlePressOnNext()
@@ -24,6 +18,7 @@ interface IEmail {
         fun postDemographicData()
         fun sendVerificationEmail()
         fun stopTimer()
+        fun setFeatureFlagCall(email: String?, customerId: String?)
     }
 
     interface State : IBase.State {
@@ -43,7 +38,6 @@ interface IEmail {
         var emailVerificationTitle: String
         var emailBtnTitle: String
         var deactivateField: Boolean
-
         var verificationCompleted: Boolean
         var isWaiting: Boolean
     }

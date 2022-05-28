@@ -12,7 +12,7 @@ import co.yap.networking.customers.requestdtos.UploadAdditionalInfo
 import co.yap.yapcore.helpers.extentions.afterTextChanged
 
 class AdditionalInfoQuestionFragment :
-    AdditionalInfoBaseFragment<IAdditionalInfoQuestion.ViewModel>(),
+    AdditionalInfoBaseFragment<FragmentAdditionalInfoQuestionBinding,IAdditionalInfoQuestion.ViewModel>(),
     IAdditionalInfoQuestion.View {
     override fun getBindingVariable(): Int = BR.viewModel
 

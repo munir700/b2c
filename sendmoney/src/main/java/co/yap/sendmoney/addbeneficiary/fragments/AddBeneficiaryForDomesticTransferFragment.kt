@@ -15,6 +15,7 @@ import co.yap.sendmoney.BR
 import co.yap.sendmoney.R
 import co.yap.sendmoney.addbeneficiary.interfaces.IAddBeneficiary
 import co.yap.sendmoney.addbeneficiary.viewmodels.AddBeneficiaryViewModel
+import co.yap.sendmoney.databinding.FragmentAddBeneficiaryDomesticTransferBinding
 import co.yap.sendmoney.fragments.SendMoneyBaseFragment
 import co.yap.sendmoney.fundtransfer.activities.BeneficiaryFundTransferActivity
 import co.yap.sendmoney.helper.SendMoneyUtils
@@ -29,7 +30,7 @@ import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.SessionManager
 
 class AddBeneficiaryForDomesticTransferFragment :
-    SendMoneyBaseFragment<IAddBeneficiary.ViewModel>(),
+    SendMoneyBaseFragment<FragmentAddBeneficiaryDomesticTransferBinding,IAddBeneficiary.ViewModel>(),
     IAddBeneficiary.View {
 
     override fun getBindingVariable(): Int = BR.viewModel
@@ -62,8 +63,8 @@ class AddBeneficiaryForDomesticTransferFragment :
 
     private fun startOtpFragment() {
         startFragmentForResult<GenericOtpFragment>(
-            GenericOtpFragment::class.java.name,
-            bundleOf(
+            fragmentName = GenericOtpFragment::class.java.name,
+            bundle = bundleOf(
                 OtpDataModel::class.java.name to OtpDataModel(
                     OTPActions.DOMESTIC_BENEFICIARY.name,//action,
                     SessionManager.user?.currentCustomer?.getFormattedPhoneNumber(requireContext())

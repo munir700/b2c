@@ -26,6 +26,8 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
+import co.yap.databinding.FragmentOnboardingCongratulationsBinding
+import co.yap.modules.dashboard.home.fragments.YapHomeFragment
 import co.yap.modules.kyc.activities.DocumentsDashboardActivity
 import co.yap.modules.location.activities.LocationSelectionActivity
 import co.yap.modules.onboarding.interfaces.ICongratulations
@@ -50,7 +52,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 
-class CongratulationsFragment : OnboardingChildFragment<ICongratulations.ViewModel>(),
+class CongratulationsFragment : OnboardingChildFragment<FragmentOnboardingCongratulationsBinding,ICongratulations.ViewModel>(),
     ICongratulations.View {
 
     override fun getBindingVariable(): Int = BR.viewModel
@@ -74,11 +76,6 @@ class CongratulationsFragment : OnboardingChildFragment<ICongratulations.ViewMod
         val display = activity?.windowManager?.defaultDisplay
         display?.getRectSize(windowSize)
         rootContainer.children.forEach { it.alpha = 0f }
-
-        SessionManager.onAccountInfoSuccess.observe(this, Observer {
-            if (it)
-                viewModel.trackEventWithAttributes(SessionManager.user)
-        })
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -124,6 +121,9 @@ class CongratulationsFragment : OnboardingChildFragment<ICongratulations.ViewMod
                     launchActivity<DocumentsDashboardActivity>(requestCode = RequestCodes.REQUEST_KYC_DOCUMENTS) {
                         putExtra(Constants.name, viewModel.state.nameList[0] ?: "")
                         putExtra(Constants.data, false)
+                        putExtra("from", CongratulationsFragment::class.java.name)
+
+
                     }
 
                 } else {

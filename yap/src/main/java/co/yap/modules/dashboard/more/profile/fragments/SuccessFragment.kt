@@ -14,6 +14,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import co.yap.BR
 import co.yap.R
+import co.yap.databinding.FragmentSuccessBinding
 import co.yap.modules.dashboard.more.main.activities.MoreActivity
 import co.yap.modules.dashboard.more.profile.intefaces.ISuccess
 import co.yap.modules.dashboard.more.profile.viewmodels.SuccessViewModel
@@ -26,7 +27,7 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import kotlinx.android.synthetic.main.fragment_success.*
 
-class SuccessFragment : BaseBindingFragment<ISuccess.ViewModel>(),
+class SuccessFragment : BaseBindingFragment<FragmentSuccessBinding,ISuccess.ViewModel>(),
     ISuccess.View {
     val args: SuccessFragmentArgs by navArgs()
     var successType: String? = null

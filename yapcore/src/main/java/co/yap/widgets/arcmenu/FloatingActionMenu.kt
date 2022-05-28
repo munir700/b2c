@@ -576,7 +576,6 @@ class FloatingActionMenu
         private var txtYapIt: View? = null
 
         init {
-            // val activity = context as BaseBindingActivity<*>
             subActionItems = ArrayList()
             // Default settings
             radius = context.resources.getDimensionPixelSize(R.dimen.action_menu_radius)

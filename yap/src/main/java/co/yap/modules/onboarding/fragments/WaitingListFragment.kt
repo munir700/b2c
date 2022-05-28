@@ -3,8 +3,8 @@ package co.yap.modules.onboarding.fragments
 import android.os.Bundle
 import android.view.Gravity
 import android.view.View
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
 import co.yap.databinding.FragmentWaitingListBinding
@@ -25,19 +25,18 @@ import co.yap.yapcore.helpers.showSnackBar
 import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.source.TrackGroupArray
 import com.google.android.exoplayer2.trackselection.TrackSelectionArray
-import kotlinx.android.synthetic.main.fragment_waiting_list.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class WaitingListFragment : BaseBindingFragment<IWaitingList.ViewModel>(), IWaitingList.View {
+class WaitingListFragment :
+    BaseBindingFragment<FragmentWaitingListBinding, IWaitingList.ViewModel>(), IWaitingList.View {
     override fun getBindingVariable(): Int = BR.viewModel
 
     override fun getLayoutId(): Int = R.layout.fragment_waiting_list
 
-    override val viewModel: IWaitingList.ViewModel
-        get() = ViewModelProviders.of(this).get(WaitingListViewModel::class.java)
+    override val viewModel: WaitingListViewModel by viewModels()
 
     var firstVideoPlayed: Boolean = false
 
@@ -56,15 +55,17 @@ class WaitingListFragment : BaseBindingFragment<IWaitingList.ViewModel>(), IWait
     }
 
     private fun setYapAnimation() {
-        andExoPlayerView.setSource(co.yap.yapcore.R.raw.waiting_list_first_part)
-        andExoPlayerView?.player?.repeatMode = Player.REPEAT_MODE_OFF
-        andExoPlayerView.setExoPlayerCallBack(object : ExoPlayerCallBack {
+        viewDataBinding.andExoPlayerView.setSource(co.yap.yapcore.R.raw.waiting_list_first_part)
+        viewDataBinding.andExoPlayerView.player?.repeatMode = Player.REPEAT_MODE_OFF
+        viewDataBinding.andExoPlayerView.setExoPlayerCallBack(object : ExoPlayerCallBack {
             override fun onError() {
                 if (firstVideoPlayed)
-                    andExoPlayerView.setSource(
-                        co.yap.yapcore.R.raw.waiting_list_second_part)
-                else andExoPlayerView.setSource(
-                    co.yap.yapcore.R.raw.waiting_list_first_part)
+                    viewDataBinding.andExoPlayerView.setSource(
+                        co.yap.yapcore.R.raw.waiting_list_second_part
+                    )
+                else viewDataBinding.andExoPlayerView.setSource(
+                    co.yap.yapcore.R.raw.waiting_list_first_part
+                )
             }
 
             override fun onTracksChanged(
@@ -78,14 +79,15 @@ class WaitingListFragment : BaseBindingFragment<IWaitingList.ViewModel>(), IWait
             override fun onPlayerStateChanged(playWhenReady: Boolean, playbackState: Int) {
                 when (playbackState) {
                     Player.STATE_READY -> {
-                        andExoPlayerView.visibility = View.VISIBLE
+                        viewDataBinding.andExoPlayerView.visibility = View.VISIBLE
                     }
 
                     Player.STATE_ENDED -> {
                         if (!firstVideoPlayed) {
-                            andExoPlayerView.visibility = View.INVISIBLE
-                            andExoPlayerView.setSource(co.yap.yapcore.R.raw.waiting_list_second_part)
-                            andExoPlayerView?.player?.repeatMode = Player.REPEAT_MODE_ALL
+                            viewDataBinding.andExoPlayerView.visibility = View.INVISIBLE
+                            viewDataBinding.andExoPlayerView.setSource(co.yap.yapcore.R.raw.waiting_list_second_part)
+                            viewDataBinding.andExoPlayerView.player?.repeatMode =
+                                Player.REPEAT_MODE_ALL
                             firstVideoPlayed = true
                         }
                     }

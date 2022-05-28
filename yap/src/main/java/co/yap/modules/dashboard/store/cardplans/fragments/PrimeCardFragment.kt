@@ -13,7 +13,7 @@ import co.yap.yapcore.constants.Constants
 import kotlinx.android.synthetic.main.fragment_prime_metal_card.*
 
 
-class PrimeCardFragment : CardPlansBaseFragment<IPrimeMetalCard.ViewModel>(), IPrimeMetalCard.View {
+class PrimeCardFragment : CardPlansBaseFragment<FragmentPrimeMetalCardBinding,IPrimeMetalCard.ViewModel>(), IPrimeMetalCard.View {
     override fun getBindingVariable(): Int = BR.viewModel
 
     override fun getLayoutId(): Int = R.layout.fragment_prime_metal_card

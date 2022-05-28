@@ -12,7 +12,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.app.R
-import co.yap.app.constants.Constants
+import co.yap.app.databinding.ActivityPhoneVerificationBinding
 import co.yap.app.main.MainChildFragment
 import co.yap.app.modules.login.interfaces.IPhoneVerificationSignIn
 import co.yap.app.modules.login.viewmodels.PhoneVerificationSignInViewModel
@@ -25,6 +25,7 @@ import co.yap.modules.reachonthetop.ReachedTopQueueFragment
 import co.yap.networking.customers.responsedtos.AccountInfo
 import co.yap.networking.customers.responsedtos.AmendmentStatus
 import co.yap.yapcore.constants.Constants.SMS_CONSENT_REQUEST
+import co.yap.yapcore.constants.Constants.TOUCH_ID_SCREEN_TYPE
 import co.yap.yapcore.dagger.base.navigation.host.NAVIGATION_Graph_ID
 import co.yap.yapcore.dagger.base.navigation.host.NAVIGATION_Graph_START_DESTINATION_ID
 import co.yap.yapcore.dagger.base.navigation.host.NavHostPresenterActivity
@@ -34,6 +35,10 @@ import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.TourGuideManager
 import co.yap.yapcore.helpers.biometric.BiometricUtil
+import co.yap.yapcore.helpers.extentions.getOtpFromMessage
+import co.yap.yapcore.helpers.extentions.launchActivity
+import co.yap.yapcore.helpers.extentions.startFragment
+import co.yap.yapcore.helpers.extentions.startSmsConsent
 import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.helpers.livedata.SwitchProfileLiveData
 import co.yap.yapcore.leanplum.SignInEvents
@@ -46,7 +51,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class PhoneVerificationSignInFragment :
-    MainChildFragment<IPhoneVerificationSignIn.ViewModel>(), IPhoneVerificationSignIn.View {
+    MainChildFragment<ActivityPhoneVerificationBinding , IPhoneVerificationSignIn.ViewModel>(), IPhoneVerificationSignIn.View {
     private var intentFilter: IntentFilter? = null
     private var appSMSBroadcastReceiver: MySMSBroadcastReceiver? = null
     override fun getBindingVariable(): Int = BR.viewModel
@@ -186,7 +191,7 @@ class PhoneVerificationSignInFragment :
                         } else {
                             val action =
                                 PhoneVerificationSignInFragmentDirections.actionPhoneVerificationSignInFragmentToSystemPermissionFragment(
-                                    Constants.TOUCH_ID_SCREEN_TYPE
+                                    TOUCH_ID_SCREEN_TYPE
                                 )
                             findNavController().navigate(action)
                         }

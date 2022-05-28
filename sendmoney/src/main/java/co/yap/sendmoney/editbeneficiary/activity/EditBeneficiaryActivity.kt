@@ -4,10 +4,9 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import co.yap.countryutils.country.Country
 import co.yap.modules.otp.GenericOtpFragment
 import co.yap.modules.otp.OtpDataModel
@@ -38,10 +37,9 @@ import co.yap.yapcore.helpers.extentions.startFragmentForResult
 import co.yap.yapcore.helpers.showAlertDialogAndExitApp
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.SessionManager
-import kotlinx.android.synthetic.main.activity_edit_beneficiary.*
 
-
-class EditBeneficiaryActivity : BaseBindingActivity<IEditBeneficiary.ViewModel>(),
+class EditBeneficiaryActivity :
+    BaseBindingActivity<ActivityEditBeneficiaryBinding, IEditBeneficiary.ViewModel>(),
     IEditBeneficiary.View {
 
     override fun getBindingVariable() = BR.editBeneficiaryViewModel
@@ -50,7 +48,7 @@ class EditBeneficiaryActivity : BaseBindingActivity<IEditBeneficiary.ViewModel>(
     private var currencyPopMenu: PopupMenu? = null
 
     override val viewModel: IEditBeneficiary.ViewModel
-        get() = ViewModelProviders.of(this).get(EditBeneficiaryViewModel::class.java)
+        get() = ViewModelProvider(this).get(EditBeneficiaryViewModel::class.java)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -107,7 +105,7 @@ class EditBeneficiaryActivity : BaseBindingActivity<IEditBeneficiary.ViewModel>(
                     }
                 }
                 R.id.tvChangeCurrency -> {
-                    currencyPopMenu?.showAsAnchorRightBottom(tvChangeCurrency)
+                    currencyPopMenu?.showAsAnchorRightBottom(viewDataBinding.tvChangeCurrency)
                 }
                 R.id.bcountries -> {
                     this.launchBottomSheet(
@@ -140,7 +138,7 @@ class EditBeneficiaryActivity : BaseBindingActivity<IEditBeneficiary.ViewModel>(
     private val itemListener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
             if (data is Country) {
-                val country: Country = data as Country
+                val country: Country = data
                 if (country.getName() != "Select country") {
                     viewModel.state.selectedCountryOfResidence = data
                 } else {
@@ -163,8 +161,8 @@ class EditBeneficiaryActivity : BaseBindingActivity<IEditBeneficiary.ViewModel>(
             }
 
             startFragmentForResult<GenericOtpFragment>(
-                GenericOtpFragment::class.java.name,
-                bundleOf(
+                fragmentName = GenericOtpFragment::class.java.name,
+                bundle = bundleOf(
                     OtpDataModel::class.java.name to OtpDataModel(
                         otpAction = action,
                         mobileNumber = SessionManager.user?.currentCustomer?.getCompletePhone(),
@@ -180,7 +178,7 @@ class EditBeneficiaryActivity : BaseBindingActivity<IEditBeneficiary.ViewModel>(
                             SessionManager.helpPhoneNumber
                         )
                     )
-                ), false
+                ), showToolBar = false
             ) { resultCode, data ->
                 if (resultCode == Activity.RESULT_OK) {
                     viewModel.createBeneficiaryRequest()
@@ -266,11 +264,6 @@ class EditBeneficiaryActivity : BaseBindingActivity<IEditBeneficiary.ViewModel>(
             }
         }
     }
-
-    private fun getBinding(): ActivityEditBeneficiaryBinding {
-        return viewDataBinding as ActivityEditBeneficiaryBinding
-    }
-
     override fun onResume() {
         super.onResume()
         Utils.setStatusBarColor(this)

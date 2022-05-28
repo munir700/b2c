@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Yap.App.Widget.TextInputLayout.OutLined" parent="Widget.Design.TextInputLayout">
+        <item name="android:textAppearance">
+            @style/Yap.App.Widget.TextAppearance.TextInputField
+        </item>
+        <item name="errorTextAppearance">
+            @style/Yap.Widget.App.TextInputLayout.TextAppearance.Error
+        </item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="cornerFamily">cut</item>
+        <item name="boxCornerRadiusBottomStart">@dimen/_40sdp</item>
+        <item name="boxCornerRadiusBottomEnd">@dimen/_40sdp</item>
+        <item name="boxCornerRadiusTopStart">@dimen/_40sdp</item>
+        <item name="boxCornerRadiusTopEnd">@dimen/_40sdp</item>
+        <item name="hintEnabled">false</item>
+        <item name="startIconTint">@null</item>
+        <item name="endIconTint">@null</item>
+        <item name="prefixText">+971</item>
+        <item name="boxBackgroundMode">outline</item>
+        <item name="shapeAppearanceOverlay">@style/Yap.Widget.Outline</item>
+        <item name="endIconMode">custom</item>
+        <item name="boxStrokeWidth">0dp</item>
+        <item name="boxStrokeWidthFocused">@dimen/_2sdp</item>
+        <item name="boxBackgroundColor">@color/textInputBackgroundColor</item>
+        <item name="prefixTextAppearance">@style/Yap.Widget.TextInputLayout.Prefix</item>
+        <item name="boxStrokeColor">@color/textInputBackgroundColor</item>
+        <item name="hintTextColor">@color/greyDark</item>
+        <item name="editTextBackground">@null</item>
+        <item name="boxStrokeErrorColor">@color/error</item>
+        <item name="errorTextColor">@color/error</item>
+        <item name="errorIconDrawable">@drawable/ic_error</item>
+    </style>
+
+    <style name="Yap.App.Widget.TextInputLayout.Filled" parent="Widget.Design.TextInputLayout">
+
+        <item name="hintTextAppearance">@style/Yap.Hint.TextAppearance.TextInputLayout</item>
+        <item name="materialThemeOverlay">@style/Yap.EditText.Filled.ThemeOverlay</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="boxBackgroundColor">@color/text_input_background_color_states</item>
+        <item name="boxStrokeColor">@color/colorSecondaryOrange</item>
+        <item name="android:textColorHint">@color/text_input_layout_label_color_state</item>
+        <item name="hintTextColor">@color/colorPrimaryDark</item>
+        <item name="boxStrokeErrorColor">@color/error</item>
+        <item name="errorTextColor">@color/error</item>
+        <item name="endIconTint">@null</item>
+        <item name="endIconMode">custom</item>
+        <item name="android:textAppearance">
+            @style/Yap.App.Widget.TextAppearance.TextInputField
+        </item>
+        <item name="errorTextAppearance">
+            @style/Yap.Widget.App.TextInputLayout.TextAppearance.Error
+        </item>
+    </style>
+
+    <style name="Yap.App.Widget.TextAppearance.TextInputField" parent="">
+        <item name="android:textSize">@dimen/text_size_h2</item>
+        <item name="fontFamily">@font/roboto_regular</item>
+        <item name="android:textStyle">normal</item>
+        <item name="font">@font/roboto_regular</item>
+    </style>
+
+    <style name="Yap.EditText.Filled.ThemeOverlay" parent="">
+        <item name="editTextStyle">@style/Yap.Widget.FilledBox.Padding</item>
+    </style>
+
+    <style name="Yap.Widget.FilledBox.Padding" parent="@style/Widget.MaterialComponents.TextInputEditText.FilledBox">
+        <item name="android:paddingStart">0dp</item>
+        <item name="android:paddingEnd">0dp</item>
+        <item name="android:paddingTop">@dimen/margin_large</item>
+        <item name="android:textColor">@color/colorPrimaryDark</item>
+        <item name="android:textSize">@dimen/text_size_h6</item>
+        <item name="android:maxLines">1</item>
+    </style>
+
+    <style name="Yap.Hint.TextAppearance.TextInputLayout" parent="">
+        <item name="android:textSize">@dimen/text_size_h7</item>
+        <item name="android:textStyle">normal</item>
+        <item name="fontFamily">@font/roboto_regular</item>
+    </style>
+
+    <style name="Yap.EditText.Outline.ThemeOverlay" parent="">
+        <item name="editTextStyle">@style/Yap.Widget.Outline</item>
+    </style>
+
+    <style name="Yap.Widget.Outline" parent="Widget.Design.TextInputEditText">
+        <item name="android:textColor">@color/colorPrimaryDark</item>
+        <item name="android:textSize">@dimen/text_size_h6</item>
+        <item name="autoSizeTextType">uniform</item>
+        <item name="android:textStyle">normal</item>
+        <item name="fontFamily">@font/roboto_regular</item>
+        <item name="android:paddingTop">@dimen/margin_normal_large</item>
+        <item name="android:paddingBottom">@dimen/margin_normal_large</item>
+        <item name="android:paddingStart">@dimen/margin_large</item>
+    </style>
+
+    <style name="Yap.Widget.TextInputLayout.Prefix" parent="">
+        <item name="android:textSize">@dimen/text_size_h3</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="prefixTextColor">@color/greyDark</item>
+        <item name="alpha">0.7</item>
+    </style>
+
+    <style name="Yap.Widget.TextInputLayout.PrefixForCurrency" parent="">
+        <item name="android:textSize">@dimen/text_size_h3</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="prefixTextColor">@color/darkSlateBlueFaded</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:lineSpacingExtra">8sp</item>
+        <item name="android:textColor">@color/greyDark</item>
+    </style>
+
+    <style name="Yap.App.Widget.TextInputLayout.Filled.Drawable" parent="Widget.MaterialComponents.TextInputLayout.FilledBox">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="hintTextAppearance">@style/Yap.Hint.TextAppearance.TextInputLayout</item>
+        <item name="materialThemeOverlay">@style/Yap.EditText.Filled.ThemeOverlay</item>
+        <item name="boxBackgroundColor">@color/text_input_background_color_states</item>
+        <item name="boxStrokeColor">@color/text_input_layout_box_color_state</item>
+        <item name="android:textColorHint">@color/text_input_layout_label_color_state</item>
+        <item name="hintTextColor">@color/colorPrimaryDark</item>
+        <item name="boxStrokeErrorColor">@color/error</item>
+        <item name="android:textAppearance">
+            @style/Yap.App.Widget.TextAppearance.TextInputField
+        </item>
+        <item name="errorTextAppearance">
+            @style/Yap.Widget.App.TextInputLayout.TextAppearance.Error
+        </item>
+
+    </style>
+</resources>

@@ -22,7 +22,8 @@ import co.yap.yapcore.managers.SessionManager
 import com.google.android.gms.auth.api.phone.SmsRetriever
 import kotlinx.android.synthetic.main.fragment_generic_otp.*
 
-class GenericOtpFragment : BaseBindingFragment<IGenericOtp.ViewModel>(), IGenericOtp.View {
+class GenericOtpFragment : BaseBindingFragment<FragmentGenericOtpBinding, IGenericOtp.ViewModel>(),
+    IGenericOtp.View {
     private var intentFilter: IntentFilter? = null
     private var appSMSBroadcastReceiver: MySMSBroadcastReceiver? = null
     override fun getBindingVariable(): Int = BR.viewModel

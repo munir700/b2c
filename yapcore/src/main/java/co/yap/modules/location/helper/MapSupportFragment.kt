@@ -19,6 +19,7 @@ import co.yap.modules.location.interfaces.ILocationSelection
 import co.yap.modules.location.viewmodels.LocationSelectionViewModel
 import co.yap.yapcore.BR
 import co.yap.yapcore.R
+import co.yap.yapcore.databinding.LocationSelectionFragmentBinding
 import co.yap.yapcore.helpers.extentions.readManifestPlaceholders
 import co.yap.yapcore.helpers.permissions.PermissionHelper
 import com.google.android.gms.common.api.ApiException
@@ -36,7 +37,7 @@ import com.google.android.libraries.places.api.net.PlacesClient
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 
-open class MapSupportFragment : LocationBaseFragment<ILocationSelection.ViewModel>() {
+open class MapSupportFragment : LocationBaseFragment<LocationSelectionFragmentBinding,ILocationSelection.ViewModel>() {
 
     private var mMap: GoogleMap? = null
     private var defaultZoom = 15

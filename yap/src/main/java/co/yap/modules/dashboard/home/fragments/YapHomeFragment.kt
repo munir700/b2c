@@ -44,12 +44,14 @@ import co.yap.modules.dashboard.home.viewmodels.YapHomeViewModel
 import co.yap.modules.dashboard.main.activities.YapDashboardActivity
 import co.yap.modules.dashboard.main.fragments.YapDashboardChildFragment
 import co.yap.modules.dashboard.main.viewmodels.YapDashBoardViewModel
+import co.yap.modules.dashboard.more.home.fragments.InviteFriendFragment
+import co.yap.modules.dashboard.more.profile.fragments.PersonalDetailsFragment
 import co.yap.modules.dashboard.more.yapforyou.activities.YAPForYouActivity
 import co.yap.modules.dashboard.transaction.detail.TransactionDetailsActivity
 import co.yap.modules.dashboard.transaction.search.TransactionSearchFragment
 import co.yap.modules.dashboard.widgets.WidgetFragment
 import co.yap.modules.dashboard.yapit.addmoney.main.AddMoneyActivity
-import co.yap.modules.dashboard.yapit.sendmoney.landing.SendMoneyDashboardActivity
+import co.yap.modules.dashboard.yapit.sendmoney.landing.SendMoneyLinearDashboardFragment
 import co.yap.modules.kyc.activities.DocumentsDashboardActivity
 import co.yap.modules.kyc.amendments.missinginfo.MissingInfoFragment
 import co.yap.modules.location.activities.LocationSelectionActivity
@@ -96,11 +98,7 @@ import com.google.android.material.appbar.AppBarLayout.OnOffsetChangedListener
 import com.liveperson.infra.configuration.Configuration.getDimension
 import com.yarolegovich.discretescrollview.transform.Pivot
 import com.yarolegovich.discretescrollview.transform.ScaleTransformer
-import kotlinx.android.synthetic.main.content_fragment_yap_home_new.*
-import kotlinx.android.synthetic.main.content_fragment_yap_home_new.view.*
 import kotlinx.android.synthetic.main.fragment_dashboard_home.*
-import kotlinx.android.synthetic.main.fragment_dashboard_home.view.*
-import kotlinx.android.synthetic.main.toolbaar_home_fragment.view.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.GlobalScope
@@ -108,10 +106,9 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
 
 //TODO("We need to refactor the this fragment because this fragment contains a lot of code regarding transaction graph bars")
-class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHome.View,
+class YapHomeFragment : YapDashboardChildFragment<FragmentDashboardHomeBinding,IYapHome.ViewModel>(), IYapHome.View,
     NotificationItemClickListener, SwipeRefreshLayout.OnRefreshListener {
     private var mAdapter: NotificationAdapter? = null
     private var parentViewModel: YapDashBoardViewModel? = null
@@ -222,11 +219,21 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 R.id.imgWidget -> {
                     if (data is WidgetData) {
                         when (data.name) {
+                            EnumWidgetTitles.REFER_A_FRIEND.title -> {
+                                trackEventWithScreenName(FirebaseEvent.CLICK_INVITE_FRIEND)
+                                startFragment(
+                                    InviteFriendFragment::class.java.name, false,
+                                    bundleOf()
+                                )
+                            }
                             EnumWidgetTitles.ADD_MONEY.title -> {
                                 launchActivity<AddMoneyActivity>(type = FeatureSet.TOP_UP)
                             }
                             EnumWidgetTitles.SEND_MONEY.title -> {
-                                launchActivity<SendMoneyDashboardActivity>(type = FeatureSet.SEND_MONEY)
+                                startFragment(
+                                    fragmentName = SendMoneyLinearDashboardFragment::class.java.name,
+                                    type = FeatureSet.SEND_MONEY
+                                )
                             }
                             EnumWidgetTitles.QR_CODE.title -> {
                                 (activity as YapDashboardActivity).openQRCodeFragment()
@@ -769,6 +776,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                             Constants.name,
                             SessionManager.user?.currentCustomer?.firstName.toString()
                         )
+                        putExtra("from", YapHomeFragment::class.java.name)
                         putExtra(Constants.data, false)
                     }
                 }
@@ -797,13 +805,16 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                                     identityNo = SessionManager.user?.currentCustomer?.identityNo
                                 )
                             )
+                            putExtra("from", YapHomeFragment::class.java.name)
+                            putExtra(ExtraKeys.HIDE_KYC_PARENT_TOOLBAR.name, true)
+
                         }
                     } else {
                         showBlockedFeatureAlert(requireActivity(), FeatureSet.UPDATE_EID)
                     }
                 } else {
                     launchActivity<DocumentsDashboardActivity>(
-                        requestCode = RequestCodes.REQUEST_KYC_DOCUMENTS,
+                        requestCode = RequestCodes.REQUEST_UPDATE_EMIRATES_ID,
                         type = FeatureSet.UPDATE_EID
                     ) {
                         putExtra(
@@ -817,7 +828,9 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                                 identityNo = SessionManager.user?.currentCustomer?.identityNo
                             )
                         )
+                        putExtra(ExtraKeys.HIDE_KYC_PARENT_TOOLBAR.name, true)
                     }
+                    SessionManager.eidStatus = EIDStatus.EXPIRED
                 }
             }
             NotificationAction.HELP_AND_SUPPORT -> {
@@ -1025,6 +1038,10 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                         }
                     }
                 }
+            }
+
+            RequestCodes.REQUEST_UPDATE_EMIRATES_ID -> {
+                SessionManager.getAccountInfo()
             }
         }
     }
@@ -1281,3 +1298,4 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         }
     }
 }
+

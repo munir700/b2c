@@ -9,6 +9,10 @@ import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.helpers.permissions.PermissionHelper
 
+@Deprecated(
+    message = "Deprecating this class in order to support adapter for addmoneyDashboard",
+    replaceWith = ReplaceWith("ISendMoneyLinearDashboard.kt")
+)
 interface ISendMoneyDashboard {
     interface State : IBase.State {
         var isRecentsVisible: ObservableBoolean

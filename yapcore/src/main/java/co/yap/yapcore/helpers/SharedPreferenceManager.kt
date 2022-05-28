@@ -5,6 +5,7 @@ import android.content.SharedPreferences
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKeys
 import co.yap.yapcore.adjust.ReferralInfo
+import co.yap.yapcore.constants.Constants.KEY_MOBILE_NO
 import co.yap.yapcore.constants.Constants.KEY_PASSCODE
 import co.yap.yapcore.constants.Constants.KEY_THEME
 import co.yap.yapcore.constants.Constants.KEY_USERNAME
@@ -16,7 +17,7 @@ import javax.inject.Inject
  * you must need to  access Singlaton instanse of SharedPreferenceManager
  * i.e SharedPreferenceManager.getInstance(context)
  * @see SingletonHolder
-* */
+ * */
 class SharedPreferenceManager @Inject constructor(val context: Context) {
 
     private val PREFS_NAME = "YAPPref"
@@ -33,7 +34,7 @@ class SharedPreferenceManager @Inject constructor(val context: Context) {
 
     companion object : SingletonHolder<SharedPreferenceManager, Context>(::SharedPreferenceManager)
 
-    fun save(KEY_NAME: String, text: String) {
+    fun save(KEY_NAME: String, text: String?) {
         val editor: SharedPreferences.Editor = sharedPref.edit()
         editor.putString(KEY_NAME, text)
         editor.apply()
@@ -55,6 +56,10 @@ class SharedPreferenceManager @Inject constructor(val context: Context) {
         return sharedPref.getString(KEY_NAME, null)
     }
 
+    fun getValueString(KEY_NAME: String, defaultValue: String): String? {
+        return sharedPref.getString(KEY_NAME, defaultValue)
+    }
+
     fun getValueInt(KEY_NAME: String): Int {
         return sharedPref.getInt(KEY_NAME, 0)
     }
@@ -71,7 +76,7 @@ class SharedPreferenceManager @Inject constructor(val context: Context) {
                 editor.remove(entry)
             }
             editor.apply()
-        }catch (ex:Exception){
+        } catch (ex: Exception) {
             ex.printStackTrace()
         }
     }
@@ -94,7 +99,8 @@ class SharedPreferenceManager @Inject constructor(val context: Context) {
     }
 
     fun getDecryptedUserName(): String? {
-        return getValueString(KEY_USERNAME)
+        return getValueString(KEY_USERNAME) ?: getValueString(KEY_MOBILE_NO)
+        //  return getValueString(KEY_USERNAME)
     }
 
     fun savePassCodeWithEncryption(text: String) {
@@ -137,5 +143,4 @@ class SharedPreferenceManager @Inject constructor(val context: Context) {
             if (referralInfo != null) Gson().toJson(referralInfo) else ""
         )
     }
-
 }

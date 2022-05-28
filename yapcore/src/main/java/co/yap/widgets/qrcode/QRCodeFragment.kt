@@ -16,19 +16,19 @@ import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.widgets.scanqrcode.ScanQRCodeFragment
 import co.yap.yapcore.BR
 import co.yap.yapcore.R
+import co.yap.yapcore.databinding.FragmentQrCodeBinding
 import co.yap.yapcore.firebase.FirebaseEvent
 import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.helpers.permissions.PermissionHelper
 import co.yap.yapcore.managers.SessionManager
-import kotlinx.android.synthetic.main.fragment_qr_code.*
 
 class QRCodeFragment(
     callBack: () -> Unit = {},
     scannedCallback: (beneficiary: Beneficiary) -> Unit = {}
 ) : DialogFragment(),
     IQRCode.View {
-    lateinit var viewDataBinding: ViewDataBinding
+    lateinit var viewDataBinding: FragmentQrCodeBinding
     fun getBindingVariable(): Int = BR.viewModel
     fun getLayoutId(): Int = R.layout.fragment_qr_code
     var permissionHelper: PermissionHelper? = null
@@ -60,7 +60,7 @@ class QRCodeFragment(
         permissionHelper?.request(object : PermissionHelper.PermissionCallback {
             override fun onPermissionGranted() {
                 context?.shareImage(
-                    qrContainer,
+                    viewDataBinding.qrContainer,
                     imageName = shareQRImageName,
                     shareText = shareQRText,
                     chooserTitle = shareQRTitle
@@ -96,8 +96,9 @@ class QRCodeFragment(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        viewDataBinding = DataBindingUtil.inflate(inflater, getLayoutId(), container, false)
+    ): View {
+
+        viewDataBinding =  FragmentQrCodeBinding.inflate(inflater,container,false)//DataBindingUtil.inflate(inflater, getLayoutId(), container, false)
         return viewDataBinding.root
     }
 
@@ -135,7 +136,7 @@ class QRCodeFragment(
             R.id.tvShareMyCode -> {
                 trackEventWithScreenName(FirebaseEvent.SHARE_QR_CODE)
                 context?.shareImage(
-                    qrContainer,
+                    viewDataBinding.qrContainer,
                     imageName = shareQRImageName,
                     shareText = shareQRText,
                     chooserTitle = shareQRTitle
@@ -167,7 +168,7 @@ class QRCodeFragment(
         )
         permissionHelper?.request(object : PermissionHelper.PermissionCallback {
             override fun onPermissionGranted() {
-                context?.storeBitmap(qrContainer) {
+                context?.storeBitmap(viewDataBinding.qrContainer) {
                     trackEventWithScreenName(FirebaseEvent.SAVE_QR_CODE)
                     Toast.makeText(
                         context,

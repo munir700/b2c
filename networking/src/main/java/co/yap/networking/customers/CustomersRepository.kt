@@ -1,10 +1,12 @@
 package co.yap.networking.customers
 
+import androidx.annotation.NonNull
 import co.yap.networking.BaseRepository
 import co.yap.networking.CookiesManager
 import co.yap.networking.RetroNetwork
-import co.yap.networking.customers.models.dashboardwidget.WidgetData
+import co.yap.networking.customers.models.CityModel
 import co.yap.networking.customers.models.dashboardwidget.UpdateWidgetResponse
+import co.yap.networking.customers.models.dashboardwidget.WidgetData
 import co.yap.networking.customers.requestdtos.*
 import co.yap.networking.customers.responsedtos.*
 import co.yap.networking.customers.responsedtos.additionalinfo.AdditionalInfoResponse
@@ -16,8 +18,11 @@ import co.yap.networking.customers.responsedtos.currency.CurrenciesResponse
 import co.yap.networking.customers.responsedtos.documents.ConfigureEIDResponse
 import co.yap.networking.customers.responsedtos.documents.EIDDocumentsResponse
 import co.yap.networking.customers.responsedtos.documents.GetMoreDocumentsResponse
+import co.yap.networking.customers.responsedtos.documents.UqudoTokenResponse
+import co.yap.networking.customers.responsedtos.employment_amendment.DocumentResponse
 import co.yap.networking.customers.responsedtos.employment_amendment.EmploymentInfoAmendmentResponse
 import co.yap.networking.customers.responsedtos.employmentinfo.IndustrySegmentsResponse
+import co.yap.networking.customers.responsedtos.featureflag.FeatureFlagResponse
 import co.yap.networking.customers.responsedtos.sendmoney.*
 import co.yap.networking.customers.responsedtos.tax.TaxInfoResponse
 import co.yap.networking.customers.responsedtos.taxinfoamendment.TaxInfoAmendmentResponse
@@ -40,6 +45,8 @@ import java.util.*
 object CustomersRepository : BaseRepository(), CustomersApi {
 
     const val URL_SIGN_UP = "/customers/api/profile"
+    const val URL_SYSTEM_CONFIGURATION = "/customers/api/system-configuration"
+    const val URL_GET_SIGN_UP_COUNTRIES = "/customers/api/sign-up/countries"
     const val URL_SEND_VERIFICATION_EMAIL = "/customers/api/sign-up/email"
     const val URL_ACCOUNT_INFO = "/customers/api/accounts"
     const val URL_POST_DEMOGRAPHIC_DATA_SIGN_IN = "/customers/api/demographics/device-login"
@@ -83,6 +90,8 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     const val URL_SEARCH_BANKS = "/customers/api/other_bank/query"
     const val URL_VALIDATE_BENEFICIARY = "customers/api/validate/bank-transfer/beneficiary-details"
     const val URL_GET_ALL_COUNTRIES = "customers/api/countries"
+    const val URL_GET_ALL_CitIES = "customers/api/countries/cities/{country-code}"
+    const val URL_GET_ALL_DOCUMENT_FOR_EMPLOYMENT = "customers/api/employment-document-criteria"
 
     val URL_GET_TRANSFER_REASONS = "/transactions/api/product-codes/{product-code}/purpose-reasons"
     val URL_INTERNAL_TRANSFER = "/transactions/api/internal-transfer"
@@ -116,6 +125,7 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     const val URL_CITIES = "customers/api/cities"
     const val URL_TAX_REASONS = "customers/api/tin-reasons"
     const val URL_GET_QR_CONTACT = "customers/api/customers-info"
+    const val URL_KEY_FACTS_STATEMENT = "customers/api/customer-documents-kfs-statement-url"
     const val URL_GET_FAILED_SUBSCRIPTIONS_NOTIFICATIONS =
             "/transactions/api/household/get-subscriptions-notifications"
     //.................... End region of old projects apis................................................
@@ -131,7 +141,7 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     const val URL_RESEND_EMAIL = "/customers/api/sign-up/resend/email"
 
     const val URL_GET_ALL_CURRENCIES = "/customers/api/currencies"
-    const val URL_GET_BY_CURRENCY_CODE = "/customers/aapi/currencies/code/{currencyCode}"
+    const val URL_GET_BY_CURRENCY_CODE = "/customers/api/currencies/code/{currencyCode}"
 
     const val URL_GET_COOLING_PERIOD = "customers/api/cooling-period-duration"
     const val URL_UPDATE_HOME_COUNTRY = "customers/api/customers-info/update-home-country"
@@ -146,6 +156,8 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     const val URL_COMPLETE_VERIFICATION = "customers/api/v2/profile"
     const val URL_GET_INDUSTRY_SEGMENTS = "customers/api/industry-sub-segments"
     const val URL_SAVE_EMPLOYMENT_INFO = "customers/api/employment-information"
+    const val URL_SAVE_EMPLOYMENT_INFO_WITH_DOCUMENTS =
+        "customers/api/profile/employment-information"
     const val URL_STOP_RANKING_MSG = "customers/api/stop-display"
     const val URL_DASHBOARD_WIDGETS = "customers/api/getWidgets"
     const val URL_DASHBOARD_WIDGETS_UPDATE = "customers/api/updateWidgets"
@@ -161,8 +173,19 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     const val URL_GET_AMENDMENT_FIELDS = "customers/api/amendment-fields"
     const val URL_GET_CUSTOMER_KYC_DOCUMENTS = "customers/api/v2/documents"
     const val URL_UPDATE_PASSPORT_AMENDMENT = "customers/api/kyc-amendments/passport"
+
+    //Uqudo API
+    const val URL_GET_UQUDO_AUTH_TOKEN = "customers/api/uqudo/get-token"
+
     const val URL_GET_CUSTOMER_DOCUMENTS =
         "customers/api/eida-data"
+    const val URL_GET_EMPLOYMENT_INFORMATION =
+        "customers/api/profile/employment-information"
+
+    //Feature Flag
+    const val URL_GET_FEATURE_FLAG =
+        "yapsuper/feature/YAP-UAE-B2C/customer/{customer_id}/email/{email}"
+
     private val api: CustomersRetroService =
         RetroNetwork.createService(CustomersRetroService::class.java)
 
@@ -176,6 +199,9 @@ object CustomersRepository : BaseRepository(), CustomersApi {
         }
         return response
     }
+
+    override suspend fun getSystemConfigurations(): RetroApiResponse<BaseListResponse<SystemConfigurationInfo>> =
+        executeSafely(call = { api.getSystemConfigurations() })
 
     override suspend fun sendVerificationEmail(verificationEmailRequest: SendVerificationEmailRequest): RetroApiResponse<OtpValidationResponse> =
         executeSafely(call = { api.sendVerificationEmail(verificationEmailRequest) })
@@ -197,6 +223,74 @@ object CustomersRepository : BaseRepository(), CustomersApi {
 
     override suspend fun getDocuments(): RetroApiResponse<GetDocumentsResponse> =
         executeSafely(call = { api.getDocuments() })
+
+    override suspend fun saveEmploymentInfoWithDocument(
+        employmentInfoRequest: EmploymentInfoRequest,
+        files: ArrayList<MultipartBody.Part>, documentTypeList: ArrayList<String>
+    ): RetroApiResponse<ApiResponse> =
+        employmentInfoRequest.run {
+            executeSafely(call = {
+                api.submitEmploymentInfoWithDocument(
+                    files = files,
+                    documentTypes = createPartFromArray(
+                        documentTypeList,
+                        "documentTypes"
+                    ),
+                    businessCountries = createPartFromArray(
+                        businessCountries ?: listOf(),
+                        "businessCountries"
+                    ),
+                    companyName = RequestBody.create(
+                        MediaType.parse("multipart/form-dataList"),
+                        companyName ?: ""
+                    ),
+                    employerName = RequestBody.create(
+                        MediaType.parse("multipart/form-dataList"),
+                        employerName ?: ""
+                    ),
+                    employmentStatus = RequestBody.create(
+                        MediaType.parse("multipart/form-dataList"),
+                        employmentStatus ?: ""
+                    ),
+                    employmentType = RequestBody.create(
+                        MediaType.parse("multipart/form-dataList"),
+                        employmentType ?: ""
+                    ),
+                    expectedMonthlyCredit = RequestBody.create(
+                        MediaType.parse("multipart/form-dataList"),
+                        expectedMonthlyCredit ?: ""
+                    ),
+                    industrySubSegmentCodes = createPartFromArray(
+                        industrySegmentCodes ?: listOf(),
+                        "industrySubSegmentCode"
+                    ),
+                    monthlySalary = RequestBody.create(
+                        MediaType.parse("multipart/form-dataList"),
+                        monthlySalary ?: ""
+                    ),
+                    sponsorName = RequestBody.create(
+                        MediaType.parse("multipart/form-dataList"),
+                        sponsorName ?: ""
+                    ),
+                    typeOfSelfEmployment = RequestBody.create(
+                        MediaType.parse("multipart/form-dataList"),
+                        typeOfSelfEmployment ?: ""
+                    )
+                )
+            })
+        }
+
+    @NonNull
+    private fun createPartFromArray(
+        values: List<String>,
+        param_name: String?
+    ): List<MultipartBody.Part> {
+        val descriptionList: MutableList<MultipartBody.Part> = ArrayList()
+        values.forEach { index ->
+            descriptionList.add(MultipartBody.Part.createFormData(param_name, index))
+        }
+        return descriptionList
+    }
 
     override suspend fun uploadDocuments(document: UploadDocumentsRequest): RetroApiResponse<ApiResponse> =
         document.run {
@@ -300,6 +394,8 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     override suspend fun getCountries() = executeSafely(call = { api.getCountries() })
 
     override suspend fun getAllCountries() = executeSafely(call = { api.getAllCountries() })
+
+    override suspend fun getAllCities(countryCode: String): RetroApiResponse<CityModel> = executeSafely(call = { api.getAllCities(countryCode) })
 
     override suspend fun addBeneficiary(beneficiary: Beneficiary): RetroApiResponse<AddBeneficiaryResponseDTO> =
         executeSafely(call = { api.addBeneficiary(beneficiary) })
@@ -417,16 +513,17 @@ object CustomersRepository : BaseRepository(), CustomersApi {
             industrySubSegmentCode = "USED CARS",
             monthlySalary = "1000.0"
         )
-        /*val empOtherRes = EmploymentInfoAmendmentResponse(
+        val empOtherRes = EmploymentInfoAmendmentResponse(
             employmentStatus = "OTHER",
             employmentType = "RETIRED",
             expectedMonthlyCredit = "300.0",
             monthlySalary = "1000.0",
-            sponsor = "Microsoft"
-        )*/
+            sponsorName = "Microsoft",
+            documents = arrayListOf(Document(DocumentTypes.PROOF_OF_INCOME.name, "https://yap/customer_data/1000002709/documents/1638797811931_1638797788318.jpg","pdf", "Proof of Income", "Upload salary certificate, Pay slip, Increment Letter or Labor Contract"))
+        )
         val response = BaseResponse<EmploymentInfoAmendmentResponse>()
-        response.data = empRes
-        //response.data = empOtherRes
+        //response.data = empRes
+        response.data = empOtherRes
         return RetroApiResponse.Success(200, response)*/
     }
 
@@ -497,7 +594,6 @@ object CustomersRepository : BaseRepository(), CustomersApi {
                 )
             })
         }
-
 
     override suspend fun uploadAdditionalQuestion(uploadAdditionalInfo: UploadAdditionalInfo): RetroApiResponse<ApiResponse> =
         executeSafely(call = {
@@ -627,4 +723,24 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     override suspend fun getCustomerDocuments(accountUuid: String?) =
         executeSafely(call = { api.getCustomerDocuments(accountUuid) })
 
+    override suspend fun getEmploymentInfo() =
+        executeSafely { api.getEmploymentInfo() }
+
+    override suspend fun getAllDocumentsForEmploymentAmendment(): RetroApiResponse<BaseListResponse<DocumentResponse>> =
+        executeSafely { api.getAllDocumentsForEmploymentAmendment() }
+
+    override suspend fun getUqudoAuthToken(): RetroApiResponse<BaseResponse<UqudoTokenResponse>> =
+        executeSafely(call = { api.getUqudoAuthToken() })
+
+    override suspend fun getAppCountries(): RetroApiResponse<BaseListResponse<Country>> =
+        executeSafely { api.getAppCountries() }
+
+    override suspend fun getKeyFactStatement(): RetroApiResponse<TaxInfoResponse> =
+        executeSafely(call = { api.getKeyFactStatement() })
+
+    override suspend fun getFeatureFlag(
+        customer_id: String,
+        email: String
+    ): RetroApiResponse<BaseResponse<FeatureFlagResponse>> =
+        executeSafely { api.getFeatureFlag(customer_id, email) }
 }

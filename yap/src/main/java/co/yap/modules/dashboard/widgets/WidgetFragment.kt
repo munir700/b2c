@@ -12,6 +12,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.BR
 import co.yap.R
+import co.yap.databinding.FragmentWidgetBinding
 import co.yap.networking.customers.models.dashboardwidget.WidgetData
 import co.yap.translation.Strings
 import co.yap.translation.Translator
@@ -30,7 +31,7 @@ import co.yap.yapcore.helpers.extentions.dimen
 import kotlinx.android.synthetic.main.fragment_widget.*
 
 
-class WidgetFragment : BaseBindingFragment<IWidget.ViewModel>(),
+class WidgetFragment : BaseBindingFragment<FragmentWidgetBinding,IWidget.ViewModel>(),
     IWidget.View,
     RecyclerViewDragDropManager.OnItemDragEventListener,
     RecyclerViewSwipeManager.OnItemSwipeEventListener, WidgetAdapter.EventListener {

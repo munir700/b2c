@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="co.yap.modules.dashboard.yapit.addmoney.easybanktransfer.banklist.BankListViewModel" />
+
+        <import type="co.yap.translation.Strings" />
+
+        <import type="android.view.View"/>
+
+        <import type="co.yap.yapcore.R" />
+
+        <import type="co.yap.yapcore.helpers.Utils" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:sensitiveViews="@{Utils.getViewsList(layoutSearchView)}">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvSelectBank"
+            style="@style/ATitle2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_medium_large"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:text="@{Strings.screen_lean_bank_list_select_a_bank}"
+            android:visibility="@{viewModel.state.isSearchActive ? View.GONE : View.VISIBLE}"
+            tools:text="@string/screen_lean_bank_list_select_a_bank" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvChooseBank"
+            style="@style/ARegularGrey"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:gravity="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvSelectBank"
+            app:text="@{Strings.screen_lean_bank_list_choose_bank}"
+            android:visibility="@{viewModel.state.isSearchActive ? View.GONE : View.VISIBLE}"
+            tools:text="@string/screen_lean_bank_list_choose_bank" />
+
+            <co.yap.widgets.search.YapSearchView
+                android:id="@+id/layoutSearchView"
+                android:layout_height="@dimen/_30sdp"
+                android:layout_marginStart="@dimen/margin_normal"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:layout_marginEnd="@dimen/margin_normal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:YapSearchViewListener="@{viewModel.yapSearchViewChangeListener}"
+                app:layout_constraintTop_toBottomOf="@+id/tvChooseBank"
+                android:layout_width="match_parent" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvBankList"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:adapter="@{viewModel.bankListAdapter}"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/layoutSearchView"
+            tools:listitem="@layout/item_bank_list" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

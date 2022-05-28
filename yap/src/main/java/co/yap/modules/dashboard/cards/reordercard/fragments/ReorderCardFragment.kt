@@ -8,6 +8,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import co.yap.R
+import co.yap.databinding.FragmentReorderCardBinding
 import co.yap.modules.dashboard.cards.reordercard.interfaces.IRenewCard
 import co.yap.modules.dashboard.cards.reordercard.viewmodels.RenewCardViewModel
 import co.yap.modules.dashboard.yapit.topup.cardslisting.TopUpBeneficiariesActivity
@@ -24,7 +25,7 @@ import co.yap.yapcore.leanplum.HHTransactionsEvents
 import co.yap.yapcore.leanplum.trackEvent
 import co.yap.yapcore.managers.SessionManager
 
-class ReorderCardFragment : ReorderCardBaseFragment<IRenewCard.ViewModel>(), IRenewCard.View {
+class ReorderCardFragment : ReorderCardBaseFragment<FragmentReorderCardBinding,IRenewCard.ViewModel>(), IRenewCard.View {
     override fun getBindingVariable(): Int = BR.viewModel
 
     override fun getLayoutId(): Int = R.layout.fragment_reorder_card

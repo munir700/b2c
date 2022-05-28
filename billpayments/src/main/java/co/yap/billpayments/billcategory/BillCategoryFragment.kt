@@ -4,11 +4,12 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import co.yap.billpayments.BR
 import co.yap.billpayments.R
 import co.yap.billpayments.addbiller.main.AddBillActivity
 import co.yap.billpayments.base.BillDashboardBaseFragment
+import co.yap.billpayments.databinding.FragmentBillCategoryBinding
 import co.yap.billpayments.paybill.main.PayBillMainActivity
 import co.yap.networking.customers.responsedtos.billpayment.BillProviderModel
 import co.yap.networking.customers.responsedtos.billpayment.ViewBillModel
@@ -20,13 +21,13 @@ import co.yap.yapcore.helpers.extentions.getValue
 import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.interfaces.OnItemClickListener
 
-
-class BillCategoryFragment : BillDashboardBaseFragment<IBillCategory.ViewModel>(),
+class BillCategoryFragment :
+    BillDashboardBaseFragment<FragmentBillCategoryBinding, IBillCategory.ViewModel>(),
     IBillCategory.View {
     override fun getBindingVariable(): Int = BR.viewModel
 
     override val viewModel: BillCategoryViewModel
-        get() = ViewModelProviders.of(this).get(BillCategoryViewModel::class.java)
+        get() = ViewModelProvider(this).get(BillCategoryViewModel::class.java)
 
     override fun getLayoutId(): Int = R.layout.fragment_bill_category
 
@@ -47,7 +48,10 @@ class BillCategoryFragment : BillDashboardBaseFragment<IBillCategory.ViewModel>(
 
     private fun onCategorySelection(billCategory: BillProviderModel?) {
         if (!billCategory?.categoryType.equals("CREDIT_CARD")) {
-            launchActivity<AddBillActivity>(requestCode = RequestCodes.REQUEST_ADD_BILL , type = FeatureSet.ADD_BILL_PAYMENT) {
+            launchActivity<AddBillActivity>(
+                requestCode = RequestCodes.REQUEST_ADD_BILL,
+                type = FeatureSet.ADD_BILL_PAYMENT
+            ) {
                 putExtra(
                     ExtraKeys.BILL_PROVIDER.name,
                     billCategory

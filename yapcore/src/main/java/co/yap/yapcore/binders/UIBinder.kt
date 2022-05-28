@@ -185,7 +185,7 @@ object UIBinder {
         when (card.status) {
             CardStatus.ACTIVE.name -> {
                 if (card.cardType == CardType.DEBIT.type && PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus) {
-                        linearLayout.visibility = if(card.pinCreated) VISIBLE else GONE
+                    linearLayout.visibility = if (card.pinCreated) VISIBLE else GONE
                 } else {
                     linearLayout.visibility = VISIBLE
                 }
@@ -389,7 +389,7 @@ object UIBinder {
     @BindingAdapter("src")
     @JvmStatic
     fun setImageResId(view: ImageView, resId: Int) {
-        if (resId >0)
+        if (resId > 0)
             view.setImageResource(resId)
     }
 
@@ -1072,7 +1072,8 @@ object UIBinder {
             drawables[3]
         )
     }
-// TODO refactor this binding adapter
+
+    // TODO refactor this binding adapter
     @BindingAdapter(requireAll = false, value = ["flagOnStartDrawable"])
     @JvmStatic
     fun setFlagOnDrawableStart(
@@ -1117,7 +1118,6 @@ object UIBinder {
             Glide.with(view).load(mUrl)
                 .placeholder(R.color.white).into(view)
         }
-
     }
 
 
@@ -1224,29 +1224,35 @@ object UIBinder {
     @JvmStatic
     fun setCardStatus(constraintLayout: ConstraintLayout, card: Card) {
         if (CardStatus.valueOf(card.status).name.isNotEmpty()) {
-           constraintLayout.visibility = when (CardStatus.valueOf(card.status)) {
+            constraintLayout.visibility = when (CardStatus.valueOf(card.status)) {
                 CardStatus.ACTIVE -> {
-                        if (card.cardType == CardType.DEBIT.type && PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus
-                            && !card.pinCreated)
-                            GONE else VISIBLE
+                    if (card.cardType == CardType.DEBIT.type && PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus
+                        && !card.pinCreated
+                    )
+                        GONE else VISIBLE
                 }
                 CardStatus.BLOCKED, CardStatus.INACTIVE, CardStatus.HOTLISTED -> {
-                     GONE
+                    GONE
                 }
-               else -> GONE
-           }
+                else -> GONE
+            }
         }
     }
 
     @BindingAdapter("paddingImage")
     @JvmStatic
     fun setPaddingImage(imageView: AppCompatImageView, padding: Float) {
-            imageView.setPadding(padding.toInt(), padding.toInt(), padding.toInt(), padding.toInt())
+        imageView.setPadding(padding.toInt(), padding.toInt(), padding.toInt(), padding.toInt())
     }
 
     @BindingAdapter(requireAll = true, value = ["year", "date", "superscript"])
     @JvmStatic
-    fun setDateWithSuperScript(textView: TextView,year:String,strText:String, superscriptText:String){
+    fun setDateWithSuperScript(
+        textView: TextView,
+        year: String?,
+        strText: String,
+        superscriptText: String
+    ) {
         val spannableStringBuilder = SpannableStringBuilder(superscriptText)
         val spannableStringBuilderPreText = SpannableStringBuilder(strText)
         val superscriptSpan = SuperscriptSpan()
@@ -1264,7 +1270,7 @@ object UIBinder {
             superscriptText.indexOf(superscriptText) + superscriptText.length,
             Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
         )
-        textView.text = spannableStringBuilderPreText.append(spannableStringBuilder).append(year)
+        textView.text = spannableStringBuilderPreText.append(spannableStringBuilder).append(year?:"")
     }
 
     /*

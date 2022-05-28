@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="co.yap.app">
+
     <uses-sdk
         android:protectionLevel="signature"
         tools:overrideLibrary="com.leanplum, com.google.android.gms" />
@@ -27,6 +28,7 @@
         tools:replace="android:theme,android:allowBackup,android:supportsRtl,android:icon,android:roundIcon">
         <activity
             android:name=".main.MainActivity"
+            android:exported="true"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
@@ -40,10 +42,19 @@
                 <action android:name="co.yap.app.OPEN_LOGIN" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="b2c_yap" />
+            </intent-filter>
         </activity>
 
         <activity
             android:name="co.yap.modules.forgotpasscode.activities.ForgotPasscodeActivity"
+            android:exported="false"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity">
             <nav-graph android:value="@navigation/forgot_passcode_navigation" />
@@ -51,12 +62,14 @@
 
         <activity
             android:name="co.yap.sendmoney.y2y.home.activities.YapToYapDashboardActivity"
+            android:exported="false"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity">
             <nav-graph android:value="@navigation/yap_to_yap_navigation" />
         </activity>
         <activity
             android:name=".modules.login.activities.VerifyPassCodePresenterActivity"
+            android:exported="false"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
 
@@ -67,8 +80,12 @@
 
         <meta-data
             android:name="firebase_crashlytics_collection_enabled"
-            android:value="true" />
-
+            android:value="@bool/enabled_crash"
+            tools:replace="android:value"/>
+        <meta-data
+            android:name="firebase_analytics_collection_enabled"
+            android:value="@bool/enabled_analytics"
+            tools:replace="android:value"/>
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
@@ -100,7 +117,9 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name=".modules.refreal.AdjustReferrerReceiver">
+        <activity
+            android:name=".modules.refreal.AdjustReferrerReceiver"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -132,4 +151,35 @@
                 tools:replace="android:resource" />
         </provider>
     </application>
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <data android:scheme="https" />
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.SEND" />
+            <data android:mimeType="image/jpeg" />
+        </intent>
+        <!--For Documents query-->
+        <intent>
+            <action android:name="android.intent.action.GET_CONTENT" />
+            <category android:name="android.intent.category.OPENABLE" />
+            <data android:mimeType="image/*" />
+        </intent>
+        <!--For Images query-->
+        <intent>
+            <action android:name="android.media.action.IMAGE_CAPTURE" />
+        </intent>
+
+
+        <!-- with out these query intent app is working
+         <intent>
+             <action android:name="android.intent.action.PICK" />
+
+             <data android:mimeType="image/*" />
+         </intent>
+         <intent>
+             <action android:name="android.intent.action.CHOOSER" />
+         </intent>-->
+    </queries>
 </manifest>

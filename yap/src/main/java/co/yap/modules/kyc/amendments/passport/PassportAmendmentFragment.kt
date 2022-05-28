@@ -32,7 +32,7 @@ import com.wdullaer.materialdatetimepicker.date.DatePickerDialog
 import java.io.File
 import java.util.*
 
-class PassportAmendmentFragment : BaseBindingFragment<IPassportAmendment.ViewModel>(),
+class PassportAmendmentFragment : BaseBindingFragment<FragmentPassportAmendmentBinding,IPassportAmendment.ViewModel>(),
     IPassportAmendment.View {
     private var permissionHelper: PermissionHelper? = null
     override fun getBindingVariable() = BR.viewModel

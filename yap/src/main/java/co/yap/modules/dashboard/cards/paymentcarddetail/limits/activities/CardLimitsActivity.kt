@@ -8,12 +8,13 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
+import co.yap.databinding.ActivityCardLimitsBinding
 import co.yap.modules.dashboard.cards.paymentcarddetail.limits.interfaces.ICardLimits
 import co.yap.modules.dashboard.cards.paymentcarddetail.limits.viewmodel.CardLimitViewModel
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.yapcore.BaseBindingActivity
 
-class CardLimitsActivity : BaseBindingActivity<ICardLimits.ViewModel>(),
+class CardLimitsActivity : BaseBindingActivity<ActivityCardLimitsBinding,ICardLimits.ViewModel>(),
     ICardLimits.View {
 
     companion object {

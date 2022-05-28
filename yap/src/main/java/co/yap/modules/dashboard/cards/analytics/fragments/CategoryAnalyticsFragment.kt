@@ -22,7 +22,7 @@ import co.yap.yapcore.interfaces.OnItemClickListener
 import kotlinx.android.synthetic.main.item_analytics.view.*
 
 
-class CategoryAnalyticsFragment : CardAnalyticsBaseFragment<ICategoryAnalytics.ViewModel>(),
+class CategoryAnalyticsFragment : CardAnalyticsBaseFragment<FragmentCategoryAnalyticsBinding, ICategoryAnalytics.ViewModel>(),
     ICategoryAnalytics.View {
     override fun getBindingVariable(): Int = BR.viewModel
 

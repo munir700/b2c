@@ -5,17 +5,16 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.Parcelable
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
+import co.yap.databinding.ActivityFragmentPresenterBinding
 import co.yap.modules.dashboard.cards.status.fragments.YapCardStatusFragment
 import co.yap.modules.dashboard.more.help.fragments.HelpSupportFragment
 import co.yap.modules.onboarding.fragments.MeetingConfirmationFragment
 import co.yap.modules.others.fragmentpresenter.interfaces.IFragmentPresenter
 import co.yap.modules.others.fragmentpresenter.viewmodels.FragmentPresenterViewModel
 import co.yap.networking.cards.responsedtos.Card
-import co.yap.widgets.qrcode.QRCodeFragment
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.IFragmentHolder
@@ -23,7 +22,8 @@ import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.Constants.MODE_MEETING_CONFORMATION
 import co.yap.yapcore.helpers.extentions.replaceFragment
 
-class FragmentPresenterActivity : BaseBindingActivity<IFragmentPresenter.ViewModel>(),
+class FragmentPresenterActivity :
+    BaseBindingActivity<ActivityFragmentPresenterBinding, IFragmentPresenter.ViewModel>(),
     IFragmentPresenter.View,
     IFragmentHolder {
 
@@ -39,7 +39,7 @@ class FragmentPresenterActivity : BaseBindingActivity<IFragmentPresenter.ViewMod
         }
     }
 
-    private lateinit var fragment: BaseBindingFragment<*>
+    private lateinit var fragment: BaseBindingFragment<*, *>
     var modeCode: Int = 0
 
     override fun getBindingVariable(): Int = BR.viewModel
@@ -70,8 +70,7 @@ class FragmentPresenterActivity : BaseBindingActivity<IFragmentPresenter.ViewMod
             fragment = MeetingConfirmationFragment()
             ft.replace(R.id.container, fragment)
             ft.commit()
-        }
-        else {
+        } else {
             if (Constants.MODE_HELP_SUPPORT == modeCode) {
                 val ft = supportFragmentManager.beginTransaction()
                 fragment = HelpSupportFragment()
@@ -79,13 +78,6 @@ class FragmentPresenterActivity : BaseBindingActivity<IFragmentPresenter.ViewMod
                 ft.commit()
             }
         }
-    }
-
-    private fun addObservers() {
-        viewModel.clickEvent.observe(this, Observer {
-            when (it) {
-            }
-        })
     }
 
     override fun onDestroy() {

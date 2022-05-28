@@ -14,9 +14,6 @@
     <uses-feature
         android:name="android.hardware.camera.front"
         android:required="true" />
-    <uses-feature
-        android:name="android.hardware.microphone"
-        android:required="false" />
 
     <application
         android:allowBackup="false"
@@ -29,14 +26,9 @@
         android:theme="@style/Theme.AppCompat.NoActionBar">
 
         <activity
-            android:name=".docscanner.activities.IdentityScannerActivity"
-            android:label="@string/activity_scan_title"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.NoActionBar"  />
-
-        <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:screenOrientation="portrait"
+            android:exported="false"
             android:theme="@style/Base.Theme.AppCompat" />
     </application>
 

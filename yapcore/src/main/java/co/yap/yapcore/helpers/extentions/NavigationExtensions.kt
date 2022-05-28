@@ -19,8 +19,10 @@
 package co.yap.yapcore.helpers.extentions
 
 import android.os.Bundle
+import androidx.annotation.IdRes
 import androidx.navigation.NavArgument
 import androidx.navigation.NavController
+import androidx.navigation.NavDirections
 import androidx.navigation.NavGraph
 
 
@@ -50,4 +52,17 @@ private fun newNavArgument(value: Any?): NavArgument {
         .setDefaultValue(value)
         .setIsNullable(value == null)
         .build()
+}
+fun NavController.safeNavigate(direction: NavDirections) {
+    currentDestination?.getAction(direction.actionId)?.run { navigate(direction) }
+}
+
+fun NavController.safeNavigate(
+    @IdRes currentDestinationId: Int,
+    @IdRes id: Int,
+    args: Bundle? = null
+) {
+    if (currentDestinationId == currentDestination?.id) {
+        navigate(id, args)
+    }
 }

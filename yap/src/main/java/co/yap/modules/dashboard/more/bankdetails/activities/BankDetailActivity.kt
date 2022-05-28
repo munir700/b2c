@@ -5,6 +5,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
+import co.yap.billpayments.databinding.ActivityBillDetailBinding
 import co.yap.modules.dashboard.more.bankdetails.interfaces.IBankDetail
 import co.yap.modules.dashboard.more.bankdetails.viewmodel.BankDetailViewModel
 import co.yap.modules.dashboard.more.main.activities.MoreActivity
@@ -15,7 +16,7 @@ import co.yap.yapcore.managers.SessionManager
 import kotlinx.android.synthetic.main.activity_bank_detail.*
 
 @Deprecated(message = "We are using bottom sheet to show bank details now")
-class BankDetailActivity : BaseBindingActivity<IBankDetail.ViewModel>(), IBankDetail.View {
+class BankDetailActivity : BaseBindingActivity<ActivityBillDetailBinding,IBankDetail.ViewModel>(), IBankDetail.View {
 
     override fun getBindingVariable(): Int = BR.viewModel
 

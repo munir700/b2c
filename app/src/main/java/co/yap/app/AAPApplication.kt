@@ -26,6 +26,7 @@ import co.yap.yapcore.config.BuildConfigManager
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.Constants.EXTRA
 import co.yap.yapcore.constants.Constants.KEY_APP_UUID
+import co.yap.yapcore.enums.ProductFlavour
 import co.yap.yapcore.dagger.base.navigation.host.NAVIGATION_Graph_ID
 import co.yap.yapcore.dagger.base.navigation.host.NavHostPresenterActivity
 import co.yap.yapcore.enums.YAPThemes
@@ -39,31 +40,38 @@ import co.yap.yapcore.initializeAdjustSdk
 import com.facebook.appevents.AppEventsLogger
 import com.github.florent37.inlineactivityresult.kotlin.startForResult
 import com.google.firebase.analytics.FirebaseAnalytics
-import com.google.firebase.crashlytics.FirebaseCrashlytics
+import com.google.firebase.crashlytics.ktx.crashlytics
+import com.google.firebase.ktx.Firebase
 import com.leanplum.Leanplum
 import com.leanplum.LeanplumActivityHelper
 import com.uxcam.UXCam
+import dagger.hilt.android.HiltAndroidApp
 import dagger.android.AndroidInjector
 import dagger.android.HasAndroidInjector
 import dagger.android.support.DaggerApplication
 import dagger.hilt.EntryPoint
 import dagger.hilt.InstallIn
 import dagger.hilt.android.EntryPointAccessors
-import dagger.hilt.android.HiltAndroidApp
 import dagger.hilt.components.SingletonComponent
 import timber.log.Timber
 import java.util.*
+import javax.inject.Inject
 
 @HiltAndroidApp
-class AAPApplication : HouseHoldApplication(), NavigatorProvider, HasAndroidInjector {
+class AAPApplication : HouseHoldApplication(), NavigatorProvider {
     /*  @Inject
-      lateinit var androidInjector: DispatchingAndroidInjector<Any>*/
+          lateinit var androidInjector: DispatchingAndroidInjector<Any>*/
     lateinit var sAppComponent: AppComponent
     lateinit var originalSign: AppSignature
-
     /*override fun androidInjector(): AndroidInjector<Any> {
         return androidInjector
     }*/
+    @Inject
+    lateinit var pkBuildConfigurations: PKBuildConfigurations
+
+    @Inject
+    lateinit var ghanaBuildConfiguration: GhanaBuildConfigurations
+
     private external fun signatureKeysFromJNI(
         name: String,
         flavour: String,
@@ -110,7 +118,9 @@ class AAPApplication : HouseHoldApplication(), NavigatorProvider, HasAndroidInje
             sslHost = originalSign.sslHost,
             spayServiceId = originalSign.spayServiceId,
             flagSmithAPIKey = originalSign.flagSmithAPIKey,
-            uxCamKey = originalSign.uxCamKey
+            uxCamKey = originalSign.uxCamKey,
+            checkoutKey = originalSign.checkoutKey,
+            leanOpenBanking = originalSign.leanOpenBanking
         )
         initAllModules()
         SecurityHelper(this, originalSign, object : SignatureValidator {
@@ -118,9 +128,11 @@ class AAPApplication : HouseHoldApplication(), NavigatorProvider, HasAndroidInje
                 configManager?.hasValidSignature = true
             }
         })
+
     }
 
     private fun initAllModules() {
+        initFireBase(configManager)
         initNetworkLayer()
         switchTheme(YAPThemes.CORE())
         setAppUniqueId(this)
@@ -148,12 +160,16 @@ class AAPApplication : HouseHoldApplication(), NavigatorProvider, HasAndroidInje
         })
     }
 
-    private fun initFireBase() {
+    private fun initFireBase(configManager: BuildConfigManager?) {
         if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())
         }
-        FirebaseAnalytics.getInstance(this)
-        FirebaseCrashlytics.getInstance().setCrashlyticsCollectionEnabled(!BuildConfig.DEBUG)
+        Firebase.crashlytics.setCrashlyticsCollectionEnabled(!BuildConfig.DEBUG)
+        if (configManager?.flavor == ProductFlavour.PROD.flavour
+        // || configManager?.flavor == ProductFlavour.STG.flavour
+        ) {
+            FirebaseAnalytics.getInstance(this).setAnalyticsCollectionEnabled(!BuildConfig.DEBUG)
+        }
     }
 
     private fun inItLeanPlum() {
@@ -300,8 +316,8 @@ class AAPApplication : HouseHoldApplication(), NavigatorProvider, HasAndroidInje
     }
 
     private fun initUxCam(configManager: BuildConfigManager?) {
-        if (!BuildConfig.DEBUG) {
-            UXCam.startWithKey(configManager?.uxCamKey)
+        if (!BuildConfig.DEBUG && configManager?.flavor == ProductFlavour.PROD.flavour) {
+            UXCam.startWithKey(configManager.uxCamKey)
         }
     }
 }

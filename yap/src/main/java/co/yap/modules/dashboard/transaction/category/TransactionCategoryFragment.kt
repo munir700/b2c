@@ -8,12 +8,13 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
+import co.yap.databinding.FragmentTransactionCategoryBinding
 import co.yap.networking.transactions.responsedtos.transaction.TapixCategory
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.interfaces.OnItemClickListener
 
-class TransactionCategoryFragment : BaseBindingFragment<ITransactionCategory.ViewModel>(),
+class TransactionCategoryFragment : BaseBindingFragment<FragmentTransactionCategoryBinding,ITransactionCategory.ViewModel>(),
     ITransactionCategory.View {
     override fun getBindingVariable(): Int = BR.viewModel
 

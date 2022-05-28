@@ -101,7 +101,9 @@ class PassportAmendmentVM(application: Application) :
     override fun handlePressOnView(id: Int) {
         when (id) {
             R.id.btnNext -> {
-                state.mFile.value?.let {
+                if (state.passportNumber.value?.length ?: 0 < 9) {
+                    showToast("Passport number must have minimum of 9 characters.")
+                } else state.mFile.value?.let {
                     if (it.sizeInMb() < 25) {
                         uploadPassportAmendments(
                             PassportRequest(

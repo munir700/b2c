@@ -1,11 +1,10 @@
 package co.yap.networking.authentication
 
-import co.yap.networking.BaseRepository
+import co.yap.networking.*
 import co.yap.networking.CookiesManager
-import co.yap.networking.MALFORMED_JSON_EXCEPTION_CODE
-import co.yap.networking.RetroNetwork
 import co.yap.networking.authentication.requestdtos.LoginRequest
 import co.yap.networking.authentication.requestdtos.TokenRefreshRequest
+import co.yap.networking.authentication.responsedtos.CSRFTokenResponse
 import co.yap.networking.authentication.responsedtos.LoginResponse
 import co.yap.networking.models.ApiResponse
 import co.yap.networking.models.RetroApiResponse
@@ -21,13 +20,15 @@ object AuthRepository : BaseRepository(), AuthApi {
 
     private val API: AuthRetroService = RetroNetwork.createService(AuthRetroService::class.java)
 
-    override suspend fun getCSRFToken(): RetroApiResponse<ApiResponse> {
-        val response: RetroApiResponse<ApiResponse> = executeSafely(call = { API.getCSRFToken() })
+    override suspend fun getCSRFToken(): RetroApiResponse<CSRFTokenResponse> {
+        val response: RetroApiResponse<CSRFTokenResponse> = executeSafely(call = { API.getCSRFToken() })
         when (response) {
             is RetroApiResponse.Error -> {
                 if (response.error.statusCode == MALFORMED_JSON_EXCEPTION_CODE) {
                     // this is expected response so mark it a success
-                    return RetroApiResponse.Success(200, ApiResponse())
+                    return RetroApiResponse.Success(200, CSRFTokenResponse(MALFORMED_JSON_EXCEPTION_CODE,""))
+                } else if (response.error.statusCode == UNKNOWN_HOSE_EXCEPTION_CODE) {
+                    return RetroApiResponse.Success(200, CSRFTokenResponse(UNKNOWN_HOSE_EXCEPTION_CODE , "Looks like you're offline. Please reconnect and refresh to continue using YAP."))
                 }
             }
         }

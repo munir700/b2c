@@ -22,11 +22,10 @@ import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.enums.FeatureSet
 import co.yap.yapcore.helpers.ExtraKeys
 import co.yap.yapcore.helpers.extentions.launchActivity
-import java.util.*
 
 
 class BillAccountDetailFragment :
-    BillDetailBaseFragment<IBillAccountDetail.ViewModel>(),
+    BillDetailBaseFragment<FragmentBillAccountDetailBinding, IBillAccountDetail.ViewModel>(),
     IBillAccountDetail.View, OnChartValueSelectedListener {
     override fun getBindingVariable(): Int = BR.viewModel
 
@@ -46,7 +45,10 @@ class BillAccountDetailFragment :
         if (requireActivity().intent.hasExtra(ExtraKeys.IS_UPDATED.name))
             if (requireActivity().intent.getBooleanExtra(ExtraKeys.IS_UPDATED.name, false)) {
                 val navOptions = NavOptions.Builder()
-                    .setPopUpTo(R.id.billAccountDetailFragment, true) // starting destination skipped
+                    .setPopUpTo(
+                        R.id.billAccountDetailFragment,
+                        true
+                    ) // starting destination skipped
                     .build()
                 findNavController().navigate(
                     R.id.action_billAccountDetailFragment_to_editBillFragment,
@@ -68,7 +70,10 @@ class BillAccountDetailFragment :
     private val onViewClickObserver = Observer<Int> {
         when (it) {
             R.id.btnPayNow -> {
-                launchActivity<PayBillMainActivity>(requestCode = RequestCodes.REQUEST_PAY_BILL , type = FeatureSet.PAY_BILL_PAYMENT) {
+                launchActivity<PayBillMainActivity>(
+                    requestCode = RequestCodes.REQUEST_PAY_BILL,
+                    type = FeatureSet.PAY_BILL_PAYMENT
+                ) {
                     putExtra(ExtraKeys.SELECTED_BILL.name, viewModel.parentViewModel?.selectedBill)
                 }
             }
@@ -80,7 +85,8 @@ class BillAccountDetailFragment :
             R.id.ivRightIcon -> {
                 if (viewModel.parentViewModel?.selectedBill?.isBillerNotUnavailable() == false)
                     navigate(
-                        destinationId = R.id.action_billAccountDetailFragment_to_editBillFragment,screenType = FeatureSet.EDIT_BILL_PAYMENT
+                        destinationId = R.id.action_billAccountDetailFragment_to_editBillFragment,
+                        screenType = FeatureSet.EDIT_BILL_PAYMENT
                     )
             }
         }
@@ -119,67 +125,68 @@ class BillAccountDetailFragment :
     }
 
     private fun initChart(it: MutableList<BillLineChartHistory>) {
+        with(viewDataBinding) {
+            // background color
+            billingHistoryChart.setBackgroundColor(Color.WHITE)
+            billingHistoryChart.setOnChartValueSelectedListener(this@BillAccountDetailFragment)
 
-        // background color
-        getViewBinding().billingHistoryChart.setBackgroundColor(Color.WHITE)
-        getViewBinding().billingHistoryChart.setOnChartValueSelectedListener(this)
+
+            // disable description text
+            billingHistoryChart.description.isEnabled = false
+
+            // enable touch gestures
+            billingHistoryChart.setTouchEnabled(true)
+
+            // set listeners
+            billingHistoryChart.setOnChartValueSelectedListener(this@BillAccountDetailFragment)
+            billingHistoryChart.setDrawGridBackground(false)
+
+            // create marker to display box when values are selected
+            val mv =
+                ToolTipView2(requireContext(), R.layout.item_bill_account_details_tooltip_view, it)
+
+            // Set the marker to the chart
+            mv.chartView = billingHistoryChart
+            billingHistoryChart.marker = mv
+
+            // enable scaling and dragging
+            billingHistoryChart.isDragEnabled = false
+            billingHistoryChart.setScaleEnabled(false)
+
+            // force pinch zoom along both axis
+            billingHistoryChart.setPinchZoom(false)
 
 
-        // disable description text
-        getViewBinding().billingHistoryChart.description.isEnabled = false
+            // disable dual axis (only use LEFT axis)
+            billingHistoryChart.axisRight.isEnabled = false
+            val yAxis: YAxis = billingHistoryChart.axisLeft
+            // horizontal grid lines
+            yAxis.enableGridDashedLine(10f, 0f, 0f)
+            yAxis.setDrawGridLines(true)
+            yAxis.setDrawLimitLinesBehindData(true)
+            yAxis.axisLineColor = Color.parseColor("#dae0f0")
+            // axis range
+//        yAxis.axisMaximum =
+//            it.maxWith(Comparator.comparingDouble { it.amount!! })?.amount?.toFloat()
+//                ?: 0f
+            yAxis.axisMinimum = 0f
+            yAxis.setPosition(YAxis.YAxisLabelPosition.INSIDE_CHART)
+            yAxis.textColor = Color.parseColor("#9391B1")
+            yAxis.setLabelCount(it.size, true)
 
-        // enable touch gestures
-        getViewBinding().billingHistoryChart.setTouchEnabled(true)
+            // add data
+            setData(billingHistoryChart, it)
 
-        // set listeners
-        getViewBinding().billingHistoryChart.setOnChartValueSelectedListener(this)
-        getViewBinding().billingHistoryChart.setDrawGridBackground(false)
+            // draw points over time
+            billingHistoryChart.animateX(500)
 
-        // create marker to display box when values are selected
-        val mv = ToolTipView2(requireContext(), R.layout.item_bill_account_details_tooltip_view, it)
+            // get the legend (only possible after setting data)
+            val l: Legend = billingHistoryChart.legend
+            l.isWordWrapEnabled = true
 
-        // Set the marker to the chart
-        mv.chartView = getViewBinding().billingHistoryChart
-        getViewBinding().billingHistoryChart.marker = mv
-
-        // enable scaling and dragging
-        getViewBinding().billingHistoryChart.isDragEnabled = false
-        getViewBinding().billingHistoryChart.setScaleEnabled(false)
-
-        // force pinch zoom along both axis
-        getViewBinding().billingHistoryChart.setPinchZoom(false)
-
-        val yAxis: YAxis = getViewBinding().billingHistoryChart.axisLeft
-
-        // disable dual axis (only use LEFT axis)
-        getViewBinding().billingHistoryChart.axisRight.isEnabled = false
-
-        // horizontal grid lines
-        yAxis.enableGridDashedLine(10f, 0f, 0f)
-        yAxis.setDrawGridLines(true)
-        yAxis.setDrawLimitLinesBehindData(true)
-        yAxis.axisLineColor = Color.parseColor("#dae0f0")
-        // axis range
-        yAxis.axisMaximum =
-            it.maxWith(Comparator.comparingDouble { it.amount!! })?.amount?.toFloat()
-                ?: 0f
-        yAxis.axisMinimum = 0f
-        yAxis.setPosition(YAxis.YAxisLabelPosition.INSIDE_CHART)
-        yAxis.textColor = Color.parseColor("#9391B1")
-        yAxis.setLabelCount(it.size, true)
-
-        // add data
-        setData(getViewBinding().billingHistoryChart, it)
-
-        // draw points over time
-        getViewBinding().billingHistoryChart.animateX(500)
-
-        // get the legend (only possible after setting data)
-        val l: Legend = getViewBinding().billingHistoryChart.legend
-        l.isWordWrapEnabled = true
-
-        // draw legend entries as lines
-        l.form = Legend.LegendForm.LINE
+            // draw legend entries as lines
+            l.form = Legend.LegendForm.LINE
+        }
     }
 
     private fun setData(chart: LineChart, it: MutableList<BillLineChartHistory>) {
@@ -259,15 +266,10 @@ class BillAccountDetailFragment :
         }
     }
 
-    fun getViewBinding(): FragmentBillAccountDetailBinding {
-        return viewDataBinding as FragmentBillAccountDetailBinding
-    }
-
     override fun onValueSelected(e: Entry?, h: Highlight?) {
         e?.x?.let {
-
-            getViewBinding().billingHistoryChart.xAxis?.textColor = Color.parseColor("#7c4dff")
-//             getViewBinding().billingHistoryChart.xAxis?.valueFormatter?.getAxisLabel()
+            viewDataBinding.billingHistoryChart.xAxis?.textColor = Color.parseColor("#7c4dff")
+//             billingHistoryChart.xAxis?.valueFormatter?.getAxisLabel()
         }
     }
 
