@@ -31,7 +31,6 @@ import co.yap.yapcore.managers.SessionManager
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.fragment_hhon_boarding_card_selection.*
 import javax.inject.Inject
 
 
@@ -52,13 +51,13 @@ class HHOnBoardingCardSelectionFragment :
         super.postExecutePendingBindings(savedInstanceState)
         // setBackButtonDispatcher()
         viewModel.adapter?.set(adapter)
-        viewPager?.adapter = adapter
+        viewDataBinding.viewPager.adapter = adapter
         setupPager()
     }
 
     private fun setupPager() {
 
-        viewPager?.apply {
+        viewDataBinding.viewPager.apply {
             this.setPageTransformer(
                 SimplePageOffsetTransformer(
                     resources.getDimensionPixelOffset(R.dimen._30sdp),
@@ -66,7 +65,7 @@ class HHOnBoardingCardSelectionFragment :
                 )
             )
             viewModel.state.cardDesigns?.observe(this@HHOnBoardingCardSelectionFragment, Observer {
-                TabLayoutMediator(tabLayout, this,
+                TabLayoutMediator(viewDataBinding.tabLayout, this,
                     TabLayoutMediator.TabConfigurationStrategy { tab, position ->
                         val view =
                             layoutInflater.inflate(R.layout.item_circle_view, null) as CircleView
@@ -81,9 +80,9 @@ class HHOnBoardingCardSelectionFragment :
                             //tab.tag = it[position]
                         } catch (e: Exception) {
                         }
-                        tabLayout?.addOnTabSelectedListener(this@HHOnBoardingCardSelectionFragment)
+                        viewDataBinding.tabLayout.addOnTabSelectedListener(this@HHOnBoardingCardSelectionFragment)
                         tabViews.add(view)
-                        onTabSelected(tabLayout.getTabAt(0))
+                        onTabSelected(viewDataBinding.tabLayout.getTabAt(0))
                         viewModel.state.designCode?.value =
                             this@HHOnBoardingCardSelectionFragment.adapter.getData()[0].designCode
                         tab.customView = view
@@ -98,8 +97,8 @@ class HHOnBoardingCardSelectionFragment :
             R.id.btnCompleteSetup -> {
                 viewModel.signupToFss(
                     SignUpFss(
-                        designCode = adapter.getData()[tabLayout.selectedTabPosition].designCode,
-                        productCode = adapter.getData()[tabLayout.selectedTabPosition].productCode
+                        designCode = adapter.getData()[viewDataBinding.tabLayout.selectedTabPosition].designCode,
+                        productCode = adapter.getData()[viewDataBinding.tabLayout.selectedTabPosition].productCode
                     )
                 ) {
                     launchActivityForResult<DocumentsDashboardActivity>(
@@ -147,8 +146,8 @@ class HHOnBoardingCardSelectionFragment :
                 viewModel.state.address?.value?.let { address ->
                     viewModel.signupToFss(
                         SignUpFss(
-                            designCode = adapter.getData()[tabLayout.selectedTabPosition].designCode,
-                            productCode = adapter.getData()[tabLayout.selectedTabPosition].productCode
+                            designCode = adapter.getData()[viewDataBinding.tabLayout.selectedTabPosition].designCode,
+                            productCode = adapter.getData()[viewDataBinding.tabLayout.selectedTabPosition].productCode
                         )
                     ) {
                         viewModel.orderHouseHoldPhysicalCardRequest(address) {

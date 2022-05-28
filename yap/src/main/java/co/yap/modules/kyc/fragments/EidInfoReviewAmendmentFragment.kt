@@ -42,8 +42,6 @@ import co.yap.yapcore.helpers.extentions.parseToInt
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.SessionManager
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog
-import com.yap.core.extensions.finish
-import java.io.File
 import java.util.*
 
 
@@ -60,12 +58,12 @@ class EidInfoReviewAmendmentFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        getViewBinding().lifecycleOwner = this
-        viewModel.validator?.targetViewBinding = getViewBinding()
+        viewDataBinding.lifecycleOwner = this
+        viewModel.validator?.targetViewBinding = viewDataBinding
         viewModel.validator?.toValidate()
         addObservers()
         // TODO use MaskTextWatcher to mask the eid number
-        getViewBinding().tvEidNumber.filters =
+        viewDataBinding.tvEidNumber.filters =
             arrayOf(
                 InputFilter.LengthFilter(resources.getInteger(R.integer.eid_length)),
                 EidFilter(intArrayOf(3, 8, 16), '-')
@@ -82,7 +80,7 @@ class EidInfoReviewAmendmentFragment :
         super.onActivityCreated(savedInstanceState)
         if (viewModel.parentViewModel?.skipFirstScreen?.value == true) {
             viewModel.state.errorScreenVisited = false
-            getViewBinding().tbBtnBack.setOnClickListener {
+            viewDataBinding.tbBtnBack.setOnClickListener {
                 viewModel.parentViewModel?.finishKyc?.value = DocumentsResponse(false)
             }
         }
@@ -92,7 +90,7 @@ class EidInfoReviewAmendmentFragment :
         with(viewModel) {
             if (parentViewModel?.skipFirstScreen?.value == true) {
                 state.errorScreenVisited = false
-                getViewBinding().tbBtnBack.setOnClickListener {
+                viewDataBinding.tbBtnBack.setOnClickListener {
                     parentViewModel?.finishKyc?.value = DocumentsResponse(false)
                 }
             }
@@ -197,10 +195,10 @@ class EidInfoReviewAmendmentFragment :
 
     private fun disableEndDrawable(view: EditTextRichDrawable?) {
         val list = listOf(
-            getViewBinding().tvEidNumber,
-            getViewBinding().tvFirstName,
-            getViewBinding().tvMiddleName,
-            getViewBinding().tvLastName
+            viewDataBinding.tvEidNumber,
+            viewDataBinding.tvFirstName,
+            viewDataBinding.tvMiddleName,
+            viewDataBinding.tvLastName
         )
         list.forEach {
             it.setDrawableEndVectorId(
@@ -311,10 +309,10 @@ class EidInfoReviewAmendmentFragment :
     }
 
     private fun addFocusListeners() {
-        getViewBinding().tvEidNumber.onFocusChangeListener = this
-        getViewBinding().tvFirstName.onFocusChangeListener = this
-        getViewBinding().tvMiddleName.onFocusChangeListener = this
-        getViewBinding().tvLastName.onFocusChangeListener = this
+        viewDataBinding.tvEidNumber.onFocusChangeListener = this
+        viewDataBinding.tvFirstName.onFocusChangeListener = this
+        viewDataBinding.tvMiddleName.onFocusChangeListener = this
+        viewDataBinding.tvLastName.onFocusChangeListener = this
     }
 
 
@@ -334,20 +332,20 @@ class EidInfoReviewAmendmentFragment :
                 //do nothing
             }
             Status.LOADING -> {
-                getViewBinding().multiStateView.viewState = MultiStateView.ViewState.LOADING
+                viewDataBinding.multiStateView.viewState = MultiStateView.ViewState.LOADING
             }
             Status.EMPTY -> {
-                getViewBinding().multiStateView.viewState = MultiStateView.ViewState.EMPTY
+                viewDataBinding.multiStateView.viewState = MultiStateView.ViewState.EMPTY
                 initializeUqudoScanner()
             }
             Status.SUCCESS -> {
-                getViewBinding().multiStateView.viewState = MultiStateView.ViewState.CONTENT
+                viewDataBinding.multiStateView.viewState = MultiStateView.ViewState.CONTENT
                 viewModel.parentViewModel?.uqudoManager?.getPayloadData()?.let { identity ->
                     viewModel.populateUqudoState(identity = identity)
                 }
             }
             Status.ERROR -> {
-                getViewBinding().multiStateView.viewState = MultiStateView.ViewState.EMPTY
+                viewDataBinding.multiStateView.viewState = MultiStateView.ViewState.EMPTY
                 invalidCitizenNumber(state.message ?: "Sorry, that didn’t work. Please try again") {
                     if (viewModel.parentViewModel?.comingFrom?.value.isNullOrBlank()
                             .not()
@@ -369,7 +367,6 @@ class EidInfoReviewAmendmentFragment :
         }
     }
 
-    private fun getViewBinding() = getDataBindingView<FragmentEidInfoReviewAmendmentBinding>()
     private val genderItemListener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
             viewModel.state.gender = (data as BottomSheetItem).tag ?: ""
@@ -384,12 +381,12 @@ class EidInfoReviewAmendmentFragment :
         with(viewModel) {
             when (id) {
                 R.id.tvEidNumber -> {
-                    disableEndDrawable(getViewBinding().tvEidNumber)
-                    manageFocus(getViewBinding().tvEidNumber)
+                    disableEndDrawable(viewDataBinding.tvEidNumber)
+                    manageFocus(viewDataBinding.tvEidNumber)
                 }
                 R.id.tvFirstName -> {
-                    disableEndDrawable(getViewBinding().tvFirstName)
-                    manageFocus(getViewBinding().tvFirstName)
+                    disableEndDrawable(viewDataBinding.tvFirstName)
+                    manageFocus(viewDataBinding.tvFirstName)
                     trackEventWithScreenName(
                         FirebaseEvent.EDIT_FIELD,
                         bundleOf("field_name" to "first_name")
@@ -397,8 +394,8 @@ class EidInfoReviewAmendmentFragment :
                 }
 
                 R.id.tvMiddleName -> {
-                    disableEndDrawable(getViewBinding().tvMiddleName)
-                    manageFocus(getViewBinding().tvMiddleName)
+                    disableEndDrawable(viewDataBinding.tvMiddleName)
+                    manageFocus(viewDataBinding.tvMiddleName)
                     trackEventWithScreenName(
                         FirebaseEvent.EDIT_FIELD,
                         bundleOf("field_name" to "middle_name")
@@ -406,8 +403,8 @@ class EidInfoReviewAmendmentFragment :
                 }
 
                 R.id.tvLastName -> {
-                    disableEndDrawable(getViewBinding().tvLastName)
-                    manageFocus(getViewBinding().tvLastName)
+                    disableEndDrawable(viewDataBinding.tvLastName)
+                    manageFocus(viewDataBinding.tvLastName)
                     trackEventWithScreenName(
                         FirebaseEvent.EDIT_FIELD,
                         bundleOf("field_name" to "last_name")
@@ -468,7 +465,7 @@ class EidInfoReviewAmendmentFragment :
                 }
                 R.id.tvNoThanks -> {
                     trackEventWithScreenName(FirebaseEvent.RESCAN_ID)
-                    Utils.hideKeyboard(getViewBinding().tvNoThanks)
+                    viewDataBinding.tvNoThanks.hideKeyboard()
                     initializeUqudoScanner()
                 }
                 EidInfoEvents.EVENT_ALREADY_USED_EID.eventId -> {

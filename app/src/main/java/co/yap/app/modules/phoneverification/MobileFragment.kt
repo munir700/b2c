@@ -10,10 +10,10 @@ import co.yap.BR
 import co.yap.app.R
 import co.yap.app.databinding.FragmentMobileBinding
 import co.yap.app.main.MainChildFragment
-import co.yap.modules.onboarding.enums.AccountType
 import co.yap.modules.onboarding.models.CountryCode
 import co.yap.networking.coreitems.CoreBottomSheetData
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.enums.AccountType
 import co.yap.yapcore.helpers.ExtraKeys
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.extentions.*

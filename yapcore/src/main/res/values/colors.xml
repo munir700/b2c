@@ -110,6 +110,7 @@
 
     <color name="textDarkColor">#1a1423</color>
     <color name="colorLightPinkBackground">#FFE3E0</color>
+    <color name="semi_dark">#80000000</color>
 
     <color name="colorAccentHouseHold">#fc6253</color>
     <color name="textInputBackgroundColor">#E8E9F6</color>

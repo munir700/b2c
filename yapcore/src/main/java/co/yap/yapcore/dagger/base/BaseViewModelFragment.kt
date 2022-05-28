@@ -30,7 +30,7 @@ import kotlin.properties.Delegates
  *
  */
 abstract class BaseViewModelFragment<VB : ViewDataBinding, S : IBase.State, VM : DaggerBaseViewModel<S>> :
-    BaseBindingFragment<VM>(),
+    BaseBindingFragment<VB,VM>(),
     HasSupportFragmentInjector,
     Injectable, CanHandleOnClick {
     @Inject

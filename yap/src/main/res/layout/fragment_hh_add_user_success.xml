@@ -146,7 +146,7 @@
                     app:text="@{Strings.common_button_text_share}"
                     tools:text="@string/common_button_text_share" />
 
-            </LinearLayout>
+            </androidx.appcompat.widget.LinearLayoutCompat>
 
             <co.yap.widgets.CoreButton
                 android:id="@+id/btnGoToHouseHold"

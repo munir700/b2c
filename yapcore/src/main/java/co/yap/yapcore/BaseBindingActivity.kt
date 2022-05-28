@@ -17,6 +17,11 @@ import kotlinx.coroutines.launch
 abstract class BaseBindingActivity<VB : ViewDataBinding, V : IBase.ViewModel<*>> : BaseActivity<V>() {
 
     open lateinit var viewDataBinding: VB
+    /**
+     * Indicates whether the current [BaseBindingFragment]'s content view is initialized or not.
+     */
+    var isViewCreated = false
+        private set
 
     override fun onCreate(savedInstanceState: Bundle?) {
         preInit(savedInstanceState)

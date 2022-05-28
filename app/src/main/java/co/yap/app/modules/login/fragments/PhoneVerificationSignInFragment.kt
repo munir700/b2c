@@ -259,7 +259,7 @@ class PhoneVerificationSignInFragment :
         ) {
             val action =
                 PhoneVerificationSignInFragmentDirections.actionPhoneVerificationSignInFragmentToSystemPermissionFragment(
-                    Constants.TOUCH_ID_SCREEN_TYPE
+                    TOUCH_ID_SCREEN_TYPE
                 )
             findNavController().navigate(action)
         } else {

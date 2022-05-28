@@ -16,8 +16,8 @@ import co.yap.app.main.MainActivity
 import co.yap.app.main.MainChildFragment
 import co.yap.app.modules.login.interfaces.IVerifyPasscode
 import co.yap.app.modules.login.viewmodels.VerifyPasscodeViewModel
-import co.yap.modules.dashboard.main.activities.YapDashboardActivity
 import co.yap.household.onboarding.main.OnBoardingHouseHoldActivity
+import co.yap.modules.dashboard.main.activities.YapDashboardActivity
 import co.yap.modules.kyc.amendments.missinginfo.MissingInfoFragment
 import co.yap.modules.onboarding.fragments.WaitingListFragment
 import co.yap.modules.others.helper.Constants.REQUEST_CODE
@@ -29,6 +29,7 @@ import co.yap.networking.customers.responsedtos.AccountInfo
 import co.yap.networking.customers.responsedtos.AmendmentStatus
 import co.yap.translation.Strings
 import co.yap.widgets.NumberKeyboardListener
+import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.Constants.KEY_APP_UUID
 import co.yap.yapcore.constants.Constants.KEY_IS_FINGERPRINT_PERMISSION_SHOWN
 import co.yap.yapcore.constants.Constants.KEY_IS_USER_LOGGED_IN
@@ -56,9 +57,10 @@ import co.yap.yapcore.leanplum.SignInEvents
 import co.yap.yapcore.leanplum.trackEvent
 import co.yap.yapcore.leanplum.trackEventInFragments
 import co.yap.yapcore.managers.SessionManager
-import co.yap.yapcore.constants.Constants
 
-class VerifyPasscodeFragment : MainChildFragment<FragmentVerifyPasscodeBinding , IVerifyPasscode.ViewModel>(), BiometricCallback,
+class VerifyPasscodeFragment :
+    MainChildFragment<FragmentVerifyPasscodeBinding, IVerifyPasscode.ViewModel>(),
+    BiometricCallback,
     IVerifyPasscode.View, NumberKeyboardListener {
 
     private lateinit var mBiometricManagerX: BiometricManagerX
@@ -100,7 +102,7 @@ class VerifyPasscodeFragment : MainChildFragment<FragmentVerifyPasscodeBinding ,
     private fun receiveData() {
         arguments?.let { it ->
             viewModel.state.username = VerifyPasscodeFragmentArgs.fromBundle(it).username
-             if (VerifyPasscodeFragmentArgs.fromBundle(it).isAccountBlocked) {
+            if (VerifyPasscodeFragmentArgs.fromBundle(it).isAccountBlocked) {
                 viewModel.showAccountBlockedError(getString(Strings.screen_verify_passcode_text_account_locked))
             }
 
@@ -257,7 +259,7 @@ class VerifyPasscodeFragment : MainChildFragment<FragmentVerifyPasscodeBinding ,
         when (it) {
             R.id.btnVerifyPasscode -> {
                 viewModel.isFingerprintLogin = false
-                viewModel.state.passcode =  viewDataBinding.dialer.getText()
+                viewModel.state.passcode = viewDataBinding.dialer.getText()
                 if (!isUserLoginIn()) {
                     setUsername()
                 } else {
@@ -531,7 +533,7 @@ class VerifyPasscodeFragment : MainChildFragment<FragmentVerifyPasscodeBinding ,
     }
 
     override fun onNumberClicked(number: Int, text: String) {
-        viewModel.state.passcode =  viewDataBinding.dialer.getText()
+        viewModel.state.passcode = viewDataBinding.dialer.getText()
     }
 
     override fun onLeftButtonClicked() {

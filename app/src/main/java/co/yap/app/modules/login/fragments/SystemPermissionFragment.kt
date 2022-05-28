@@ -18,7 +18,6 @@ import co.yap.app.modules.login.interfaces.ISystemPermission
 import co.yap.app.modules.login.viewmodels.SystemPermissionViewModel
 import co.yap.modules.dashboard.main.activities.YapDashboardActivity
 import co.yap.household.onboarding.main.OnBoardingHouseHoldActivity
-import co.yap.modules.dashboard.main.activities.YapDashboardActivity
 import co.yap.modules.kyc.amendments.missinginfo.MissingInfoFragment
 import co.yap.modules.webview.WebViewFragment
 import co.yap.networking.customers.responsedtos.AccountInfo

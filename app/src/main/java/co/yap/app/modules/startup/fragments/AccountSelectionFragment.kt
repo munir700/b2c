@@ -19,7 +19,6 @@ import co.yap.app.modules.startup.interfaces.IAccountSelection
 import co.yap.app.modules.startup.viewmodels.AccountSelectionViewModel
 import co.yap.widgets.video.ExoPlayerCallBack
 import co.yap.yapcore.BaseBindingFragment
-import co.yap.yapcore.enums.AccountType
 import co.yap.yapcore.firebase.FirebaseEvent
 import co.yap.yapcore.firebase.trackEventWithScreenName
 import com.daimajia.androidanimations.library.Techniques
@@ -28,7 +27,8 @@ import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.source.TrackGroupArray
 import com.google.android.exoplayer2.trackselection.TrackSelectionArray
 
-class AccountSelectionFragment : BaseBindingFragment<FragmentAccountSelectionBinding,IAccountSelection.ViewModel>(),
+class AccountSelectionFragment :
+    BaseBindingFragment<FragmentAccountSelectionBinding, IAccountSelection.ViewModel>(),
     IAccountSelection.View {
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_account_selection
@@ -169,15 +169,15 @@ class AccountSelectionFragment : BaseBindingFragment<FragmentAccountSelectionBin
                 R.id.btnPersonal -> {
                     trackEventWithScreenName(FirebaseEvent.CLICK_GET_STARTED)
                     navigate(R.id.action_accountSelectionFragment_to_mobileFragment2)
-                /*
-                    findNavController().navigate(
-                        R.id.action_accountSelectionFragment_to_onBaordingActivity,
-                        Bundle().apply {
-                            putSerializable(
-                                getString(R.string.arg_account_type),
-                                AccountType.B2C_ACCOUNT
-                            )
-                        })*/
+                    /*
+                        findNavController().navigate(
+                            R.id.action_accountSelectionFragment_to_onBaordingActivity,
+                            Bundle().apply {
+                                putSerializable(
+                                    getString(R.string.arg_account_type),
+                                    AccountType.B2C_ACCOUNT
+                                )
+                            })*/
                 }
             }
         })
@@ -193,7 +193,7 @@ class AccountSelectionFragment : BaseBindingFragment<FragmentAccountSelectionBin
     override fun onDestroyView() {
         super.onDestroyView()
         handler.removeCallbacks(runnable)
-        andExoPlayerView?.stopPlayer()
+        viewDataBinding.andExoPlayerView.stopPlayer()
         animatorSet?.cancel()
         animatorSet = null
         captionsIndex = -1

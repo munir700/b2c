@@ -45,6 +45,8 @@ import com.google.firebase.ktx.Firebase
 import com.leanplum.Leanplum
 import com.leanplum.LeanplumActivityHelper
 import com.uxcam.UXCam
+import com.yap.ghana.configs.GhanaBuildConfigurations
+import com.yap.yappakistan.configs.PKBuildConfigurations
 import dagger.hilt.android.HiltAndroidApp
 import dagger.android.AndroidInjector
 import dagger.android.HasAndroidInjector
@@ -58,7 +60,7 @@ import java.util.*
 import javax.inject.Inject
 
 @HiltAndroidApp
-class AAPApplication : HouseHoldApplication(), NavigatorProvider {
+class AAPApplication : YAPApplication(), NavigatorProvider {
     /*  @Inject
           lateinit var androidInjector: DispatchingAndroidInjector<Any>*/
     lateinit var sAppComponent: AppComponent
@@ -88,7 +90,6 @@ class AAPApplication : HouseHoldApplication(), NavigatorProvider {
     override fun onCreate() {
         super.onCreate()
         // sAppComponent = AppInjector.init(this)
-        initFireBase()
         originalSign =
             signatureKeysFromJNI(
                 AppSignature::class.java.canonicalName?.replace(".", "/") ?: "",

@@ -33,7 +33,6 @@ import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.SessionManager
 import com.leanplum.Leanplum
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.fragment_house_hold_more.*
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -52,7 +51,7 @@ class HouseHoldMoreFragment :
         viewModel.adapter.set(adapter)
         setHasOptionsMenu(true)
         adapter.onItemClickListener = onItemClickListener
-        recyclerView.addItemDecoration(
+        viewDataBinding.recyclerView.addItemDecoration(
             SpaceGridItemDecoration(
                 dimen(co.yap.R.dimen.margin_normal_large), 2, true
             )

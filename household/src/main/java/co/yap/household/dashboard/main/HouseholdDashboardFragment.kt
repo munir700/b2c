@@ -3,6 +3,7 @@ package co.yap.household.dashboard.main
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
+import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout.LOCK_MODE_LOCKED_CLOSED
 import androidx.drawerlayout.widget.DrawerLayout.LOCK_MODE_UNLOCKED
@@ -34,18 +35,12 @@ import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.FeatureSet
 import co.yap.yapcore.enums.PartnerBankStatus
 import co.yap.yapcore.helpers.alert
-import co.yap.yapcore.helpers.extentions.dimen
-import co.yap.yapcore.helpers.extentions.launchActivity
-import co.yap.yapcore.helpers.extentions.startFragment
-import co.yap.yapcore.helpers.extentions.toast
+import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.helpers.livedata.SwitchProfileLiveData
 import co.yap.yapcore.hilt.base.navigation.BaseNavViewModelFragmentV2
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.SessionManager
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.activity_household_dashboard.*
-import kotlinx.android.synthetic.main.layout_drawer_header.*
-import kotlinx.android.synthetic.main.layout_drawer_header_expandable.*
 import net.cachapa.expandablelayout.ExpandableLayout
 import javax.inject.Inject
 
@@ -97,11 +92,13 @@ class HouseholdDashboardFragment:
             .setAlphaOverlay(mViewDataBinding.flAlphaOverlay)
             .setTxtYapIt(mViewDataBinding.txtYapIt).build()
         setupViewPager()
-        drawerLayout.addDrawerListener(this)
-        expandableLayout.setOnExpansionUpdateListener { _, state ->
+        viewDataBinding.drawerLayout.addDrawerListener(this)
+
+//        viewDataBinding.includedDrawerLayout.lyHeaderSection
+        viewDataBinding.includedDrawerLayout.lyHeaderSection.headerExpandable.expandableLayout.setOnExpansionUpdateListener { _, state ->
             when (state) {
-                ExpandableLayout.State.EXPANDED -> ivChevron.rotation = 180F
-                ExpandableLayout.State.COLLAPSED -> ivChevron.rotation = 0F
+                ExpandableLayout.State.EXPANDED -> viewDataBinding.includedDrawerLayout.lyHeaderSection.ivChevron.rotation = 180F
+                ExpandableLayout.State.COLLAPSED -> viewDataBinding.includedDrawerLayout.lyHeaderSection.ivChevron.rotation = 0F
             }
         }
     }
@@ -112,9 +109,9 @@ class HouseholdDashboardFragment:
         adapter.addFragmentInfo<MyCardFragment>()
         adapter.addFragmentInfo<HouseHoldMoreFragment>()
         viewModel.adapter.set(adapter)
-        bottomNav.setUpWithViewPager(viewPager)
-        viewPager.offscreenPageLimit = 3
-        viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+        viewDataBinding.bottomNav.setUpWithViewPager(viewDataBinding.viewPager)
+        viewDataBinding.viewPager.offscreenPageLimit = 3
+        viewDataBinding.viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrollStateChanged(state: Int) {}
             override fun onPageScrolled(
                 position: Int,
@@ -124,24 +121,24 @@ class HouseholdDashboardFragment:
             }
 
             override fun onPageSelected(position: Int) {
-                drawerLayout.setDrawerLockMode(if (position == 0) LOCK_MODE_UNLOCKED else LOCK_MODE_LOCKED_CLOSED)
+                viewDataBinding.drawerLayout.setDrawerLockMode(if (position == 0) LOCK_MODE_UNLOCKED else LOCK_MODE_LOCKED_CLOSED)
             }
         })
     }
 
     override fun onClick(id: Int) {
         when (id) {
-            R.id.lyHeader_section -> expandableLayout.toggle(true)
+            R.id.lyHeader_section -> viewDataBinding.includedDrawerLayout.lyHeaderSection.headerExpandable.expandableLayout.toggle(true)
             else -> {
-                drawerLayout.closeDrawer(GravityCompat.END)
-                drawerLayout.tag = id
+                viewDataBinding.drawerLayout.closeDrawer(GravityCompat.END)
+                viewDataBinding.drawerLayout.tag = id
                 //launchActivity<MoreActivity>()
             }
         }
     }
 
     override fun onDrawerClosed(drawerView: View) {
-        val id = drawerLayout.tag as? Int
+        val id = viewDataBinding.drawerLayout.tag as? Int
         id?.let {
             when (id) {
                 R.id.ivSettings -> launchActivity<MoreActivity>()
@@ -153,13 +150,13 @@ class HouseholdDashboardFragment:
                 }
             }
         }
-        drawerLayout.tag = null
+        viewDataBinding.drawerLayout.tag = null
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.open_drawer -> {
-                drawerLayout.openDrawer(GravityCompat.END)
+                viewDataBinding.drawerLayout.openDrawer(GravityCompat.END)
                 return true
             }
         }
@@ -205,7 +202,7 @@ class HouseholdDashboardFragment:
     override fun onBackPressed(): Boolean {
         if (actionMenu?.isOpen!! && !actionMenu?.isAnimating()!!) {
             actionMenu?.toggle(mViewDataBinding.ivYapItAction, true)
-        } else if (drawerLayout.isDrawerOpen(GravityCompat.END)) drawerLayout.closeDrawer(
+        } else if (viewDataBinding.drawerLayout.isDrawerOpen(GravityCompat.END)) viewDataBinding.drawerLayout.closeDrawer(
             GravityCompat.END
         ) else finishActivityAffinity()
         return super.onBackPressed()

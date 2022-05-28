@@ -11,28 +11,53 @@
         <entry key="../../../../../layout/custom_preview.xml" value="0.12083333333333333" />
         <entry key="app/src/main/res/layout/fragment_splash.xml" value="0.1" />
         <entry key="billpayments/src/main/res/drawable/icon_biller_type_utility_creditcard.xml" value="0.165625" />
+        <entry key="billpayments/src/main/res/layout/layout_item_my_bills.xml" value="0.10885416666666667" />
+        <entry key="household/src/main/res/layout/activity_household_dashboard.xml" value="0.1" />
+        <entry key="household/src/main/res/layout/activity_main_house_hold.xml" value="0.23072916666666668" />
+        <entry key="household/src/main/res/layout/fragment_hh_set_pin.xml" value="0.1" />
+        <entry key="household/src/main/res/layout/fragment_hhon_boarding_card_selection.xml" value="0.2833333333333333" />
+        <entry key="household/src/main/res/layout/fragment_hhon_boarding_existing.xml" value="0.2833333333333333" />
+        <entry key="household/src/main/res/layout/fragment_hhon_boarding_pass_code.xml" value="0.14739583333333334" />
         <entry key="household/src/main/res/layout/fragment_hhonboarding_mobile.xml" value="0.1" />
+        <entry key="household/src/main/res/layout/fragment_hhonboarding_success.xml" value="0.27897435897435896" />
         <entry key="household/src/main/res/layout/fragment_house_hold_more.xml" value="0.19791666666666666" />
+        <entry key="household/src/main/res/layout/include_layout_number_keyboard.xml" value="0.1" />
+        <entry key="household/src/main/res/layout/layout_card_selection_address.xml" value="0.2833333333333333" />
+        <entry key="household/src/main/res/layout/layout_drawer_header.xml" value="0.2537037037037037" />
+        <entry key="household/src/main/res/layout/layout_drawer_header_expandable.xml" value="0.2833333333333333" />
+        <entry key="household/src/main/res/layout/layout_drawer_household_dashboard.xml" value="0.2537037037037037" />
         <entry key="multicurrency/src/main/res/layout/item_wallet_v2.xml" value="0.29791666666666666" />
         <entry key="sendmoney/src/main/res/layout/layout_y2y_funds_transfer.xml" value="0.2833333333333333" />
         <entry key="yap/src/main/res/drawable/material_shadow_z3.xml" value="0.24722222222222223" />
         <entry key="yap/src/main/res/layout/activity_additional_info.xml" value="0.29791666666666666" />
         <entry key="yap/src/main/res/layout/activity_eid_info_review.xml" value="0.27897435897435896" />
+        <entry key="yap/src/main/res/layout/activity_top_up_card.xml" value="0.27897435897435896" />
+        <entry key="yap/src/main/res/layout/activity_topup_cards.xml" value="0.2833333333333333" />
         <entry key="yap/src/main/res/layout/content_fragment_yap_home.xml" value="0.2101851851851852" />
         <entry key="yap/src/main/res/layout/fragment_achievement_goal_details.xml" value="0.29791666666666666" />
+        <entry key="yap/src/main/res/layout/fragment_add_money_landing.xml" value="0.2833333333333333" />
         <entry key="yap/src/main/res/layout/fragment_additional_info_employment.xml" value="0.2833333333333333" />
         <entry key="yap/src/main/res/layout/fragment_additional_info_question.xml" value="0.2833333333333333" />
         <entry key="yap/src/main/res/layout/fragment_card_analytics_details.xml" value="0.2101851851851852" />
         <entry key="yap/src/main/res/layout/fragment_future_payment.xml" value="0.47280334728033474" />
+        <entry key="yap/src/main/res/layout/fragment_hh_add_user_contact.xml" value="0.2140625" />
+        <entry key="yap/src/main/res/layout/fragment_hh_add_user_success.xml" value="0.1" />
+        <entry key="yap/src/main/res/layout/fragment_house_hold_cofirm_payment.xml" value="0.21296296296296297" />
         <entry key="yap/src/main/res/layout/fragment_information_error.xml" value="0.234375" />
         <entry key="yap/src/main/res/layout/fragment_invite_friend.xml" value="0.29791666666666666" />
         <entry key="yap/src/main/res/layout/fragment_missinginfo.xml" value="0.2064814814814815" />
         <entry key="yap/src/main/res/layout/fragment_select_document.xml" value="0.29791666666666666" />
+        <entry key="yap/src/main/res/layout/fragment_top_up_card_funds.xml" value="0.27897435897435896" />
+        <entry key="yap/src/main/res/layout/fragment_top_up_card_success.xml" value="0.3770833333333333" />
         <entry key="yap/src/main/res/layout/fragment_yap_home.xml" value="0.2833333333333333" />
+        <entry key="yap/src/main/res/layout/fragment_young_card_edit_details.xml" value="0.1" />
+        <entry key="yap/src/main/res/layout/fragment_young_confirm_relationship.xml" value="0.1" />
         <entry key="yap/src/main/res/layout/fragment_young_contact_details.xml" value="0.2328125" />
+        <entry key="yap/src/main/res/layout/fragment_young_landing.xml" value="0.1" />
         <entry key="yap/src/main/res/layout/item_dashboard_notification_status.xml" value="0.29333333333333333" />
         <entry key="yap/src/main/res/layout/item_notification_v2.xml" value="0.2074074074074074" />
         <entry key="yap/src/main/res/layout/item_widget_add_remove_body.xml" value="0.2833333333333333" />
+        <entry key="yap/src/main/res/layout/item_yap_card_empty.xml" value="0.2833333333333333" />
         <entry key="yap/src/main/res/layout/layout_category_transaction.xml" value="0.29791666666666666" />
         <entry key="yap/src/main/res/layout/layout_change_pin.xml" value="0.29791666666666666" />
         <entry key="yap/src/main/res/layout/layout_drawer_yap_dashboard.xml" value="0.1" />
@@ -49,7 +74,7 @@
     </option>
   </component>
   <component name="ExternalStorageConfigurationManager" enabled="true" />
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

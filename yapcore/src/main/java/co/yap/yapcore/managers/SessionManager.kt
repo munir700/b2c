@@ -57,7 +57,6 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
             field = value
             userLiveData.postValue(value)
         }
-    var userLiveData: MutableLiveData<AccountInfo> = MutableLiveData<AccountInfo>()
     var switchProfile: SingleLiveEvent<Boolean> = SingleLiveEvent()
     var userLiveData: MutableLiveData<AccountInfo?> = MutableLiveData()
     var userAddress: Address? = null

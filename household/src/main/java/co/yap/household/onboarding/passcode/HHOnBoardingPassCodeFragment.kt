@@ -10,11 +10,9 @@ import co.yap.household.databinding.FragmentHhonBoardingPassCodeBinding
 import co.yap.modules.webview.WebViewFragment
 import co.yap.widgets.NumberKeyboardListener
 import co.yap.yapcore.constants.Constants
-import co.yap.yapcore.dagger.base.navigation.BaseNavViewModelFragment
 import co.yap.yapcore.helpers.extentions.startFragment
 import co.yap.yapcore.hilt.base.navigation.BaseNavViewModelFragmentV2
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.fragment_hhon_boarding_pass_code.*
 
 @AndroidEntryPoint
 class HHOnBoardingPassCodeFragment :
@@ -28,8 +26,8 @@ class HHOnBoardingPassCodeFragment :
 
     override fun postExecutePendingBindings(savedInstanceState: Bundle?) {
         super.postExecutePendingBindings(savedInstanceState)
-        dialer.setNumberKeyboardListener(this)
-        dialer.hideFingerprintView()
+        viewDataBinding.dialer.setNumberKeyboardListener(this)
+        viewDataBinding.dialer.hideFingerprintView()
     }
 
     override fun onClick(id: Int) {
@@ -57,10 +55,10 @@ class HHOnBoardingPassCodeFragment :
     }
 
     override fun onNumberClicked(number: Int, text: String) {
-        viewModel.state.passCode.value = dialer.getText()
+        viewModel.state.passCode.value = viewDataBinding.dialer.getText()
     }
 
     override fun onRightButtonClicked() {
-        viewModel.state.passCode.value = dialer.getText()
+        viewModel.state.passCode.value = viewDataBinding.dialer.getText()
     }
 }

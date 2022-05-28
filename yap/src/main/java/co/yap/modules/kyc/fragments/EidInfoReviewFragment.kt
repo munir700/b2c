@@ -31,18 +31,15 @@ import co.yap.yapcore.enums.SystemConfigurations
 import co.yap.yapcore.firebase.FirebaseEvent
 import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.DateUtils.getAge
-import co.yap.yapcore.helpers.Utils.hideKeyboard
-import co.yap.yapcore.helpers.customAlertDialog
 import co.yap.yapcore.helpers.alert
+import co.yap.yapcore.helpers.customAlertDialog
 import co.yap.yapcore.helpers.extentions.deleteTempFolder
-import co.yap.yapcore.helpers.extentions.parseToInt
-import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.extentions.hideKeyboard
+import co.yap.yapcore.helpers.extentions.parseToInt
 import co.yap.yapcore.helpers.showAlertDialogAndExitApp
 import co.yap.yapcore.leanplum.KYCEvents
 import co.yap.yapcore.leanplum.trackEvent
 import co.yap.yapcore.managers.SessionManager
-import com.yap.core.extensions.finish
 
 class EidInfoReviewFragment :
     KYCChildFragment<FragmentEidInfoReviewBinding, IEidInfoReview.ViewModel>(),
@@ -199,7 +196,8 @@ class EidInfoReviewFragment :
                     trackEvent(KYCEvents.EID_SCAN_FAIL.type)
                 } else {
                     trackEvent(KYCEvents.EID_SCAN_FAIL.type)
-                    if (viewModel.parentViewModel?.uqudoManager?.getPayloadData() == null && viewModel.parentViewModel?.comingFrom?.value.isNullOrBlank().not()
+                    if (viewModel.parentViewModel?.uqudoManager?.getPayloadData() == null && viewModel.parentViewModel?.comingFrom?.value.isNullOrBlank()
+                            .not()
                     ) navigateBack()
                     else requireActivity().finish()
                 }
@@ -259,7 +257,7 @@ class EidInfoReviewFragment :
         with(viewModel.parentViewModel?.uqudoManager) {
             if (this?.isAccessTokenExpired() == true) viewModel.requestAllAPIs(false)
             else this?.initiateUqudoScanning()?.let { intent ->
-              trackEvent(KYCEvents.EID_SCAN_STARTED.type)
+                trackEvent(KYCEvents.EID_SCAN_STARTED.type)
                 startActivityForResult(intent, REQUEST_UQUDO)
             }
         }
@@ -331,7 +329,7 @@ class EidInfoReviewFragment :
                 }
                 R.id.tvNoThanks -> {
                     trackEventWithScreenName(FirebaseEvent.RESCAN_ID)
-                    hideKeyboard(getViewBinding().tvNoThanks)
+                    getViewBinding().tvNoThanks.hideKeyboard()
                     initializeUqudoScanner()
                 }
                 EidInfoEvents.EVENT_ALREADY_USED_EID.eventId -> {
@@ -417,7 +415,7 @@ class EidInfoReviewFragment :
                 positiveButton = getString(R.string.common_text_ok),
                 cancelable = false,
                 positiveCallback = {
-                   navigateBack()
+                    navigateBack()
                 }
             )
         }

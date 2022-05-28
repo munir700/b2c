@@ -9,10 +9,8 @@ import co.yap.household.R
 import co.yap.household.databinding.FragmentHhSetPinBinding
 import co.yap.translation.Strings
 import co.yap.widgets.numberkeyboard.NumberKeyboard
-import co.yap.yapcore.dagger.base.navigation.BaseNavViewModelFragment
 import co.yap.yapcore.hilt.base.navigation.BaseNavViewModelFragmentV2
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.include_layout_number_keyboard.*
 
 @AndroidEntryPoint
 class HHSetPinFragment :
@@ -25,9 +23,9 @@ class HHSetPinFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        dialer.setListener(this)
-        dialer.setInputView(tvInputField)
-        dialer.setPassCodeView(passCodeView)
+        mViewDataBinding.includeDialer.dialer.setListener(this)
+        mViewDataBinding.includeDialer.dialer.setInputView(mViewDataBinding.includeDialer.tvInputField)
+        mViewDataBinding.includeDialer.dialer.setPassCodeView(mViewDataBinding.includeDialer.passCodeView)
     }
 
     override fun onClick(id: Int) {
@@ -50,7 +48,7 @@ class HHSetPinFragment :
                 navigateForwardWithAnimation(HHSetPinFragmentDirections.actionSetCardPinFragment2ToHHSetPinSuccessFragment())
             }
             viewModel.eventFailure -> {
-                dialer.reset()
+                mViewDataBinding.includeDialer.dialer.reset()
             }
         }
     }

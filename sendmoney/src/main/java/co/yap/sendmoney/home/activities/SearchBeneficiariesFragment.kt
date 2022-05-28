@@ -29,6 +29,7 @@ import co.yap.yapcore.enums.SendMoneyTransferType
 import co.yap.yapcore.firebase.FirebaseEvent
 import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.ExtraKeys
+import co.yap.yapcore.helpers.confirm
 import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.managers.SessionManager
 import com.nikhilpanju.recyclerviewenhanced.RecyclerTouchListener
@@ -105,7 +106,7 @@ class SearchBeneficiariesFragment :
     private val clickListener = Observer<Int> {
         when (it) {
             R.id.tvCancel -> {
-                getBindings().etSearch.hideKeyboard()
+             viewDataBinding.etSearch.hideKeyboard()
                 if (viewModel.parentViewModel?.state?.sendMoneyType?.value == SendMoneyTransferType.ALL_Y2Y_SM.name) {
                     requireActivity().finish()
                 } else {
@@ -183,7 +184,7 @@ class SearchBeneficiariesFragment :
     }
 
     private fun startMoneyTransfer(beneficiary: Beneficiary?, position: Int) {
-        getBindings().etSearch.hideKeyboard()
+       viewDataBinding.etSearch.hideKeyboard()
         trackEventWithScreenName(FirebaseEvent.CLICK_BENEFICIARY)
         launchActivityForActivityResult<BeneficiaryFundTransferActivity>(
             requestCode = RequestCodes.REQUEST_TRANSFER_MONEY,

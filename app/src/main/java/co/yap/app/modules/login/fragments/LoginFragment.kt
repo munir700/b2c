@@ -23,10 +23,6 @@ import co.yap.widgets.keyboardvisibilityevent.KeyboardVisibilityEventListener
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.Constants.KEY_COUNTRY_CODE
 import co.yap.yapcore.constants.Constants.KEY_IS_REMEMBER
-import co.yap.household.dashboard.home.HouseholdHomeFragment
-import co.yap.household.dashboard.main.HouseholdDashboardFragment
-import co.yap.modules.dashboard.store.young.cardsuccess.YoungCardSuccessFragment
-import co.yap.modules.dashboard.store.young.pincode.YoungCreatePinCodeFragment
 import co.yap.yapcore.constants.Constants.KEY_IS_USER_LOGGED_IN
 import co.yap.yapcore.constants.Constants.KEY_MOBILE_NO
 import co.yap.yapcore.helpers.SharedPreferenceManager
@@ -36,8 +32,6 @@ import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.helpers.getCountryCodeForRegion
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.SessionManager
-import co.yap.yapcore.helpers.extentions.startFragment
-import kotlinx.android.synthetic.main.fragment_log_in.*
 import co.yap.yapcore.managers.saveUserDetails
 import com.yap.ghana.ui.auth.main.GhAuthenticationActivity
 import com.yap.yappakistan.ui.auth.main.AuthenticationActivity

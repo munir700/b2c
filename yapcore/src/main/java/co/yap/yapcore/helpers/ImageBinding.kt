@@ -242,7 +242,7 @@ object ImageBinding {
             drawableName: String?
     ) {
         drawableName?.let {
-            imageView.setImageResource(getResId(drawableName))
+            imageView.setImageResource( getResId(imageView.context ,drawableName))
         } ?: loadAvatar(
                 imageView,
                 imageUrl,

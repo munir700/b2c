@@ -7,7 +7,6 @@ import co.yap.household.R
 import co.yap.household.databinding.FragmentKycSuccessBinding
 import co.yap.yapcore.AdjustEvents.Companion.trackAdjustPlatformEvent
 import co.yap.yapcore.adjust.AdjustEvents
-import co.yap.yapcore.dagger.base.navigation.BaseNavViewModelFragment
 import co.yap.yapcore.dagger.base.navigation.host.NAVIGATION_Graph_ID
 import co.yap.yapcore.dagger.base.navigation.host.NAVIGATION_Graph_START_DESTINATION_ID
 import co.yap.yapcore.dagger.base.navigation.host.NavHostPresenterActivity
@@ -15,7 +14,6 @@ import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.hilt.base.navigation.BaseNavViewModelFragmentV2
 import co.yap.yapcore.managers.SessionManager
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.fragment_kyc_success.*
 
 @AndroidEntryPoint
 class KycSuccessFragment :
@@ -35,7 +33,7 @@ class KycSuccessFragment :
         } else {
             trackAdjustPlatformEvent(AdjustEvents.ONBOARD_NEW_HH_USER_ONBOARDING_SUCCESS.type)
         }
-        btnTopUp.setOnClickListener {
+        viewDataBinding.btnTopUp.setOnClickListener {
             trackAdjustPlatformEvent(AdjustEvents.KYC_END.type)
             launchActivity<NavHostPresenterActivity>(clearPrevious = true) {
                 putExtra(NAVIGATION_Graph_ID, R.navigation.hh_main_nav_graph)

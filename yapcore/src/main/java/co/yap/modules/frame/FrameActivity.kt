@@ -3,7 +3,6 @@ package co.yap.modules.frame
 import android.content.Context
 import android.content.Intent
 import android.graphics.PorterDuff
-import android.graphics.PorterDuff
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.MenuItem

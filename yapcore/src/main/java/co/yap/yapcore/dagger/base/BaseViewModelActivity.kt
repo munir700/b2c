@@ -26,7 +26,7 @@ import javax.inject.Inject
  */
 
 abstract class BaseViewModelActivity<VB : ViewDataBinding, S : IBase.State, VM : DaggerBaseViewModel<S>> :
-    BaseBindingActivity<VM>(), HasFragmentInjector, HasSupportFragmentInjector,
+    BaseBindingActivity<VB,VM>(), HasFragmentInjector, HasSupportFragmentInjector,
     Injectable, CanFetchExtras, CanHandleOnClick {
 
     lateinit var mViewDataBinding: VB

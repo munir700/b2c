@@ -107,12 +107,12 @@ fun ViewModel.trackEventWithAttributes(
 fun ViewModel.trackKfsWithAttributes(
     smsNotifications: Boolean? = false,
     emailNotifications: Boolean? = false,
-    inAppNotifications: Boolean? = false,
+    inAppNotifications: Boolean? = false
 ) {
     trackKFSAttributes(
         smsNotifications,
         emailNotifications,
-        inAppNotifications,
+        inAppNotifications
     )
 }
 
@@ -143,9 +143,6 @@ private fun trackAttributes(
     eidExpire: Boolean = false,
     eidExpireDate: String = "",
     city: String?,
-    smsNotifications: Boolean? = false,
-    emailNotifications: Boolean? = false,
-    inappNotifications: Boolean? = false,
     isMainUser: Boolean = false,
     isAccountActive: Boolean = false,
     accountActiveMonthly: Boolean = false,
@@ -153,7 +150,10 @@ private fun trackAttributes(
     phoneNumberVerified: Boolean = false,
     account_cancel_timestamp: String? = null,
     expense_pots: String? = null,
-    card_color: String? = null
+    card_color: String? = null,
+    smsNotifications: Boolean? = false,
+    emailNotifications: Boolean? = false,
+    inappNotifications: Boolean? = false
 ) {
     user?.let { it ->
         val info: HashMap<String, Any> = HashMap()

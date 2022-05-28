@@ -6,7 +6,6 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.lifecycle.MutableLiveData
 import co.yap.app.main.MainChildViewModel
-import co.yap.modules.onboarding.enums.AccountType
 import co.yap.modules.onboarding.models.LoadConfig
 import co.yap.modules.onboarding.models.OnboardingData
 import co.yap.modules.onboarding.models.UserVerifierProvider
@@ -20,6 +19,7 @@ import co.yap.yapcore.AdjustEvents.Companion.trackAdjustPlatformEvent
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.SingleLiveEvent
 import co.yap.yapcore.adjust.AdjustEvents
+import co.yap.yapcore.enums.AccountType
 import co.yap.yapcore.helpers.getCountryCodeForRegion
 import co.yap.yapcore.helpers.isValidPhoneNumber
 import co.yap.yapcore.leanplum.SignupEvents
