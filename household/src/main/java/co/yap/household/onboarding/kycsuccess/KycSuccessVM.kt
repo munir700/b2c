@@ -2,9 +2,7 @@ package co.yap.household.onboarding.kycsuccess
 
 import android.os.Bundle
 import androidx.navigation.NavController
-import co.yap.networking.transactions.TransactionsRepository
 import co.yap.yapcore.constants.Constants
-import co.yap.yapcore.dagger.base.viewmodel.DaggerBaseViewModel
 import co.yap.yapcore.hilt.base.viewmodel.HiltBaseViewModel
 import javax.inject.Inject
 

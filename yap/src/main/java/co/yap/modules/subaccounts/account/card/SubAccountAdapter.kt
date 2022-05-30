@@ -10,8 +10,9 @@ import co.yap.widgets.advrecyclerview.draggable.DraggableItemState
 import co.yap.widgets.advrecyclerview.draggable.DraggableItemViewHolder
 import co.yap.yapcore.BaseRVAdapter
 import co.yap.yapcore.BaseViewHolder
+import javax.inject.Inject
 
-class SubAccountAdapter(mValue: MutableList<SubAccount>, navigation: NavController?) :
+class SubAccountAdapter @Inject constructor(mValue: MutableList<SubAccount>, navigation: NavController?) :
     BaseRVAdapter<SubAccount, SubAccountCardItemVM, BaseViewHolder<SubAccount, SubAccountCardItemVM>>(
         mValue, navigation
     ),

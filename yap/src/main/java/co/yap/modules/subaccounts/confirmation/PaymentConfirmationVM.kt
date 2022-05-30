@@ -5,7 +5,6 @@ import androidx.navigation.NavController
 import co.yap.networking.customers.household.requestdtos.SchedulePayment
 import co.yap.networking.customers.household.responsedtos.SubAccount
 import co.yap.yapcore.SingleClickEvent
-import co.yap.yapcore.dagger.base.viewmodel.DaggerBaseViewModel
 import co.yap.yapcore.hilt.base.viewmodel.HiltBaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject

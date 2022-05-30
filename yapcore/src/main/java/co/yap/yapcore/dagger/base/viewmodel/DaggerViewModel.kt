@@ -95,6 +95,7 @@ import co.yap.yapcore.managers.SessionManager
  * </pre>
  * </>
  */
+@Deprecated("use HiltViewModel ")
 abstract class DaggerViewModel : ViewModel(), Observable, CanFetchExtras {
     @Transient
     private var mCallbacks: PropertyChangeRegistry? = null

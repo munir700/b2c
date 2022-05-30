@@ -3,14 +3,9 @@ package co.yap.household.dashboard.more
 import android.content.Context
 import co.yap.R
 import co.yap.modules.dashboard.more.home.models.MoreOption
-import co.yap.yapcore.dagger.di.InjectionViewModelProvider
-import co.yap.yapcore.dagger.di.module.fragment.BaseFragmentModule
-import co.yap.yapcore.dagger.di.qualifiers.FragmentScope
-import co.yap.yapcore.dagger.di.qualifiers.ViewModelInjection
 import co.yap.yapcore.helpers.ThemeColorUtils
 import com.leanplum.Leanplum
 import dagger.Module
-import dagger.Provides
 
 
 @Module

@@ -9,7 +9,7 @@ import co.yap.translation.Strings
 import co.yap.yapcore.AdjustEvents.Companion.trackAdjustPlatformEvent
 import co.yap.yapcore.adjust.AdjustEvents
 import co.yap.yapcore.constants.Constants
-import co.yap.yapcore.dagger.base.navigation.BaseNavViewModelFragment
+
 import co.yap.yapcore.helpers.extentions.share
 import co.yap.yapcore.hilt.base.navigation.BaseNavViewModelFragmentV2
 import co.yap.yapcore.leanplum.HHSubscriptionEvents

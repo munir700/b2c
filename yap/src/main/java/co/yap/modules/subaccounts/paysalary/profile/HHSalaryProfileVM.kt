@@ -13,7 +13,6 @@ import co.yap.networking.transactions.household.TransactionsHHApi
 import co.yap.networking.transactions.household.TransactionsHHRepository
 import co.yap.networking.transactions.requestdtos.HomeTransactionsRequest
 import co.yap.widgets.State
-import co.yap.yapcore.dagger.base.viewmodel.BaseRecyclerAdapterVM
 import co.yap.yapcore.hilt.base.viewmodel.BaseRecyclerAdapterVMV2
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject

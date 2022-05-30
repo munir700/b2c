@@ -5,8 +5,6 @@ import androidx.navigation.NavController
 import co.yap.networking.customers.CustomersApi
 import co.yap.networking.customers.requestdtos.CreatePassCodeRequest
 import co.yap.networking.models.RetroApiResponse
-import co.yap.yapcore.SingleClickEvent
-import co.yap.yapcore.dagger.base.viewmodel.DaggerBaseViewModel
 import co.yap.yapcore.hilt.base.viewmodel.HiltBaseViewModel
 import co.yap.yapcore.leanplum.HHUserOnboardingEvents
 import co.yap.yapcore.leanplum.trackEvent

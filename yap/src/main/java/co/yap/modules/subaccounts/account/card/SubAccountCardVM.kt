@@ -7,14 +7,16 @@ import co.yap.networking.customers.household.responsedtos.SubAccount
 import co.yap.networking.customers.household.responsedtos.SubAccounts
 import co.yap.networking.models.RetroApiResponse
 import co.yap.widgets.State
-import co.yap.yapcore.dagger.base.viewmodel.BaseRecyclerAdapterVM
 import co.yap.yapcore.enums.AccountType
+import co.yap.yapcore.hilt.base.viewmodel.BaseRecyclerAdapterVMV2
 import co.yap.yapcore.leanplum.HHUserActivityEvents
 import co.yap.yapcore.leanplum.trackEvent
+import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
-class SubAccountCardVM @Inject constructor(override val state: ISubAccountCard.State) :
-    BaseRecyclerAdapterVM<SubAccount, ISubAccountCard.State>(), ISubAccountCard.ViewModel {
+@HiltViewModel
+class SubAccountCardVM @Inject constructor(override val state: SubAccountCardState) :
+    BaseRecyclerAdapterVMV2<SubAccount, ISubAccountCard.State>(), ISubAccountCard.ViewModel {
     private val repository: CustomersHHRepository = CustomersHHRepository
     override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?) {
         getSubAccount()

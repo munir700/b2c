@@ -9,7 +9,7 @@ import co.yap.modules.kyc.activities.DocumentsDashboardActivity
 import co.yap.translation.Strings
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.Constants.ACCOUNT_UUID
-import co.yap.yapcore.dagger.base.navigation.BaseNavViewModelFragment
+
 import co.yap.yapcore.helpers.extentions.launchActivityForResult
 import co.yap.yapcore.hilt.base.navigation.BaseNavViewModelFragmentV2
 import co.yap.yapcore.managers.SessionManager

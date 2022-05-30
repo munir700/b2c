@@ -20,34 +20,31 @@ abstract class BaseViewModelActivityV2<VB : ViewDataBinding, S : IBase.State, VM
 
     override var shouldRegisterViewModelLifeCycle: Boolean = false
 
-    lateinit var mViewDataBinding: VB
-        private set
+//    override fun onCreate(savedInstanceState: Bundle?) {
+//        super.onCreate(savedInstanceState)
+//        setupBindingView(this, getLayoutId()) {
+//            mViewDataBinding = it
+//            performDataBinding(savedInstanceState)
+//        }
+//    }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setupBindingView(this, getLayoutId()) {
-            mViewDataBinding = it
-            performDataBinding(savedInstanceState)
-        }
-    }
-
-    private fun setupBindingView(
-        fragmentActivity: FragmentActivity,
-        layoutResId: Int,
-        set: (VB) -> Unit
-    ): VB {
-        return DataBindingUtil.setContentView<VB>(fragmentActivity, layoutResId).also {
-            set(it)
-        }
-    }
+//    private fun setupBindingView(
+//        fragmentActivity: FragmentActivity,
+//        layoutResId: Int,
+//        set: (VB) -> Unit
+//    ): VB {
+//        return DataBindingUtil.setContentView<VB>(fragmentActivity, layoutResId).also {
+//            set(it)
+//        }
+//    }
 
     override fun performDataBinding(savedInstanceState: Bundle?) {
         registerStateListeners()
-        mViewDataBinding.setVariable(getBindingVariable(), viewModel)
-        mViewDataBinding.lifecycleOwner = this
+        viewDataBinding.setVariable(getBindingVariable(), viewModel)
+        viewDataBinding.lifecycleOwner = this
         init(savedInstanceState)
         postInit()
-        mViewDataBinding.executePendingBindings()
+        viewDataBinding.executePendingBindings()
         if (viewModel is OnClickHandler) {
             viewModel.clickEvent?.observe(this, Observer { onClick(it) })
         }

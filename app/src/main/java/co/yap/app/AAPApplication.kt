@@ -6,10 +6,8 @@ import android.content.res.Configuration
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentActivity
-import co.yap.app.di.component.AppComponent
 import co.yap.app.modules.login.activities.VerifyPassCodePresenterActivity
 import co.yap.app.modules.refreal.DeepLinkNavigation
-import co.yap.household.app.HouseHoldApplication
 import co.yap.localization.LocaleManager
 import co.yap.modules.dashboard.main.activities.YapDashboardActivity
 import co.yap.modules.dummy.ActivityNavigator
@@ -48,13 +46,6 @@ import com.uxcam.UXCam
 import com.yap.ghana.configs.GhanaBuildConfigurations
 import com.yap.yappakistan.configs.PKBuildConfigurations
 import dagger.hilt.android.HiltAndroidApp
-import dagger.android.AndroidInjector
-import dagger.android.HasAndroidInjector
-import dagger.android.support.DaggerApplication
-import dagger.hilt.EntryPoint
-import dagger.hilt.InstallIn
-import dagger.hilt.android.EntryPointAccessors
-import dagger.hilt.components.SingletonComponent
 import timber.log.Timber
 import java.util.*
 import javax.inject.Inject
@@ -62,9 +53,9 @@ import javax.inject.Inject
 @HiltAndroidApp
 class AAPApplication : YAPApplication(), NavigatorProvider {
     /*  @Inject
-          lateinit var androidInjector: DispatchingAndroidInjector<Any>*/
-    lateinit var sAppComponent: AppComponent
+      lateinit var androidInjector: DispatchingAndroidInjector<Any>*/
     lateinit var originalSign: AppSignature
+
     /*override fun androidInjector(): AndroidInjector<Any> {
         return androidInjector
     }*/
@@ -273,7 +264,7 @@ class AAPApplication : YAPApplication(), NavigatorProvider {
 
     }
 
-    // This Entry point will provide the AndroidInjector
+   /* // This Entry point will provide the AndroidInjector
     @EntryPoint
     @InstallIn(SingletonComponent::class)
     interface ApplicationInjector : AndroidInjector<AAPApplication>
@@ -284,7 +275,7 @@ class AAPApplication : YAPApplication(), NavigatorProvider {
             this,
             ApplicationInjector::class.java
         )
-    }
+    }*/
     /*override fun applicationInjector(): AndroidInjector<out DaggerApplication> {
         return if (!this::sAppComponent.isInitialized) {
             sAppComponent = AppInjector.init(this)

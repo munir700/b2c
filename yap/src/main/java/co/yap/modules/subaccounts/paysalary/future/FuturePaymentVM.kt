@@ -12,7 +12,6 @@ import co.yap.networking.customers.household.requestdtos.SchedulePayment
 import co.yap.networking.customers.household.responsedtos.SubAccount
 import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.SingleClickEvent
-import co.yap.yapcore.dagger.base.viewmodel.DaggerBaseViewModel
 import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.DateUtils.FORMAT_DATE_MON_YEAR
 import co.yap.yapcore.helpers.DateUtils.GMT

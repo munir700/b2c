@@ -1,3 +1,4 @@
+/*
 package co.yap.yapcore.dagger.base
 
 import android.content.Context
@@ -25,10 +26,12 @@ import dagger.android.support.HasSupportFragmentInjector
 import javax.inject.Inject
 import kotlin.properties.Delegates
 
+*/
 /**
  * Created by Muhammad Irfan Arshad
  *
- */
+ *//*
+
 abstract class BaseViewModelFragment<VB : ViewDataBinding, S : IBase.State, VM : DaggerBaseViewModel<S>> :
     BaseBindingFragment<VB,VM>(),
     HasSupportFragmentInjector,
@@ -50,11 +53,13 @@ abstract class BaseViewModelFragment<VB : ViewDataBinding, S : IBase.State, VM :
         private set
     override var shouldRegisterViewModelLifeCycle: Boolean = false
 
-    /**
+    */
+/**
      * Hint provided by the app that this fragment is currently visible to the user, as well as "active".
      * (This is usually set manually (e.g. when using the [androidx.viewpager.widget.ViewPager]) to indicate that the "Page" is active
      * and ready to load data or do something useful)
-     */
+     *//*
+
     var isActive by Delegates.observable(true) { _, oldValue, newValue ->
         onActiveStateChange(
             oldValue,
@@ -108,9 +113,11 @@ abstract class BaseViewModelFragment<VB : ViewDataBinding, S : IBase.State, VM :
 
     fun getBaseActivity() = mActivity
 
-    /**
+    */
+/**
      * Adding BackButtonDispatcher callback to activity
-     */
+     *//*
+
     fun setBackButtonDispatcher() {
         val callback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
@@ -153,33 +160,41 @@ abstract class BaseViewModelFragment<VB : ViewDataBinding, S : IBase.State, VM :
         }
     }
 
-    /**
+    */
+/**
      * Gets called whenever the [BaseViewModelFragment] becomes "active".
      * (see: [BaseViewModelFragment.isActive])
-     */
+     *//*
+
     protected open fun onBecameActive() {
         //
     }
 
 
-    /**
+    */
+/**
      * Gets called whenever the [BaseViewModelFragment] becomes "inactive".
      * (see: [BaseViewModelFragment.isActive])
-     */
+     *//*
+
     protected open fun onBecameInactive() {
         //
     }
 
-    /**
+    */
+/**
      * Finishes the host [android.app.Activity] (see: [android.app.Activity.finish]).
-     */
+     *//*
+
     protected fun finishActivity() {
         activity?.finish()
     }
 
-    /**
+    */
+/**
      * Finishes the host [android.app.Activity] affinity (see: [android.app.Activity.finishAffinity]).
-     */
+     *//*
+
     protected fun finishActivityAffinity() {
         activity?.finishAffinity()
     }
@@ -189,3 +204,4 @@ abstract class BaseViewModelFragment<VB : ViewDataBinding, S : IBase.State, VM :
     abstract fun setDisplayHomeAsUpEnabled(): Boolean?
     abstract fun setHomeAsUpIndicator(): Int?
 }
+*/

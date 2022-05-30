@@ -11,7 +11,7 @@ import co.yap.databinding.FragmentYoungCardEditDetailsBinding
 import co.yap.translation.Strings
 import co.yap.widgets.CircleView
 import co.yap.widgets.viewpager.SimplePageOffsetTransformer
-import co.yap.yapcore.dagger.base.navigation.BaseNavViewModelFragment
+
 import co.yap.yapcore.helpers.extentions.dimen
 import co.yap.yapcore.hilt.base.navigation.BaseNavViewModelFragmentV2
 import com.google.android.material.tabs.TabLayout

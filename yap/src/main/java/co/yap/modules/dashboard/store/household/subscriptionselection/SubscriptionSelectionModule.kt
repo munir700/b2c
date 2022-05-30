@@ -5,10 +5,6 @@ import co.yap.R
 import co.yap.modules.onboarding.models.WelcomeContent
 import co.yap.translation.Strings
 import co.yap.translation.Translator.getString
-import co.yap.yapcore.dagger.di.InjectionViewModelProvider
-import co.yap.yapcore.dagger.di.module.fragment.BaseFragmentModule
-import co.yap.yapcore.dagger.di.qualifiers.FragmentScope
-import co.yap.yapcore.dagger.di.qualifiers.ViewModelInjection
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

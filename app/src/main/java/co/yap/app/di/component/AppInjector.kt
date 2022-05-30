@@ -1,6 +1,6 @@
 package co.yap.app.di.component
 
-import android.app.Activity
+/*import android.app.Activity
 import android.app.Application
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -10,7 +10,7 @@ import co.yap.app.AAPApplication
 import co.yap.yapcore.dagger.di.components.Injectable
 import dagger.android.AndroidInjection
 import dagger.android.support.AndroidSupportInjection
-import dagger.android.support.HasSupportFragmentInjector
+import dagger.android.support.HasSupportFragmentInjector*/
 
 /**
  * Helper class to automatically inject fragments if they implement [Injectable].
@@ -63,7 +63,7 @@ object AppInjector /*: HouseHoldComponentProvider, CoreComponentProvider, YapCom
         return component
     }*/
 
-    private fun handleActivity(activity: Activity) {
+  /*  private fun handleActivity(activity: Activity) {
         if (activity is HasSupportFragmentInjector || activity is Injectable) {
             AndroidInjection.inject(activity)
         }
@@ -82,7 +82,7 @@ object AppInjector /*: HouseHoldComponentProvider, CoreComponentProvider, YapCom
                     }, true
                 )
         }
-    }
+    }*/
 
 /*
     override fun provideYapComponent(): YapComponent {

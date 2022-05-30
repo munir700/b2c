@@ -1,3 +1,4 @@
+/*
 package co.yap.yapcore.dagger.base.viewmodel
 
 import android.os.Bundle
@@ -11,10 +12,12 @@ import co.yap.yapcore.IBase
 import co.yap.yapcore.dagger.base.interfaces.OnPullToRefreshable
 
 
+*/
 /**
  * Created by Muhammad Irfan Arshad
  *
- */
+ *//*
+
 abstract class BaseRecyclerAdapterVM<T : ApiResponse, S : IBase.State> : DaggerBaseViewModel<S>(),
     OnPullToRefreshable {
     val adapter = ObservableField<BaseRVAdapter<T, *, *>>()
@@ -25,11 +28,13 @@ abstract class BaseRecyclerAdapterVM<T : ApiResponse, S : IBase.State> : DaggerB
     }
 
 
-    /**
+    */
+/**
      * Call this to fill data to [.adapter]
      * @param newData new data
      * @param refresh true if data come from refresh action (call remote api)
-     */
+     *//*
+
     protected fun addData(@NonNull newData: MutableList<T>, refresh: Boolean = true) {
         if (data == null) {
             data = newData
@@ -42,11 +47,13 @@ abstract class BaseRecyclerAdapterVM<T : ApiResponse, S : IBase.State> : DaggerB
         adapter.get()?.setData(data)
     }
 
-    /**
+    */
+/**
      * Call this to fill data to [.adapter]
      * @param newData new data
      * @param refresh true if data come from refresh action (call remote api)
-     */
+     *//*
+
     protected fun setData(@NonNull newData: MutableList<T>?, refresh: Boolean = true) {
         newData?.let {
             data = it
@@ -77,4 +84,4 @@ abstract class BaseRecyclerAdapterVM<T : ApiResponse, S : IBase.State> : DaggerB
     override fun onRefresh() {
 
     }
-}
+}*/

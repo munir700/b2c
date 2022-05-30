@@ -8,7 +8,6 @@ import co.yap.networking.customers.requestdtos.HouseholdOnboardRequest
 import co.yap.networking.household.responsedtos.HouseHoldPlan
 import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.constants.Constants
-import co.yap.yapcore.dagger.base.viewmodel.DaggerBaseViewModel
 import co.yap.yapcore.enums.AccountType
 import co.yap.yapcore.enums.PackageType
 import co.yap.yapcore.hilt.base.viewmodel.HiltBaseViewModel

@@ -9,12 +9,13 @@ import androidx.navigation.NavController
 import co.yap.networking.models.ApiResponse
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.dagger.base.viewmodel.DaggerViewModel
+import co.yap.yapcore.hilt.base.viewmodel.HiltViewModel
 
 /**
  * Created by Muhammad Irfan Arshad
  *
  */
-abstract class BaseListItemViewModel<ITEM : Any> : DaggerViewModel(), OnItemClickListener {
+abstract class BaseListItemViewModel<ITEM : Any> : HiltViewModel(), OnItemClickListener {
 
     var onChildViewClickListener: ((view: View, position: Int, data: ITEM?) -> Unit)?=null
     abstract fun setItem(item: ITEM, position: Int)

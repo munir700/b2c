@@ -1,6 +1,6 @@
 package co.yap.household.di.components
 
-import dagger.Module
+/*import dagger.Module
 import dagger.android.AndroidInjectionModule
 import dagger.android.support.AndroidSupportInjectionModule
 import dagger.hilt.InstallIn
@@ -13,7 +13,6 @@ import dagger.hilt.components.SingletonComponent
 )
 @InstallIn(SingletonComponent::class)
 interface HouseHoldComponent
-/*
 @Component(
     modules = [
         AndroidInjectionModule::class,

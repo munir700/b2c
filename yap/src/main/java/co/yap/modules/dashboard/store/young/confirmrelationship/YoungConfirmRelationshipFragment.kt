@@ -10,7 +10,7 @@ import co.yap.BR
 import co.yap.R
 import co.yap.databinding.FragmentYoungConfirmRelationshipBinding
 import co.yap.translation.Strings
-import co.yap.yapcore.dagger.base.navigation.BaseNavViewModelFragment
+
 import co.yap.yapcore.hilt.base.navigation.BaseNavViewModelFragmentV2
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_young_confirm_relationship.*

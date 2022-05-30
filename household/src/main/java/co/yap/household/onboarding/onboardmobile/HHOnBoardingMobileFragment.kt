@@ -8,7 +8,7 @@ import co.yap.household.R
 import co.yap.household.databinding.FragmentHhonboardingMobileBinding
 import co.yap.modules.webview.WebViewFragment
 import co.yap.yapcore.constants.Constants
-import co.yap.yapcore.dagger.base.navigation.BaseNavViewModelFragment
+
 import co.yap.yapcore.helpers.extentions.startFragment
 import co.yap.yapcore.hilt.base.navigation.BaseNavViewModelFragmentV2
 import dagger.hilt.android.AndroidEntryPoint

@@ -6,7 +6,6 @@ import androidx.navigation.NavController
 import co.yap.modules.dashboard.cards.analytics.fragments.CardAnalyticsFragment
 import co.yap.modules.subaccounts.account.card.SubAccountCardFragment
 import co.yap.yapcore.adapters.SectionsPagerAdapter
-import co.yap.yapcore.dagger.base.viewmodel.DaggerBaseViewModel
 import co.yap.yapcore.hilt.base.viewmodel.HiltBaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject

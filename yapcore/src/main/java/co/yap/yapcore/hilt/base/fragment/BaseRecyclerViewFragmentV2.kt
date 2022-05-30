@@ -6,15 +6,12 @@ import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import co.yap.networking.models.ApiResponse
 import co.yap.widgets.*
 import co.yap.yapcore.BaseRVAdapter
 import co.yap.yapcore.IBase
 import co.yap.yapcore.R
 import co.yap.yapcore.dagger.base.interfaces.UiRefreshable
-import co.yap.yapcore.dagger.base.navigation.BaseNavViewModelFragment
-import co.yap.yapcore.dagger.base.viewmodel.BaseRecyclerAdapterVM
 import co.yap.yapcore.helpers.extentions.bindView
 import co.yap.yapcore.helpers.extentions.dimen
 import co.yap.yapcore.hilt.base.navigation.BaseNavViewModelFragmentV2

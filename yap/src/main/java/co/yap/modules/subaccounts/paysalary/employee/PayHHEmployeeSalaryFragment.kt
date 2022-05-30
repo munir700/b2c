@@ -11,7 +11,7 @@ import co.yap.networking.customers.household.responsedtos.SalaryTransaction
 import co.yap.translation.Strings
 import co.yap.yapcore.dagger.base.navigation.BackNavigationResult
 import co.yap.yapcore.dagger.base.navigation.BackNavigationResultListener
-import co.yap.yapcore.dagger.base.navigation.BaseNavViewModelFragment
+
 import co.yap.yapcore.hilt.base.navigation.BaseNavViewModelFragmentV2
 import dagger.hilt.android.AndroidEntryPoint
 

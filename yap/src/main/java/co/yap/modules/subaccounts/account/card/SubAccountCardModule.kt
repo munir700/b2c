@@ -1,17 +1,16 @@
 package co.yap.modules.subaccounts.account.card
 
-import co.yap.yapcore.dagger.di.InjectionViewModelProvider
-import co.yap.yapcore.dagger.di.module.fragment.BaseFragmentModule
-import co.yap.yapcore.dagger.di.qualifiers.FragmentScope
-import co.yap.yapcore.dagger.di.qualifiers.ViewModelInjection
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 
 
 @Module
-class SubAccountCardModule : BaseFragmentModule<SubAccountCardFragment>() {
+@InstallIn(SingletonComponent::class)
+class SubAccountCardModule/* : BaseFragmentModule<SubAccountCardFragment>()*/ {
 
-    @Provides
+    /*@Provides
     @ViewModelInjection
     fun provideSubAccountCardVM(
         fragment: SubAccountCardFragment,
@@ -20,10 +19,10 @@ class SubAccountCardModule : BaseFragmentModule<SubAccountCardFragment>() {
 
     @Provides
     @FragmentScope
-    fun provideSubAccountCardState(): ISubAccountCard.State = SubAccountCardState()
+    fun provideSubAccountCardState(): ISubAccountCard.State = SubAccountCardState()*/
 
     @Provides
-    fun provideSubAccountCardAdapter(fragment: SubAccountCardFragment) =
+    fun provideSubAccountCardAdapter() =
         SubAccountAdapter(
             ArrayList(),
             null

@@ -5,7 +5,6 @@ import androidx.navigation.NavController
 import co.yap.networking.customers.CustomersApi
 import co.yap.networking.customers.requestdtos.VerifyHouseholdMobileRequest
 import co.yap.networking.models.RetroApiResponse
-import co.yap.yapcore.dagger.base.viewmodel.DaggerBaseViewModel
 import co.yap.yapcore.helpers.getCountryCodeForRegionWithZeroPrefix
 import co.yap.yapcore.helpers.validation.IValidator
 import co.yap.yapcore.helpers.validation.Validator

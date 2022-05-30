@@ -5,7 +5,7 @@ import co.yap.household.BR
 import co.yap.household.R
 import co.yap.household.databinding.FragmentHhonBoardingExistingBinding
 import co.yap.modules.dashboard.main.activities.YapDashboardActivity
-import co.yap.yapcore.dagger.base.navigation.BaseNavViewModelFragment
+
 import co.yap.yapcore.enums.AccountStatus
 import co.yap.yapcore.enums.YAPThemes
 import co.yap.yapcore.helpers.extentions.launchActivity

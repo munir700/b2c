@@ -7,7 +7,6 @@ import co.yap.networking.customers.household.CustomersHHRepository
 import co.yap.networking.customers.household.responsedtos.SubAccount
 import co.yap.networking.models.RetroApiResponse
 import co.yap.widgets.State
-import co.yap.yapcore.dagger.base.viewmodel.DaggerBaseViewModel
 import co.yap.yapcore.hilt.base.viewmodel.HiltBaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject

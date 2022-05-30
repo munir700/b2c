@@ -1,12 +1,12 @@
 package co.yap.yapcore.dagger.di
 
+/*
 import androidx.annotation.Keep
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
-import co.yap.yapcore.dagger.base.viewmodel.DaggerBaseViewModel
 import javax.inject.Inject
 import kotlin.reflect.KClass
 
@@ -30,4 +30,4 @@ class InjectionViewModelProvider<VM : DaggerBaseViewModel<*>> @Inject constructo
         ViewModelProviders.of(fragment, viewModelFactory).get(viewModelClass.java)
 
 
-}
+}*/

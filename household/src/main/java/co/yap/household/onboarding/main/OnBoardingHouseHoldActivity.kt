@@ -13,7 +13,6 @@ import co.yap.household.BR
 import co.yap.household.R
 import co.yap.household.databinding.ActivityOnboardingHoueHoldBinding
 import co.yap.yapcore.constants.Constants.INDEX
-import co.yap.yapcore.dagger.base.navigation.BaseNavViewModelActivity
 import co.yap.yapcore.dagger.base.navigation.host.NAVIGATION_Graph_ID
 import co.yap.yapcore.dagger.base.navigation.host.NAVIGATION_Graph_START_DESTINATION_ID
 import co.yap.yapcore.dagger.base.navigation.host.NavHostPresenterActivity
@@ -24,7 +23,9 @@ import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.hilt.base.navigation.BaseNavViewModelActivityV2
 import co.yap.yapcore.managers.SessionManager
 import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.migration.OptionalInject
 
+@OptionalInject
 @AndroidEntryPoint
 class OnBoardingHouseHoldActivity :
     BaseNavViewModelActivityV2<ActivityOnboardingHoueHoldBinding, IOnBoardingHouseHold.State, OnBoardingHouseHoldVM>(),

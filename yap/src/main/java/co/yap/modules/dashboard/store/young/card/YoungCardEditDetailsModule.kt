@@ -1,10 +1,6 @@
 package co.yap.modules.dashboard.store.young.card
 
 import co.yap.networking.customers.responsedtos.HouseHoldCardsDesign
-import co.yap.yapcore.dagger.di.InjectionViewModelProvider
-import co.yap.yapcore.dagger.di.module.fragment.BaseFragmentModule
-import co.yap.yapcore.dagger.di.qualifiers.FragmentScope
-import co.yap.yapcore.dagger.di.qualifiers.ViewModelInjection
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

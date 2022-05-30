@@ -2,11 +2,6 @@ package co.yap.modules.dashboard.store.yapstore
 
 import co.yap.R
 import co.yap.networking.store.responsedtos.Store
-import co.yap.yapcore.dagger.di.InjectionViewModelProvider
-import co.yap.yapcore.dagger.di.module.fragment.BaseFragmentModule
-import co.yap.yapcore.dagger.di.qualifiers.FragmentScope
-import co.yap.yapcore.dagger.di.qualifiers.ViewModelInjection
-import co.yap.yapcore.enums.YAPThemes
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

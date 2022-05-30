@@ -6,7 +6,7 @@ import androidx.lifecycle.Observer
 import co.yap.household.BR
 import co.yap.household.R
 import co.yap.household.databinding.FragmentHhonBoardingInvalidEidBinding
-import co.yap.yapcore.dagger.base.navigation.BaseNavViewModelFragment
+
 import co.yap.yapcore.helpers.confirm
 import co.yap.yapcore.helpers.livedata.LogOutLiveData
 import co.yap.yapcore.hilt.base.navigation.BaseNavViewModelFragmentV2

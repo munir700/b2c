@@ -5,7 +5,7 @@ import androidx.fragment.app.viewModels
 import co.yap.household.BR
 import co.yap.household.R
 import co.yap.household.databinding.FragmentHouseHoldExpenseBinding
-import co.yap.yapcore.dagger.base.navigation.BaseNavViewModelFragment
+
 import co.yap.yapcore.hilt.base.navigation.BaseNavViewModelFragmentV2
 import dagger.hilt.android.AndroidEntryPoint
 

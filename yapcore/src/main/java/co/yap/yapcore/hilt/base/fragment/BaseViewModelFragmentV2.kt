@@ -44,7 +44,7 @@ abstract class BaseViewModelFragmentV2<VB : ViewDataBinding, S : IBase.State, VM
         mViewDataBinding = viewDataBinding as VB
         registerStateListeners()
         viewModel.fetchExtras(arguments)
-        viewModel.c = requireContext()
+        viewModel.c = requireContext() // TODO Need to remove
         viewDataBinding.setVariable(getBindingVariable(), viewModel)
         viewDataBinding.lifecycleOwner = this
         viewDataBinding.executePendingBindings()

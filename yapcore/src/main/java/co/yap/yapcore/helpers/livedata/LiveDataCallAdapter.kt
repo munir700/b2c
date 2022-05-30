@@ -1,7 +1,7 @@
 package co.yap.yapcore.helpers.livedata
 
 import androidx.lifecycle.LiveData
-import co.yap.yapcore.dagger.base.viewmodel.DaggerCoroutineViewModel
+import co.yap.yapcore.hilt.base.viewmodel.HiltCoroutineViewModel
 import co.yap.yapcore.interfaces.CoroutineViewModel
 import kotlinx.coroutines.*
 
@@ -11,7 +11,7 @@ abstract class LiveDataCallAdapter<T> : LiveData<T>(), CoroutineViewModel {
     override val viewModelScope: CoroutineScope
         get() = CoroutineScope(viewModelJob + Dispatchers.Main)
     val viewModelBGScope =
-        DaggerCoroutineViewModel.CloseableCoroutineScope(viewModelJob + Dispatchers.IO)
+        HiltCoroutineViewModel.CloseableCoroutineScope(viewModelJob + Dispatchers.IO)
 
     override fun cancelAllJobs() {
         viewModelBGScope.close()
@@ -19,7 +19,7 @@ abstract class LiveDataCallAdapter<T> : LiveData<T>(), CoroutineViewModel {
         viewModelJob.cancel()
     }
 
-    override fun launch(block: suspend () -> Unit)=
+    override fun launch(block: suspend () -> Unit) =
         viewModelScope.launch { block() }
 
 

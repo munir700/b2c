@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.lifecycleScope
 import co.yap.app.YAPApplication
 import co.yap.localization.LocaleManager
@@ -24,11 +25,11 @@ abstract class BaseBindingActivity<VB : ViewDataBinding, V : IBase.ViewModel<*>>
         private set
 
     override fun onCreate(savedInstanceState: Bundle?) {
+//        if (!isViewCreated) {
+//            preInit(savedInstanceState)
+//        }
         preInit(savedInstanceState)
         // dependencies will be injected only once (based on the state of the content view)
-        if (!isViewCreated) {
-            injectDependencies()
-        }
         // For runtime permission handling if user
         // disable permission from settings manually
         if (YAPApplication.AUTO_RESTART_APP) {
@@ -36,9 +37,21 @@ abstract class BaseBindingActivity<VB : ViewDataBinding, V : IBase.ViewModel<*>>
             restartApp()
         }
         super.onCreate(savedInstanceState)
-        performDataBinding(savedInstanceState)
+        setupBindingView(this, getLayoutId()) {
+            viewDataBinding = it
+            performDataBinding(savedInstanceState)
+        }
         if (shouldShowChatChatOverLay() == true)
             initializeChatOverLayButton()
+    }
+    private fun setupBindingView(
+        fragmentActivity: FragmentActivity,
+        layoutResId: Int,
+        set: (VB) -> Unit
+    ): VB {
+        return DataBindingUtil.setContentView<VB>(fragmentActivity, layoutResId).also {
+            set(it)
+        }
     }
 
     override fun onResume() {
@@ -54,7 +67,8 @@ abstract class BaseBindingActivity<VB : ViewDataBinding, V : IBase.ViewModel<*>>
 
     override fun performDataBinding(savedInstanceState: Bundle?) {
         init(savedInstanceState)
-        viewDataBinding = DataBindingUtil.setContentView(this, getLayoutId())
+        viewDataBinding.lifecycleOwner = this
+//        viewDataBinding = DataBindingUtil.setContentView(this, getLayoutId())
         viewDataBinding.setVariable(getBindingVariable(), viewModel)
         postInit()
         viewDataBinding.executePendingBindings()
@@ -66,12 +80,6 @@ abstract class BaseBindingActivity<VB : ViewDataBinding, V : IBase.ViewModel<*>>
      */
     protected open fun preInit(savedInstanceState: Bundle?) {
         //
-    }
-
-    /**
-     * Gets called when it's the right time for you to inject the dependencies.
-     */
-    open fun injectDependencies() {
     }
 
     /**

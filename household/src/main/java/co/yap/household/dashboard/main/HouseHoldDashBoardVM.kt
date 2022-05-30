@@ -8,7 +8,6 @@ import co.yap.modules.sidemenu.ProfilePictureAdapter
 import co.yap.networking.messages.MessagesRepository.getHelpDeskContact
 import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.adapters.SectionsPagerAdapter
-import co.yap.yapcore.dagger.base.viewmodel.DaggerBaseViewModel
 import co.yap.yapcore.helpers.extentions.share
 import co.yap.yapcore.hilt.base.viewmodel.HiltBaseViewModel
 import co.yap.yapcore.managers.SessionManager

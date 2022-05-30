@@ -5,7 +5,7 @@ import co.yap.R
 import co.yap.BR
 import co.yap.databinding.FragmentYoungContactDetailsBinding
 import co.yap.translation.Strings
-import co.yap.yapcore.dagger.base.navigation.BaseNavViewModelFragment
+
 import co.yap.yapcore.hilt.base.navigation.BaseNavViewModelFragmentV2
 import dagger.hilt.android.AndroidEntryPoint
 

@@ -6,7 +6,7 @@ import kotlinx.coroutines.*
 import java.io.Closeable
 import kotlin.coroutines.CoroutineContext
 
-
+@Deprecated("use HiltCoroutineViewModel ")
 abstract class DaggerCoroutineViewModel : DaggerViewModel(), CoroutineViewModel {
 
     private val TAG: String = this.javaClass.simpleName
