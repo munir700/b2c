@@ -17,7 +17,7 @@ Java_co_yap_app_AAPApplication_signatureKeysFromJNI(JNIEnv *env, jobject /*this*
                                              "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;"
                                              "Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;"
                                              "Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;"
-                                             "Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V");
+                                             "Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V");
 
     std::string sha1Encoded;
     std::string md5Encoded;
@@ -36,8 +36,6 @@ Java_co_yap_app_AAPApplication_signatureKeysFromJNI(JNIEnv *env, jobject /*this*
     std::string checkoutKey;
     std::string leanOpenBanking;
     std::string spayServiceId;
-    std::string flagSmithAPIKey;
-
 
 
 #ifdef LIVE
@@ -49,7 +47,6 @@ Java_co_yap_app_AAPApplication_signatureKeysFromJNI(JNIEnv *env, jobject /*this*
     //VjLZe/p3W/PJnd6lL8JVNBCGQBZynFLdZSTIqcO0SJ8=
     sslHost = "*.yap.com";
     spayServiceId = "9f189cfac32b46d9b5c284";
-    flagSmithAPIKey = "jA6afrdULLjYpqHELs8kfJ";
 
     sha1Encoded = "ODU6OUY6NjM6N0M6NjI6N0I6Qjc6N0E6MDg6RTQ6OEI6MDY6OUU6M0U6MkQ6RTU6MEQ6OEM6Mjg6MjU=";
     md5Encoded = "MDg6NzM6ODQ6RTI6NEM6NTc6RTU6MUU6OEY6ODU6RTM6OTg6MUM6NDM6Qjg6NEE=";
@@ -68,7 +65,6 @@ Java_co_yap_app_AAPApplication_signatureKeysFromJNI(JNIEnv *env, jobject /*this*
     //VjLZe/p3W/PJnd6lL8JVNBCGQBZynFLdZSTIqcO0SJ8=
     sslHost = "*.yap.com";
     spayServiceId = "9f2b7fca270c4f3c81d99e";
-    flagSmithAPIKey = "Ci4xvVedB8dBPYZGJR5qXf";
 
     sha1Encoded = "ODU6OUY6NjM6N0M6NjI6N0I6Qjc6N0E6MDg6RTQ6OEI6MDY6OUU6M0U6MkQ6RTU6MEQ6OEM6Mjg6MjU=";
     md5Encoded = "MDg6NzM6ODQ6RTI6NEM6NTc6RTU6MUU6OEY6ODU6RTM6OTg6MUM6NDM6Qjg6NEE=";
@@ -87,7 +83,6 @@ Java_co_yap_app_AAPApplication_signatureKeysFromJNI(JNIEnv *env, jobject /*this*
     sslPin3 = "sha256/Ko8tivDrEjiY90yGasP6ZpBU4jwXvHqVvQI0GS3GNdA=";
     sslHost = "*.yap.co";
     spayServiceId = "9f2b7fca270c4f3c81d99e";
-    flagSmithAPIKey = "mNarPKjWTf8gqeor6qmBXj";
 
     sha1Encoded = "REI6QTg6REE6OTg6RUY6ODA6QkY6ODQ6MDQ6RDE6NzM6Rjg6QzE6RjE6QzA6MTU6NTk6MjA6MTY6RDI=";
     md5Encoded = "MjU6ODQ6MUY6RTE6RjE6QTg6QzI6NTg6N0I6QUU6RUE6QjM6NDE6NjU6NzY6RkU=";
@@ -107,7 +102,6 @@ Java_co_yap_app_AAPApplication_signatureKeysFromJNI(JNIEnv *env, jobject /*this*
     sslPin3 = "sha256/++MBgDH5WGvL9Bcn5Be30cRcL0f5O+NyoXuWtQdX1aI=";
     sslHost = "*.yap.co";
      spayServiceId = "9f2b7fca270c4f3c81d99e";
-    flagSmithAPIKey = "hyzRfWb6DS87tRpswTUiJB";
 
     sha1Encoded = "";
     md5Encoded = "";
@@ -126,7 +120,6 @@ Java_co_yap_app_AAPApplication_signatureKeysFromJNI(JNIEnv *env, jobject /*this*
     sslPin3 = "sha256/++MBgDH5WGvL9Bcn5Be30cRcL0f5O+NyoXuWtQdX1aI=";
     sslHost = "*.yap.co";
      spayServiceId = "9f2b7fca270c4f3c81d99e";
-    flagSmithAPIKey = "hyzRfWb6DS87tRpswTUiJB";
 
     sha1Encoded = "";
     md5Encoded = "";
@@ -209,7 +202,6 @@ Java_co_yap_app_AAPApplication_signatureKeysFromJNI(JNIEnv *env, jobject /*this*
                                   env->NewStringUTF(sslPin3.c_str()),
                                   env->NewStringUTF(sslHost.c_str()),
                                   env->NewStringUTF(spayServiceId.c_str()),
-                                  env->NewStringUTF(flagSmithAPIKey.c_str()),
                                   env->NewStringUTF(uxCamKey.c_str()),
                                   env->NewStringUTF(checkoutKey.c_str()),
                                   env->NewStringUTF(leanOpenBanking.c_str()));

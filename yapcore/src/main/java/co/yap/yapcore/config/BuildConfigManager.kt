@@ -20,7 +20,6 @@ data class BuildConfigManager(
     var sslPin3: String?,
     var sslHost: String?,
     var spayServiceId: String?,
-    var flagSmithAPIKey: String?,
     var uxCamKey: String?,
     var checkoutKey: String?,
     var leanOpenBanking: String?
