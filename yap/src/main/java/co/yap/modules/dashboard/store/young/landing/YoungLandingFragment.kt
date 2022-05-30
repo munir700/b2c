@@ -29,7 +29,7 @@ class YoungLandingFragment :
 
     override fun postExecutePendingBindings(savedInstanceState: Bundle?) {
         super.postExecutePendingBindings(savedInstanceState)
-        setupToolbar(toolbar = mViewDataBinding.toolbar, setActionBar = true) {
+        setupToolbar(toolbar = viewDataBinding.toolbar, setActionBar = true) {
             finishActivity()
         }
     }

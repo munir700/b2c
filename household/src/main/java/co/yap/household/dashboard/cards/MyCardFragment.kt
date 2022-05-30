@@ -54,7 +54,7 @@ class MyCardFragment :
 
     override fun postExecutePendingBindings(savedInstanceState: Bundle?) {
         super.postExecutePendingBindings(savedInstanceState)
-        setupToolbar(mViewDataBinding.toolbar, R.menu.menu_hh_options, setActionBar = false)
+        setupToolbar(viewDataBinding.toolbar, R.menu.menu_hh_options, setActionBar = false)
         intRecyclersView()
 //        setHasOptionsMenu(true)
         viewModel.getPrimaryCard() {
@@ -77,7 +77,7 @@ class MyCardFragment :
 
     private fun intRecyclersView() {
         mRecyclerViewExpandableItemManager.defaultGroupsExpandedState = true
-        mViewDataBinding.recyclerView.apply {
+        viewDataBinding.recyclerView.apply {
             addItemDecoration(StickyHeaderItemDecoration())
             mRecyclerViewExpandableItemManager.attachRecyclerView(this)
             adapter = mWrappedAdapter

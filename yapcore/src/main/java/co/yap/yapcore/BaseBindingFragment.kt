@@ -27,9 +27,7 @@ abstract class BaseBindingFragment<VB : ViewDataBinding, V : IBase.ViewModel<*>>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         // dependencies will be injected only once (based on the state of the content view)
-        if(!isViewCreated) {
-            injectDependencies()
-        }
+
         super.onCreate(savedInstanceState)
         // the overall initialization, extras fetching and post initialization will be performed only once, too
         if(!isViewCreated) {
@@ -43,10 +41,24 @@ abstract class BaseBindingFragment<VB : ViewDataBinding, V : IBase.ViewModel<*>>
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        viewDataBinding = DataBindingUtil.inflate(inflater, getLayoutId(), container, false)
+//        viewDataBinding = DataBindingUtil.inflate(inflater, getLayoutId(), container, false)
+//        return viewDataBinding.root
+        return setupBindingView(inflater, container, getLayoutId()){
+
+        }
+    }
+    private fun setupBindingView(
+        layoutInflater: LayoutInflater,
+        container: ViewGroup?,
+        layoutResId: Int,
+        set: (VB) -> Unit
+    ): View {
+        viewDataBinding =
+            DataBindingUtil.inflate<VB>(layoutInflater, layoutResId, container, false).also {
+                set(it)
+            }
         return viewDataBinding.root
     }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val wasViewCreated = isViewCreated
@@ -86,7 +98,7 @@ abstract class BaseBindingFragment<VB : ViewDataBinding, V : IBase.ViewModel<*>>
 
     open fun shouldShowChatChatOverLay() = requireContext().isUserLogin()
 
-    fun <VB : ViewDataBinding> getDataBindingView() = viewDataBinding as VB
+    fun <VB : ViewDataBinding> getDataBindingView() = viewDataBinding
 
     /**MV
      * Override for set binding variable
@@ -123,12 +135,6 @@ abstract class BaseBindingFragment<VB : ViewDataBinding, V : IBase.ViewModel<*>>
      * Gets called right after the UI executePendingBindings.
      */
     protected open fun postExecutePendingBindings(savedInstanceState: Bundle?) {
-        //
-    }
-    /**
-     * Gets called when it's the right time for you to inject the dependencies.
-     */
-    open fun injectDependencies() {
         //
     }
     /**

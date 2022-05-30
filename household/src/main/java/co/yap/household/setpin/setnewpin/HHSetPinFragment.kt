@@ -24,9 +24,9 @@ class HHSetPinFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        mViewDataBinding.includeDialer.dialer.setListener(this)
-        mViewDataBinding.includeDialer.dialer.setInputView(mViewDataBinding.includeDialer.tvInputField)
-        mViewDataBinding.includeDialer.dialer.setPassCodeView(mViewDataBinding.includeDialer.passCodeView)
+        viewDataBinding.includeDialer.dialer.setListener(this)
+        viewDataBinding.includeDialer.dialer.setInputView(viewDataBinding.includeDialer.tvInputField)
+        viewDataBinding.includeDialer.dialer.setPassCodeView(viewDataBinding.includeDialer.passCodeView)
     }
 
     override fun onClick(id: Int) {
@@ -49,7 +49,7 @@ class HHSetPinFragment :
                 navigateForwardWithAnimation(HHSetPinFragmentDirections.actionSetCardPinFragment2ToHHSetPinSuccessFragment())
             }
             viewModel.eventFailure -> {
-                mViewDataBinding.includeDialer.dialer.reset()
+                viewDataBinding.includeDialer.dialer.reset()
             }
         }
     }

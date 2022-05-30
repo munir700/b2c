@@ -69,12 +69,12 @@ class HouseholdHomeFragment :
     override fun getLayoutId() = R.layout.fragment_household_home
     override fun postExecutePendingBindings(savedInstanceState: Bundle?) {
         super.postExecutePendingBindings(savedInstanceState)
-        setupToolbar(toolbar = mViewDataBinding.toolbar, toolbarMenu = R.menu.menu_home)
+        setupToolbar(toolbar = viewDataBinding.toolbar, toolbarMenu = R.menu.menu_home)
         setHasOptionsMenu(true)
         GetAccountBalanceLiveData.get()
             .observe(this, Observer {
                 viewModel.state.availableBalance?.value = it?.availableBalance
-                mViewDataBinding.lyInclude.firstIndicator.setLabel2(it?.availableBalance.toFormattedCurrency() ?: "")
+                viewDataBinding.lyInclude.firstIndicator.setLabel2(it?.availableBalance.toFormattedCurrency() ?: "")
             })
         intRecyclersView()
     }
@@ -87,7 +87,7 @@ class HouseholdHomeFragment :
             }
         viewModel.notificationAdapter.set(mNotificationAdapter)
         mRecyclerViewExpandableItemManager.defaultGroupsExpandedState = true
-        mViewDataBinding.lyInclude.recyclerView.apply {
+        viewDataBinding.lyInclude.recyclerView.apply {
             addItemDecoration(StickyHeaderItemDecoration())
             mRecyclerViewExpandableItemManager.attachRecyclerView(this)
             adapter = mWrappedAdapter

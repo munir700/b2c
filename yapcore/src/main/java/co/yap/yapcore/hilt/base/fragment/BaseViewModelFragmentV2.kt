@@ -7,6 +7,7 @@ import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.widget.Toolbar
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import co.yap.yapcore.BaseActivity
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.IBase
@@ -18,14 +19,15 @@ import co.yap.yapcore.hilt.base.viewmodel.HiltBaseViewModel
 import kotlin.properties.Delegates
 
 /**
- * Created by Safi ur Rehman
+ * Created by Safi ur RehmanBaseViewModelFragmentV2
  */
 abstract class BaseViewModelFragmentV2<VB : ViewDataBinding, S : IBase.State, VM : HiltBaseViewModel<S>> :
     BaseBindingFragment<VB, VM>(), CanHandleOnClick {
 
     lateinit var mActivity: BaseActivity<*>
-    lateinit var mViewDataBinding: VB
-        private set
+
+    //    lateinit var mViewDataBinding: VB
+//        private set
     override var shouldRegisterViewModelLifeCycle: Boolean = false
 
     /**
@@ -41,7 +43,7 @@ abstract class BaseViewModelFragmentV2<VB : ViewDataBinding, S : IBase.State, VM
     }
 
     override fun performDataBinding(savedInstanceState: Bundle?) {
-        mViewDataBinding = viewDataBinding as VB
+//        mViewDataBinding = viewDataBinding as VB
         registerStateListeners()
         viewModel.fetchExtras(arguments)
         viewModel.c = requireContext() // TODO Need to remove
@@ -49,7 +51,7 @@ abstract class BaseViewModelFragmentV2<VB : ViewDataBinding, S : IBase.State, VM
         viewDataBinding.lifecycleOwner = this
         viewDataBinding.executePendingBindings()
         if (viewModel is IValidator) {
-            (viewModel as IValidator).validator?.targetViewBinding = mViewDataBinding
+            (viewModel as IValidator).validator?.targetViewBinding = viewDataBinding
         }
         if (viewModel is OnClickHandler) {
             viewModel.clickEvent?.observe(this, Observer { onClick(it) })
@@ -74,9 +76,14 @@ abstract class BaseViewModelFragmentV2<VB : ViewDataBinding, S : IBase.State, VM
         cancelAllSnackBar()
     }
 
-    protected fun getmViewModel() = viewModel
-
     fun getBaseActivity() = mActivity
+
+    /**
+     * Get reference to Activity ViewModel. Make sure correct VM class is
+     * specified.
+     */
+    inline fun <reified AVM : HiltBaseViewModel<*>> getActivityViewModel(): AVM =
+        ViewModelProvider(requireActivity()).get(AVM::class.java)
 
     /**
      * Adding BackButtonDispatcher callback to activity

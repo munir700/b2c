@@ -113,7 +113,7 @@ class HHSalaryProfileFragment :
         mSalarySetupAdapter.onItemClickListener = this
         viewModel.salarySetupAdapter?.set(mSalarySetupAdapter)
         mRecyclerViewExpandableItemManager.defaultGroupsExpandedState = true
-        mViewDataBinding.recyclerView.apply {
+        viewDataBinding.recyclerView.apply {
             addItemDecoration(StickyHeaderItemDecoration())
             mRecyclerViewExpandableItemManager.attachRecyclerView(this)
             adapter = mWrappedAdapter

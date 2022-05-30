@@ -45,7 +45,7 @@ abstract class BaseRecyclerViewFragmentV2<VB : ViewDataBinding, S : IBase.State,
         super.postExecutePendingBindings(savedInstanceState)
 //        refreshLayout = view?.findViewById(R.id.refreshLayout)
         if (setupRecyclerView) {
-            getmViewModel().adapter.set(adapter)
+           viewModel.adapter.set(adapter)
             recyclerView?.addItemDecoration(getItemDecoration())
             stateLayout?.setOnReloadListener(this)
             refreshLayout?.setColorSchemeResources(
@@ -112,7 +112,7 @@ abstract class BaseRecyclerViewFragmentV2<VB : ViewDataBinding, S : IBase.State,
 
     override fun onRefresh() {
         if (!isRefreshing) {
-            getmViewModel().onRefresh()
+            viewModel.onRefresh()
             isRefreshing = true
         }
     }

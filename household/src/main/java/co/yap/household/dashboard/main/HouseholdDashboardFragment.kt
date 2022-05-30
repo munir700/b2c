@@ -86,9 +86,9 @@ class HouseholdDashboardFragment:
         profilePictureAdapter.onItemClickListener = onItemClickListener
         setBackButtonDispatcher()
         setHasOptionsMenu(true)
-        actionMenu = actionMenuBuilder.attachTo(mViewDataBinding.ivYapItAction)
-            .setAlphaOverlay(mViewDataBinding.flAlphaOverlay)
-            .setTxtYapIt(mViewDataBinding.txtYapIt).build()
+        actionMenu = actionMenuBuilder.attachTo(viewDataBinding.ivYapItAction)
+            .setAlphaOverlay(viewDataBinding.flAlphaOverlay)
+            .setTxtYapIt(viewDataBinding.txtYapIt).build()
         setupViewPager()
         viewDataBinding.drawerLayout.addDrawerListener(this)
 
@@ -199,7 +199,7 @@ class HouseholdDashboardFragment:
     override fun toolBarVisibility() = false
     override fun onBackPressed(): Boolean {
         if (actionMenu?.isOpen!! && !actionMenu?.isAnimating()!!) {
-            actionMenu?.toggle(mViewDataBinding.ivYapItAction, true)
+            actionMenu?.toggle(viewDataBinding.ivYapItAction, true)
         } else if (viewDataBinding.drawerLayout.isDrawerOpen(GravityCompat.END)) viewDataBinding.drawerLayout.closeDrawer(
             GravityCompat.END
         ) else finishActivityAffinity()
