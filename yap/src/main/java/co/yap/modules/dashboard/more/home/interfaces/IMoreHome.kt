@@ -1,6 +1,7 @@
 package co.yap.modules.dashboard.more.home.interfaces
 
 import androidx.databinding.ObservableField
+import androidx.lifecycle.LiveData
 import co.yap.databinding.FragmentMoreHomeBinding
 import co.yap.modules.dashboard.more.home.models.MoreOption
 import co.yap.networking.coreitems.CoreBottomSheetData
@@ -18,15 +19,15 @@ interface IMoreHome {
         var badgeCount: ObservableField<String>
         var hasBadge: ObservableField<Boolean>
         val list : MutableList<CoreBottomSheetData>
+        val notificationCountData: LiveData<Int?>
         fun handlePressOnView(id: Int)
         fun handlePressOnYAPforYou(id: Int)
         fun getMoreOptions(): MutableList<MoreOption>
-        fun getTransactionsNotificationsCount(onComplete: (Int?) -> Unit)
+        fun getTransactionsNotificationsCount()
         fun loadBottomSheetData(): MutableList<CoreBottomSheetData>
     }
 
     interface View : IBase.View<ViewModel> {
-        fun getBinding(): FragmentMoreHomeBinding
         fun setObservers()
         fun removeObservers()
 
