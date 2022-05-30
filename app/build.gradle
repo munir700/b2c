@@ -152,9 +152,12 @@ android {
             versionName "0.0.21"
             applicationIdSuffix ".dev"
             resValue "string", "app_name", "YAP HH"
-            resValue "string", "google_maps_key", "AIzaSyAwMbe3AAuJfPm6w1LEQpx7IME9iIUiSR4"
+            resValue "string", "google_maps_key", versionProps.getProperty("map_key_other")
+            resValue "bool", "enabled_crash", "true"
+            resValue "bool", "enabled_analytics", "false"
             resValue "string", "facebook_app_id", "410921516527681"
             resValue "string", "fb_login_protocol_scheme", "fb410921516527681"
+            resValue "string", "uq_api_base_url", versionProps.getProperty("uq_api_base_url_stg")
             externalNativeBuild.cmake {
                 cppFlags '-DHH'
             }
@@ -164,9 +167,12 @@ android {
             versionName "0.1.4"
             applicationIdSuffix ".qa"
             resValue "string", "app_name", "YAP HH QA"
-            resValue "string", "google_maps_key", "AIzaSyAwMbe3AAuJfPm6w1LEQnpx7IME9iIUiSR4"
+            resValue "string", "google_maps_key", versionProps.getProperty("map_key_other")
+            resValue "bool", "enabled_crash", "true"
+            resValue "bool", "enabled_analytics", "false"
             resValue "string", "facebook_app_id", "410921516527681"
             resValue "string", "fb_login_protocol_scheme", "fb410921516527681"
+            resValue "string", "uq_api_base_url", versionProps.getProperty("uq_api_base_url_stg")
             externalNativeBuild.cmake {
                 cppFlags '-DHHQA'
             }
