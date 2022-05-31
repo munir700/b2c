@@ -1,14 +1,9 @@
 package co.yap.yapcore
 
-import android.os.Bundle
 import android.view.View
 import androidx.annotation.CallSuper
 import androidx.annotation.LayoutRes
-import androidx.databinding.PropertyChangeRegistry
-import androidx.navigation.NavController
-import co.yap.networking.models.ApiResponse
 import co.yap.yapcore.interfaces.OnItemClickListener
-import co.yap.yapcore.dagger.base.viewmodel.DaggerViewModel
 import co.yap.yapcore.hilt.base.viewmodel.HiltViewModel
 
 /**

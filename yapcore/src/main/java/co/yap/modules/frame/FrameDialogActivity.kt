@@ -6,24 +6,24 @@ import android.text.TextUtils
 import android.view.Gravity
 import android.view.MenuItem
 import android.view.WindowManager
+import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProviders
 import co.yap.yapcore.*
 import co.yap.yapcore.constants.Constants.EXTRA
 import co.yap.yapcore.constants.Constants.FRAGMENT_CLASS
 import co.yap.yapcore.databinding.DailogActivityFrameBinding
 import co.yap.yapcore.helpers.extentions.createFragmentInstance
 import co.yap.yapcore.helpers.extentions.instantiateFragment
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class FrameDialogActivity : BaseBindingActivity<DailogActivityFrameBinding,IFrameActivity.ViewModel>(),
     IFrameActivity.View, IFragmentHolder {
 
     private lateinit var fragment: BaseBindingFragment<*,*>
     override fun getBindingVariable() = BR.frameActivityViewModel
     override fun getLayoutId() = R.layout.dailog_activity_frame
-    override val viewModel: IFrameActivity.ViewModel
-        get() = ViewModelProviders.of(this).get(FrameActivityViewModel::class.java)
-
+    override val viewModel: FrameActivityViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val extras = intent

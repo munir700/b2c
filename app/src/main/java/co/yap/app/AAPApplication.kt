@@ -52,13 +52,8 @@ import javax.inject.Inject
 
 @HiltAndroidApp
 class AAPApplication : YAPApplication(), NavigatorProvider {
-    /*  @Inject
-      lateinit var androidInjector: DispatchingAndroidInjector<Any>*/
     lateinit var originalSign: AppSignature
 
-    /*override fun androidInjector(): AndroidInjector<Any> {
-        return androidInjector
-    }*/
     @Inject
     lateinit var pkBuildConfigurations: PKBuildConfigurations
 
@@ -263,27 +258,6 @@ class AAPApplication : YAPApplication(), NavigatorProvider {
 
     }
 
-   /* // This Entry point will provide the AndroidInjector
-    @EntryPoint
-    @InstallIn(SingletonComponent::class)
-    interface ApplicationInjector : AndroidInjector<AAPApplication>
-
-    override fun applicationInjector(): AndroidInjector<out DaggerApplication> {
-        // Get the application injector from the Entry point
-        return EntryPointAccessors.fromApplication(
-            this,
-            ApplicationInjector::class.java
-        )
-    }*/
-    /*override fun applicationInjector(): AndroidInjector<out DaggerApplication> {
-        return if (!this::sAppComponent.isInitialized) {
-            sAppComponent = AppInjector.init(this)
-            sAppComponent
-        } else {
-            sAppComponent
-        }
-
-    }*/
 
     private fun getAppDataForNetwork(configManager: BuildConfigManager?): AppData {
         return AppData(
