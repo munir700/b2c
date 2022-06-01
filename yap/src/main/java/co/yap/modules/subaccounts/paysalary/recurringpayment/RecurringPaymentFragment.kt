@@ -1,5 +1,7 @@
 package co.yap.modules.subaccounts.paysalary.recurringpayment
 
+import android.os.Bundle
+import android.view.View
 import androidx.fragment.app.viewModels
 import co.yap.BR
 import co.yap.R
@@ -22,6 +24,11 @@ class RecurringPaymentFragment :
     override val viewModel: RecurringPaymentVM by viewModels()
 
     override fun getToolBarTitle() = getString(Strings.screen_household_recurring_payment_title)
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        viewModel.fragmentManager = childFragmentManager
+    }
 
     override fun onClick(id: Int) {
         viewModel.state.schedulePayment.value?.nextProcessingDate = viewModel.state.date.value
