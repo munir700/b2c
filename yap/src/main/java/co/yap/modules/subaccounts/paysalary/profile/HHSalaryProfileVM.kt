@@ -12,7 +12,9 @@ import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.household.TransactionsHHApi
 import co.yap.networking.transactions.household.TransactionsHHRepository
 import co.yap.networking.transactions.requestdtos.HomeTransactionsRequest
+import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.widgets.State
+import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.hilt.base.viewmodel.BaseRecyclerAdapterVMV2
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -31,8 +33,10 @@ class HHSalaryProfileVM @Inject constructor(override val state: HHSalaryProfileS
 
     override fun onResume() {
         super.onResume()
-        getLastNextTransaction(state.subAccount.value?.accountUuid)
+
+        //getLastNextTransaction(state.subAccount.value?.accountUuid)
         getAllHHProfileTransactions(state.subAccount.value?.accountUuid)
+        //getHHTransactionsByPage(state.subAccount.value?.accountUuid, )
     }
 
     override fun handleOnClick(id: Int) {
@@ -64,17 +68,69 @@ class HHSalaryProfileVM @Inject constructor(override val state: HHSalaryProfileS
         }
     }
 
+
+    private fun mergeReduce(newMap: MutableMap<String?, List<Transaction>>) {
+        state.transactionMap?.value?.let { map ->
+            val tempMap = mutableMapOf<String?, List<Transaction>>()
+            var keyToRemove: String? = null
+            tempMap.putAll(newMap)
+            newMap.keys.forEach { key ->
+                if (map.containsKey(key)) {
+                    keyToRemove = key
+                    return@forEach
+                }
+            }
+            keyToRemove?.let {
+                val newTransaction = newMap.getValue(it)
+                val oldTransaction = map.getValue(it).toMutableList()
+                oldTransaction.addAll(newTransaction)
+                state.transactionMap?.value!![it] = oldTransaction
+                tempMap.remove(it)
+            }
+            state.transactionMap?.value?.putAll(tempMap)
+        }
+    }
+
     override fun getAllHHProfileTransactions(accountUUID: String?) {
         launch {
-            publishState(State.loading(null))
+            setStateValue(State.loading(null))
             when (val response =
                 transactionsHHRepository.getAllHHProfileTransactions(accountUUID)) {
                 is RetroApiResponse.Success -> {
-                    response.data.data.let {
+                    response.data.data?.let { transactionList ->
+                        if (transactionList.isNotEmpty()) {
+                            setStateValue(State.success(""))
+                            val transactionMap: MutableMap<String?, List<Transaction>> =
+                                transactionList.sortedByDescending { sortedTransaction ->
+                                    DateUtils.stringToDate(
+                                        sortedTransaction.creationDate ?: "",
+                                        DateUtils.SERVER_DATE_FORMAT,
+                                        DateUtils.UTC
+                                    )?.time
+                                }.distinct().groupBy { groupTransaction ->
+                                        DateUtils.reformatDate(
+                                            groupTransaction.creationDate,
+                                            DateUtils.SERVER_DATE_FORMAT,
+                                            DateUtils.FORMAT_DATE_MON_YEAR, DateUtils.UTC
+                                        )
+                                    }.toMutableMap()
+
+                            state.transactionMap?.value?.let {
+                                mergeReduce(transactionMap)
+                            } ?: run {
+                                state.transactionMap?.value = transactionMap
+
+                            }
+                        } else
+                            setStateValue(State.empty(""))
+                    }?:run {
+                        setStateValue(State.empty(""))
                     }
+                    state.loading = false
                 }
                 is RetroApiResponse.Error -> {
-                    publishState(State.error(null))
+                    setStateValue(State.error(""))
+                    state.loading = false
                 }
             }
         }

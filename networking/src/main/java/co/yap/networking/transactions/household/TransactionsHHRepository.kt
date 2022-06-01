@@ -19,7 +19,7 @@ object TransactionsHHRepository : BaseRepository(), TransactionsApi by Transacti
         "transactions/api/last-next-transaction/{UUID}"
 
     const val URL_GET_ALL_HOUSE_HOLD_PROFILE_TRANSACTIONS =
-        "/transactions/api/get-all-transactions/{{householdAccountUUID}}/"
+        "/transactions/api/get-all-transactions/{householdAccountUUID}/TRANSACTION"
     const val URL_GET_HOUSE_HOLD_PROFILE_TRANSACTIONS =
         "/transactions/api/household-account-transactions/{page_no}/{page_size}/"
 

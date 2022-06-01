@@ -10,6 +10,7 @@ import co.yap.networking.transactions.TransactionsApi
 import co.yap.networking.transactions.household.requestdtos.IbanSendMoneyRequest
 import co.yap.networking.transactions.requestdtos.HomeTransactionsRequest
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionsResponse
+import co.yap.networking.transactions.responsedtos.transaction.Transaction
 
 interface TransactionsHHApi : TransactionsApi {
     suspend fun ibanSendMoney(request: IbanSendMoneyRequest?): RetroApiResponse<ApiResponse>
@@ -27,5 +28,5 @@ interface TransactionsHHApi : TransactionsApi {
     suspend fun getLastNextTransaction(uuid: String?): RetroApiResponse<BaseListResponse<HouseHoldLastNextSalary>>
 
     suspend fun getHHTransactionsByPage(accountUUID: String?,homeTransactionsRequest: HomeTransactionsRequest?): RetroApiResponse<HomeTransactionsResponse>
-    suspend fun getAllHHProfileTransactions(accountUUID: String?): RetroApiResponse<HomeTransactionsResponse>
+    suspend fun getAllHHProfileTransactions(accountUUID: String?): RetroApiResponse<BaseListResponse<Transaction>>
 }

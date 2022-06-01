@@ -9,6 +9,7 @@ import co.yap.networking.customers.household.responsedtos.HouseHoldLastNextSalar
 import co.yap.networking.customers.household.responsedtos.SubAccount
 import co.yap.networking.transactions.household.TransactionsHHApi
 import co.yap.networking.transactions.requestdtos.HomeTransactionsRequest
+import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.yapcore.IBase
 
 interface IHHSalaryProfile {
@@ -31,5 +32,6 @@ interface IHHSalaryProfile {
         var lastSalaryTransfer: MutableLiveData<HouseHoldLastNextSalary>?
         var nextSalaryTransfer: MutableLiveData<HouseHoldLastNextSalary>?
         var expense: MutableLiveData<HouseHoldLastNextSalary>?
+        var transactionMap: MutableLiveData<MutableMap<String?, List<Transaction>>>?
     }
 }
