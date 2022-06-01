@@ -91,6 +91,8 @@
                 android:gravity="bottom"
                 app:layout_behavior="@string/scroll_behavior"
                 app:msv_animateViewChanges="false"
+                app:msv_emptyView="@layout/layout_empty_view_no_results"
+                app:msv_errorView="@layout/layout_error_view"
                 app:msv_loadingView="@layout/layout_loading_view_top">
 
                 <co.yap.widgets.advrecyclerview.pagination.PaginatedRecyclerView
