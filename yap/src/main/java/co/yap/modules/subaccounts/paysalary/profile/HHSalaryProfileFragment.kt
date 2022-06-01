@@ -99,10 +99,11 @@ class HHSalaryProfileFragment :
         mRecyclerViewExpandableItemManager.defaultGroupsExpandedState = true
         viewDataBinding.recyclerView.apply {
             addItemDecoration(StickyHeaderItemDecoration())
-            mRecyclerViewExpandableItemManager.attachRecyclerView(this)
+            if (viewDataBinding.recyclerView.isAttachedToWindow.not())
+                mRecyclerViewExpandableItemManager.attachRecyclerView(this)
             adapter = mWrappedAdapter
             viewModel.transactionAdapter?.set(salaryTransferAdapter)
-            // pagination = viewModel.getPaginationListener()
+            //pagination = viewModel.getPaginationListener()
             setHasFixedSize(false)
         }
     }

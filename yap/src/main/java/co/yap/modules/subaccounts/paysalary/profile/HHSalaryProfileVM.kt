@@ -12,8 +12,11 @@ import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.household.TransactionsHHApi
 import co.yap.networking.transactions.household.TransactionsHHRepository
 import co.yap.networking.transactions.requestdtos.HomeTransactionsRequest
+import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
 import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.widgets.State
+import co.yap.widgets.Status
+import co.yap.widgets.advrecyclerview.pagination.PaginatedRecyclerView
 import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.hilt.base.viewmodel.BaseRecyclerAdapterVMV2
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -34,7 +37,7 @@ class HHSalaryProfileVM @Inject constructor(override val state: HHSalaryProfileS
     override fun onResume() {
         super.onResume()
 
-        //getLastNextTransaction(state.subAccount.value?.accountUuid)
+        getLastNextTransaction(state.subAccount.value?.accountUuid)
         getAllHHProfileTransactions(state.subAccount.value?.accountUuid)
         //getHHTransactionsByPage(state.subAccount.value?.accountUuid, )
     }
@@ -126,17 +129,16 @@ class HHSalaryProfileVM @Inject constructor(override val state: HHSalaryProfileS
                     }?:run {
                         setStateValue(State.empty(""))
                     }
-                    state.loading = false
                 }
                 is RetroApiResponse.Error -> {
                     setStateValue(State.error(""))
-                    state.loading = false
                 }
             }
         }
     }
 
-    override fun getHHTransactionsByPage(accountUUID: String?, request: HomeTransactionsRequest?) {
+    override fun getHHTransactionsByPage(accountUUID: String?, request: HomeTransactionsRequest?,
+                                         isLoadMore: Boolean, apiResponse: ((State?, HomeTransactionListData?) -> Unit?)) {
         launch {
             publishState(State.loading(null))
             when (val response =
@@ -146,6 +148,20 @@ class HHSalaryProfileVM @Inject constructor(override val state: HHSalaryProfileS
                     }
                 }
                 is RetroApiResponse.Error -> {
+                }
+            }
+        }
+    }
+
+     override fun getPaginationListener(): PaginatedRecyclerView.Pagination? {
+        return object : PaginatedRecyclerView.Pagination() {
+            override fun onNextPage(page: Int) {
+                state.transactionRequest?.number = page
+                getHHTransactionsByPage(state.subAccount.value?.accountUuid, state.transactionRequest, page != 0) { state, date ->
+                    notifyPageLoaded()
+                    if (date?.last == true || state?.status == Status.IDEAL || state?.status == Status.ERROR) {
+                        notifyPaginationCompleted()
+                    }
                 }
             }
         }
