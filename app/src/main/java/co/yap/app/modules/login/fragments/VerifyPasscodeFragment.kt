@@ -394,14 +394,15 @@ class VerifyPasscodeFragment :
                                     .observe(this@VerifyPasscodeFragment, switchProfileObserver)
                             }
 
-                        }
-                        // launching missing info screen
-                        if (AmendmentStatus.SUBMIT_TO_CUSTOMER.name == accountInfo?.amendmentStatus) {
-                            startFragment(
-                                fragmentName = MissingInfoFragment::class.java.name
-                            )
-                        } else {
-                            launchActivity<YapDashboardActivity>(clearPrevious = true) { }
+                        }else {
+                            // launching missing info screen
+                            if (AmendmentStatus.SUBMIT_TO_CUSTOMER.name == accountInfo?.amendmentStatus) {
+                                startFragment(
+                                    fragmentName = MissingInfoFragment::class.java.name
+                                )
+                            } else {
+                                launchActivity<YapDashboardActivity>(clearPrevious = true) { }
+                            }
                         }
                     }
                 }

@@ -7,8 +7,8 @@ import android.os.Bundle
 import android.text.TextUtils
 import android.view.MenuItem
 import android.view.View
+import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import co.yap.localization.LocaleManager
 import co.yap.yapcore.*
 import co.yap.yapcore.constants.Constants.EXTRA
@@ -21,15 +21,16 @@ import co.yap.yapcore.helpers.ThemeColorUtils
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.createFragmentInstance
 import co.yap.yapcore.helpers.extentions.instantiateFragment
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class FrameActivity : BaseBindingActivity<ActivityFrameBinding, IFrameActivity.ViewModel>(),
     IFrameActivity.View, IFragmentHolder {
 
     private lateinit var fragment: BaseBindingFragment<*,*>
     override fun getBindingVariable() = BR.frameActivityViewModel
     override fun getLayoutId() = R.layout.activity_frame
-    override val viewModel: IFrameActivity.ViewModel
-        get() = ViewModelProvider(this).get(FrameActivityViewModel::class.java)
+    override val viewModel: FrameActivityViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

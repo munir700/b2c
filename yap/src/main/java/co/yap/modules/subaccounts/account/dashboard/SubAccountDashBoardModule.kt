@@ -1,31 +1,21 @@
 package co.yap.modules.subaccounts.account.dashboard
 
-/*
+import androidx.fragment.app.Fragment
 import co.yap.yapcore.adapters.SectionsPagerAdapter
-import co.yap.yapcore.dagger.di.module.fragment.BaseFragmentModule
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.components.FragmentComponent
+import dagger.hilt.android.scopes.FragmentScoped
 
 @Module
-
-class SubAccountDashBoardModule : BaseFragmentModule<SubAccountDashBoardFragment>() {
-
-   */
-/* @Provides
-    @ViewModelInjection
-    fun provideSubAccountDashBoardVM(
-        fragment: SubAccountDashBoardFragment,
-        viewModelProvider: InjectionViewModelProvider<SubAccountDashBoardVM>
-    ): SubAccountDashBoardVM = viewModelProvider.get(fragment, SubAccountDashBoardVM::class)
+@InstallIn(FragmentComponent::class)
+class SubAccountDashBoardModule{
 
     @Provides
-    @FragmentScope
-    fun provideSubAccountDashBoardState(): ISubAccountDashBoard.State = SubAccountDashBoardState()*//*
-
-
-    @Provides
+    @FragmentScoped
     fun provideSubAccountDashBoardPagerAdapter(
-        fragment: SubAccountDashBoardFragment
+        fragment: Fragment
     ) = SectionsPagerAdapter(fragment.requireActivity(), fragment.childFragmentManager)
 
-}*/
+}

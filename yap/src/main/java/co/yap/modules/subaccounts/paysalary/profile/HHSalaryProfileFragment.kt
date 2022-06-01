@@ -13,16 +13,16 @@ import co.yap.databinding.FragmentHhsalaryProfileBinding
 import co.yap.modules.dashboard.cards.paymentcarddetail.statments.activities.CardStatementsActivity
 import co.yap.modules.subaccounts.paysalary.profile.adapter.HHSalaryProfileTransfersAdapter
 import co.yap.modules.subaccounts.paysalary.profile.adapter.SalarySetupAdapter
-import co.yap.translation.Strings
+import co.yap.widgets.MultiStateView
 import co.yap.widgets.SpacesItemDecoration
+import co.yap.widgets.State
+import co.yap.widgets.Status
 import co.yap.widgets.advrecyclerview.decoration.StickyHeaderItemDecoration
 import co.yap.widgets.advrecyclerview.expandable.RecyclerViewExpandableItemManager
 import co.yap.yapcore.constants.Constants
-
 import co.yap.yapcore.helpers.alert
 import co.yap.yapcore.helpers.extentions.dimen
 import co.yap.yapcore.helpers.extentions.launchActivity
-import co.yap.yapcore.helpers.extentions.toast
 import co.yap.yapcore.hilt.base.navigation.BaseNavViewModelFragmentV2
 import co.yap.yapcore.interfaces.OnItemClickListener
 import com.arthurivanets.bottomsheets.ktx.actionPickerConfig
@@ -37,73 +37,57 @@ import javax.inject.Inject
 class HHSalaryProfileFragment :
     BaseNavViewModelFragmentV2<FragmentHhsalaryProfileBinding, IHHSalaryProfile.State, HHSalaryProfileVM>(),
     OnItemClickListener {
-    /*@Inject TODO revert it when migration done
-    lateinit var mSalarySetupAdapter: SalarySetupAdapter*/
+    @Inject
+    lateinit var mSalarySetupAdapter: SalarySetupAdapter
 
-    // TODO Remove it when migration done
-    val mSalarySetupAdapter: SalarySetupAdapter by lazy {
-        SalarySetupAdapter(
-            getNoTransactionsData(),
-            null
-        )
-    }
-
-    // TODO need to be injected by Hilt after migration
-    fun getNoTransactionsData(): ArrayList<PaySalaryModel> {
-        return ArrayList<PaySalaryModel>().apply {
-            add(
-                PaySalaryModel(
-                    Strings.screen_house_hold_salary_profile_set_up_salary_text,
-                    R.drawable.ic_transaction_rate_arrow
-                )
-            )
-            add(
-                PaySalaryModel(
-                    Strings.screen_house_hold_salary_profile_set_up_expense_text,
-                    R.drawable.ic_expense
-                )
-            )
-            add(
-                PaySalaryModel(
-                    Strings.screen_house_hold_salary_profile_transfer_bonus_text,
-                    R.drawable.ic_yap_to_yap
-                )
-            )
-
-        }
-    }
-
-    val salaryTransferAdapter: HHSalaryProfileTransfersAdapter by lazy {
-        HHSalaryProfileTransfersAdapter(
-            emptyMap()
-        )
-    }
-
-    val mWrappedAdapter: RecyclerView.Adapter<*>  by lazy {
-        mRecyclerViewExpandableItemManager.createWrappedAdapter(salaryTransferAdapter)
-    }
-
-    val mRecyclerViewExpandableItemManager: RecyclerViewExpandableItemManager by lazy {
-        RecyclerViewExpandableItemManager(null)
-    }
-
-    /*@Inject TODO revert it when migration done
+    @Inject
     lateinit var salaryTransferAdapter: HHSalaryProfileTransfersAdapter
 
     @Inject
     lateinit var mWrappedAdapter: RecyclerView.Adapter<*>
 
     @Inject
-    lateinit var mRecyclerViewExpandableItemManager: RecyclerViewExpandableItemManager */
+    lateinit var mRecyclerViewExpandableItemManager: RecyclerViewExpandableItemManager
 
     override val viewModel: HHSalaryProfileVM by viewModels()
 
     override fun getBindingVariable() = BR.hhSalaryProfileVM
     override fun getLayoutId() = R.layout.fragment_hhsalary_profile
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.onResume()
+    }
+
     override fun postExecutePendingBindings(savedInstanceState: Bundle?) {
         super.postExecutePendingBindings(savedInstanceState)
         setHasOptionsMenu(true)
+        viewModel.state.stateLiveData?.observe(viewLifecycleOwner){
+            handleState(it)
+        }
+        viewModel.state.transactionMap?.observe(viewLifecycleOwner){
+            salaryTransferAdapter.setTransactionData(it)
+        }
+    }
+
+    private fun handleState(state: State?) {
+        viewDataBinding.multiStateView.viewState = when (state?.status) {
+            Status.LOADING -> MultiStateView.ViewState.LOADING
+            Status.EMPTY -> {
+                setupDefaultSalaryAdapter()
+                MultiStateView.ViewState.EMPTY
+            }
+            Status.SUCCESS -> {
+                intRecyclersView()
+                MultiStateView.ViewState.CONTENT
+            }
+
+            Status.ERROR -> MultiStateView.ViewState.ERROR
+            else -> throw IllegalStateException("State is not handled " + state?.status)
+        }
+    }
+
+    private fun setupDefaultSalaryAdapter() {
         recyclerView.adapter = mSalarySetupAdapter
         mSalarySetupAdapter.onItemClickListener = this
         recyclerView.addItemDecoration(SpacesItemDecoration(dimen(co.yap.yapcore.R.dimen.margin_normal), true))
@@ -115,10 +99,11 @@ class HHSalaryProfileFragment :
         mRecyclerViewExpandableItemManager.defaultGroupsExpandedState = true
         viewDataBinding.recyclerView.apply {
             addItemDecoration(StickyHeaderItemDecoration())
-            mRecyclerViewExpandableItemManager.attachRecyclerView(this)
+            if (viewDataBinding.recyclerView.isAttachedToWindow.not())
+                mRecyclerViewExpandableItemManager.attachRecyclerView(this)
             adapter = mWrappedAdapter
             viewModel.transactionAdapter?.set(salaryTransferAdapter)
-            // pagination = viewModel.getPaginationListener()
+            //pagination = viewModel.getPaginationListener()
             setHasFixedSize(false)
         }
     }

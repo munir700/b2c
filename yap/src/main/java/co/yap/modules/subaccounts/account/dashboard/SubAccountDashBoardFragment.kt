@@ -16,6 +16,8 @@ class SubAccountDashBoardFragment :
     BaseNavViewModelFragmentV2<FragmentSubAccountDashBoardBinding, ISubAccountDashBoard.State, SubAccountDashBoardVM>() {
 
     override val viewModel: SubAccountDashBoardVM by viewModels()
+
+    @Inject
     lateinit var adapter: SectionsPagerAdapter
 
     override fun getBindingVariable() = BR.subAccountDashBoardVM
@@ -25,12 +27,6 @@ class SubAccountDashBoardFragment :
         return "Household"
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        // TODO MAKE injectable
-        adapter = SectionsPagerAdapter(requireActivity(), childFragmentManager)
-        super.onViewCreated(view, savedInstanceState)
-
-    }
     override fun postExecutePendingBindings(savedInstanceState: Bundle?) {
         super.postExecutePendingBindings(savedInstanceState)
         viewModel.adapter.set(adapter)

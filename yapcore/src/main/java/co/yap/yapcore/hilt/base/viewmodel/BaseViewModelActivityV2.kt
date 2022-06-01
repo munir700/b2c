@@ -1,16 +1,13 @@
 package co.yap.yapcore.hilt.base.viewmodel
 
 import android.os.Bundle
-import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
-import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Observer
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.IBase
 import co.yap.yapcore.dagger.base.interfaces.CanFetchExtras
 import co.yap.yapcore.dagger.base.interfaces.CanHandleOnClick
 import co.yap.yapcore.dagger.base.interfaces.OnClickHandler
-import co.yap.yapcore.hilt.base.activity.BaseBindingActivityV2
 
 /**
  * Created by Safi ur Rehman

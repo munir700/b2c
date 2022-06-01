@@ -9,6 +9,9 @@ import co.yap.networking.customers.household.responsedtos.HouseHoldLastNextSalar
 import co.yap.networking.customers.household.responsedtos.SubAccount
 import co.yap.networking.transactions.household.TransactionsHHApi
 import co.yap.networking.transactions.requestdtos.HomeTransactionsRequest
+import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
+import co.yap.networking.transactions.responsedtos.transaction.Transaction
+import co.yap.widgets.advrecyclerview.pagination.PaginatedRecyclerView
 import co.yap.yapcore.IBase
 
 interface IHHSalaryProfile {
@@ -21,15 +24,19 @@ interface IHHSalaryProfile {
         val salarySetupAdapter: ObservableField<SalarySetupAdapter>?
         fun getLastNextTransaction(uuid: String?)
         fun getAllHHProfileTransactions(accountUUID: String?)
-        fun getHHTransactionsByPage(accountUUID: String?, request: HomeTransactionsRequest?)
+        fun getHHTransactionsByPage(accountUUID: String?, request: HomeTransactionsRequest?,
+                                    isLoadMore: Boolean, apiResponse: ((co.yap.widgets.State?, HomeTransactionListData?) -> Unit?))
+        fun getPaginationListener(): PaginatedRecyclerView.Pagination?
     }
 
     interface State : IBase.State {
         var filterCount: ObservableField<Int>
         var isTransEmpty: ObservableField<Boolean>
         var subAccount: MutableLiveData<SubAccount>
+        var transactionRequest: HomeTransactionsRequest?
         var lastSalaryTransfer: MutableLiveData<HouseHoldLastNextSalary>?
         var nextSalaryTransfer: MutableLiveData<HouseHoldLastNextSalary>?
         var expense: MutableLiveData<HouseHoldLastNextSalary>?
+        var transactionMap: MutableLiveData<MutableMap<String?, List<Transaction>>>?
     }
 }

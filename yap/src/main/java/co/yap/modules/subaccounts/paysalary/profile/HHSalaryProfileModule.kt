@@ -8,42 +8,37 @@ import co.yap.translation.Strings
 import co.yap.widgets.advrecyclerview.expandable.RecyclerViewExpandableItemManager
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.components.FragmentComponent
+import dagger.hilt.android.scopes.FragmentScoped
 
 
 @Module
-class HHSalaryProfileModule /*: BaseFragmentModule<HHSalaryProfileFragment>()*/ {
-
-    /*@Provides
-    @ViewModelInjection
-    fun provideHHSalaryProfileVM(
-        fragment: HHSalaryProfileFragment,
-        viewModelProvider: InjectionViewModelProvider<HHSalaryProfileVM>
-    ): HHSalaryProfileVM = viewModelProvider.get(fragment, HHSalaryProfileVM::class)
+@InstallIn(FragmentComponent::class)
+class HHSalaryProfileModule {
 
     @Provides
-    @FragmentScope
-    fun provideHHSalaryProfileState(): IHHSalaryProfile.State = HHSalaryProfileState()*/
-
-    @Provides
+    @FragmentScoped
     fun provideHHSalaryProfileTransfersAdapter() =
         HHSalaryProfileTransfersAdapter(
             emptyMap()
         )
 
     @Provides
-    /*@FragmentScope*/
+    @FragmentScoped
     fun provideWrappedAdapter(
         adapter: HHSalaryProfileTransfersAdapter,
         mRecyclerViewExpandableItemManager: RecyclerViewExpandableItemManager
     ): RecyclerView.Adapter<*> = mRecyclerViewExpandableItemManager.createWrappedAdapter(adapter)
 
     @Provides
-   /* @FragmentScope*/
+    @FragmentScoped
     fun provideRecyclerViewExpandableItemManager() =
         RecyclerViewExpandableItemManager(null)
 
     @Provides
-    fun provideHHPaySalaryAdapter(fragment: HHSalaryProfileFragment) =
+    @FragmentScoped
+    fun provideHHPaySalaryAdapter() =
         SalarySetupAdapter(
             getNoTransactionsData(),
             null

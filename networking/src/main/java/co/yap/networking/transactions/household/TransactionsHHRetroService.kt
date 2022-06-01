@@ -9,6 +9,7 @@ import co.yap.networking.transactions.household.TransactionsHHRepository.URL_GET
 import co.yap.networking.transactions.household.TransactionsHHRepository.URL_GET_HOUSE_HOLD_PROFILE_TRANSACTIONS
 import co.yap.networking.transactions.household.requestdtos.IbanSendMoneyRequest
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionsResponse
+import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -40,6 +41,6 @@ interface TransactionsHHRetroService {
     // Get Account Transactions
     @GET(URL_GET_ALL_HOUSE_HOLD_PROFILE_TRANSACTIONS)
     suspend fun getAllHHProfileTransactions(
-        @Path("{householdAccountUUID}") accountUUID: String?
-    ): Response<HomeTransactionsResponse>
+        @Path("householdAccountUUID") accountUUID: String?
+    ): Response<BaseListResponse<Transaction>>
 }

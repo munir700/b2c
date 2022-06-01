@@ -3,7 +3,6 @@ package co.yap.app
 import android.app.Application
 import co.yap.networking.transactions.requestdtos.HomeTransactionsRequest
 import co.yap.yapcore.config.BuildConfigManager
-//import dagger.android.support.DaggerApplication
 
 
 abstract class YAPApplication : Application() {

@@ -6,6 +6,7 @@ import androidx.databinding.ObservableField
 
 import androidx.navigation.NavController
 import co.yap.networking.models.ApiResponse
+import co.yap.widgets.State
 import co.yap.yapcore.BaseRVAdapter
 import co.yap.yapcore.IBase
 import co.yap.yapcore.dagger.base.interfaces.OnPullToRefreshable
@@ -76,5 +77,14 @@ abstract class BaseRecyclerAdapterVMV2<T : ApiResponse, S : IBase.State> : HiltB
 
     override fun onRefresh() {
 
+    }
+
+    /**
+     * Update values for multi state view
+     *
+     * @param stateValue
+     */
+    fun setStateValue(stateValue: State) {
+        state.stateLiveData?.value = stateValue
     }
 }
