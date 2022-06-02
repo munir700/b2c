@@ -28,6 +28,7 @@ class FuturePaymentFragment :
 
     override fun postExecutePendingBindings(savedInstanceState: Bundle?) {
         super.postExecutePendingBindings(savedInstanceState)
+        viewModel.fragmentManager = childFragmentManager
     }
 
     override fun onClick(id: Int) {
