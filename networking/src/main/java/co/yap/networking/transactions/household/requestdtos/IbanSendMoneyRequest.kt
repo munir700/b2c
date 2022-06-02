@@ -7,7 +7,7 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class IbanSendMoneyRequest(
-    @SerializedName("amount") var amount: String? = null,
+    @SerializedName("amount") var amount: Double? = null,
     @SerializedName("beneficiaryName") var beneficiaryName: String? = null,
     @SerializedName("receiverUUID") var receiverUUID: String? = null,
     @SerializedName("remarks") var remarks: String? = null,
