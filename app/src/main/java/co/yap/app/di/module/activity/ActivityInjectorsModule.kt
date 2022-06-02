@@ -1,13 +1,16 @@
 package co.yap.app.di.module.activity
-/*
 
-import co.yap.modules.di.module.activity.ActivityInjectorsModule
+import androidx.appcompat.app.AppCompatActivity
 import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ActivityComponent
+import dagger.hilt.android.qualifiers.ActivityContext
 
 @Module
-    (
-    includes = [ActivityInjectorsModule::class, co.yap.household.di.module.activity.ActivityInjectorsModule::class,
-        co.yap.yapcore.dagger.di.module.activity.ActivityInjectorsModule::class]
-)
-abstract class ActivityInjectorsModule {
-}*/
+@InstallIn(ActivityComponent::class)
+class ActivityInjectorsModule {
+    @Provides
+    fun provideActivityContext(@ActivityContext context: AppCompatActivity) = context
+
+}
