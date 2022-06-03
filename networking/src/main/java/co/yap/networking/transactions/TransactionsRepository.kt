@@ -447,15 +447,7 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
     override suspend fun getHouseHoldAccountTransactions(homeTransactionsRequest: HomeTransactionsRequest?): RetroApiResponse<HomeTransactionsResponse> =
         executeSafely(call = {
             api.getHouseHoldAccountTransactions(
-                homeTransactionsRequest?.number,
-                homeTransactionsRequest?.size,
-                homeTransactionsRequest?.amountStartRange,
-                homeTransactionsRequest?.amountEndRange,
-                homeTransactionsRequest?.txnType,
-                homeTransactionsRequest?.title,
-                homeTransactionsRequest?.categories,
-                homeTransactionsRequest?.statues,
-                homeTransactionsRequest?.cardDetailsRequired?: true
+                homeTransactionsRequest!!
             )
         })
 }

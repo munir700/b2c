@@ -37,10 +37,11 @@ class HHSalaryProfileVM @Inject constructor(override val state: HHSalaryProfileS
 
     override fun onResume() {
         super.onResume()
-
+        state.transactionRequest.householdUUID = state.subAccount.value?.accountUuid
+        state.transactionRequest.txnCategories = arrayListOf("Expense", "Other", "Salary", "Bonus")
         getLastNextTransaction(state.subAccount.value?.accountUuid)
-        getAllHHProfileTransactions(state.subAccount.value?.accountUuid)
-        //getHHTransactionsByPage(state.subAccount.value?.accountUuid, )
+        //getAllHHProfileTransactions(state.subAccount.value?.accountUuid)
+
     }
 
     override fun handleOnClick(id: Int) {
@@ -72,7 +73,7 @@ class HHSalaryProfileVM @Inject constructor(override val state: HHSalaryProfileS
     }
 
 
-    private fun mergeReduce(newMap: MutableMap<String?, List<Transaction>>) {
+    private fun mergeReduce(newMap: Map<String?, List<Transaction>>) {
         state.transactionMap?.value?.let { map ->
             val tempMap = mutableMapOf<String?, List<Transaction>>()
             var keyToRemove: String? = null
@@ -119,8 +120,8 @@ class HHSalaryProfileVM @Inject constructor(override val state: HHSalaryProfileS
                                         )
                                     }.toMutableMap()
 
-                            state.transactionMap?.value?.let {
-                                mergeReduce(transactionMap)
+                            state.transactionMap?.value?.let { newMap->
+                                mergeReduce(newMap)
                             } ?: run {
                                 state.transactionMap?.value = transactionMap
 
@@ -140,27 +141,55 @@ class HHSalaryProfileVM @Inject constructor(override val state: HHSalaryProfileS
         }
     }
 
-    override fun getHHTransactionsByPage(accountUUID: String?, request: HomeTransactionsRequest?,
+    override fun getHHTransactionsByPage(request: HomeTransactionsRequest,
                                          isLoadMore: Boolean, apiResponse: ((State?, HomeTransactionListData?) -> Unit?)) {
         launch {
-            publishState(State.loading(null))
-            when (val response =
-                transactionsHHRepository.getHHTransactionsByPage(accountUUID, request)) {
+            setStateValue(State.loading(null))
+            val response =
+                transactionsHHRepository.getHHTransactionsByPage(request)
+            when (response) {
                 is RetroApiResponse.Success -> {
-                    response.data.data.let {
+                    if (response.data.data.transaction.isNotEmpty()) {
+                        setStateValue(State.success(null))
+                        val tempMap: Map<String?, List<Transaction>> =
+                            response.data.data.transaction.sortedByDescending { transactionList ->
+                                DateUtils.stringToDate(
+                                    transactionList.creationDate ?: "",
+                                    DateUtils.SERVER_DATE_FORMAT,
+                                    DateUtils.UTC
+                                )?.time
+                            }.distinct().groupBy { groupTransaction ->
+                                    DateUtils.reformatStringDate(
+                                        groupTransaction.creationDate,
+                                        DateUtils.SERVER_DATE_FORMAT,
+                                        DateUtils.FORMAT_DATE_MON_YEAR, DateUtils.UTC
+                                    )
+                                }
+                        state.transactionMap?.value = (((state.transactionMap?.value?.let { newMap ->
+                            mergeReduce(newMap)
+                        } ?: tempMap) as MutableMap<String?, List<Transaction>>?) )
+
+                        transactionAdapter?.get()?.setTransactionData(state.transactionMap?.value)
+                    } else {
+                        setStateValue(State.empty(null))
                     }
+                    apiResponse.invoke(stateLiveData.value, response.data.data)
                 }
                 is RetroApiResponse.Error -> {
+                    state.loading = false
+                    setStateValue(State.error(null))
+                    apiResponse.invoke(stateLiveData.value, null)
+
                 }
             }
         }
     }
 
-     override fun getPaginationListener(): PaginatedRecyclerView.Pagination? {
+     override fun getPaginationListener(): PaginatedRecyclerView.Pagination {
         return object : PaginatedRecyclerView.Pagination() {
             override fun onNextPage(page: Int) {
-                state.transactionRequest?.number = page
-                getHHTransactionsByPage(state.subAccount.value?.accountUuid, state.transactionRequest, page != 0) { state, date ->
+                state.transactionRequest.pageNo = page
+                getHHTransactionsByPage(state.transactionRequest, page != 0) { state, date ->
                     notifyPageLoaded()
                     if (date?.last == true || state?.status == Status.IDEAL || state?.status == Status.ERROR) {
                         notifyPaginationCompleted()

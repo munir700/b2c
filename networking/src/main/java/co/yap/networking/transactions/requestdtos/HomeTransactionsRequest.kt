@@ -26,5 +26,11 @@ data class HomeTransactionsRequest(
     @SerializedName("statuses")
     var statues: ArrayList<String>? = null,
     @SerializedName("cardDetailsRequired")
-    val cardDetailsRequired: Boolean = true
+    val cardDetailsRequired: Boolean = true,
+    @SerializedName("householdUUID")
+    var householdUUID : String? = null,
+    @SerializedName("txnCategories")
+    var txnCategories: ArrayList<String>? = null,
+    var pageNo: Int? = 0,
+    var pageSize: Int? = REQUEST_PAGE_SIZE,
 )

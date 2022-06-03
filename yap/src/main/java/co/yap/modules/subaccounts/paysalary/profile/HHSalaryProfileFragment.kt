@@ -67,6 +67,7 @@ class HHSalaryProfileFragment :
     override fun onResume() {
         super.onResume()
         viewModel.onResume()
+        intRecyclersView()
     }
 
     override fun postExecutePendingBindings(savedInstanceState: Bundle?) {
@@ -113,7 +114,7 @@ class HHSalaryProfileFragment :
                 mRecyclerViewExpandableItemManager.attachRecyclerView(this)
             adapter = mWrappedAdapter
             viewModel.transactionAdapter?.set(salaryTransferAdapter)
-            //pagination = viewModel.getPaginationListener()
+            pagination = viewModel.getPaginationListener()
             setHasFixedSize(false)
         }
     }

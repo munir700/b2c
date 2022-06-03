@@ -21,7 +21,7 @@ object TransactionsHHRepository : BaseRepository(), TransactionsApi by Transacti
     const val URL_GET_ALL_HOUSE_HOLD_PROFILE_TRANSACTIONS =
         "/transactions/api/get-all-transactions/{householdAccountUUID}/TRANSACTION"
     const val URL_GET_HOUSE_HOLD_PROFILE_TRANSACTIONS =
-        "/transactions/api/household-account-transactions/{page_no}/{page_size}/"
+        "/transactions/api/household-account-transactions"
 
     override suspend fun ibanSendMoney(request: IbanSendMoneyRequest?) =
         executeSafely(call = { apiService.ibanSendMoney(request) })
@@ -42,16 +42,9 @@ object TransactionsHHRepository : BaseRepository(), TransactionsApi by Transacti
         })
 
     override suspend fun getHHTransactionsByPage(
-        accountUUID: String?,
-        request: HomeTransactionsRequest?
+        request: HomeTransactionsRequest
     ) = executeSafely(call = {
-        apiService.getHHTransactionsByPage(
-            accountUUID, request?.number,
-            request?.size,
-            request?.amountStartRange,
-            request?.amountEndRange,
-            request?.txnType,
-            request?.title
+        apiService.getHHTransactionsByPage(request
         )
     })
 

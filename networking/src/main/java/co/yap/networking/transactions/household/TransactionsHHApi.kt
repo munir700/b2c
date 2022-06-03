@@ -27,6 +27,6 @@ interface TransactionsHHApi : TransactionsApi {
 
     suspend fun getLastNextTransaction(uuid: String?): RetroApiResponse<BaseListResponse<HouseHoldLastNextSalary>>
 
-    suspend fun getHHTransactionsByPage(accountUUID: String?,homeTransactionsRequest: HomeTransactionsRequest?): RetroApiResponse<HomeTransactionsResponse>
+    suspend fun getHHTransactionsByPage(homeTransactionsRequest: HomeTransactionsRequest): RetroApiResponse<HomeTransactionsResponse>
     suspend fun getAllHHProfileTransactions(accountUUID: String?): RetroApiResponse<BaseListResponse<Transaction>>
 }
