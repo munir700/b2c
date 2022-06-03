@@ -3,6 +3,7 @@ package co.yap.modules.subaccounts.paysalary.profile
 import android.os.Bundle
 import androidx.databinding.ObservableField
 import androidx.navigation.NavController
+import co.yap.modules.dashboard.home.filters.models.TransactionFilters
 import co.yap.modules.subaccounts.paysalary.profile.adapter.HHSalaryProfileTransfersAdapter
 import co.yap.modules.subaccounts.paysalary.profile.adapter.SalarySetupAdapter
 import co.yap.networking.customers.household.CustomerHHApi
@@ -30,7 +31,7 @@ class HHSalaryProfileVM @Inject constructor(override val state: HHSalaryProfileS
     override val transactionAdapter: ObservableField<HHSalaryProfileTransfersAdapter>? =
         ObservableField()
     override val salarySetupAdapter: ObservableField<SalarySetupAdapter>? = ObservableField()
-
+    override var txnFilters: TransactionFilters = TransactionFilters()
     override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?) {
     }
 
@@ -53,15 +54,14 @@ class HHSalaryProfileVM @Inject constructor(override val state: HHSalaryProfileS
 
     override fun getLastNextTransaction(uuid: String?) {
         launch {
-//            publishState(State.loading(null))
             when (val response =
                 transactionsHHRepository.getLastNextTransaction(uuid)) {
                 is RetroApiResponse.Success -> {
                     response.data.data?.let {
                         if (!it[0].amount.isNullOrEmpty())
                             state.lastSalaryTransfer?.value = it[0]
-                        if (!it[2].amount.isNullOrEmpty())
-                            state.nextSalaryTransfer?.value = it[2]
+                        if (!it[1].amount.isNullOrEmpty())
+                            state.nextSalaryTransfer?.value = it[1]
 //                        state.expense?.value = it[2]
                     }
                 }
@@ -102,6 +102,7 @@ class HHSalaryProfileVM @Inject constructor(override val state: HHSalaryProfileS
                 is RetroApiResponse.Success -> {
                     response.data.data?.let { transactionList ->
                         if (transactionList.isNotEmpty()) {
+                            state.isTransEmpty.set(false)
                             setStateValue(State.success(""))
                             val transactionMap: MutableMap<String?, List<Transaction>> =
                                 transactionList.sortedByDescending { sortedTransaction ->
@@ -124,8 +125,10 @@ class HHSalaryProfileVM @Inject constructor(override val state: HHSalaryProfileS
                                 state.transactionMap?.value = transactionMap
 
                             }
-                        } else
+                        } else {
+                            state.isTransEmpty.set(true)
                             setStateValue(State.empty(""))
+                        }
                     }?:run {
                         setStateValue(State.empty(""))
                     }

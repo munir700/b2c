@@ -45,7 +45,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_medium"
-            android:text="@{hhIbanSendMoneyConfirmationVM.state.request.amount}"
+            android:text="@{hhIbanSendMoneyConfirmationVM.state.request.amount.toString()}"
             android:textSize="20sp"
             app:ctv_decimalTextSize="12dp"
             app:ctv_nullToZero="false"

@@ -1,8 +1,6 @@
 package co.yap.modules.subaccounts.paysalary.transfer
 
 import android.os.Bundle
-import android.view.View.GONE
-import android.view.View.VISIBLE
 import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -11,6 +9,7 @@ import co.yap.R
 import co.yap.databinding.FragmentHhibanSendMoneyBinding
 import co.yap.networking.customers.household.requestdtos.SchedulePayment
 import co.yap.networking.transactions.household.requestdtos.IbanSendMoneyRequest
+import co.yap.yapcore.helpers.extentions.parseToDouble
 
 import co.yap.yapcore.helpers.extentions.plus
 import co.yap.yapcore.helpers.livedata.GetAccountBalanceLiveData
@@ -51,7 +50,7 @@ class HHIbanSendMoneyFragment :
                     val array =
                         resources.getStringArray(R.array.screen_house_hold_iban_send_money_type_array)
                     val request = IbanSendMoneyRequest(
-                        viewModel.state.amount?.value,
+                        if (viewModel.state.amount?.value.isNullOrBlank()) 0.00 else viewModel.state.amount?.value.parseToDouble(),
                         viewModel.state.subAccount.value?.getFullName(),
                         viewModel.state.subAccount.value?.accountUuid,
                         "",

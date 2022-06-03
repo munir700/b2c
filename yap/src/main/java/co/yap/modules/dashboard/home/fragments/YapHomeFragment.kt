@@ -12,9 +12,8 @@ import android.view.View.VISIBLE
 import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -130,7 +129,7 @@ class YapHomeFragment : YapDashboardChildFragment<FragmentDashboardHomeBinding,I
         super.onCreate(savedInstanceState)
         viewModel.parentViewModel?.isYapHomeFragmentVisible?.value = true
         parentViewModel =
-            activity?.let { ViewModelProviders.of(it).get(YapDashBoardViewModel::class.java) }
+            activity?.let { ViewModelProvider(this)[YapDashBoardViewModel::class.java] }
         shardPrefs = SharedPreferenceManager.getInstance(requireContext())
     }
 

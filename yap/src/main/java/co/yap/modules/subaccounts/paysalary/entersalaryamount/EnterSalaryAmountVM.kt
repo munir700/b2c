@@ -98,7 +98,7 @@ class EnterSalaryAmountVM @Inject constructor(
                 if (state.isRecurring.value == false) {
                     paySalaryNow(
                         PaySalaryNowRequest(
-                            amount = state.amount.value,
+                            amount = if (state.amount.value.isNullOrBlank()) 0.00 else state.amount.value.parseToDouble(),
                             receiverUUID = state.subAccount.value?.accountUuid,
                             beneficiaryName = state.subAccount.value?.getFullName()
                         )

@@ -2,6 +2,7 @@ package co.yap.modules.subaccounts.paysalary.profile
 
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
+import co.yap.modules.dashboard.home.filters.models.TransactionFilters
 import co.yap.modules.subaccounts.paysalary.profile.adapter.HHSalaryProfileTransfersAdapter
 import co.yap.modules.subaccounts.paysalary.profile.adapter.SalarySetupAdapter
 import co.yap.networking.customers.household.CustomerHHApi
@@ -22,6 +23,7 @@ interface IHHSalaryProfile {
         var transactionsHHRepository: TransactionsHHApi
         val transactionAdapter: ObservableField<HHSalaryProfileTransfersAdapter>?
         val salarySetupAdapter: ObservableField<SalarySetupAdapter>?
+        var txnFilters: TransactionFilters
         fun getLastNextTransaction(uuid: String?)
         fun getAllHHProfileTransactions(accountUUID: String?)
         fun getHHTransactionsByPage(accountUUID: String?, request: HomeTransactionsRequest?,
