@@ -1,5 +1,7 @@
 package co.yap.modules.subaccounts.paysalary.profile
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
@@ -9,8 +11,11 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.BR
 import co.yap.R
+import co.yap.app.YAPApplication
 import co.yap.databinding.FragmentHhsalaryProfileBinding
 import co.yap.modules.dashboard.cards.paymentcarddetail.statments.activities.CardStatementsActivity
+import co.yap.modules.dashboard.home.filters.activities.TransactionFiltersActivity
+import co.yap.modules.dashboard.home.filters.models.TransactionFilters
 import co.yap.modules.subaccounts.paysalary.profile.adapter.HHSalaryProfileTransfersAdapter
 import co.yap.modules.subaccounts.paysalary.profile.adapter.SalarySetupAdapter
 import co.yap.widgets.MultiStateView
@@ -20,11 +25,16 @@ import co.yap.widgets.Status
 import co.yap.widgets.advrecyclerview.decoration.StickyHeaderItemDecoration
 import co.yap.widgets.advrecyclerview.expandable.RecyclerViewExpandableItemManager
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.constants.RequestCodes
+import co.yap.yapcore.enums.PartnerBankStatus
+import co.yap.yapcore.firebase.FirebaseEvent
+import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.alert
 import co.yap.yapcore.helpers.extentions.dimen
 import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.hilt.base.navigation.BaseNavViewModelFragmentV2
 import co.yap.yapcore.interfaces.OnItemClickListener
+import co.yap.yapcore.managers.SessionManager
 import com.arthurivanets.bottomsheets.ktx.actionPickerConfig
 import com.arthurivanets.bottomsheets.ktx.showActionPickerBottomSheet
 import com.arthurivanets.bottomsheets.sheets.listeners.OnItemSelectedListener
@@ -123,8 +133,48 @@ class HHSalaryProfileFragment :
                 HHSalaryProfileFragmentDirections.actionHHSalaryProfileFragmentToHHIbanSendMoneyFragment(),
                 arguments
             )
+            R.id.tv_filters_label ->{
+                if (viewModel.state.isTransEmpty.get() == false) {
+                    openTransactionFilters()
+                } else {
+                    if (YAPApplication.homeTransactionsRequest.totalAppliedFilter > 0) {
+                        openTransactionFilters()
+                    }
+                }
+            }
         }
     }
+    private fun openTransactionFilters() {
+        if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus) {
+            trackEventWithScreenName(FirebaseEvent.CLICK_FILTER_TRANSACTIONS)
+            startActivityForResult(
+                TransactionFiltersActivity.newIntent(
+                    requireContext(),
+                    viewModel.txnFilters
+                ),
+                RequestCodes.REQUEST_TXN_FILTER
+            )
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        when(requestCode) {
+            RequestCodes.REQUEST_TXN_FILTER -> {
+                if (resultCode == Activity.RESULT_OK) {
+                    val filters: TransactionFilters? =
+                        data?.getParcelableExtra<TransactionFilters?>("txnRequest")
+                    if (viewModel.txnFilters != filters) {
+                        viewDataBinding.multiStateView.viewState =
+                            MultiStateView.ViewState.CONTENT
+                        //setTransactionRequest(filters)
+                        //getFilterTransactions()
+                    }
+                }
+            }
+        }
+    }
+
 
     override fun onItemClick(view: View, data: Any, pos: Int) {
         when (pos) {

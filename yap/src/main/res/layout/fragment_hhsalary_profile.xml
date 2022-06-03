@@ -214,6 +214,7 @@
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/tv_filters_label"
                         style="@style/ASmall"
+                        android:onClick="@{(v)->hhSalaryProfileVM.handlePressOnView(v.id)}"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:padding="@dimen/margin_medium"
