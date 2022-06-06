@@ -103,7 +103,7 @@ class HHSalaryProfileVM @Inject constructor(override val state: HHSalaryProfileS
                 is RetroApiResponse.Success -> {
                     response.data.data?.let { transactionList ->
                         if (transactionList.isNotEmpty()) {
-                            state.isTransEmpty.set(false)
+                            state.isTransEmpty.value = false
                             setStateValue(State.success(""))
                             val transactionMap: MutableMap<String?, List<Transaction>> =
                                 transactionList.sortedByDescending { sortedTransaction ->
@@ -127,10 +127,11 @@ class HHSalaryProfileVM @Inject constructor(override val state: HHSalaryProfileS
 
                             }
                         } else {
-                            state.isTransEmpty.set(true)
+                            state.isTransEmpty.value=true
                             setStateValue(State.empty(""))
                         }
                     }?:run {
+                        state.isTransEmpty.value=true
                         setStateValue(State.empty(""))
                     }
                 }
@@ -150,6 +151,7 @@ class HHSalaryProfileVM @Inject constructor(override val state: HHSalaryProfileS
             when (response) {
                 is RetroApiResponse.Success -> {
                     if (response.data.data.transaction.isNotEmpty()) {
+                        state.isTransEmpty.value = false
                         setStateValue(State.success(null))
                         val tempMap: Map<String?, List<Transaction>> =
                             response.data.data.transaction.sortedByDescending { transactionList ->
@@ -172,11 +174,11 @@ class HHSalaryProfileVM @Inject constructor(override val state: HHSalaryProfileS
                         transactionAdapter?.get()?.setTransactionData(state.transactionMap?.value)
                     } else {
                         setStateValue(State.empty(null))
+                        state.isTransEmpty.value = state.transactionMap?.value?.isEmpty()
                     }
                     apiResponse.invoke(stateLiveData.value, response.data.data)
                 }
                 is RetroApiResponse.Error -> {
-                    state.loading = false
                     setStateValue(State.error(null))
                     apiResponse.invoke(stateLiveData.value, null)
 

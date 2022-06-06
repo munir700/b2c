@@ -3,10 +3,7 @@ package co.yap.modules.subaccounts.paysalary.profile
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
-import android.view.View
+import android.view.*
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.BR
@@ -42,6 +39,7 @@ import com.arthurivanets.bottomsheets.sheets.model.Option
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_hhsalary_profile.*
 import javax.inject.Inject
+
 
 @AndroidEntryPoint
 class HHSalaryProfileFragment :
@@ -86,10 +84,9 @@ class HHSalaryProfileFragment :
             Status.LOADING -> MultiStateView.ViewState.LOADING
             Status.EMPTY -> {
                 setupDefaultSalaryAdapter()
-                MultiStateView.ViewState.EMPTY
+                MultiStateView.ViewState.CONTENT
             }
             Status.SUCCESS -> {
-                intRecyclersView()
                 MultiStateView.ViewState.CONTENT
             }
 
@@ -135,7 +132,7 @@ class HHSalaryProfileFragment :
                 arguments
             )
             R.id.tv_filters_label ->{
-                if (viewModel.state.isTransEmpty.get() == false) {
+                if (viewModel.state.isTransEmpty.value == false) {
                     openTransactionFilters()
                 } else {
                     if (YAPApplication.homeTransactionsRequest.totalAppliedFilter > 0) {
@@ -164,7 +161,7 @@ class HHSalaryProfileFragment :
             RequestCodes.REQUEST_TXN_FILTER -> {
                 if (resultCode == Activity.RESULT_OK) {
                     val filters: TransactionFilters? =
-                        data?.getParcelableExtra<TransactionFilters?>("txnRequest")
+                        data?.getParcelableExtra("txnRequest")
                     if (viewModel.txnFilters != filters) {
                         viewDataBinding.multiStateView.viewState =
                             MultiStateView.ViewState.CONTENT

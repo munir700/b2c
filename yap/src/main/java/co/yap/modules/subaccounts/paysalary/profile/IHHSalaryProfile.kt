@@ -33,7 +33,7 @@ interface IHHSalaryProfile {
 
     interface State : IBase.State {
         var filterCount: ObservableField<Int>
-        var isTransEmpty: ObservableField<Boolean>
+        var isTransEmpty: MutableLiveData<Boolean>
         var subAccount: MutableLiveData<SubAccount>
         var transactionRequest: HomeTransactionsRequest
         var lastSalaryTransfer: MutableLiveData<HouseHoldLastNextSalary>?
