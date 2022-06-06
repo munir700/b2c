@@ -65,7 +65,6 @@ class HHSalaryProfileFragment :
     override fun onResume() {
         super.onResume()
         viewModel.onResume()
-        intRecyclersView()
     }
 
     override fun postExecutePendingBindings(savedInstanceState: Bundle?) {
@@ -77,6 +76,7 @@ class HHSalaryProfileFragment :
         viewModel.state.transactionMap?.observe(viewLifecycleOwner){
             salaryTransferAdapter.setTransactionData(it)
         }
+        intRecyclersView()
     }
 
     private fun handleState(state: State?) {

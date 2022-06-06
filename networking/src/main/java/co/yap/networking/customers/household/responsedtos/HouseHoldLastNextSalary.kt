@@ -16,6 +16,8 @@ data class HouseHoldLastNextSalary(
     @SerializedName("amount")
     var amount: String? = null,
     @SerializedName("subCategory")
-    var subCategory: String? = null
+    var subCategory: String? = null,
+    @SerializedName("txnCategory")
+    var txnCategory: String? = null
 ) : ApiResponse(), Parcelable {
 }
