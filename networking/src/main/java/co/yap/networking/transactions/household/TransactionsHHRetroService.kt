@@ -8,6 +8,7 @@ import co.yap.networking.models.BaseResponse
 import co.yap.networking.transactions.household.TransactionsHHRepository.URL_GET_ALL_HOUSE_HOLD_PROFILE_TRANSACTIONS
 import co.yap.networking.transactions.household.TransactionsHHRepository.URL_GET_HOUSE_HOLD_PROFILE_TRANSACTIONS
 import co.yap.networking.transactions.household.requestdtos.IbanSendMoneyRequest
+import co.yap.networking.transactions.requestdtos.HomeTransactionsRequest
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionsResponse
 import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import retrofit2.Response
@@ -27,16 +28,8 @@ interface TransactionsHHRetroService {
     suspend fun getLastNextTransaction(@Path("UUID") uuid: String?): Response<BaseListResponse<HouseHoldLastNextSalary>>
 
     // Get Account Transactions
-    @GET(URL_GET_HOUSE_HOLD_PROFILE_TRANSACTIONS)
-    suspend fun getHHTransactionsByPage(
-        @Path("{householdAccountUUID}") accountUUID: String?,
-        @Path("page_no") number: Int?,
-        @Path("page_size") size: Int?,
-        @Query("amountStartRange") minAmount: Double?,
-        @Query("amountEndRange") maxAmount: Double?,
-        @Query("txnType") txnType: String?,
-        @Query("title") title: String?
-    ): Response<HomeTransactionsResponse>
+    @PUT(URL_GET_HOUSE_HOLD_PROFILE_TRANSACTIONS)
+    suspend fun getHHTransactionsByPage(@Body request: HomeTransactionsRequest): Response<HomeTransactionsResponse>
 
     // Get Account Transactions
     @GET(URL_GET_ALL_HOUSE_HOLD_PROFILE_TRANSACTIONS)

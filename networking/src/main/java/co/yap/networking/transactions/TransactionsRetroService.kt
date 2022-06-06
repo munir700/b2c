@@ -341,14 +341,6 @@ interface TransactionsRetroService {
 
     @GET(TransactionsRepository.URL_HOUSEHOLD_ACCOUNT_TRANSACTIONS)
     suspend fun getHouseHoldAccountTransactions(
-        @Path("page_no") number: Int?,
-        @Path("page_size") size: Int?,
-        @Query("amountStartRange") minAmount: Double?,
-        @Query("amountEndRange") maxAmount: Double?,
-        @Query("txnType") txnType: String?,
-        @Query("title") title: String?,
-        @Query("merchantCategoryNames") category: ArrayList<String>?,
-        @Query("statuses") txnStatuses: ArrayList<String>?,
-        @Query("cardDetailsRequired") cardDetailsRequired: Boolean
+        @Body request: HomeTransactionsRequest
     ): Response<HomeTransactionsResponse>
 }

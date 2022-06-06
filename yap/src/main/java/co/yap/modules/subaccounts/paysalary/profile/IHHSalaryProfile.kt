@@ -24,18 +24,19 @@ interface IHHSalaryProfile {
         val transactionAdapter: ObservableField<HHSalaryProfileTransfersAdapter>?
         val salarySetupAdapter: ObservableField<SalarySetupAdapter>?
         var txnFilters: TransactionFilters
+        fun setTransactionRequest(filters: TransactionFilters?)
         fun getLastNextTransaction(uuid: String?)
         fun getAllHHProfileTransactions(accountUUID: String?)
-        fun getHHTransactionsByPage(accountUUID: String?, request: HomeTransactionsRequest?,
+        fun getHHTransactionsByPage(request: HomeTransactionsRequest,
                                     isLoadMore: Boolean, apiResponse: ((co.yap.widgets.State?, HomeTransactionListData?) -> Unit?))
         fun getPaginationListener(): PaginatedRecyclerView.Pagination?
     }
 
     interface State : IBase.State {
         var filterCount: ObservableField<Int>
-        var isTransEmpty: ObservableField<Boolean>
+        var isTransEmpty: MutableLiveData<Boolean>
         var subAccount: MutableLiveData<SubAccount>
-        var transactionRequest: HomeTransactionsRequest?
+        var transactionRequest: HomeTransactionsRequest
         var lastSalaryTransfer: MutableLiveData<HouseHoldLastNextSalary>?
         var nextSalaryTransfer: MutableLiveData<HouseHoldLastNextSalary>?
         var expense: MutableLiveData<HouseHoldLastNextSalary>?
