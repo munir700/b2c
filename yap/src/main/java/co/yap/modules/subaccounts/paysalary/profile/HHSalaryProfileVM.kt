@@ -174,7 +174,7 @@ class HHSalaryProfileVM @Inject constructor(override val state: HHSalaryProfileS
                         transactionAdapter?.get()?.setTransactionData(state.transactionMap?.value)
                     } else {
                         setStateValue(State.empty(null))
-                        state.isTransEmpty.value = state.transactionMap?.value?.isEmpty()
+                        state.isTransEmpty.value = state.transactionMap?.value?.isEmpty()?:true
                     }
                     apiResponse.invoke(stateLiveData.value, response.data.data)
                 }
@@ -190,7 +190,7 @@ class HHSalaryProfileVM @Inject constructor(override val state: HHSalaryProfileS
      override fun getPaginationListener(): PaginatedRecyclerView.Pagination {
         return object : PaginatedRecyclerView.Pagination() {
             override fun onNextPage(page: Int) {
-                state.transactionRequest.pageNo = page
+                state.transactionRequest.number = page
                 getHHTransactionsByPage(state.transactionRequest, page != 0) { state, date ->
                     notifyPageLoaded()
                     if (date?.last == true || state?.status == Status.IDEAL || state?.status == Status.ERROR) {

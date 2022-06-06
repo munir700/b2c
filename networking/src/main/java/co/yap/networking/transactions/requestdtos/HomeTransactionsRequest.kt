@@ -5,9 +5,9 @@ import com.google.gson.annotations.SerializedName
 const val REQUEST_PAGE_SIZE = 250
 
 data class HomeTransactionsRequest(
-    @SerializedName("number")
+    @SerializedName("pageNo")
     var number: Int = 0,
-    @SerializedName("size")
+    @SerializedName("pageSize")
     var size: Int = REQUEST_PAGE_SIZE,
     @SerializedName("amountStartRange")
     var amountStartRange: Double? = 0.0,
@@ -31,6 +31,4 @@ data class HomeTransactionsRequest(
     var householdUUID : String? = null,
     @SerializedName("txnCategories")
     var txnCategories: ArrayList<String>? = null,
-    var pageNo: Int? = 0,
-    var pageSize: Int? = REQUEST_PAGE_SIZE,
 )
