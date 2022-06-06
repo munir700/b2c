@@ -61,11 +61,12 @@ class HHSalaryProfileVM @Inject constructor(override val state: HHSalaryProfileS
                 transactionsHHRepository.getLastNextTransaction(uuid)) {
                 is RetroApiResponse.Success -> {
                     response.data.data?.let {
-                        if (!it[0].amount.isNullOrEmpty())
-                            state.lastSalaryTransfer?.value = it[0]
-                        if (!it[1].amount.isNullOrEmpty())
-                            state.nextSalaryTransfer?.value = it[1]
-//                        state.expense?.value = it[2]
+                        state.lastSalaryTransfer?.value =
+                            it.find { it.txnCategory.equals("Salary") }
+
+                        state.nextSalaryTransfer?.value =
+                            it.find { it.txnCategory.equals("Next_Scheduled_Salary") }
+
                     }
                 }
                 is RetroApiResponse.Error -> {
