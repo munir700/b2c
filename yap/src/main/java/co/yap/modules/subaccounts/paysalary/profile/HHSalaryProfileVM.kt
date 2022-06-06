@@ -3,6 +3,7 @@ package co.yap.modules.subaccounts.paysalary.profile
 import android.os.Bundle
 import androidx.databinding.ObservableField
 import androidx.navigation.NavController
+import co.yap.app.YAPApplication
 import co.yap.modules.dashboard.home.filters.models.TransactionFilters
 import co.yap.modules.subaccounts.paysalary.profile.adapter.HHSalaryProfileTransfersAdapter
 import co.yap.modules.subaccounts.paysalary.profile.adapter.SalarySetupAdapter
@@ -18,6 +19,7 @@ import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.widgets.State
 import co.yap.widgets.Status
 import co.yap.widgets.advrecyclerview.pagination.PaginatedRecyclerView
+import co.yap.yapcore.enums.TransactionStatus
 import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.hilt.base.viewmodel.BaseRecyclerAdapterVMV2
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -92,6 +94,25 @@ class HHSalaryProfileVM @Inject constructor(override val state: HHSalaryProfileS
                 tempMap.remove(it)
             }
             state.transactionMap?.value?.putAll(tempMap)
+        }
+    }
+
+   override fun setTransactionRequest(filters: TransactionFilters?) {
+        filters?.let {
+            txnFilters = it
+            YAPApplication.homeTransactionsRequest.number = 0
+            YAPApplication.homeTransactionsRequest.size = YAPApplication.pageSize
+            YAPApplication.homeTransactionsRequest.txnType = it.getTxnType()
+            YAPApplication.homeTransactionsRequest.amountStartRange = it.amountStartRange
+            YAPApplication.homeTransactionsRequest.amountEndRange = it.amountEndRange
+            YAPApplication.homeTransactionsRequest.title = null
+            YAPApplication.homeTransactionsRequest.totalAppliedFilter = it.totalAppliedFilter
+            YAPApplication.homeTransactionsRequest.categories = it.categories
+            YAPApplication.homeTransactionsRequest.statues =
+                if (it.pendingTxn == true) arrayListOf(
+                    TransactionStatus.PENDING.name,
+                    TransactionStatus.IN_PROGRESS.name
+                ) else null
         }
     }
 

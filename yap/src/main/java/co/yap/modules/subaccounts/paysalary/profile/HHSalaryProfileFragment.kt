@@ -165,8 +165,8 @@ class HHSalaryProfileFragment :
                     if (viewModel.txnFilters != filters) {
                         viewDataBinding.multiStateView.viewState =
                             MultiStateView.ViewState.CONTENT
-                        //setTransactionRequest(filters)
-                        //getFilterTransactions()
+                        viewModel.setTransactionRequest(filters)
+                        viewModel.getPaginationListener()
                     }
                 }
             }

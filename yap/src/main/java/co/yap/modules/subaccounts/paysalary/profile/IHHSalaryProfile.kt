@@ -24,6 +24,7 @@ interface IHHSalaryProfile {
         val transactionAdapter: ObservableField<HHSalaryProfileTransfersAdapter>?
         val salarySetupAdapter: ObservableField<SalarySetupAdapter>?
         var txnFilters: TransactionFilters
+        fun setTransactionRequest(filters: TransactionFilters?)
         fun getLastNextTransaction(uuid: String?)
         fun getAllHHProfileTransactions(accountUUID: String?)
         fun getHHTransactionsByPage(request: HomeTransactionsRequest,
