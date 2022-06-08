@@ -44,7 +44,14 @@ object TransactionsHHRepository : BaseRepository(), TransactionsApi by Transacti
     override suspend fun getHHTransactionsByPage(
         request: HomeTransactionsRequest
     ) = executeSafely(call = {
-        apiService.getHHTransactionsByPage(request
+        apiService.getHHTransactionsByPage(request,
+            request.amountStartRange,
+            request.amountEndRange,
+            request.txnType,
+            request.title,
+            request.categories,
+            request.txnCategories,
+            request.cardDetailsRequired
         )
     })
 

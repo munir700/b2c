@@ -29,7 +29,14 @@ interface TransactionsHHRetroService {
 
     // Get Account Transactions
     @PUT(URL_GET_HOUSE_HOLD_PROFILE_TRANSACTIONS)
-    suspend fun getHHTransactionsByPage(@Body request: HomeTransactionsRequest): Response<HomeTransactionsResponse>
+    suspend fun getHHTransactionsByPage(@Body request: HomeTransactionsRequest,
+                                        @Query("amountStartRange") minAmount: Double? = null,
+                                        @Query("amountEndRange") maxAmount: Double? = null,
+                                        @Query("txnType") txnType: String?= null,
+                                        @Query("title") title: String?= null,
+                                        @Query("merchantCategoryNames") category: ArrayList<String>?= null,
+                                        @Query("statuses") txnStatuses: ArrayList<String>? = null,
+                                        @Query("cardDetailsRequired") cardDetailsRequired: Boolean?= null): Response<HomeTransactionsResponse>
 
     // Get Account Transactions
     @GET(URL_GET_ALL_HOUSE_HOLD_PROFILE_TRANSACTIONS)

@@ -10,9 +10,9 @@ data class HomeTransactionsRequest(
     @SerializedName("pageSize")
     var size: Int = REQUEST_PAGE_SIZE,
     @SerializedName("amountStartRange")
-    var amountStartRange: Double? = 0.0,
+    var amountStartRange: Double? = null,
     @SerializedName("amountEndRange")
-    var amountEndRange: Double? = 0.0,
+    var amountEndRange: Double? = null,
     @SerializedName("txnType")
     var txnType: String? = null,
     @SerializedName("title")
@@ -26,7 +26,7 @@ data class HomeTransactionsRequest(
     @SerializedName("statuses")
     var statues: ArrayList<String>? = null,
     @SerializedName("cardDetailsRequired")
-    val cardDetailsRequired: Boolean = true,
+    var cardDetailsRequired: Boolean? = true,
     @SerializedName("householdUUID")
     var householdUUID : String? = null,
     @SerializedName("txnCategories")

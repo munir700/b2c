@@ -222,4 +222,14 @@ class HHSalaryProfileVM @Inject constructor(override val state: HHSalaryProfileS
             }
         }
     }
+    fun resetFilters() {
+        with(state.transactionRequest) {
+            amountStartRange = null
+            amountEndRange = null
+            txnType = null
+            title = null
+            categories = null
+            cardDetailsRequired = null
+        }
+    }
 }
