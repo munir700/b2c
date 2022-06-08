@@ -76,7 +76,8 @@ class FloatingActionMenu
      */
     private var stateChangeListener: MenuStateChangeListener?,
     val alphaOverlay: View?,
-    val txtYapIt: View?
+    val txtYapIt: View?,
+    val context: Context
 
 ) {
     /**
@@ -132,11 +133,11 @@ class FloatingActionMenu
     private val activityContentView: View
         get() {
             try {
-
-                val v =
+                return if (context is Activity) {
+                    context.window.decorView.findViewById(android.R.id.content)
+                } else {
                     (mainActionView.context as Activity).window.decorView.findViewById<View>(android.R.id.content)
-                val view = mainActionView.parent.parent as View
-                return v
+                }
             } catch (e: ClassCastException) {
                 throw ClassCastException("Please provide an Activity context for this FloatingActionMenu.")
             }
@@ -561,7 +562,7 @@ class FloatingActionMenu
      * A builder for [FloatingActionMenu] in conventional Java Builder format
      */
     class Builder @JvmOverloads constructor(
-        context: Context
+        val context: Context
     ) {
 
         private var startAngle: Int = 0
@@ -710,7 +711,7 @@ class FloatingActionMenu
                 animationHandler,
                 animated,
                 stateChangeListener,
-                alphaOverlay, txtYapIt
+                alphaOverlay, txtYapIt, context = context
             )
         }
     }

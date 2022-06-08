@@ -115,11 +115,12 @@ class BankDetailsViewModel(application: Application) :
 
     override fun handlePressOnView(id: Int) {
         if (id == R.id.confirmButton) {
-            parentViewModel?.beneficiary?.value?.bankName = state.bankName
-            parentViewModel?.beneficiary?.value?.branchName = state.bankBranch
-            parentViewModel?.beneficiary?.value?.bankCity = state.bankCity
-            parentViewModel?.beneficiary?.value?.swiftCode = state.swiftCode
-
+            with(parentViewModel?.beneficiary?.value){
+                this?.bankName = state.bankName
+                this?.branchName = state.bankBranch
+                this?.bankCity = state.bankCity
+                this?.swiftCode = state.swiftCode
+            }
             parentViewModel?.beneficiary?.value?.beneficiaryType?.let {
                 if (it.isNotEmpty())
                     when (SendMoneyBeneficiaryType.valueOf(it)) {

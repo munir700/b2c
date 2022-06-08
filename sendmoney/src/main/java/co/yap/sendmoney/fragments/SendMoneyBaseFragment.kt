@@ -2,7 +2,7 @@ package co.yap.sendmoney.fragments
 
 import android.os.Bundle
 import androidx.databinding.ViewDataBinding
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import co.yap.sendmoney.viewmodels.SendMoneyBaseViewModel
 import co.yap.sendmoney.viewmodels.SendMoneyViewModel
 import co.yap.yapcore.BaseBindingFragment
@@ -14,7 +14,7 @@ abstract class SendMoneyBaseFragment<VB : ViewDataBinding,V : IBase.ViewModel<*>
         super.onCreate(savedInstanceState)
         if (viewModel is SendMoneyBaseViewModel<*> && activity != null) {
             (viewModel as SendMoneyBaseViewModel<*>).parentViewModel =
-                ViewModelProviders.of(requireActivity()).get(SendMoneyViewModel::class.java)
+                ViewModelProvider(requireActivity())[SendMoneyViewModel::class.java]
         }
     }
 

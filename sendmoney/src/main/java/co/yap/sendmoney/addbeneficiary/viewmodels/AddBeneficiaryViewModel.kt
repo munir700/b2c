@@ -129,22 +129,24 @@ class AddBeneficiaryViewModel(application: Application) :
     }
 
     private fun setBeneficiaryDetail() {
-        parentViewModel?.beneficiary?.value?.title = state.nickName
-        parentViewModel?.beneficiary?.value?.firstName = state.firstName
-        parentViewModel?.beneficiary?.value?.lastName = state.lastName
-        parentViewModel?.beneficiary?.value?.mobileNo = state.mobileNo
-        parentViewModel?.beneficiary?.value?.accountNo = state.iban.replace(" ", "")
-        parentViewModel?.selectedCountry?.value?.let {
-            parentViewModel?.beneficiary?.value?.currency = it.getCurrency()?.code
-            parentViewModel?.beneficiary?.value?.country = it.isoCountryCode2Digit
-        }
-        parentViewModel?.beneficiary?.value?.countryOfResidence =
-            parentViewModel?.selectedResidenceCountry?.isoCountryCode2Digit
-        parentViewModel?.beneficiary?.value?.countryOfResidenceName =
-            parentViewModel?.selectedResidenceCountry?.getName()
+        with(parentViewModel?.beneficiary?.value){
+            this?.title = state.nickName
+            this?.firstName = state.firstName
+            this?.lastName = state.lastName
+            this?.mobileNo = state.mobileNo
+            this?.accountNo = state.iban.replace(" ", "")
+            parentViewModel?.selectedCountry?.value?.let {
+                this?.currency = it.getCurrency()?.code
+                this?.country = it.isoCountryCode2Digit
+            }
+            this?.countryOfResidence =
+                parentViewModel?.selectedResidenceCountry?.isoCountryCode2Digit
+            this?.countryOfResidenceName =
+                parentViewModel?.selectedResidenceCountry?.getName()
 
-        parentViewModel?.beneficiary?.value?.beneficiaryAddress =
-            state.beneficiaryAddress
+            this?.beneficiaryAddress =
+                state.beneficiaryAddress
+        }
     }
 
     override fun addCashPickupBeneficiary() {

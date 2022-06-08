@@ -6,8 +6,8 @@ import android.os.Bundle
 import android.os.Parcelable
 import android.view.View
 import androidx.core.os.bundleOf
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import co.yap.countryutils.country.Country
 import co.yap.countryutils.country.InternationalPhoneTextWatcher
@@ -45,8 +45,7 @@ class AddBeneficiaryInternationlTransferFragment :
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_add_beneficiary_international_bank_transfer
 
-    override val viewModel: AddBeneficiaryViewModel
-        get() = ViewModelProvider(this).get(AddBeneficiaryViewModel::class.java)
+    override val viewModel: AddBeneficiaryViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

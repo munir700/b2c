@@ -3,8 +3,8 @@ package co.yap.sendmoney.addbeneficiary.fragments
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import co.yap.countryutils.country.Country
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.sendmoney.BR
@@ -20,14 +20,13 @@ import co.yap.yapcore.helpers.extentions.getValue
 import co.yap.yapcore.helpers.extentions.launchActivity
 
 class BeneficiaryAccountDetailsFragment :
-    SendMoneyBaseFragment<FragmentBeneficiaryAccountDetailBinding,IBeneficiaryAccountDetails.ViewModel>(),
+    SendMoneyBaseFragment<FragmentBeneficiaryAccountDetailBinding, IBeneficiaryAccountDetails.ViewModel>(),
     IBeneficiaryAccountDetails.View {
 
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_beneficiary_account_detail
 
-    override val viewModel: BeneficiaryAccountDetailsViewModel
-        get() = ViewModelProviders.of(this).get(BeneficiaryAccountDetailsViewModel::class.java)
+    override val viewModel: BeneficiaryAccountDetailsViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,9 +53,10 @@ class BeneficiaryAccountDetailsFragment :
             )
 
             launchActivity<EditBeneficiaryActivity>(
-                RequestCodes.REQUEST_NOTIFY_BENEFICIARY_LIST,
-                bundle
-            )
+                requestCode = RequestCodes.REQUEST_NOTIFY_BENEFICIARY_LIST,
+            ) {
+                putExtra(Constants.EXTRA, bundle)
+            }
         }
     }
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

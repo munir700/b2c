@@ -4,9 +4,9 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.activity.viewModels
 import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import co.yap.countryutils.country.Country
 import co.yap.modules.otp.GenericOtpFragment
 import co.yap.modules.otp.OtpDataModel
@@ -47,8 +47,7 @@ class EditBeneficiaryActivity :
     override fun getLayoutId() = R.layout.activity_edit_beneficiary
     private var currencyPopMenu: PopupMenu? = null
 
-    override val viewModel: IEditBeneficiary.ViewModel
-        get() = ViewModelProvider(this).get(EditBeneficiaryViewModel::class.java)
+    override val viewModel: EditBeneficiaryViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

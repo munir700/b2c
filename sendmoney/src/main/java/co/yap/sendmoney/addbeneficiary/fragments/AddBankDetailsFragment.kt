@@ -4,9 +4,8 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import co.yap.networking.customers.requestdtos.OtherBankQuery
 import co.yap.networking.customers.responsedtos.sendmoney.RAKBank.Bank
@@ -25,8 +24,7 @@ class AddBankDetailsFragment : SendMoneyBaseFragment<FragmentAddBankDetailBindin
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_add_bank_detail
 
-    override val viewModel: BankDetailsViewModel
-        get() = ViewModelProvider(this).get(BankDetailsViewModel::class.java)
+    override val viewModel: BankDetailsViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -35,9 +33,9 @@ class AddBankDetailsFragment : SendMoneyBaseFragment<FragmentAddBankDetailBindin
 
     private fun addListener() {
         viewModel.clickEvent.observe(viewLifecycleOwner, observer)
-        viewModel.bankList.observe(viewLifecycleOwner, Observer {
+        viewModel.bankList.observe(viewLifecycleOwner) {
             setupAdaptorBanks(it)
-        })
+        }
         viewDataBinding.recycler.adapter = viewModel.paramsAdaptor
         viewDataBinding.recyclerBanks.adapter = viewModel.adaptorBanks
     }
