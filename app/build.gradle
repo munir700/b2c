@@ -163,8 +163,8 @@ android {
             }
         }
         hh_qa {
-            versionCode 383
-            versionName "3.8.3"
+            versionCode 385
+            versionName "3.8.5"
             applicationIdSuffix ".qa"
             resValue "string", "app_name", "YAP HH QA"
             resValue "string", "google_maps_key", versionProps.getProperty("map_key_other")
