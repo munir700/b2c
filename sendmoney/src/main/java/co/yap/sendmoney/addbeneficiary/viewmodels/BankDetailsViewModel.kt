@@ -155,8 +155,10 @@ class BankDetailsViewModel(application: Application) :
                 when (val response = repository.findOtherBank(otherBankQuery)) {
                     is RetroApiResponse.Success -> {
                         state.loading = false
-                        response.data.data?.banks?.let { it1 -> adaptorBanks.setList(it1) }
-                        bankList.value = response.data.data?.banks
+                        response.data.data?.banks?.let { banks ->
+                            adaptorBanks.setList(banks)
+                            bankList.value = banks
+                        }
                     }
 
                     is RetroApiResponse.Error -> {
