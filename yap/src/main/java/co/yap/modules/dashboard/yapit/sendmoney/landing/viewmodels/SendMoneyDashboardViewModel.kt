@@ -112,14 +112,14 @@ class SendMoneyDashboardViewModel(application: Application) :
                 null, SendMoneyType.sendMoneyToYAPContacts
             )
         )
-        list.add(
-            SendMoneyOptions(
-                getString(Strings.screen_send_money_local_bank_label),
-                R.drawable.ic_bankicon,
-                true,
-                CurrencyUtils.getFlagDrawable(context, "AE"), SendMoneyType.sendMoneyToLocalBank
-            )
-        )
+//        list.add(
+//            SendMoneyOptions(
+//                getString(Strings.screen_send_money_local_bank_label),
+//                R.drawable.ic_bankicon,
+//                true,
+//                CurrencyUtils.getFlagDrawable(context, "AE"), SendMoneyType.sendMoneyToLocalBank
+//            )
+//        )
         list.add(
             SendMoneyOptions(
                 getString(Strings.screen_send_money_international_label),
@@ -128,18 +128,18 @@ class SendMoneyDashboardViewModel(application: Application) :
                 null, SendMoneyType.sendMoneyToInternational
             )
         )
-        if (SessionManager.homeCountry2Digit != "AE")
-            list.add(
-                SendMoneyOptions(
-                    getString(Strings.screen_send_money_home_label),
-                    R.drawable.ic_houseicon,
-                    true,
-                    CurrencyUtils.getFlagDrawable(
-                        context,
-                        SessionManager.homeCountry2Digit
-                    ), SendMoneyType.sendMoneyToHomeCountry
-                )
-            )
+//        if (SessionManager.homeCountry2Digit != "AE")
+//            list.add(
+//                SendMoneyOptions(
+//                    getString(Strings.screen_send_money_home_label),
+//                    R.drawable.ic_houseicon,
+//                    true,
+//                    CurrencyUtils.getFlagDrawable(
+//                        context,
+//                        SessionManager.homeCountry2Digit
+//                    ), SendMoneyType.sendMoneyToHomeCountry
+//                )
+//            )
 
         list.add(
             SendMoneyOptions(

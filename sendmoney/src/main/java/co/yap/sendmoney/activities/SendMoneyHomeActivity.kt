@@ -3,6 +3,7 @@ package co.yap.sendmoney.activities
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.lifecycle.ViewModelProviders
 import co.yap.sendmoney.BR
 import co.yap.sendmoney.R
@@ -28,8 +29,7 @@ class SendMoneyHomeActivity : BaseBindingActivity<ActivitySendMoneyHomeBinding,I
 
     override fun getLayoutId(): Int = R.layout.activity_send_money_home
 
-    override val viewModel: ISendMoney.ViewModel
-        get() = ViewModelProviders.of(this).get(SendMoneyViewModel::class.java)
+    override val viewModel: SendMoneyViewModel by viewModels()
 
     override val navigator: IBaseNavigator
         get() = DefaultNavigator(this@SendMoneyHomeActivity, R.id.send_money_nav_host_fragment)
