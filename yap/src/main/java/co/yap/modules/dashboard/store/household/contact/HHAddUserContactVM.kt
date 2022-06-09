@@ -26,7 +26,7 @@ class HHAddUserContactVM @Inject constructor(
     override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?) {
     }
 
-    override var validator: Validator?= Validator(null)
+    override var validator: Validator? = Validator(null)
 
     override fun fetchExtras(@ApplicationContext extras: Bundle?) {
         super.fetchExtras(extras)
@@ -46,7 +46,7 @@ class HHAddUserContactVM @Inject constructor(
                 countryCode = "00${state.countryCode.value?.replace("+", "")}",
                 mobileNo = state.phone.value?.replace(" ", "") ?: ""
             )
-            when (val response = repository.verifyHouseholdMobile(request)) {
+            when (repository.verifyHouseholdMobile(request)) {
                 is RetroApiResponse.Success -> {
                     trackEvent(HHSubscriptionEvents.HH_PLAN_PHONE.type)
                     publishState(State.success(null))

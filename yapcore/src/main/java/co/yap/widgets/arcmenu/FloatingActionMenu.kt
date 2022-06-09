@@ -133,6 +133,7 @@ class FloatingActionMenu
     private val activityContentView: View
         get() {
             try {
+                // TODO remove check, simple use mainActionView.context as Activity
                 return if (context is Activity) {
                     context.window.decorView.findViewById(android.R.id.content)
                 } else {

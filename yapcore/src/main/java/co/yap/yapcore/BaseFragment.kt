@@ -15,6 +15,8 @@ import co.yap.yapcore.interfaces.OnBackPressedListener
 
 abstract class BaseFragment<V : IBase.ViewModel<*>> : BaseNavFragment(), IBase.View<V>,
     OnBackPressedListener {
+    //TODO remove fragmentContext and use fragment context
+    lateinit var fragmentContext: Context
     private var progress: Dialog? = null
     override var shouldRegisterViewModelLifeCycle: Boolean = true
     open fun onToolBarClick(id: Int) {}
@@ -45,6 +47,7 @@ abstract class BaseFragment<V : IBase.ViewModel<*>> : BaseNavFragment(), IBase.V
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
+        fragmentContext = context
         if (context is IFragmentHolder) {
             context.onFragmentAttached()
         }
@@ -82,16 +85,16 @@ abstract class BaseFragment<V : IBase.ViewModel<*>> : BaseNavFragment(), IBase.V
     }
 
     private fun getFragmentHolder(): IFragmentHolder? {
-        if (context is IFragmentHolder) {
-            return context as IFragmentHolder
+        if (requireContext() is IFragmentHolder) {
+            return fragmentContext as IFragmentHolder
         }
 
         return null
     }
 
     private fun getBaseView(): IBase.View<*>? {
-        if (context is IBase.View<*>) {
-            return context as IBase.View<*>
+        if (fragmentContext is IBase.View<*>) {
+            return fragmentContext as IBase.View<*>
         }
 
         return null
