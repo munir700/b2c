@@ -44,10 +44,11 @@ class HouseHoldConfirmPaymentVM @Inject constructor(override var state: HouseHol
     override fun addHouseholdUser(apiResponse: ((Boolean?) -> Unit?)?) {
         launch {
             state.loading = true
-            state.onBoardRequest?.value?.feeFrequency =
-                state.selectedPlan?.value?.type?.toUpperCase(Locale.US)
-            state.onBoardRequest?.value?.countryCode =
-                "00${state.onBoardRequest?.value?.countryCode?.replace("+", "")}"
+            with(state.onBoardRequest?.value) {
+                this?.feeFrequency = state.selectedPlan?.value?.type?.toUpperCase(Locale.US)
+                if (this?.countryCode?.contains("00") == false)
+                    this.countryCode = "00${this.countryCode?.replace("+", "")}"
+            }
             when (val response = repository.onboardHousehold(state.onBoardRequest?.value)) {
                 is RetroApiResponse.Success -> {
                     trackEvent(HHSubscriptionEvents.HH_PLAN_CONFIRM.type)
