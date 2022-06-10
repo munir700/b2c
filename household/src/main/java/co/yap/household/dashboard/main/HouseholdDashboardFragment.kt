@@ -47,34 +47,17 @@ class HouseholdDashboardFragment:
     BaseNavViewModelFragmentV2<ActivityHouseholdDashboardBinding, IHouseholdDashboard.State, HouseHoldDashBoardVM>(),
     FloatingActionMenu.MenuStateChangeListener, DrawerListenerImpl {
 
-    val adapter: SectionsPagerAdapter by lazy {
-         SectionsPagerAdapter(requireActivity(), childFragmentManager)
-    }
+    @Inject
+    lateinit var adapter: SectionsPagerAdapter
 
     @Inject
     lateinit var profilePictureAdapter: ProfilePictureAdapter
 
     private var actionMenu: FloatingActionMenu? = null
 
-   val actionMenuBuilder: FloatingActionMenu.Builder by lazy {
-        FloatingActionMenu.Builder(requireActivity())
-            .setStartAngle(0)
-            .setEndAngle(-180).setRadius(requireContext().dimen(R.dimen._69sdp))
-            .setAnimationHandler(SlideInAnimationHandler())
-            .addSubActionView(
-                getString(R.string.send_money),
-                co.yap.R.drawable.ic_send_money,
-                co.yap.R.layout.component_yap_menu_sub_button,
-                requireActivity(), 1
-            )
+    @Inject
+    lateinit var actionMenuBuilder: FloatingActionMenu.Builder
 
-            .addSubActionView(
-                requireContext().getString(R.string.request_money),
-                R.drawable.ic_request_money,
-                co.yap.R.layout.component_yap_menu_sub_button,
-                requireActivity(), 2
-            ).setStateChangeListener(this)
-    }
     override fun getBindingVariable() = BR.viewModel
     override val viewModel: HouseHoldDashBoardVM by viewModels()
 
@@ -88,7 +71,8 @@ class HouseholdDashboardFragment:
         setHasOptionsMenu(true)
         actionMenu = actionMenuBuilder.attachTo(viewDataBinding.ivYapItAction)
             .setAlphaOverlay(viewDataBinding.flAlphaOverlay)
-            .setTxtYapIt(viewDataBinding.txtYapIt).build()
+            .setTxtYapIt(viewDataBinding.txtYapIt)
+            .setStateChangeListener(this).build()
         setupViewPager()
         viewDataBinding.drawerLayout.addDrawerListener(this)
 
