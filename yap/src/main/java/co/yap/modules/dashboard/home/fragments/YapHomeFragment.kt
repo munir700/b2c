@@ -409,6 +409,9 @@ class YapHomeFragment : YapDashboardChildFragment<FragmentDashboardHomeBinding,I
         })
 
         SessionManager.cardBalance.observe(viewLifecycleOwner, Observer { value ->
+            //TODO check why card balance is null, to avoid from crash added null check
+            if(value == null)
+                return@Observer
             viewModel.state.availableBalance = value.availableBalance.toString()
             getBindings().tvAvailableBalance.text =
                 viewModel.state.availableBalance.getAvailableBalanceWithFormat()
