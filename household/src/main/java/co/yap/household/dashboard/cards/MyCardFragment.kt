@@ -36,21 +36,17 @@ class MyCardFragment :
     override fun getLayoutId(): Int = R.layout.fragment_my_card
     override val viewModel: MyCardVM by viewModels()
 
-   val optionList: ArrayList<Option> by lazy {
-       MyCardModule().provideOptionsList(this)
-   }
+    @Inject
+    lateinit var optionList: ArrayList<Option>
 
-    val mAdapter: HomeTransactionAdapter by lazy {
-        HomeTransactionAdapter(emptyMap(), mRecyclerViewExpandableItemManager)
-    }
+    @Inject
+    lateinit var mAdapter: HomeTransactionAdapter
 
-   val mWrappedAdapter: RecyclerView.Adapter<*> by lazy {
-       mRecyclerViewExpandableItemManager.createWrappedAdapter(mAdapter)
-   }
+    @Inject
+    lateinit var mWrappedAdapter: RecyclerView.Adapter<*>
 
-    val mRecyclerViewExpandableItemManager: RecyclerViewExpandableItemManager by lazy {
-        RecyclerViewExpandableItemManager(null)
-    }
+    @Inject
+    lateinit var mRecyclerViewExpandableItemManager: RecyclerViewExpandableItemManager
 
     override fun postExecutePendingBindings(savedInstanceState: Bundle?) {
         super.postExecutePendingBindings(savedInstanceState)

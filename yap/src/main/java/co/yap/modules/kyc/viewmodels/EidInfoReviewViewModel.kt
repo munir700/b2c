@@ -222,6 +222,8 @@ class EidInfoReviewViewModel(application: Application) :
                                 ) {
                                     //TODO need fix for house hold
 //                                    clickEvent.setValue(eventAlreadyUsedEid)
+                                    state.toast =
+                                        "${response.error.message}^${AlertType.DIALOG.name}"
                                 } else
                                     state.toast =
                                         "${response.error.message}^${AlertType.DIALOG.name}"

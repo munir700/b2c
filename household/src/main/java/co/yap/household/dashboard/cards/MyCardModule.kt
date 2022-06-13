@@ -1,45 +1,44 @@
 package co.yap.household.dashboard.cards
 
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.RecyclerView
 import co.yap.household.R
+import co.yap.household.dashboard.home.HomeTransactionAdapter
 import co.yap.translation.Strings
 import co.yap.translation.Translator.getString
+import co.yap.widgets.advrecyclerview.expandable.RecyclerViewExpandableItemManager
 import com.arthurivanets.bottomsheets.sheets.model.Option
 import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.components.FragmentComponent
+import dagger.hilt.android.scopes.FragmentScoped
 import java.util.*
 
 @Module
+@InstallIn(FragmentComponent::class)
 class MyCardModule {
-    /*: BaseFragmentModule<MyCardFragment>() {
-    @Provides
-    @ViewModelInjection
-    fun provideMyCardVM(
-        fragment: MyCardFragment,
-        viewModelProvider: InjectionViewModelProvider<MyCardVM>
-    ): MyCardVM = viewModelProvider.get(fragment, MyCardVM::class)
 
-    @Provides
-    @FragmentScope
-    fun provideMyCardState(): IMyCard.State = MyCardState()
+    /* @Provides
+     @FragmentScoped
+     fun provideRecyclerViewExpandableItemManager() =
+         RecyclerViewExpandableItemManager(null)
 
+      @Provides
+     @FragmentScoped
+     fun provideWrappedAdapter(
+         adapter: HomeTransactionAdapter,
+         mRecyclerViewExpandableItemManager: RecyclerViewExpandableItemManager
+     ): RecyclerView.Adapter<*> = mRecyclerViewExpandableItemManager.createWrappedAdapter(adapter)
+ */
     @Provides
-    @FragmentScope
-    fun provideRecyclerViewExpandableItemManager() =
-        RecyclerViewExpandableItemManager(null)
-
-    @Provides
-    @FragmentScope
+    @FragmentScoped
     fun provideHomeTransactionAdapter(expandableItemManager: RecyclerViewExpandableItemManager) =
         HomeTransactionAdapter(emptyMap(), expandableItemManager)
 
     @Provides
-    @FragmentScope
-    fun provideWrappedAdapter(
-        adapter: HomeTransactionAdapter,
-        mRecyclerViewExpandableItemManager: RecyclerViewExpandableItemManager
-    ): RecyclerView.Adapter<*> = mRecyclerViewExpandableItemManager.createWrappedAdapter(adapter)
-*/
-
-    fun provideOptionsList(context: MyCardFragment): ArrayList<Option> {
+    @FragmentScoped
+    fun provideOptionsList(context: Fragment): ArrayList<Option> {
         return ArrayList<Option>().apply {
             add(
                 Option().setId(R.id.change_pin.toLong())
